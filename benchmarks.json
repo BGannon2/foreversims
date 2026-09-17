@@ -515,10 +515,10 @@
       "class_name": "Hunter",
       "name": "Beast Mastery",
       "role": "dps",
-      "dps": 594.7556189640278,
-      "tps": 594.7556189640276,
+      "dps": 604.2318195523778,
+      "tps": 604.2318195523777,
       "dtps": 0.0,
-      "total_damage": 71370.67427568334,
+      "total_damage": 72507.81834628525,
       "url": "/all-specs.html?spec=hunter-beast-mastery&race=Human"
     },
     {
@@ -527,10 +527,10 @@
       "class_name": "Hunter",
       "name": "Beast Mastery",
       "role": "dps",
-      "dps": 591.1127902684052,
-      "tps": 591.112790268405,
+      "dps": 601.5076652970536,
+      "tps": 601.5076652970534,
       "dtps": 0.0,
-      "total_damage": 70933.5348322086,
+      "total_damage": 72180.9198356463,
       "url": "/all-specs.html?spec=hunter-beast-mastery&race=Dwarf"
     },
     {
@@ -539,10 +539,10 @@
       "class_name": "Hunter",
       "name": "Beast Mastery",
       "role": "dps",
-      "dps": 604.4685013701142,
-      "tps": 604.4685013701139,
+      "dps": 612.3546687602618,
+      "tps": 612.3546687602617,
       "dtps": 0.0,
-      "total_damage": 72536.22016441368,
+      "total_damage": 73482.56025123132,
       "url": "/all-specs.html?spec=hunter-beast-mastery&race=Night%20Elf"
     },
     {
@@ -551,10 +551,10 @@
       "class_name": "Hunter",
       "name": "Beast Mastery",
       "role": "dps",
-      "dps": 595.2776240689932,
-      "tps": 595.277624068993,
+      "dps": 605.6503677178847,
+      "tps": 605.6503677178846,
       "dtps": 0.0,
-      "total_damage": 71433.3148882792,
+      "total_damage": 72678.04412614602,
       "url": "/all-specs.html?spec=hunter-beast-mastery&race=Orc"
     },
     {
@@ -563,10 +563,10 @@
       "class_name": "Hunter",
       "name": "Beast Mastery",
       "role": "dps",
-      "dps": 593.5101082483852,
-      "tps": 593.510108248385,
+      "dps": 604.6805450969681,
+      "tps": 604.680545096968,
       "dtps": 0.0,
-      "total_damage": 71221.21298980623,
+      "total_damage": 72561.66541163604,
       "url": "/all-specs.html?spec=hunter-beast-mastery&race=Tauren"
     },
     {
@@ -575,10 +575,10 @@
       "class_name": "Hunter",
       "name": "Beast Mastery",
       "role": "dps",
-      "dps": 596.1110082607795,
-      "tps": 596.1110082607793,
+      "dps": 607.1235716269231,
+      "tps": 607.123571626923,
       "dtps": 0.0,
-      "total_damage": 71533.32099129354,
+      "total_damage": 72854.82859523066,
       "url": "/all-specs.html?spec=hunter-beast-mastery&race=Troll"
     },
     {
@@ -587,10 +587,10 @@
       "class_name": "Hunter",
       "name": "Beast Mastery",
       "role": "dps",
-      "dps": 595.8200022784835,
-      "tps": 595.8200022784832,
+      "dps": 604.0850741570756,
+      "tps": 604.0850741570754,
       "dtps": 0.0,
-      "total_damage": 71498.40027341802,
+      "total_damage": 72490.20889884896,
       "url": "/all-specs.html?spec=hunter-beast-mastery&race=Skyborne%20%28Alliance%29"
     },
     {
@@ -599,10 +599,10 @@
       "class_name": "Hunter",
       "name": "Beast Mastery",
       "role": "dps",
-      "dps": 595.8200022784835,
-      "tps": 595.8200022784832,
+      "dps": 604.0850741570756,
+      "tps": 604.0850741570754,
       "dtps": 0.0,
-      "total_damage": 71498.40027341802,
+      "total_damage": 72490.20889884896,
       "url": "/all-specs.html?spec=hunter-beast-mastery&race=Skyborne%20%28Horde%29"
     },
     {
@@ -1199,10 +1199,10 @@
       "class_name": "Rogue",
       "name": "Combat",
       "role": "dps",
-      "dps": 728.0492384422126,
-      "tps": 516.9149592939709,
+      "dps": 734.1734111724945,
+      "tps": 521.2631219324711,
       "dtps": 0.0,
-      "total_damage": 87365.90861306549,
+      "total_damage": 88100.80934069936,
       "url": "/all-specs.html?spec=rogue-combat&race=Human"
     },
     {
@@ -1211,10 +1211,10 @@
       "class_name": "Rogue",
       "name": "Combat",
       "role": "dps",
-      "dps": 716.2651297206451,
-      "tps": 508.54824210165793,
+      "dps": 720.3692381485776,
+      "tps": 511.4621590854901,
       "dtps": 0.0,
-      "total_damage": 85951.81556647742,
+      "total_damage": 86444.3085778293,
       "url": "/all-specs.html?spec=rogue-combat&race=Dwarf"
     },
     {
@@ -1223,10 +1223,10 @@
       "class_name": "Rogue",
       "name": "Combat",
       "role": "dps",
-      "dps": 730.6520842411666,
-      "tps": 518.7629798112283,
+      "dps": 736.8255426790959,
+      "tps": 523.1461353021581,
       "dtps": 0.0,
-      "total_damage": 87678.25010894002,
+      "total_damage": 88419.06512149153,
       "url": "/all-specs.html?spec=rogue-combat&race=Night%20Elf"
     },
     {
@@ -1235,10 +1235,10 @@
       "class_name": "Rogue",
       "name": "Combat",
       "role": "dps",
-      "dps": 719.4435287367895,
-      "tps": 510.80490540312053,
+      "dps": 724.3610396946675,
+      "tps": 514.2963381832138,
       "dtps": 0.0,
-      "total_damage": 86333.22344841475,
+      "total_damage": 86923.3247633601,
       "url": "/all-specs.html?spec=rogue-combat&race=Gnome"
     },
     {
@@ -1247,10 +1247,10 @@
       "class_name": "Rogue",
       "name": "Combat",
       "role": "dps",
-      "dps": 724.8448176290319,
-      "tps": 514.6398205166125,
+      "dps": 728.9322969730467,
+      "tps": 517.5419308508632,
       "dtps": 0.0,
-      "total_damage": 86981.37811548378,
+      "total_damage": 87471.87563676563,
       "url": "/all-specs.html?spec=rogue-combat&race=Orc"
     },
     {
@@ -1259,10 +1259,10 @@
       "class_name": "Rogue",
       "name": "Combat",
       "role": "dps",
-      "dps": 734.1823369656915,
-      "tps": 521.269459245641,
+      "dps": 742.0800082593954,
+      "tps": 526.8768058641708,
       "dtps": 0.0,
-      "total_damage": 88101.88043588297,
+      "total_damage": 89049.60099112746,
       "url": "/all-specs.html?spec=rogue-combat&race=Undead"
     },
     {
@@ -1271,10 +1271,10 @@
       "class_name": "Rogue",
       "name": "Combat",
       "role": "dps",
-      "dps": 723.8533179129382,
-      "tps": 513.9358557181862,
+      "dps": 728.8021047681802,
+      "tps": 517.4494943854079,
       "dtps": 0.0,
-      "total_damage": 86862.39814955258,
+      "total_damage": 87456.25257218163,
       "url": "/all-specs.html?spec=rogue-combat&race=Troll"
     },
     {
@@ -1283,10 +1283,10 @@
       "class_name": "Rogue",
       "name": "Combat",
       "role": "dps",
-      "dps": 727.3351100420349,
-      "tps": 516.4079281298448,
+      "dps": 728.3499867890479,
+      "tps": 517.1284906202239,
       "dtps": 0.0,
-      "total_damage": 87280.2132050442,
+      "total_damage": 87401.99841468578,
       "url": "/all-specs.html?spec=rogue-combat&race=Skyborne%20%28Alliance%29"
     },
     {
@@ -1295,10 +1295,10 @@
       "class_name": "Rogue",
       "name": "Combat",
       "role": "dps",
-      "dps": 727.3351100420349,
-      "tps": 516.4079281298448,
+      "dps": 728.3499867890479,
+      "tps": 517.1284906202239,
       "dtps": 0.0,
-      "total_damage": 87280.2132050442,
+      "total_damage": 87401.99841468578,
       "url": "/all-specs.html?spec=rogue-combat&race=Skyborne%20%28Horde%29"
     },
     {
@@ -1307,10 +1307,10 @@
       "class_name": "Rogue",
       "name": "Subtlety",
       "role": "dps",
-      "dps": 663.8326286941818,
-      "tps": 471.32116637286975,
+      "dps": 681.761245582651,
+      "tps": 484.0504843636829,
       "dtps": 0.0,
-      "total_damage": 79659.91544330186,
+      "total_damage": 81811.34946991816,
       "url": "/all-specs.html?spec=rogue-subtlety&race=Human"
     },
     {
@@ -1319,10 +1319,10 @@
       "class_name": "Rogue",
       "name": "Subtlety",
       "role": "dps",
-      "dps": 663.1567765892538,
-      "tps": 470.8413113783706,
+      "dps": 679.6114687198959,
+      "tps": 482.5241427911264,
       "dtps": 0.0,
-      "total_damage": 79578.81319071047,
+      "total_damage": 81553.3762463875,
       "url": "/all-specs.html?spec=rogue-subtlety&race=Dwarf"
     },
     {
@@ -1331,10 +1331,10 @@
       "class_name": "Rogue",
       "name": "Subtlety",
       "role": "dps",
-      "dps": 675.1165687504808,
-      "tps": 479.3327638128416,
+      "dps": 691.9593754444443,
+      "tps": 491.29115656555564,
       "dtps": 0.0,
-      "total_damage": 81013.98825005772,
+      "total_damage": 83035.12505333331,
       "url": "/all-specs.html?spec=rogue-subtlety&race=Night%20Elf"
     },
     {
@@ -1343,10 +1343,10 @@
       "class_name": "Rogue",
       "name": "Subtlety",
       "role": "dps",
-      "dps": 665.9066382378751,
-      "tps": 472.7937131488917,
+      "dps": 685.0767821233245,
+      "tps": 486.4045153075607,
       "dtps": 0.0,
-      "total_damage": 79908.79658854501,
+      "total_damage": 82209.21385479893,
       "url": "/all-specs.html?spec=rogue-subtlety&race=Gnome"
     },
     {
@@ -1355,10 +1355,10 @@
       "class_name": "Rogue",
       "name": "Subtlety",
       "role": "dps",
-      "dps": 669.6025983842485,
-      "tps": 475.4178448528171,
+      "dps": 686.7420100219144,
+      "tps": 487.58682711556,
       "dtps": 0.0,
-      "total_damage": 80352.3118061099,
+      "total_damage": 82409.04120262979,
       "url": "/all-specs.html?spec=rogue-subtlety&race=Orc"
     },
     {
@@ -1367,10 +1367,10 @@
       "class_name": "Rogue",
       "name": "Subtlety",
       "role": "dps",
-      "dps": 687.6155254833785,
-      "tps": 488.2070230931985,
+      "dps": 708.8807647878411,
+      "tps": 503.305342999367,
       "dtps": 0.0,
-      "total_damage": 82513.86305800545,
+      "total_damage": 85065.69177454096,
       "url": "/all-specs.html?spec=rogue-subtlety&race=Undead"
     },
     {
@@ -1379,10 +1379,10 @@
       "class_name": "Rogue",
       "name": "Subtlety",
       "role": "dps",
-      "dps": 667.8212774221968,
-      "tps": 474.1531069697593,
+      "dps": 686.5596383133602,
+      "tps": 487.4573432024853,
       "dtps": 0.0,
-      "total_damage": 80138.55329066358,
+      "total_damage": 82387.15659760321,
       "url": "/all-specs.html?spec=rogue-subtlety&race=Troll"
     },
     {
@@ -1391,10 +1391,10 @@
       "class_name": "Rogue",
       "name": "Subtlety",
       "role": "dps",
-      "dps": 667.2375396801161,
-      "tps": 473.7386531728831,
+      "dps": 687.3969953026946,
+      "tps": 488.05186666491386,
       "dtps": 0.0,
-      "total_damage": 80068.50476161398,
+      "total_damage": 82487.63943632341,
       "url": "/all-specs.html?spec=rogue-subtlety&race=Skyborne%20%28Alliance%29"
     },
     {
@@ -1403,10 +1403,10 @@
       "class_name": "Rogue",
       "name": "Subtlety",
       "role": "dps",
-      "dps": 667.2375396801161,
-      "tps": 473.7386531728831,
+      "dps": 687.3969953026946,
+      "tps": 488.05186666491386,
       "dtps": 0.0,
-      "total_damage": 80068.50476161398,
+      "total_damage": 82487.63943632341,
       "url": "/all-specs.html?spec=rogue-subtlety&race=Skyborne%20%28Horde%29"
     },
     {

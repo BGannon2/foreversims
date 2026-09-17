@@ -219,7 +219,8 @@ ABILITIES = {
     # ---- Hunter --------------------------------------------------------------
     "Aimed Shot": {"kind": "direct", "school": "physical", "cost": 310, "cooldown": 6, "cast": 2.0, "ranged_cast": True, "shared_cd": "aimed_multi", "weapon": {"hand": "ranged", "normalized": True, "flat": 600}, "forever": True},
     "Multi-Shot": {"kind": "direct", "school": "physical", "cost": 230, "cooldown": 6, "cast": 0.5, "ranged_cast": True, "shared_cd": "aimed_multi", "weapon": {"hand": "ranged", "normalized": True, "flat": 150}, "forever": True},
-    "Arcane Shot": {"kind": "direct", "school": "arcane", "cost": 190, "cooldown": 6, "base": (183, 183), "coeff": 0.429},
+    "Arcane Shot": {"kind": "direct", "school": "arcane", "cost": 190, "cooldown": 6, "shared_cd": "arcane_hawk", "base": (183, 183), "coeff": 0.429},
+    "Summon Hawk": {"kind": "direct_dot", "school": "physical", "cost": 120, "cooldown": 6, "shared_cd": "arcane_hawk", "base": (53, 53), "coeff": 0.15, "tick": 53, "ticks": 9, "tick_len": 2, "dot_coeff": 0.0, "forever": True, "provisional": "Initial hit (53) is the sourced Forever talent tooltip; the 18-second continued assault has no published tick rate or total, so this uses a 9-tick/2s cadence at the initial hit's magnitude. Modeled as a single refreshing DoT rather than genuinely stacking two simultaneous hawks. Mana cost and coefficient are not published and use placeholders."},
     "Serpent Sting": {"kind": "dot", "school": "nature", "cost": 250, "tick": 111, "ticks": 5, "tick_len": 3, "dot_coeff": 0.2},
     "Explosive Trap": {"kind": "direct_dot", "school": "fire", "cost": 520, "cooldown": 15, "base": (208, 265), "coeff": 0.0, "tick": 33, "ticks": 10, "tick_len": 2, "dot_coeff": 0.0},
     "Bestial Wrath": {"kind": "buff", "cooldown": 120, "duration": 18, "pet_damage_mult": 0.50},
@@ -296,7 +297,7 @@ ROTATIONS = {
     "druid-balance": [("Moonfire", "dot_missing"), ("Insect Swarm", "dot_missing"), ("Starfire", "true"), ("Wrath", "true")],
     "druid-feral-dps": [("Tiger's Fury", "buff_missing and energy>=60"), ("Ferocious Bite", "cp>=5 and dot:Rip>4"), ("Rip", "cp>=5 and dot_missing"), ("Shred", "true"), ("Claw", "no_shred")],
     "druid-feral-tank": [("Swipe", "rage>=45"), ("Maul", "rage>=20")],
-    "hunter-beast-mastery": [("Bestial Wrath", "true"), ("Rapid Fire", "true"), ("Serpent Sting", "dot_missing"), ("Multi-Shot", "true"), ("Arcane Shot", "mana>=1500")],
+    "hunter-beast-mastery": [("Bestial Wrath", "true"), ("Rapid Fire", "true"), ("Serpent Sting", "dot_missing"), ("Summon Hawk", "dot_missing"), ("Multi-Shot", "true"), ("Arcane Shot", "mana>=1500")],
     "hunter-marksmanship": [("Rapid Fire", "true"), ("Serpent Sting", "dot_missing"), ("Aimed Shot", "true"), ("Multi-Shot", "true"), ("Arcane Shot", "mana>=1500")],
     "hunter-survival": [("Mongoose Bite", "true"), ("Strider Kick", "true"), ("Raptor Strike", "true")],
     "mage-arcane": [("Arcane Power", "true"), ("Presence of Mind", "true"), ("Arcane Missiles", "buff:Missile Barrage>0"), ("Arcane Missiles", "buffstacks:Arcane Blast>=4"), ("Arcane Blast", "true"), ("Frostbolt", "true")],
@@ -351,7 +352,7 @@ TALENT_EFFECTS = {
     "105001": {"dmg_ability:Multi-Shot": 0.0333, "dmg_ability:Aimed Shot": 0.0333}, "104998": {"dmg_school:ranged": 0.01}, "105004": {},
     # Hunter Survival
     "104996": {"flag:improved_tracking": 0.01}, "104991": {"dmg_ability:Explosive Trap": 0.15}, "104987": {"hit": 1, "ranged_hit": 1}, "104983": {"cost_pct:Explosive Trap": -0.30},
-    "110859": {"stat_pct:agility": 0.02}, "104985": {"flag:expose_prey": 0.05}, "104984": {"flag:lacerating_strikes": 1}, "104981": {"flag:strider_kick": 1},
+    "110859": {"stat_pct:agility": 0.02}, "104985": {"flag:expose_prey": 0.05}, "104984": {"flag:lacerating_strikes": 1}, "104981": {"flag:strider_kick": 1}, "104966": {"flag:summon_hawk": 1},
     # Mage Fire
     "105796": {"crit_ability:Fire Blast": 2, "crit_ability:Scorch": 2}, "105795": {"cast:Fireball": -0.1}, "105794": {"flag:ignite": 0.08}, "105797": {"cooldown:Fire Blast": -1},
     "105788": {"flag:improved_scorch": 1}, "105785": {"flag:master_of_elements": 0.10}, "105784": {"crit_school:fire": 2}, "105782": {"dmg_school:fire": 0.02}, "105781": {"flag:combustion": 1},
@@ -372,7 +373,7 @@ TALENT_EFFECTS = {
     "105722": {"melee_crit": 1}, "105720": {"flag:murder": 0.02}, "105739": {"flag:snd_duration": 0.15}, "105759": {"flag:relentless_strikes": 1}, "105716": {"crit_dmg_builder": 0.06},
     "105714": {"flag:poison_damage": 0.04}, "105715": {"flag:cold_blood": 1}, "105713": {"flag:poison_chance": 0.02}, "105718": {"flag:max_energy": 5}, "105710": {"flag:seal_fate": 0.20}, "105721": {"flag:ruthlessness": 0.20},
     # Rogue Combat
-    "105708": {"dmg_ability:Eviscerate": 0.0667}, "105741": {"cost:Sinister Strike": -2.5}, "105719": {"crit_ability:Backstab": 10}, "105737": {"hit": 1},
+    "105708": {"dmg_ability:Eviscerate": 0.0667}, "105741": {"cost:Sinister Strike": -2.5}, "105719": {"crit_ability:Backstab": 10}, "105737": {"hit": 1}, "108100": {"flag:restless_blades": 1},
     "105740": {"flag:dw_damage": 0.05}, "105728": {"flag:blade_flurry": 1}, "105727": {"flag:hack_and_slash": 0.01}, "105726": {"flag:expertise": 1},
     "105730": {"dmg_ability:Sinister Strike": 0.02, "dmg_ability:Backstab": 0.02, "dmg_ability:Eviscerate": 0.02}, "105724": {"flag:adrenaline_rush": 1},
     # Rogue Subtlety
@@ -406,7 +407,7 @@ TALENT_GATED = {"Mortal Strike": "mortal_strike", "Spearing Strike": "spearing_s
                 "Cold Snap": "cold_snap", "Mind Flay": "mind_flay", "Cold Blood": "cold_blood", "Blade Flurry": "blade_flurry", "Adrenaline Rush": "adrenaline_rush",
                 "Hemorrhage": "hemorrhage", "Stormstrike": "stormstrike", "Rage of the Farseer": "rage_of_the_farseer", "Siphon Life": "siphon_life", "Conflagrate": "conflagrate",
                 "Shadowburn": "shadowburn", "Demonic Sacrifice": "demonic_sacrifice", "Elemental Mastery": "elemental_mastery",
-                "Arcane Blast": "arcane_blast", "Pyroblast": "pyroblast", "Ice Lance": "ice_lance"}
+                "Arcane Blast": "arcane_blast", "Pyroblast": "pyroblast", "Ice Lance": "ice_lance", "Summon Hawk": "summon_hawk"}
 
 # Default 51-point builds (validated against tier/prerequisite rules in tests).
 DEFAULT_BUILDS = {
@@ -422,8 +423,9 @@ DEFAULT_BUILDS = {
                         "104923": 5, "104924": 5, "104927": 2, "104929": 2, "104931": 2},
     "druid-feral-tank": {"104938": 5, "104939": 5, "104942": 3, "104940": 3, "104948": 2, "104946": 2, "104952": 3, "104947": 2, "104950": 2, "104955": 1, "104954": 5,
                          "104923": 5, "104924": 5, "104927": 2, "104929": 2, "104931": 2, "104943": 2},
-    "hunter-beast-mastery": {"104960": 5, "104976": 5, "104975": 2, "104970": 1, "104969": 5, "104967": 5, "104963": 1, "104964": 1, "104962": 5, "104961": 1,
-                             "105011": 5, "110870": 3, "105009": 5, "105008": 5, "105003": 2},
+    # Summon Hawk (row3) added; off-tree Improved Stings trimmed 3->2 to stay at 51.
+    "hunter-beast-mastery": {"104960": 5, "104976": 5, "104975": 2, "104970": 1, "104969": 5, "104967": 5, "104966": 1, "104963": 1, "104964": 1, "104962": 5, "104961": 1,
+                             "105011": 5, "110870": 2, "105009": 5, "105008": 5, "105003": 2},
     "hunter-marksmanship": {"105011": 5, "105009": 5, "105008": 5, "110870": 3, "105003": 5, "105002": 5, "104998": 3,
                             "104960": 5, "104976": 5, "104975": 2, "104969": 5, "104967": 3},
     # Melee build (Strider Kick/Expose Prey/Lacerating Strikes maxed; validated 51-point spend).

@@ -1149,6 +1149,12 @@ impl<'a> Iteration<'a> {
         if name == "Arcane Missiles" && self.buff_active("Missile Barrage") {
             cost = 0.0;
         }
+        if name == "Hemorrhage" || name == "Backstab" {
+            let stacks = self.buffs.get("Thousand Cuts").filter(|b| b.until > self.t).map_or(0, |b| b.stacks);
+            if stacks > 0 {
+                cost = (cost - 3.0 * stacks as f64).max(0.0);
+            }
+        }
         cost
     }
 
@@ -1375,13 +1381,13 @@ impl<'a> Iteration<'a> {
             if a.finisher.as_deref() == Some("slice_and_dice") {
                 let dur = (6.0 + 3.0 * self.cp as f64) * (1.0 + c.flag("snd_duration"));
                 self.add_buff(name, dur, Buff { haste: a.melee_haste.unwrap_or(0.0), ..Default::default() });
-                self.finish();
+                self.finish(name);
                 self.row(name).casts += 1.0;
                 self.record(name, "applied", 0.0);
             } else if a.finisher.as_deref() == Some("venom_buff") {
                 let dur = 6.0 + 3.0 * self.cp as f64;
                 self.add_buff(name, dur, Buff::default());
-                self.finish();
+                self.finish(name);
                 self.row(name).casts += 1.0;
                 self.record(name, "applied", 0.0);
             } else {
@@ -1394,6 +1400,9 @@ impl<'a> Iteration<'a> {
         if c.spec.resource == "Rage" && cost > 0.0 && self.wrath_discount {
             cost = (cost - 5.0).max(0.0);
             self.wrath_discount = false;
+        }
+        if (name == "Hemorrhage" || name == "Backstab") && self.buff_active("Thousand Cuts") {
+            self.buffs.shift_remove("Thousand Cuts");
         }
         self.row(name).casts += 1.0;
         let mut cast = a.cast / self.haste(if a.ranged_cast { "ranged" } else { "spell" });
@@ -1459,7 +1468,7 @@ impl<'a> Iteration<'a> {
         self.resolve(name);
     }
 
-    fn finish(&mut self) -> i64 {
+    fn finish(&mut self, name: &str) -> i64 {
         let c = self.c;
         let cp = self.cp;
         self.cp = 0;
@@ -1468,6 +1477,14 @@ impl<'a> Iteration<'a> {
         }
         if c.flag("relentless_strikes") != 0.0 && self.rng.random() < 0.2 * cp as f64 {
             self.gain_energy(25.0);
+        }
+        if c.flag("restless_blades") != 0.0 && c.actions[name].kind != "buff" {
+            let reduction = 2.0 * cp as f64;
+            for cd_name in ["Adrenaline Rush", "Blade Flurry"] {
+                if let Some(v) = self.cooldowns.get_mut(cd_name) {
+                    *v = (*v - reduction).max(self.t);
+                }
+            }
         }
         cp
     }
@@ -1623,7 +1640,7 @@ impl<'a> Iteration<'a> {
                 self.gain_energy(c.flag("bonescythe_energy"));
             }
             if a.finisher.is_some() {
-                self.finish();
+                self.finish(name);
             }
             if let Some((n, d, _)) = &a.apply_debuff {
                 self.add_debuff(n, *d, None);
@@ -1662,7 +1679,7 @@ impl<'a> Iteration<'a> {
                 return;
             }
             self.dots.insert(name.to_string(), Dot { next: self.t + a.tick_len, remaining: a.ticks, tick: tick * a.mult, tick_len: a.tick_len, school: "physical".into(), bleed: true, stacks: 1 });
-            self.finish();
+            self.finish(name);
             self.record(name, "applied", 0.0);
             return;
         }
@@ -1679,7 +1696,7 @@ impl<'a> Iteration<'a> {
                 return;
             }
             self.dots.insert(name.to_string(), Dot { next: self.t + 2.0, remaining: 3 + cp, tick: tick * a.mult, tick_len: 2.0, school: "physical".into(), bleed: true, stacks: 1 });
-            self.finish();
+            self.finish(name);
             self.record(name, "applied", 0.0);
             return;
         }
@@ -1883,6 +1900,9 @@ impl<'a> Iteration<'a> {
         self.row(name);
         let kind = if school != "physical" { "spell" } else { "melee" };
         self.deal(name, tick, &school, kind, false, true, 1.0, 0.0, Outcome::Hit, 1.0);
+        if name == "Rupture" && self.c.flag("thousand_cuts") != 0.0 {
+            self.add_buff("Thousand Cuts", 10.0, Buff { stacks_max: Some(5), ..Default::default() });
+        }
     }
 
     // ---- boss ------------------------------------------------------------

@@ -1030,6 +1030,9 @@ class Iteration:
             b = self.buffs.get("Arcane Blast"); stacks = b["stacks"] if b and b["until"] > self.t else 0
             cost *= 1 + 1.75 * stacks
         if name == "Arcane Missiles" and self.buff_active("Missile Barrage"): cost = 0
+        if name in {"Hemorrhage", "Backstab"}:
+            b = self.buffs.get("Thousand Cuts")
+            if b and b["until"] > self.t: cost = max(0.0, cost - 3 * b["stacks"])
         return cost
 
     def choose(self):
@@ -1147,6 +1150,7 @@ class Iteration:
             return
         cost = self.cost(name)
         if self.s["resource"] == "Rage" and cost > 0 and self.wrath_discount: cost = max(0.0, cost - 5); self.wrath_discount = False
+        if name in {"Hemorrhage", "Backstab"} and self.buff_active("Thousand Cuts"): self.buffs.pop("Thousand Cuts", None)
         self.row(name).casts += 1
         cast = a.get("cast", 0) / self.haste("ranged" if a.get("ranged_cast") else "spell")
         if self.next_instant and cast > 0: cast = 0; self.next_instant = False
@@ -1193,6 +1197,13 @@ class Iteration:
         cp = self.cp; self.cp = 0
         if c.flag("ruthlessness") and self.rng.random() < c.flag("ruthlessness"): self.cp = 1
         if c.flag("relentless_strikes") and self.rng.random() < 0.2 * cp: self.gain_energy(25)
+        if c.flag("restless_blades") and c.actions[name].get("kind") != "buff":
+            # Only Adrenaline Rush/Blade Flurry matter for a single-target DPS sim; Evasion/Sprint/Vanish
+            # (also reduced by the real talent) are defensive/utility and unmodeled here.
+            reduction = 2 * cp
+            for cd_name in ("Adrenaline Rush", "Blade Flurry"):
+                if cd_name in self.cooldowns:
+                    self.cooldowns[cd_name] = max(self.t, self.cooldowns[cd_name] - reduction)
         return cp
 
     def resolve(self, name):
@@ -1406,11 +1417,13 @@ class Iteration:
         self.after_spell_hit(name, school, out, dmg, a) if name == "Arcane Missiles" else None
 
     def dot_tick(self, name, d):
+        c = self.c
         d["remaining"] -= 1; d["next"] += d["tick_len"]
         tick = d["tick"] * d.get("stacks", 1)
         r = self.row(name); r.casts += 0
         school = d["school"]
         self.deal(name, tick, school, "spell" if school != "physical" else "melee", periodic=True, outcome="hit")
+        if name == "Rupture" and c.flag("thousand_cuts"): self.add_buff("Thousand Cuts", 10, stacks_max=5)
         if d["remaining"] <= 0 and name in {"Immolate", "Corruption", "Curse of Agony", "Siphon Life", "Serpent Sting", "Shadow Word: Pain", "Moonfire", "Insect Swarm", "Flame Shock", "Rip", "Rupture", "Explosive Trap"}:
             pass
 
