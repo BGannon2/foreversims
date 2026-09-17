@@ -10,3 +10,10 @@ examples/
 app.py
 Launch.cmd
 Launch Web.cmd
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
