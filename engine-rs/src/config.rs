@@ -811,7 +811,7 @@ impl Config {
         a.mult = 1.0 + self.mod_(&format!("dmg_ability:{name}"));
         a.crit_bonus = self.mod_(&format!("crit_ability:{name}"));
         if name == "Shadow Word: Pain" {
-            a.ticks += 2 * (self.flag("swp_ticks") > 0.0) as i64;
+            a.ticks += self.flag("swp_ticks") as i64;
         }
         if a.ticks != 0 && self.mod_(&format!("ticks:{name}")) != 0.0 {
             a.ticks += self.mod_(&format!("ticks:{name}")) as i64;

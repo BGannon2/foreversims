@@ -161,7 +161,7 @@ SPECS = [
     ("druid-feral-tank", "Druid", "Feral Tank", "tank", "melee", "Rage", "Feral", "bear", None),
     ("hunter-beast-mastery", "Hunter", "Beast Mastery", "dps", "ranged", "Mana", "BeastMastery", None, None),
     ("hunter-marksmanship", "Hunter", "Marksmanship", "dps", "ranged", "Mana", "Marksmanship", None, None),
-    ("hunter-survival", "Hunter", "Survival", "dps", "ranged", "Mana", "Survival", None, None),
+    ("hunter-survival", "Hunter", "Survival", "dps", "melee", "Mana", "Survival", None, None),
     ("mage-arcane", "Mage", "Arcane", "dps", "spell", "Mana", "Arcane", None, None),
     ("mage-fire", "Mage", "Fire", "dps", "spell", "Mana", "Fire", None, None),
     ("mage-frost", "Mage", "Frost", "dps", "spell", "Mana", "Frost", None, None),
@@ -217,13 +217,16 @@ ABILITIES = {
     "Starfire": {"kind": "direct", "school": "arcane", "cost": 340, "cast": 3.5, "base": (496, 584), "coeff": 1.0},
     "Wrath": {"kind": "direct", "school": "nature", "cost": 180, "cast": 2.0, "base": (248, 277), "coeff": 0.571},
     # ---- Hunter --------------------------------------------------------------
-    "Aimed Shot": {"kind": "direct", "school": "physical", "cost": 310, "cooldown": 6, "cast": 3.0, "ranged_cast": True, "weapon": {"hand": "ranged", "normalized": True, "flat": 600}},
-    "Multi-Shot": {"kind": "direct", "school": "physical", "cost": 230, "cooldown": 10, "cast": 0.5, "ranged_cast": True, "weapon": {"hand": "ranged", "normalized": True, "flat": 150}},
+    "Aimed Shot": {"kind": "direct", "school": "physical", "cost": 310, "cooldown": 6, "cast": 2.0, "ranged_cast": True, "shared_cd": "aimed_multi", "weapon": {"hand": "ranged", "normalized": True, "flat": 600}, "forever": True},
+    "Multi-Shot": {"kind": "direct", "school": "physical", "cost": 230, "cooldown": 6, "cast": 0.5, "ranged_cast": True, "shared_cd": "aimed_multi", "weapon": {"hand": "ranged", "normalized": True, "flat": 150}, "forever": True},
     "Arcane Shot": {"kind": "direct", "school": "arcane", "cost": 190, "cooldown": 6, "base": (183, 183), "coeff": 0.429},
     "Serpent Sting": {"kind": "dot", "school": "nature", "cost": 250, "tick": 111, "ticks": 5, "tick_len": 3, "dot_coeff": 0.2},
     "Explosive Trap": {"kind": "direct_dot", "school": "fire", "cost": 520, "cooldown": 15, "base": (208, 265), "coeff": 0.0, "tick": 33, "ticks": 10, "tick_len": 2, "dot_coeff": 0.0},
     "Bestial Wrath": {"kind": "buff", "cooldown": 120, "duration": 18, "pet_damage_mult": 0.50},
     "Rapid Fire": {"kind": "buff", "cooldown": 300, "duration": 15, "ranged_haste": 0.40, "off_gcd": True},
+    "Mongoose Bite": {"kind": "direct", "school": "physical", "cost": 65, "cooldown": 5, "weapon": {"hand": "main", "normalized": True, "flat": 57}, "requires": "dodge_or_buff:Mongoose Bite Ready", "forever": True},
+    "Strider Kick": {"kind": "direct", "school": "physical", "cost": 0, "cooldown": 8, "weapon": {"hand": "main", "normalized": True}, "forever": True, "provisional": "Resource cost is not published by the Forever talent tooltip; treated as free."},
+    "Raptor Strike": {"kind": "swing", "school": "physical", "cost": 75, "weapon": {"hand": "main", "flat": 140}, "provisional": "Forever tooltip not in the dataset; WoWSims Classic rank-8 value (140 flat) used, kept as a next-swing attack per the guide."},
     # ---- Mage ----------------------------------------------------------------
     "Fireball": {"kind": "direct_dot", "school": "fire", "cost": 410, "cast": 3.5, "base": (596, 760), "coeff": 1.0, "tick": 19, "ticks": 4, "tick_len": 2, "dot_coeff": 0.0},
     "Scorch": {"kind": "direct", "school": "fire", "cost": 150, "cast": 1.5, "base": (237, 280), "coeff": 0.429},
@@ -243,6 +246,8 @@ ABILITIES = {
     "Sinister Strike": {"kind": "direct", "school": "physical", "cost": 45, "gcd": 1.0, "weapon": {"hand": "main", "normalized": True, "flat": 68}, "cp": 1},
     "Backstab": {"kind": "direct", "school": "physical", "cost": 60, "gcd": 1.0, "weapon": {"hand": "main", "normalized": True, "mult": 1.5, "flat": 150}, "cp": 1, "requires": "dagger"},
     "Hemorrhage": {"kind": "direct", "school": "physical", "cost": 35, "gcd": 1.0, "weapon": {"hand": "main", "normalized": True, "mult": 1.0, "dagger_mult": 1.45}, "cp": 1, "forever": True},
+    "Mutilate": {"kind": "direct", "school": "physical", "cost": 60, "gcd": 1.0, "cp": 2, "requires": "dagger", "forever": True},
+    "Venom": {"kind": "buff", "cost": 25, "gcd": 1.0, "finisher": "venom_buff", "forever": True},
     "Eviscerate": {"kind": "direct", "school": "physical", "cost": 35, "gcd": 1.0, "finisher": "eviscerate"},
     "Rupture": {"kind": "dot", "school": "physical", "cost": 25, "gcd": 1.0, "finisher": "rupture", "tick_len": 2, "bleed": True},
     "Slice and Dice": {"kind": "buff", "cost": 25, "gcd": 1.0, "finisher": "slice_and_dice", "melee_haste": 0.30},
@@ -251,11 +256,12 @@ ABILITIES = {
     "Cold Blood": {"kind": "buff", "cooldown": 180, "next_crit": True, "off_gcd": True},
     "Thistle Tea": {"kind": "buff", "cooldown": 300, "energy": 100, "off_gcd": True},
     # ---- Shaman --------------------------------------------------------------
-    "Lightning Bolt": {"kind": "direct", "school": "nature", "cost": 265, "cast": 3.0, "base": (428, 477), "coeff": 0.857},
-    "Chain Lightning": {"kind": "direct", "school": "nature", "cost": 605, "cast": 2.5, "cooldown": 6, "base": (505, 564), "coeff": 0.714},
+    "Lightning Bolt": {"kind": "direct", "school": "nature", "cost": 265, "cast": 2.5, "base": (428, 477), "coeff": 0.857, "forever": True},
+    "Chain Lightning": {"kind": "direct", "school": "nature", "cost": 605, "cast": 2.0, "cooldown": 6, "base": (505, 564), "coeff": 0.714, "forever": True},
+    "Lava Burst": {"kind": "direct", "school": "fire", "cost": 425, "cast": 2.5, "cooldown": 10, "base": (158, 187), "coeff": 0.5, "forever": True, "provisional": "Base damage (158-187), 2.5s cast and 10s cooldown are the sourced Forever tooltip/guide; mana cost and spell-power coefficient are not published and use a Lightning-Bolt-comparable placeholder."},
     "Flame Shock": {"kind": "direct_dot", "school": "fire", "cost": 345, "cooldown": 6, "shared_cd": "shock", "base": (292, 292), "coeff": 0.214, "tick": 80, "ticks": 4, "tick_len": 3, "dot_coeff": 0.1},
     "Earth Shock": {"kind": "direct", "school": "nature", "cost": 450, "cooldown": 6, "shared_cd": "shock", "base": (517, 545), "coeff": 0.386},
-    "Stormstrike": {"kind": "direct", "school": "physical", "cost": 320, "cooldown": 20, "weapon": {"hand": "main"}, "apply_debuff": ("Stormstrike", 12, {"nature": 0.20}), "forever": True},
+    "Stormstrike": {"kind": "direct", "school": "physical", "cost": 320, "cooldown": 8, "weapon": {"hand": "main"}, "apply_debuff": ("Stormstrike", 12, {"nature": 0.20}), "forever": True},
     "Elemental Mastery": {"kind": "buff", "cooldown": 180, "next_crit": True, "off_gcd": True},
     "Rage of the Farseer": {"kind": "buff", "cooldown": 180, "duration": 25, "melee_haste": 0.30, "spell_haste": 0.30, "off_gcd": True, "forever": True, "provisional": "cooldown not published; 3 min assumed"},
     # ---- Warlock -------------------------------------------------------------
@@ -265,6 +271,7 @@ ABILITIES = {
     "Siphon Life": {"kind": "dot", "school": "shadow", "cost": 365, "tick": 45, "ticks": 10, "tick_len": 3, "dot_coeff": 0.1},
     "Drain Soul": {"kind": "channel", "school": "shadow", "cost": 290, "cast": 15.0, "tick": 91, "ticks": 5, "coeff": 0.1, "execute_bonus": True},
     "Immolate": {"kind": "direct_dot", "school": "fire", "cost": 380, "cast": 2.0, "base": (279, 279), "coeff": 0.2, "tick": 102, "ticks": 5, "tick_len": 3, "dot_coeff": 0.13},
+    "Incinerate": {"kind": "direct", "school": "fire", "cost": 255, "cast": 2.0, "base": (125, 140), "coeff": 0.571, "forever": True, "provisional": "Base damage (125-140) and the +25% Immolate bonus are the sourced Forever tooltip; cast time, cost and spell-power coefficient are not published and use a Shadow-Bolt-comparable per-second placeholder."},
     "Conflagrate": {"kind": "direct", "school": "fire", "cost": 305, "cooldown": 10, "base": (447, 557), "coeff": 0.429, "requires": "dot:Immolate", "consumes_dot": "Immolate"},
     "Shadowburn": {"kind": "direct", "school": "shadow", "cost": 365, "cooldown": 15, "base": (462, 514), "coeff": 0.429},
     "Searing Pain": {"kind": "direct", "school": "fire", "cost": 168, "cast": 1.5, "base": (208, 244), "coeff": 0.429, "threat_mult": 2.0},
@@ -288,19 +295,19 @@ ROTATIONS = {
     "druid-feral-tank": [("Swipe", "rage>=45"), ("Maul", "rage>=20")],
     "hunter-beast-mastery": [("Bestial Wrath", "true"), ("Rapid Fire", "true"), ("Serpent Sting", "dot_missing"), ("Multi-Shot", "true"), ("Arcane Shot", "mana>=1500")],
     "hunter-marksmanship": [("Rapid Fire", "true"), ("Serpent Sting", "dot_missing"), ("Aimed Shot", "true"), ("Multi-Shot", "true"), ("Arcane Shot", "mana>=1500")],
-    "hunter-survival": [("Rapid Fire", "true"), ("Serpent Sting", "dot_missing"), ("Explosive Trap", "dot_missing"), ("Aimed Shot", "true"), ("Multi-Shot", "true"), ("Arcane Shot", "mana>=1500")],
+    "hunter-survival": [("Mongoose Bite", "true"), ("Strider Kick", "true"), ("Raptor Strike", "true")],
     "mage-arcane": [("Arcane Power", "true"), ("Presence of Mind", "true"), ("Arcane Missiles", "true"), ("Frostbolt", "true")],
     "mage-fire": [("Combustion", "true"), ("Scorch", "stacks:Improved Scorch<5 or debuff:Improved Scorch<4"), ("Fire Blast", "moving"), ("Fireball", "true"), ("Scorch", "true")],
     "mage-frost": [("Cold Snap", "false"), ("Frostbolt", "true"), ("Fire Blast", "moving")],
     "priest-shadow": [("Shadow Word: Pain", "dot_missing"), ("Shadow Word: Death", "execute"), ("Mind Blast", "true"), ("Mind Flay", "true")],
-    "rogue-assassination": [("Thistle Tea", "energy<20"), ("Cold Blood", "cp>=5"), ("Slice and Dice", "cp>=2 and buff_missing"), ("Eviscerate", "cp>=5"), ("Backstab", "true"), ("Sinister Strike", "no_dagger")],
+    "rogue-assassination": [("Thistle Tea", "energy<20"), ("Cold Blood", "cp>=5"), ("Venom", "cp>=2 and buff_missing"), ("Slice and Dice", "cp>=2 and buff_missing"), ("Eviscerate", "cp>=5"), ("Mutilate", "true")],
     "rogue-combat": [("Thistle Tea", "energy<20"), ("Adrenaline Rush", "true"), ("Blade Flurry", "true"), ("Slice and Dice", "cp>=2 and buff_missing"), ("Eviscerate", "cp>=5"), ("Sinister Strike", "true")],
     "rogue-subtlety": [("Thistle Tea", "energy<20"), ("Slice and Dice", "cp>=2 and buff_missing"), ("Rupture", "cp>=5 and dot_missing"), ("Eviscerate", "cp>=5"), ("Hemorrhage", "true")],
-    "shaman-elemental": [("Elemental Mastery", "true"), ("Flame Shock", "dot_missing and mana>=2000"), ("Chain Lightning", "mana>=2500"), ("Lightning Bolt", "true")],
+    "shaman-elemental": [("Elemental Mastery", "true"), ("Flame Shock", "dot_missing and mana>=2000"), ("Lava Burst", "mana>=1500"), ("Chain Lightning", "mana>=2500"), ("Lightning Bolt", "true")],
     "shaman-enhancement": [("Rage of the Farseer", "true"), ("Stormstrike", "true"), ("Earth Shock", "mana>=1200 or debuff:Stormstrike>0"), ("Flame Shock", "dot_missing and mana>=2500")],
     "warlock-affliction": [("Life Tap", "mana<400"), ("Curse of Agony", "dot_missing"), ("Corruption", "dot_missing"), ("Siphon Life", "dot_missing"), ("Drain Soul", "execute and dot:Corruption>0"), ("Shadow Bolt", "true")],
     "warlock-demonology": [("Life Tap", "mana<400"), ("Curse of Agony", "dot_missing"), ("Corruption", "dot_missing"), ("Shadow Bolt", "true")],
-    "warlock-destruction": [("Life Tap", "mana<400"), ("Immolate", "dot_missing"), ("Conflagrate", "dot:Immolate>0 and dot:Immolate<4"), ("Shadowburn", "execute"), ("Shadow Bolt", "true")],
+    "warlock-destruction": [("Life Tap", "mana<400"), ("Immolate", "dot_missing"), ("Conflagrate", "dot:Immolate>0 and dot:Immolate<4"), ("Shadowburn", "execute"), ("Incinerate", "true")],
 }
 CONSUMABLE_ACTIONS = {"goblin_sapper_charge": "Goblin Sapper Charge", "major_mana_potion": "Major Mana Potion", "mighty_rage_potion": "Mighty Rage Potion", "demonic_rune": "Demonic Rune", "thistle_tea": "Thistle Tea"}
 
@@ -321,9 +328,9 @@ TALENT_EFFECTS = {
     "105931": {"flag:enrage": 0.02}, "105932": {"cost:Execute": -2.5}, "105929": {"hit": 1}, "105927": {"flag:death_wish": 1}, "105928": {"flag:flurry": 0.05}, "105930": {"flag:bloodthirst": 1},
     "105953": {"flag:max_rage": 10},
     # Warrior Protection
-    "105976": {"block": 1, "flag:shield_spec_rage": 5}, "105975": {"defense": 4}, "105973": {"stat_pct:armor": 0.02}, "105969": {"dmg_ability:Revenge": 0.20},
+    "105976": {"block": 1, "flag:shield_spec_rage": 0.20},  # guide: 20%/rank chance for a flat 5 rage, not scaling rage amount "105975": {"defense": 4}, "105973": {"stat_pct:armor": 0.02}, "105969": {"dmg_ability:Revenge": 0.20},
     "110856": {"flag:defiance": 0.05}, "105968": {"cost:Sunder Armor": -1}, "105962": {"stat_pct:strength": 0.02, "stat_pct:stamina": 0.02}, "105961": {"flag:focused_rage": 1},
-    "105959": {"flag:shield_slam": 1}, "105974": {"flag:improved_bloodrage": 0.25}, "105971": {"flag:master_of_defense": 5},
+    "105959": {"flag:shield_slam": 1}, "105974": {"flag:improved_bloodrage": 0.25}, "105971": {"flag:master_of_defense": 0.50},  # guide: 50%/rank chance on dodge OR parry for a flat 5 rage
     # Druid Balance
     "104923": {"cast:Wrath": -0.1, "cost_pct:Wrath": -0.10}, "104924": {"dmg_periodic": 0.01}, "104925": {"cost_pct_all": -0.03}, "104931": {"dmg_ability:Moonfire": 0.05, "crit_ability:Moonfire": 5},
     "104927": {"spell_crit": 2, "melee_crit": 2}, "104929": {"spell_hit": 2, "hit": 2}, "104930": {"flag:insect_swarm": 1}, "104932": {"crit_dmg_school:arcane": 0.20, "crit_dmg_school:nature": 0.20},
@@ -341,7 +348,7 @@ TALENT_EFFECTS = {
     "105001": {"dmg_ability:Multi-Shot": 0.0333, "dmg_ability:Aimed Shot": 0.0333}, "104998": {"dmg_school:ranged": 0.01}, "105004": {},
     # Hunter Survival
     "104996": {"flag:improved_tracking": 0.01}, "104991": {"dmg_ability:Explosive Trap": 0.15}, "104987": {"hit": 1, "ranged_hit": 1}, "104983": {"cost_pct:Explosive Trap": -0.30},
-    "110859": {"stat_pct:agility": 0.02},
+    "110859": {"stat_pct:agility": 0.02}, "104985": {"flag:expose_prey": 0.05}, "104984": {"flag:lacerating_strikes": 1}, "104981": {"flag:strider_kick": 1},
     # Mage Fire
     "105796": {"crit_ability:Fire Blast": 2, "crit_ability:Scorch": 2}, "105795": {"cast:Fireball": -0.1}, "105794": {"flag:ignite": 0.08}, "105797": {"cooldown:Fire Blast": -1},
     "105788": {"flag:improved_scorch": 1}, "105785": {"flag:master_of_elements": 0.10}, "105784": {"crit_school:fire": 2}, "105782": {"dmg_school:fire": 0.02}, "105781": {"flag:combustion": 1},
@@ -388,7 +395,7 @@ TALENT_EFFECTS = {
 }
 
 # Abilities whose availability requires a talent flag.
-TALENT_GATED = {"Mortal Strike": "mortal_strike", "Spearing Strike": "spearing_strike", "Bloodthirst": "bloodthirst", "Death Wish": "death_wish", "Shield Slam": "shield_slam",
+TALENT_GATED = {"Mortal Strike": "mortal_strike", "Spearing Strike": "spearing_strike", "Bloodthirst": "bloodthirst", "Death Wish": "death_wish", "Shield Slam": "shield_slam", "Strider Kick": "strider_kick",
                 "Insect Swarm": "insect_swarm", "Bestial Wrath": "bestial_wrath", "Combustion": "combustion", "Presence of Mind": "presence_of_mind", "Arcane Power": "arcane_power",
                 "Cold Snap": "cold_snap", "Mind Flay": "mind_flay", "Cold Blood": "cold_blood", "Blade Flurry": "blade_flurry", "Adrenaline Rush": "adrenaline_rush",
                 "Hemorrhage": "hemorrhage", "Stormstrike": "stormstrike", "Rage of the Farseer": "rage_of_the_farseer", "Siphon Life": "siphon_life", "Conflagrate": "conflagrate",
@@ -412,8 +419,9 @@ DEFAULT_BUILDS = {
                              "105011": 5, "110870": 3, "105009": 5, "105008": 5, "105003": 2},
     "hunter-marksmanship": {"105011": 5, "105009": 5, "105008": 5, "110870": 3, "105003": 5, "105002": 5, "104998": 3,
                             "104960": 5, "104976": 5, "104975": 2, "104969": 5, "104967": 3},
-    "hunter-survival": {"104996": 5, "104993": 2, "104992": 5, "104991": 2, "104987": 3, "104986": 1, "110861": 5, "104983": 2, "110859": 5, "104994": 1,
-                        "105011": 5, "110870": 3, "105009": 5, "105008": 5, "105003": 2},
+    # Melee build (Strider Kick/Expose Prey/Lacerating Strikes maxed; validated 51-point spend).
+    "hunter-survival": {"104996": 5, "104995": 4, "104994": 5, "104993": 2, "104992": 5, "104990": 3, "104991": 2, "104987": 3, "104986": 1,
+                        "104988": 2, "110861": 5, "104989": 1, "104983": 2, "104985": 2, "110860": 2, "104981": 1, "110859": 5, "104984": 1},
     "mage-arcane": {"105814": 5, "105813": 5, "105810": 5, "105807": 3, "105803": 3, "105801": 1, "105800": 5, "105799": 3, "105798": 1,
                     "105795": 5, "105796": 3, "105794": 5, "105793": 2, "105790": 1, "105789": 2, "105785": 2},
     "mage-fire": {"105796": 3, "105795": 5, "105794": 5, "105789": 3, "105788": 3, "105785": 3, "105784": 3, "105782": 5, "105781": 1,
@@ -423,7 +431,7 @@ DEFAULT_BUILDS = {
     "priest-shadow": {"110851": 5, "105833": 5, "105831": 3, "105830": 2, "105827": 5, "105826": 1, "105825": 2, "105821": 3, "105820": 1, "105818": 5, "105817": 1, "110854": 2,
                       "105849": 5, "105850": 2, "105846": 3, "105842": 3, "105843": 3},
     "rogue-assassination": {"105722": 5, "105721": 3, "105720": 2, "105739": 3, "105759": 1, "105716": 5, "105715": 1, "105713": 5, "105718": 1, "105710": 5,
-                            "105708": 3, "105741": 2, "105719": 3, "105737": 3, "105736": 2, "105738": 2, "105740": 5},
+                            "105709": 1, "105712": 1, "105708": 3, "105741": 2, "105719": 3, "105737": 3, "105736": 2, "105738": 2, "105740": 3},
     "rogue-combat": {"105708": 3, "105741": 2, "105719": 3, "105737": 3, "105738": 2, "105736": 2, "105740": 5, "108100": 1, "105728": 1, "105727": 5, "105726": 2, "105730": 1, "105724": 1,
                      "105722": 5, "105721": 3, "105720": 2, "105739": 3, "105759": 1, "105716": 5, "105723": 1},
     "rogue-subtlety": {"105760": 2, "105761": 3, "105756": 1, "105751": 3, "105757": 2, "105749": 1, "105755": 3, "105754": 1, "110868": 1, "105752": 3, "105743": 1, "105745": 2, "105746": 1, "105748": 1, "110867": 5, "110866": 1,

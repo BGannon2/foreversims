@@ -234,7 +234,7 @@ class Fight:
         self.mana+=gained; self.mana_gained+=gained
 
     def spend(self,name,amount):
-        amount*=1-0.10*self.rank(105706) if name.startswith('Seal') or name in ('Judgement','Holy Shield','Holy Strike',"Templar's Bulwark") else 1
+        amount*=1-0.02*self.rank(105706) if name.startswith('Seal') or name in ('Judgement','Holy Shield','Holy Strike',"Templar's Bulwark",'Consecration') else 1
         if self.mana+1e-9 < amount:
             if self.oom is None: self.oom=self.time
             return False

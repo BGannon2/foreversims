@@ -837,8 +837,8 @@ impl<'a> Fight<'a> {
     }
 
     fn spend(&mut self, name: &str, amount: f64) -> bool {
-        let discounted = name.starts_with("Seal") || ["Judgement", "Holy Shield", "Holy Strike", "Templar's Bulwark"].contains(&name);
-        let amount = amount * if discounted { 1.0 - 0.10 * self.rank("105706") } else { 1.0 };
+        let discounted = name.starts_with("Seal") || ["Judgement", "Holy Shield", "Holy Strike", "Templar's Bulwark", "Consecration"].contains(&name);
+        let amount = amount * if discounted { 1.0 - 0.02 * self.rank("105706") } else { 1.0 };
         if self.mana + 1e-9 < amount {
             if self.oom.is_none() {
                 self.oom = Some(self.time);

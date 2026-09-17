@@ -251,10 +251,10 @@
       "class_name": "Warrior",
       "name": "Protection",
       "role": "tank",
-      "dps": 330.88006714045616,
-      "tps": 851.680992891093,
-      "dtps": 323.42705585408123,
-      "total_damage": 39705.60805685473,
+      "dps": 320.0990127075696,
+      "tps": 789.7132750622089,
+      "dtps": 354.2910361807073,
+      "total_damage": 38411.88152490835,
       "url": "/all-specs.html?spec=warrior-protection&race=Human"
     },
     {
@@ -263,10 +263,10 @@
       "class_name": "Warrior",
       "name": "Protection",
       "role": "tank",
-      "dps": 321.25779451437285,
-      "tps": 832.9789275661268,
-      "dtps": 325.4799413518178,
-      "total_damage": 38550.93534172472,
+      "dps": 310.53486450706947,
+      "tps": 773.0024139260096,
+      "dtps": 357.0953276792032,
+      "total_damage": 37264.18374084832,
       "url": "/all-specs.html?spec=warrior-protection&race=Dwarf"
     },
     {
@@ -275,10 +275,10 @@
       "class_name": "Warrior",
       "name": "Protection",
       "role": "tank",
-      "dps": 329.30947531596706,
-      "tps": 849.4170164316347,
-      "dtps": 317.82743254919893,
-      "total_damage": 39517.13703791607,
+      "dps": 317.83407961517975,
+      "tps": 785.8048041233814,
+      "dtps": 351.75573093095454,
+      "total_damage": 38140.08955382159,
       "url": "/all-specs.html?spec=warrior-protection&race=Night%20Elf"
     },
     {
@@ -287,10 +287,10 @@
       "class_name": "Warrior",
       "name": "Protection",
       "role": "tank",
-      "dps": 324.4743340065569,
-      "tps": 839.1818113298838,
-      "dtps": 323.0155660352249,
-      "total_damage": 38936.92008078683,
+      "dps": 313.56860063777793,
+      "tps": 776.8816932718455,
+      "dtps": 354.37003144855146,
+      "total_damage": 37628.23207653334,
       "url": "/all-specs.html?spec=warrior-protection&race=Gnome"
     },
     {
@@ -299,10 +299,10 @@
       "class_name": "Warrior",
       "name": "Protection",
       "role": "tank",
-      "dps": 326.1206483775121,
-      "tps": 841.1741796896931,
-      "dtps": 326.20320337159654,
-      "total_damage": 39134.477805301474,
+      "dps": 313.92557408692016,
+      "tps": 778.3050272111336,
+      "dtps": 358.6484192784362,
+      "total_damage": 37671.06889043043,
       "url": "/all-specs.html?spec=warrior-protection&race=Orc"
     },
     {
@@ -311,10 +311,10 @@
       "class_name": "Warrior",
       "name": "Protection",
       "role": "tank",
-      "dps": 339.76407163105665,
-      "tps": 862.3357970159218,
-      "dtps": 326.87979317435213,
-      "total_damage": 40771.68859572681,
+      "dps": 327.9347399691263,
+      "tps": 801.4035571661965,
+      "dtps": 357.62409341597146,
+      "total_damage": 39352.16879629518,
       "url": "/all-specs.html?spec=warrior-protection&race=Undead"
     },
     {
@@ -323,10 +323,10 @@
       "class_name": "Warrior",
       "name": "Protection",
       "role": "tank",
-      "dps": 325.730603682095,
-      "tps": 844.3512975738033,
-      "dtps": 325.21925423034617,
-      "total_damage": 39087.67244185141,
+      "dps": 314.9728950886962,
+      "tps": 781.7148047469066,
+      "dtps": 356.4190951838497,
+      "total_damage": 37796.74741064353,
       "url": "/all-specs.html?spec=warrior-protection&race=Tauren"
     },
     {
@@ -335,10 +335,10 @@
       "class_name": "Warrior",
       "name": "Protection",
       "role": "tank",
-      "dps": 321.6566955619231,
-      "tps": 836.2922086581916,
-      "dtps": 322.3128712753177,
-      "total_damage": 38598.80346743075,
+      "dps": 311.9532680996002,
+      "tps": 773.9624442926138,
+      "dtps": 353.0432110343814,
+      "total_damage": 37434.39217195201,
       "url": "/all-specs.html?spec=warrior-protection&race=Troll"
     },
     {
@@ -347,10 +347,10 @@
       "class_name": "Warrior",
       "name": "Protection",
       "role": "tank",
-      "dps": 325.08958583479097,
-      "tps": 843.6204449341066,
-      "dtps": 320.9277072811329,
-      "total_damage": 39010.750300174914,
+      "dps": 314.3620040547405,
+      "tps": 780.3989058234537,
+      "dtps": 356.8582614973453,
+      "total_damage": 37723.44048656887,
       "url": "/all-specs.html?spec=warrior-protection&race=Skyborne%20%28Alliance%29"
     },
     {
@@ -359,10 +359,10 @@
       "class_name": "Warrior",
       "name": "Protection",
       "role": "tank",
-      "dps": 325.08958583479097,
-      "tps": 843.6204449341066,
-      "dtps": 320.9277072811329,
-      "total_damage": 39010.750300174914,
+      "dps": 314.3620040547405,
+      "tps": 780.3989058234537,
+      "dtps": 356.8582614973453,
+      "total_damage": 37723.44048656887,
       "url": "/all-specs.html?spec=warrior-protection&race=Skyborne%20%28Horde%29"
     },
     {
@@ -515,10 +515,10 @@
       "class_name": "Hunter",
       "name": "Beast Mastery",
       "role": "dps",
-      "dps": 557.5068542993037,
-      "tps": 557.5068542993034,
+      "dps": 594.7556189640278,
+      "tps": 594.7556189640276,
       "dtps": 0.0,
-      "total_damage": 66900.82251591638,
+      "total_damage": 71370.67427568334,
       "url": "/all-specs.html?spec=hunter-beast-mastery&race=Human"
     },
     {
@@ -527,10 +527,10 @@
       "class_name": "Hunter",
       "name": "Beast Mastery",
       "role": "dps",
-      "dps": 556.5273900010277,
-      "tps": 556.5273900010276,
+      "dps": 591.1127902684052,
+      "tps": 591.112790268405,
       "dtps": 0.0,
-      "total_damage": 66783.28680012333,
+      "total_damage": 70933.5348322086,
       "url": "/all-specs.html?spec=hunter-beast-mastery&race=Dwarf"
     },
     {
@@ -539,10 +539,10 @@
       "class_name": "Hunter",
       "name": "Beast Mastery",
       "role": "dps",
-      "dps": 565.1025377219994,
-      "tps": 565.1025377219992,
+      "dps": 604.4685013701142,
+      "tps": 604.4685013701139,
       "dtps": 0.0,
-      "total_damage": 67812.30452663991,
+      "total_damage": 72536.22016441368,
       "url": "/all-specs.html?spec=hunter-beast-mastery&race=Night%20Elf"
     },
     {
@@ -551,10 +551,10 @@
       "class_name": "Hunter",
       "name": "Beast Mastery",
       "role": "dps",
-      "dps": 561.2887184281639,
-      "tps": 561.2887184281636,
+      "dps": 595.2776240689932,
+      "tps": 595.277624068993,
       "dtps": 0.0,
-      "total_damage": 67354.64621137966,
+      "total_damage": 71433.3148882792,
       "url": "/all-specs.html?spec=hunter-beast-mastery&race=Orc"
     },
     {
@@ -563,10 +563,10 @@
       "class_name": "Hunter",
       "name": "Beast Mastery",
       "role": "dps",
-      "dps": 559.1989496436529,
-      "tps": 559.1989496436527,
+      "dps": 593.5101082483852,
+      "tps": 593.510108248385,
       "dtps": 0.0,
-      "total_damage": 67103.87395723832,
+      "total_damage": 71221.21298980623,
       "url": "/all-specs.html?spec=hunter-beast-mastery&race=Tauren"
     },
     {
@@ -575,10 +575,10 @@
       "class_name": "Hunter",
       "name": "Beast Mastery",
       "role": "dps",
-      "dps": 559.7099771896765,
-      "tps": 559.7099771896764,
+      "dps": 596.1110082607795,
+      "tps": 596.1110082607793,
       "dtps": 0.0,
-      "total_damage": 67165.19726276115,
+      "total_damage": 71533.32099129354,
       "url": "/all-specs.html?spec=hunter-beast-mastery&race=Troll"
     },
     {
@@ -587,10 +587,10 @@
       "class_name": "Hunter",
       "name": "Beast Mastery",
       "role": "dps",
-      "dps": 557.8152800008489,
-      "tps": 557.8152800008488,
+      "dps": 595.8200022784835,
+      "tps": 595.8200022784832,
       "dtps": 0.0,
-      "total_damage": 66937.83360010186,
+      "total_damage": 71498.40027341802,
       "url": "/all-specs.html?spec=hunter-beast-mastery&race=Skyborne%20%28Alliance%29"
     },
     {
@@ -599,10 +599,10 @@
       "class_name": "Hunter",
       "name": "Beast Mastery",
       "role": "dps",
-      "dps": 557.8152800008489,
-      "tps": 557.8152800008488,
+      "dps": 595.8200022784835,
+      "tps": 595.8200022784832,
       "dtps": 0.0,
-      "total_damage": 66937.83360010186,
+      "total_damage": 71498.40027341802,
       "url": "/all-specs.html?spec=hunter-beast-mastery&race=Skyborne%20%28Horde%29"
     },
     {
@@ -611,10 +611,10 @@
       "class_name": "Hunter",
       "name": "Marksmanship",
       "role": "dps",
-      "dps": 603.8389366356329,
-      "tps": 603.8389366356326,
+      "dps": 595.1690504991964,
+      "tps": 595.1690504991961,
       "dtps": 0.0,
-      "total_damage": 72460.67239627588,
+      "total_damage": 71420.28605990353,
       "url": "/all-specs.html?spec=hunter-marksmanship&race=Human"
     },
     {
@@ -623,10 +623,10 @@
       "class_name": "Hunter",
       "name": "Marksmanship",
       "role": "dps",
-      "dps": 603.2418650669975,
-      "tps": 603.2418650669973,
+      "dps": 591.7496319448343,
+      "tps": 591.749631944834,
       "dtps": 0.0,
-      "total_damage": 72389.02380803968,
+      "total_damage": 71009.95583338011,
       "url": "/all-specs.html?spec=hunter-marksmanship&race=Dwarf"
     },
     {
@@ -635,10 +635,10 @@
       "class_name": "Hunter",
       "name": "Marksmanship",
       "role": "dps",
-      "dps": 617.0906994325376,
-      "tps": 617.0906994325372,
+      "dps": 607.5168013503129,
+      "tps": 607.5168013503126,
       "dtps": 0.0,
-      "total_damage": 74050.88393190442,
+      "total_damage": 72902.0161620375,
       "url": "/all-specs.html?spec=hunter-marksmanship&race=Night%20Elf"
     },
     {
@@ -647,10 +647,10 @@
       "class_name": "Hunter",
       "name": "Marksmanship",
       "role": "dps",
-      "dps": 609.8204822055909,
-      "tps": 609.8204822055906,
+      "dps": 597.0478062296798,
+      "tps": 597.0478062296796,
       "dtps": 0.0,
-      "total_damage": 73178.45786467087,
+      "total_damage": 71645.73674756153,
       "url": "/all-specs.html?spec=hunter-marksmanship&race=Orc"
     },
     {
@@ -659,10 +659,10 @@
       "class_name": "Hunter",
       "name": "Marksmanship",
       "role": "dps",
-      "dps": 608.6042940638583,
-      "tps": 608.604294063858,
+      "dps": 594.4910819952651,
+      "tps": 594.4910819952648,
       "dtps": 0.0,
-      "total_damage": 73032.51528766297,
+      "total_damage": 71338.92983943177,
       "url": "/all-specs.html?spec=hunter-marksmanship&race=Tauren"
     },
     {
@@ -671,10 +671,10 @@
       "class_name": "Hunter",
       "name": "Marksmanship",
       "role": "dps",
-      "dps": 609.2556547780823,
-      "tps": 609.255654778082,
+      "dps": 599.6705969563577,
+      "tps": 599.6705969563576,
       "dtps": 0.0,
-      "total_damage": 73110.67857336985,
+      "total_damage": 71960.47163476291,
       "url": "/all-specs.html?spec=hunter-marksmanship&race=Troll"
     },
     {
@@ -683,10 +683,10 @@
       "class_name": "Hunter",
       "name": "Marksmanship",
       "role": "dps",
-      "dps": 605.8262405389347,
-      "tps": 605.8262405389346,
+      "dps": 597.5149958217451,
+      "tps": 597.5149958217448,
       "dtps": 0.0,
-      "total_damage": 72699.14886467217,
+      "total_damage": 71701.79949860937,
       "url": "/all-specs.html?spec=hunter-marksmanship&race=Skyborne%20%28Alliance%29"
     },
     {
@@ -695,10 +695,10 @@
       "class_name": "Hunter",
       "name": "Marksmanship",
       "role": "dps",
-      "dps": 605.8262405389347,
-      "tps": 605.8262405389346,
+      "dps": 597.5149958217451,
+      "tps": 597.5149958217448,
       "dtps": 0.0,
-      "total_damage": 72699.14886467217,
+      "total_damage": 71701.79949860937,
       "url": "/all-specs.html?spec=hunter-marksmanship&race=Skyborne%20%28Horde%29"
     },
     {
@@ -707,10 +707,10 @@
       "class_name": "Hunter",
       "name": "Survival",
       "role": "dps",
-      "dps": 598.9575037594271,
-      "tps": 598.9575037594274,
+      "dps": 402.9199985557503,
+      "tps": 402.9199985557503,
       "dtps": 0.0,
-      "total_damage": 71874.90045113122,
+      "total_damage": 48350.39982669002,
       "url": "/all-specs.html?spec=hunter-survival&race=Human"
     },
     {
@@ -719,10 +719,10 @@
       "class_name": "Hunter",
       "name": "Survival",
       "role": "dps",
-      "dps": 595.3614664098036,
-      "tps": 595.3614664098038,
+      "dps": 403.20576139856587,
+      "tps": 403.20576139856587,
       "dtps": 0.0,
-      "total_damage": 71443.37596917638,
+      "total_damage": 48384.691367827916,
       "url": "/all-specs.html?spec=hunter-survival&race=Dwarf"
     },
     {
@@ -731,10 +731,10 @@
       "class_name": "Hunter",
       "name": "Survival",
       "role": "dps",
-      "dps": 611.2836237968423,
-      "tps": 611.2836237968427,
+      "dps": 411.0073616185395,
+      "tps": 411.0073616185395,
       "dtps": 0.0,
-      "total_damage": 73354.03485562104,
+      "total_damage": 49320.88339422475,
       "url": "/all-specs.html?spec=hunter-survival&race=Night%20Elf"
     },
     {
@@ -743,10 +743,10 @@
       "class_name": "Hunter",
       "name": "Survival",
       "role": "dps",
-      "dps": 602.9505795631726,
-      "tps": 602.9505795631729,
+      "dps": 405.80628710455926,
+      "tps": 405.80628710455926,
       "dtps": 0.0,
-      "total_damage": 72354.06954758066,
+      "total_damage": 48696.75445254712,
       "url": "/all-specs.html?spec=hunter-survival&race=Orc"
     },
     {
@@ -755,10 +755,10 @@
       "class_name": "Hunter",
       "name": "Survival",
       "role": "dps",
-      "dps": 596.2523813013835,
-      "tps": 596.2523813013838,
+      "dps": 403.06957923907805,
+      "tps": 403.06957923907805,
       "dtps": 0.0,
-      "total_damage": 71550.28575616599,
+      "total_damage": 48368.34950868936,
       "url": "/all-specs.html?spec=hunter-survival&race=Tauren"
     },
     {
@@ -767,10 +767,10 @@
       "class_name": "Hunter",
       "name": "Survival",
       "role": "dps",
-      "dps": 599.7636282296636,
-      "tps": 599.7636282296638,
+      "dps": 406.84904850823744,
+      "tps": 406.84904850823744,
       "dtps": 0.0,
-      "total_damage": 71971.63538755958,
+      "total_damage": 48821.885820988515,
       "url": "/all-specs.html?spec=hunter-survival&race=Troll"
     },
     {
@@ -779,10 +779,10 @@
       "class_name": "Hunter",
       "name": "Survival",
       "role": "dps",
-      "dps": 601.1055582310054,
-      "tps": 601.1055582310056,
+      "dps": 404.74999782564777,
+      "tps": 404.74999782564777,
       "dtps": 0.0,
-      "total_damage": 72132.6669877206,
+      "total_damage": 48569.99973907774,
       "url": "/all-specs.html?spec=hunter-survival&race=Skyborne%20%28Alliance%29"
     },
     {
@@ -791,10 +791,10 @@
       "class_name": "Hunter",
       "name": "Survival",
       "role": "dps",
-      "dps": 601.1055582310054,
-      "tps": 601.1055582310056,
+      "dps": 404.74999782564777,
+      "tps": 404.74999782564777,
       "dtps": 0.0,
-      "total_damage": 72132.6669877206,
+      "total_damage": 48569.99973907774,
       "url": "/all-specs.html?spec=hunter-survival&race=Skyborne%20%28Horde%29"
     },
     {
@@ -1091,10 +1091,10 @@
       "class_name": "Rogue",
       "name": "Assassination",
       "role": "dps",
-      "dps": 655.0916313491641,
-      "tps": 465.11505825790636,
+      "dps": 606.4606376528387,
+      "tps": 430.5870527335155,
       "dtps": 0.0,
-      "total_damage": 78610.99576189971,
+      "total_damage": 72775.27651834064,
       "url": "/all-specs.html?spec=rogue-assassination&race=Human"
     },
     {
@@ -1103,10 +1103,10 @@
       "class_name": "Rogue",
       "name": "Assassination",
       "role": "dps",
-      "dps": 653.2013306093639,
-      "tps": 463.7729447326482,
+      "dps": 605.051835834047,
+      "tps": 429.5868034421735,
       "dtps": 0.0,
-      "total_damage": 78384.15967312371,
+      "total_damage": 72606.22030008565,
       "url": "/all-specs.html?spec=rogue-assassination&race=Dwarf"
     },
     {
@@ -1115,10 +1115,10 @@
       "class_name": "Rogue",
       "name": "Assassination",
       "role": "dps",
-      "dps": 665.718685464058,
-      "tps": 472.660266679481,
+      "dps": 612.6404817678994,
+      "tps": 434.97474205520865,
       "dtps": 0.0,
-      "total_damage": 79886.24225568699,
+      "total_damage": 73516.85781214792,
       "url": "/all-specs.html?spec=rogue-assassination&race=Night%20Elf"
     },
     {
@@ -1127,10 +1127,10 @@
       "class_name": "Rogue",
       "name": "Assassination",
       "role": "dps",
-      "dps": 658.5147931327256,
-      "tps": 467.545503124235,
+      "dps": 623.1740253904436,
+      "tps": 442.45355802721497,
       "dtps": 0.0,
-      "total_damage": 79021.77517592705,
+      "total_damage": 74780.88304685323,
       "url": "/all-specs.html?spec=rogue-assassination&race=Gnome"
     },
     {
@@ -1139,10 +1139,10 @@
       "class_name": "Rogue",
       "name": "Assassination",
       "role": "dps",
-      "dps": 659.6431126633781,
-      "tps": 468.34660999099833,
+      "dps": 610.9892248397059,
+      "tps": 433.80234963619137,
       "dtps": 0.0,
-      "total_damage": 79157.17351960535,
+      "total_damage": 73318.7069807647,
       "url": "/all-specs.html?spec=rogue-assassination&race=Orc"
     },
     {
@@ -1151,10 +1151,10 @@
       "class_name": "Rogue",
       "name": "Assassination",
       "role": "dps",
-      "dps": 682.4016847742084,
-      "tps": 484.5051961896877,
+      "dps": 629.1530924020772,
+      "tps": 446.69869560547494,
       "dtps": 0.0,
-      "total_damage": 81888.20217290496,
+      "total_damage": 75498.37108824927,
       "url": "/all-specs.html?spec=rogue-assassination&race=Undead"
     },
     {
@@ -1163,10 +1163,10 @@
       "class_name": "Rogue",
       "name": "Assassination",
       "role": "dps",
-      "dps": 658.4917519859588,
-      "tps": 467.52914391003054,
+      "dps": 609.7642624940635,
+      "tps": 432.9326263707852,
       "dtps": 0.0,
-      "total_damage": 79019.01023831505,
+      "total_damage": 73171.71149928762,
       "url": "/all-specs.html?spec=rogue-assassination&race=Troll"
     },
     {
@@ -1175,10 +1175,10 @@
       "class_name": "Rogue",
       "name": "Assassination",
       "role": "dps",
-      "dps": 658.811579076517,
-      "tps": 467.75622114432684,
+      "dps": 609.3837239768393,
+      "tps": 432.662444023556,
       "dtps": 0.0,
-      "total_damage": 79057.38948918201,
+      "total_damage": 73126.04687722074,
       "url": "/all-specs.html?spec=rogue-assassination&race=Skyborne%20%28Alliance%29"
     },
     {
@@ -1187,10 +1187,10 @@
       "class_name": "Rogue",
       "name": "Assassination",
       "role": "dps",
-      "dps": 658.811579076517,
-      "tps": 467.75622114432684,
+      "dps": 609.3837239768393,
+      "tps": 432.662444023556,
       "dtps": 0.0,
-      "total_damage": 79057.38948918201,
+      "total_damage": 73126.04687722074,
       "url": "/all-specs.html?spec=rogue-assassination&race=Skyborne%20%28Horde%29"
     },
     {
@@ -1415,10 +1415,10 @@
       "class_name": "Shaman",
       "name": "Elemental",
       "role": "dps",
-      "dps": 412.76634871229055,
-      "tps": 397.7186669283932,
+      "dps": 390.84788799342886,
+      "tps": 377.5320323386907,
       "dtps": 0.0,
-      "total_damage": 49531.96184547482,
+      "total_damage": 46901.74655921146,
       "url": "/all-specs.html?spec=shaman-elemental&race=Dwarf"
     },
     {
@@ -1427,10 +1427,10 @@
       "class_name": "Shaman",
       "name": "Elemental",
       "role": "dps",
-      "dps": 416.47716573164035,
-      "tps": 401.29310337695307,
+      "dps": 394.25515148483794,
+      "tps": 380.7873196342772,
       "dtps": 0.0,
-      "total_damage": 49977.2598877968,
+      "total_damage": 47310.61817818056,
       "url": "/all-specs.html?spec=shaman-elemental&race=Orc"
     },
     {
@@ -1439,10 +1439,10 @@
       "class_name": "Shaman",
       "name": "Elemental",
       "role": "dps",
-      "dps": 414.8181333639155,
-      "tps": 399.67205094065855,
+      "dps": 394.64294183437977,
+      "tps": 380.91318807249473,
       "dtps": 0.0,
-      "total_damage": 49778.176003669854,
+      "total_damage": 47357.15302012557,
       "url": "/all-specs.html?spec=shaman-elemental&race=Tauren"
     },
     {
@@ -1451,10 +1451,10 @@
       "class_name": "Shaman",
       "name": "Elemental",
       "role": "dps",
-      "dps": 414.60218503175867,
-      "tps": 399.68763800211565,
+      "dps": 398.5036219067171,
+      "tps": 384.5327043970993,
       "dtps": 0.0,
-      "total_damage": 49752.26220381102,
+      "total_damage": 47820.43462880608,
       "url": "/all-specs.html?spec=shaman-elemental&race=Troll"
     },
     {
@@ -1463,10 +1463,10 @@
       "class_name": "Shaman",
       "name": "Elemental",
       "role": "dps",
-      "dps": 414.0018318744866,
-      "tps": 398.914069789549,
+      "dps": 392.5298151488542,
+      "tps": 379.2095836225186,
       "dtps": 0.0,
-      "total_damage": 49680.21982493836,
+      "total_damage": 47103.57781786247,
       "url": "/all-specs.html?spec=shaman-elemental&race=Skyborne%20%28Horde%29"
     },
     {
@@ -1475,10 +1475,10 @@
       "class_name": "Shaman",
       "name": "Enhancement",
       "role": "dps",
-      "dps": 592.2709423034585,
-      "tps": 592.2709423034585,
+      "dps": 645.7578417593337,
+      "tps": 645.7578417593337,
       "dtps": 0.0,
-      "total_damage": 71072.51307641505,
+      "total_damage": 77490.94101112006,
       "url": "/all-specs.html?spec=shaman-enhancement&race=Dwarf"
     },
     {
@@ -1487,10 +1487,10 @@
       "class_name": "Shaman",
       "name": "Enhancement",
       "role": "dps",
-      "dps": 587.7881530883857,
-      "tps": 587.7881530883857,
+      "dps": 642.5913545596998,
+      "tps": 642.5913545596998,
       "dtps": 0.0,
-      "total_damage": 70534.57837060626,
+      "total_damage": 77110.96254716394,
       "url": "/all-specs.html?spec=shaman-enhancement&race=Orc"
     },
     {
@@ -1499,10 +1499,10 @@
       "class_name": "Shaman",
       "name": "Enhancement",
       "role": "dps",
-      "dps": 583.9200111267489,
-      "tps": 583.9200111267489,
+      "dps": 639.4913549202345,
+      "tps": 639.4913549202345,
       "dtps": 0.0,
-      "total_damage": 70070.40133520987,
+      "total_damage": 76738.96259042814,
       "url": "/all-specs.html?spec=shaman-enhancement&race=Tauren"
     },
     {
@@ -1511,10 +1511,10 @@
       "class_name": "Shaman",
       "name": "Enhancement",
       "role": "dps",
-      "dps": 591.7032464710169,
-      "tps": 591.7032464710169,
+      "dps": 648.7412570390301,
+      "tps": 648.7412570390301,
       "dtps": 0.0,
-      "total_damage": 71004.38957652202,
+      "total_damage": 77848.95084468366,
       "url": "/all-specs.html?spec=shaman-enhancement&race=Troll"
     },
     {
@@ -1523,10 +1523,10 @@
       "class_name": "Shaman",
       "name": "Enhancement",
       "role": "dps",
-      "dps": 592.4720257098272,
-      "tps": 592.4720257098272,
+      "dps": 644.0363914002307,
+      "tps": 644.0363914002307,
       "dtps": 0.0,
-      "total_damage": 71096.64308517928,
+      "total_damage": 77284.36696802765,
       "url": "/all-specs.html?spec=shaman-enhancement&race=Skyborne%20%28Horde%29"
     },
     {
@@ -1655,10 +1655,10 @@
       "class_name": "Warlock",
       "name": "Destruction",
       "role": "dps",
-      "dps": 638.6409890335259,
-      "tps": 517.8687964365498,
+      "dps": 442.5813414200664,
+      "tps": 360.9894956969055,
       "dtps": 0.0,
-      "total_damage": 76636.91868402311,
+      "total_damage": 53109.76097040798,
       "url": "/all-specs.html?spec=warlock-destruction&race=Human"
     },
     {
@@ -1667,10 +1667,10 @@
       "class_name": "Warlock",
       "name": "Destruction",
       "role": "dps",
-      "dps": 626.3701534541548,
-      "tps": 507.9339939522548,
+      "dps": 439.635942939343,
+      "tps": 358.5079178793002,
       "dtps": 0.0,
-      "total_damage": 75164.41841449862,
+      "total_damage": 52756.31315272114,
       "url": "/all-specs.html?spec=warlock-destruction&race=Gnome"
     },
     {
@@ -1679,10 +1679,10 @@
       "class_name": "Warlock",
       "name": "Destruction",
       "role": "dps",
-      "dps": 626.0970923753408,
-      "tps": 507.67557861675704,
+      "dps": 440.034299287933,
+      "tps": 358.7927231488295,
       "dtps": 0.0,
-      "total_damage": 75131.65108504087,
+      "total_damage": 52804.11591455194,
       "url": "/all-specs.html?spec=warlock-destruction&race=Orc"
     },
     {
@@ -1691,10 +1691,10 @@
       "class_name": "Warlock",
       "name": "Destruction",
       "role": "dps",
-      "dps": 625.7560684953199,
-      "tps": 507.4252488057019,
+      "dps": 445.1903747737542,
+      "tps": 362.96989302658915,
       "dtps": 0.0,
-      "total_damage": 75090.7282194384,
+      "total_damage": 53422.84497285047,
       "url": "/all-specs.html?spec=warlock-destruction&race=Undead"
     },
     {
@@ -1703,10 +1703,10 @@
       "class_name": "Warlock",
       "name": "Destruction",
       "role": "dps",
-      "dps": 625.2512730442097,
-      "tps": 507.0475474172806,
+      "dps": 439.9125705628519,
+      "tps": 358.7839181669814,
       "dtps": 0.0,
-      "total_damage": 75030.15276530517,
+      "total_damage": 52789.508467542226,
       "url": "/all-specs.html?spec=warlock-destruction&race=Troll"
     },
     {
@@ -1715,10 +1715,10 @@
       "class_name": "Paladin",
       "name": "Protection",
       "role": "tank",
-      "dps": 342.68334135680755,
-      "tps": 453.868680853441,
-      "dtps": 298.13998944913453,
-      "total_damage": 41122.00096281693,
+      "dps": 325.3805940146135,
+      "tps": 426.6754227307525,
+      "dtps": 295.2445287077398,
+      "total_damage": 39045.671281753624,
       "url": "/paladin.html?spec=protection&race=Human"
     },
     {
@@ -1727,10 +1727,10 @@
       "class_name": "Paladin",
       "name": "Protection",
       "role": "tank",
-      "dps": 338.46145863112514,
-      "tps": 448.75806027130324,
-      "dtps": 298.2117129646435,
-      "total_damage": 40615.37503573504,
+      "dps": 322.2990240604719,
+      "tps": 423.1348570398357,
+      "dtps": 297.9184872230264,
+      "total_damage": 38675.88288725664,
       "url": "/paladin.html?spec=protection&race=Dwarf"
     },
     {
@@ -1739,10 +1739,10 @@
       "class_name": "Paladin",
       "name": "Protection",
       "role": "tank",
-      "dps": 360.2956166488997,
-      "tps": 484.24044379236227,
-      "dtps": 294.8953144033453,
-      "total_damage": 43235.473997867986,
+      "dps": 343.5506615585977,
+      "tps": 457.38626185654994,
+      "dtps": 295.23527830834536,
+      "total_damage": 41226.079387031736,
       "url": "/paladin.html?spec=protection&race=Undead"
     },
     {
@@ -1751,10 +1751,10 @@
       "class_name": "Paladin",
       "name": "Retribution",
       "role": "dps",
-      "dps": 543.2882762722348,
-      "tps": 543.2882762722352,
+      "dps": 528.0427050994299,
+      "tps": 528.0427050994299,
       "dtps": 0.0,
-      "total_damage": 65194.59315266817,
+      "total_damage": 63365.12461193158,
       "url": "/paladin.html?spec=retribution&race=Human"
     },
     {
@@ -1763,10 +1763,10 @@
       "class_name": "Paladin",
       "name": "Retribution",
       "role": "dps",
-      "dps": 534.1532746637565,
-      "tps": 534.1532746637567,
+      "dps": 518.5507058870429,
+      "tps": 518.5507058870429,
       "dtps": 0.0,
-      "total_damage": 64098.39295965079,
+      "total_damage": 62226.08470644512,
       "url": "/paladin.html?spec=retribution&race=Dwarf"
     },
     {
@@ -1775,10 +1775,10 @@
       "class_name": "Paladin",
       "name": "Retribution",
       "role": "dps",
-      "dps": 544.3766136621855,
-      "tps": 544.3766136621858,
+      "dps": 526.9357566236612,
+      "tps": 526.9357566236612,
       "dtps": 0.0,
-      "total_damage": 65325.19363946224,
+      "total_damage": 63232.29079483932,
       "url": "/paladin.html?spec=retribution&race=Undead"
     }
   ],

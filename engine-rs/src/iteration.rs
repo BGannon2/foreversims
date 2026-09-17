@@ -384,6 +384,9 @@ impl<'a> Iteration<'a> {
             crit = self.st("rangedCrit") - 4.8;
         } else {
             crit = self.st("meleeCrit") - 4.8;
+            if c.flag("weaponmaster") != 0.0 && matches!(weapon_type(&c.mh), Some("Axe") | Some("Polearm")) {
+                crit += c.flag("weaponmaster") * 100.0;
+            }
         }
         if let Some(a) = ability {
             crit += c.mod_(&format!("crit_ability:{a}"));
@@ -617,6 +620,12 @@ impl<'a> Iteration<'a> {
         if ability == "Rupture" && self.debuff_active("Hemorrhage") {
             m *= 1.15;
         }
+        if ability == "Lava Burst" && self.dots.get("Flame Shock").map_or(false, |d| d.remaining > 0) {
+            m *= 1.20;
+        }
+        if ability == "Incinerate" && self.dots.get("Immolate").map_or(false, |d| d.remaining > 0) {
+            m *= 1.25;
+        }
         if c.flag("rend_and_tear") != 0.0 && kind == "melee" && !white && self.dots.iter().any(|(d, dot)| dot.remaining > 0 && c.t.ABILITIES.get(d).map_or(false, |a| a.bleed)) {
             m *= 1.0 + c.flag("rend_and_tear");
         }
@@ -640,7 +649,7 @@ impl<'a> Iteration<'a> {
         }
         let mut pen = c.flag("armor_pen_pct");
         if c.flag("weaponmaster") != 0.0 && matches!(weapon_type(&c.mh), Some("Mace") | Some("Staff")) {
-            pen += 0.15;
+            pen += c.flag("weaponmaster") * 3.0;
         }
         if c.flag("hack_and_slash") != 0.0 && weapon_type(&c.mh) == Some("Mace") {
             pen += 0.15;
@@ -837,19 +846,21 @@ impl<'a> Iteration<'a> {
         if c.spec.class_name == "Rogue" {
             let mh_poison = if c.spec.id == "rogue-assassination" { "deadly" } else { "instant" };
             let poison = if hand == Hand::Main { mh_poison } else { "instant" };
-            let chance = c.t.POISONS[poison].chance + c.flag("poison_chance");
+            let venom_active = self.buff_active("Venom");
+            let chance = c.t.POISONS[poison].chance + c.flag("poison_chance") + if venom_active { 0.10 } else { 0.0 };
             if self.rng.random() < chance {
+                let venom_dmg = if venom_active { 0.30 } else { 0.0 };
                 if poison == "instant" {
                     let (out, m) = self.spell_outcome("Instant Poison", "nature", true);
                     self.row("Instant Poison").casts += 1.0;
                     let p = &c.t.POISONS["instant"];
-                    let amt = self.rng.uniform(p.min, p.max) * (1.0 + c.flag("poison_damage"));
+                    let amt = self.rng.uniform(p.min, p.max) * (1.0 + c.flag("poison_damage") + venom_dmg);
                     self.deal("Instant Poison", amt, "nature", "spell", false, false, 1.0, 0.0, out, m);
                 } else {
                     let p = &c.t.POISONS["deadly"];
                     let prev = self.dots.get("Deadly Poison").filter(|d| d.remaining > 0).map_or(0, |d| d.stacks);
                     let stacks = p.max_stacks.min(prev + 1);
-                    self.dots.insert("Deadly Poison".into(), Dot { next: self.t + 3.0, remaining: 4, tick: p.tick * (1.0 + c.flag("poison_damage")), tick_len: 3.0, school: "nature".into(), stacks, bleed: false });
+                    self.dots.insert("Deadly Poison".into(), Dot { next: self.t + 3.0, remaining: 4, tick: p.tick * (1.0 + c.flag("poison_damage") + venom_dmg), tick_len: 3.0, school: "nature".into(), stacks, bleed: false });
                 }
             }
         }
@@ -857,6 +868,9 @@ impl<'a> Iteration<'a> {
             self.row("Dragonbreath Chili").casts += 1.0;
             let amt = self.rng.uniform(60.0, 90.0);
             self.deal("Dragonbreath Chili", amt, "fire", "spell", false, false, 1.0, 0.0, Outcome::Hit, 1.0);
+        }
+        if c.flag("expose_prey") != 0.0 && self.rng.random() < c.flag("expose_prey") {
+            self.add_buff("Mongoose Bite Ready", 5.0, Buff::default());
         }
         if self.flurry > 0 && white {
             self.flurry -= 1;
@@ -951,9 +965,10 @@ impl<'a> Iteration<'a> {
         let queued = if hand == Hand::Main { self.queued_swing.clone() } else { None };
         if let Some(queued) = queued {
             let a = c.actions[&queued].clone();
-            if self.rage >= a.cost {
+            let cost = self.cost(&queued);
+            if self.resource() + EPS >= cost {
                 self.queued_swing = None;
-                self.rage -= a.cost;
+                self.spend(cost);
                 let (out, m) = self.melee_outcome(hand, false, Some(&queued), false);
                 self.row(&queued).casts += 1.0;
                 let mut dmg = 0.0;
@@ -961,8 +976,8 @@ impl<'a> Iteration<'a> {
                     dmg = self.weapon_damage(&item, false, false, 0.0) + a.weapon_flat();
                 }
                 dmg = self.deal(&queued, dmg, "physical", "melee", false, false, a.threat_mult(), a.flat_threat, out, m * a.mult);
-                if out.avoided() {
-                    self.rage += a.cost * 0.8;
+                if out.avoided() && self.c.spec.resource == "Rage" {
+                    self.rage += cost * 0.8;
                 }
                 if dmg != 0.0 {
                     self.on_weapon_hit(hand, false, &queued, dmg);
@@ -1082,6 +1097,12 @@ impl<'a> Iteration<'a> {
             Some("dodge") if self.t - self.dodged_recently > 5.0 => return false,
             Some("block_dodge_parry") if self.t - self.avoided_recently > 5.0 => return false,
             Some("dagger") if weapon_type(&c.mh) != Some("Dagger") => return false,
+            Some(r) if r.starts_with("dodge_or_buff:") => {
+                let buff_name = &r["dodge_or_buff:".len()..];
+                if !(self.t - self.dodged_recently <= 5.0 || self.buff_active(buff_name)) {
+                    return false;
+                }
+            }
             Some(r) if r.starts_with("dot:") => {
                 if !self.dots.get(&r[4..]).map_or(false, |d| d.remaining > 0) {
                     return false;
@@ -1336,6 +1357,12 @@ impl<'a> Iteration<'a> {
                 self.finish();
                 self.row(name).casts += 1.0;
                 self.record(name, "applied", 0.0);
+            } else if a.finisher.as_deref() == Some("venom_buff") {
+                let dur = 6.0 + 3.0 * self.cp as f64;
+                self.add_buff(name, dur, Buff::default());
+                self.finish();
+                self.row(name).casts += 1.0;
+                self.record(name, "applied", 0.0);
             } else {
                 self.activate_buff(name, &a);
             }
@@ -1412,6 +1439,43 @@ impl<'a> Iteration<'a> {
         let kind = a.kind.as_str();
         if kind == "buff" {
             self.activate_buff(name, &a);
+            return;
+        }
+        if name == "Mutilate" {
+            if c.oh.is_empty() {
+                self.deal(name, 0.0, "physical", "melee", false, false, 1.0, 0.0, Outcome::Miss, 1.0);
+                return;
+            }
+            let poisoned = self.dots.get("Deadly Poison").map_or(false, |d| d.remaining > 0);
+            let mut landed_any = false;
+            for hand in [Hand::Main, Hand::Off] {
+                let item = if hand == Hand::Main { c.mh.clone() } else { c.oh.clone() };
+                let (out, m) = self.melee_outcome(hand, false, Some(name), false);
+                if out.avoided() {
+                    self.deal(name, 0.0, "physical", "melee", false, false, 1.0, 0.0, out, 1.0);
+                    continue;
+                }
+                let mut base = self.weapon_damage(&item, true, false, 0.0) * 0.75 + 13.0;
+                if poisoned {
+                    base *= 1.20;
+                }
+                let dmg = self.deal(name, base, "physical", "melee", false, false, 1.0, 0.0, out, m * a.mult);
+                if dmg != 0.0 {
+                    landed_any = true;
+                    self.on_weapon_hit(hand, false, name, dmg);
+                    if out == Outcome::Crit {
+                        self.on_crit(name, dmg, hand, "melee");
+                    }
+                }
+            }
+            if landed_any {
+                let mut gained = a.cp;
+                if self.rng.random() < c.flag("seal_fate") {
+                    gained += 1;
+                }
+                self.cp = 5.min(self.cp + gained);
+            }
+            self.touch_of_the_grave();
             return;
         }
         let (threat_mult, flat_threat) = (a.threat_mult(), a.flat_threat);
@@ -1526,6 +1590,12 @@ impl<'a> Iteration<'a> {
             if name == "Hemorrhage" {
                 self.add_debuff("Hemorrhage", 15.0, None);
             }
+            if name == "Mongoose Bite" {
+                self.buffs.shift_remove("Mongoose Bite Ready");
+                if dmg != 0.0 && c.flag("lacerating_strikes") != 0.0 {
+                    self.dots.insert("Lacerating Strikes".into(), Dot { next: self.t + 3.0, remaining: 7, tick: dmg * 0.40 / 7.0, tick_len: 3.0, school: "physical".into(), bleed: true, stacks: 1 });
+                }
+            }
             if dmg != 0.0 {
                 if a.weapon.is_some() {
                     self.on_weapon_hit(Hand::Main, false, name, dmg);
@@ -1588,8 +1658,11 @@ impl<'a> Iteration<'a> {
                 base *= 1.0 + bounce * ((c.targets > 1) as i32 as f64) + bounce * bounce * ((c.targets > 2) as i32 as f64);
             }
             if name == "Conflagrate" {
-                if let Some(d) = self.dots.get_mut("Immolate") {
-                    d.remaining = 0;
+                let preserve = (c.flag("shadow_and_flame") * 10.0).min(1.0);
+                if self.rng.random() >= preserve {
+                    if let Some(d) = self.dots.get_mut("Immolate") {
+                        d.remaining = 0;
+                    }
                 }
             }
             if self.next_crit {
@@ -1765,8 +1838,8 @@ impl<'a> Iteration<'a> {
         }
         if outcome.avoided() {
             self.avoided_recently = self.t;
-            if outcome == Outcome::Dodge && c.flag("master_of_defense") != 0.0 {
-                self.gain_rage(c.flag("master_of_defense"));
+            if (outcome == Outcome::Dodge || outcome == Outcome::Parry) && c.flag("master_of_defense") != 0.0 && self.rng.random() < c.flag("master_of_defense").min(1.0) {
+                self.gain_rage(5.0);
             }
             if outcome == Outcome::Dodge && c.spec.form_is("bear") && c.mod_("dodge") != 0.0 {
                 self.gain_rage(5.0);
@@ -1787,8 +1860,8 @@ impl<'a> Iteration<'a> {
             self.avoided_recently = self.t;
             let bv = self.st("blockValue") + self.st("strength") / 20.0;
             amount = (amount - bv).max(0.0);
-            if c.flag("shield_spec_rage") != 0.0 {
-                self.gain_rage(c.flag("shield_spec_rage"));
+            if c.flag("shield_spec_rage") != 0.0 && self.rng.random() < c.flag("shield_spec_rage").min(1.0) {
+                self.gain_rage(5.0);
             }
             if c.flag("wrath_parry") != 0.0 && self.rng.random() < c.flag("wrath_parry") {
                 self.next_parry = true;

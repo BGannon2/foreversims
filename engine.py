@@ -333,7 +333,7 @@ class Config:
         a["gcd"] = a.get("gcd", GCD)
         a["mult"] = 1 + self.mod(f"dmg_ability:{name}")
         a["crit_bonus"] = self.mod(f"crit_ability:{name}")
-        if name == "Shadow Word: Pain": a["ticks"] = a["ticks"] + 2 * int(self.flag("swp_ticks") > 0)
+        if name == "Shadow Word: Pain": a["ticks"] = a["ticks"] + int(self.flag("swp_ticks"))
         if a.get("ticks") and self.mod(f"ticks:{name}"): a["ticks"] = a["ticks"] + int(self.mod(f"ticks:{name}"))
         if name == "Immolate" and self.flag("aftermath"): a["direct_mult"] = 1 + self.flag("aftermath") * 5 * 0.1
         if name == "Execute" and self.spec["resource"] == "Rage": pass
@@ -579,6 +579,7 @@ class Iteration:
             crit = self.st["rangedCrit"] - 4.8
         else:
             crit = self.st["meleeCrit"] - 4.8
+        if c.flag("weaponmaster") and weapon_type(c.mh) in {"Axe", "Polearm"}: crit += c.flag("weaponmaster") * 100
         if ability: crit += c.mod(f"crit_ability:{ability}")
         b = self.buffs.get("Elune's Light")
         if b and b["until"] > self.t: crit += 10
@@ -699,6 +700,8 @@ class Iteration:
         if school == "shadow" and self.debuff_active("Shadow and Flame (shadow)"): m *= 1.10
         if school == "fire" and self.debuff_active("Shadow and Flame (fire)"): m *= 1.10
         if ability == "Rupture" and self.debuff_active("Hemorrhage"): m *= 1.15
+        if ability == "Lava Burst" and self.dots.get("Flame Shock") and self.dots["Flame Shock"]["remaining"] > 0: m *= 1.20
+        if ability == "Incinerate" and self.dots.get("Immolate") and self.dots["Immolate"]["remaining"] > 0: m *= 1.25
         if c.flag("rend_and_tear") and kind == "melee" and not white and any(self.dots.get(d) and self.dots[d]["remaining"] > 0 and ABILITIES.get(d, {}).get("bleed") for d in self.dots): m *= 1 + c.flag("rend_and_tear")
         if c.flag("quietus") and ability in {"Sinister Strike", "Hemorrhage"} and self.t >= self.duration * 0.65: m *= 1 + c.flag("quietus")
         if self.eureka > 0 and not white and kind != "pet" and not periodic: m *= 1.10
@@ -710,7 +713,7 @@ class Iteration:
         armor = c.armor_after_debuffs()
         if self.debuff_active("Spider's Kiss"): armor = max(0.0, armor - 100)
         pen = c.flag("armor_pen_pct")
-        if c.flag("weaponmaster") and weapon_type(c.mh) in {"Mace", "Staff"}: pen += 0.15
+        if c.flag("weaponmaster") and weapon_type(c.mh) in {"Mace", "Staff"}: pen += c.flag("weaponmaster") * 3  # 1%/rank crit (axe/polearm) implies 3%/rank armor ignore (mace/staff) per Forever tooltip
         if c.flag("hack_and_slash") and weapon_type(c.mh) == "Mace": pen += 0.15
         armor *= 1 - min(1.0, pen)
         return 1 - armor / (armor + 400 + 85 * LEVEL)
@@ -835,20 +838,24 @@ class Iteration:
         if self.s["class_name"] == "Rogue":
             mh_poison = "deadly" if self.s["id"] == "rogue-assassination" else "instant"
             poison = mh_poison if hand_item is c.mh else "instant"
-            chance = POISONS[poison]["chance"] + c.flag("poison_chance")
+            chance = POISONS[poison]["chance"] + c.flag("poison_chance") + (0.10 if self.buff_active("Venom") else 0.0)
             if rng.random() < chance:
                 if poison == "instant":
                     out, m = self.spell_outcome("Instant Poison", "nature", can_crit=True)
                     self.row("Instant Poison").casts += 1
-                    self.deal("Instant Poison", rng.uniform(POISONS["instant"]["min"], POISONS["instant"]["max"]) * (1 + c.flag("poison_damage")), "nature", "spell", outcome=out, mult=m)
+                    venom_dmg = 0.30 if self.buff_active("Venom") else 0.0
+                    self.deal("Instant Poison", rng.uniform(POISONS["instant"]["min"], POISONS["instant"]["max"]) * (1 + c.flag("poison_damage") + venom_dmg), "nature", "spell", outcome=out, mult=m)
                 else:
                     d = self.dots.get("Deadly Poison")
                     stacks = min(POISONS["deadly"]["max_stacks"], (d["stacks"] if d and d["remaining"] > 0 else 0) + 1)
-                    self.dots["Deadly Poison"] = {"next": self.t + 3, "remaining": 4, "tick": POISONS["deadly"]["tick"] * (1 + c.flag("poison_damage")), "tick_len": 3, "school": "nature", "stacks": stacks, "kind": "dot"}
+                    venom_dmg = 0.30 if self.buff_active("Venom") else 0.0
+                    self.dots["Deadly Poison"] = {"next": self.t + 3, "remaining": 4, "tick": POISONS["deadly"]["tick"] * (1 + c.flag("poison_damage") + venom_dmg), "tick_len": 3, "school": "nature", "stacks": stacks, "kind": "dot"}
         # Dragonbreath Chili
         if "dragonbreath_chili" in c.consumes and rng.random() < 0.05:
             self.row("Dragonbreath Chili").casts += 1
             self.deal("Dragonbreath Chili", rng.uniform(60, 90), "fire", "spell", outcome="hit")
+        if c.flag("expose_prey") and rng.random() < c.flag("expose_prey"):
+            self.add_buff("Mongoose Bite Ready", 5)
         # Flurry
         if self.flurry > 0 and white: self.flurry -= 1
 
@@ -897,9 +904,10 @@ class Iteration:
         queued = self.queued_swing if hand == "main" else None
         if queued:
             a = c.actions[queued]
-            if self.rage >= a["cost"]:
+            cost = self.cost(queued)
+            if self.resource() + EPS >= cost:
                 self.queued_swing = None
-                self.rage -= a["cost"]
+                self.spend(cost)
                 out, m = self.melee_outcome(item, False, queued)
                 self.row(queued).casts += 1
                 dmg = 0.0
@@ -907,7 +915,7 @@ class Iteration:
                     dmg = self.weapon_damage(item) + a["weapon"].get("flat", 0)
                     if queued == "Maul": dmg += 40 * 0 # Maul has no extra AP term
                 dmg = self.deal(queued, dmg, "physical", "melee", threat_mult=a.get("threat_mult", 1.0), flat_threat=a.get("flat_threat", 0), outcome=out, mult=m * a["mult"])
-                if out in {"miss", "dodge", "parry"}: self.rage += a["cost"] * 0.8
+                if out in {"miss", "dodge", "parry"} and self.s["resource"] == "Rage": self.rage += cost * 0.8
                 if dmg:
                     self.on_weapon_hit(item, False, queued, dmg)
                     if out == "crit": self.on_crit(queued, dmg, item)
@@ -991,6 +999,9 @@ class Iteration:
         if a.get("shared_cd") and self.cooldowns.get("shared:" + a["shared_cd"], 0) > self.t + EPS: return False
         if a.get("execute") and self.t < self.execute_at: return False
         if a.get("requires") == "dodge" and self.t - self.dodged_recently > 5: return False
+        if a.get("requires", "").startswith("dodge_or_buff:"):
+            buff_name = a["requires"][len("dodge_or_buff:"):]
+            if not (self.t - self.dodged_recently <= 5 or self.buff_active(buff_name)): return False
         if a.get("requires") == "block_dodge_parry" and self.t - self.avoided_recently > 5: return False
         if a.get("requires") == "dagger" and weapon_type(self.c.mh) != "Dagger": return False
         if a.get("requires", "").startswith("dot:"):
@@ -1113,6 +1124,8 @@ class Iteration:
             cost = self.cost(name); self.spend(cost)
             if a.get("finisher") == "slice_and_dice":
                 dur = (6 + 3 * self.cp) * (1 + c.flag("snd_duration")); self.add_buff(name, dur, haste=a["melee_haste"]); self.finish(name); self.row(name).casts += 1; self.record(name, "applied", 0)
+            elif a.get("finisher") == "venom_buff":
+                dur = 6 + 3 * self.cp; self.add_buff(name, dur); self.finish(name); self.row(name).casts += 1; self.record(name, "applied", 0)
             else:
                 self.activate_buff(name, a)
             self.gcd_until = self.t + gcd / (haste if self.s["style"] == "spell" else 1.0)
@@ -1158,6 +1171,27 @@ class Iteration:
         if kind == "buff":
             self.activate_buff(name, a); return
         threat_mult, flat_threat = a.get("threat_mult", 1.0), a.get("flat_threat", 0.0)
+        if name == "Mutilate":
+            if not c.oh:
+                self.deal(name, 0, "physical", "melee", outcome="miss"); return
+            poisoned = self.dots.get("Deadly Poison") and self.dots["Deadly Poison"]["remaining"] > 0
+            landed_any = False
+            for hand_item, hand in ((c.mh, "main"), (c.oh, "off")):
+                out, m = self.melee_outcome(hand_item, False, name)
+                if out in {"miss", "dodge", "parry"}:
+                    self.deal(name, 0, "physical", "melee", outcome=out); continue
+                base = self.weapon_damage(hand_item, normalized=True) * 0.75 + 13
+                if poisoned: base *= 1.20
+                dmg = self.deal(name, base, "physical", "melee", outcome=out, mult=m * a["mult"])
+                if dmg:
+                    landed_any = True
+                    self.on_weapon_hit(hand_item, False, name, dmg)
+                    if out == "crit": self.on_crit(name, dmg, hand_item)
+            if landed_any:
+                gained = a["cp"] + (1 if self.rng.random() < c.flag("seal_fate") else 0)
+                self.cp = min(5, self.cp + gained)
+            self.touch_of_the_grave()
+            return
         if a.get("no_damage"):
             self.row(name).hits += 1; th = flat_threat * (1 + c.mod(f"threat_ability:{name}")) * self.threat_multiplier(); self.row(name).threat += th; self.threat += th
             if name == "Sunder Armor": self.add_debuff("Sunder Armor", 30, stacks_max=5)
@@ -1211,6 +1245,10 @@ class Iteration:
             if a.get("finisher"): self.finish(name)
             if a.get("apply_debuff"): n, d, extra = a["apply_debuff"]; self.add_debuff(n, d)
             if name == "Hemorrhage": self.add_debuff("Hemorrhage", 15)
+            if name == "Mongoose Bite":
+                self.buffs.pop("Mongoose Bite Ready", None)
+                if dmg and c.flag("lacerating_strikes"):
+                    self.dots["Lacerating Strikes"] = {"next": self.t + 3, "remaining": 7, "tick": dmg * 0.40 / 7, "tick_len": 3, "school": "physical", "kind": "dot", "bleed": True}
             if dmg:
                 self.on_weapon_hit(item, False, name, dmg) if a.get("weapon") else None
                 if out == "crit": self.on_crit(name, dmg, item if a.get("weapon") else None)
@@ -1247,7 +1285,7 @@ class Iteration:
             base = rng.uniform(*a["base"]) + sp * a.get("coeff", 0)
             base *= a.get("direct_mult", 1.0)
             if name == "Chain Lightning": bounce = 0.7 + c.mod("chain_lightning_bounce"); base *= 1 + bounce * (c.targets > 1) + bounce * bounce * (c.targets > 2)
-            if name == "Conflagrate" and self.dots.get("Immolate"): self.dots["Immolate"]["remaining"] = 0
+            if name == "Conflagrate" and self.dots.get("Immolate") and rng.random() >= min(1.0, c.flag("shadow_and_flame") * 10): self.dots["Immolate"]["remaining"] = 0
             if self.next_crit: self.next_crit = False
             dmg = self.deal(name, base, school, "spell", threat_mult=threat_mult, flat_threat=flat_threat, outcome=out, mult=m * a["mult"])
             if self.eureka > 0: self.eureka -= 1
@@ -1343,7 +1381,7 @@ class Iteration:
         if self.next_parry: self.next_parry = False; outcome = "parry"
         if outcome in {"miss", "dodge", "parry"}:
             self.avoided_recently = self.t
-            if outcome == "dodge" and c.flag("master_of_defense"): self.gain_rage(c.flag("master_of_defense"))
+            if outcome in {"dodge", "parry"} and c.flag("master_of_defense") and rng.random() < min(1.0, c.flag("master_of_defense")): self.gain_rage(5)
             if outcome == "dodge" and self.s["form"] == "bear" and c.mod("dodge"): self.gain_rage(5)
             self.row("Boss melee").misses += 1; self.record("Boss melee", outcome, 0); return
         armor = self.st.get("armor", 0)
@@ -1355,7 +1393,7 @@ class Iteration:
             self.avoided_recently = self.t
             bv = self.st.get("blockValue", 0) + self.st["strength"] / 20
             amount = max(0.0, amount - bv)
-            if c.flag("shield_spec_rage"): self.gain_rage(c.flag("shield_spec_rage"))
+            if c.flag("shield_spec_rage") and rng.random() < min(1.0, c.flag("shield_spec_rage")): self.gain_rage(5)
             if c.flag("wrath_parry") and rng.random() < c.flag("wrath_parry"): self.next_parry = True
         self.taken += amount; self.health -= amount
         self.gain_rage(amount * 2.5 / RAGE_CONVERSION_60)
