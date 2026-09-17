@@ -226,7 +226,7 @@ function buildGear(){
 }
 
 function openPicker(slot){
-  state.pickerSlot=slot; $("pickerSlot").textContent=gearLabels[slot]; $("itemSearch").value=""; renderPicker(); $("itemDialog").showModal(); $("itemSearch").focus();
+  hideInfoTooltip(); state.pickerSlot=slot; $("pickerSlot").textContent=gearLabels[slot]; $("itemSearch").value=""; renderPicker(); $("itemDialog").showModal(); $("itemSearch").focus();
 }
 
 function itemStatLine(item){
