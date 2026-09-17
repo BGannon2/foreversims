@@ -379,6 +379,9 @@ impl<'a> Iteration<'a> {
             if school == "frost" && self.debuff_active("Winter's Chill") {
                 crit += 2.0 * self.debuffs["Winter's Chill"].stacks as f64;
             }
+            if ability == Some("Ice Lance") && c.flag("shatter") != 0.0 && self.buff_active("Fingers of Frost") {
+                crit += c.flag("shatter") * 100.0;
+            }
             crit -= 2.1;
         } else if kind == "ranged" {
             crit = self.st("rangedCrit") - 4.8;
@@ -626,6 +629,12 @@ impl<'a> Iteration<'a> {
         if ability == "Incinerate" && self.dots.get("Immolate").map_or(false, |d| d.remaining > 0) {
             m *= 1.25;
         }
+        if c.flag("arcane_blast") != 0.0 && ability != "Arcane Blast" {
+            let stacks = self.buffs.get("Arcane Blast").filter(|b| b.until > self.t).map_or(0, |b| b.stacks);
+            if stacks > 0 {
+                m *= 1.0 + 0.10 * stacks as f64;
+            }
+        }
         if c.flag("rend_and_tear") != 0.0 && kind == "melee" && !white && self.dots.iter().any(|(d, dot)| dot.remaining > 0 && c.t.ABILITIES.get(d).map_or(false, |a| a.bleed)) {
             m *= 1.0 + c.flag("rend_and_tear");
         }
@@ -872,6 +881,9 @@ impl<'a> Iteration<'a> {
         if c.flag("expose_prey") != 0.0 && self.rng.random() < c.flag("expose_prey") {
             self.add_buff("Mongoose Bite Ready", 5.0, Buff::default());
         }
+        if c.flag("maelstrom_weapon") != 0.0 && !is_extra && self.rng.random() < 0.20 {
+            self.add_buff("Maelstrom Weapon", 30.0, Buff { stacks_max: Some(5), ..Default::default() });
+        }
         if self.flurry > 0 && white {
             self.flurry -= 1;
         }
@@ -1072,6 +1084,8 @@ impl<'a> Iteration<'a> {
                     "dot" => self.dots.get(key).filter(|d| d.remaining > 0).map_or(0.0, |d| d.remaining as f64 * d.tick_len),
                     "debuff" => self.debuffs.get(key).map_or(0.0, |b| (b.until - self.t).max(0.0)),
                     "cd" => (self.cooldowns.get(key).copied().unwrap_or(0.0) - self.t).max(0.0),
+                    "buff" => self.buffs.get(key).map_or(0.0, |b| (b.until - self.t).max(0.0)),
+                    "buffstacks" => self.buffs.get(key).filter(|b| b.until > self.t).map_or(0.0, |b| b.stacks as f64),
                     _ => self.debuffs.get(key).filter(|b| b.until > self.t).map_or(0.0, |b| b.stacks as f64),
                 };
                 compare(op, val, *num)
@@ -1127,6 +1141,13 @@ impl<'a> Iteration<'a> {
         let mut cost = self.c.actions[name].cost;
         if self.buff_active("Arcane Power") && self.c.spec.resource == "Mana" {
             cost *= 1.3;
+        }
+        if name == "Arcane Blast" {
+            let stacks = self.buffs.get("Arcane Blast").filter(|b| b.until > self.t).map_or(0, |b| b.stacks);
+            cost *= 1.0 + 1.75 * stacks as f64;
+        }
+        if name == "Arcane Missiles" && self.buff_active("Missile Barrage") {
+            cost = 0.0;
         }
         cost
     }
@@ -1383,6 +1404,26 @@ impl<'a> Iteration<'a> {
         if name == "Starfire" && self.eclipse > 0 {
             cast = (cast - 0.5).max(0.0);
             self.eclipse -= 1;
+        }
+        if name == "Pyroblast" {
+            let stacks = self.buffs.get("Hot Streak").filter(|b| b.until > self.t).map_or(0, |b| b.stacks);
+            if stacks > 0 {
+                cast *= (1.0 - 0.25 * stacks as f64).max(0.25);
+                self.buffs.shift_remove("Hot Streak");
+            }
+        }
+        if name == "Lightning Bolt" {
+            let stacks = self.buffs.get("Maelstrom Weapon").filter(|b| b.until > self.t).map_or(0, |b| b.stacks);
+            if stacks > 0 {
+                let reduction = (c.flag("maelstrom_weapon") * stacks as f64).min(1.0);
+                cast *= (1.0 - reduction).max(0.0);
+                cost *= (1.0 - reduction).max(0.0);
+                self.buffs.shift_remove("Maelstrom Weapon");
+            }
+        }
+        if name == "Arcane Missiles" && self.buff_active("Missile Barrage") {
+            cast *= 0.5;
+            self.buffs.shift_remove("Missile Barrage");
         }
         self.spend(cost);
         self.cur_cost = cost;
@@ -1645,6 +1686,9 @@ impl<'a> Iteration<'a> {
         let sp = self.sp(&school);
         if kind == "direct" || kind == "direct_dot" {
             let can_crit = !a.no_crit;
+            if name == "Arcane Blast" && c.flag("arcane_blast") != 0.0 {
+                self.add_buff("Arcane Blast", 8.0, Buff { stacks_max: Some(4), ..Default::default() });
+            }
             let (out, m) = if !a.always_hit { self.spell_outcome(name, &school, can_crit) } else { (Outcome::Hit, 1.0) };
             if out == Outcome::Miss {
                 self.deal(name, 0.0, &school, "spell", false, false, 1.0, 0.0, Outcome::Miss, 1.0);
@@ -1665,12 +1709,27 @@ impl<'a> Iteration<'a> {
                     }
                 }
             }
+            let mut fof_used = false;
+            if name == "Ice Lance" {
+                if self.buffs.get("Fingers of Frost").map_or(false, |b| b.until > self.t && b.stacks > 0) {
+                    base *= 4.0;
+                    fof_used = true;
+                }
+            }
             if self.next_crit {
                 self.next_crit = false;
             }
             let dmg = self.deal(name, base, &school, "spell", false, false, threat_mult, flat_threat, out, m * a.mult);
             if self.eureka > 0 {
                 self.eureka -= 1;
+            }
+            if fof_used {
+                if let Some(b) = self.buffs.get_mut("Fingers of Frost") {
+                    b.stacks -= 1;
+                    if b.stacks <= 0 {
+                        self.buffs.shift_remove("Fingers of Frost");
+                    }
+                }
             }
             self.after_spell_hit(name, &school, out, dmg, &a);
             if (name == "Fireball" || name == "Frostbolt") && c.flag("netherwind_instant") != 0.0 && self.rng.random() < c.flag("netherwind_instant") {
@@ -1706,6 +1765,21 @@ impl<'a> Iteration<'a> {
 
     fn after_spell_hit(&mut self, name: &str, school: &str, out: Outcome, dmg: f64, a: &Ability) {
         let c = self.c;
+        if c.flag("arcane_blast") != 0.0 && name != "Arcane Blast" {
+            self.buffs.shift_remove("Arcane Blast");
+        }
+        if c.flag("missile_barrage") != 0.0 && ["Arcane Blast", "Fireball", "Frostbolt"].contains(&name) && matches!(out, Outcome::Hit | Outcome::Crit) {
+            let chance = if name == "Arcane Blast" { 0.40 } else { 0.20 };
+            if self.rng.random() < chance {
+                self.add_buff("Missile Barrage", 20.0, Buff::default());
+            }
+        }
+        if c.flag("hot_streak") != 0.0 && ["Fireball", "Fire Blast", "Scorch"].contains(&name) && out == Outcome::Crit {
+            self.add_buff("Hot Streak", 15.0, Buff { stacks_max: Some(3), ..Default::default() });
+        }
+        if c.flag("fingers_of_frost") != 0.0 && name == "Frostbolt" && matches!(out, Outcome::Hit | Outcome::Crit) && self.rng.random() < 0.15 {
+            self.add_buff("Fingers of Frost", 15.0, Buff { stacks_max: Some(2), ..Default::default() });
+        }
         if c.flag("shadow_weaving") != 0.0 && school == "shadow" {
             self.add_debuff("Shadow Weaving", 15.0, Some(5));
         }

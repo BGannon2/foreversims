@@ -237,6 +237,9 @@ ABILITIES = {
     "Combustion": {"kind": "buff", "cooldown": 180, "combustion": True, "off_gcd": True},
     "Presence of Mind": {"kind": "buff", "cooldown": 180, "instant_next": True, "off_gcd": True},
     "Cold Snap": {"kind": "buff", "cooldown": 600, "off_gcd": True, "no_effect": "Resets Frost cooldowns; nothing in the single-target rotation uses one"},
+    "Arcane Blast": {"kind": "direct", "school": "arcane", "cost": 250, "cast": 2.5, "base": (95, 104), "coeff": 0.68, "forever": True, "provisional": "Base damage (95-104) is the sourced Forever talent tooltip; cast time, mana cost, and spell-power coefficient are not published and use a per-second-normalized placeholder comparable to this spec's other nukes."},
+    "Pyroblast": {"kind": "direct_dot", "school": "fire", "cost": 450, "cast": 3.5, "base": (155, 185), "coeff": 1.0, "tick": 76, "ticks": 4, "tick_len": 3, "dot_coeff": 0.0, "forever": True, "provisional": "Direct damage (155-185) and total DoT damage (76 over 12s) are the sourced Forever talent tooltip; cast time, mana cost, and spell-power coefficient are not published and use Fireball-comparable placeholders."},
+    "Ice Lance": {"kind": "direct", "school": "frost", "cost": 20, "base": (28, 33), "coeff": 0.1, "forever": True, "provisional": "Base damage (28-33) and the 300% Frozen-target bonus are the sourced Forever talent tooltip; instant cast, mana cost, and coefficient are not published and use placeholders reflecting its role as a cheap filler amplified by Fingers of Frost."},
     # ---- Priest --------------------------------------------------------------
     "Shadow Word: Pain": {"kind": "dot", "school": "shadow", "cost": 470, "tick": 106.5, "ticks": 8, "tick_len": 3, "dot_coeff": 0.167},
     "Mind Blast": {"kind": "direct", "school": "shadow", "cost": 350, "cast": 1.5, "cooldown": 8, "base": (508, 537), "coeff": 0.429},
@@ -296,15 +299,15 @@ ROTATIONS = {
     "hunter-beast-mastery": [("Bestial Wrath", "true"), ("Rapid Fire", "true"), ("Serpent Sting", "dot_missing"), ("Multi-Shot", "true"), ("Arcane Shot", "mana>=1500")],
     "hunter-marksmanship": [("Rapid Fire", "true"), ("Serpent Sting", "dot_missing"), ("Aimed Shot", "true"), ("Multi-Shot", "true"), ("Arcane Shot", "mana>=1500")],
     "hunter-survival": [("Mongoose Bite", "true"), ("Strider Kick", "true"), ("Raptor Strike", "true")],
-    "mage-arcane": [("Arcane Power", "true"), ("Presence of Mind", "true"), ("Arcane Missiles", "true"), ("Frostbolt", "true")],
-    "mage-fire": [("Combustion", "true"), ("Scorch", "stacks:Improved Scorch<5 or debuff:Improved Scorch<4"), ("Fire Blast", "moving"), ("Fireball", "true"), ("Scorch", "true")],
-    "mage-frost": [("Cold Snap", "false"), ("Frostbolt", "true"), ("Fire Blast", "moving")],
+    "mage-arcane": [("Arcane Power", "true"), ("Presence of Mind", "true"), ("Arcane Missiles", "buff:Missile Barrage>0"), ("Arcane Missiles", "buffstacks:Arcane Blast>=4"), ("Arcane Blast", "true"), ("Frostbolt", "true")],
+    "mage-fire": [("Combustion", "true"), ("Pyroblast", "buffstacks:Hot Streak>=1"), ("Scorch", "stacks:Improved Scorch<5 or debuff:Improved Scorch<4"), ("Fire Blast", "moving"), ("Fireball", "true"), ("Scorch", "true")],
+    "mage-frost": [("Cold Snap", "false"), ("Ice Lance", "buffstacks:Fingers of Frost>=1"), ("Frostbolt", "true"), ("Fire Blast", "moving")],
     "priest-shadow": [("Shadow Word: Pain", "dot_missing"), ("Shadow Word: Death", "execute"), ("Mind Blast", "true"), ("Mind Flay", "true")],
     "rogue-assassination": [("Thistle Tea", "energy<20"), ("Cold Blood", "cp>=5"), ("Venom", "cp>=2 and buff_missing"), ("Slice and Dice", "cp>=2 and buff_missing"), ("Eviscerate", "cp>=5"), ("Mutilate", "true")],
     "rogue-combat": [("Thistle Tea", "energy<20"), ("Adrenaline Rush", "true"), ("Blade Flurry", "true"), ("Slice and Dice", "cp>=2 and buff_missing"), ("Eviscerate", "cp>=5"), ("Sinister Strike", "true")],
     "rogue-subtlety": [("Thistle Tea", "energy<20"), ("Slice and Dice", "cp>=2 and buff_missing"), ("Rupture", "cp>=5 and dot_missing"), ("Eviscerate", "cp>=5"), ("Hemorrhage", "true")],
     "shaman-elemental": [("Elemental Mastery", "true"), ("Flame Shock", "dot_missing and mana>=2000"), ("Lava Burst", "mana>=1500"), ("Chain Lightning", "mana>=2500"), ("Lightning Bolt", "true")],
-    "shaman-enhancement": [("Rage of the Farseer", "true"), ("Stormstrike", "true"), ("Earth Shock", "mana>=1200 or debuff:Stormstrike>0"), ("Flame Shock", "dot_missing and mana>=2500")],
+    "shaman-enhancement": [("Rage of the Farseer", "true"), ("Lightning Bolt", "buffstacks:Maelstrom Weapon>=5"), ("Stormstrike", "true"), ("Earth Shock", "mana>=1200 or debuff:Stormstrike>0"), ("Flame Shock", "dot_missing and mana>=2500")],
     "warlock-affliction": [("Life Tap", "mana<400"), ("Curse of Agony", "dot_missing"), ("Corruption", "dot_missing"), ("Siphon Life", "dot_missing"), ("Drain Soul", "execute and dot:Corruption>0"), ("Shadow Bolt", "true")],
     "warlock-demonology": [("Life Tap", "mana<400"), ("Curse of Agony", "dot_missing"), ("Corruption", "dot_missing"), ("Shadow Bolt", "true")],
     "warlock-destruction": [("Life Tap", "mana<400"), ("Immolate", "dot_missing"), ("Conflagrate", "dot:Immolate>0 and dot:Immolate<4"), ("Shadowburn", "execute"), ("Incinerate", "true")],
@@ -352,12 +355,15 @@ TALENT_EFFECTS = {
     # Mage Fire
     "105796": {"crit_ability:Fire Blast": 2, "crit_ability:Scorch": 2}, "105795": {"cast:Fireball": -0.1}, "105794": {"flag:ignite": 0.08}, "105797": {"cooldown:Fire Blast": -1},
     "105788": {"flag:improved_scorch": 1}, "105785": {"flag:master_of_elements": 0.10}, "105784": {"crit_school:fire": 2}, "105782": {"dmg_school:fire": 0.02}, "105781": {"flag:combustion": 1},
+    "105790": {"flag:pyroblast": 1}, "105786": {"flag:hot_streak": 1},
     # Mage Frost
     "105779": {"cast:Frostbolt": -0.1}, "105778": {"spell_hit_school:frost": 1, "spell_hit_school:fire": 1}, "105777": {"crit_dmg_school:frost": 0.20}, "105773": {"dmg_school:frost": 0.02},
     "105772": {"cost_pct_school:frost": -0.05}, "105763": {"flag:winters_chill": 1}, "105766": {"flag:cold_snap": 1},
+    "105768": {"flag:shatter": 0.1667}, "105767": {"flag:ice_lance": 1}, "105764": {"flag:fingers_of_frost": 1},
     # Mage Arcane
     "105814": {"spell_hit_school:arcane": 1}, "105810": {"flag:clearcasting": 0.02}, "105807": {"crit_school:arcane": 2}, "105803": {"flag:spirit_while_casting": 0.1667},
     "105801": {"flag:presence_of_mind": 1}, "105800": {"stat_pct:intellect": 0.02, "crit_dmg_school:arcane": 0.20}, "105799": {"dmg_all": 0.01, "spell_crit": 1, "melee_crit": 1}, "105798": {"flag:arcane_power": 1},
+    "105806": {"flag:arcane_blast": 1}, "105802": {"flag:missile_barrage": 1},
     # Priest Shadow
     "110851": {"spell_hit_school:shadow": 1}, "105830": {"flag:swp_ticks": 1}, "105827": {"cooldown:Mind Blast": -0.5}, "105826": {"flag:mind_flay": 1}, "105825": {"dmg_ability:Mind Flay": 0.10},
     "105821": {"flag:shadow_weaving": 0.02}, "105818": {"dmg_school:shadow": 0.02}, "105817": {"flag:shadowform": 1}, "110854": {"flag:early_demise": 15}, "105833": {}, "105831": {"threat_school:shadow": -0.10},
@@ -380,7 +386,7 @@ TALENT_EFFECTS = {
     # Shaman Enhancement
     "104753": {"melee_crit": 1, "spell_crit": 1}, "104756": {"stat_pct:intellect": 0.02}, "104755": {"ap_from_int": 0.3333}, "104750": {"flag:elemental_weapons": 0.1333},
     "104749": {"cost_pct:Earth Shock": -0.45, "cost_pct:Flame Shock": -0.45}, "104747": {"flag:flurry": 0.05}, "104743": {"flag:stormstrike": 1}, "104744": {"sp_from_int": 0.15},
-    "104742": {"flag:improved_stormstrike": 1}, "104741": {"flag:maelstrom": 1}, "104740": {"flag:rage_of_the_farseer": 1},
+    "104742": {"flag:improved_stormstrike": 1}, "104741": {"flag:maelstrom_weapon": 0.04}, "104740": {"flag:rage_of_the_farseer": 1},
     # Warlock Affliction
     "105925": {"spell_hit": 1, "threat_mult": -0.04}, "105924": {"cast:Corruption": -0.4, "dmg_ability:Corruption": 0.02}, "105923": {"dmg_periodic": 0.01},
     "105920": {"flag:improved_drains": 0.02}, "105919": {"dmg_ability:Curse of Agony": 0.05}, "105917": {"crit_dmg_periodic": 0.333}, "110876": {"crit_school:shadow": 1},
@@ -399,7 +405,8 @@ TALENT_GATED = {"Mortal Strike": "mortal_strike", "Spearing Strike": "spearing_s
                 "Insect Swarm": "insect_swarm", "Bestial Wrath": "bestial_wrath", "Combustion": "combustion", "Presence of Mind": "presence_of_mind", "Arcane Power": "arcane_power",
                 "Cold Snap": "cold_snap", "Mind Flay": "mind_flay", "Cold Blood": "cold_blood", "Blade Flurry": "blade_flurry", "Adrenaline Rush": "adrenaline_rush",
                 "Hemorrhage": "hemorrhage", "Stormstrike": "stormstrike", "Rage of the Farseer": "rage_of_the_farseer", "Siphon Life": "siphon_life", "Conflagrate": "conflagrate",
-                "Shadowburn": "shadowburn", "Demonic Sacrifice": "demonic_sacrifice", "Elemental Mastery": "elemental_mastery"}
+                "Shadowburn": "shadowburn", "Demonic Sacrifice": "demonic_sacrifice", "Elemental Mastery": "elemental_mastery",
+                "Arcane Blast": "arcane_blast", "Pyroblast": "pyroblast", "Ice Lance": "ice_lance"}
 
 # Default 51-point builds (validated against tier/prerequisite rules in tests).
 DEFAULT_BUILDS = {
@@ -422,12 +429,17 @@ DEFAULT_BUILDS = {
     # Melee build (Strider Kick/Expose Prey/Lacerating Strikes maxed; validated 51-point spend).
     "hunter-survival": {"104996": 5, "104995": 4, "104994": 5, "104993": 2, "104992": 5, "104990": 3, "104991": 2, "104987": 3, "104986": 1,
                         "104988": 2, "110861": 5, "104989": 1, "104983": 2, "104985": 2, "110860": 2, "104981": 1, "110859": 5, "104984": 1},
-    "mage-arcane": {"105814": 5, "105813": 5, "105810": 5, "105807": 3, "105803": 3, "105801": 1, "105800": 5, "105799": 3, "105798": 1,
+    # Arcane Blast (row2) + Missile Barrage (row3) added; Improved Channeling (no combat value in
+    # single-target sims) trimmed 5->3 to stay at 51, keeping every damage/crit talent at full rank.
+    "mage-arcane": {"105814": 5, "105813": 3, "105810": 5, "105807": 3, "105806": 1, "105803": 3, "105802": 1, "105801": 1, "105800": 5, "105799": 3, "105798": 1,
                     "105795": 5, "105796": 3, "105794": 5, "105793": 2, "105790": 1, "105789": 2, "105785": 2},
-    "mage-fire": {"105796": 3, "105795": 5, "105794": 5, "105789": 3, "105788": 3, "105785": 3, "105784": 3, "105782": 5, "105781": 1,
-                  "105814": 5, "105810": 5, "105812": 2, "105807": 3, "105803": 3, "105813": 2},
-    "mage-frost": {"105779": 5, "105778": 5, "105777": 5, "105773": 3, "105772": 3, "105768": 3, "105766": 1, "105763": 5, "105762": 1,
-                   "105814": 5, "105810": 5, "105812": 2, "105807": 3, "105803": 3, "105813": 2},
+    # Pyroblast (row2) + Hot Streak (row3) added, Fire Power kept at max rank; off-tree Magic
+    # Absorption (no combat value in single-target sims) dropped entirely to stay at 51.
+    "mage-fire": {"105796": 3, "105795": 5, "105794": 5, "105789": 3, "105790": 1, "105788": 3, "105785": 3, "105786": 1, "105784": 3, "105782": 5, "105781": 1,
+                  "105814": 5, "105810": 5, "105807": 3, "105803": 3, "105813": 2},
+    # Ice Lance (row2) + Fingers of Frost (row4) added; Arcane Meditation (105803) dropped to stay at 51.
+    "mage-frost": {"105779": 5, "105778": 5, "105777": 5, "105773": 3, "105772": 3, "105768": 3, "105767": 1, "105766": 1, "105764": 2, "105763": 5, "105762": 1,
+                   "105814": 5, "105813": 2, "105812": 2, "105810": 5, "105807": 3},
     "priest-shadow": {"110851": 5, "105833": 5, "105831": 3, "105830": 2, "105827": 5, "105826": 1, "105825": 2, "105821": 3, "105820": 1, "105818": 5, "105817": 1, "110854": 2,
                       "105849": 5, "105850": 2, "105846": 3, "105842": 3, "105843": 3},
     "rogue-assassination": {"105722": 5, "105721": 3, "105720": 2, "105739": 3, "105759": 1, "105716": 5, "105715": 1, "105713": 5, "105718": 1, "105710": 5,
@@ -438,8 +450,9 @@ DEFAULT_BUILDS = {
                        "105722": 5, "105721": 3, "105720": 2, "105739": 3, "105759": 1, "105716": 5, "105723": 1},
     "shaman-elemental": {"104773": 5, "104772": 5, "104767": 4, "104770": 3, "104768": 1, "104766": 5, "104762": 1, "104759": 3, "104765": 3, "104758": 1,
                          "104753": 5, "104756": 5, "104755": 3, "104750": 3, "104749": 1, "104747": 3},
-    "shaman-enhancement": {"104753": 5, "104756": 5, "104755": 3, "104750": 3, "104749": 1, "104747": 5, "104743": 1, "104744": 2, "104742": 2, "104741": 3, "104740": 1,
-                           "104773": 5, "104772": 5, "104767": 5, "104770": 3, "104768": 1, "104766": 1},
+    # Maelstrom Weapon maxed (3->5); two off-tree Elemental leaf picks dropped to stay at 51.
+    "shaman-enhancement": {"104753": 5, "104756": 5, "104755": 3, "104750": 3, "104749": 1, "104747": 5, "104743": 1, "104744": 2, "104742": 2, "104741": 5, "104740": 1,
+                           "104773": 5, "104772": 5, "104767": 5, "104770": 3},
     "warlock-affliction": {"105925": 5, "105924": 5, "105923": 5, "105919": 1, "105917": 3, "110876": 5, "105912": 1, "105910": 5, "105909": 1,
                            "105889": 5, "105888": 5, "105887": 3, "105886": 2, "105883": 5},
     "warlock-demonology": {"105908": 3, "105906": 5, "105907": 2, "105903": 3, "105899": 2, "105901": 3, "105900": 1, "105898": 2, "105892": 1, "105893": 3, "105891": 5, "105890": 1,

@@ -66,7 +66,7 @@ pub fn parse_cond(cond: &str) -> Result<Cond, String> {
     if let Some(c) = re.captures(cond) {
         return Ok(Cond::Resource(c[1].to_string(), parse_cmp(&c[2]).unwrap().to_string(), c[3].parse().unwrap()));
     }
-    let re = regex_lite::Regex::new(r"^(dot|debuff|cd|stacks):(.+?)\s*(<=|>=|<|>|==)\s*(\d+)").unwrap();
+    let re = regex_lite::Regex::new(r"^(dot|debuff|cd|buffstacks|buff|stacks):(.+?)\s*(<=|>=|<|>|==)\s*(\d+)").unwrap();
     if let Some(c) = re.captures(cond) {
         return Ok(Cond::Keyed(c[1].to_string(), c[2].to_string(), parse_cmp(&c[3]).unwrap().to_string(), c[4].parse().unwrap()));
     }

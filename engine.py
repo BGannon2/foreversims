@@ -574,6 +574,7 @@ class Iteration:
             crit = self.st["spellCrit"] + c.mod(f"crit_school:{school}")
             if self.combustion is not None and school == "fire": crit += 10 * self.combustion["stacks"]
             if school == "frost" and self.debuff_active("Winter's Chill"): crit += 2 * self.debuffs["Winter's Chill"]["stacks"]
+            if ability == "Ice Lance" and c.flag("shatter") and self.buff_active("Fingers of Frost"): crit += c.flag("shatter") * 100
             crit -= 2.1
         elif kind == "ranged":
             crit = self.st["rangedCrit"] - 4.8
@@ -702,6 +703,10 @@ class Iteration:
         if ability == "Rupture" and self.debuff_active("Hemorrhage"): m *= 1.15
         if ability == "Lava Burst" and self.dots.get("Flame Shock") and self.dots["Flame Shock"]["remaining"] > 0: m *= 1.20
         if ability == "Incinerate" and self.dots.get("Immolate") and self.dots["Immolate"]["remaining"] > 0: m *= 1.25
+        if c.flag("arcane_blast") and ability != "Arcane Blast":
+            b = self.buffs.get("Arcane Blast")
+            stacks = b["stacks"] if b and b["until"] > self.t else 0
+            if stacks: m *= 1 + 0.10 * stacks
         if c.flag("rend_and_tear") and kind == "melee" and not white and any(self.dots.get(d) and self.dots[d]["remaining"] > 0 and ABILITIES.get(d, {}).get("bleed") for d in self.dots): m *= 1 + c.flag("rend_and_tear")
         if c.flag("quietus") and ability in {"Sinister Strike", "Hemorrhage"} and self.t >= self.duration * 0.65: m *= 1 + c.flag("quietus")
         if self.eureka > 0 and not white and kind != "pet" and not periodic: m *= 1.10
@@ -856,6 +861,8 @@ class Iteration:
             self.deal("Dragonbreath Chili", rng.uniform(60, 90), "fire", "spell", outcome="hit")
         if c.flag("expose_prey") and rng.random() < c.flag("expose_prey"):
             self.add_buff("Mongoose Bite Ready", 5)
+        if c.flag("maelstrom_weapon") and not is_extra and rng.random() < 0.20:
+            self.add_buff("Maelstrom Weapon", 30, stacks_max=5)
         # Flurry
         if self.flurry > 0 and white: self.flurry -= 1
 
@@ -979,7 +986,7 @@ class Iteration:
         if m:
             val = {"rage": self.rage, "energy": self.energy, "mana": self.mana, "cp": self.cp}[m.group(1)]
             return {"<": val < float(m.group(3)), ">": val > float(m.group(3)), "<=": val <= float(m.group(3)), ">=": val >= float(m.group(3)), "==": val == float(m.group(3))}[m.group(2)]
-        m = re.match(r"(dot|debuff|cd|stacks):(.+?)\s*(<=|>=|<|>|==)\s*(\d+)", cond)
+        m = re.match(r"(dot|debuff|cd|buffstacks|buff|stacks):(.+?)\s*(<=|>=|<|>|==)\s*(\d+)", cond)
         if m:
             kind, key, op, num = m.groups(); num = float(num)
             if kind == "dot":
@@ -988,6 +995,10 @@ class Iteration:
                 b = self.debuffs.get(key); val = max(0.0, b["until"] - self.t) if b else 0.0
             elif kind == "cd":
                 val = max(0.0, self.cooldowns.get(key, 0.0) - self.t)
+            elif kind == "buff":
+                b = self.buffs.get(key); val = max(0.0, b["until"] - self.t) if b else 0.0
+            elif kind == "buffstacks":
+                b = self.buffs.get(key); val = b["stacks"] if b and b["until"] > self.t else 0
             else:
                 b = self.debuffs.get(key); val = b["stacks"] if b and b["until"] > self.t else 0
             return {"<": val < num, ">": val > num, "<=": val <= num, ">=": val >= num, "==": val == num}[op]
@@ -1015,6 +1026,10 @@ class Iteration:
     def cost(self, name):
         a = self.c.actions[name]; cost = a.get("cost", 0)
         if self.buff_active("Arcane Power") and self.s["resource"] == "Mana": cost *= 1.3
+        if name == "Arcane Blast":
+            b = self.buffs.get("Arcane Blast"); stacks = b["stacks"] if b and b["until"] > self.t else 0
+            cost *= 1 + 1.75 * stacks
+        if name == "Arcane Missiles" and self.buff_active("Missile Barrage"): cost = 0
         return cost
 
     def choose(self):
@@ -1136,6 +1151,23 @@ class Iteration:
         cast = a.get("cast", 0) / self.haste("ranged" if a.get("ranged_cast") else "spell")
         if self.next_instant and cast > 0: cast = 0; self.next_instant = False
         if name == "Starfire" and self.eclipse > 0: cast = max(0, cast - 0.5); self.eclipse -= 1
+        if name == "Pyroblast":
+            b = self.buffs.get("Hot Streak")
+            stacks = b["stacks"] if b and b["until"] > self.t else 0
+            if stacks > 0:
+                cast *= max(0.25, 1 - 0.25 * stacks)
+                self.buffs.pop("Hot Streak", None)
+        if name == "Lightning Bolt":
+            b = self.buffs.get("Maelstrom Weapon")
+            stacks = b["stacks"] if b and b["until"] > self.t else 0
+            if stacks > 0:
+                reduction = min(1.0, c.flag("maelstrom_weapon") * stacks)
+                cast *= max(0.0, 1 - reduction)
+                cost *= max(0.0, 1 - reduction)
+                self.buffs.pop("Maelstrom Weapon", None)
+        if name == "Arcane Missiles" and self.buff_active("Missile Barrage"):
+            cast *= 0.5
+            self.buffs.pop("Missile Barrage", None)
         self.spend(cost); self.cur_cost = cost
         if self.s["resource"] == "Rage" and cost > 0 and c.flag("wrath_rage_proc") and self.rng.random() < c.flag("wrath_rage_proc"): self.wrath_discount = True
         self.cooldowns[name] = self.t + a.get("cooldown", 0)
@@ -1279,6 +1311,7 @@ class Iteration:
         sp = self.sp(school)
         if kind in {"direct", "direct_dot"}:
             can_crit = not a.get("no_crit")
+            if name == "Arcane Blast" and c.flag("arcane_blast"): self.add_buff("Arcane Blast", 8, stacks_max=4)
             out, m = self.spell_outcome(name, school, can_crit) if not a.get("always_hit") else ("hit", 1.0)
             if out == "miss":
                 self.deal(name, 0, school, "spell", outcome="miss"); return
@@ -1286,9 +1319,20 @@ class Iteration:
             base *= a.get("direct_mult", 1.0)
             if name == "Chain Lightning": bounce = 0.7 + c.mod("chain_lightning_bounce"); base *= 1 + bounce * (c.targets > 1) + bounce * bounce * (c.targets > 2)
             if name == "Conflagrate" and self.dots.get("Immolate") and rng.random() >= min(1.0, c.flag("shadow_and_flame") * 10): self.dots["Immolate"]["remaining"] = 0
+            fof_used = False
+            if name == "Ice Lance":
+                b = self.buffs.get("Fingers of Frost")
+                if b and b["until"] > self.t and b["stacks"] > 0:
+                    base *= 4.0
+                    fof_used = True
             if self.next_crit: self.next_crit = False
             dmg = self.deal(name, base, school, "spell", threat_mult=threat_mult, flat_threat=flat_threat, outcome=out, mult=m * a["mult"])
             if self.eureka > 0: self.eureka -= 1
+            if fof_used:
+                b = self.buffs.get("Fingers of Frost")
+                if b:
+                    b["stacks"] -= 1
+                    if b["stacks"] <= 0: self.buffs.pop("Fingers of Frost", None)
             self.after_spell_hit(name, school, out, dmg, a)
             if name in {"Fireball", "Frostbolt"} and c.flag("netherwind_instant") and rng.random() < c.flag("netherwind_instant"): self.next_instant = True
             if kind == "direct_dot":
@@ -1311,6 +1355,14 @@ class Iteration:
 
     def after_spell_hit(self, name, school, out, dmg, a):
         c = self.c
+        if c.flag("arcane_blast") and name != "Arcane Blast": self.buffs.pop("Arcane Blast", None)
+        if c.flag("missile_barrage") and name in {"Arcane Blast", "Fireball", "Frostbolt"} and out in {"hit", "crit"}:
+            chance = 0.40 if name == "Arcane Blast" else 0.20
+            if self.rng.random() < chance: self.add_buff("Missile Barrage", 20)
+        if c.flag("hot_streak") and name in {"Fireball", "Fire Blast", "Scorch"} and out == "crit":
+            self.add_buff("Hot Streak", 15, stacks_max=3)
+        if c.flag("fingers_of_frost") and name == "Frostbolt" and out in {"hit", "crit"} and self.rng.random() < 0.15:
+            self.add_buff("Fingers of Frost", 15, stacks_max=2)
         if c.flag("shadow_weaving") and school == "shadow": self.add_debuff("Shadow Weaving", 15, stacks_max=5)
         if c.flag("improved_scorch") and name == "Scorch": self.add_debuff("Improved Scorch", 30, stacks_max=5)
         if c.flag("winters_chill") and school == "frost": self.add_debuff("Winter's Chill", 15, stacks_max=5)

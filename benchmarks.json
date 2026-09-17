@@ -803,10 +803,10 @@
       "class_name": "Mage",
       "name": "Arcane",
       "role": "dps",
-      "dps": 410.8921297111113,
-      "tps": 410.8921297111113,
+      "dps": 353.9034533333283,
+      "tps": 353.9034533333283,
       "dtps": 0.0,
-      "total_damage": 49307.05556533334,
+      "total_damage": 42468.41439999941,
       "url": "/all-specs.html?spec=mage-arcane&race=Human"
     },
     {
@@ -815,10 +815,10 @@
       "class_name": "Mage",
       "name": "Arcane",
       "role": "dps",
-      "dps": 443.79666146444447,
-      "tps": 443.79666146444447,
+      "dps": 353.3148466737819,
+      "tps": 353.3148466737819,
       "dtps": 0.0,
-      "total_damage": 53255.599375733356,
+      "total_damage": 42397.781600853814,
       "url": "/all-specs.html?spec=mage-arcane&race=Gnome"
     },
     {
@@ -827,10 +827,10 @@
       "class_name": "Mage",
       "name": "Arcane",
       "role": "dps",
-      "dps": 405.734988583778,
-      "tps": 405.734988583778,
+      "dps": 351.7967958137921,
+      "tps": 351.7967958137921,
       "dtps": 0.0,
-      "total_damage": 48688.198630053346,
+      "total_damage": 42215.615497655024,
       "url": "/all-specs.html?spec=mage-arcane&race=Orc"
     },
     {
@@ -839,10 +839,10 @@
       "class_name": "Mage",
       "name": "Arcane",
       "role": "dps",
-      "dps": 409.78414257243486,
-      "tps": 409.78414257243486,
+      "dps": 354.92922913124806,
+      "tps": 354.92922913124806,
       "dtps": 0.0,
-      "total_damage": 49174.09710869216,
+      "total_damage": 42591.50749574976,
       "url": "/all-specs.html?spec=mage-arcane&race=Undead"
     },
     {
@@ -851,10 +851,10 @@
       "class_name": "Mage",
       "name": "Arcane",
       "role": "dps",
-      "dps": 408.21072567555575,
-      "tps": 408.21072567555575,
+      "dps": 349.9441941972893,
+      "tps": 349.9441941972893,
       "dtps": 0.0,
-      "total_damage": 48985.28708106664,
+      "total_damage": 41993.30330367469,
       "url": "/all-specs.html?spec=mage-arcane&race=Troll"
     },
     {
@@ -863,10 +863,10 @@
       "class_name": "Mage",
       "name": "Arcane",
       "role": "dps",
-      "dps": 406.9375138355557,
-      "tps": 406.9375138355557,
+      "dps": 350.41229384586455,
+      "tps": 350.41229384586455,
       "dtps": 0.0,
-      "total_damage": 48832.501660266724,
+      "total_damage": 42049.47526150373,
       "url": "/all-specs.html?spec=mage-arcane&race=Skyborne%20%28Alliance%29"
     },
     {
@@ -875,10 +875,10 @@
       "class_name": "Mage",
       "name": "Fire",
       "role": "dps",
-      "dps": 659.3827447916204,
-      "tps": 659.3827447916204,
+      "dps": 606.4464904667718,
+      "tps": 606.4464904667718,
       "dtps": 0.0,
-      "total_damage": 79125.92937499442,
+      "total_damage": 72773.57885601255,
       "url": "/all-specs.html?spec=mage-fire&race=Human"
     },
     {
@@ -887,10 +887,10 @@
       "class_name": "Mage",
       "name": "Fire",
       "role": "dps",
-      "dps": 650.9080726167682,
-      "tps": 650.9080726167682,
+      "dps": 597.8073024731058,
+      "tps": 597.8073024731058,
       "dtps": 0.0,
-      "total_damage": 78108.96871401215,
+      "total_damage": 71736.87629677262,
       "url": "/all-specs.html?spec=mage-fire&race=Gnome"
     },
     {
@@ -899,10 +899,10 @@
       "class_name": "Mage",
       "name": "Fire",
       "role": "dps",
-      "dps": 650.1723274333533,
-      "tps": 650.1723274333533,
+      "dps": 597.8306944877964,
+      "tps": 597.8306944877964,
       "dtps": 0.0,
-      "total_damage": 78020.67929200237,
+      "total_damage": 71739.68333853553,
       "url": "/all-specs.html?spec=mage-fire&race=Orc"
     },
     {
@@ -911,10 +911,10 @@
       "class_name": "Mage",
       "name": "Fire",
       "role": "dps",
-      "dps": 646.7071264218171,
-      "tps": 646.7071264218171,
+      "dps": 596.2112598640193,
+      "tps": 596.2112598640193,
       "dtps": 0.0,
-      "total_damage": 77604.85517061802,
+      "total_damage": 71545.35118368226,
       "url": "/all-specs.html?spec=mage-fire&race=Undead"
     },
     {
@@ -923,10 +923,10 @@
       "class_name": "Mage",
       "name": "Fire",
       "role": "dps",
-      "dps": 642.9474804037968,
-      "tps": 642.9474804037968,
+      "dps": 590.7451530684957,
+      "tps": 590.7451530684957,
       "dtps": 0.0,
-      "total_damage": 77153.69764845559,
+      "total_damage": 70889.41836821943,
       "url": "/all-specs.html?spec=mage-fire&race=Troll"
     },
     {
@@ -935,10 +935,10 @@
       "class_name": "Mage",
       "name": "Fire",
       "role": "dps",
-      "dps": 648.24067705444,
-      "tps": 648.24067705444,
+      "dps": 585.7623626267816,
+      "tps": 585.7623626267816,
       "dtps": 0.0,
-      "total_damage": 77788.88124653276,
+      "total_damage": 70291.48351521375,
       "url": "/all-specs.html?spec=mage-fire&race=Skyborne%20%28Alliance%29"
     },
     {
@@ -947,10 +947,10 @@
       "class_name": "Mage",
       "name": "Frost",
       "role": "dps",
-      "dps": 563.4407457166237,
-      "tps": 563.4407457166237,
+      "dps": 556.1435532254212,
+      "tps": 556.1435532254212,
       "dtps": 0.0,
-      "total_damage": 67612.88948599483,
+      "total_damage": 66737.22638705054,
       "url": "/all-specs.html?spec=mage-frost&race=Human"
     },
     {
@@ -959,10 +959,10 @@
       "class_name": "Mage",
       "name": "Frost",
       "role": "dps",
-      "dps": 558.2810321077208,
-      "tps": 558.2810321077208,
+      "dps": 551.0240712382321,
+      "tps": 551.0240712382321,
       "dtps": 0.0,
-      "total_damage": 66993.7238529265,
+      "total_damage": 66122.8885485879,
       "url": "/all-specs.html?spec=mage-frost&race=Gnome"
     },
     {
@@ -971,10 +971,10 @@
       "class_name": "Mage",
       "name": "Frost",
       "role": "dps",
-      "dps": 557.6550783953429,
-      "tps": 557.6550783953429,
+      "dps": 549.0391103197675,
+      "tps": 549.0391103197675,
       "dtps": 0.0,
-      "total_damage": 66918.60940744115,
+      "total_damage": 65884.6932383721,
       "url": "/all-specs.html?spec=mage-frost&race=Orc"
     },
     {
@@ -983,10 +983,10 @@
       "class_name": "Mage",
       "name": "Frost",
       "role": "dps",
-      "dps": 553.2787498088215,
-      "tps": 553.2787498088215,
+      "dps": 547.6293386753464,
+      "tps": 547.6293386753464,
       "dtps": 0.0,
-      "total_damage": 66393.44997705852,
+      "total_damage": 65715.5206410416,
       "url": "/all-specs.html?spec=mage-frost&race=Undead"
     },
     {
@@ -995,10 +995,10 @@
       "class_name": "Mage",
       "name": "Frost",
       "role": "dps",
-      "dps": 564.7390501156145,
-      "tps": 564.7390501156145,
+      "dps": 549.3815543938431,
+      "tps": 549.3815543938431,
       "dtps": 0.0,
-      "total_damage": 67768.68601387371,
+      "total_damage": 65925.78652726117,
       "url": "/all-specs.html?spec=mage-frost&race=Troll"
     },
     {
@@ -1007,10 +1007,10 @@
       "class_name": "Mage",
       "name": "Frost",
       "role": "dps",
-      "dps": 564.5260406711627,
-      "tps": 564.5260406711627,
+      "dps": 550.8001421925209,
+      "tps": 550.8001421925209,
       "dtps": 0.0,
-      "total_damage": 67743.1248805395,
+      "total_damage": 66096.01706310252,
       "url": "/all-specs.html?spec=mage-frost&race=Skyborne%20%28Alliance%29"
     },
     {
@@ -1475,10 +1475,10 @@
       "class_name": "Shaman",
       "name": "Enhancement",
       "role": "dps",
-      "dps": 645.7578417593337,
-      "tps": 645.7578417593337,
+      "dps": 642.4496337000263,
+      "tps": 642.4496337000263,
       "dtps": 0.0,
-      "total_damage": 77490.94101112006,
+      "total_damage": 77093.9560440031,
       "url": "/all-specs.html?spec=shaman-enhancement&race=Dwarf"
     },
     {
@@ -1487,10 +1487,10 @@
       "class_name": "Shaman",
       "name": "Enhancement",
       "role": "dps",
-      "dps": 642.5913545596998,
-      "tps": 642.5913545596998,
+      "dps": 639.1159186776283,
+      "tps": 639.1159186776283,
       "dtps": 0.0,
-      "total_damage": 77110.96254716394,
+      "total_damage": 76693.9102413154,
       "url": "/all-specs.html?spec=shaman-enhancement&race=Orc"
     },
     {
@@ -1499,10 +1499,10 @@
       "class_name": "Shaman",
       "name": "Enhancement",
       "role": "dps",
-      "dps": 639.4913549202345,
-      "tps": 639.4913549202345,
+      "dps": 632.7865309085724,
+      "tps": 632.7865309085724,
       "dtps": 0.0,
-      "total_damage": 76738.96259042814,
+      "total_damage": 75934.38370902868,
       "url": "/all-specs.html?spec=shaman-enhancement&race=Tauren"
     },
     {
@@ -1511,10 +1511,10 @@
       "class_name": "Shaman",
       "name": "Enhancement",
       "role": "dps",
-      "dps": 648.7412570390301,
-      "tps": 648.7412570390301,
+      "dps": 634.8519103426071,
+      "tps": 634.8519103426071,
       "dtps": 0.0,
-      "total_damage": 77848.95084468366,
+      "total_damage": 76182.22924111281,
       "url": "/all-specs.html?spec=shaman-enhancement&race=Troll"
     },
     {
@@ -1523,10 +1523,10 @@
       "class_name": "Shaman",
       "name": "Enhancement",
       "role": "dps",
-      "dps": 644.0363914002307,
-      "tps": 644.0363914002307,
+      "dps": 640.760148618575,
+      "tps": 640.760148618575,
       "dtps": 0.0,
-      "total_damage": 77284.36696802765,
+      "total_damage": 76891.217834229,
       "url": "/all-specs.html?spec=shaman-enhancement&race=Skyborne%20%28Horde%29"
     },
     {
