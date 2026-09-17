@@ -3,7 +3,7 @@ const $ = id => document.getElementById(id);
 const fmt = (n, d = 1) => Number(n).toLocaleString(undefined, { minimumFractionDigits: d, maximumFractionDigits: d });
 const PM = "±", DOT = " · ";
 const specId = new URLSearchParams(location.search).get("spec") || "warrior-arms";
-let data, spec, profile, baseProfile, points = {}, trees = [], catalogItems = [], pickerIndex = -1, lastResult = null;
+let data, spec, profile, baseProfile, points = {}, trees = [], catalogItems = [], pickerIndex = -1, lastResult = null, wsData = null;
 
 const enchantSlot = s => ({ "Head": "head", "Shoulders": "shoulders", "Back": "back", "Chest": "chest", "Wrist": "wrist", "Hands": "hands", "Legs": "legs", "Feet": "feet", "Main Hand": "main_hand", "Off Hand": "off_hand", "Ranged / Relic": "ranged" })[s] || "";
 const petFamilies = { cat: { name: "Cat", abilities: ["Bite", "Claw"], damage: 1.10 }, wind_serpent: { name: "Wind Serpent", abilities: ["Bite", "Lightning Breath"], damage: 1.07 }, bat: { name: "Bat", abilities: ["Bite", "Screech"], damage: 1.07 }, bear: { name: "Bear", abilities: ["Bite", "Claw"], damage: .91 }, boar: { name: "Boar", abilities: ["Bite"], damage: .90 }, carrion_bird: { name: "Carrion Bird", abilities: ["Bite", "Claw"], damage: 1 }, owl: { name: "Owl", abilities: ["Claw"], damage: 1.07 }, crab: { name: "Crab", abilities: ["Claw"], damage: .95 }, crocolisk: { name: "Crocolisk", abilities: ["Bite"], damage: 1 }, gorilla: { name: "Gorilla", abilities: ["Bite"], damage: 1.02 }, hyena: { name: "Hyena", abilities: ["Bite"], damage: 1 }, raptor: { name: "Raptor", abilities: ["Bite", "Claw"], damage: 1.10 }, scorpid: { name: "Scorpid", abilities: ["Scorpid Poison", "Claw"], damage: .94 }, spider: { name: "Spider", abilities: ["Bite"], damage: 1.07 }, tallstrider: { name: "Tallstrider", abilities: ["Bite"], damage: 1 }, turtle: { name: "Turtle", abilities: ["Bite"], damage: .90 }, wolf: { name: "Wolf", abilities: ["Bite"], damage: 1 } };
@@ -161,7 +161,8 @@ async function run() {
 
 // ---------------------------------------------------------------- init
 async function init() {
-  const [bootstrap, itemPayload] = await Promise.all([fetch("/data/spec-bootstrap.json").then(r => r.json()), fetch("/data/items.json").then(r => r.json())]);
+  const [bootstrap, itemPayload, wsPayload] = await Promise.all([fetch("/data/spec-bootstrap.json").then(r => r.json()), fetch("/data/items.json").then(r => r.json()), fetch("/data/wowsims-import.json").then(r => r.json()).catch(() => null)]);
+  wsData = wsPayload;
   ForeverSim.warm();
   data = bootstrap; catalogItems = itemPayload.items; spec = data.specs.find(x => x.id === specId);
   baseProfile = structuredClone(data.gear.profiles[specId]); if (!spec || !baseProfile) { location.href = "/"; return; }
@@ -190,4 +191,53 @@ $("clearItem").onclick = () => { const slot = profile.gear[pickerIndex].slot; pr
 $("itemDialog").addEventListener("close", () => { hideTip(); document.body.appendChild($("tooltip")); });
 $("resetProfile").onclick = () => { profile = structuredClone(baseProfile); profile.gear.forEach(x => x.enchant = defaultEnchant(x)); autoTalents(); renderGear(); renderOptions("buffs", data.settings.raid_buffs, "buffs"); renderOptions("consumables", data.consumables.items, "consumables"); showTab("gear"); };
 $("exportProfile").onclick = () => { const output = { ruleset: "World of Warcraft Forever prototype", spec: spec.id, race: $("race").value, gear: Object.fromEntries(profile.gear.map(x => [x.slot, { item_id: x.id, enchant_id: x.enchant?.id || null }])), talents: points, encounter: { duration: +$("duration").value, boss_armor: +$("armor").value, targets: +$("targets").value, boss_type: $("bossType").value } }; const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify(output, null, 2)], { type: "application/json" })); a.download = `${spec.id}-forever-profile.json`; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000); };
+
+// ---------------------------------------------------------------- WoWSims Exporter import
+function applyWowSimsImport(text) {
+  if (!wsData) throw new Error("Import data failed to load; reload the page and try again.");
+  const parsed = WowSimsImport.parseExport(text);
+  if (WowSimsImport.norm(parsed.className) !== WowSimsImport.norm(spec.class_name)) {
+    throw new Error(`That export is for a ${parsed.className}. Open a ${spec.class_name} spec page to import it.`);
+  }
+  const notes = [];
+  const raceNames = spec.races || ["Human"];
+  const raceMatch = raceNames.find(r => WowSimsImport.norm(r) === WowSimsImport.norm(parsed.raceName));
+  if (raceMatch) { $("race").value = raceMatch; renderRace(); }
+  else notes.push(`Race "${parsed.raceName}" isn't in the Forever roster for ${spec.class_name}; kept ${$("race").value}.`);
+  const foreverTrees = data.talents.classes[spec.class_name.toLowerCase()] || [];
+  const { positions, error } = WowSimsImport.decodeTalentPositions(wsData, spec.class_name, parsed.talentsStr);
+  if (error) throw new Error(error);
+  const { byId, unmatched, primaryTree } = WowSimsImport.matchForeverTalents(foreverTrees, positions);
+  points = byId;
+  if (unmatched.length) notes.push(`${unmatched.length} talent point(s) couldn't be matched to a Forever talent and were skipped.`);
+  if (primaryTree && WowSimsImport.norm(primaryTree) !== WowSimsImport.norm(spec.tree)) notes.push(`Most of the imported points are in ${primaryTree}, not ${spec.tree} — you may want the ${primaryTree} spec page instead.`);
+  renderTalents();
+  let equipped = 0, itemsMissing = 0;
+  profile.gear.forEach(row => {
+    const imp = WowSimsImport.gearForLabel(parsed.gearItems, row.slot);
+    if (!imp) return;
+    const full = catalogItems.find(x => x.id === imp.id);
+    if (!full) { itemsMissing++; return; }
+    Object.assign(row, { ...full, slot: row.slot, enchant: null });
+    equipped++;
+    if (row.slot === "Main Hand" && full.slot === "Two-Hand") { const oh = profile.gear.find(x => x.slot === "Off Hand"); if (oh) Object.assign(oh, { slot: "Off Hand", id: 0, name: "Empty (two-hand equipped)", icon: "inv_misc_questionmark", quality: "Common", itemLevel: 0, stats: {}, effects: [] }); }
+    const rows = enchantRows(row);
+    const match = WowSimsImport.resolveEnchant(wsData, imp.enchant, enchantSlot(row.slot));
+    row.enchant = (match && rows.find(x => x.id === match.id)) || null;
+  });
+  if (itemsMissing) notes.push(`${itemsMissing} equipped item(s) aren't in this catalog (wrong phase or not carried) and were left as-is.`);
+  renderGear();
+  return { equipped, notes };
+}
+$("importButton").onclick = () => { $("importStatus").textContent = ""; $("importStatus").className = "import-status"; $("importText").value = ""; $("importDialog").showModal(); $("importText").focus(); };
+$("importApply").onclick = () => {
+  const status = $("importStatus");
+  try {
+    const { equipped, notes } = applyWowSimsImport($("importText").value);
+    status.textContent = `Imported ${equipped} item(s), race and talents.${notes.length ? String.fromCharCode(10) + notes.join(String.fromCharCode(10)) : ""}`;
+    status.className = "import-status ok";
+    setTimeout(() => $("importDialog").close(), notes.length ? 2600 : 1200);
+  } catch (e) { status.textContent = e.message; status.className = "import-status error"; }
+};
+
 init().catch(e => { $("error").textContent = e.message; });

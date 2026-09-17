@@ -75,7 +75,7 @@ def api_payloads():
             "phase6_bis": PHASE6_BIS, "talent_data": TALENT_DATA, "consumable_data": CONSUMABLE_DATA, "setting_data": server.SETTING_DATA,
             "races": ed.CLASS_RACES["Paladin"], "racials": all_specs.public_racials(), "defaults": server.DEFAULTS,
         },
-        "items": {"version": CATALOG["version"], "items": CATALOG["items"] + server.EXTRA_ITEMS["items"]},
+        "items": {"version": CATALOG["version"], "items": list(all_specs.ITEMS.values())},  # full merged catalog: classic_era_items + extra_items + phase12_bis-only rows + engine hardcoded supplements
         "specs": {"specs": all_specs.public_specs()},
         "benchmarks": server.default_benchmarks(),
         "spec-bootstrap": {

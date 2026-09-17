@@ -267,3 +267,12 @@ a.brand{text-decoration:none;color:inherit;transition:filter var(--fast)}a.brand
 .set-bonus b{color:#c5b8c0;margin-right:4px}.set-bonus em{display:block;font-style:normal;font-family:var(--font-mono);font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:2px}
 .set-bonus.active{color:var(--text);border-left-color:var(--teal)}.set-bonus.active.modeled em{color:#70d99b}.set-bonus.active.unmodeled{border-left-color:#ff7a90}.set-bonus.active.unmodeled em{color:#ff7a90}
 .set-none{font-size:.72rem;color:var(--muted);margin:0}
+/* WoWSims Exporter import */
+.import-hint{margin:0 0 10px;font-size:.72rem;line-height:1.5;color:var(--muted)}.import-hint a{color:var(--teal)}
+.sim-button.ghost{background:transparent;color:var(--teal);border:1px solid var(--teal)}.sim-button.ghost:hover{background:rgba(63,198,232,.12)}
+.import-shell{max-width:560px}.import-body{padding:16px 20px}.import-body>p{margin:0 0 10px;font-size:.76rem;color:var(--muted);line-height:1.5}
+#importText{width:100%;box-sizing:border-box;min-height:160px;background:var(--input,#0d1320);border:1px solid #3c4a60;color:#fff;font-family:var(--font-mono);font-size:.72rem;padding:10px;resize:vertical}
+#importText:focus{outline:0;border-color:var(--teal)}
+.import-status{margin:10px 0 0;font-size:.76rem;line-height:1.5;color:var(--muted);white-space:pre-line}.import-status.ok{color:#70d99b}.import-status.error{color:#ff7a90}
+.import-shell footer{display:flex;justify-content:flex-end;gap:10px;padding:0 20px 18px}
+.cancel-btn{background:transparent;border:1px solid var(--line);color:var(--muted);padding:9px 16px;cursor:pointer;font-family:var(--font-head);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase}.cancel-btn:hover{color:#fff;border-color:#fff}

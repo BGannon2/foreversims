@@ -371,7 +371,7 @@ function exportResult(){
 async function init(){
   buildFields();
   try{
-    const [response,itemResponse]=await Promise.all([fetch("/data/bootstrap.json"),fetch("/data/items.json")]); if(!response.ok||!itemResponse.ok) throw new Error("Simulator data unavailable."); ForeverSim.warm(); state.boot=await response.json(); const catalog=await itemResponse.json(); state.items=catalog.items; state.itemsById=new Map(state.items.map(item=>[item.id,item]));
+    const [response,itemResponse,wsResponse]=await Promise.all([fetch("/data/bootstrap.json"),fetch("/data/items.json"),fetch("/data/wowsims-import.json").catch(()=>null)]); if(!response.ok||!itemResponse.ok) throw new Error("Simulator data unavailable."); ForeverSim.warm(); state.wsData=wsResponse&&wsResponse.ok?await wsResponse.json():null; state.boot=await response.json(); const catalog=await itemResponse.json(); state.items=catalog.items; state.itemsById=new Map(state.items.map(item=>[item.id,item]));
     $("serverDot").classList.add("online"); $("serverText").textContent="Browser engine ready";
     $("gearVersion").textContent=`Classic Anniversary Phase 1–2 preset equipped · ${state.items.length.toLocaleString()} items`;
     const sources=$("sources"); Object.entries(state.boot.sources).forEach(([name,url])=>{ const p=document.createElement("p"); const a=document.createElement("a"); a.href=url; a.target="_blank"; a.rel="noopener noreferrer"; a.textContent=labelize(name); p.append(a); sources.append(p); });
@@ -385,6 +385,52 @@ async function init(){
     const requestedRace=new URLSearchParams(location.search).get("race"); if(requestedRace&&(state.boot.races||[]).includes(requestedRace)){state.profile.race=requestedRace;$("race").value=requestedRace;$("race").dispatchEvent(new Event("change"));}
   }catch(error){ $("serverText").textContent="Server connection failed"; $("formError").textContent=error.message; }
 }
+
+
+// ---------------------------------------------------------------- WoWSims Exporter import
+function applyWowSimsImportPaladin(text){
+  if(!state.wsData) throw new Error("Import data failed to load; reload the page and try again.");
+  const parsed=WowSimsImport.parseExport(text);
+  if(WowSimsImport.norm(parsed.className)!=="paladin") throw new Error(`That export is for a ${parsed.className}. This page only imports Paladin exports.`);
+  const {positions,error}=WowSimsImport.decodeTalentPositions(state.wsData,"Paladin",parsed.talentsStr);
+  if(error) throw new Error(error);
+  const totals={};
+  positions.forEach(p=>{totals[p.tree]=(totals[p.tree]||0)+p.rank});
+  const protPts=totals["Protection"]||0, retPts=totals["Retribution"]||0, holyPts=totals["Holy"]||0;
+  if(protPts===0&&retPts===0&&holyPts>0) throw new Error("This looks like a Holy Paladin build; only Protection and Retribution are modeled.");
+  const spec=protPts>=retPts?"protection":"retribution";
+  selectSpec(spec);
+  const notes=[];
+  if(holyPts>Math.max(protPts,retPts)) notes.push(`Most points are in Holy (not modeled); imported as ${labelize(spec)} based on the remaining points.`);
+  const raceOk=(state.boot.races||[]).some(r=>WowSimsImport.norm(r)===WowSimsImport.norm(parsed.raceName));
+  if(raceOk) state.profile.race=(state.boot.races||[]).find(r=>WowSimsImport.norm(r)===WowSimsImport.norm(parsed.raceName));
+  else notes.push(`Race "${parsed.raceName}" isn't in the Forever Paladin roster; kept ${state.profile.race}.`);
+  const {byId,unmatched}=WowSimsImport.matchForeverTalents(state.boot.talent_data.trees,positions);
+  Object.keys(state.profile.talents).forEach(id=>{state.profile.talents[id]=byId[id]||0});
+  if(unmatched.length) notes.push(`${unmatched.length} talent point(s) couldn't be matched to a Forever talent and were skipped.`);
+  let equipped=0, itemsMissing=0;
+  WowSimsImport.SLOT_ORDER.forEach(([,key])=>{
+    const imp=WowSimsImport.gearForKey(parsed.gearItems,key);
+    if(!imp){ state.profile.gear[key]=0; return; }
+    if(!state.itemsById.has(imp.id)){ itemsMissing++; state.profile.gear[key]=0; return; }
+    state.profile.gear[key]=imp.id; equipped++;
+    const item=state.itemsById.get(imp.id);
+    if(key==="main_hand"&&item.slot==="Two-Hand") state.profile.gear.off_hand=0;
+  });
+  if(itemsMissing) notes.push(`${itemsMissing} equipped item(s) aren't in this catalog (wrong phase or not carried) and were left empty.`);
+  hydrateForm(); buildGear(); buildTalents();
+  return {equipped,notes};
+}
+$("importButton").addEventListener("click",()=>{$("importStatus").textContent="";$("importStatus").className="import-status";$("importText").value="";$("importDialog").showModal();$("importText").focus()});
+$("importApply").addEventListener("click",()=>{
+  const status=$("importStatus");
+  try{
+    const {equipped,notes}=applyWowSimsImportPaladin($("importText").value);
+    status.textContent=`Imported ${equipped} item(s), race and talents.${notes.length?String.fromCharCode(10)+notes.join(String.fromCharCode(10)):""}`;
+    status.className="import-status ok";
+    setTimeout(()=>$("importDialog").close(),notes.length?2600:1200);
+  }catch(e){ status.textContent=e.message; status.className="import-status error"; }
+});
 
 document.querySelectorAll(".spec").forEach(b=>b.addEventListener("click",()=>selectSpec(b.dataset.spec)));
 function showPanel(name){
