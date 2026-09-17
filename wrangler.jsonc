@@ -4,6 +4,12 @@
   "main": "worker.js",
   "compatibility_date": "2026-09-17",
   "observability": { "enabled": true },
+  "workers_dev": true,
+  "preview_urls": true,
+  "routes": [
+    { "pattern": "foreversims.com", "custom_domain": true },
+    { "pattern": "www.foreversims.com", "custom_domain": true }
+  ],
   "assets": {
     "directory": "web",
     "binding": "ASSETS",
