@@ -72,7 +72,8 @@ function positionInfoTooltip(event){
   const box=tip.getBoundingClientRect(); if(x+box.width>innerWidth-pad)x=cx-box.width-16;if(y+box.height>innerHeight-pad)y=innerHeight-box.height-pad;
   tip.style.left=`${Math.max(pad,x)}px`;tip.style.top=`${Math.max(pad,y)}px`;
 }
-function showInfoTooltip(html,event){const tip=$("infoTooltip");tip.innerHTML=html;tip.hidden=false;positionInfoTooltip(event)}
+function hostTooltip(tip){const host=document.querySelector("dialog[open]")||document.body;if(tip.parentNode!==host)host.append(tip)}
+function showInfoTooltip(html,event){const tip=$("infoTooltip");hostTooltip(tip);tip.innerHTML=html;tip.hidden=false;positionInfoTooltip(event)}
 function hideInfoTooltip(){$("infoTooltip").hidden=true}
 
 function buildConsumables(){
