@@ -1,0 +1,26 @@
+[package]
+name = "forever_engine"
+version = "0.1.0"
+edition = "2021"
+description = "Forever Sims combat engine (Rust port of engine.py / sim.py) compiled to WebAssembly"
+license = "MIT"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[[bin]]
+name = "forever-sim"
+path = "src/bin/forever_sim.rs"
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["preserve_order"] }
+indexmap = { version = "2", features = ["serde"] }
+regex-lite = "0.1"
+wasm-bindgen = "=0.2.128"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"

@@ -1,0 +1,536 @@
+{
+  "duration": 120,
+  "iterations": 60,
+  "rows": [
+    {
+      "spec": "warrior-arms",
+      "dps": 809.2,
+      "tps": 762.1,
+      "without_gear": 211.4,
+      "without_talents": 516.5,
+      "without_buffs": 380.9,
+      "wowsims_world_buffed": [
+        null,
+        null
+      ],
+      "ratio_to_world_buffed": null,
+      "starved": 0.0,
+      "checks": {
+        "gear_increases_dps": true,
+        "talents_increase_dps": true,
+        "buffs_increase_dps": true,
+        "breakdown_reconciles": true,
+        "finite_positive": true,
+        "no_calibration": true,
+        "glancing_blows_present": true,
+        "glance_rate_plausible": true
+      }
+    },
+    {
+      "spec": "warrior-fury",
+      "dps": 889.3,
+      "tps": 853.8,
+      "without_gear": 238.9,
+      "without_talents": 498.1,
+      "without_buffs": 412.6,
+      "wowsims_world_buffed": [
+        1454,
+        1807
+      ],
+      "ratio_to_world_buffed": 0.545,
+      "starved": 0.0,
+      "checks": {
+        "gear_increases_dps": true,
+        "talents_increase_dps": true,
+        "buffs_increase_dps": true,
+        "breakdown_reconciles": true,
+        "finite_positive": true,
+        "no_calibration": true,
+        "glancing_blows_present": true,
+        "glance_rate_plausible": true
+      }
+    },
+    {
+      "spec": "warrior-protection",
+      "dps": 328.1,
+      "tps": 830.0,
+      "without_gear": 183.2,
+      "without_talents": 254.2,
+      "without_buffs": 217.8,
+      "wowsims_world_buffed": [
+        385,
+        416
+      ],
+      "ratio_to_world_buffed": 0.819,
+      "starved": 0.0,
+      "checks": {
+        "gear_increases_dps": true,
+        "talents_increase_dps": true,
+        "buffs_increase_dps": true,
+        "breakdown_reconciles": true,
+        "finite_positive": true,
+        "no_calibration": true,
+        "glancing_blows_present": true,
+        "glance_rate_plausible": true,
+        "tank_takes_damage": true,
+        "tank_threat_exceeds_damage": true
+      }
+    },
+    {
+      "spec": "druid-balance",
+      "dps": 367.1,
+      "tps": 367.1,
+      "without_gear": 205.0,
+      "without_talents": 227.8,
+      "without_buffs": 170.7,
+      "wowsims_world_buffed": [
+        217,
+        242
+      ],
+      "ratio_to_world_buffed": 1.599,
+      "starved": 0.301,
+      "checks": {
+        "gear_increases_dps": true,
+        "talents_increase_dps": true,
+        "buffs_increase_dps": true,
+        "breakdown_reconciles": true,
+        "finite_positive": true,
+        "no_calibration": true,
+        "cast_time_respected": true
+      }
+    },
+    {
+      "spec": "druid-feral-dps",
+      "dps": 418.9,
+      "tps": 297.4,
+      "without_gear": 308.6,
+      "without_talents": 264.5,
+      "without_buffs": 241.1,
+      "wowsims_world_buffed": [
+        475,
+        568
+      ],
+      "ratio_to_world_buffed": 0.803,
+      "starved": 0.0,
+      "checks": {
+        "gear_increases_dps": true,
+        "talents_increase_dps": true,
+        "buffs_increase_dps": true,
+        "breakdown_reconciles": true,
+        "finite_positive": true,
+        "no_calibration": true,
+        "glancing_blows_present": true,
+        "glance_rate_plausible": true,
+        "energy_budget_respected": true
+      }
+    },
+    {
+      "spec": "druid-feral-tank",
+      "dps": 314.0,
+      "tps": 811.7,
+      "without_gear": 238.8,
+      "without_talents": 221.6,
+      "without_buffs": 218.2,
+      "wowsims_world_buffed": [
+        null,
+        null
+      ],
+      "ratio_to_world_buffed": null,
+      "starved": 0.0,
+      "checks": {
+        "gear_increases_dps": true,
+        "talents_increase_dps": true,
+        "buffs_increase_dps": true,
+        "breakdown_reconciles": true,
+        "finite_positive": true,
+        "no_calibration": true,
+        "glancing_blows_present": true,
+        "glance_rate_plausible": true,
+        "tank_takes_damage": true,
+        "tank_threat_exceeds_damage": true
+      }
+    },
+    {
+      "spec": "hunter-beast-mastery",
+      "dps": 550.7,
+      "tps": 550.7,
+      "without_gear": 331.0,
+      "without_talents": 423.2,
+      "without_buffs": 398.9,
+      "wowsims_world_buffed": [
+        457,
+        475
+      ],
+      "ratio_to_world_buffed": 1.182,
+      "starved": 0.0,
+      "checks": {
+        "gear_increases_dps": true,
+        "talents_increase_dps": true,
+        "buffs_increase_dps": true,
+        "breakdown_reconciles": true,
+        "finite_positive": true,
+        "no_calibration": true
+      }
+    },
+    {
+      "spec": "hunter-marksmanship",
+      "dps": 597.1,
+      "tps": 597.1,
+      "without_gear": 355.3,
+      "without_talents": 462.2,
+      "without_buffs": 397.7,
+      "wowsims_world_buffed": [
+        457,
+        475
+      ],
+      "ratio_to_world_buffed": 1.281,
+      "starved": 0.427,
+      "checks": {
+        "gear_increases_dps": true,
+        "talents_increase_dps": true,
+        "buffs_increase_dps": true,
+        "breakdown_reconciles": true,
+        "finite_positive": true,
+        "no_calibration": true
+      }
+    },
+    {
+      "spec": "hunter-survival",
+      "dps": 588.4,
+      "tps": 588.4,
+      "without_gear": 356.7,
+      "without_talents": 451.5,
+      "without_buffs": 401.0,
+      "wowsims_world_buffed": [
+        457,
+        475
+      ],
+      "ratio_to_world_buffed": 1.263,
+      "starved": 0.456,
+      "checks": {
+        "gear_increases_dps": true,
+        "talents_increase_dps": true,
+        "buffs_increase_dps": true,
+        "breakdown_reconciles": true,
+        "finite_positive": true,
+        "no_calibration": true
+      }
+    },
+    {
+      "spec": "mage-arcane",
+      "dps": 408.2,
+      "tps": 408.2,
+      "without_gear": 237.7,
+      "without_talents": 237.3,
+      "without_buffs": 268.0,
+      "wowsims_world_buffed": [
+        473,
+        521
+      ],
+      "ratio_to_world_buffed": 0.821,
+      "starved": 0.0,
+      "checks": {
+        "gear_increases_dps": true,
+        "talents_increase_dps": true,
+        "buffs_increase_dps": true,
+        "breakdown_reconciles": true,
+        "finite_positive": true,
+        "no_calibration": true,
+        "cast_time_respected": true
+      }
+    },
+    {
+      "spec": "mage-fire",
+      "dps": 658.5,
+      "tps": 658.5,
+      "without_gear": 320.1,
+      "without_talents": 311.3,
+      "without_buffs": 321.3,
+      "wowsims_world_buffed": [
+        473,
+        521
+      ],
+      "ratio_to_world_buffed": 1.325,
+      "starved": 0.099,
+      "checks": {
+        "gear_increases_dps": true,
+        "talents_increase_dps": true,
+        "buffs_increase_dps": true,
+        "breakdown_reconciles": true,
+        "finite_positive": true,
+        "no_calibration": true,
+        "cast_time_respected": true
+      }
+    },
+    {
+      "spec": "mage-frost",
+      "dps": 562.5,
+      "tps": 562.5,
+      "without_gear": 281.3,
+      "without_talents": 322.7,
+      "without_buffs": 285.5,
+      "wowsims_world_buffed": [
+        473,
+        521
+      ],
+      "ratio_to_world_buffed": 1.132,
+      "starved": 0.0,
+      "checks": {
+        "gear_increases_dps": true,
+        "talents_increase_dps": true,
+        "buffs_increase_dps": true,
+        "breakdown_reconciles": true,
+        "finite_positive": true,
+        "no_calibration": true,
+        "cast_time_respected": true
+      }
+    },
+    {
+      "spec": "priest-shadow",
+      "dps": 486.8,
+      "tps": 340.8,
+      "without_gear": 389.7,
+      "without_talents": 157.4,
+      "without_buffs": 387.0,
+      "wowsims_world_buffed": [
+        483,
+        504
+      ],
+      "ratio_to_world_buffed": 0.986,
+      "starved": 0.0,
+      "checks": {
+        "gear_increases_dps": true,
+        "talents_increase_dps": true,
+        "buffs_increase_dps": true,
+        "breakdown_reconciles": true,
+        "finite_positive": true,
+        "no_calibration": true,
+        "cast_time_respected": true
+      }
+    },
+    {
+      "spec": "rogue-assassination",
+      "dps": 660.7,
+      "tps": 469.1,
+      "without_gear": 255.7,
+      "without_talents": 466.0,
+      "without_buffs": 397.3,
+      "wowsims_world_buffed": [
+        1018,
+        1221
+      ],
+      "ratio_to_world_buffed": 0.59,
+      "starved": 0.0,
+      "checks": {
+        "gear_increases_dps": true,
+        "talents_increase_dps": true,
+        "buffs_increase_dps": true,
+        "breakdown_reconciles": true,
+        "finite_positive": true,
+        "no_calibration": true,
+        "glancing_blows_present": true,
+        "glance_rate_plausible": true,
+        "energy_budget_respected": true
+      }
+    },
+    {
+      "spec": "rogue-combat",
+      "dps": 725.1,
+      "tps": 514.8,
+      "without_gear": 264.6,
+      "without_talents": 491.4,
+      "without_buffs": 421.5,
+      "wowsims_world_buffed": [
+        1018,
+        1221
+      ],
+      "ratio_to_world_buffed": 0.648,
+      "starved": 0.0,
+      "checks": {
+        "gear_increases_dps": true,
+        "talents_increase_dps": true,
+        "buffs_increase_dps": true,
+        "breakdown_reconciles": true,
+        "finite_positive": true,
+        "no_calibration": true,
+        "glancing_blows_present": true,
+        "glance_rate_plausible": true,
+        "energy_budget_respected": true
+      }
+    },
+    {
+      "spec": "rogue-subtlety",
+      "dps": 628.8,
+      "tps": 446.5,
+      "without_gear": 240.6,
+      "without_talents": 291.0,
+      "without_buffs": 358.4,
+      "wowsims_world_buffed": [
+        1018,
+        1221
+      ],
+      "ratio_to_world_buffed": 0.562,
+      "starved": 0.0,
+      "checks": {
+        "gear_increases_dps": true,
+        "talents_increase_dps": true,
+        "buffs_increase_dps": true,
+        "breakdown_reconciles": true,
+        "finite_positive": true,
+        "no_calibration": true,
+        "glancing_blows_present": true,
+        "glance_rate_plausible": true,
+        "energy_budget_respected": true
+      }
+    },
+    {
+      "spec": "shaman-elemental",
+      "dps": 415.8,
+      "tps": 401.8,
+      "without_gear": 210.5,
+      "without_talents": 246.6,
+      "without_buffs": 200.0,
+      "wowsims_world_buffed": [
+        524,
+        583
+      ],
+      "ratio_to_world_buffed": 0.751,
+      "starved": 0.286,
+      "checks": {
+        "gear_increases_dps": true,
+        "talents_increase_dps": true,
+        "buffs_increase_dps": true,
+        "breakdown_reconciles": true,
+        "finite_positive": true,
+        "no_calibration": true,
+        "cast_time_respected": true
+      }
+    },
+    {
+      "spec": "shaman-enhancement",
+      "dps": 591.0,
+      "tps": 591.0,
+      "without_gear": 270.1,
+      "without_talents": 368.9,
+      "without_buffs": 343.4,
+      "wowsims_world_buffed": [
+        609,
+        669
+      ],
+      "ratio_to_world_buffed": 0.925,
+      "starved": 0.0,
+      "checks": {
+        "gear_increases_dps": true,
+        "talents_increase_dps": true,
+        "buffs_increase_dps": true,
+        "breakdown_reconciles": true,
+        "finite_positive": true,
+        "no_calibration": true,
+        "glancing_blows_present": true,
+        "glance_rate_plausible": true
+      }
+    },
+    {
+      "spec": "warlock-affliction",
+      "dps": 671.6,
+      "tps": 544.4,
+      "without_gear": 402.4,
+      "without_talents": 397.8,
+      "without_buffs": 476.3,
+      "wowsims_world_buffed": [
+        1008,
+        1052
+      ],
+      "ratio_to_world_buffed": 0.652,
+      "starved": 0.0,
+      "checks": {
+        "gear_increases_dps": true,
+        "talents_increase_dps": true,
+        "buffs_increase_dps": true,
+        "breakdown_reconciles": true,
+        "finite_positive": true,
+        "no_calibration": true,
+        "cast_time_respected": true
+      }
+    },
+    {
+      "spec": "warlock-demonology",
+      "dps": 598.7,
+      "tps": 488.2,
+      "without_gear": 403.4,
+      "without_talents": 439.1,
+      "without_buffs": 463.2,
+      "wowsims_world_buffed": [
+        878,
+        920
+      ],
+      "ratio_to_world_buffed": 0.666,
+      "starved": 0.0,
+      "checks": {
+        "gear_increases_dps": true,
+        "talents_increase_dps": true,
+        "buffs_increase_dps": true,
+        "breakdown_reconciles": true,
+        "finite_positive": true,
+        "no_calibration": true,
+        "cast_time_respected": true
+      }
+    },
+    {
+      "spec": "warlock-destruction",
+      "dps": 641.0,
+      "tps": 519.8,
+      "without_gear": 387.9,
+      "without_talents": 383.7,
+      "without_buffs": 464.3,
+      "wowsims_world_buffed": [
+        878,
+        1052
+      ],
+      "ratio_to_world_buffed": 0.664,
+      "starved": 0.0,
+      "checks": {
+        "gear_increases_dps": true,
+        "talents_increase_dps": true,
+        "buffs_increase_dps": true,
+        "breakdown_reconciles": true,
+        "finite_positive": true,
+        "no_calibration": true,
+        "cast_time_respected": true
+      }
+    }
+  ],
+  "focused": [
+    {
+      "name": "hunter pet contributes",
+      "passed": true,
+      "detail": "612.7 vs 468.3"
+    },
+    {
+      "name": "imp casts firebolt continuously",
+      "passed": true,
+      "detail": "35.0 casts in 60 s"
+    },
+    {
+      "name": "warlock pet selection changes output",
+      "passed": true,
+      "detail": "succubus 667.5, imp 647.3"
+    },
+    {
+      "name": "tank gear reduces incoming damage",
+      "passed": true,
+      "detail": "327.8 vs 634.5"
+    },
+    {
+      "name": "fire mage casts fireball as its primary spell",
+      "passed": true,
+      "detail": "Fireball 31.6, Scorch 17.6"
+    },
+    {
+      "name": "combat rogue builds combo points before finishing",
+      "passed": true,
+      "detail": "SS 34.4, Eviscerate 3.8"
+    }
+  ],
+  "failures": []
+}

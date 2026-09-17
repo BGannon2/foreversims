@@ -1,0 +1,32 @@
+{
+  "version": "wowhead-forever-2026-09-16",
+  "article": "https://www.wowhead.com/forever/news/new-and-updated-gear-set-bonuses-in-wow-forever-382958",
+  "sets": {
+    "Avenger's Battlegear": {
+      "source": "https://www.wowhead.com/forever/item-set=505/avengers-battlegear",
+      "bonuses": [
+        {"required": 3, "description": "Increases the duration of your Judgements by 20%.", "modeled": false},
+        {"required": 5, "description": "Increases damage and healing done by magical spells and effects by up to 71.", "stats": {"spellPower": 71}, "modeled": true}
+      ]
+    },
+    "Lightforge Armor": {
+      "source": "https://www.wowhead.com/forever/news/new-and-updated-gear-set-bonuses-in-wow-forever-382958#dungeon-sets",
+      "bonuses": [
+        {"required": 2, "description": "+8 All Resistances.", "stats": {"allResistance": 8}, "modeled": false},
+        {"required": 3, "description": "Increases damage and healing done by magical spells and effects by up to 18.", "stats": {"spellPower": 18}, "modeled": true},
+        {"required": 4, "description": "Rebuke set effect.", "modeled": false},
+        {"required": 5, "description": "Melee attacks and spell casts can grant 95 spell damage and healing for 10 sec.", "modeled": false},
+        {"required": 6, "description": "Restores 8 mana per 5 sec.", "stats": {"mp5": 8}, "modeled": true}
+      ]
+    },
+    "Soulforge Armor": {
+      "source": "https://www.wowhead.com/forever/news/new-and-updated-gear-set-bonuses-in-wow-forever-382958#dungeon-sets",
+      "bonuses": [
+        {"required": 2, "description": "+8 All Resistances.", "stats": {"allResistance": 8}, "modeled": false},
+        {"required": 3, "description": "Restores 8 mana per 5 sec.", "stats": {"mp5": 8}, "modeled": true},
+        {"required": 5, "description": "Rebuke set effect.", "modeled": false},
+        {"required": 6, "description": "Increases damage and healing done by magical spells and effects by up to 23.", "stats": {"spellPower": 23}, "modeled": true}
+      ]
+    }
+  }
+}

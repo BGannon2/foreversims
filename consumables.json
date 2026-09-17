@@ -1,0 +1,265 @@
+{
+  "source": "Wowhead Classic item records",
+  "items": [
+    {
+      "key": "flask_of_the_titans",
+      "id": 13510,
+      "name": "Flask of the Titans",
+      "kind": "Flask",
+      "description": "Increases maximum health by 1,200 for 2 hours. Persists through death.",
+      "group": "flask",
+      "icon": "inv_potion_62",
+      "wowhead": "https://www.wowhead.com/classic/item=13510"
+    },
+    {
+      "key": "elixir_of_the_mongoose",
+      "id": 13452,
+      "name": "Elixir of the Mongoose",
+      "kind": "Elixir",
+      "description": "Increases Agility by 25 and melee critical strike chance by 2% for 1 hour.",
+      "group": "agility",
+      "icon": "inv_potion_32",
+      "wowhead": "https://www.wowhead.com/classic/item=13452"
+    },
+    {
+      "key": "elixir_of_superior_defense",
+      "id": 13445,
+      "name": "Elixir of Superior Defense",
+      "kind": "Elixir",
+      "description": "Increases armor by 450 for 1 hour. Stacks with Greater Stoneshield Potion in Classic.",
+      "group": "armor_elixir",
+      "icon": "inv_potion_66",
+      "wowhead": "https://www.wowhead.com/classic/item=13445"
+    },
+    {
+      "key": "elixir_of_fortitude",
+      "id": 3825,
+      "name": "Elixir of Fortitude",
+      "kind": "Elixir",
+      "description": "Increases maximum health by 120 for 1 hour.",
+      "group": "health_elixir",
+      "icon": "inv_potion_43",
+      "wowhead": "https://www.wowhead.com/classic/item=3825"
+    },
+    {
+      "key": "greater_stoneshield_potion",
+      "id": 13455,
+      "name": "Greater Stoneshield Potion",
+      "kind": "Potion",
+      "description": "Increases armor by 2,000 for 2 minutes. Uses the shared combat-potion cooldown.",
+      "group": "combat_potion",
+      "icon": "inv_potion_69",
+      "wowhead": "https://www.wowhead.com/classic/item=13455"
+    },
+    {
+      "key": "smoked_desert_dumplings",
+      "id": 20452,
+      "name": "Smoked Desert Dumplings",
+      "kind": "Food",
+      "description": "Increases Strength by 20 for 15 minutes. Only one Well Fed food buff can be active.",
+      "group": "food",
+      "icon": "inv_misc_food_64",
+      "wowhead": "https://www.wowhead.com/classic/item=20452"
+    },
+    {
+      "key": "rumsey_rum_black_label",
+      "id": 21151,
+      "name": "Rumsey Rum Black Label",
+      "kind": "Alcohol",
+      "description": "Increases Stamina by 15 for 15 minutes. Only one alcohol stamina buff can be active.",
+      "group": "alcohol",
+      "icon": "inv_drink_04",
+      "wowhead": "https://www.wowhead.com/classic/item=21151"
+    },
+    {
+      "key": "mageblood_potion",
+      "id": 20007,
+      "name": "Mageblood Elixir",
+      "kind": "Elixir",
+      "description": "Restores 12 mana per 5 seconds for 1 hour.",
+      "group": "mana_regen",
+      "icon": "inv_potion_45",
+      "wowhead": "https://www.wowhead.com/classic/item=20007"
+    },
+    {
+      "key": "juju_power",
+      "id": 12451,
+      "name": "Juju Power",
+      "kind": "Juju",
+      "description": "Increases Strength by 30 for 30 minutes; conflicts with other Strength-family buffs such as Elixir of Giants.",
+      "group": "strength_family",
+      "icon": "inv_misc_monsterscales_11",
+      "wowhead": "https://www.wowhead.com/classic/item=12451"
+    },
+    {
+      "key": "juju_might",
+      "id": 12460,
+      "name": "Juju Might",
+      "kind": "Juju",
+      "description": "Increases attack power by 40 for 10 minutes; conflicts with Winterfall Firewater.",
+      "group": "attack_power_family",
+      "icon": "inv_misc_monsterscales_07",
+      "wowhead": "https://www.wowhead.com/classic/item=12460"
+    },
+    {
+      "key": "brilliant_wizard_oil",
+      "id": 20749,
+      "name": "Brilliant Wizard Oil",
+      "kind": "Weapon enhancement",
+      "description": "Adds 36 spell damage and 1% spell critical strike for 30 minutes. Only one temporary weapon enhancement can be active.",
+      "group": "weapon_enhancement",
+      "icon": "inv_potion_105",
+      "wowhead": "https://www.wowhead.com/classic/item=20749"
+    },
+    {
+      "key": "gift_of_arthas",
+      "id": 9088,
+      "name": "Gift of Arthas",
+      "kind": "Elixir",
+      "description": "Adds 10 Shadow Resistance and may afflict attackers, causing them to take 8 additional physical damage.",
+      "group": "reactive_elixir",
+      "icon": "inv_potion_28",
+      "wowhead": "https://www.wowhead.com/classic/item=9088"
+    },
+    {
+      "key": "flask_of_supreme_power",
+      "id": 13512,
+      "name": "Flask of Supreme Power",
+      "kind": "Flask",
+      "description": "Increases spell damage by 150 for 2 hours. Persists through death.",
+      "group": "flask",
+      "icon": "inv_potion_41",
+      "wowhead": "https://www.wowhead.com/classic/item=13512"
+    },
+    {
+      "key": "greater_arcane_elixir",
+      "id": 13454,
+      "name": "Greater Arcane Elixir",
+      "kind": "Elixir",
+      "description": "Increases spell damage by 35 for 1 hour.",
+      "group": "spell_elixir",
+      "icon": "inv_potion_25",
+      "wowhead": "https://www.wowhead.com/classic/item=13454"
+    },
+    {
+      "key": "elixir_of_greater_firepower",
+      "id": 21546,
+      "name": "Elixir of Greater Firepower",
+      "kind": "Elixir",
+      "description": "Increases Fire spell damage by 40 for 30 minutes.",
+      "group": "school_elixir",
+      "icon": "inv_potion_60",
+      "wowhead": "https://www.wowhead.com/classic/item=21546"
+    },
+    {
+      "key": "elixir_of_frost_power",
+      "id": 17708,
+      "name": "Elixir of Frost Power",
+      "kind": "Elixir",
+      "description": "Increases Frost spell damage by 15 for 30 minutes.",
+      "group": "school_elixir",
+      "icon": "inv_potion_03",
+      "wowhead": "https://www.wowhead.com/classic/item=17708"
+    },
+    {
+      "key": "grilled_squid",
+      "id": 13928,
+      "name": "Grilled Squid",
+      "kind": "Food",
+      "description": "Increases Agility by 10 for 10 minutes. Only one Well Fed food buff can be active.",
+      "group": "food",
+      "icon": "inv_misc_fish_13",
+      "wowhead": "https://www.wowhead.com/classic/item=13928"
+    },
+    {
+      "key": "major_mana_potion",
+      "id": 13444,
+      "name": "Major Mana Potion",
+      "kind": "Potion",
+      "description": "Restores mana and uses the shared combat-potion cooldown.",
+      "group": "combat_potion",
+      "icon": "inv_potion_76",
+      "wowhead": "https://www.wowhead.com/classic/item=13444"
+    },
+    {
+      "key": "demonic_rune",
+      "id": 12662,
+      "name": "Demonic Rune",
+      "kind": "Rune",
+      "description": "Converts health into mana; shares a cooldown with Dark Rune.",
+      "group": "rune",
+      "icon": "inv_misc_rune_04",
+      "wowhead": "https://www.wowhead.com/classic/item=12662"
+    },
+    {
+      "key": "mighty_rage_potion",
+      "id": 13442,
+      "name": "Mighty Rage Potion",
+      "kind": "Potion",
+      "description": "Grants rage and Strength; uses the shared combat-potion cooldown.",
+      "group": "combat_potion",
+      "icon": "inv_potion_41",
+      "wowhead": "https://www.wowhead.com/classic/item=13442"
+    },
+    {
+      "key": "thistle_tea",
+      "id": 7676,
+      "name": "Thistle Tea",
+      "kind": "Tea",
+      "description": "Restores Energy and is usable by rogues.",
+      "group": "combat_potion",
+      "icon": "inv_drink_milk_05",
+      "wowhead": "https://www.wowhead.com/classic/item=7676"
+    },
+    {
+      "key": "elemental_sharpening_stone",
+      "id": 18262,
+      "name": "Elemental Sharpening Stone",
+      "kind": "Weapon enhancement",
+      "description": "Adds melee critical strike chance to one weapon.",
+      "group": "weapon_enhancement",
+      "icon": "inv_stone_02",
+      "wowhead": "https://www.wowhead.com/classic/item=18262"
+    },
+    {
+      "key": "goblin_sapper_charge",
+      "id": 10646,
+      "name": "Goblin Sapper Charge",
+      "kind": "Engineering",
+      "description": "Explodes for 450 to 750 Fire damage to nearby enemies and the user.",
+      "group": "engineering",
+      "icon": "spell_fire_selfdestruct",
+      "wowhead": "https://www.wowhead.com/classic/item=10646"
+    },
+    {
+      "key": "dragonbreath_chili",
+      "id": 12217,
+      "name": "Dragonbreath Chili",
+      "kind": "Food proc",
+      "description": "Occasionally belches flame at enemies for additional Fire damage.",
+      "group": "misc_damage",
+      "icon": "inv_misc_organ_06",
+      "wowhead": "https://www.wowhead.com/classic/item=12217"
+    },
+    {
+      "key": "elixir_of_shadow_power",
+      "id": 9264,
+      "name": "Elixir of Shadow Power",
+      "kind": "Elixir",
+      "description": "Increases Shadow spell damage by 40 for 30 minutes.",
+      "group": "school_elixir",
+      "icon": "inv_potion_46",
+      "wowhead": "https://www.wowhead.com/classic/item=9264"
+    },
+    {
+      "key": "winterfall_firewater",
+      "id": 12820,
+      "name": "Winterfall Firewater",
+      "kind": "Juju",
+      "description": "Increases melee attack power by 35 for 20 minutes; conflicts with Juju Might.",
+      "group": "attack_power_family",
+      "icon": "inv_potion_92",
+      "wowhead": "https://www.wowhead.com/classic/item=12820"
+    }
+  ]
+}

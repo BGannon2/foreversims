@@ -1,0 +1,52 @@
+{
+  "protection": {
+    "name": "Classic Anniversary Phase 1\u20132 Protection preset",
+    "source": "https://github.com/wowsims/classic",
+    "relic_source": "https://www.wowhead.com/classic/item=22401",
+    "selection_note": "Phase 1 raid and Phase 2 Dire Maul/world-boss defensive pieces, adapted for the Forever Protection model; Libram retained because the UI requires the relic slot.",
+    "gear": {
+      "head": 11746,
+      "neck": 18404,
+      "shoulders": 12927,
+      "back": 18541,
+      "chest": 14624,
+      "wrist": 16735,
+      "main_hand": 18348,
+      "off_hand": 18168,
+      "hands": 14622,
+      "waist": 14620,
+      "legs": 14623,
+      "feet": 14621,
+      "finger1": 11669,
+      "finger2": 18879,
+      "trinket1": 11810,
+      "trinket2": 11815,
+      "relic": 22401
+    }
+  },
+  "retribution": {
+    "name": "Classic Anniversary Phase 1\u20132 Retribution preset",
+    "source": "https://github.com/wowsims/classic",
+    "relic_source": "https://www.wowhead.com/classic/item=23203",
+    "selection_note": "Phase 1 raid and Phase 2 Dire Maul/world-boss physical DPS pieces, adapted for the Forever Retribution model; Libram retained because the UI requires the relic slot.",
+    "gear": {
+      "head": 12640,
+      "neck": 18404,
+      "shoulders": 12927,
+      "back": 18541,
+      "chest": 11726,
+      "wrist": 19146,
+      "main_hand": 18822,
+      "off_hand": 0,
+      "hands": 19143,
+      "waist": 19137,
+      "legs": 14554,
+      "feet": 14616,
+      "finger1": 19325,
+      "finger2": 18821,
+      "trinket1": 11815,
+      "trinket2": 12930,
+      "relic": 23203
+    }
+  }
+}

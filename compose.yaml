@@ -1,0 +1,7 @@
+services:
+  forever-sim:
+    build: .
+    container_name: forever-sim
+    restart: unless-stopped
+    ports:
+      - "8765:8765"

@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+*.log
+engine-rs/target/
+.claude/
+work_*.py
+work_*.ts
+profiles/
+examples/
+app.py
+Launch.cmd
+Launch Web.cmd

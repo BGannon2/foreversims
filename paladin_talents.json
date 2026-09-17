@@ -1,0 +1,970 @@
+{
+  "version": "wowhead-forever-paladin-2026-09-16",
+  "source": "https://www.wowhead.com/forever/talent-calc/paladin",
+  "data_source": "https://nether.wowhead.com/forever/data/talents-classic?dv=19",
+  "max_points": 51,
+  "points_per_tier": 5,
+  "trees": [
+    {
+      "id": 382,
+      "name": "Holy",
+      "talents": [
+        {
+          "id": 105328,
+          "row": 0,
+          "col": 0,
+          "icon": "classicon_paladin",
+          "name": "Improved Holy Strike",
+          "ranks": [
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Reduces the cooldown of your Holy Strike ability by 1 sec.",
+            "2": "Reduces the cooldown of your Holy Strike ability by 2 sec."
+          }
+        },
+        {
+          "id": 105639,
+          "row": 0,
+          "col": 1,
+          "icon": "ability_golemthunderclap",
+          "name": "Divine Strength",
+          "ranks": [
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Increases your Strength by 2%.",
+            "2": "Increases your Strength by 4%.",
+            "3": "Increases your Strength by 6%.",
+            "4": "Increases your Strength by 8%.",
+            "5": "Increases your Strength by 10%."
+          }
+        },
+        {
+          "id": 105332,
+          "row": 0,
+          "col": 2,
+          "icon": "spell_nature_sleep",
+          "name": "Divine Intellect",
+          "ranks": [
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Increases your total Intellect by 2%.",
+            "2": "Increases your total Intellect by 4%.",
+            "3": "Increases your total Intellect by 6%.",
+            "4": "Increases your total Intellect by 8%.",
+            "5": "Increases your total Intellect by 10%."
+          }
+        },
+        {
+          "id": 105333,
+          "row": 1,
+          "col": 0,
+          "icon": "spell_holy_holybolt",
+          "name": "Healing Light",
+          "ranks": [
+            null,
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Increases the amount healed by your Holy Light, Flash of Light, and Holy Shock spells by 4%.",
+            "2": "Increases the amount healed by your Holy Light, Flash of Light, and Holy Shock spells by 8%.",
+            "3": "Increases the amount healed by your Holy Light, Flash of Light, and Holy Shock spells by 12%."
+          }
+        },
+        {
+          "id": 105335,
+          "row": 1,
+          "col": 1,
+          "icon": "spell_arcane_blink",
+          "name": "Spiritual Focus",
+          "ranks": [
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Gives your Flash of Light, Holy Light, and Light's Vigil spells a 35% chance to not lose casting time when you take damage.",
+            "2": "Gives your Flash of Light, Holy Light, and Light's Vigil spells a 70% chance to not lose casting time when you take damage."
+          }
+        },
+        {
+          "id": 105334,
+          "row": 1,
+          "col": 2,
+          "icon": "ability_thunderbolt",
+          "name": "Improved Seals",
+          "ranks": [
+            null,
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Increases the damage done by your Seals and Judgements by 5%.",
+            "2": "Increases the damage done by your Seals and Judgements by 10%.",
+            "3": "Increases the damage done by your Seals and Judgements by 15%."
+          }
+        },
+        {
+          "id": 105331,
+          "row": 1,
+          "col": 3,
+          "icon": "spell_holy_unyieldingfaith",
+          "name": "Unyielding Faith",
+          "ranks": [
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Reduces the duration of  Fear and Disorient effects on you by 15%.",
+            "2": "Reduces the duration of  Fear and Disorient effects on you by 30%."
+          }
+        },
+        {
+          "id": 105330,
+          "row": 2,
+          "col": 0,
+          "icon": "inv_misc_horn_03",
+          "name": "Voice of Truth",
+          "ranks": [
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Grants you immunity to Silence and Interrupt effects.  Lasts 6 sec."
+          }
+        },
+        {
+          "id": 110871,
+          "row": 2,
+          "col": 1,
+          "icon": "spell_holy_divineillumination",
+          "name": "Reverence",
+          "ranks": [
+            null,
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Allows 10% of your Mana regeneration to continue while casting.",
+            "2": "Allows 20% of your Mana regeneration to continue while casting.",
+            "3": "Allows 30% of your Mana regeneration to continue while casting."
+          }
+        },
+        {
+          "id": 105327,
+          "row": 2,
+          "col": 2,
+          "icon": "spell_holy_purifyingpower",
+          "name": "Purifying Power",
+          "ranks": [
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Reduces the mana cost of your Cleanse and Purify spells by 10% and reduces the cooldown of your Exorcism and Holy Wrath spells by 17%.",
+            "2": "Reduces the mana cost of your Cleanse and Purify spells by 20% and reduces the cooldown of your Exorcism and Holy Wrath spells by 33%."
+          }
+        },
+        {
+          "id": 110873,
+          "row": 3,
+          "col": 0,
+          "icon": "ability_paladin_infusionoflight",
+          "name": "Infusion of Light",
+          "ranks": [
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Your Holy Shock and Flash of Light critical hits reduce the cast time of your next Holy Light cast within 15 sec by 0.5 sec.",
+            "2": "Your Holy Shock and Flash of Light critical hits reduce the cast time of your next Holy Light cast within 15 sec by 1.0 sec."
+          }
+        },
+        {
+          "id": 105329,
+          "row": 3,
+          "col": 1,
+          "icon": "spell_holy_greaterheal",
+          "name": "Illumination",
+          "ranks": [
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "requires": [
+            {
+              "id": 110871,
+              "qty": 3
+            }
+          ],
+          "descriptions": {
+            "1": "After getting a critical effect from your Flash of Light, Holy Light, Light's Vigil, or Holy Shock heal spell you have a 20% chance to gain Mana equal to 50% of the base cost of the spell.",
+            "2": "After getting a critical effect from your Flash of Light, Holy Light, Light's Vigil, or Holy Shock heal spell you have a 40% chance to gain Mana equal to 50% of the base cost of the spell.",
+            "3": "After getting a critical effect from your Flash of Light, Holy Light, Light's Vigil, or Holy Shock heal spell you have a 60% chance to gain Mana equal to 50% of the base cost of the spell.",
+            "4": "After getting a critical effect from your Flash of Light, Holy Light, Light's Vigil, or Holy Shock heal spell you have a 80% chance to gain Mana equal to 50% of the base cost of the spell.",
+            "5": "After getting a critical effect from your Flash of Light, Holy Light, Light's Vigil, or Holy Shock heal spell you have a 100% chance to gain Mana equal to 50% of the base cost of the spell."
+          }
+        },
+        {
+          "id": 105325,
+          "row": 3,
+          "col": 2,
+          "icon": "spell_holy_heal",
+          "name": "Divine Favor",
+          "ranks": [
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "When activated, gives your next Flash of Light, Holy Light, or Holy Shock spell a 100% critical effect chance."
+          }
+        },
+        {
+          "id": 105324,
+          "row": 4,
+          "col": 0,
+          "icon": "spell_holy_healingfocus",
+          "name": "Divine Precision",
+          "ranks": [
+            null,
+            null,
+            null
+          ],
+          "requires": [
+            {
+              "id": 105323,
+              "qty": 1
+            }
+          ],
+          "descriptions": {
+            "1": "Increases your chance to hit with Holy spells by 6%.",
+            "2": "Increases your chance to hit with Holy spells by 12%.",
+            "3": "Increases your chance to hit with Holy spells by 18%."
+          }
+        },
+        {
+          "id": 105323,
+          "row": 4,
+          "col": 1,
+          "icon": "spell_holy_searinglight",
+          "name": "Holy Shock",
+          "ranks": [
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Blasts the target with Holy energy, causing 129 to 139 Holy damage to an enemy, or 110 to 118 healing to an ally."
+          }
+        },
+        {
+          "id": 110872,
+          "row": 4,
+          "col": 2,
+          "icon": "spell_holy_innerfire",
+          "name": "Consecrated Ground",
+          "ranks": [
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Gives your Holy spells 5% increased damage against the first 4 enemies that enter your Consecration.",
+            "2": "Gives your Holy spells 10% increased damage against the first 4 enemies that enter your Consecration."
+          }
+        },
+        {
+          "id": 105321,
+          "row": 5,
+          "col": 2,
+          "icon": "spell_holy_power",
+          "name": "Holy Power",
+          "ranks": [
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Increases the critical strike chance of your Holy Shock spell by 3%, and all other spells by 1%.",
+            "2": "Increases the critical strike chance of your Holy Shock spell by 6%, and all other spells by 2%.",
+            "3": "Increases the critical strike chance of your Holy Shock spell by 9%, and all other spells by 3%.",
+            "4": "Increases the critical strike chance of your Holy Shock spell by 12%, and all other spells by 4%.",
+            "5": "Increases the critical strike chance of your Holy Shock spell by 15%, and all other spells by 5%."
+          }
+        },
+        {
+          "id": 105320,
+          "row": 6,
+          "col": 1,
+          "icon": "ability_paladin_judgementofthepure",
+          "name": "Light's Vigil",
+          "ranks": [
+            null
+          ],
+          "requires": [
+            {
+              "id": 105323,
+              "qty": 1
+            }
+          ],
+          "descriptions": {
+            "1": "Applies Light's Vigil to the target for 30 sec. Your next Holy Shock cast on them triggers no cooldown and causes friendly targets to heal their party for 315 to 333, or enemy targets to suffer 175 to 189 Holy damage and refund 75% of Light's Vigil's Mana cost. You may only have 1 Light's Vigil active per Paladin, per party."
+          }
+        }
+      ]
+    },
+    {
+      "id": 383,
+      "name": "Protection",
+      "talents": [
+        {
+          "id": 105630,
+          "row": 0,
+          "col": 1,
+          "icon": "spell_holy_devotion",
+          "name": "Toughness",
+          "ranks": [
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Increases your armor value from items by 2%.",
+            "2": "Increases your armor value from items by 4%.",
+            "3": "Increases your armor value from items by 6%.",
+            "4": "Increases your armor value from items by 8%.",
+            "5": "Increases your armor value from items by 10%."
+          }
+        },
+        {
+          "id": 105626,
+          "row": 0,
+          "col": 2,
+          "icon": "ability_defend",
+          "name": "Redoubt",
+          "ranks": [
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Damaging melee attacks against you have a 10% chance to increase your chance to block by 6%.  Lasts 10 sec or 5 blocks.",
+            "2": "Damaging melee attacks against you have a 10% chance to increase your chance to block by 12%.  Lasts 10 sec or 5 blocks.",
+            "3": "Damaging melee attacks against you have a 10% chance to increase your chance to block by 18%.  Lasts 10 sec or 5 blocks.",
+            "4": "Damaging melee attacks against you have a 10% chance to increase your chance to block by 24%.  Lasts 10 sec or 5 blocks.",
+            "5": "Damaging melee attacks against you have a 10% chance to increase your chance to block by 30%.  Lasts 10 sec or 5 blocks."
+          }
+        },
+        {
+          "id": 105638,
+          "row": 1,
+          "col": 0,
+          "icon": "ability_rogue_ambush",
+          "name": "Precision",
+          "ranks": [
+            null,
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Increases your chance to hit with all spells and attacks by 1%.",
+            "2": "Increases your chance to hit with all spells and attacks by 2%.",
+            "3": "Increases your chance to hit with all spells and attacks by 3%."
+          }
+        },
+        {
+          "id": 105637,
+          "row": 1,
+          "col": 1,
+          "icon": "spell_holy_sealofprotection",
+          "name": "Guardian's Favor",
+          "ranks": [
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Reduces the cooldown of your Blessing of Protection by 1 min and increases the duration of your Blessing of Freedom by 3 sec.",
+            "2": "Reduces the cooldown of your Blessing of Protection by 2 min and increases the duration of your Blessing of Freedom by 6 sec."
+          }
+        },
+        {
+          "id": 105636,
+          "row": 1,
+          "col": 3,
+          "icon": "spell_magic_lesserinvisibilty",
+          "name": "Anticipation",
+          "ranks": [
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Increases your Defense Skill by 4.",
+            "2": "Increases your Defense Skill by 8.",
+            "3": "Increases your Defense Skill by 12.",
+            "4": "Increases your Defense Skill by 16.",
+            "5": "Increases your Defense Skill by 20."
+          }
+        },
+        {
+          "id": 110875,
+          "row": 2,
+          "col": 0,
+          "icon": "spell_holy_righteousnessaura",
+          "name": "Improved Seal of Fury",
+          "ranks": [
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "When Seal of Fury's shield is fully absorbed, restore 38 Mana, increased by 15% per level the attacker is above you, up to 45%."
+          }
+        },
+        {
+          "id": 105634,
+          "row": 2,
+          "col": 1,
+          "icon": "spell_holy_sealoffury",
+          "name": "Improved Righteous Fury",
+          "ranks": [
+            null,
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "While Righteous Fury is active, all damage taken is reduced by 2%.",
+            "2": "While Righteous Fury is active, all damage taken is reduced by 4%.",
+            "3": "While Righteous Fury is active, all damage taken is reduced by 6%."
+          }
+        },
+        {
+          "id": 110874,
+          "row": 2,
+          "col": 2,
+          "icon": "inv_shield_06",
+          "name": "Shield Specialization",
+          "ranks": [
+            null,
+            null,
+            null
+          ],
+          "requires": [
+            {
+              "id": 105626,
+              "qty": 5
+            }
+          ],
+          "descriptions": {
+            "1": "Increases the amount of damage absorbed by your shield by 10%, and gives your blocks a 33% chance to restore 6% of your maximum Mana.  May only occur once every 3 sec.",
+            "2": "Increases the amount of damage absorbed by your shield by 20%, and gives your blocks a 66% chance to restore 6% of your maximum Mana.  May only occur once every 3 sec.",
+            "3": "Increases the amount of damage absorbed by your shield by 30%, and gives your blocks a 100% chance to restore 6% of your maximum Mana.  May only occur once every 3 sec."
+          }
+        },
+        {
+          "id": 105632,
+          "row": 2,
+          "col": 3,
+          "icon": "spell_holy_divineintervention",
+          "name": "Sacred Duty",
+          "ranks": [
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Increases your total Stamina by 2% and reduces the cooldown of your Divine Shield, Divine Protection, and Templar's Bulwark spells by 30 sec.",
+            "2": "Increases your total Stamina by 4% and reduces the cooldown of your Divine Shield, Divine Protection, and Templar's Bulwark spells by 60 sec."
+          }
+        },
+        {
+          "id": 110878,
+          "row": 3,
+          "col": 0,
+          "icon": "ability_paladin_judgementred",
+          "name": "Swift Judgement",
+          "ranks": [
+            null
+          ],
+          "requires": [
+            {
+              "id": 110875,
+              "qty": 1
+            }
+          ],
+          "descriptions": {
+            "1": "Finishes the remaining cooldown on your Judgement ability and reduces the Mana cost of your next Judgement by 100%."
+          }
+        },
+        {
+          "id": 105629,
+          "row": 3,
+          "col": 1,
+          "icon": "inv_sword_20",
+          "name": "One-Handed Weapon Specialization",
+          "ranks": [
+            null,
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Increases the damage you deal with one-handed melee weapons by 3%.",
+            "2": "Increases the damage you deal with one-handed melee weapons by 7%.",
+            "3": "Increases the damage you deal with one-handed melee weapons by 10%."
+          }
+        },
+        {
+          "id": 105633,
+          "row": 3,
+          "col": 2,
+          "icon": "spell_holy_sealofmight",
+          "name": "Improved Hammer of Justice",
+          "ranks": [
+            null,
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Decreases the cooldown of your Hammer of Justice spell by 5 sec.",
+            "2": "Decreases the cooldown of your Hammer of Justice spell by 10 sec.",
+            "3": "Decreases the cooldown of your Hammer of Justice spell by 15 sec."
+          }
+        },
+        {
+          "id": 105625,
+          "row": 4,
+          "col": 1,
+          "icon": "ability_paladin_shieldofthetemplar",
+          "name": "Templar's Bulwark",
+          "ranks": [
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "When activated, this ability grants you an absorb shield equal to 100% of your maximum health for 8 sec.  Applies Forbearance for 1 min. Cannot be cast while Forbearance is active."
+          }
+        },
+        {
+          "id": 105627,
+          "row": 4,
+          "col": 2,
+          "icon": "spell_holy_blessingofstrength",
+          "name": "Reckoning",
+          "ranks": [
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Gives you a 8% chance to gain an extra attack after Blocking a melee attack and a 20% chance to gain an extra attack after being the victim of a non-periodic critical strike.",
+            "2": "Gives you a 16% chance to gain an extra attack after Blocking a melee attack and a 40% chance to gain an extra attack after being the victim of a non-periodic critical strike.",
+            "3": "Gives you a 24% chance to gain an extra attack after Blocking a melee attack and a 60% chance to gain an extra attack after being the victim of a non-periodic critical strike.",
+            "4": "Gives you a 32% chance to gain an extra attack after Blocking a melee attack and a 80% chance to gain an extra attack after being the victim of a non-periodic critical strike.",
+            "5": "Gives you a 40% chance to gain an extra attack after Blocking a melee attack and a 100% chance to gain an extra attack after being the victim of a non-periodic critical strike."
+          }
+        },
+        {
+          "id": 110879,
+          "row": 5,
+          "col": 2,
+          "icon": "spell_holy_improvedresistanceauras",
+          "name": "Iron Creed",
+          "ranks": [
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Increases the threat generated by your Holy Strike ability 5%. While Righteous Fury is active, Holy Strike also reduces your damage taken by 2% for 6 sec.",
+            "2": "Increases the threat generated by your Holy Strike ability 10%. While Righteous Fury is active, Holy Strike also reduces your damage taken by 4% for 6 sec.",
+            "3": "Increases the threat generated by your Holy Strike ability 15%. While Righteous Fury is active, Holy Strike also reduces your damage taken by 6% for 6 sec.",
+            "4": "Increases the threat generated by your Holy Strike ability 20%. While Righteous Fury is active, Holy Strike also reduces your damage taken by 8% for 6 sec.",
+            "5": "Increases the threat generated by your Holy Strike ability 25%. While Righteous Fury is active, Holy Strike also reduces your damage taken by 10% for 6 sec."
+          }
+        },
+        {
+          "id": 105628,
+          "row": 6,
+          "col": 1,
+          "icon": "classic_spell_holy_blessingofprotection",
+          "name": "Holy Shield",
+          "ranks": [
+            null
+          ],
+          "requires": [
+            {
+              "id": 105625,
+              "qty": 1
+            }
+          ],
+          "descriptions": {
+            "1": "Increases chance to block by 20% for 10 sec, and deals 110 Holy damage for each attack blocked while active.  Damage caused by Holy Shield causes 20% additional threat. Each block expends a charge. 4 charges."
+          }
+        }
+      ]
+    },
+    {
+      "id": 381,
+      "name": "Retribution",
+      "talents": [
+        {
+          "id": 105707,
+          "row": 0,
+          "col": 1,
+          "icon": "ability_parry",
+          "name": "Deflection",
+          "ranks": [
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Increases your Parry chance by 1%.",
+            "2": "Increases your Parry chance by 2%.",
+            "3": "Increases your Parry chance by 3%.",
+            "4": "Increases your Parry chance by 4%.",
+            "5": "Increases your Parry chance by 5%."
+          }
+        },
+        {
+          "id": 105706,
+          "row": 0,
+          "col": 2,
+          "icon": "spell_frost_windwalkon",
+          "name": "Benediction",
+          "ranks": [
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Reduces the Mana cost of all instant cast spells and abilities by 2%.",
+            "2": "Reduces the Mana cost of all instant cast spells and abilities by 4%.",
+            "3": "Reduces the Mana cost of all instant cast spells and abilities by 6%.",
+            "4": "Reduces the Mana cost of all instant cast spells and abilities by 8%.",
+            "5": "Reduces the Mana cost of all instant cast spells and abilities by 10%."
+          }
+        },
+        {
+          "id": 105705,
+          "row": 1,
+          "col": 0,
+          "icon": "spell_holy_righteousfury",
+          "name": "Improved Judgement",
+          "ranks": [
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Decreases the cooldown of your Judgement ability by 1 sec.",
+            "2": "Decreases the cooldown of your Judgement ability by 2 sec."
+          }
+        },
+        {
+          "id": 105704,
+          "row": 1,
+          "col": 1,
+          "icon": "spell_holy_devineaegis",
+          "name": "Holy Conduit",
+          "ranks": [
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Reduces the mana cost of your Consecration, Holy Wrath, Exorcism, and Hammer of Wrath spells by 20%.",
+            "2": "Reduces the mana cost of your Consecration, Holy Wrath, Exorcism, and Hammer of Wrath spells by 40%."
+          }
+        },
+        {
+          "id": 105703,
+          "row": 1,
+          "col": 2,
+          "icon": "spell_holy_retributionaura",
+          "name": "Conviction",
+          "ranks": [
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Increases your chance to get a critical strike with melee attacks by 1%.",
+            "2": "Increases your chance to get a critical strike with melee attacks by 2%.",
+            "3": "Increases your chance to get a critical strike with melee attacks by 3%.",
+            "4": "Increases your chance to get a critical strike with melee attacks by 4%.",
+            "5": "Increases your chance to get a critical strike with melee attacks by 5%."
+          }
+        },
+        {
+          "id": 105702,
+          "row": 2,
+          "col": 0,
+          "icon": "spell_holy_vindication",
+          "name": "Vindication",
+          "ranks": [
+            null,
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Gives your damaging melee attacks a chance to reduce the target's Attack Power by 42, and increase your Attack Power by 1% for 30 sec.",
+            "2": "Gives your damaging melee attacks a chance to reduce the target's Attack Power by -4, and increase your Attack Power by 2% for 30 sec.",
+            "3": "Gives your damaging melee attacks a chance to reduce the target's Attack Power by -6, and increase your Attack Power by 3% for 30 sec."
+          }
+        },
+        {
+          "id": 105701,
+          "row": 2,
+          "col": 1,
+          "icon": "ability_paladin_judgementblue",
+          "name": "Sanctified Judgement",
+          "ranks": [
+            null,
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Gives your Judgement ability a 33% chance to return 20% of the Mana cost of the judged seal.",
+            "2": "Gives your Judgement ability a 66% chance to return 40% of the Mana cost of the judged seal.",
+            "3": "Gives your Judgement ability a 100% chance to return 60% of the Mana cost of the judged seal."
+          }
+        },
+        {
+          "id": 105696,
+          "row": 2,
+          "col": 2,
+          "icon": "ability_warrior_innerrage",
+          "name": "Seal of Command",
+          "ranks": [
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Gives the Paladin a chance to deal additional Holy damage equal to 70% of normal weapon damage. Only one Seal can be active on the Paladin at any one time. Lasts 30 sec.\n\nUnleashing this Seal's energy will judge an enemy, instantly causing 68 to 73 Holy damage, 137 to 146 if the target is stunned or incapacitated."
+          }
+        },
+        {
+          "id": 105699,
+          "row": 2,
+          "col": 3,
+          "icon": "spell_holy_persuitofjustice",
+          "name": "Pursuit of Justice",
+          "ranks": [
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Increases movement speed and mounted movement speed by 8%.  This does not stack with other movement speed increasing effects.",
+            "2": "Increases movement speed and mounted movement speed by 15%.  This does not stack with other movement speed increasing effects."
+          }
+        },
+        {
+          "id": 105698,
+          "row": 3,
+          "col": 0,
+          "icon": "spell_holy_eyeforaneye",
+          "name": "Eye for an Eye",
+          "ranks": [
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "All critical strikes against you cause 5% of the damage taken to the attacker as well. The damage caused by Eye for an Eye will not exceed 50% of the Paladin's total health.",
+            "2": "All critical strikes against you cause 10% of the damage taken to the attacker as well. The damage caused by Eye for an Eye will not exceed 50% of the Paladin's total health."
+          }
+        },
+        {
+          "id": 105700,
+          "row": 3,
+          "col": 2,
+          "icon": "inv_sword_08",
+          "name": "Sacred Arbiter",
+          "ranks": [
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Increases the damage of your Holy Strike ability by 10% and causes it to refresh all Judgement effects on the target."
+          }
+        },
+        {
+          "id": 110883,
+          "row": 3,
+          "col": 3,
+          "icon": "spell_holy_crusade",
+          "name": "Crusade",
+          "ranks": [
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Increases all damage dealt by 1%. Increased by an additional 1% against Demon and Undead targets.",
+            "2": "Increases all damage dealt by 2%. Increased by an additional 2% against Demon and Undead targets."
+          }
+        },
+        {
+          "id": 105697,
+          "row": 4,
+          "col": 0,
+          "icon": "inv_hammer_04",
+          "name": "Two-Handed Weapon Specialization",
+          "ranks": [
+            null,
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Increases the damage you deal with two-handed melee weapons by 3%.",
+            "2": "Increases the damage you deal with two-handed melee weapons by 6%.",
+            "3": "Increases the damage you deal with two-handed melee weapons by 9%."
+          }
+        },
+        {
+          "id": 105693,
+          "row": 4,
+          "col": 1,
+          "icon": "ability_racial_avatar",
+          "name": "Vengeance",
+          "ranks": [
+            null,
+            null,
+            null
+          ],
+          "requires": [
+            {
+              "id": 105701,
+              "qty": 3
+            }
+          ],
+          "descriptions": {
+            "1": "Increases your Physical and Holy damage dealt by 1% for 30 sec after landing a critical strike.  Stacks up to 5 times.",
+            "2": "Increases your Physical and Holy damage dealt by 2% for 30 sec after landing a critical strike.  Stacks up to 5 times.",
+            "3": "Increases your Physical and Holy damage dealt by 3% for 30 sec after landing a critical strike.  Stacks up to 5 times."
+          }
+        },
+        {
+          "id": 105694,
+          "row": 4,
+          "col": 2,
+          "icon": "spell_holy_prayerofhealing",
+          "name": "Repentance",
+          "ranks": [
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Puts the enemy target in a state of meditation, incapacitating them for up to 6 sec. Any damage caused will awaken the target. Only works against Humanoids."
+          }
+        },
+        {
+          "id": 110882,
+          "row": 5,
+          "col": 1,
+          "icon": "ability_paladin_enlightenedjudgements",
+          "name": "Champion of the Light",
+          "ranks": [
+            null,
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Increases your spell damage and healing by up to 33% of your Intellect.",
+            "2": "Increases your spell damage and healing by up to 66% of your Intellect.",
+            "3": "Increases your spell damage and healing by up to 100% of your Intellect."
+          }
+        },
+        {
+          "id": 110880,
+          "row": 5,
+          "col": 2,
+          "icon": "spell_holy_divinepurpose",
+          "name": "Instrument of Law",
+          "ranks": [
+            null,
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "Reduces the cast time of your Hammer of Wrath by 0.5 sec, and reduces all threat you generate by 10% while Righteous Fury is not active.",
+            "2": "Reduces the cast time of your Hammer of Wrath by 1.0 sec, and reduces all threat you generate by 20% while Righteous Fury is not active."
+          }
+        },
+        {
+          "id": 105692,
+          "row": 6,
+          "col": 1,
+          "icon": "spell_holy_blessedresillience",
+          "name": "Twist of Light",
+          "ranks": [
+            null
+          ],
+          "requires": [],
+          "descriptions": {
+            "1": "When you replace your Seal of Command, Seal of Righteousness, Seal of Fury, or Seal of Justice with a different Seal, gain an Echo. Your next melee attack applies the replaced Seal's effects, consuming the Echo."
+          }
+        }
+      ]
+    }
+  ]
+}

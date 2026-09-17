@@ -1,0 +1,254 @@
+{
+  "scope": "Classic Phase 1\u20132 compatible enchant options",
+  "slots": {
+    "head": [
+      {
+        "id": "voracity",
+        "name": "Lesser Arcanum of Voracity",
+        "description": "+8 primary attribute",
+        "stats": {
+          "primary": 8
+        }
+      },
+      {
+        "id": "focus",
+        "name": "Arcanum of Focus",
+        "description": "+8 Spell Power",
+        "stats": {
+          "spellPower": 8
+        }
+      }
+    ],
+    "shoulders": [
+      {
+        "id": "none",
+        "name": "No enchant",
+        "description": "No Phase 1\u20132 shoulder enchant",
+        "stats": {}
+      }
+    ],
+    "back": [
+      {
+        "id": "cloak_agi",
+        "name": "Enchant Cloak - Lesser Agility",
+        "description": "+3 Agility",
+        "stats": {
+          "agility": 3
+        }
+      },
+      {
+        "id": "cloak_resist",
+        "name": "Enchant Cloak - Greater Resistance",
+        "description": "+5 all resistances",
+        "stats": {}
+      },
+      {
+        "id": "subtlety",
+        "name": "Enchant Cloak - Subtlety",
+        "description": "2% reduced threat",
+        "stats": {
+          "threatReduction": 2
+        }
+      }
+    ],
+    "chest": [
+      {
+        "id": "greater_stats",
+        "name": "Enchant Chest - Greater Stats",
+        "description": "+4 all attributes",
+        "stats": {
+          "strength": 4,
+          "agility": 4,
+          "stamina": 4,
+          "intellect": 4
+        }
+      },
+      {
+        "id": "major_mana",
+        "name": "Enchant Chest - Major Mana",
+        "description": "+100 Mana",
+        "stats": {
+          "mana": 100
+        }
+      }
+    ],
+    "wrist": [
+      {
+        "id": "superior_strength",
+        "name": "Enchant Bracer - Superior Strength",
+        "description": "+9 Strength",
+        "stats": {
+          "strength": 9
+        }
+      },
+      {
+        "id": "greater_intellect",
+        "name": "Enchant Bracer - Greater Intellect",
+        "description": "+7 Intellect",
+        "stats": {
+          "intellect": 7
+        }
+      },
+      {
+        "id": "superior_stamina",
+        "name": "Enchant Bracer - Superior Stamina",
+        "description": "+9 Stamina",
+        "stats": {
+          "stamina": 9
+        }
+      }
+    ],
+    "hands": [
+      {
+        "id": "greater_strength",
+        "name": "Enchant Gloves - Greater Strength",
+        "description": "+7 Strength",
+        "stats": {
+          "strength": 7
+        }
+      },
+      {
+        "id": "greater_agility",
+        "name": "Enchant Gloves - Greater Agility",
+        "description": "+7 Agility",
+        "stats": {
+          "agility": 7
+        }
+      },
+      {
+        "id": "fire_power",
+        "name": "Enchant Gloves - Fire Power",
+        "description": "+20 Fire Spell Power",
+        "stats": {
+          "firePower": 20
+        }
+      },
+      {
+        "id": "frost_power",
+        "name": "Enchant Gloves - Frost Power",
+        "description": "+20 Frost Spell Power",
+        "stats": {
+          "frostPower": 20
+        }
+      },
+      {
+        "id": "shadow_power",
+        "name": "Enchant Gloves - Shadow Power",
+        "description": "+20 Shadow Spell Power",
+        "stats": {
+          "shadowPower": 20
+        }
+      },
+      {
+        "id": "healing_power",
+        "name": "Enchant Gloves - Healing Power",
+        "description": "+30 Healing Power",
+        "stats": {
+          "healingPower": 30
+        }
+      }
+    ],
+    "legs": [
+      {
+        "id": "voracity",
+        "name": "Lesser Arcanum of Voracity",
+        "description": "+8 primary attribute",
+        "stats": {
+          "primary": 8
+        }
+      },
+      {
+        "id": "focus",
+        "name": "Arcanum of Focus",
+        "description": "+8 Spell Power",
+        "stats": {
+          "spellPower": 8
+        }
+      }
+    ],
+    "feet": [
+      {
+        "id": "greater_agility",
+        "name": "Enchant Boots - Greater Agility",
+        "description": "+7 Agility",
+        "stats": {
+          "agility": 7
+        }
+      },
+      {
+        "id": "greater_stamina",
+        "name": "Enchant Boots - Greater Stamina",
+        "description": "+7 Stamina",
+        "stats": {
+          "stamina": 7
+        }
+      }
+    ],
+    "main_hand": [
+      {
+        "id": "crusader",
+        "name": "Enchant Weapon - Crusader",
+        "description": "Strength proc",
+        "stats": {}
+      },
+      {
+        "id": "spell_power",
+        "name": "Enchant Weapon - Spell Power",
+        "description": "+30 Spell Power",
+        "stats": {
+          "spellPower": 30
+        }
+      },
+      {
+        "id": "agility_15",
+        "name": "Enchant Weapon - Agility",
+        "description": "+15 Agility",
+        "stats": {
+          "agility": 15
+        }
+      }
+    ],
+    "off_hand": [
+      {
+        "id": "crusader",
+        "name": "Enchant Weapon - Crusader",
+        "description": "Strength proc",
+        "stats": {}
+      },
+      {
+        "id": "agility_15",
+        "name": "Enchant Weapon - Agility",
+        "description": "+15 Agility",
+        "stats": {
+          "agility": 15
+        }
+      },
+      {
+        "id": "spell_power",
+        "name": "Enchant Weapon - Spell Power",
+        "description": "+30 Spell Power",
+        "stats": {
+          "spellPower": 30
+        }
+      }
+    ],
+    "ranged": [
+      {
+        "id": "biznicks_scope",
+        "name": "Biznicks 247x128 Accurascope",
+        "description": "+3% Ranged Hit",
+        "stats": {
+          "rangedHit": 3
+        }
+      },
+      {
+        "id": "sniper_scope",
+        "name": "Sniper Scope",
+        "description": "+7 ranged weapon damage",
+        "stats": {
+          "rangedDamage": 7
+        }
+      }
+    ]
+  }
+}

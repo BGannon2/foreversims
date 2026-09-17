@@ -1,0 +1,232 @@
+{
+  "raid_buffs": [
+    {
+      "key": "power_word_fortitude",
+      "name": "Power Word: Fortitude",
+      "source": "Priest",
+      "spell_id": 10938,
+      "description": "Increases Stamina by 70 with Improved Fortitude.",
+      "icon": "spell_holy_wordfortitude",
+      "wowhead": "https://www.wowhead.com/classic/spell=10938"
+    },
+    {
+      "key": "mark_of_the_wild",
+      "name": "Mark of the Wild",
+      "source": "Druid",
+      "spell_id": 9885,
+      "description": "Increases all attributes by 16 and armor by 385 with Improved Mark of the Wild.",
+      "icon": "spell_nature_regeneration",
+      "wowhead": "https://www.wowhead.com/classic/spell=9885"
+    },
+    {
+      "key": "arcane_intellect",
+      "name": "Arcane Intellect",
+      "source": "Mage",
+      "spell_id": 10157,
+      "description": "Increases Intellect by 31.",
+      "icon": "spell_holy_magicalsentry",
+      "wowhead": "https://www.wowhead.com/classic/spell=10157"
+    },
+    {
+      "key": "battle_shout",
+      "name": "Battle Shout",
+      "source": "Warrior",
+      "spell_id": 11551,
+      "description": "Increases melee attack power by 290 with Improved Battle Shout.",
+      "icon": "ability_warrior_battleshout",
+      "wowhead": "https://www.wowhead.com/classic/spell=11551"
+    },
+    {
+      "key": "blessing_of_might",
+      "name": "Blessing of Might",
+      "source": "Paladin",
+      "spell_id": 25291,
+      "description": "Increases melee attack power by 222 with Improved Blessing of Might.",
+      "icon": "spell_holy_fistofjustice",
+      "wowhead": "https://www.wowhead.com/classic/spell=25291"
+    },
+    {
+      "key": "devotion_aura",
+      "name": "Devotion Aura",
+      "source": "Paladin",
+      "spell_id": 10293,
+      "description": "Increases armor by 735.",
+      "icon": "spell_holy_devotionaura",
+      "wowhead": "https://www.wowhead.com/classic/spell=10293"
+    },
+    {
+      "key": "blessing_of_kings",
+      "name": "Blessing of Kings",
+      "source": "Paladin",
+      "spell_id": 25898,
+      "description": "Increases all attributes by 10%.",
+      "icon": "spell_magic_greaterblessingofkings",
+      "wowhead": "https://www.wowhead.com/classic/spell=25898"
+    },
+    {
+      "key": "blessing_of_wisdom",
+      "name": "Blessing of Wisdom",
+      "source": "Paladin",
+      "spell_id": 25290,
+      "description": "Restores 33 mana per 5 seconds with Improved Blessing of Wisdom.",
+      "icon": "spell_holy_sealofwisdom",
+      "wowhead": "https://www.wowhead.com/classic/spell=25290"
+    },
+    {
+      "key": "strength_of_earth",
+      "name": "Strength of Earth Totem",
+      "source": "Shaman",
+      "spell_id": 25361,
+      "description": "Increases Strength by 77 with Enhancing Totems.",
+      "icon": "spell_nature_earthbindtotem",
+      "wowhead": "https://www.wowhead.com/classic/spell=25361"
+    },
+    {
+      "key": "grace_of_air",
+      "name": "Grace of Air Totem",
+      "source": "Shaman",
+      "spell_id": 25359,
+      "description": "Increases Agility by 77 with Enhancing Totems. Air totem; exclusive with Windfury Totem in the same party.",
+      "icon": "spell_nature_invisibilitytotem",
+      "wowhead": "https://www.wowhead.com/classic/spell=25359"
+    },
+    {
+      "key": "windfury_totem",
+      "name": "Windfury Totem",
+      "source": "Shaman",
+      "spell_id": 10614,
+      "description": "Main-hand melee hits have a 20% chance to grant an extra attack with +315 Attack Power. Air totem; exclusive with Grace of Air in the same party.",
+      "icon": "spell_nature_windfury",
+      "wowhead": "https://www.wowhead.com/classic/spell=10614"
+    },
+    {
+      "key": "mana_spring",
+      "name": "Mana Spring Totem",
+      "source": "Shaman",
+      "spell_id": 10497,
+      "description": "Restores 15 mana per 5 seconds with Restorative Totems.",
+      "icon": "spell_nature_manaregentotem",
+      "wowhead": "https://www.wowhead.com/classic/spell=10497"
+    },
+    {
+      "key": "leader_of_the_pack",
+      "name": "Leader of the Pack",
+      "source": "Druid",
+      "spell_id": 24932,
+      "description": "Increases melee and ranged critical strike chance by 3%.",
+      "icon": "spell_nature_unyeildingstamina",
+      "wowhead": "https://www.wowhead.com/classic/spell=24932"
+    },
+    {
+      "key": "moonkin_aura",
+      "name": "Moonkin Aura",
+      "source": "Druid",
+      "spell_id": 24907,
+      "description": "Increases spell critical strike chance by 3%. Exclusive with Leader of the Pack per the Forever talent text.",
+      "icon": "spell_nature_moonglow",
+      "wowhead": "https://www.wowhead.com/classic/spell=24907"
+    },
+    {
+      "key": "trueshot_aura",
+      "name": "Trueshot Aura",
+      "source": "Hunter",
+      "spell_id": 20906,
+      "description": "Increases Ranged Attack Power by 100 (Classic rank 3; the Forever talent text shows 30).",
+      "icon": "ability_trueshot",
+      "wowhead": "https://www.wowhead.com/classic/spell=20906"
+    }
+  ],
+  "debuffs": [
+    {
+      "key": "sunder_armor_5",
+      "name": "Sunder Armor ×5",
+      "source": "Warrior",
+      "spell_id": 11597,
+      "description": "Reduces target armor by 2,250 at five stacks.",
+      "icon": "ability_warrior_sunder",
+      "wowhead": "https://www.wowhead.com/classic/spell=11597"
+    },
+    {
+      "key": "faerie_fire",
+      "name": "Faerie Fire",
+      "source": "Druid",
+      "spell_id": 9907,
+      "description": "Reduces target armor by 505.",
+      "icon": "spell_nature_faeriefire",
+      "wowhead": "https://www.wowhead.com/classic/spell=9907"
+    },
+    {
+      "key": "curse_of_recklessness",
+      "name": "Curse of Recklessness",
+      "source": "Warlock",
+      "spell_id": 11717,
+      "description": "Reduces target armor by 640.",
+      "icon": "spell_shadow_unholystrength",
+      "wowhead": "https://www.wowhead.com/classic/spell=11717"
+    },
+    {
+      "key": "judgement_of_the_crusader",
+      "name": "Judgement of the Crusader",
+      "source": "Paladin",
+      "spell_id": 20303,
+      "description": "Adds up to 140 Holy damage through modeled spell coefficients.",
+      "icon": "spell_holy_holysmite",
+      "wowhead": "https://www.wowhead.com/classic/spell=20303"
+    },
+    {
+      "key": "gift_of_arthas",
+      "name": "Gift of Arthas",
+      "source": "Consumable",
+      "spell_id": 11374,
+      "description": "Causes physical attacks to deal 8 additional damage when the consumable is active.",
+      "icon": "spell_nature_nullifydisease",
+      "wowhead": "https://www.wowhead.com/classic/spell=11374"
+    },
+    {
+      "key": "demoralizing_shout",
+      "name": "Demoralizing Shout",
+      "source": "Warrior",
+      "spell_id": 11556,
+      "description": "Provisionally reduces raw boss damage by 10%.",
+      "icon": "ability_warrior_warcry",
+      "wowhead": "https://www.wowhead.com/classic/spell=11556"
+    },
+    {
+      "key": "thunder_clap",
+      "name": "Thunder Clap",
+      "source": "Warrior",
+      "spell_id": 11581,
+      "description": "Reduces boss attack speed by 20%.",
+      "icon": "spell_nature_thunderclap",
+      "wowhead": "https://www.wowhead.com/classic/spell=11581"
+    },
+    {
+      "key": "insect_swarm",
+      "name": "Insect Swarm",
+      "source": "Druid",
+      "spell_id": 24977,
+      "description": "Reduces the boss hit chance by 2%.",
+      "icon": "spell_nature_insectswarm",
+      "wowhead": "https://www.wowhead.com/classic/spell=24977"
+    },
+    {
+      "key": "scorpid_sting",
+      "name": "Scorpid Sting",
+      "source": "Hunter",
+      "spell_id": 14277,
+      "description": "Reduces the boss hit chance by 5%.",
+      "icon": "ability_hunter_criticalshot",
+      "wowhead": "https://www.wowhead.com/classic/spell=14277"
+    }
+  ],
+  "raid_buff_groups": {
+    "air_totem": [
+      "grace_of_air",
+      "windfury_totem"
+    ],
+    "crit_aura": [
+      "leader_of_the_pack",
+      "moonkin_aura"
+    ]
+  }
+}

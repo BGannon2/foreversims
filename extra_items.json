@@ -1,0 +1,3207 @@
+{
+ "source": "https://github.com/wowsims/classic assets/database/db.json (MIT); weapon types absent from the Paladin-scoped Classic Era catalog, phase 1-2, rare+",
+ "items": [
+  {
+   "id": 944,
+   "name": "Elemental Mage Staff",
+   "icon": "inv_staff_07",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Two-Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Staff",
+   "stats": {
+    "firePower": 36,
+    "frostPower": 36,
+    "fireResistance": 20,
+    "frostResistance": 20
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=944",
+   "phase": 1,
+   "weaponDamageMin": 147,
+   "weaponDamageMax": 221,
+   "weaponSpeed": 3.2
+  },
+  {
+   "id": 2099,
+   "name": "Dwarven Hand Cannon",
+   "icon": "inv_weapon_rifle_09",
+   "quality": "Epic",
+   "itemLevel": 58,
+   "requiredLevel": 55,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Gun",
+   "stats": {},
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=2099",
+   "phase": 1,
+   "weaponDamageMin": 66,
+   "weaponDamageMax": 124,
+   "weaponSpeed": 2.9
+  },
+  {
+   "id": 5267,
+   "name": "Scarlet Kris",
+   "icon": "inv_weapon_shortblade_03",
+   "quality": "Rare",
+   "itemLevel": 63,
+   "requiredLevel": 60,
+   "slot": "One-Hand",
+   "equipSlots": [
+    "main_hand",
+    "off_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {
+    "agility": 10,
+    "stamina": 10
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=5267",
+   "phase": 1,
+   "weaponDamageMin": 43,
+   "weaponDamageMax": 81,
+   "weaponSpeed": 1.5
+  },
+  {
+   "id": 6660,
+   "name": "Julie's Dagger",
+   "icon": "inv_weapon_shortblade_07",
+   "quality": "Rare",
+   "itemLevel": 55,
+   "requiredLevel": 55,
+   "slot": "One-Hand",
+   "equipSlots": [
+    "main_hand",
+    "off_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {},
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=6660",
+   "phase": 1,
+   "weaponDamageMin": 33,
+   "weaponDamageMax": 62,
+   "weaponSpeed": 1.3
+  },
+  {
+   "id": 10828,
+   "name": "Dire Nail",
+   "icon": "inv_weapon_shortblade_16",
+   "quality": "Rare",
+   "itemLevel": 56,
+   "requiredLevel": 55,
+   "slot": "One-Hand",
+   "equipSlots": [
+    "main_hand",
+    "off_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {
+    "shadowResistance": 5
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=10828",
+   "phase": 1,
+   "weaponDamageMin": 38,
+   "weaponDamageMax": 72,
+   "weaponSpeed": 1.5
+  },
+  {
+   "id": 10836,
+   "name": "Rod of Corrosion",
+   "icon": "inv_wand_04",
+   "quality": "Rare",
+   "itemLevel": 56,
+   "requiredLevel": 55,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Wand",
+   "stats": {
+    "natureResistance": 10
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=10836",
+   "phase": 1,
+   "weaponDamageMin": 50,
+   "weaponDamageMax": 93,
+   "weaponSpeed": 1.3
+  },
+  {
+   "id": 11744,
+   "name": "Bloodfist",
+   "icon": "inv_gauntlets_11",
+   "quality": "Rare",
+   "itemLevel": 56,
+   "requiredLevel": 55,
+   "slot": "One-Hand",
+   "equipSlots": [
+    "main_hand",
+    "off_hand"
+   ],
+   "subclass": "Fist Weapon",
+   "stats": {},
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=11744",
+   "phase": 1,
+   "weaponDamageMin": 38,
+   "weaponDamageMax": 72,
+   "weaponSpeed": 1.5
+  },
+  {
+   "id": 11922,
+   "name": "Blood-etched Blade",
+   "icon": "inv_weapon_shortblade_15",
+   "quality": "Rare",
+   "itemLevel": 57,
+   "requiredLevel": 55,
+   "slot": "One-Hand",
+   "equipSlots": [
+    "main_hand",
+    "off_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {
+    "stamina": 12,
+    "spellPower": 6
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=11922",
+   "phase": 1,
+   "weaponDamageMin": 39,
+   "weaponDamageMax": 74,
+   "weaponSpeed": 1.5
+  },
+  {
+   "id": 11932,
+   "name": "Guiding Stave of Wisdom",
+   "icon": "inv_staff_30",
+   "quality": "Rare",
+   "itemLevel": 59,
+   "requiredLevel": 55,
+   "slot": "Two-Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Staff",
+   "stats": {
+    "stamina": 11,
+    "spirit": 10,
+    "frostResistance": 10,
+    "healingPower": 53
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=11932",
+   "phase": 1,
+   "weaponDamageMin": 133,
+   "weaponDamageMax": 200,
+   "weaponSpeed": 3.3
+  },
+  {
+   "id": 12532,
+   "name": "Spire of the Stoneshaper",
+   "icon": "inv_wand_07",
+   "quality": "Rare",
+   "itemLevel": 56,
+   "requiredLevel": 55,
+   "slot": "Two-Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Staff",
+   "stats": {
+    "stamina": 20,
+    "intellect": 17
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=12532",
+   "phase": 1,
+   "weaponDamageMin": 131,
+   "weaponDamageMax": 197,
+   "weaponSpeed": 3.4
+  },
+  {
+   "id": 12582,
+   "name": "Keris of Zul'Serak",
+   "icon": "inv_weapon_shortblade_12",
+   "quality": "Rare",
+   "itemLevel": 60,
+   "requiredLevel": 60,
+   "slot": "One-Hand",
+   "equipSlots": [
+    "main_hand",
+    "off_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {},
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=12582",
+   "phase": 1,
+   "weaponDamageMin": 49,
+   "weaponDamageMax": 93,
+   "weaponSpeed": 1.8
+  },
+  {
+   "id": 12590,
+   "name": "Felstriker",
+   "icon": "inv_weapon_shortblade_25",
+   "quality": "Epic",
+   "itemLevel": 63,
+   "requiredLevel": 60,
+   "slot": "One-Hand",
+   "equipSlots": [
+    "main_hand",
+    "off_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {},
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=12590",
+   "phase": 1,
+   "weaponDamageMin": 54,
+   "weaponDamageMax": 101,
+   "weaponSpeed": 1.7
+  },
+  {
+   "id": 12605,
+   "name": "Serpentine Skuller",
+   "icon": "inv_misc_bone_elfskull_01",
+   "quality": "Rare",
+   "itemLevel": 56,
+   "requiredLevel": 55,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Wand",
+   "stats": {
+    "shadowResistance": 10
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=12605",
+   "phase": 1,
+   "weaponDamageMin": 53,
+   "weaponDamageMax": 100,
+   "weaponSpeed": 1.4
+  },
+  {
+   "id": 12651,
+   "name": "Blackcrow",
+   "icon": "inv_weapon_crossbow_04",
+   "quality": "Rare",
+   "itemLevel": 59,
+   "requiredLevel": 55,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Crossbow",
+   "stats": {
+    "agility": 3,
+    "meleeHit": 1
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=12651",
+   "phase": 1,
+   "weaponDamageMin": 77,
+   "weaponDamageMax": 117,
+   "weaponSpeed": 3.2
+  },
+  {
+   "id": 12653,
+   "name": "Riphook",
+   "icon": "inv_weapon_bow_08",
+   "quality": "Rare",
+   "itemLevel": 59,
+   "requiredLevel": 55,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Bow",
+   "stats": {
+    "attackPower": 22,
+    "rangedAttackPower": 22
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=12653",
+   "phase": 1,
+   "weaponDamageMin": 46,
+   "weaponDamageMax": 87,
+   "weaponSpeed": 2.2
+  },
+  {
+   "id": 12709,
+   "name": "Pip's Skinner",
+   "icon": "inv_sword_33",
+   "quality": "Rare",
+   "itemLevel": 63,
+   "requiredLevel": 60,
+   "slot": "Main Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {},
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=12709",
+   "phase": 1,
+   "weaponDamageMin": 37,
+   "weaponDamageMax": 70,
+   "weaponSpeed": 1.3
+  },
+  {
+   "id": 12783,
+   "name": "Heartseeker",
+   "icon": "inv_sword_17",
+   "quality": "Rare",
+   "itemLevel": 63,
+   "requiredLevel": 60,
+   "slot": "One-Hand",
+   "equipSlots": [
+    "main_hand",
+    "off_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {
+    "strength": 4,
+    "meleeCrit": 1
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=12783",
+   "phase": 1,
+   "weaponDamageMin": 49,
+   "weaponDamageMax": 92,
+   "weaponSpeed": 1.7
+  },
+  {
+   "id": 12791,
+   "name": "Barman Shanker",
+   "icon": "inv_drink_10",
+   "quality": "Rare",
+   "itemLevel": 55,
+   "requiredLevel": 55,
+   "slot": "Main Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {},
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=12791",
+   "phase": 1,
+   "weaponDamageMin": 51,
+   "weaponDamageMax": 95,
+   "weaponSpeed": 2
+  },
+  {
+   "id": 12795,
+   "name": "Blood Talon",
+   "icon": "inv_weapon_shortblade_27",
+   "quality": "Rare",
+   "itemLevel": 60,
+   "requiredLevel": 60,
+   "slot": "Main Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Fist Weapon",
+   "stats": {},
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=12795",
+   "phase": 1,
+   "weaponDamageMin": 35,
+   "weaponDamageMax": 67,
+   "weaponSpeed": 1.3
+  },
+  {
+   "id": 13000,
+   "name": "Staff of Hale Magefire",
+   "icon": "inv_staff_23",
+   "quality": "Rare",
+   "itemLevel": 62,
+   "requiredLevel": 60,
+   "slot": "Two-Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Staff",
+   "stats": {
+    "intellect": 25,
+    "spirit": 22
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=13000",
+   "phase": 1,
+   "weaponDamageMin": 140,
+   "weaponDamageMax": 210,
+   "weaponSpeed": 3.3
+  },
+  {
+   "id": 13004,
+   "name": "Torch of Austen",
+   "icon": "inv_wand_11",
+   "quality": "Rare",
+   "itemLevel": 58,
+   "requiredLevel": 55,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Wand",
+   "stats": {
+    "fireResistance": 10
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=13004",
+   "phase": 1,
+   "weaponDamageMin": 55,
+   "weaponDamageMax": 104,
+   "weaponSpeed": 1.4
+  },
+  {
+   "id": 13022,
+   "name": "Gryphonwing Long Bow",
+   "icon": "inv_weapon_bow_11",
+   "quality": "Rare",
+   "itemLevel": 55,
+   "requiredLevel": 55,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Bow",
+   "stats": {
+    "agility": 8,
+    "stamina": 4
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=13022",
+   "phase": 1,
+   "weaponDamageMin": 53,
+   "weaponDamageMax": 100,
+   "weaponSpeed": 2.7
+  },
+  {
+   "id": 13023,
+   "name": "Eaglehorn Long Bow",
+   "icon": "inv_weapon_bow_11",
+   "quality": "Rare",
+   "itemLevel": 63,
+   "requiredLevel": 60,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Bow",
+   "stats": {
+    "agility": 10,
+    "stamina": 4
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=13023",
+   "phase": 1,
+   "weaponDamageMin": 40,
+   "weaponDamageMax": 76,
+   "weaponSpeed": 1.8
+  },
+  {
+   "id": 13040,
+   "name": "Heartseeking Crossbow",
+   "icon": "inv_weapon_crossbow_04",
+   "quality": "Rare",
+   "itemLevel": 56,
+   "requiredLevel": 55,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Crossbow",
+   "stats": {
+    "agility": 9,
+    "stamina": 4
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=13040",
+   "phase": 1,
+   "weaponDamageMin": 71,
+   "weaponDamageMax": 108,
+   "weaponSpeed": 3.1
+  },
+  {
+   "id": 13146,
+   "name": "Shell Launcher Shotgun",
+   "icon": "inv_weapon_rifle_08",
+   "quality": "Rare",
+   "itemLevel": 58,
+   "requiredLevel": 55,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Gun",
+   "stats": {},
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=13146",
+   "phase": 1,
+   "weaponDamageMin": 48,
+   "weaponDamageMax": 89,
+   "weaponSpeed": 2.3
+  },
+  {
+   "id": 13161,
+   "name": "Trindlehaven Staff",
+   "icon": "inv_staff_29",
+   "quality": "Rare",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Two-Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Staff",
+   "stats": {
+    "stamina": 12,
+    "intellect": 25,
+    "spellPower": 14
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=13161",
+   "phase": 1,
+   "weaponDamageMin": 87,
+   "weaponDamageMax": 132,
+   "weaponSpeed": 2.1
+  },
+  {
+   "id": 13173,
+   "name": "Flightblade Throwing Axe",
+   "icon": "inv_throwingaxe_06",
+   "quality": "Rare",
+   "itemLevel": 60,
+   "requiredLevel": 60,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Thrown",
+   "stats": {},
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=13173",
+   "phase": 1,
+   "weaponDamageMin": 54,
+   "weaponDamageMax": 102,
+   "weaponSpeed": 2.2
+  },
+  {
+   "id": 13198,
+   "name": "Hurd Smasher",
+   "icon": "inv_gauntlets_11",
+   "quality": "Rare",
+   "itemLevel": 60,
+   "requiredLevel": 60,
+   "slot": "One-Hand",
+   "equipSlots": [
+    "main_hand",
+    "off_hand"
+   ],
+   "subclass": "Fist Weapon",
+   "stats": {},
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=13198",
+   "phase": 1,
+   "weaponDamageMin": 49,
+   "weaponDamageMax": 93,
+   "weaponSpeed": 1.8
+  },
+  {
+   "id": 13218,
+   "name": "Fang of the Crystal Spider",
+   "icon": "inv_weapon_shortblade_16",
+   "quality": "Rare",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "One-Hand",
+   "equipSlots": [
+    "main_hand",
+    "off_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {},
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=13218",
+   "phase": 1,
+   "weaponDamageMin": 45,
+   "weaponDamageMax": 84,
+   "weaponSpeed": 1.6
+  },
+  {
+   "id": 13243,
+   "name": "Argent Defender",
+   "icon": "inv_shield_05",
+   "quality": "Rare",
+   "itemLevel": 62,
+   "requiredLevel": 60,
+   "slot": "Off Hand",
+   "equipSlots": [
+    "off_hand"
+   ],
+   "subclass": "Shield",
+   "stats": {
+    "armor": 2121,
+    "blockValue": 39
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=13243",
+   "phase": 1
+  },
+  {
+   "id": 13246,
+   "name": "Argent Avenger",
+   "icon": "inv_sword_05",
+   "quality": "Rare",
+   "itemLevel": 62,
+   "requiredLevel": 60,
+   "slot": "One-Hand",
+   "equipSlots": [
+    "main_hand",
+    "off_hand"
+   ],
+   "subclass": "Sword",
+   "stats": {},
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=13246",
+   "phase": 1,
+   "weaponDamageMin": 71,
+   "weaponDamageMax": 108,
+   "weaponSpeed": 2.2
+  },
+  {
+   "id": 13248,
+   "name": "Burstshot Harquebus",
+   "icon": "inv_weapon_rifle_06",
+   "quality": "Rare",
+   "itemLevel": 56,
+   "requiredLevel": 55,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Gun",
+   "stats": {
+    "stamina": 8,
+    "attackPower": 10,
+    "rangedAttackPower": 10
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=13248",
+   "phase": 1,
+   "weaponDamageMin": 52,
+   "weaponDamageMax": 98,
+   "weaponSpeed": 2.6
+  },
+  {
+   "id": 13249,
+   "name": "Argent Crusader",
+   "icon": "inv_staff_13",
+   "quality": "Rare",
+   "itemLevel": 62,
+   "requiredLevel": 60,
+   "slot": "Two-Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Staff",
+   "stats": {
+    "stamina": 6,
+    "intellect": 30,
+    "spirit": 10
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=13249",
+   "phase": 1,
+   "weaponDamageMin": 127,
+   "weaponDamageMax": 191,
+   "weaponSpeed": 3
+  },
+  {
+   "id": 13360,
+   "name": "Gift of the Elven Magi",
+   "icon": "inv_weapon_shortblade_15",
+   "quality": "Rare",
+   "itemLevel": 63,
+   "requiredLevel": 60,
+   "slot": "One-Hand",
+   "equipSlots": [
+    "main_hand",
+    "off_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {
+    "stamina": 5,
+    "intellect": 10,
+    "spirit": 6
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=13360",
+   "phase": 1,
+   "weaponDamageMin": 43,
+   "weaponDamageMax": 81,
+   "weaponSpeed": 1.5
+  },
+  {
+   "id": 13368,
+   "name": "Bonescraper",
+   "icon": "inv_weapon_shortblade_12",
+   "quality": "Rare",
+   "itemLevel": 62,
+   "requiredLevel": 60,
+   "slot": "One-Hand",
+   "equipSlots": [
+    "main_hand",
+    "off_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {
+    "attackPower": 30,
+    "rangedAttackPower": 30
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=13368",
+   "phase": 1,
+   "weaponDamageMin": 40,
+   "weaponDamageMax": 74,
+   "weaponSpeed": 1.4
+  },
+  {
+   "id": 13372,
+   "name": "Slavedriver's Cane",
+   "icon": "inv_staff_08",
+   "quality": "Rare",
+   "itemLevel": 60,
+   "requiredLevel": 60,
+   "slot": "Two-Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Staff",
+   "stats": {
+    "strength": 29,
+    "stamina": 12
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=13372",
+   "phase": 1,
+   "weaponDamageMin": 160,
+   "weaponDamageMax": 241,
+   "weaponSpeed": 3.9
+  },
+  {
+   "id": 13380,
+   "name": "Willey's Portable Howitzer",
+   "icon": "inv_weapon_rifle_07",
+   "quality": "Rare",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Gun",
+   "stats": {
+    "stamina": 9,
+    "attackPower": 8,
+    "rangedAttackPower": 8
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=13380",
+   "phase": 1,
+   "weaponDamageMin": 63,
+   "weaponDamageMax": 118,
+   "weaponSpeed": 2.9
+  },
+  {
+   "id": 13396,
+   "name": "Skul's Ghastly Touch",
+   "icon": "inv_misc_bone_elfskull_01",
+   "quality": "Rare",
+   "itemLevel": 57,
+   "requiredLevel": 55,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Wand",
+   "stats": {
+    "shadowPower": 14
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=13396",
+   "phase": 1,
+   "weaponDamageMin": 70,
+   "weaponDamageMax": 131,
+   "weaponSpeed": 1.8
+  },
+  {
+   "id": 13399,
+   "name": "Gargoyle Shredder Talons",
+   "icon": "inv_gauntlets_11",
+   "quality": "Rare",
+   "itemLevel": 59,
+   "requiredLevel": 55,
+   "slot": "Off Hand",
+   "equipSlots": [
+    "off_hand"
+   ],
+   "subclass": "Fist Weapon",
+   "stats": {},
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=13399",
+   "phase": 1,
+   "weaponDamageMin": 49,
+   "weaponDamageMax": 91,
+   "weaponSpeed": 1.8
+  },
+  {
+   "id": 13534,
+   "name": "Banshee Finger",
+   "icon": "inv_weapon_shortblade_18",
+   "quality": "Rare",
+   "itemLevel": 60,
+   "requiredLevel": 60,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Wand",
+   "stats": {
+    "frostResistance": 10
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=13534",
+   "phase": 1,
+   "weaponDamageMin": 79,
+   "weaponDamageMax": 148,
+   "weaponSpeed": 1.9
+  },
+  {
+   "id": 13937,
+   "name": "Headmaster's Charge",
+   "icon": "inv_jewelry_talisman_12",
+   "quality": "Epic",
+   "itemLevel": 62,
+   "requiredLevel": 60,
+   "slot": "Two-Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Staff",
+   "stats": {
+    "stamina": 30,
+    "spirit": 20
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=13937",
+   "phase": 1,
+   "weaponDamageMin": 135,
+   "weaponDamageMax": 204,
+   "weaponSpeed": 2.9
+  },
+  {
+   "id": 13938,
+   "name": "Bonecreeper Stylus",
+   "icon": "inv_misc_bone_taurenskull_01",
+   "quality": "Rare",
+   "itemLevel": 62,
+   "requiredLevel": 60,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Wand",
+   "stats": {
+    "intellect": 4,
+    "spellPower": 11
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=13938",
+   "phase": 1,
+   "weaponDamageMin": 83,
+   "weaponDamageMax": 155,
+   "weaponSpeed": 1.9
+  },
+  {
+   "id": 13964,
+   "name": "Witchblade",
+   "icon": "inv_weapon_shortblade_25",
+   "quality": "Rare",
+   "itemLevel": 62,
+   "requiredLevel": 60,
+   "slot": "One-Hand",
+   "equipSlots": [
+    "main_hand",
+    "off_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {
+    "intellect": 8,
+    "spellPower": 14
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=13964",
+   "phase": 1,
+   "weaponDamageMin": 45,
+   "weaponDamageMax": 85,
+   "weaponSpeed": 1.6
+  },
+  {
+   "id": 13982,
+   "name": "Warblade of Caer Darrow",
+   "icon": "inv_sword_39",
+   "quality": "Rare",
+   "itemLevel": 63,
+   "requiredLevel": 60,
+   "slot": "Two-Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Sword",
+   "stats": {},
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=13982",
+   "phase": 1,
+   "weaponDamageMin": 143,
+   "weaponDamageMax": 236,
+   "weaponSpeed": 3.3
+  },
+  {
+   "id": 13984,
+   "name": "Darrowspike",
+   "icon": "inv_weapon_shortblade_21",
+   "quality": "Rare",
+   "itemLevel": 63,
+   "requiredLevel": 60,
+   "slot": "One-Hand",
+   "equipSlots": [
+    "main_hand",
+    "off_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {},
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=13984",
+   "phase": 1,
+   "weaponDamageMin": 43,
+   "weaponDamageMax": 81,
+   "weaponSpeed": 1.5
+  },
+  {
+   "id": 14002,
+   "name": "Darrowshire Strongguard",
+   "icon": "inv_shield_05",
+   "quality": "Rare",
+   "itemLevel": 63,
+   "requiredLevel": 60,
+   "slot": "Off Hand",
+   "equipSlots": [
+    "off_hand"
+   ],
+   "subclass": "Shield",
+   "stats": {
+    "stamina": 8,
+    "spirit": 8,
+    "armor": 2153,
+    "blockValue": 40,
+    "frostResistance": 10,
+    "natureResistance": 10
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=14002",
+   "phase": 1
+  },
+  {
+   "id": 14024,
+   "name": "Frightalon",
+   "icon": "inv_weapon_shortblade_16",
+   "quality": "Rare",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "One-Hand",
+   "equipSlots": [
+    "main_hand",
+    "off_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {},
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=14024",
+   "phase": 1,
+   "weaponDamageMin": 39,
+   "weaponDamageMax": 73,
+   "weaponSpeed": 1.4
+  },
+  {
+   "id": 14555,
+   "name": "Alcor's Sunrazor",
+   "icon": "inv_sword_34",
+   "quality": "Epic",
+   "itemLevel": 63,
+   "requiredLevel": 60,
+   "slot": "One-Hand",
+   "equipSlots": [
+    "main_hand",
+    "off_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {
+    "fireResistance": 10
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=14555",
+   "phase": 1,
+   "weaponDamageMin": 41,
+   "weaponDamageMax": 77,
+   "weaponSpeed": 1.3
+  },
+  {
+   "id": 15418,
+   "name": "Shimmering Platinum Warhammer",
+   "icon": "inv_hammer_07",
+   "quality": "Rare",
+   "itemLevel": 63,
+   "requiredLevel": 60,
+   "slot": "Two-Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Mace",
+   "stats": {},
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=15418",
+   "phase": 1,
+   "weaponDamageMin": 142,
+   "weaponDamageMax": 192,
+   "weaponSpeed": 3.1
+  },
+  {
+   "id": 15805,
+   "name": "Penelope's Rose",
+   "icon": "inv_misc_flower_04",
+   "quality": "Rare",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Off Hand",
+   "equipSlots": [
+    "off_hand"
+   ],
+   "subclass": "Off Hand",
+   "stats": {
+    "stamina": 10,
+    "intellect": 11,
+    "spirit": 11
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=15805",
+   "phase": 1
+  },
+  {
+   "id": 15806,
+   "name": "Mirah's Song",
+   "icon": "inv_sword_34",
+   "quality": "Rare",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "One-Hand",
+   "equipSlots": [
+    "main_hand",
+    "off_hand"
+   ],
+   "subclass": "Sword",
+   "stats": {
+    "strength": 9,
+    "agility": 9
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=15806",
+   "phase": 1,
+   "weaponDamageMin": 57,
+   "weaponDamageMax": 87,
+   "weaponSpeed": 1.8
+  },
+  {
+   "id": 15853,
+   "name": "Windreaper",
+   "icon": "inv_axe_08",
+   "quality": "Rare",
+   "itemLevel": 60,
+   "requiredLevel": 60,
+   "slot": "One-Hand",
+   "equipSlots": [
+    "main_hand",
+    "off_hand"
+   ],
+   "subclass": "Axe",
+   "stats": {},
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=15853",
+   "phase": 1,
+   "weaponDamageMin": 63,
+   "weaponDamageMax": 118,
+   "weaponSpeed": 2.3
+  },
+  {
+   "id": 15854,
+   "name": "Dancing Sliver",
+   "icon": "inv_staff_07",
+   "quality": "Rare",
+   "itemLevel": 60,
+   "requiredLevel": 60,
+   "slot": "Two-Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Staff",
+   "stats": {
+    "intellect": 12,
+    "spirit": 29
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=15854",
+   "phase": 1,
+   "weaponDamageMin": 98,
+   "weaponDamageMax": 148,
+   "weaponSpeed": 2.4
+  },
+  {
+   "id": 15857,
+   "name": "Magebane Scion",
+   "icon": "inv_staff_11",
+   "quality": "Rare",
+   "itemLevel": 60,
+   "requiredLevel": 60,
+   "slot": "Off Hand",
+   "equipSlots": [
+    "off_hand"
+   ],
+   "subclass": "Off Hand",
+   "stats": {
+    "arcaneResistance": 10,
+    "fireResistance": 10,
+    "frostResistance": 10
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=15857",
+   "phase": 1
+  },
+  {
+   "id": 16004,
+   "name": "Dark Iron Rifle",
+   "icon": "inv_weapon_rifle_08",
+   "quality": "Rare",
+   "itemLevel": 55,
+   "requiredLevel": 55,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Gun",
+   "stats": {},
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=16004",
+   "phase": 1,
+   "weaponDamageMin": 53,
+   "weaponDamageMax": 100,
+   "weaponSpeed": 2.7
+  },
+  {
+   "id": 16007,
+   "name": "Flawless Arcanite Rifle",
+   "icon": "inv_weapon_rifle_03",
+   "quality": "Rare",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Gun",
+   "stats": {
+    "rangedAttackPower": 10
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=16007",
+   "phase": 1,
+   "weaponDamageMin": 65,
+   "weaponDamageMax": 122,
+   "weaponSpeed": 3
+  },
+  {
+   "id": 16996,
+   "name": "Gorewood Bow",
+   "icon": "inv_weapon_bow_04",
+   "quality": "Rare",
+   "itemLevel": 62,
+   "requiredLevel": 60,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Bow",
+   "stats": {
+    "strength": 2,
+    "agility": 3,
+    "stamina": 9
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=16996",
+   "phase": 1,
+   "weaponDamageMin": 55,
+   "weaponDamageMax": 104,
+   "weaponSpeed": 2.5
+  },
+  {
+   "id": 16997,
+   "name": "Stormrager",
+   "icon": "inv_wand_05",
+   "quality": "Rare",
+   "itemLevel": 62,
+   "requiredLevel": 60,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Wand",
+   "stats": {
+    "stamina": 8,
+    "intellect": 5
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=16997",
+   "phase": 1,
+   "weaponDamageMin": 57,
+   "weaponDamageMax": 106,
+   "weaponSpeed": 1.3
+  },
+  {
+   "id": 16998,
+   "name": "Sacred Protector",
+   "icon": "inv_shield_06",
+   "quality": "Rare",
+   "itemLevel": 62,
+   "requiredLevel": 60,
+   "slot": "Off Hand",
+   "equipSlots": [
+    "off_hand"
+   ],
+   "subclass": "Shield",
+   "stats": {
+    "stamina": 15,
+    "intellect": 10,
+    "armor": 2121,
+    "blockValue": 39
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=16998",
+   "phase": 1
+  },
+  {
+   "id": 17069,
+   "name": "Striker's Mark",
+   "icon": "inv_weapon_bow_08",
+   "quality": "Epic",
+   "itemLevel": 69,
+   "requiredLevel": 60,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Bow",
+   "stats": {
+    "attackPower": 22,
+    "meleeHit": 1,
+    "rangedAttackPower": 22
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=17069",
+   "phase": 1,
+   "weaponDamageMin": 69,
+   "weaponDamageMax": 129,
+   "weaponSpeed": 2.5
+  },
+  {
+   "id": 17070,
+   "name": "Fang of the Mystics",
+   "icon": "inv_weapon_shortblade_06",
+   "quality": "Epic",
+   "itemLevel": 70,
+   "requiredLevel": 60,
+   "slot": "One-Hand",
+   "equipSlots": [
+    "main_hand",
+    "off_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {
+    "intellect": 10,
+    "spellPower": 40,
+    "mp5": 4,
+    "spellCrit": 1
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=17070",
+   "phase": 2,
+   "weaponDamageMin": 39,
+   "weaponDamageMax": 86,
+   "weaponSpeed": 1.5
+  },
+  {
+   "id": 17071,
+   "name": "Gutgore Ripper",
+   "icon": "inv_weapon_shortblade_18",
+   "quality": "Epic",
+   "itemLevel": 69,
+   "requiredLevel": 60,
+   "slot": "One-Hand",
+   "equipSlots": [
+    "main_hand",
+    "off_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {},
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=17071",
+   "phase": 1,
+   "weaponDamageMin": 63,
+   "weaponDamageMax": 119,
+   "weaponSpeed": 1.8
+  },
+  {
+   "id": 17072,
+   "name": "Blastershot Launcher",
+   "icon": "inv_weapon_rifle_09",
+   "quality": "Epic",
+   "itemLevel": 70,
+   "requiredLevel": 60,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Gun",
+   "stats": {
+    "stamina": 6,
+    "meleeCrit": 1
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=17072",
+   "phase": 1,
+   "weaponDamageMin": 73,
+   "weaponDamageMax": 136,
+   "weaponSpeed": 2.6
+  },
+  {
+   "id": 17077,
+   "name": "Crimson Shocker",
+   "icon": "inv_staff_13",
+   "quality": "Epic",
+   "itemLevel": 63,
+   "requiredLevel": 60,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Wand",
+   "stats": {
+    "intellect": 10,
+    "fireResistance": 10
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=17077",
+   "phase": 1,
+   "weaponDamageMin": 102,
+   "weaponDamageMax": 191,
+   "weaponSpeed": 2
+  },
+  {
+   "id": 17113,
+   "name": "Amberseal Keeper",
+   "icon": "inv_staff_goldfeathered_01",
+   "quality": "Epic",
+   "itemLevel": 67,
+   "requiredLevel": 60,
+   "slot": "Two-Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Staff",
+   "stats": {
+    "intellect": 20,
+    "spellPower": 44,
+    "mp5": 12,
+    "arcaneResistance": 5,
+    "fireResistance": 5,
+    "frostResistance": 5,
+    "natureResistance": 5,
+    "shadowResistance": 5
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=17113",
+   "phase": 2,
+   "weaponDamageMin": 145,
+   "weaponDamageMax": 229,
+   "weaponSpeed": 3.3
+  },
+  {
+   "id": 18202,
+   "name": "Eskhandar's Left Claw",
+   "icon": "inv_misc_monsterclaw_04",
+   "quality": "Epic",
+   "itemLevel": 66,
+   "requiredLevel": 60,
+   "slot": "Off Hand",
+   "equipSlots": [
+    "off_hand"
+   ],
+   "subclass": "Fist Weapon",
+   "stats": {
+    "agility": 4
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=18202",
+   "phase": 2,
+   "weaponDamageMin": 50,
+   "weaponDamageMax": 94,
+   "weaponSpeed": 1.5
+  },
+  {
+   "id": 18203,
+   "name": "Eskhandar's Right Claw",
+   "icon": "inv_misc_monsterclaw_04",
+   "quality": "Epic",
+   "itemLevel": 66,
+   "requiredLevel": 60,
+   "slot": "Main Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Fist Weapon",
+   "stats": {
+    "agility": 4
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=18203",
+   "phase": 1,
+   "weaponDamageMin": 50,
+   "weaponDamageMax": 94,
+   "weaponSpeed": 1.5
+  },
+  {
+   "id": 18282,
+   "name": "Core Marksman Rifle",
+   "icon": "inv_weapon_rifle_05",
+   "quality": "Epic",
+   "itemLevel": 65,
+   "requiredLevel": 60,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Gun",
+   "stats": {
+    "meleeHit": 1,
+    "rangedAttackPower": 22
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=18282",
+   "phase": 1,
+   "weaponDamageMin": 64,
+   "weaponDamageMax": 120,
+   "weaponSpeed": 2.5
+  },
+  {
+   "id": 18311,
+   "name": "Quel'dorai Channeling Rod",
+   "icon": "inv_staff_14",
+   "quality": "Rare",
+   "itemLevel": 58,
+   "requiredLevel": 55,
+   "slot": "Two-Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Staff",
+   "stats": {
+    "stamina": 8,
+    "intellect": 18,
+    "spirit": 8,
+    "mp5": 8
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=18311",
+   "phase": 2,
+   "weaponDamageMin": 111,
+   "weaponDamageMax": 167,
+   "weaponSpeed": 2.8
+  },
+  {
+   "id": 18323,
+   "name": "Satyr's Bow",
+   "icon": "inv_weapon_bow_03",
+   "quality": "Rare",
+   "itemLevel": 58,
+   "requiredLevel": 55,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Bow",
+   "stats": {
+    "agility": 3,
+    "meleeHit": 1
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=18323",
+   "phase": 2,
+   "weaponDamageMin": 50,
+   "weaponDamageMax": 93,
+   "weaponSpeed": 2.4
+  },
+  {
+   "id": 18338,
+   "name": "Wand of Arcane Potency",
+   "icon": "inv_wand_02",
+   "quality": "Rare",
+   "itemLevel": 59,
+   "requiredLevel": 55,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Wand",
+   "stats": {
+    "arcanePower": 16
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=18338",
+   "phase": 2,
+   "weaponDamageMin": 65,
+   "weaponDamageMax": 122,
+   "weaponSpeed": 1.6
+  },
+  {
+   "id": 18372,
+   "name": "Blade of the New Moon",
+   "icon": "inv_weapon_shortblade_18",
+   "quality": "Rare",
+   "itemLevel": 62,
+   "requiredLevel": 60,
+   "slot": "Main Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {
+    "stamina": 5,
+    "shadowPower": 19
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=18372",
+   "phase": 2,
+   "weaponDamageMin": 40,
+   "weaponDamageMax": 74,
+   "weaponSpeed": 1.4
+  },
+  {
+   "id": 18388,
+   "name": "Stoneshatter",
+   "icon": "inv_weapon_crossbow_08",
+   "quality": "Rare",
+   "itemLevel": 62,
+   "requiredLevel": 60,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Crossbow",
+   "stats": {},
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=18388",
+   "phase": 2,
+   "weaponDamageMin": 73,
+   "weaponDamageMax": 111,
+   "weaponSpeed": 2.9
+  },
+  {
+   "id": 18392,
+   "name": "Distracting Dagger",
+   "icon": "inv_weapon_shortblade_05",
+   "quality": "Rare",
+   "itemLevel": 62,
+   "requiredLevel": 60,
+   "slot": "Off Hand",
+   "equipSlots": [
+    "off_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {},
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=18392",
+   "phase": 2,
+   "weaponDamageMin": 42,
+   "weaponDamageMax": 64,
+   "weaponSpeed": 1.3
+  },
+  {
+   "id": 18420,
+   "name": "Bonecrusher",
+   "icon": "inv_mace_02",
+   "quality": "Rare",
+   "itemLevel": 63,
+   "requiredLevel": 60,
+   "slot": "Two-Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Mace",
+   "stats": {
+    "strength": 30,
+    "meleeCrit": 1
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=18420",
+   "phase": 1,
+   "weaponDamageMin": 129,
+   "weaponDamageMax": 194,
+   "weaponSpeed": 3
+  },
+  {
+   "id": 18483,
+   "name": "Mana Channeling Wand",
+   "icon": "inv_wand_05",
+   "quality": "Rare",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Wand",
+   "stats": {
+    "mp5": 4
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=18483",
+   "phase": 2,
+   "weaponDamageMin": 68,
+   "weaponDamageMax": 127,
+   "weaponSpeed": 1.6
+  },
+  {
+   "id": 18491,
+   "name": "Lorespinner",
+   "icon": "inv_weapon_shortblade_21",
+   "quality": "Rare",
+   "itemLevel": 57,
+   "requiredLevel": 55,
+   "slot": "Main Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {
+    "stamina": 5,
+    "intellect": 6,
+    "spirit": 5,
+    "mp5": 3
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=18491",
+   "phase": 1,
+   "weaponDamageMin": 45,
+   "weaponDamageMax": 68,
+   "weaponSpeed": 1.5
+  },
+  {
+   "id": 18534,
+   "name": "Rod of the Ogre Magi",
+   "icon": "inv_staff_32",
+   "quality": "Rare",
+   "itemLevel": 63,
+   "requiredLevel": 60,
+   "slot": "Two-Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Staff",
+   "stats": {
+    "stamina": 11,
+    "intellect": 14,
+    "spirit": 7,
+    "spellPower": 23,
+    "spellCrit": 1
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=18534",
+   "phase": 2,
+   "weaponDamageMin": 116,
+   "weaponDamageMax": 175,
+   "weaponSpeed": 2.7
+  },
+  {
+   "id": 18535,
+   "name": "Milli's Shield",
+   "icon": "inv_shield_12",
+   "quality": "Rare",
+   "itemLevel": 59,
+   "requiredLevel": 55,
+   "slot": "Off Hand",
+   "equipSlots": [
+    "off_hand"
+   ],
+   "subclass": "Shield",
+   "stats": {
+    "stamina": 7,
+    "spirit": 7,
+    "armor": 2106,
+    "blockValue": 37
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=18535",
+   "phase": 1
+  },
+  {
+   "id": 18536,
+   "name": "Milli's Lexicon",
+   "icon": "inv_misc_book_06",
+   "quality": "Rare",
+   "itemLevel": 59,
+   "requiredLevel": 55,
+   "slot": "Off Hand",
+   "equipSlots": [
+    "off_hand"
+   ],
+   "subclass": "Off Hand",
+   "stats": {
+    "stamina": 6,
+    "intellect": 7,
+    "mp5": 6
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=18536",
+   "phase": 1
+  },
+  {
+   "id": 18602,
+   "name": "Tome of Sacrifice",
+   "icon": "inv_misc_book_06",
+   "quality": "Rare",
+   "itemLevel": 60,
+   "requiredLevel": 60,
+   "slot": "Off Hand",
+   "equipSlots": [
+    "off_hand"
+   ],
+   "subclass": "Off Hand",
+   "stats": {
+    "stamina": 8
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=18602",
+   "phase": 1,
+   "allowedClasses": [
+    "Warlock"
+   ]
+  },
+  {
+   "id": 18608,
+   "name": "Benediction",
+   "icon": "inv_staff_30",
+   "quality": "Epic",
+   "itemLevel": 75,
+   "requiredLevel": 60,
+   "slot": "Two-Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Staff",
+   "stats": {
+    "stamina": 10,
+    "intellect": 31,
+    "spirit": 12,
+    "shadowResistance": 20,
+    "healingPower": 106
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=18608",
+   "phase": 1,
+   "weaponDamageMin": 134,
+   "weaponDamageMax": 222,
+   "weaponSpeed": 3,
+   "allowedClasses": [
+    "Priest"
+   ]
+  },
+  {
+   "id": 18609,
+   "name": "Anathema",
+   "icon": "inv_staff_12",
+   "quality": "Epic",
+   "itemLevel": 75,
+   "requiredLevel": 60,
+   "slot": "Two-Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Staff",
+   "stats": {
+    "stamina": 22,
+    "intellect": 31,
+    "shadowPower": 69,
+    "mp5": 7,
+    "shadowResistance": 20
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=18609",
+   "phase": 1,
+   "weaponDamageMin": 134,
+   "weaponDamageMax": 222,
+   "weaponSpeed": 3,
+   "allowedClasses": [
+    "Priest"
+   ]
+  },
+  {
+   "id": 18680,
+   "name": "Ancient Bone Bow",
+   "icon": "inv_weapon_bow_08",
+   "quality": "Rare",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Bow",
+   "stats": {
+    "agility": 11
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=18680",
+   "phase": 1,
+   "weaponDamageMin": 61,
+   "weaponDamageMax": 114,
+   "weaponSpeed": 2.8
+  },
+  {
+   "id": 18713,
+   "name": "Rhok'delar, Longbow of the Ancient Keepers",
+   "icon": "inv_weapon_bow_01",
+   "quality": "Epic",
+   "itemLevel": 75,
+   "requiredLevel": 60,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Bow",
+   "stats": {
+    "meleeCrit": 1,
+    "rangedAttackPower": 17
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=18713",
+   "phase": 1,
+   "weaponDamageMin": 89,
+   "weaponDamageMax": 166,
+   "weaponSpeed": 2.9,
+   "allowedClasses": [
+    "Hunter"
+   ]
+  },
+  {
+   "id": 18715,
+   "name": "Lok'delar, Stave of the Ancient Keepers",
+   "icon": "inv_staff_21",
+   "quality": "Epic",
+   "itemLevel": 75,
+   "requiredLevel": 60,
+   "slot": "Two-Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Staff",
+   "stats": {
+    "stamina": 26,
+    "intellect": 15,
+    "meleeCrit": 2,
+    "natureResistance": 10
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=18715",
+   "phase": 1,
+   "weaponDamageMin": 187,
+   "weaponDamageMax": 282,
+   "weaponSpeed": 3.2,
+   "allowedClasses": [
+    "Hunter"
+   ]
+  },
+  {
+   "id": 18729,
+   "name": "Screeching Bow",
+   "icon": "inv_weapon_bow_12",
+   "quality": "Rare",
+   "itemLevel": 60,
+   "requiredLevel": 60,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Bow",
+   "stats": {
+    "stamina": 3,
+    "shadowResistance": 10
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=18729",
+   "phase": 1,
+   "weaponDamageMin": 70,
+   "weaponDamageMax": 71,
+   "weaponSpeed": 2.3
+  },
+  {
+   "id": 18738,
+   "name": "Carapace Spine Crossbow",
+   "icon": "inv_weapon_crossbow_04",
+   "quality": "Rare",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Crossbow",
+   "stats": {
+    "agility": 4,
+    "stamina": 9
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=18738",
+   "phase": 1,
+   "weaponDamageMin": 82,
+   "weaponDamageMax": 124,
+   "weaponSpeed": 3.3
+  },
+  {
+   "id": 18755,
+   "name": "Xorothian Firestick",
+   "icon": "inv_weapon_rifle_03",
+   "quality": "Rare",
+   "itemLevel": 62,
+   "requiredLevel": 60,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Gun",
+   "stats": {
+    "agility": 4,
+    "stamina": 6,
+    "shadowResistance": 6
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=18755",
+   "phase": 2,
+   "weaponDamageMin": 57,
+   "weaponDamageMax": 108,
+   "weaponSpeed": 2.6
+  },
+  {
+   "id": 18758,
+   "name": "Specter's Blade",
+   "icon": "inv_weapon_shortblade_18",
+   "quality": "Rare",
+   "itemLevel": 62,
+   "requiredLevel": 60,
+   "slot": "One-Hand",
+   "equipSlots": [
+    "main_hand",
+    "off_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {},
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=18758",
+   "phase": 1,
+   "weaponDamageMin": 51,
+   "weaponDamageMax": 96,
+   "weaponSpeed": 1.8
+  },
+  {
+   "id": 18761,
+   "name": "Oblivion's Touch",
+   "icon": "inv_wand_12",
+   "quality": "Rare",
+   "itemLevel": 62,
+   "requiredLevel": 60,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Wand",
+   "stats": {
+    "intellect": 11
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=18761",
+   "phase": 1,
+   "weaponDamageMin": 78,
+   "weaponDamageMax": 147,
+   "weaponSpeed": 1.8
+  },
+  {
+   "id": 18805,
+   "name": "Core Hound Tooth",
+   "icon": "inv_weapon_shortblade_11",
+   "quality": "Epic",
+   "itemLevel": 70,
+   "requiredLevel": 60,
+   "slot": "One-Hand",
+   "equipSlots": [
+    "main_hand",
+    "off_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {
+    "stamina": 9,
+    "attackPower": 20,
+    "meleeCrit": 1,
+    "rangedAttackPower": 20
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=18805",
+   "phase": 1,
+   "weaponDamageMin": 57,
+   "weaponDamageMax": 107,
+   "weaponSpeed": 1.6
+  },
+  {
+   "id": 18816,
+   "name": "Perdition's Blade",
+   "icon": "inv_sword_48",
+   "quality": "Epic",
+   "itemLevel": 77,
+   "requiredLevel": 60,
+   "slot": "One-Hand",
+   "equipSlots": [
+    "main_hand",
+    "off_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {},
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=18816",
+   "phase": 1,
+   "weaponDamageMin": 73,
+   "weaponDamageMax": 137,
+   "weaponSpeed": 1.8
+  },
+  {
+   "id": 18842,
+   "name": "Staff of Dominance",
+   "icon": "inv_staff_13",
+   "quality": "Epic",
+   "itemLevel": 70,
+   "requiredLevel": 60,
+   "slot": "Two-Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Staff",
+   "stats": {
+    "stamina": 16,
+    "intellect": 37,
+    "spirit": 14,
+    "spellPower": 40,
+    "spellCrit": 1
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=18842",
+   "phase": 1,
+   "weaponDamageMin": 126,
+   "weaponDamageMax": 205,
+   "weaponSpeed": 2.9
+  },
+  {
+   "id": 18878,
+   "name": "Sorcerous Dagger",
+   "icon": "inv_weapon_shortblade_07",
+   "quality": "Epic",
+   "itemLevel": 65,
+   "requiredLevel": 60,
+   "slot": "Main Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {
+    "stamina": 8,
+    "intellect": 17,
+    "spellPower": 20
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=18878",
+   "phase": 1,
+   "weaponDamageMin": 39,
+   "weaponDamageMax": 79,
+   "weaponSpeed": 1.4
+  },
+  {
+   "id": 19099,
+   "name": "Glacial Blade",
+   "icon": "inv_weapon_shortblade_06",
+   "quality": "Rare",
+   "itemLevel": 65,
+   "requiredLevel": 60,
+   "slot": "One-Hand",
+   "equipSlots": [
+    "main_hand",
+    "off_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {
+    "agility": 10
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=19099",
+   "phase": 2,
+   "weaponDamageMin": 53,
+   "weaponDamageMax": 100,
+   "weaponSpeed": 1.8
+  },
+  {
+   "id": 19100,
+   "name": "Electrified Dagger",
+   "icon": "inv_weapon_shortblade_15",
+   "quality": "Rare",
+   "itemLevel": 65,
+   "requiredLevel": 60,
+   "slot": "One-Hand",
+   "equipSlots": [
+    "main_hand",
+    "off_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {
+    "agility": 10
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=19100",
+   "phase": 2,
+   "weaponDamageMin": 53,
+   "weaponDamageMax": 100,
+   "weaponSpeed": 1.8
+  },
+  {
+   "id": 19101,
+   "name": "Whiteout Staff",
+   "icon": "inv_staff_30",
+   "quality": "Rare",
+   "itemLevel": 65,
+   "requiredLevel": 60,
+   "slot": "Two-Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Staff",
+   "stats": {
+    "stamina": 25,
+    "intellect": 16,
+    "spellPower": 15
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=19101",
+   "phase": 2,
+   "weaponDamageMin": 138,
+   "weaponDamageMax": 207,
+   "weaponSpeed": 3.1
+  },
+  {
+   "id": 19102,
+   "name": "Crackling Staff",
+   "icon": "inv_staff_20",
+   "quality": "Rare",
+   "itemLevel": 65,
+   "requiredLevel": 60,
+   "slot": "Two-Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Staff",
+   "stats": {
+    "stamina": 25,
+    "intellect": 16,
+    "spellPower": 15
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=19102",
+   "phase": 2,
+   "weaponDamageMin": 138,
+   "weaponDamageMax": 207,
+   "weaponSpeed": 3.1
+  },
+  {
+   "id": 19106,
+   "name": "Ice Barbed Spear",
+   "icon": "inv_spear_04",
+   "quality": "Rare",
+   "itemLevel": 63,
+   "requiredLevel": 60,
+   "slot": "Two-Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Polearm",
+   "stats": {
+    "strength": 13,
+    "agility": 21,
+    "stamina": 20
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=19106",
+   "phase": 1,
+   "weaponDamageMin": 155,
+   "weaponDamageMax": 233,
+   "weaponSpeed": 3.6
+  },
+  {
+   "id": 19107,
+   "name": "Bloodseeker",
+   "icon": "inv_weapon_crossbow_07",
+   "quality": "Rare",
+   "itemLevel": 63,
+   "requiredLevel": 60,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Crossbow",
+   "stats": {
+    "strength": 8,
+    "agility": 7
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=19107",
+   "phase": 1,
+   "weaponDamageMin": 85,
+   "weaponDamageMax": 128,
+   "weaponSpeed": 3.3
+  },
+  {
+   "id": 19108,
+   "name": "Wand of Biting Cold",
+   "icon": "inv_wand_01",
+   "quality": "Rare",
+   "itemLevel": 63,
+   "requiredLevel": 60,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Wand",
+   "stats": {
+    "frostPower": 16
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=19108",
+   "phase": 1,
+   "weaponDamageMin": 67,
+   "weaponDamageMax": 125,
+   "weaponSpeed": 1.5
+  },
+  {
+   "id": 19130,
+   "name": "Cold Snap",
+   "icon": "inv_wand_01",
+   "quality": "Epic",
+   "itemLevel": 70,
+   "requiredLevel": 60,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Wand",
+   "stats": {
+    "intellect": 7,
+    "frostPower": 20
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=19130",
+   "phase": 2,
+   "weaponDamageMin": 101,
+   "weaponDamageMax": 189,
+   "weaponSpeed": 1.7
+  },
+  {
+   "id": 19166,
+   "name": "Black Amnesty",
+   "icon": "inv_weapon_shortblade_12",
+   "quality": "Epic",
+   "itemLevel": 66,
+   "requiredLevel": 60,
+   "slot": "One-Hand",
+   "equipSlots": [
+    "main_hand",
+    "off_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {},
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=19166",
+   "phase": 1,
+   "weaponDamageMin": 53,
+   "weaponDamageMax": 100,
+   "weaponSpeed": 1.6
+  },
+  {
+   "id": 19324,
+   "name": "The Lobotomizer",
+   "icon": "inv_sword_29",
+   "quality": "Epic",
+   "itemLevel": 65,
+   "requiredLevel": 60,
+   "slot": "One-Hand",
+   "equipSlots": [
+    "main_hand",
+    "off_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {},
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=19324",
+   "phase": 2,
+   "weaponDamageMin": 59,
+   "weaponDamageMax": 111,
+   "weaponSpeed": 1.8
+  },
+  {
+   "id": 19542,
+   "name": "Scout's Blade",
+   "icon": "inv_weapon_shortblade_15",
+   "quality": "Rare",
+   "itemLevel": 63,
+   "requiredLevel": 60,
+   "slot": "One-Hand",
+   "equipSlots": [
+    "main_hand",
+    "off_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {
+    "agility": 13,
+    "stamina": 5
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=19542",
+   "phase": 2,
+   "weaponDamageMin": 49,
+   "weaponDamageMax": 92,
+   "weaponSpeed": 1.7
+  },
+  {
+   "id": 19546,
+   "name": "Sentinel's Blade",
+   "icon": "inv_weapon_shortblade_14",
+   "quality": "Rare",
+   "itemLevel": 63,
+   "requiredLevel": 60,
+   "slot": "One-Hand",
+   "equipSlots": [
+    "main_hand",
+    "off_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {
+    "agility": 13,
+    "stamina": 5
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=19546",
+   "phase": 2,
+   "weaponDamageMin": 49,
+   "weaponDamageMax": 92,
+   "weaponSpeed": 1.7
+  },
+  {
+   "id": 19558,
+   "name": "Outrider's Bow",
+   "icon": "inv_weapon_bow_06",
+   "quality": "Rare",
+   "itemLevel": 63,
+   "requiredLevel": 60,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Bow",
+   "stats": {
+    "agility": 4,
+    "stamina": 10
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=19558",
+   "phase": 2,
+   "weaponDamageMin": 54,
+   "weaponDamageMax": 101,
+   "weaponSpeed": 2.4
+  },
+  {
+   "id": 19562,
+   "name": "Outrunner's Bow",
+   "icon": "inv_weapon_bow_02",
+   "quality": "Rare",
+   "itemLevel": 63,
+   "requiredLevel": 60,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Bow",
+   "stats": {
+    "agility": 4,
+    "stamina": 10
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=19562",
+   "phase": 2,
+   "weaponDamageMin": 54,
+   "weaponDamageMax": 101,
+   "weaponSpeed": 2.4
+  },
+  {
+   "id": 19566,
+   "name": "Advisor's Gnarled Staff",
+   "icon": "inv_staff_25",
+   "quality": "Rare",
+   "itemLevel": 63,
+   "requiredLevel": 60,
+   "slot": "Two-Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Staff",
+   "stats": {
+    "stamina": 21,
+    "intellect": 13,
+    "mp5": 8
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=19566",
+   "phase": 2,
+   "weaponDamageMin": 125,
+   "weaponDamageMax": 188,
+   "weaponSpeed": 2.9
+  },
+  {
+   "id": 19570,
+   "name": "Lorekeeper's Staff",
+   "icon": "inv_staff_28",
+   "quality": "Rare",
+   "itemLevel": 63,
+   "requiredLevel": 60,
+   "slot": "Two-Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Staff",
+   "stats": {
+    "stamina": 21,
+    "intellect": 13,
+    "mp5": 8
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=19570",
+   "phase": 2,
+   "weaponDamageMin": 125,
+   "weaponDamageMax": 188,
+   "weaponSpeed": 2.9
+  },
+  {
+   "id": 20487,
+   "name": "Lok'delar, Stave of the Ancient Keepers DEP",
+   "icon": "inv_staff_21",
+   "quality": "Epic",
+   "itemLevel": 75,
+   "requiredLevel": 60,
+   "slot": "Two-Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Staff",
+   "stats": {
+    "stamina": 26,
+    "intellect": 15,
+    "meleeCrit": 2,
+    "natureResistance": 10
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=20487",
+   "phase": 1,
+   "weaponDamageMin": 187,
+   "weaponDamageMax": 282,
+   "weaponSpeed": 3.2,
+   "allowedClasses": [
+    "Hunter"
+   ]
+  },
+  {
+   "id": 20581,
+   "name": "Staff of Rampant Growth",
+   "icon": "inv_staff_36",
+   "quality": "Epic",
+   "itemLevel": 71,
+   "requiredLevel": 60,
+   "slot": "Two-Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Staff",
+   "stats": {
+    "stamina": 12,
+    "intellect": 16,
+    "mp5": 11,
+    "natureResistance": 20,
+    "healingPower": 84
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=20581",
+   "phase": 1,
+   "weaponDamageMin": 113,
+   "weaponDamageMax": 184,
+   "weaponSpeed": 2.6
+  },
+  {
+   "id": 20648,
+   "name": "Cold Forged Hammer",
+   "icon": "inv_hammer_22",
+   "quality": "Rare",
+   "itemLevel": 63,
+   "requiredLevel": 60,
+   "slot": "Main Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Mace",
+   "stats": {
+    "stamina": 5,
+    "intellect": 9,
+    "mp5": 3
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=20648",
+   "phase": 1,
+   "weaponDamageMin": 72,
+   "weaponDamageMax": 135,
+   "weaponSpeed": 2.5
+  },
+  {
+   "id": 20720,
+   "name": "Dark Whisper Blade",
+   "icon": "inv_weapon_shortblade_16",
+   "quality": "Rare",
+   "itemLevel": 65,
+   "requiredLevel": 60,
+   "slot": "Main Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {
+    "stamina": 6,
+    "spellPower": 19
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=20720",
+   "phase": 1,
+   "weaponDamageMin": 40,
+   "weaponDamageMax": 77,
+   "weaponSpeed": 1.4
+  },
+  {
+   "id": 20722,
+   "name": "Crystal Slugthrower",
+   "icon": "inv_weapon_rifle_03",
+   "quality": "Rare",
+   "itemLevel": 65,
+   "requiredLevel": 60,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Gun",
+   "stats": {
+    "stamina": 4,
+    "attackPower": 20,
+    "rangedAttackPower": 20
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=20722",
+   "phase": 1,
+   "weaponDamageMin": 65,
+   "weaponDamageMax": 122,
+   "weaponSpeed": 2.8
+  },
+  {
+   "id": 21135,
+   "name": "Assassin's Throwing Axe",
+   "icon": "inv_throwingaxe_06",
+   "quality": "Rare",
+   "itemLevel": 63,
+   "requiredLevel": 60,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Thrown",
+   "stats": {
+    "agility": 11
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=21135",
+   "phase": 1,
+   "weaponDamageMin": 78,
+   "weaponDamageMax": 146,
+   "weaponSpeed": 3
+  },
+  {
+   "id": 22254,
+   "name": "Wand of Eternal Light",
+   "icon": "inv_wand_02",
+   "quality": "Rare",
+   "itemLevel": 57,
+   "requiredLevel": 55,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Wand",
+   "stats": {
+    "intellect": 6,
+    "mp5": 2,
+    "healingPower": 9
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=22254",
+   "phase": 1,
+   "weaponDamageMin": 58,
+   "weaponDamageMax": 109,
+   "weaponSpeed": 1.5
+  },
+  {
+   "id": 22266,
+   "name": "Flarethorn",
+   "icon": "inv_spear_01",
+   "quality": "Rare",
+   "itemLevel": 57,
+   "requiredLevel": 55,
+   "slot": "One-Hand",
+   "equipSlots": [
+    "main_hand",
+    "off_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {
+    "intellect": 5,
+    "firePower": 17
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=22266",
+   "phase": 1,
+   "weaponDamageMin": 47,
+   "weaponDamageMax": 88,
+   "weaponSpeed": 1.8
+  },
+  {
+   "id": 22317,
+   "name": "Lefty's Brass Knuckle",
+   "icon": "inv_gauntlets_11",
+   "quality": "Rare",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "One-Hand",
+   "equipSlots": [
+    "main_hand",
+    "off_hand"
+   ],
+   "subclass": "Fist Weapon",
+   "stats": {
+    "strength": 5,
+    "agility": 12
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=22317",
+   "phase": 1,
+   "weaponDamageMin": 42,
+   "weaponDamageMax": 78,
+   "weaponSpeed": 1.5
+  },
+  {
+   "id": 22318,
+   "name": "Malgen's Long Bow",
+   "icon": "inv_weapon_bow_12",
+   "quality": "Rare",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Bow",
+   "stats": {
+    "stamina": 4,
+    "attackPower": 20,
+    "rangedAttackPower": 20
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=22318",
+   "phase": 1,
+   "weaponDamageMin": 63,
+   "weaponDamageMax": 118,
+   "weaponSpeed": 2.9
+  },
+  {
+   "id": 22335,
+   "name": "Lord Valthalak's Staff of Command",
+   "icon": "inv_staff_07",
+   "quality": "Rare",
+   "itemLevel": 63,
+   "requiredLevel": 60,
+   "slot": "Two-Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Staff",
+   "stats": {
+    "stamina": 11,
+    "intellect": 10,
+    "spellPower": 30,
+    "spellHit": 1
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=22335",
+   "phase": 1,
+   "weaponDamageMin": 90,
+   "weaponDamageMax": 136,
+   "weaponSpeed": 2.1
+  },
+  {
+   "id": 22394,
+   "name": "Staff of Metanoia",
+   "icon": "inv_staff_29",
+   "quality": "Rare",
+   "itemLevel": 62,
+   "requiredLevel": 60,
+   "slot": "Two-Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Staff",
+   "stats": {
+    "stamina": 15,
+    "intellect": 15,
+    "spirit": 13,
+    "healingPower": 35
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=22394",
+   "phase": 1,
+   "weaponDamageMin": 89,
+   "weaponDamageMax": 134,
+   "weaponSpeed": 2.1
+  },
+  {
+   "id": 22404,
+   "name": "Willey's Back Scratcher",
+   "icon": "inv_weapon_shortblade_16",
+   "quality": "Rare",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Main Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Fist Weapon",
+   "stats": {
+    "stamina": 12,
+    "attackPower": 10,
+    "rangedAttackPower": 10
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=22404",
+   "phase": 1,
+   "weaponDamageMin": 73,
+   "weaponDamageMax": 136,
+   "weaponSpeed": 2.6
+  },
+  {
+   "id": 22406,
+   "name": "Redemption",
+   "icon": "inv_staff_23",
+   "quality": "Rare",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Two-Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Staff",
+   "stats": {
+    "spirit": 12,
+    "healingPower": 66
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=22406",
+   "phase": 1,
+   "weaponDamageMin": 87,
+   "weaponDamageMax": 132,
+   "weaponSpeed": 2.1
+  },
+  {
+   "id": 22408,
+   "name": "Ritssyn's Wand of Bad Mojo",
+   "icon": "inv_wand_07",
+   "quality": "Rare",
+   "itemLevel": 63,
+   "requiredLevel": 60,
+   "slot": "Ranged / Relic",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Wand",
+   "stats": {
+    "stamina": 4,
+    "spellPower": 11
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=22408",
+   "phase": 1,
+   "weaponDamageMin": 58,
+   "weaponDamageMax": 108,
+   "weaponSpeed": 1.3
+  },
+  {
+   "id": 23124,
+   "name": "Staff of Balzaphon",
+   "icon": "inv_staff_07",
+   "quality": "Rare",
+   "itemLevel": 60,
+   "requiredLevel": 60,
+   "slot": "Two-Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Staff",
+   "stats": {
+    "stamina": 8,
+    "intellect": 10,
+    "spirit": 7,
+    "spellPower": 29,
+    "spellCrit": 1
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=23124",
+   "phase": 1,
+   "weaponDamageMin": 160,
+   "weaponDamageMax": 241,
+   "weaponSpeed": 3.9
+  },
+  {
+   "id": 24222,
+   "name": "The Shadowfoot Stabber",
+   "icon": "inv_weapon_shortblade_18",
+   "quality": "Rare",
+   "itemLevel": 57,
+   "requiredLevel": 55,
+   "slot": "One-Hand",
+   "equipSlots": [
+    "main_hand",
+    "off_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {
+    "stamina": 8,
+    "attackPower": 18,
+    "rangedAttackPower": 18
+   },
+   "effects": [],
+   "tooltip": "",
+   "source": "WoWSims Classic item database (MIT)",
+   "wowhead": "https://www.wowhead.com/classic/item=24222",
+   "phase": 1,
+   "weaponDamageMin": 47,
+   "weaponDamageMax": 88,
+   "weaponSpeed": 1.8
+  }
+ ]
+}
