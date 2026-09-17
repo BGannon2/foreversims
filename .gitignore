@@ -17,3 +17,5 @@ Launch Web.cmd
 !.dev.vars.example
 .env*
 !.env.example
+feedback.local.jsonl
+.wrangler/

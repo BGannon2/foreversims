@@ -10,6 +10,9 @@
     { "pattern": "foreversims.com", "custom_domain": true },
     { "pattern": "www.foreversims.com", "custom_domain": true }
   ],
+  "d1_databases": [
+    { "binding": "DB", "database_name": "foreversims-feedback", "database_id": "515d12dc-a051-4034-a897-a4861c446595", "migrations_dir": "migrations" }
+  ],
   "assets": {
     "directory": "web",
     "binding": "ASSETS",

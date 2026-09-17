@@ -137,6 +137,19 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         route = urlparse(self.path).path
+        if route == "/api/feedback":
+            # Local stand-in for the Cloudflare Worker endpoint: append to feedback.local.jsonl.
+            try:
+                size = int(self.headers.get("Content-Length", "0"))
+                payload = json.loads(self.rfile.read(size)) if 0 < size <= MAX_BODY else {}
+                if len(str(payload.get("message", "")).strip()) < 5:
+                    return self.send_json({"error": "Please write a few words of feedback."}, HTTPStatus.BAD_REQUEST)
+                with (ROOT / "feedback.local.jsonl").open("a", encoding="utf-8") as fh:
+                    fh.write(json.dumps({"received": self.log_date_time_string(), **payload}) + "
+")
+                return self.send_json({"ok": True, "local": True})
+            except (ValueError, json.JSONDecodeError) as exc:
+                return self.send_json({"error": str(exc)}, HTTPStatus.BAD_REQUEST)
         if route not in ("/api/simulate", "/api/simulate-spec"):
             return self.send_error(HTTPStatus.NOT_FOUND)
         try:

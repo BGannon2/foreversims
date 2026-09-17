@@ -244,3 +244,20 @@ a.brand{text-decoration:none;color:inherit;transition:filter var(--fast)}a.brand
 @media(max-width:1180px){.settings-groups .option-grid,.settings-groups #raidBuffFields,.settings-groups #debuffFields,.settings-groups #consumableFields{grid-template-columns:minmax(0,1fr)}}
 .home-intro p.home-alpha-note{text-transform:none;letter-spacing:0;font-weight:400;font-family:var(--font-mono);max-width:680px;margin:18px auto 0;padding:12px 16px;border:1px solid var(--line);border-left:3px solid var(--gold);background:rgba(8,6,26,.7);color:var(--muted);font-size:.82rem;line-height:1.5;text-align:left}.home-intro p.home-alpha-note::before{content:none}.home-intro p.home-alpha-note b{color:var(--gold);font-family:var(--font-head);letter-spacing:.06em;text-transform:uppercase;font-size:.72rem;margin-right:6px}
 .site-version{position:fixed;right:12px;bottom:8px;z-index:5;font-family:var(--font-mono);font-size:.62rem;letter-spacing:.08em;color:var(--muted);opacity:.8;pointer-events:none;text-transform:uppercase}
+/* Feedback button + dialog */
+.feedback-button{position:fixed;left:12px;bottom:10px;z-index:6;padding:7px 14px;font-family:var(--font-head);font-size:.66rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);background:rgba(8,6,26,.85);border:1px solid var(--teal);cursor:pointer;transform:skew(-8deg);transition:all var(--fast)}
+.feedback-button:hover{background:var(--teal);color:#08061a;box-shadow:0 0 14px rgba(63,198,232,.6)}
+.feedback-dialog{background:transparent;border:0;padding:0;max-width:min(560px,calc(100vw - 32px));width:100%;color:var(--text)}
+.feedback-dialog::backdrop{background:rgba(4,3,14,.78);backdrop-filter:blur(3px)}
+.feedback-form{display:grid;gap:12px;padding:20px 22px 18px;background:rgba(12,9,38,.98);border:1px solid var(--line);border-top:3px solid var(--teal);box-shadow:0 0 40px rgba(63,198,232,.25)}
+.feedback-form header{display:flex;align-items:center;justify-content:space-between}.feedback-form h2{margin:0;font-family:var(--font-head);font-size:1rem;letter-spacing:.08em;color:var(--teal)}
+.feedback-close{background:transparent;border:0;color:var(--muted);font-size:1.4rem;cursor:pointer;line-height:1}.feedback-close:hover{color:#fff}
+.feedback-intro{margin:0;color:var(--muted);font-size:.8rem;line-height:1.5}
+.feedback-form label{display:grid;gap:5px;font-family:var(--font-mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#c5b8c0}.feedback-form label small{text-transform:none;letter-spacing:0;color:var(--muted)}
+.feedback-form select,.feedback-form textarea,.feedback-form input{width:100%;box-sizing:border-box;background:var(--input,#0d1320);border:1px solid #3c4a60;color:#fff;padding:8px 10px;font:inherit;font-size:.85rem;text-transform:none;letter-spacing:0}
+.feedback-form textarea{resize:vertical;min-height:120px;line-height:1.45}.feedback-form select:focus,.feedback-form textarea:focus,.feedback-form input:focus{outline:0;border-color:var(--teal)}
+.feedback-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.feedback-status{margin:0;min-height:1.2em;font-size:.8rem;color:var(--muted)}.feedback-status.ok{color:#70d99b}.feedback-status.error{color:#ff7a90}
+.feedback-form footer{display:flex;justify-content:flex-end;gap:10px}.feedback-cancel{background:transparent;border:1px solid var(--line);color:var(--muted);padding:8px 14px;cursor:pointer;font-family:var(--font-head);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase}.feedback-cancel:hover{color:#fff;border-color:#fff}
+.feedback-submit{padding:8px 18px;font-size:.7rem}
+@media(max-width:700px){.feedback-button{bottom:34px}}
