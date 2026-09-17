@@ -41,6 +41,10 @@ CLASSIC_PRIMARY = {
 }
 
 from engine_data import BUFF_STATS as RAID_BUFF_STATS, RACE_STATS, RACIALS, WEAPON_CRIT_TYPES
+from engine import SET_PATTERNS, _re
+
+# Set bonuses with a Paladin-engine effect beyond flat stats (Wowhead Classic tooltips).
+PALADIN_SET_FLAGS = {"Judgement Armor|8": "judgement_bonus_damage", "Battlegear of Eternal Justice|3": "eternal_justice_mana"}
 
 CONSUMABLE_STATS = {
     "flask_of_the_titans": {"health": 1200},
@@ -93,9 +97,23 @@ def apply_gear(profile):
         if slot == "main_hand": main = item
     bonus_totals = defaultdict(float)
     active_forever_bonuses = []
+    active_classic_bonuses = []
+    set_flags = {}
     for name, count in set_counts.items():
         override = FOREVER_SETS["sets"].get(name)
         if not override:
+            for bonus in set_definitions[name].get("bonuses", []):
+                if count < int(bonus.get("required", 99)):
+                    continue
+                stats = dict(bonus.get("stats") or {})
+                if not stats:
+                    for key, pattern in SET_PATTERNS:
+                        m = _re(pattern, bonus.get("description", ""))
+                        if m: stats[key] = float(m.group(1)); break
+                for stat, value in stats.items(): totals[stat] += value
+                key = f"{name}|{bonus.get('required')}"
+                if key in PALADIN_SET_FLAGS: set_flags[PALADIN_SET_FLAGS[key]] = True
+                active_classic_bonuses.append({"set": name, "required": bonus.get("required"), "description": bonus.get("description", ""), "stats": stats, "modeled": bool(stats) or key in PALADIN_SET_FLAGS})
             continue
         for bonus in override["bonuses"]:
             if count < bonus["required"]:
@@ -113,6 +131,7 @@ def apply_gear(profile):
             if enabled:
                 for stat, value in CONSUMABLE_STATS.get(key, {}).items(): bonus_totals[stat] += value
         for stat, value in bonus_totals.items(): totals[stat] += value
+    effective["set_flags"] = set_flags
     if main and main["slot"] == "Two-Hand" and effective["gear"]["off_hand"]:
         raise ValueError("A two-handed weapon cannot be combined with an off-hand item.")
     base = copy.deepcopy(effective["character"])
@@ -181,7 +200,7 @@ def apply_gear(profile):
                "active_raid_buffs": [k for k,v in effective.get("raid_buffs",{}).items() if v],
                "active_consumables": [k for k,v in effective.get("consumables",{}).items() if v],
                "active_debuffs": [k for k,v in effective.get("debuffs",{}).items() if v],
-               "active_forever_set_bonuses": active_forever_bonuses,
+               "active_forever_set_bonuses": active_forever_bonuses, "active_classic_set_bonuses": active_classic_bonuses, "set_flags": set_flags,
                "effective_character": copy.deepcopy(effective["character"]),
                "note": "Sourced Forever set bonuses apply at their equipped thresholds. Classic primary-stat, armor and attack-power conversions are applied only when the audit switch is enabled. Item effects are modeled individually when identified."}
     return effective, summary

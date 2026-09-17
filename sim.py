@@ -211,6 +211,7 @@ class Fight:
         self.damage_window=deque(); self.window_sum=0.0; self.peak_three_seconds=0.0
         self.race=profile.get('race','Human'); self.racial=RACIALS.get(self.race,{})
         self.last_cast=-10.0; self.next_mana_tick=2.0; self.potion_cd=0.0; self.rune_cd=0.0
+        self.set_flags=profile.get('set_flags',{})
         self.sapper_used=False
 
     def rank(self, talent_id):
@@ -339,6 +340,8 @@ class Fight:
                 seal=self.seal; f=F[seal]
                 self.deal('Judgement of '+seal.title(),self.rng.uniform(f['judgement_min'],f['judgement_max'])*(1+0.05*self.rank(105334)),
                           holy=True,can_crit=True,hit=self.c['spell_hit_chance'],spell_coefficient=.43)
+                if self.set_flags.get('judgement_bonus_damage'): self.deal('Judgement Armor bonus',self.rng.uniform(60,66),holy=True,hit=1)
+                if self.set_flags.get('eternal_justice_mana') and self.rng.random()<0.20: self.gain_mana(100)
                 self.seal=None; self.seal_until=0
                 cd=F['judgement']['cooldown']-F['improved_judgement_rank1']['cooldown_reduction']*self.rank(105705)
                 self.cd['judgement']=self.time+cd

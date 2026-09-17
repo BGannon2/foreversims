@@ -205,6 +205,8 @@ pub struct Iteration<'a> {
     pub blocked_by_resource: bool,
     pub taken_by: IndexMap<String, f64>,
     pub pet_threat: f64,
+    pub wrath_discount: bool,
+    pub next_parry: bool,
 }
 
 impl<'a> Iteration<'a> {
@@ -226,6 +228,7 @@ impl<'a> Iteration<'a> {
             flurry: 0, eureka: 0, dodged_recently: -10.0, avoided_recently: -10.0, combustion: None, clearcast: false, next_instant: false, next_crit: false, eclipse: 0,
             busy_until: 0.0, starved: 0.0, first_oom: None, pet_state: None, enrage_until: 0.0, sacrificed: None, racial_next: 0.0, item_icd: IndexMap::new(), windfury_lock: 0.0,
             cur_school: String::new(), cur_cost: 0.0, blocked_by_resource: false, taken_by: IndexMap::new(), pet_threat: 0.0,
+            wrath_discount: false, next_parry: false,
         };
         if c.spec.resource == "Rage" {
             let start = c.request.get("starting_rage").and_then(|v| v.as_f64()).unwrap_or(0.0);
@@ -332,7 +335,7 @@ impl<'a> Iteration<'a> {
         let mut base = if ranged { self.st("rangedAttackPower") } else { self.st("attackPower") };
         for b in self.buffs.values() {
             if b.until > self.t {
-                if b.stat.as_deref() == Some("attackPower") {
+                if b.stat.as_deref() == Some("attackPower") || (ranged && b.stat.as_deref() == Some("rangedAttackPower")) {
                     base += b.value;
                 }
                 if b.stat.as_deref() == Some("strength") {
@@ -348,9 +351,10 @@ impl<'a> Iteration<'a> {
 
     fn sp(&self, school: &str) -> f64 {
         let mut base = self.st("spellPower") + self.st(&format!("{school}Power"));
+        let school_power = format!("{school}Power");
         for b in self.buffs.values() {
             if b.until > self.t {
-                if b.stat.as_deref() == Some("spellPower") {
+                if b.stat.as_deref() == Some("spellPower") || b.stat.as_deref() == Some(school_power.as_str()) {
                     base += b.value;
                 }
                 if b.sp_pct != 0.0 {
@@ -441,6 +445,11 @@ impl<'a> Iteration<'a> {
         if hand == Hand::Off && c.spec.class_name == "Warrior" {
             hit_pct += c.mod_("dw_hit") / 100.0;
         }
+        if let Some(ab) = ability {
+            if !white {
+                hit_pct += c.mod_(&format!("hit_ability:{ab}")) / 100.0;
+            }
+        }
         miss = (miss - (hit_pct - suppression).max(0.0)).max(0.0);
         let dodge = if no_dodge { 0.0 } else { (0.05 + delta * 0.001 - c.flag("expertise") * 0.02).max(0.0) };
         let front = c.spec.role == "tank";
@@ -501,9 +510,13 @@ impl<'a> Iteration<'a> {
 
     fn spell_outcome(&mut self, ability: &str, school: &str, can_crit: bool) -> (Outcome, f64) {
         let c = self.c;
-        let hit = (0.83 + (self.st("spellHit") + c.mod_(&format!("spell_hit_school:{school}"))) / 100.0).min(0.99);
+        let buff_hit: f64 = self.buffs.values().filter(|b| b.stat.as_deref() == Some("spellHit") && b.until > self.t).map(|b| b.value).sum();
+        let hit = (0.83 + (self.st("spellHit") + c.mod_(&format!("spell_hit_school:{school}")) + buff_hit) / 100.0).min(0.99);
         let roll = self.rng.random();
         if roll >= hit {
+            if c.flag("enigma_hit") != 0.0 {
+                self.add_buff("Enigma Vestments", 20.0, Buff { stat: Some("spellHit".into()), value: c.flag("enigma_hit"), ..Default::default() });
+            }
             return (Outcome::Miss, 0.0);
         }
         let mut crit = if can_crit { self.crit_chance("spell", Some(ability), Some(school)) } else { 0.0 };
@@ -546,6 +559,7 @@ impl<'a> Iteration<'a> {
         m *= stance.damage;
         let creature = if c.racial_enabled { c.racial.creature_damage.get(&c.boss_type).copied().unwrap_or(0.0) } else { 0.0 };
         m *= 1.0 + creature;
+        m *= 1.0 + c.mod_(&format!("creature_dmg:{}", c.boss_type));
         if c.flag("murder") != 0.0 && ["humanoid", "giant"].contains(&c.boss_type.as_str()) {
             m *= 1.0 + c.flag("murder");
         }
@@ -621,6 +635,9 @@ impl<'a> Iteration<'a> {
     fn armor_mult(&self) -> f64 {
         let c = self.c;
         let mut armor = c.armor_after_debuffs();
+        if self.debuff_active("Spider's Kiss") {
+            armor = (armor - 100.0).max(0.0);
+        }
         let mut pen = c.flag("armor_pen_pct");
         if c.flag("weaponmaster") != 0.0 && matches!(weapon_type(&c.mh), Some("Mace") | Some("Staff")) {
             pen += 0.15;
@@ -644,7 +661,7 @@ impl<'a> Iteration<'a> {
         if school == "physical" {
             dmg *= self.armor_mult();
         }
-        let th_mult = self.threat_multiplier(Some(school));
+        let th_mult = self.threat_multiplier(Some(school)) * (1.0 + self.c.mod_(&format!("threat_ability:{name}")));
         let r = self.row(name);
         if outcome == Outcome::Glance { r.glances += 1.0; }
         if outcome == Outcome::Crit { r.crits += 1.0; }
@@ -742,6 +759,25 @@ impl<'a> Iteration<'a> {
         let hand_slot = if hand == Hand::Off { "off_hand" } else { "main_hand" };
         if c.crusader_hands.contains(hand_slot) && self.rng.random() < speed / 60.0 {
             self.add_buff(&format!("Crusader ({})", hand_slot.replace('_', " ")), 15.0, Buff { stat: Some("strength".into()), value: 100.0, ..Default::default() });
+        }
+        if white && c.flag("shadowcraft_energy") != 0.0 && self.rng.random() < c.flag("shadowcraft_energy") * speed / 60.0 {
+            self.gain_energy(35.0);
+            self.row("Shadowcraft Energize").casts += 1.0;
+        }
+        if c.flag("bloodfang_proc") != 0.0 && self.rng.random() < c.flag("bloodfang_proc") * speed / 60.0 {
+            let total = self.rng.uniform(283.0, 317.0);
+            self.dots.insert("Bloodfang".into(), Dot { next: self.t + 1.0, remaining: 6, tick: total / 6.0, tick_len: 1.0, school: "physical".into(), bleed: false, stacks: 1 });
+        }
+        if c.flag("stormshroud_dmg") != 0.0 && self.rng.random() < c.flag("stormshroud_dmg") {
+            self.row("Stormshroud").casts += 1.0;
+            let amt = self.rng.uniform(15.0, 25.0);
+            self.deal("Stormshroud", amt, "nature", "spell", false, false, 1.0, 0.0, Outcome::Hit, 1.0);
+        }
+        if c.flag("stormshroud_energy") != 0.0 && self.rng.random() < c.flag("stormshroud_energy") {
+            self.gain_energy(30.0);
+        }
+        if c.flag("spiders_kiss") != 0.0 && self.rng.random() < c.flag("spiders_kiss") {
+            self.add_debuff("Spider's Kiss", 10.0, None);
         }
         for proc in &c.item_procs {
             if proc.trigger == "weapon" {
@@ -970,6 +1006,9 @@ impl<'a> Iteration<'a> {
         let dmg = self.deal("Auto Shot", raw, "physical", "ranged", true, false, 1.0, 0.0, out, m);
         self.touch_of_the_grave();
         if dmg != 0.0 {
+            self.on_ranged_damage(out);
+        }
+        if dmg != 0.0 {
             for proc in &c.item_procs {
                 if proc.trigger == "weapon" && proc.item_id.is_some() && proc.item_id == c.ranged.id && self.rng.random() < proc.ppm.unwrap_or(1.0) * c.ranged.speed_or(2.8) / 60.0 {
                     let label = format!("Item - {}", proc.name);
@@ -978,6 +1017,20 @@ impl<'a> Iteration<'a> {
                     self.deal(&label, proc.amount.unwrap_or(0.0), &school, "spell", false, false, 1.0, 0.0, Outcome::Hit, 1.0);
                 }
             }
+        }
+    }
+
+    /// Set procs that trigger on landed ranged damage.
+    fn on_ranged_damage(&mut self, out: Outcome) {
+        let c = self.c;
+        if c.flag("beaststalker_mana") != 0.0 && self.rng.random() < c.flag("beaststalker_mana") {
+            self.gain_mana(200.0);
+        }
+        if out == Outcome::Crit && c.flag("cryptstalker_mana") != 0.0 {
+            self.gain_mana(c.flag("cryptstalker_mana"));
+        }
+        if c.flag("dragonstalker_ew") != 0.0 && self.rng.random() < c.flag("dragonstalker_ew") * c.ranged.speed_or(2.8) / 60.0 {
+            self.add_buff("Expose Weakness", 7.0, Buff { stat: Some("rangedAttackPower".into()), value: 450.0, ..Default::default() });
         }
     }
 
@@ -1238,7 +1291,7 @@ impl<'a> Iteration<'a> {
             if let Some(v) = a.energy_regen_mult { kw.energy_regen_mult = v; }
             if let Some(v) = a.pet_damage_mult { kw.pet_damage_mult = v; }
             if let Some(v) = a.flat_damage_bonus { kw.flat_damage_bonus = v; }
-            self.add_buff(name, dur, kw);
+            self.add_buff(name, dur + c.mod_(&format!("duration:{name}")), kw);
         }
         if a.combustion {
             self.combustion = Some((0, 0));
@@ -1289,7 +1342,11 @@ impl<'a> Iteration<'a> {
             self.gcd_until = self.t + gcd / if spell_style { haste } else { 1.0 };
             return;
         }
-        let cost = self.cost(name);
+        let mut cost = self.cost(name);
+        if c.spec.resource == "Rage" && cost > 0.0 && self.wrath_discount {
+            cost = (cost - 5.0).max(0.0);
+            self.wrath_discount = false;
+        }
         self.row(name).casts += 1.0;
         let mut cast = a.cast / self.haste(if a.ranged_cast { "ranged" } else { "spell" });
         if self.next_instant && cast > 0.0 {
@@ -1302,6 +1359,9 @@ impl<'a> Iteration<'a> {
         }
         self.spend(cost);
         self.cur_cost = cost;
+        if c.spec.resource == "Rage" && cost > 0.0 && c.flag("wrath_rage_proc") != 0.0 && self.rng.random() < c.flag("wrath_rage_proc") {
+            self.wrath_discount = true;
+        }
         self.cooldowns.insert(name.to_string(), self.t + a.cooldown);
         if let Some(s) = &a.shared_cd {
             self.cooldowns.insert(format!("shared:{s}"), self.t + a.cooldown);
@@ -1359,7 +1419,7 @@ impl<'a> Iteration<'a> {
             let th_mult = self.threat_multiplier(None);
             let r = self.row(name);
             r.hits += 1.0;
-            let th = flat_threat * th_mult;
+            let th = flat_threat * (1.0 + c.mod_(&format!("threat_ability:{name}"))) * th_mult;
             r.threat += th;
             self.threat += th;
             if name == "Sunder Armor" {
@@ -1379,7 +1439,10 @@ impl<'a> Iteration<'a> {
                     dmg = self.weapon_damage(&ranged, true, true, 0.0) + a.weapon_flat();
                 }
                 let targets = if name == "Multi-Shot" { c.targets.min(3) as f64 } else { 1.0 };
-                self.deal(name, dmg, "physical", "ranged", false, false, 1.0, 0.0, out, m * a.mult * targets);
+                let dealt = self.deal(name, dmg, "physical", "ranged", false, false, 1.0, 0.0, out, m * a.mult * targets);
+                if dealt != 0.0 {
+                    self.on_ranged_damage(out);
+                }
                 return;
             }
             let item = c.mh.clone();
@@ -1391,6 +1454,9 @@ impl<'a> Iteration<'a> {
                 }
                 if out == Outcome::Dodge {
                     self.dodged_recently = self.t;
+                }
+                if a.finisher.is_some() && c.flag("finisher_refund") != 0.0 {
+                    self.gain_energy(c.flag("finisher_refund"));
                 }
                 return;
             }
@@ -1429,7 +1495,7 @@ impl<'a> Iteration<'a> {
                 }
             }
             let fb: f64 = self.buffs.values().filter(|b| b.until > self.t).map(|b| b.flat_damage_bonus).sum();
-            base += fb;
+            base += fb + c.mod_(&format!("flat_ability:{name}"));
             if self.next_crit {
                 self.next_crit = false;
             }
@@ -1447,6 +1513,9 @@ impl<'a> Iteration<'a> {
                     gained += 1;
                 }
                 self.cp = 5.min(self.cp + gained);
+            }
+            if out == Outcome::Crit && c.flag("bonescythe_energy") != 0.0 && ["Backstab", "Sinister Strike", "Hemorrhage"].contains(&name) {
+                self.gain_energy(c.flag("bonescythe_energy"));
             }
             if a.finisher.is_some() {
                 self.finish();
@@ -1476,6 +1545,9 @@ impl<'a> Iteration<'a> {
             self.row(name);
             if out.avoided() {
                 self.deal(name, 0.0, "physical", "melee", false, false, 1.0, 0.0, out, 1.0);
+                if c.flag("finisher_refund") != 0.0 {
+                    self.gain_energy(c.flag("finisher_refund"));
+                }
                 return;
             }
             self.dots.insert(name.to_string(), Dot { next: self.t + a.tick_len, remaining: a.ticks, tick: tick * a.mult, tick_len: a.tick_len, school: "physical".into(), bleed: true, stacks: 1 });
@@ -1490,6 +1562,9 @@ impl<'a> Iteration<'a> {
             let (out, _m) = self.melee_outcome(Hand::Main, false, Some(name), false);
             if out.avoided() {
                 self.deal(name, 0.0, "physical", "melee", false, false, 1.0, 0.0, out, 1.0);
+                if c.flag("finisher_refund") != 0.0 {
+                    self.gain_energy(c.flag("finisher_refund"));
+                }
                 return;
             }
             self.dots.insert(name.to_string(), Dot { next: self.t + 2.0, remaining: 3 + cp, tick: tick * a.mult, tick_len: 2.0, school: "physical".into(), bleed: true, stacks: 1 });
@@ -1509,7 +1584,8 @@ impl<'a> Iteration<'a> {
             let mut base = self.rng.uniform(lo, hi) + sp * a.coeff;
             base *= a.direct_mult.unwrap_or(1.0);
             if name == "Chain Lightning" {
-                base *= 1.0 + 0.7 * ((c.targets > 1) as i32 as f64) + 0.49 * ((c.targets > 2) as i32 as f64);
+                let bounce = 0.7 + c.mod_("chain_lightning_bounce");
+                base *= 1.0 + bounce * ((c.targets > 1) as i32 as f64) + bounce * bounce * ((c.targets > 2) as i32 as f64);
             }
             if name == "Conflagrate" {
                 if let Some(d) = self.dots.get_mut("Immolate") {
@@ -1524,6 +1600,9 @@ impl<'a> Iteration<'a> {
                 self.eureka -= 1;
             }
             self.after_spell_hit(name, &school, out, dmg, &a);
+            if (name == "Fireball" || name == "Frostbolt") && c.flag("netherwind_instant") != 0.0 && self.rng.random() < c.flag("netherwind_instant") {
+                self.next_instant = true;
+            }
             if kind == "direct_dot" {
                 self.apply_dot(name, &a, sp);
             }
@@ -1584,6 +1663,9 @@ impl<'a> Iteration<'a> {
                 self.deal(&label, amt, school, "spell", false, false, 0.0, 0.0, o2, m2 * a.mult);
             }
         }
+        if c.flag("stormcaller") != 0.0 && ["Lightning Bolt", "Chain Lightning", "Earth Shock", "Flame Shock"].contains(&name) && landed && self.rng.random() < c.flag("stormcaller") {
+            self.add_buff("Stormcaller's Garb", 8.0, Buff { stat: Some("naturePower".into()), value: 50.0, ..Default::default() });
+        }
         if c.flag("shadow_and_flame") != 0.0 {
             if name == "Conflagrate" {
                 self.add_debuff("Shadow and Flame (shadow)", 20.0, None);
@@ -1602,6 +1684,9 @@ impl<'a> Iteration<'a> {
         let cast = self.cast.take().unwrap();
         let a = &self.c.actions[&cast.name];
         if a.kind == "channel" {
+            if cast.name == "Arcane Missiles" && self.c.flag("netherwind_instant") != 0.0 && self.rng.random() < self.c.flag("netherwind_instant") {
+                self.next_instant = true;
+            }
             return;
         }
         self.resolve(&cast.name);
@@ -1674,6 +1759,10 @@ impl<'a> Iteration<'a> {
                 break;
             }
         }
+        if self.next_parry {
+            self.next_parry = false;
+            outcome = Outcome::Parry;
+        }
         if outcome.avoided() {
             self.avoided_recently = self.t;
             if outcome == Outcome::Dodge && c.flag("master_of_defense") != 0.0 {
@@ -1701,12 +1790,25 @@ impl<'a> Iteration<'a> {
             if c.flag("shield_spec_rage") != 0.0 {
                 self.gain_rage(c.flag("shield_spec_rage"));
             }
+            if c.flag("wrath_parry") != 0.0 && self.rng.random() < c.flag("wrath_parry") {
+                self.next_parry = true;
+            }
         }
         self.taken += amount;
         self.health -= amount;
         self.gain_rage(amount * 2.5 / c.t.RAGE_CONVERSION_60);
         if c.flag("enrage") != 0.0 && self.rng.random() < c.flag("enrage") * 3.0 {
             self.enrage_until = self.t + 12.0;
+        }
+        if c.flag("might_rage") != 0.0 && self.rng.random() < c.flag("might_rage") {
+            self.gain_rage(1.0);
+        }
+        if c.flag("wildheart_proc") != 0.0 && self.rng.random() < c.flag("wildheart_proc") {
+            match c.spec.resource.as_str() {
+                "Mana" => self.gain_mana(300.0),
+                "Rage" => self.gain_rage(10.0),
+                _ => self.gain_energy(40.0),
+            }
         }
         let r = self.row("Boss melee");
         r.casts += 1.0;

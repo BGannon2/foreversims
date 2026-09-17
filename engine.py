@@ -152,7 +152,7 @@ class Config:
         base = LEVEL * 5
         key = ("Two-Hand " if "Two-Hand" in str(item.get("slot", "")) else "") + kind
         bonus = self.weapon_skill_bonus.get(key, 0) or self.weapon_skill_bonus.get(kind, 0) or self.weapon_skill_bonus.get(kind + "s", 0)
-        return base + bonus
+        return base + bonus + self.mod(f"skill:{kind}")
 
     # ---- stats -----------------------------------------------------------
     def _stats(self):
@@ -166,6 +166,15 @@ class Config:
             for effect in item.get("effects", []):
                 self._item_effect(item, effect, gear_stats, applied, unresolved)
         self.set_counts, self.active_set_bonuses, self.unresolved_set_bonuses = apply_set_bonuses(self.gear, gear_stats, self.set_data)
+        for row in self.active_set_bonuses:
+            key = f"{row['set']}|{row['required']}"
+            effects = SET_EFFECTS.get(key)
+            if effects:
+                for k, v in effects.items(): self.mods[k] = self.mod(k) + v
+                row["effects"] = dict(effects)
+            row["modeled"] = bool(row["stats"]) or bool(effects) or key in SET_NO_COMBAT_EFFECT
+            if key in SET_PROVISIONAL: row["provisional"] = SET_PROVISIONAL[key]; self.notes.append(f"{row['set']} ({row['required']}): {SET_PROVISIONAL[key]}")
+        self.unresolved_set_bonuses = [row for row in self.active_set_bonuses if not row["modeled"]]
         self.applied_enchants, self.rejected_enchants = [], []
         primary = "intellect" if s["style"] == "spell" else ("agility" if cls in {"Rogue", "Hunter", "Druid"} else "strength")
         lookup = {(slot, e["id"]): e for slot, rows in self.enchant_data.items() for e in rows}
@@ -187,6 +196,8 @@ class Config:
             for k, v in BUFF_STATS.get(key, {}).items(): st[k] = st.get(k, 0) + v
         for key in self.consumes:
             for k, v in CONSUME_STATS.get(key, {}).items(): st[k] = st.get(k, 0) + v
+        if "battle_shout" in self.buffs and self.mod("buff_ap:battle_shout"): st["attackPower"] = st.get("attackPower", 0) + self.mod("buff_ap:battle_shout")
+        if "mana_spring" in self.buffs and self.mod("buff_pct:mana_spring"): st["mp5"] = st.get("mp5", 0) + BUFF_STATS["mana_spring"]["mp5"] * self.mod("buff_pct:mana_spring")
         if "blessing_of_kings" in self.buffs:
             for stat in ("strength", "agility", "stamina", "intellect", "spirit"): st[stat] = st.get(stat, 0) * 1.10
         self.windfury_totem = "windfury_totem" in self.buffs and s["style"] == "melee" and s["form"] is None and s["class_name"] != "Shaman"
@@ -205,7 +216,7 @@ class Config:
         # Ranged attack power: base + 2 per Agility (Hunter) + item Attack Power + ranged-only items + Aspect of the Hawk.
         # Melee-only buffs (Battle Shout, Blessing of Might, Juju Might, Firewater) do not add ranged AP.
         melee_only_ap = sum(BUFF_STATS.get(k, {}).get("attackPower", 0) for k in self.buffs) + sum(CONSUME_STATS.get(k, {}).get("attackPower", 0) for k in self.consumes)
-        st["rangedAttackPower"] = st.get("rangedAttackPower", 0) + (st.get("attackPower", 0) - melee_only_ap) + st["agility"] * 2 * (cls == "Hunter") + (120 if cls == "Hunter" else 0)
+        st["rangedAttackPower"] = st.get("rangedAttackPower", 0) + (st.get("attackPower", 0) - melee_only_ap) + st["agility"] * 2 * (cls == "Hunter") + (120 * (1 + self.mod("hawk_pct")) if cls == "Hunter" else 0)
         st["spellPower"] = st.get("spellPower", 0) + st["intellect"] * self.mod("sp_from_int") + st["spirit"] * self.flag("spiritual_guidance") + (self.flag("demonic_knowledge") if cls == "Warlock" and self.request.get("pet_family", "succubus") != "none" else 0)
         st["meleeCrit"] = st.get("meleeCrit", 0) + st["agility"] * MELEE_CRIT_PER_AGI[cls] + self.mod("melee_crit")
         st["rangedCrit"] = st.get("rangedCrit", 0) + st["agility"] * MELEE_CRIT_PER_AGI[cls] + self.mod("melee_crit") + self.mod("ranged_crit")
@@ -323,6 +334,7 @@ class Config:
         a["mult"] = 1 + self.mod(f"dmg_ability:{name}")
         a["crit_bonus"] = self.mod(f"crit_ability:{name}")
         if name == "Shadow Word: Pain": a["ticks"] = a["ticks"] + 2 * int(self.flag("swp_ticks") > 0)
+        if a.get("ticks") and self.mod(f"ticks:{name}"): a["ticks"] = a["ticks"] + int(self.mod(f"ticks:{name}"))
         if name == "Immolate" and self.flag("aftermath"): a["direct_mult"] = 1 + self.flag("aftermath") * 5 * 0.1
         if name == "Execute" and self.spec["resource"] == "Rage": pass
         return a
@@ -390,7 +402,8 @@ def permanent_item_stats(item):
     return stats
 
 
-SET_PATTERNS = (("spellPower", r"damage and healing.*?up to (\d+)"), ("mp5", r"Restores (\d+) mana per 5 sec"), ("attackPower", r"\+(\d+) Attack Power"), ("spellHit", r"hit with spells by (\d+)%"),
+SET_PATTERNS = (("spellPower", r"damage and healing.*?up to (\d+)"), ("mp5", r"Restores (\d+) mana per 5 sec"), ("attackPower", r"\+(\d+) Attack Power"), ("attackPower", r"Increases Attack Power by (\d+)"), ("spellHit", r"hit with spells by (\d+)%"),
+                ("agility", r"\+(\d+) Agility"), ("intellect", r"\+(\d+) Intellect"), ("strength", r"\+(\d+) Strength"), ("spirit", r"\+(\d+) Spirit"), ("dodge", r"dodge an attack by (\d+)%"), ("block", r"block attacks with a shield by (\d+)%"),
                 ("spellCrit", r"critical strike with spells by (\d+)%"), ("meleeCrit", r"critical strike by (\d+)%"), ("meleeHit", r"chance to hit by (\d+)%"), ("blockValue", r"block value of your shield by (\d+)"),
                 ("maxEnergy", r"maximum Energy by (\d+)"), ("armor", r"\+(\d+) Armor"), ("defense", r"Increased Defense \+(\d+)"), ("parry", r"parry an attack by (\d+)%"), ("stamina", r"\+(\d+) Stamina"))
 
@@ -476,6 +489,7 @@ class Iteration:
         self.item_icd = {}
         self.oom_time = 0.0
         self.windfury_lock = 0.0
+        self.wrath_discount = False; self.next_parry = False
         if res == "Rage":
             self.rage = min(self.max_rage, float(c.request.get("starting_rage", 0)))
 
@@ -541,7 +555,7 @@ class Iteration:
         base = self.st["rangedAttackPower"] if ranged else self.st["attackPower"]
         for b in self.buffs.values():
             if b["until"] > self.t:
-                if b.get("stat") == "attackPower": base += b["value"]
+                if b.get("stat") == "attackPower" or (ranged and b.get("stat") == "rangedAttackPower"): base += b["value"]
                 if b.get("stat") == "strength": base += b["value"] * AP_PER_STRENGTH[self.s["class_name"]]
                 if b.get("ap_pct"): base *= 1 + b["ap_pct"]
         return base
@@ -550,7 +564,7 @@ class Iteration:
         base = self.st["spellPower"] + self.st.get(f"{school}Power", 0)
         for b in self.buffs.values():
             if b["until"] > self.t:
-                if b.get("stat") == "spellPower": base += b["value"]
+                if b.get("stat") == "spellPower" or b.get("stat") == f"{school}Power": base += b["value"]
                 if b.get("sp_pct"): base *= 1 + b["sp_pct"]
         return base
 
@@ -600,6 +614,7 @@ class Iteration:
         hit_pct = self.st["meleeHit"] / 100
         if white and c.dual_wield: miss += 0.19
         if hand_item is c.oh and c.spec["class_name"] == "Warrior": hit_pct += c.mod("dw_hit") / 100
+        if ability and not white: hit_pct += c.mod(f"hit_ability:{ability}") / 100
         miss = max(0.0, miss - max(0.0, hit_pct - suppression))
         dodge = 0.0 if no_dodge else max(0.0, 0.05 + delta * 0.001 - c.flag("expertise") * 0.02)
         front = self.s["role"] == "tank"
@@ -638,9 +653,11 @@ class Iteration:
 
     def spell_outcome(self, ability, school, can_crit=True):
         c = self.c; rng = self.rng
-        hit = min(0.99, 0.83 + (self.st["spellHit"] + c.mod(f"spell_hit_school:{school}")) / 100)
+        hit = min(0.99, 0.83 + (self.st["spellHit"] + c.mod(f"spell_hit_school:{school}") + sum(b["value"] for b in self.buffs.values() if b.get("stat") == "spellHit" and b["until"] > self.t)) / 100)
         roll = rng.random()
-        if roll >= hit: return "miss", 0.0
+        if roll >= hit:
+            if c.flag("enigma_hit"): self.add_buff("Enigma Vestments", 20, stat="spellHit", value=c.flag("enigma_hit"))
+            return "miss", 0.0
         crit = self.crit_chance("spell", ability, school) if can_crit else 0.0
         if self.next_crit and can_crit: crit = 1.0
         if roll < crit: return "crit", self.crit_multiplier("spell", ability, school)
@@ -662,6 +679,7 @@ class Iteration:
         m *= stance.get("damage", 1.0)
         creature = c.racial.get("creature_damage", {}).get(c.boss_type, 0) if c.racial_enabled else 0
         m *= 1 + creature
+        m *= 1 + c.mod(f"creature_dmg:{c.boss_type}")
         if c.flag("murder") and c.boss_type in {"humanoid", "giant"}: m *= 1 + c.flag("murder")
         if c.flag("improved_tracking") and c.boss_type in {"beast", "demon", "dragonkin", "elemental", "giant", "humanoid", "undead"}: m *= 1 + c.flag("improved_tracking")
         for name, b in self.buffs.items():
@@ -690,6 +708,7 @@ class Iteration:
     def armor_mult(self, ability=None):
         c = self.c
         armor = c.armor_after_debuffs()
+        if self.debuff_active("Spider's Kiss"): armor = max(0.0, armor - 100)
         pen = c.flag("armor_pen_pct")
         if c.flag("weaponmaster") and weapon_type(c.mh) in {"Mace", "Staff"}: pen += 0.15
         if c.flag("hack_and_slash") and weapon_type(c.mh) == "Mace": pen += 0.15
@@ -709,7 +728,7 @@ class Iteration:
         if outcome == "glance": r.glances += 1
         if outcome == "crit": r.crits += 1
         r.hits += 1; r.damage += dmg; self.total += dmg
-        th = (dmg * threat_mult + flat_threat) * self.threat_multiplier(school)
+        th = (dmg * threat_mult + flat_threat) * (1 + self.c.mod(f"threat_ability:{name}")) * self.threat_multiplier(school)
         r.threat += th; self.threat += th
         self.record(name, outcome, dmg)
         return dmg
@@ -773,6 +792,14 @@ class Iteration:
         hand_slot = "off_hand" if hand_item is c.oh else "main_hand"
         if hand_slot in c.crusader_hands and rng.random() < speed / 60:
             self.add_buff(f"Crusader ({hand_slot.replace('_', ' ')})", 15, stat="strength", value=100)
+        if white and c.flag("shadowcraft_energy") and rng.random() < c.flag("shadowcraft_energy") * speed / 60:
+            self.gain_energy(35); self.row("Shadowcraft Energize").casts += 1
+        if c.flag("bloodfang_proc") and rng.random() < c.flag("bloodfang_proc") * speed / 60:
+            self.dots["Bloodfang"] = {"next": self.t + 1, "remaining": 6, "tick": rng.uniform(283, 317) / 6, "tick_len": 1, "school": "physical", "kind": "dot"}
+        if c.flag("stormshroud_dmg") and rng.random() < c.flag("stormshroud_dmg"):
+            self.row("Stormshroud").casts += 1; self.deal("Stormshroud", rng.uniform(15, 25), "nature", "spell", outcome="hit")
+        if c.flag("stormshroud_energy") and rng.random() < c.flag("stormshroud_energy"): self.gain_energy(30)
+        if c.flag("spiders_kiss") and rng.random() < c.flag("spiders_kiss"): self.add_debuff("Spider's Kiss", 10)
         for proc in c.item_procs:
             item = proc.get("item")
             if proc["trigger"] == "weapon" and item is not None and item is not hand_item: continue
@@ -908,11 +935,20 @@ class Iteration:
         dmg = self.deal("Auto Shot", dmg, "physical", "ranged", white=True, outcome=out, mult=m)
         if dmg and c.flag("pet_frenzy") == 0: pass
         self.touch_of_the_grave()
+        if dmg: self.on_ranged_damage(out)
         if dmg:
             for proc in c.item_procs:
                 if proc["trigger"] == "weapon" and proc.get("item") is c.ranged and self.rng.random() < proc.get("ppm", 1) * float(c.ranged.get("weaponSpeed", 2.8)) / 60:
                     self.row(f"Item - {proc['name']}").casts += 1
                     self.deal(f"Item - {proc['name']}", proc.get("amount", 0), proc.get("school", "physical"), "spell", outcome="hit")
+
+    def on_ranged_damage(self, out):
+        """Set procs that trigger on landed ranged damage."""
+        c = self.c; rng = self.rng
+        if c.flag("beaststalker_mana") and rng.random() < c.flag("beaststalker_mana"): self.gain_mana(200)
+        if out == "crit" and c.flag("cryptstalker_mana"): self.gain_mana(c.flag("cryptstalker_mana"))
+        if c.flag("dragonstalker_ew") and rng.random() < c.flag("dragonstalker_ew") * float(c.ranged.get("weaponSpeed", 2.8)) / 60:
+            self.add_buff("Expose Weakness", 7, stat="rangedAttackPower", value=450)
 
     # ---- abilities -------------------------------------------------------
     def check(self, cond, name):
@@ -1055,7 +1091,7 @@ class Iteration:
             if a.get("energy_regen_mult"): kw["energy_regen_mult"] = a["energy_regen_mult"]
             if a.get("pet_damage_mult"): kw["pet_damage_mult"] = a["pet_damage_mult"]
             if a.get("flat_damage_bonus"): kw["flat_damage_bonus"] = a["flat_damage_bonus"]
-            self.add_buff(name, a["duration"], **kw)
+            self.add_buff(name, a["duration"] + c.mod(f"duration:{name}"), **kw)
         if a.get("combustion"): self.combustion = {"stacks": 0, "crits": 0}
         if a.get("instant_next"): self.next_instant = True
         if a.get("next_crit"): self.next_crit = True
@@ -1082,11 +1118,13 @@ class Iteration:
             self.gcd_until = self.t + gcd / (haste if self.s["style"] == "spell" else 1.0)
             return
         cost = self.cost(name)
+        if self.s["resource"] == "Rage" and cost > 0 and self.wrath_discount: cost = max(0.0, cost - 5); self.wrath_discount = False
         self.row(name).casts += 1
         cast = a.get("cast", 0) / self.haste("ranged" if a.get("ranged_cast") else "spell")
         if self.next_instant and cast > 0: cast = 0; self.next_instant = False
         if name == "Starfire" and self.eclipse > 0: cast = max(0, cast - 0.5); self.eclipse -= 1
         self.spend(cost); self.cur_cost = cost
+        if self.s["resource"] == "Rage" and cost > 0 and c.flag("wrath_rage_proc") and self.rng.random() < c.flag("wrath_rage_proc"): self.wrath_discount = True
         self.cooldowns[name] = self.t + a.get("cooldown", 0)
         if a.get("shared_cd"): self.cooldowns["shared:" + a["shared_cd"]] = self.t + a.get("cooldown", 0)
         self.gcd_until = self.t + max(1.0, gcd / (self.haste("spell") if self.s["style"] == "spell" else 1.0)) if gcd == GCD else self.t + gcd
@@ -1121,7 +1159,7 @@ class Iteration:
             self.activate_buff(name, a); return
         threat_mult, flat_threat = a.get("threat_mult", 1.0), a.get("flat_threat", 0.0)
         if a.get("no_damage"):
-            self.row(name).hits += 1; th = flat_threat * self.threat_multiplier(); self.row(name).threat += th; self.threat += th
+            self.row(name).hits += 1; th = flat_threat * (1 + c.mod(f"threat_ability:{name}")) * self.threat_multiplier(); self.row(name).threat += th; self.threat += th
             if name == "Sunder Armor": self.add_debuff("Sunder Armor", 30, stacks_max=5)
             self.record(name, "hit", 0); return
         # ---- weapon-based melee
@@ -1133,6 +1171,7 @@ class Iteration:
                     dmg = self.weapon_damage(c.ranged, normalized=True, ranged=True) + a["weapon"].get("flat", 0)
                     if name == "Multi-Shot": dmg *= 1
                 dmg = self.deal(name, dmg, "physical", "ranged", outcome=out, mult=m * a["mult"] * (min(c.targets, 3) if name == "Multi-Shot" else 1))
+                if dmg: self.on_ranged_damage(out)
                 return
             item = c.mh
             out, m = self.melee_outcome(item, False, name, no_dodge=a.get("no_dodge", False))
@@ -1140,7 +1179,7 @@ class Iteration:
                 self.deal(name, 0, "physical", "melee", outcome=out)
                 if self.s["resource"] == "Rage": self.rage += self.cur_cost * 0.8
                 if out == "dodge": self.dodged_recently = self.t
-                if a.get("cp") and self.s["class_name"] == "Rogue": pass
+                if a.get("finisher") and c.flag("finisher_refund"): self.gain_energy(c.flag("finisher_refund"))
                 return
             if a.get("execute_formula"):
                 extra = self.rage; base = a["execute_formula"][0] + a["execute_formula"][1] * extra; self.rage = 0
@@ -1161,13 +1200,14 @@ class Iteration:
                 base = self.weapon_damage(item, normalized=w.get("normalized", False)) * mult + w.get("flat", 0)
                 if a.get("creature_mult") and c.boss_type in a["creature_mult"]: base *= a["creature_mult"][c.boss_type]
             fb = sum(b.get("flat_damage_bonus", 0) for b in self.buffs.values() if b["until"] > self.t)
-            base += fb
+            base += fb + c.mod(f"flat_ability:{name}")
             if self.next_crit: self.next_crit = False
             dmg = self.deal(name, base, "physical", "melee", threat_mult=threat_mult, flat_threat=flat_threat, outcome=out, mult=m * a["mult"] * (min(c.targets, 4) if name == "Whirlwind" else min(c.targets, 3) if name == "Swipe" else 1))
             if self.eureka > 0: self.eureka -= 1
             if a.get("cp"):
                 gained = a["cp"] + (1 if out == "crit" and rng.random() < c.flag("seal_fate") else 0) + (1 if out == "crit" and c.flag("primal_fury") and self.s["form"] == "cat" else 0)
                 self.cp = min(5, self.cp + gained)
+            if out == "crit" and c.flag("bonescythe_energy") and name in {"Backstab", "Sinister Strike", "Hemorrhage"}: self.gain_energy(c.flag("bonescythe_energy"))
             if a.get("finisher"): self.finish(name)
             if a.get("apply_debuff"): n, d, extra = a["apply_debuff"]; self.add_debuff(n, d)
             if name == "Hemorrhage": self.add_debuff("Hemorrhage", 15)
@@ -1182,14 +1222,20 @@ class Iteration:
             tick = 17 + 28 * cp + 0.01 * scaling * self.ap()
             out, m = self.melee_outcome(c.mh, False, name)
             self.row(name)
-            if out in {"miss", "dodge", "parry"}: self.deal(name, 0, "physical", "melee", outcome=out); return
+            if out in {"miss", "dodge", "parry"}:
+                self.deal(name, 0, "physical", "melee", outcome=out)
+                if c.flag("finisher_refund"): self.gain_energy(c.flag("finisher_refund"))
+                return
             self.dots[name] = {"next": self.t + a["tick_len"], "remaining": a["ticks"], "tick": tick * a["mult"], "tick_len": a["tick_len"], "school": "physical", "kind": "dot", "bleed": True}
             self.finish(name); self.record(name, "applied", 0); return
         if a.get("finisher") == "rupture":
             cp = self.cp
             tick = 60 + 8 * cp + [0, 0.04 / 4, 0.10 / 5, 0.18 / 6, 0.21 / 7, 0.24 / 8][cp] * self.ap()
             out, m = self.melee_outcome(c.mh, False, name)
-            if out in {"miss", "dodge", "parry"}: self.deal(name, 0, "physical", "melee", outcome=out); return
+            if out in {"miss", "dodge", "parry"}:
+                self.deal(name, 0, "physical", "melee", outcome=out)
+                if c.flag("finisher_refund"): self.gain_energy(c.flag("finisher_refund"))
+                return
             self.dots[name] = {"next": self.t + 2, "remaining": 3 + cp, "tick": tick * a["mult"], "tick_len": 2, "school": "physical", "kind": "dot", "bleed": True}
             self.finish(name); self.record(name, "applied", 0); return
         sp = self.sp(school)
@@ -1200,12 +1246,13 @@ class Iteration:
                 self.deal(name, 0, school, "spell", outcome="miss"); return
             base = rng.uniform(*a["base"]) + sp * a.get("coeff", 0)
             base *= a.get("direct_mult", 1.0)
-            if name == "Chain Lightning": base *= 1 + 0.7 * (c.targets > 1) + 0.49 * (c.targets > 2)
+            if name == "Chain Lightning": bounce = 0.7 + c.mod("chain_lightning_bounce"); base *= 1 + bounce * (c.targets > 1) + bounce * bounce * (c.targets > 2)
             if name == "Conflagrate" and self.dots.get("Immolate"): self.dots["Immolate"]["remaining"] = 0
             if self.next_crit: self.next_crit = False
             dmg = self.deal(name, base, school, "spell", threat_mult=threat_mult, flat_threat=flat_threat, outcome=out, mult=m * a["mult"])
             if self.eureka > 0: self.eureka -= 1
             self.after_spell_hit(name, school, out, dmg, a)
+            if name in {"Fireball", "Frostbolt"} and c.flag("netherwind_instant") and rng.random() < c.flag("netherwind_instant"): self.next_instant = True
             if kind == "direct_dot":
                 self.apply_dot(name, a, sp)
             return
@@ -1235,6 +1282,8 @@ class Iteration:
         if c.flag("lightning_overload") and name in {"Lightning Bolt", "Chain Lightning"} and self.rng.random() < c.flag("lightning_overload"):
             o2, m2 = self.spell_outcome(name, school, True)
             if o2 != "miss": self.row(name + " (Overload)").casts += 1; self.deal(name + " (Overload)", (self.rng.uniform(*a["base"]) + self.sp(school) * a.get("coeff", 0)) * 0.5, school, "spell", threat_mult=0.0, outcome=o2, mult=m2 * a["mult"])
+        if c.flag("stormcaller") and name in {"Lightning Bolt", "Chain Lightning", "Earth Shock", "Flame Shock"} and out in {"hit", "crit"} and self.rng.random() < c.flag("stormcaller"):
+            self.add_buff("Stormcaller's Garb", 8, stat="naturePower", value=50)
         if c.flag("shadow_and_flame"):
             if name == "Conflagrate": self.add_debuff("Shadow and Flame (shadow)", 20)
             if name == "Shadowburn": self.add_debuff("Shadow and Flame (fire)", 20)
@@ -1244,7 +1293,9 @@ class Iteration:
     def complete_cast(self):
         cast = self.cast; self.cast = None
         name = cast["name"]; a = self.c.actions[name]
-        if a.get("kind") == "channel": return
+        if a.get("kind") == "channel":
+            if name == "Arcane Missiles" and self.c.flag("netherwind_instant") and self.rng.random() < self.c.flag("netherwind_instant"): self.next_instant = True
+            return
         self.resolve(name)
 
     def channel_tick(self):
@@ -1289,6 +1340,7 @@ class Iteration:
         for name, chance in (("miss", miss), ("dodge", dodge), ("parry", parry), ("block", block), ("crit", crit), ("crush", crush)):
             acc += chance
             if roll < acc: outcome = name; break
+        if self.next_parry: self.next_parry = False; outcome = "parry"
         if outcome in {"miss", "dodge", "parry"}:
             self.avoided_recently = self.t
             if outcome == "dodge" and c.flag("master_of_defense"): self.gain_rage(c.flag("master_of_defense"))
@@ -1304,9 +1356,15 @@ class Iteration:
             bv = self.st.get("blockValue", 0) + self.st["strength"] / 20
             amount = max(0.0, amount - bv)
             if c.flag("shield_spec_rage"): self.gain_rage(c.flag("shield_spec_rage"))
+            if c.flag("wrath_parry") and rng.random() < c.flag("wrath_parry"): self.next_parry = True
         self.taken += amount; self.health -= amount
         self.gain_rage(amount * 2.5 / RAGE_CONVERSION_60)
         if c.flag("enrage") and rng.random() < c.flag("enrage") * 3: self.enrage_until = self.t + 12
+        if c.flag("might_rage") and rng.random() < c.flag("might_rage"): self.gain_rage(1)
+        if c.flag("wildheart_proc") and rng.random() < c.flag("wildheart_proc"):
+            if self.s["resource"] == "Mana": self.gain_mana(300)
+            elif self.s["resource"] == "Rage": self.gain_rage(10)
+            else: self.gain_energy(40)
         r = self.row("Boss melee"); r.casts += 1; r.hits += 1
         self.taken_by[outcome] = self.taken_by.get(outcome, 0.0) + amount
         self.record("Boss melee", outcome, amount)

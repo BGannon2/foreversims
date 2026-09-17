@@ -47,6 +47,7 @@ function renderGear() {
   const side = spec.style === "spell" ? ["spellPower", "firePower", "frostPower", "shadowPower", "naturePower", "arcanePower", "spellHit", "spellCrit", "intellect", "spirit", "mp5", "stamina"] : spec.class_name === "Hunter" ? ["rangedAttackPower", "attackPower", "agility", "rangedHit", "meleeHit", "rangedCrit", "meleeCrit", "intellect", "stamina"] : ["armor", "attackPower", "strength", "agility", "meleeCrit", "meleeHit", "dodge", "parry", "block", "blockValue", "defense", "stamina"];
   $("sideGearStats").innerHTML = side.filter(k => totals[k] != null).map(k => `<div class="side-stat" data-stat="${k}"><span>${label(k)}</span><b>${display(k, totals[k])}</b></div>`).join("");
   $("gearStats").querySelectorAll(".gear-stat").forEach((el, i) => { el.dataset.stat = rows[i]?.[0] || ""; });
+  renderSetBonuses();
   document.querySelectorAll(".side-stat[data-stat], .gear-stat[data-stat]").forEach(el => { const k = el.dataset.stat; const src = sources[k] || []; if (!src.length) return; el.classList.add("has-tip"); const unit = pct.has(k) ? "%" : ""; const sub = cat => src.filter(x => x.category === cat).reduce((a, x) => a + x.value, 0); el.onmousemove = e => tooltip(`<h3>${label(k)}: ${display(k, totals[k])}</h3><p><strong>Gear:</strong> ${fmt(sub("gear"), 0)}${unit}${sub("enchant") ? `${DOT}<strong>Enchants:</strong> ${fmt(sub("enchant"), 0)}${unit}` : ""}</p><p class="tooltip-meta">${src.map(x => `${x.source}: ${fmt(x.value, 0)}${unit}`).join("<br>")}</p><p class="tooltip-meta">Base attributes, buffs, consumables and talents are added in the simulation result.</p>`, e); el.onmouseleave = hideTip; });
   document.querySelectorAll(".gear-slot").forEach(x => { const it = profile.gear[+x.dataset.index]; x.onclick = () => openPicker(+x.dataset.index); x.onmousemove = e => tooltip(itemTip(it) + (it.enchant ? `<p class='tooltip-enchant'>${it.enchant.name}: ${it.enchant.description}</p>` : ""), e); x.onmouseleave = hideTip; });
   $("gearProvenance").innerHTML = `Preset: <a href="${profile.source}" target="_blank" rel="noreferrer">${profile.source_label || profile.source}</a>. Click any slot to browse compatible gear. Gear totals here exclude base attributes, buffs and talents; the simulation result shows the complete character.`;
@@ -67,6 +68,28 @@ function renderSpecCards() {
   card.hidden = siblings.length < 2;
   const race = encodeURIComponent($("race")?.value || "");
   $("specCards").innerHTML = siblings.map(s => `<a class="spec ${s.id === spec.id ? "active" : ""}" href="/all-specs.html?spec=${s.id}${race ? "&race=" + race : ""}"><b class="spec-icon"><img src="/spec-icons/${s.id}.jpg" alt=""></b><span><strong>${s.name}</strong><small>${s.role === "tank" ? "Threat & survivability" : s.style === "spell" ? "Spell damage" : s.style === "ranged" ? "Ranged damage" : "Melee damage"}</small></span></a>`).join("");
+}
+function setBonusState(setName, bonus) {
+  const key = `${setName}|${bonus.required}`;
+  if (data.set_provisional?.[key]) return { modeled: true, label: "modeled (assumption)", note: data.set_provisional[key] };
+  if (data.set_effects?.[key]) return { modeled: true, label: "modeled" };
+  if (bonus.stats && Object.keys(bonus.stats).length) return { modeled: true, label: "modeled" };
+  if ((data.set_patterns || []).some(p => new RegExp(p, "i").test(bonus.description || ""))) return { modeled: true, label: "modeled" };
+  if ((data.set_no_combat_effect || []).includes(key)) return { modeled: true, label: "no effect in this fight" };
+  return { modeled: false, label: "not modeled" };
+}
+function renderSetBonuses() {
+  const box = $("setBonuses"); if (!box) return;
+  const worn = {};
+  for (const it of profile.gear) { if (it.set?.name) { (worn[it.set.name] ??= { count: 0, set: it.set }).count++; } }
+  const names = Object.keys(worn);
+  if (!names.length) { box.innerHTML = "<h4>Set bonuses</h4><p class=\"set-none\">No set pieces equipped.</p>"; return; }
+  box.innerHTML = "<h4>Set bonuses</h4>" + names.map(name => {
+    const { count, set } = worn[name]; const total = set.pieces?.length || Math.max(count, ...(set.bonuses || []).map(b => b.required || 0));
+    const rows = (set.bonuses || []).map(b => { const st = setBonusState(name, b); const active = count >= (b.required || 99);
+      return `<li class="set-bonus ${active ? "active" : "inactive"} ${st.modeled ? "modeled" : "unmodeled"}" ${st.note ? `title="${st.note.replace(/"/g, "&quot;")}"` : ""}><b>(${b.required})</b> ${b.description || ""} <em>${active ? st.label : "needs " + b.required}</em></li>`; }).join("");
+    return `<div class="set-block"><p class="set-name"><strong>${name}</strong> <span>${count}/${total}</span></p><ul>${rows}</ul></div>`;
+  }).join("");
 }
 function renderRace() { const race = $("race").value; $("racialSummary").textContent = data.racials[race] || ""; }
 function renderRotation() {

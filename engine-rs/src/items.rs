@@ -183,11 +183,18 @@ pub fn permanent_item_stats(item: &Item) -> StatMap {
     stats
 }
 
-pub const SET_PATTERNS: [(&str, &str); 13] = [
+pub const SET_PATTERNS: [(&str, &str); 20] = [
     ("spellPower", r"damage and healing.*?up to (\d+)"),
     ("mp5", r"Restores (\d+) mana per 5 sec"),
     ("attackPower", r"\+(\d+) Attack Power"),
+    ("attackPower", r"Increases Attack Power by (\d+)"),
     ("spellHit", r"hit with spells by (\d+)%"),
+    ("agility", r"\+(\d+) Agility"),
+    ("intellect", r"\+(\d+) Intellect"),
+    ("strength", r"\+(\d+) Strength"),
+    ("spirit", r"\+(\d+) Spirit"),
+    ("dodge", r"dodge an attack by (\d+)%"),
+    ("block", r"block attacks with a shield by (\d+)%"),
     ("spellCrit", r"critical strike with spells by (\d+)%"),
     ("meleeCrit", r"critical strike by (\d+)%"),
     ("meleeHit", r"chance to hit by (\d+)%"),
@@ -206,6 +213,11 @@ pub struct ActiveSetBonus {
     pub required: i64,
     pub description: String,
     pub stats: StatMap,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub effects: Option<IndexMap<String, f64>>,
+    pub modeled: bool,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub provisional: Option<String>,
 }
 
 pub fn apply_set_bonuses(gear: &[Item], stats: &mut StatMap, forever_sets: &IndexMap<String, crate::data::ForeverSet>) -> (IndexMap<String, i64>, Vec<ActiveSetBonus>, Vec<ActiveSetBonus>) {
@@ -240,7 +252,7 @@ pub fn apply_set_bonuses(gear: &[Item], stats: &mut StatMap, forever_sets: &Inde
                     }
                 }
             }
-            let row = ActiveSetBonus { set: name.clone(), pieces: *count, required: bonus.required, description: bonus.description.clone(), stats: applied.clone() };
+            let row = ActiveSetBonus { set: name.clone(), pieces: *count, required: bonus.required, description: bonus.description.clone(), stats: applied.clone(), effects: None, modeled: false, provisional: None };
             active.push(row.clone());
             if applied.is_empty() {
                 unresolved.push(row);

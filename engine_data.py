@@ -14,6 +14,7 @@ Sources
   checked-in data and is exposed in the result configuration.
 """
 from __future__ import annotations
+import re
 
 # ---------------------------------------------------------------------------
 # Roster (verified cell by cell against the Wowhead Forever table, 2026-09-17)
@@ -465,3 +466,78 @@ WINDFURY = {"chance": 0.20, "extra_attacks": 2, "ap": 333}
 ITEM_PROC_PPM = {12798: 1.0, 17076: 2.0, 17075: 0.6, 17112: 1.0, 19019: 6.0}
 
 WEAPON_CRIT_TYPES = ("Sword", "Mace", "Axe")
+
+# Set bonuses with combat effects beyond flat stats, keyed "Set Name|pieces".  Values come from
+# WoWSims Classic (sim/*/item_sets*.go, sim/common/item_sets/*.go) unless listed in SET_PROVISIONAL.
+# Flat-stat bonuses are parsed from their text by engine.SET_PATTERNS.  Keys understood by the
+# engine are the talent-effect keys plus: creature_dmg:<type>, buff_ap:battle_shout, buff_pct:mana_spring,
+# hawk_pct, threat_ability:<a>, hit_ability:<a>, flat_ability:<a>, duration:<a>, ticks:<a>, skill:<weapon>,
+# chain_lightning_bounce and the flag:* procs handled in engine.Iteration.
+SET_EFFECTS = {
+    # Warrior
+    "Battlegear of Might|5": {"flag:might_rage": 0.20}, "Battlegear of Might|8": {"threat_ability:Sunder Armor": 0.15},
+    "Battlegear of Wrath|3": {"buff_ap:battle_shout": 30}, "Battlegear of Wrath|5": {"flag:wrath_rage_proc": 0.20}, "Battlegear of Wrath|8": {"flag:wrath_parry": 0.04},
+    "Dreadnaught's Battlegear|2": {"flat_ability:Revenge": 75},
+    "Dreadnaught's Battlegear|6": {"hit_ability:Sunder Armor": 5, "hit_ability:Heroic Strike": 5, "hit_ability:Revenge": 5, "hit_ability:Shield Slam": 5},
+    "Vindicator's Battlegear|5": {"cost:Whirlwind": -3}, "Conqueror's Battlegear|5": {"dmg_ability:Thunder Clap": 0.5},
+    # Hunter
+    "Giantstalker Armor|8": {"dmg_ability:Multi-Shot": 0.15}, "Beaststalker Armor|6": {"flag:beaststalker_mana": 0.04},
+    "Dragonstalker Armor|3": {"hawk_pct": 0.25}, "Dragonstalker Armor|8": {"flag:dragonstalker_ew": 0.5},
+    "Cryptstalker Armor|2": {"duration:Rapid Fire": 4}, "Cryptstalker Armor|6": {"flag:cryptstalker_mana": 50}, "Cryptstalker Armor|8": {"cost:Multi-Shot": -20, "cost:Aimed Shot": -20},
+    "Striker's Garb|3": {"cost_pct:Arcane Shot": -0.10}, "Striker's Garb|5": {"cooldown:Rapid Fire": -120}, "Predator's Armor|5": {"ticks:Serpent Sting": 1},
+    "Trappings of the Unseen Path|3": {"flag:pet_damage": 0.03}, "Beastmaster Armor|3": {"flag:pet_damage": 0.03},
+    # Rogue
+    "Shadowcraft Armor|6": {"flag:shadowcraft_energy": 1.0}, "Bloodfang Armor|3": {"flag:poison_chance": 0.05}, "Bloodfang Armor|8": {"flag:bloodfang_proc": 1.0},
+    "Bonescythe Armor|4": {"flag:bonescythe_energy": 5},
+    "Bonescythe Armor|6": {"threat_ability:Backstab": -0.0741, "threat_ability:Sinister Strike": -0.0741, "threat_ability:Hemorrhage": -0.0741, "threat_ability:Eviscerate": -0.0741},
+    "Deathdealer's Embrace|5": {"dmg_ability:Eviscerate": 0.15}, "Madcap's Outfit|5": {"cost:Eviscerate": -5, "cost:Rupture": -5},
+    "Emblems of Veiled Shadows|3": {"cost:Slice and Dice": -10}, "Symbols of Unending Life|3": {"flag:finisher_refund": 30},
+    "Stormshroud Armor|2": {"flag:stormshroud_dmg": 0.05}, "Stormshroud Armor|3": {"flag:stormshroud_energy": 0.02},
+    # Mage
+    "Arcanist Regalia|5": {"flag:target_resist": 10}, "Netherwind Regalia|8": {"flag:netherwind_instant": 0.10}, "Enigma Vestments|5": {"flag:enigma_hit": 5},
+    # Priest
+    "Vestments of Prophecy|5": {"crit_school:holy": 2}, "Finery of Infinite Wisdom|3": {"dmg_ability:Shadow Word: Pain": 0.05},
+    "Vestments of Transcendence|3": {"flag:spirit_while_casting": 0.15},
+    # Shaman
+    "The Ten Storms|5": {"crit_school:nature": 3}, "Stormcaller's Garb|3": {"flag:stormcaller": 0.20}, "Gift of the Gathering Storm|3": {"chain_lightning_bounce": 0.05},
+    "The Earthshatterer|4": {"buff_pct:mana_spring": 0.25},
+    "Champion's Earthshaker|4": {"crit_ability:Earth Shock": 2, "crit_ability:Flame Shock": 2}, "Champion's Stormcaller|4": {"crit_ability:Earth Shock": 2, "crit_ability:Flame Shock": 2},
+    "Warlord's Earthshaker|3": {"crit_ability:Earth Shock": 2, "crit_ability:Flame Shock": 2},
+    # Warlock
+    "Felheart Raiment|8": {"cost_pct_school:shadow": -0.15}, "Demoniac's Threads|3": {"dmg_ability:Corruption": 0.02}, "Doomcaller's Attire|3": {"dmg_ability:Immolate": 0.05},
+    "Doomcaller's Attire|5": {"cost_pct:Shadow Bolt": -0.15}, "Plagueheart Raiment|4": {"dmg_ability:Corruption": 0.12}, "Implements of Unspoken Names|3": {"flag:pet_damage": 0.05},
+    "Champion's Dreadgear|4": {"cast:Immolate": -0.2}, "Champion's Threads|4": {"cast:Immolate": -0.2}, "Lieutenant Commander's Dreadgear|4": {"cast:Immolate": -0.2},
+    "Lieutenant Commander's Threads|4": {"cast:Immolate": -0.2}, "Field Marshal's Threads|3": {"cast:Immolate": -0.2}, "Warlord's Threads|3": {"cast:Immolate": -0.2},
+    # Druid
+    "Haruspex's Garb|5": {"crit_ability:Starfire": 3}, "Stormrage Raiment|3": {"flag:spirit_while_casting": 0.15}, "Green Dragon Mail|3": {"flag:spirit_while_casting": 0.15},
+    "Wildheart Raiment|6": {"flag:wildheart_proc": 0.02},
+    # Shared
+    "Battlegear of Undead Slaying|3": {"creature_dmg:undead": 0.02}, "Garb of the Undead Slayer|3": {"creature_dmg:undead": 0.02},
+    "Regalia of Undead Cleansing|3": {"creature_dmg:undead": 0.02}, "Undead Slayer's Armor|3": {"creature_dmg:undead": 0.02},
+    "The Twin Blades of Hakkari|2": {"skill:Sword": 6}, "Spider's Kiss|2": {"flag:spiders_kiss": 0.05},
+}
+# Bonuses with no effect in a single-target Patchwerk fight (healing, PvP utility, resistances, movement,
+# utility cooldowns, Paladin-only effects handled by the Paladin engine).  Listed as modeled with no numbers.
+SET_NO_COMBAT_EFFECT = ("""Arcanist Regalia|8 Augur's Regalia|3 Augur's Regalia|5 Avenger's Battlegear|3 Battlegear of Eternal Justice|3 Battlegear of Unyielding Strength|3
+Battlegear of Valor|6 Battlegear of Valor|8 Beaststalker Armor|8 Black Dragon Mail|4 Blue Dragon Mail|2 Bonescythe Armor|2 Bonescythe Armor|8 Cadaverous Garb|4 Cenarion Raiment|3 Cenarion Raiment|8
+Champion's Arcanum|4 Champion's Battlearmor|4 Champion's Battlegear|4 Champion's Guard|4 Champion's Investiture|4 Champion's Pursuance|4 Champion's Pursuit|4 Champion's Raiment|4 Champion's Regalia|4
+Champion's Sanctuary|4 Champion's Vestments|4 Champion's Refuge|4 Confessor's Raiment|2 Confessor's Raiment|3 Confessor's Raiment|5 Conqueror's Battlegear|3 Cryptstalker Armor|4 Deathbone Guardian|4
+Deathdealer's Embrace|3 Demoniac's Threads|5 Dragonstalker Armor|5 Dreadmist Raiment|6 Dreadmist Raiment|8 Dreadnaught's Battlegear|4 Dreadnaught's Battlegear|8 Dreamwalker Raiment|2
+Dreamwalker Raiment|4 Dreamwalker Raiment|6 Dreamwalker Raiment|8 Enigma Vestments|3 Field Marshal's Aegis|3 Field Marshal's Battlegear|3 Field Marshal's Pursuit|3 Field Marshal's Raiment|3
+Field Marshal's Regalia|3 Field Marshal's Sanctuary|3 Field Marshal's Vestments|3 Freethinker's Armor|3 Freethinker's Armor|5 Frostfire Regalia|2 Frostfire Regalia|4 Frostfire Regalia|6
+Frostfire Regalia|8 Garments of the Oracle|3 Garments of the Oracle|5 Genesis Raiment|5 Haruspex's Garb|3 Illusionist's Attire|3 Illusionist's Attire|5 Ironweave Battlesuit|4 Judgement Armor|3
+Judgement Armor|8 Lawbringer Armor|3 Lawbringer Armor|8 Lieutenant Commander's Aegis|4 Lieutenant Commander's Arcanum|4 Lieutenant Commander's Battlearmor|4 Lieutenant Commander's Battlegear|4
+Lieutenant Commander's Guard|4 Lieutenant Commander's Investiture|4 Lieutenant Commander's Pursuance|4 Lieutenant Commander's Pursuit|4 Lieutenant Commander's Raiment|4 Lieutenant Commander's Redoubt|4
+Lieutenant Commander's Refuge|4 Lieutenant Commander's Regalia|4 Lieutenant Commander's Sanctuary|4 Lieutenant Commander's Vestments|4 Lightforge Armor|4 Lightforge Armor|5 Madcap's Outfit|3
+Magister's Regalia|6 Magister's Regalia|8 Necropile Raiment|4 Nemesis Raiment|5 Nemesis Raiment|8 Netherwind Regalia|3 Netherwind Regalia|5 Nightslayer Armor|3 Nightslayer Armor|8
+Plagueheart Raiment|2 Plagueheart Raiment|6 Plagueheart Raiment|8 Prayer of the Primal|2 Predator's Armor|3 Primal Batskin|3 Redemption Armor|2 Redemption Armor|4 Redemption Armor|6
+Redemption Armor|8 Shard of the Gods|2 Spirit of Eskhandar|4 Stormcaller's Garb|5 Stormrage Raiment|5 Stormrage Raiment|8 The Earthfury|3 The Earthfury|5 The Earthfury|8
+The Earthshatterer|2 The Earthshatterer|6 The Earthshatterer|8 The Elements|8 The Postmaster|3 The Postmaster|5 Trappings of Vaulted Secrets|3 Vestments of Faith|2 Vestments of Faith|4
+Vestments of Faith|6 Vestments of Faith|8 Vestments of Transcendence|5 Vestments of Transcendence|8 Vestments of the Devout|6 Vestments of the Devout|8 Vindicator's Battlegear|3
+Warlord's Battlegear|3 Warlord's Pursuit|3 Warlord's Raiment|3 Warlord's Regalia|3 Warlord's Sanctuary|3 Warlord's Vestments|3 Wildheart Raiment|8 Giantstalker Armor|3 Giantstalker Armor|5
+Felheart Raiment|3 Felheart Raiment|5 Vestments of Prophecy|3 Vestments of Prophecy|8 Bloodfang Armor|5 The Ten Storms|3 The Ten Storms|8 Bloodmail Regalia|4 Shadowcraft Armor|8""")
+SET_NO_COMBAT_EFFECT = {m.strip() for m in re.findall(r"[^|]+?\|\d+", SET_NO_COMBAT_EFFECT)}
+# Bonuses modeled with an assumption (surfaced as provisional in the result).
+SET_PROVISIONAL = {"Bloodfang Armor|8": "6 x 1-second ticks of 283-317 total physical damage at 1 PPM; the heal is ignored.",
+                   "Spider's Kiss|2": "5% chance per melee hit to lower target armor by 100 for 10 sec.",
+                   "Dragonstalker Armor|8": "Expose Weakness modeled as +450 ranged attack power for 7 sec at 0.5 PPM."}

@@ -401,6 +401,12 @@ pub struct Tables {
     pub WINDFURY: Windfury,
     pub ITEM_PROC_PPM: HashMap<String, f64>,
     pub CONSUMABLE_GROUPS: HashMap<String, String>,
+    #[serde(default)]
+    pub SET_EFFECTS: HashMap<String, IndexMap<String, f64>>,
+    #[serde(default)]
+    pub SET_NO_COMBAT_EFFECT: Vec<String>,
+    #[serde(default)]
+    pub SET_PROVISIONAL: HashMap<String, String>,
 }
 
 static TABLES: OnceLock<Tables> = OnceLock::new();

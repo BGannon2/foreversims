@@ -16,6 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 import engine_data as ed  # noqa: E402
+import engine  # noqa: E402
 import sim  # noqa: E402
 import gear_data  # noqa: E402
 import all_specs  # noqa: E402
@@ -46,6 +47,7 @@ def engine_tables():
         "TALENT_GATED": ed.TALENT_GATED, "DEFAULT_BUILDS": ed.DEFAULT_BUILDS, "PET_FAMILIES": ed.PET_FAMILIES, "PET_ABILITIES": ed.PET_ABILITIES,
         "PET_FOCUS_PER_SEC": ed.PET_FOCUS_PER_SEC, "WARLOCK_PETS": ed.WARLOCK_PETS, "POISONS": ed.POISONS, "WINDFURY": ed.WINDFURY,
         "ITEM_PROC_PPM": {str(k): v for k, v in ed.ITEM_PROC_PPM.items()}, "CONSUMABLE_GROUPS": sim.CONSUMABLE_GROUPS,
+        "SET_EFFECTS": ed.SET_EFFECTS, "SET_NO_COMBAT_EFFECT": sorted(ed.SET_NO_COMBAT_EFFECT), "SET_PROVISIONAL": ed.SET_PROVISIONAL,
     }
 
 
@@ -79,6 +81,7 @@ def api_payloads():
         "spec-bootstrap": {
             "specs": all_specs.public_specs(), "talents": server.ALL_TALENTS, "gear": server.PHASE12_BIS, "consumables": CONSUMABLE_DATA,
             "settings": server.SETTING_DATA, "enchants": server.ENCHANT_DATA, "racials": all_specs.public_racials(), "defaults": server.DEFAULTS, "buff_groups": ed.BUFF_GROUPS,
+            "set_effects": ed.SET_EFFECTS, "set_no_combat_effect": sorted(ed.SET_NO_COMBAT_EFFECT), "set_provisional": ed.SET_PROVISIONAL, "set_patterns": [p for _, p in engine.SET_PATTERNS],
         },
     }
 

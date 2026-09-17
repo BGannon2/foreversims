@@ -14,7 +14,8 @@ from urllib.parse import urlparse, quote
 from sim import DATA, ASSUMPTIONS, TALENT_DATA, CONSUMABLE_DATA, preset, simulate, validate
 from gear_data import CATALOG, PHASE6_BIS
 from all_specs import public_specs, public_racials, simulate_spec, CLASS_RACES, ITEMS
-from engine_data import default_consumables, default_buffs, DEFAULT_BUILDS, BUFF_GROUPS
+from engine_data import default_consumables, default_buffs, DEFAULT_BUILDS, BUFF_GROUPS, SET_EFFECTS, SET_NO_COMBAT_EFFECT, SET_PROVISIONAL
+import engine as engine_module
 
 ROOT = Path(__file__).resolve().parent
 WEB = ROOT / "web"
@@ -114,6 +115,7 @@ class Handler(BaseHTTPRequestHandler):
             return self.send_json({
                 "specs": public_specs(), "talents": ALL_TALENTS, "gear": PHASE12_BIS, "consumables": CONSUMABLE_DATA,
                 "settings": SETTING_DATA, "enchants": ENCHANT_DATA, "racials": public_racials(), "defaults": DEFAULTS, "buff_groups": BUFF_GROUPS,
+                "set_effects": SET_EFFECTS, "set_no_combat_effect": sorted(SET_NO_COMBAT_EFFECT), "set_provisional": SET_PROVISIONAL, "set_patterns": [p for _, p in engine_module.SET_PATTERNS],
             })
         target = "index.html" if path in ("", "/") else path.lstrip("/")
         candidate = (WEB / target).resolve()
@@ -145,8 +147,7 @@ class Handler(BaseHTTPRequestHandler):
                 if len(str(payload.get("message", "")).strip()) < 5:
                     return self.send_json({"error": "Please write a few words of feedback."}, HTTPStatus.BAD_REQUEST)
                 with (ROOT / "feedback.local.jsonl").open("a", encoding="utf-8") as fh:
-                    fh.write(json.dumps({"received": self.log_date_time_string(), **payload}) + "
-")
+                    fh.write(json.dumps({"received": self.log_date_time_string(), **payload}) + "\n")
                 return self.send_json({"ok": True, "local": True})
             except (ValueError, json.JSONDecodeError) as exc:
                 return self.send_json({"error": str(exc)}, HTTPStatus.BAD_REQUEST)

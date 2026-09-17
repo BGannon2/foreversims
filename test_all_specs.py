@@ -321,3 +321,36 @@ class MechanicTests(unittest.TestCase):
         req = default_request(spec("mage-fire"), iterations=2, duration=30)
         self.assertEqual(simulate_spec(req), simulate_spec(req))
         with self.assertRaises(ValueError): simulate_spec({**req, "iterations": 10000, "duration": 1800})
+
+
+class SetBonusTests(unittest.TestCase):
+    def test_every_catalog_set_bonus_is_classified(self):
+        from engine_data import SET_EFFECTS, SET_NO_COMBAT_EFFECT
+        from engine import SET_PATTERNS
+        sets = {}
+        for it in ITEMS.values():
+            if it.get("set"): sets.setdefault(it["set"]["name"], it["set"])
+        missing = []
+        for name, st in sets.items():
+            for b in FOREVER_SETS.get(name, {}).get("bonuses", st.get("bonuses", [])):
+                key = f"{name}|{b.get('required')}"; desc = b.get("description", "")
+                if not (b.get("stats") or any(engine._re(p, desc) for _, p in SET_PATTERNS) or key in SET_EFFECTS or key in SET_NO_COMBAT_EFFECT):
+                    missing.append(key)
+        self.assertEqual(missing, [])
+
+    def test_preset_set_bonuses_apply_effects(self):
+        prot = config("warrior-protection")
+        self.assertAlmostEqual(prot.mod("threat_ability:Sunder Armor"), 0.15)
+        self.assertEqual(prot.flag("might_rage"), 0.20)
+        self.assertEqual(prot.stats["blockValue"] >= 30, True)
+        self.assertTrue(all(b["modeled"] for b in prot.active_set_bonuses))
+        hunter = config("hunter-beast-mastery")
+        self.assertAlmostEqual(hunter.actions["Multi-Shot"]["mult"], 1.15)
+        sub = config("rogue-subtlety")
+        self.assertEqual(sub.flag("shadowcraft_energy"), 1.0)
+        self.assertEqual(sub.unresolved_set_bonuses, [])
+
+    def test_shadowcraft_energy_proc_runs(self):
+        it = iteration("rogue-subtlety", seed=3)
+        res = it.run()
+        self.assertIn("Shadowcraft Energize", res["rows"])

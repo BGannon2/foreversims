@@ -446,7 +446,7 @@ impl Config {
         if bonus == 0 {
             bonus = g(&format!("{kind}s"));
         }
-        base + bonus as f64
+        base + bonus as f64 + self.mod_(&format!("skill:{kind}"))
     }
 
     pub fn hand_item(&self, hand: Hand) -> Option<&Item> {
@@ -473,10 +473,24 @@ impl Config {
                 self.item_effect(item, idx, effect, &mut gear_stats);
             }
         }
-        let (counts, active, unresolved) = apply_set_bonuses(&self.gear, &mut gear_stats, &catalog.sets);
+        let (counts, mut active, _unresolved) = apply_set_bonuses(&self.gear, &mut gear_stats, &catalog.sets);
+        for row in active.iter_mut() {
+            let key = format!("{}|{}", row.set, row.required);
+            if let Some(effects) = t.SET_EFFECTS.get(&key) {
+                for (k, v) in effects {
+                    *self.mods.entry(k.clone()).or_insert(0.0) += v;
+                }
+                row.effects = Some(effects.clone());
+            }
+            row.modeled = !row.stats.is_empty() || row.effects.is_some() || t.SET_NO_COMBAT_EFFECT.iter().any(|k| *k == key);
+            if let Some(p) = t.SET_PROVISIONAL.get(&key) {
+                row.provisional = Some(p.clone());
+                self.notes.push(format!("{} ({}): {}", row.set, row.required, p));
+            }
+        }
+        self.unresolved_set_bonuses = active.iter().filter(|r| !r.modeled).cloned().collect();
         self.set_counts = counts;
         self.active_set_bonuses = active;
-        self.unresolved_set_bonuses = unresolved;
         let primary = if self.spec.style == "spell" { "intellect" } else if ["Rogue", "Hunter", "Druid"].contains(&cls.as_str()) { "agility" } else { "strength" };
         if let Some(Value::Array(sels)) = self.request.get("enchants") {
             for sel in sels {
@@ -514,6 +528,13 @@ impl Config {
                     add(&mut st, k, *v);
                 }
             }
+        }
+        if self.buffs.contains("battle_shout") && self.mod_("buff_ap:battle_shout") != 0.0 {
+            add(&mut st, "attackPower", self.mod_("buff_ap:battle_shout"));
+        }
+        if self.buffs.contains("mana_spring") && self.mod_("buff_pct:mana_spring") != 0.0 {
+            let base = t.BUFF_STATS["mana_spring"]["mp5"];
+            add(&mut st, "mp5", base * self.mod_("buff_pct:mana_spring"));
         }
         if self.buffs.contains("blessing_of_kings") {
             for stat in ["strength", "agility", "stamina", "intellect", "spirit"] {
@@ -554,7 +575,7 @@ impl Config {
         let melee_only_ap: f64 = self.buffs.iter().map(|k| t.BUFF_STATS.get(k).and_then(|m| m.get("attackPower")).copied().unwrap_or(0.0)).sum::<f64>()
             + self.consumes.iter().map(|k| t.CONSUME_STATS.get(k).and_then(|m| m.get("attackPower")).copied().unwrap_or(0.0)).sum::<f64>();
         let hunter = cls == "Hunter";
-        let v = g(&st, "rangedAttackPower") + (g(&st, "attackPower") - melee_only_ap) + st["agility"] * 2.0 * (hunter as i32 as f64) + if hunter { 120.0 } else { 0.0 };
+        let v = g(&st, "rangedAttackPower") + (g(&st, "attackPower") - melee_only_ap) + st["agility"] * 2.0 * (hunter as i32 as f64) + if hunter { 120.0 * (1.0 + self.mod_("hawk_pct")) } else { 0.0 };
         st.insert("rangedAttackPower".into(), v);
         let dk = if cls == "Warlock" && req_str(self.request.get("pet_family"), "succubus") != "none" { self.flag("demonic_knowledge") } else { 0.0 };
         let v = g(&st, "spellPower") + st["intellect"] * self.mod_("sp_from_int") + st["spirit"] * self.flag("spiritual_guidance") + dk;
@@ -791,6 +812,9 @@ impl Config {
         a.crit_bonus = self.mod_(&format!("crit_ability:{name}"));
         if name == "Shadow Word: Pain" {
             a.ticks += 2 * (self.flag("swp_ticks") > 0.0) as i64;
+        }
+        if a.ticks != 0 && self.mod_(&format!("ticks:{name}")) != 0.0 {
+            a.ticks += self.mod_(&format!("ticks:{name}")) as i64;
         }
         if name == "Immolate" && self.flag("aftermath") != 0.0 {
             a.direct_mult = Some(1.0 + self.flag("aftermath") * 5.0 * 0.1);

@@ -285,8 +285,35 @@ pub fn apply_gear(profile: &Value, catalog: &Catalog) -> Result<(Value, Value), 
     }
     let mut bonus_totals: IndexMap<String, f64> = IndexMap::new();
     let mut active_forever_bonuses = Vec::new();
+    let mut active_classic_bonuses: Vec<Value> = Vec::new();
+    let mut set_flags = Map::new();
     for (name, count) in &set_counts {
-        let Some(over) = pt.forever_sets.get(name) else { continue };
+        let Some(over) = pt.forever_sets.get(name) else {
+            for bonus in &set_definitions[name].bonuses {
+                if *count < bonus.required {
+                    continue;
+                }
+                let mut stats: IndexMap<String, f64> = bonus.stats.clone();
+                if stats.is_empty() {
+                    for (key, pattern) in crate::items::SET_PATTERNS {
+                        if let Some(g) = crate::items::re_search(pattern, &bonus.description) {
+                            stats.insert(key.to_string(), g[1].clone().unwrap().parse().unwrap());
+                            break;
+                        }
+                    }
+                }
+                for (stat, value) in &stats {
+                    *totals.entry(stat.clone()).or_insert(0.0) += value;
+                }
+                let key = format!("{}|{}", name, bonus.required);
+                let flag = match key.as_str() { "Judgement Armor|8" => Some("judgement_bonus_damage"), "Battlegear of Eternal Justice|3" => Some("eternal_justice_mana"), _ => None };
+                if let Some(f) = flag {
+                    set_flags.insert(f.to_string(), json!(true));
+                }
+                active_classic_bonuses.push(json!({"set": name, "required": bonus.required, "description": bonus.description, "stats": stats, "modeled": !stats.is_empty() || flag.is_some()}));
+            }
+            continue;
+        };
         for bonus in &over.bonuses {
             if *count < bonus.required {
                 continue;
@@ -342,6 +369,7 @@ pub fn apply_gear(profile: &Value, catalog: &Catalog) -> Result<(Value, Value), 
             *totals.entry(stat.clone()).or_insert(0.0) += value;
         }
     }
+    effective["set_flags"] = Value::Object(set_flags.clone());
     if let Some(m) = &main {
         if m.slot.as_deref() == Some("Two-Hand") && effective["gear"]["off_hand"].as_i64().unwrap_or(0) != 0 {
             return Err("A two-handed weapon cannot be combined with an off-hand item.".into());
@@ -447,7 +475,7 @@ pub fn apply_gear(profile: &Value, catalog: &Catalog) -> Result<(Value, Value), 
         "active_raid_buffs": active_list("raid_buffs"),
         "active_consumables": active_list("consumables"),
         "active_debuffs": active_list("debuffs"),
-        "active_forever_set_bonuses": active_forever_bonuses,
+        "active_forever_set_bonuses": active_forever_bonuses, "active_classic_set_bonuses": active_classic_bonuses, "set_flags": set_flags,
         "effective_character": effective["character"].clone(),
         "note": "Sourced Forever set bonuses apply at their equipped thresholds. Classic primary-stat, armor and attack-power conversions are applied only when the audit switch is enabled. Item effects are modeled individually when identified."});
     Ok((effective, summary))
@@ -682,6 +710,8 @@ pub struct Fight<'a> {
     window_sum: f64,
     peak_three_seconds: f64,
     racial: crate::data::Racial,
+    judgement_bonus_damage: bool,
+    eternal_justice_mana: bool,
     last_cast: f64,
     potion_cd: f64,
     rune_cd: f64,
@@ -762,6 +792,8 @@ impl<'a> Fight<'a> {
             window_sum: 0.0,
             peak_three_seconds: 0.0,
             racial: t.RACIALS.get(race).cloned().unwrap_or_default(),
+            judgement_bonus_damage: profile.get("set_flags").and_then(|f| f.get("judgement_bonus_damage")).and_then(|v| v.as_bool()).unwrap_or(false),
+            eternal_justice_mana: profile.get("set_flags").and_then(|f| f.get("eternal_justice_mana")).and_then(|v| v.as_bool()).unwrap_or(false),
             last_cast: -10.0,
             potion_cd: 0.0,
             rune_cd: 0.0,
@@ -998,6 +1030,13 @@ impl<'a> Fight<'a> {
                 let (jmin, jmax) = (self.f(seal.key(), "judgement_min"), self.f(seal.key(), "judgement_max"));
                 let amt = self.rng.uniform(jmin, jmax) * (1.0 + 0.05 * self.rank("105334"));
                 self.deal(&format!("Judgement of {}", title(seal.key())), amt, true, true, self.c.spell_hit_chance, 1.0, false, None, 0.43);
+                if self.judgement_bonus_damage {
+                    let bonus = self.rng.uniform(60.0, 66.0);
+                    self.deal("Judgement Armor bonus", bonus, true, false, 1.0, 1.0, false, None, 0.0);
+                }
+                if self.eternal_justice_mana && self.rng.random() < 0.20 {
+                    self.gain_mana(100.0);
+                }
                 self.seal = None;
                 self.seal_until = 0.0;
                 let cd = self.f("judgement", "cooldown") - self.f("improved_judgement_rank1", "cooldown_reduction") * self.rank("105705");
