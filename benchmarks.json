@@ -1751,10 +1751,10 @@
       "class_name": "Paladin",
       "name": "Retribution",
       "role": "dps",
-      "dps": 527.8275118256248,
-      "tps": 527.8275118256248,
+      "dps": 516.1307487330014,
+      "tps": 516.1307487330016,
       "dtps": 0.0,
-      "total_damage": 63339.301419074975,
+      "total_damage": 61935.68984796021,
       "url": "/paladin.html?spec=retribution&race=Human"
     },
     {
@@ -1763,10 +1763,10 @@
       "class_name": "Paladin",
       "name": "Retribution",
       "role": "dps",
-      "dps": 521.6309282043305,
-      "tps": 521.6309282043305,
+      "dps": 505.1185002388747,
+      "tps": 505.1185002388748,
       "dtps": 0.0,
-      "total_damage": 62595.71138451964,
+      "total_damage": 60614.22002866495,
       "url": "/paladin.html?spec=retribution&race=Dwarf"
     },
     {
@@ -1775,10 +1775,10 @@
       "class_name": "Paladin",
       "name": "Retribution",
       "role": "dps",
-      "dps": 526.1963641724959,
-      "tps": 526.1963641724959,
+      "dps": 516.4319541252701,
+      "tps": 516.4319541252702,
       "dtps": 0.0,
-      "total_damage": 63143.56370069948,
+      "total_damage": 61971.83449503238,
       "url": "/paladin.html?spec=retribution&race=Undead"
     }
   ],

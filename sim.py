@@ -76,7 +76,11 @@ ASSUMPTIONS = [
     'Consecration Rank 5 uses its Forever level-60 tooltip: 565 mana, 384 Holy damage over 8 sec, 8 sec cooldown.',
     'Holy Strike uses the supplied unranked/low-rank record exactly (75 mana, next melee becomes Holy and gains 2 damage); its missing base cooldown is editable and defaults provisionally to 6 sec.',
     'Seal of Fury (rank 7, level 58) is sourced from its Wowhead Forever tooltip: 200 mana/30 sec, melee swings deal +10% spell power Holy damage, and while a shield is equipped each landed swing also grants a self-absorb shield worth 50% of that Holy damage. Judging while Seal of Fury is active deals 45% spell power Holy damage and taunts for 4 sec; the taunt has no separate effect in this single-tank model, where incoming attacks already always target the tank. Protection uses Seal of Fury exclusively (no twisting) in place of the earlier Righteousness/Command placeholder.',
-    "Improved Seal of Fury (single rank) restores 38 mana, +15% per level the attacker is above the Paladin up to 45%, when an incoming attack fully consumes the remaining absorb pool. The pool is shared with Templar's Bulwark's much larger shield in this model; a Bulwark shield being the one fully drained would also trigger this refund, a modeling simplification."
+    "Improved Seal of Fury (single rank) restores 38 mana, +15% per level the attacker is above the Paladin up to 45%, when an incoming attack fully consumes the remaining absorb pool. The pool is shared with Templar's Bulwark's much larger shield in this model; a Bulwark shield being the one fully drained would also trigger this refund, a modeling simplification.",
+    "Seal of Righteousness (rank 8, level 60) is sourced from its Wowhead Forever tooltip: 200 mana/30 sec, swings deal (24 to 83) Holy damage scaling with weapon speed and hand type, and Judgement deals (50% of Spell Power) Holy damage. The swing formula matches WoWSims Classic's underlying rank-8 model (18.8 base value, x0.85 one-hand / x1.2 two-hand, x weapon speed, +10% spell power coefficient), which reproduces the tooltip's stated range exactly.",
+    "Seal of Command (rank 5, level 60) is sourced from its Wowhead Forever tooltip: 210 mana/30 sec (previously modeled at the wrong 65 mana talent-rank cost), swings deal 70% weapon damage on a 25% proc chance, and Judgement deals (42.9% of Spell Power) Holy damage (previously a flat, unsourced 68-73 range).",
+    "Improved Seals (105334) is sourced from its Wowhead Forever tooltip as a flat +5%/+10%/+15% bonus to both Seal and Judgement damage; it is now applied uniformly to all three seals' swing procs and Judgements via the same multiplier, rather than only to the flat-roll Righteousness/Command Judgement formulas that preceded this fix.",
+    'Sacred Arbiter (105700) is sourced from its Forever talent-calculator tooltip: +10% Holy Strike damage, applied here. Its "refreshes all Judgement effects on the target" clause is a no-op in this model, since Judgement applies no persistent/refreshable debuff.'
 ]
 
 def preset(spec='protection'):
@@ -303,7 +307,9 @@ class Fight:
         if seal=='command' and self.rng.random() < self.m['command_proc_chance']:
             self.deal('Seal of Command'+suffix,weapon*F['command']['weapon_fraction']*seal_bonus,holy=True,spell_coefficient=.29)
         elif seal=='righteousness':
-            self.deal('Seal of Righteousness'+suffix,self.m['righteousness_damage']*seal_bonus,holy=True,spell_coefficient=.10)
+            hand_mult=F['righteousness']['proc_two_hand_mult'] if self.c.get('weapon_hands')=='Two-Hand' else F['righteousness']['proc_one_hand_mult']
+            amt=F['righteousness']['proc_base']*hand_mult*self.c['weapon_speed']*seal_bonus
+            self.deal('Seal of Righteousness'+suffix,amt,holy=True,spell_coefficient=F['righteousness']['proc_coeff'])
         elif seal=='fury':
             dealt=self.deal('Seal of Fury'+suffix,0,holy=True,spell_coefficient=F['fury']['swing_pct_sp']*seal_bonus,return_amount=True)
             if dealt and self.c.get('block_chance',0)>0:
@@ -319,7 +325,8 @@ class Fight:
         holy_strike=self.holy_strike_queued and not extra
         if holy_strike:
             self.holy_strike_queued=False; iron=self.rank(110879)
-            landed=self.deal('Holy Strike',weapon+self.m['holy_strike_bonus'],holy=True,can_crit=True,
+            arbiter=1.1 if self.rank(105700) else 1.0
+            landed=self.deal('Holy Strike',(weapon+self.m['holy_strike_bonus'])*arbiter,holy=True,can_crit=True,
                              hit=self.c['hit_chance'],extra_threat=1+0.05*iron,melee_crit=True)
             if landed and iron: self.iron_until=self.time+6
         else:
@@ -350,11 +357,8 @@ class Fight:
             cost=F['judgement']['base_mana_fraction']*self.c['base_mana']
             if self.spend('Judgement',cost):
                 seal=self.seal; f=F[seal]
-                if seal=='fury':
-                    self.deal('Judgement of Fury',0,holy=True,can_crit=True,hit=self.c['spell_hit_chance'],spell_coefficient=F['fury']['judgement_pct_sp'])
-                else:
-                    self.deal('Judgement of '+seal.title(),self.rng.uniform(f['judgement_min'],f['judgement_max'])*(1+0.05*self.rank(105334)),
-                              holy=True,can_crit=True,hit=self.c['spell_hit_chance'],spell_coefficient=.43)
+                coeff=f['judgement_pct_sp']*(1+0.05*self.rank(105334))
+                self.deal('Judgement of '+seal.title(),0,holy=True,can_crit=True,hit=self.c['spell_hit_chance'],spell_coefficient=coeff)
                 if self.set_flags.get('judgement_bonus_damage'): self.deal('Judgement Armor bonus',self.rng.uniform(60,66),holy=True,hit=1)
                 if self.set_flags.get('eternal_justice_mana') and self.rng.random()<0.20: self.gain_mana(100)
                 # Judgement does not consume the active seal in Forever (classicwow.gg guide).

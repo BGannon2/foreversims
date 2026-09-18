@@ -145,7 +145,8 @@ class SimulationTests(unittest.TestCase):
         p['character'].update(hit_chance=1,crit_chance=0,spell_hit_chance=1,spell_crit_chance=0)
         p['talents']={k:0 for k in p['talents']}; base=Fight(p,0); base.deal('Seal',100,holy=True)
         p['talents']['105334']=3; improved=Fight(p,0); improved.seal_proc('righteousness',100)
-        self.assertAlmostEqual(improved.damage['Seal of Righteousness'],p['model']['righteousness_damage']*1.15)
+        expected=F['righteousness']['proc_base']*F['righteousness']['proc_one_hand_mult']*improved.c['weapon_speed']*1.15
+        self.assertAlmostEqual(improved.damage['Seal of Righteousness'],expected)
         p['talents']['110883']=2; crusade=Fight(p,0); crusade.deal('Test',100,holy=True)
         self.assertAlmostEqual(crusade.damage['Test'],102)
 

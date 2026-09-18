@@ -955,8 +955,14 @@ impl<'a> Fight<'a> {
                 }
             }
             Seal::Righteousness => {
-                let amt = self.m.righteousness_damage * seal_bonus;
-                self.deal(&format!("Seal of Righteousness{suffix}"), amt, true, false, 1.0, 1.0, false, None, 0.10);
+                let hand_mult = if self.c.weapon_hands.as_deref() == Some("Two-Hand") {
+                    self.f("righteousness", "proc_two_hand_mult")
+                } else {
+                    self.f("righteousness", "proc_one_hand_mult")
+                };
+                let amt = self.f("righteousness", "proc_base") * hand_mult * self.c.weapon_speed * seal_bonus;
+                let coeff = self.f("righteousness", "proc_coeff");
+                self.deal(&format!("Seal of Righteousness{suffix}"), amt, true, false, 1.0, 1.0, false, None, coeff);
             }
             Seal::Fury => {
                 let coeff = self.f("fury", "swing_pct_sp") * seal_bonus;
@@ -986,7 +992,8 @@ impl<'a> Fight<'a> {
         if holy_strike {
             self.holy_strike_queued = false;
             let iron = self.rank("110879");
-            landed = self.deal("Holy Strike", weapon + self.m.holy_strike_bonus, true, true, self.c.hit_chance, 1.0 + 0.05 * iron, true, None, 0.0);
+            let arbiter = if self.rank("105700") != 0.0 { 1.1 } else { 1.0 };
+            landed = self.deal("Holy Strike", (weapon + self.m.holy_strike_bonus) * arbiter, true, true, self.c.hit_chance, 1.0 + 0.05 * iron, true, None, 0.0);
             if landed && iron != 0.0 {
                 self.iron_until = self.time + 6.0;
             }
@@ -1042,13 +1049,8 @@ impl<'a> Fight<'a> {
             let cost = self.f("judgement", "base_mana_fraction") * self.c.base_mana;
             if self.spend("Judgement", cost) {
                 let seal = self.seal.unwrap();
-                if seal == Seal::Fury {
-                    self.deal("Judgement of Fury", 0.0, true, true, self.c.spell_hit_chance, 1.0, false, None, self.f("fury", "judgement_pct_sp"));
-                } else {
-                    let (jmin, jmax) = (self.f(seal.key(), "judgement_min"), self.f(seal.key(), "judgement_max"));
-                    let amt = self.rng.uniform(jmin, jmax) * (1.0 + 0.05 * self.rank("105334"));
-                    self.deal(&format!("Judgement of {}", title(seal.key())), amt, true, true, self.c.spell_hit_chance, 1.0, false, None, 0.43);
-                }
+                let coeff = self.f(seal.key(), "judgement_pct_sp") * (1.0 + 0.05 * self.rank("105334"));
+                self.deal(&format!("Judgement of {}", title(seal.key())), 0.0, true, true, self.c.spell_hit_chance, 1.0, false, None, coeff);
                 if self.judgement_bonus_damage {
                     let bonus = self.rng.uniform(60.0, 66.0);
                     self.deal("Judgement Armor bonus", bonus, true, false, 1.0, 1.0, false, None, 0.0);

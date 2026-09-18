@@ -7,6 +7,7 @@
     "judgement": "https://www.wowhead.com/forever/spell=20271/judgement",
     "righteous_fury": "https://www.wowhead.com/forever/spell=25780/righteous-fury",
     "righteousness": "https://www.wowhead.com/forever/spell=20293/seal-of-righteousness",
+    "command": "https://www.wowhead.com/forever/spell=20920/seal-of-command",
     "fury": "https://www.wowhead.com/forever/spell=20423/seal-of-fury",
     "ability_index": "https://www.wowhead.com/forever/spells/abilities/paladin",
     "holy_strike_rank1": "https://www.wowhead.com/forever/spell=17143/holy-strike",
@@ -15,8 +16,8 @@
   "facts": {
     "judgement": {"source":"judgement", "cooldown":10, "base_mana_fraction":0.06, "gcd":0},
     "righteous_fury": {"source":"righteous_fury", "holy_threat_multiplier":1.9},
-    "righteousness": {"source":"righteousness", "cost":200, "duration":30, "gcd":1.5, "judgement_min":170, "judgement_max":187, "swing_tooltip_min":22, "swing_tooltip_max":75},
-    "command": {"source":"talents", "cost":65, "duration":30, "weapon_fraction":0.7, "judgement_min":68, "judgement_max":73},
+    "righteousness": {"source":"righteousness", "cost":200, "duration":30, "gcd":1.5, "judgement_pct_sp":0.50, "proc_base":18.80, "proc_coeff":0.1, "proc_one_hand_mult":0.85, "proc_two_hand_mult":1.2},
+    "command": {"source":"command", "cost":210, "duration":30, "weapon_fraction":0.7, "judgement_pct_sp":0.429},
     "fury": {"source":"fury", "cost":200, "duration":30, "gcd":1.5, "swing_pct_sp":0.10, "absorb_pct":0.50, "judgement_pct_sp":0.45, "taunt_duration":4},
     "improved_seal_of_fury_rank1": {"source":"talents", "base_mana":38, "per_level_pct":0.15, "max_pct":0.45},
     "holy_shield": {"source":"talents", "cost":150, "cooldown":10, "duration":10, "block_bonus":0.2, "charges":4, "damage":110, "threat_multiplier":1.2},
