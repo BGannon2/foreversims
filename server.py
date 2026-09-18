@@ -4,8 +4,10 @@ from __future__ import annotations
 import argparse
 import json
 import mimetypes
+import os
 import threading
 import webbrowser
+from concurrent.futures import ProcessPoolExecutor
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -58,29 +60,48 @@ def default_benchmarks():
     return BENCHMARK_CACHE
 
 
-def build_aoe_benchmarks(iterations=None, target_counts=AOE_TARGET_COUNTS):
-    """Same snapshot shape as build_benchmarks, but one representative race per spec and a
-    row per (spec, target count) instead of a row per (spec, race). Used by the AoE comparison
-    page; abilities with no AoE component (most single-target rotations) simply show the same
-    DPS/TPS at every target count."""
+def _bench_task(task):
+    """Runs in a worker process (module-level so it's importable/picklable for spawn on
+    Windows). task is ("spec", request_dict) or ("paladin", profile_dict)."""
+    kind, payload = task
+    return simulate_spec(payload) if kind == "spec" else simulate(payload)
+
+
+def _run_bench_tasks(tasks, parallel=True):
+    """Runs each (kind, payload) task and returns results in the same order. Each task is an
+    independent, CPU-bound pure-Python simulation with no shared state, so this parallelizes
+    almost linearly across cores via ProcessPoolExecutor. Falls back to sequential (parallel=
+    False, or a single task) to avoid process-pool startup overhead for tiny runs."""
+    if not parallel or len(tasks) < 2:
+        return [_bench_task(t) for t in tasks]
+    with ProcessPoolExecutor(max_workers=min(len(tasks), os.cpu_count() or 4)) as pool:
+        return list(pool.map(_bench_task, tasks, chunksize=1))
+
+
+def build_aoe_benchmarks(iterations=None, target_counts=AOE_TARGET_COUNTS, parallel=True):
+    """Same shape and race matrix as build_benchmarks (every race per spec, not just one
+    representative race), but a row per (spec, race, target count) instead of a row per
+    (spec, race). Used by the AoE comparison page; abilities with no AoE component (most
+    single-target rotations) simply show the same DPS/TPS at every target count."""
     iterations = iterations or DEFAULTS["benchmark_iterations"]
-    rows = []
+    tasks, meta = [], []
     for spec in public_specs():
-        race = "Human" if "Human" in spec["races"] else spec["races"][0]
-        for targets in target_counts:
-            result = simulate_spec(default_request(spec, race, iterations=iterations, seed=DEFAULTS["benchmark_seed"], targets=targets))
-            rows.append({"id": spec["id"], "race": race, "class_name": spec["class_name"], "name": spec["name"], "role": spec["role"], "targets": targets,
-                         "dps": result["metrics"]["dps"]["mean"], "tps": result["metrics"]["tps"]["mean"],
-                         "url": f"/all-specs.html?spec={spec['id']}&race={quote(race)}"})
+        for race in CLASS_RACES[spec["class_name"]]:
+            for targets in target_counts:
+                tasks.append(("spec", default_request(spec, race, iterations=iterations, seed=DEFAULTS["benchmark_seed"], targets=targets)))
+                meta.append({"id": spec["id"], "race": race, "class_name": spec["class_name"], "name": spec["name"], "role": spec["role"], "targets": targets,
+                             "url": f"/all-specs.html?spec={spec['id']}&race={quote(race)}"})
     for spec_id in ("protection", "retribution"):
-        race = "Human"
-        for targets in target_counts:
-            profile = preset(spec_id); profile["race"] = race; profile["iterations"] = iterations; profile["seed"] = DEFAULTS["benchmark_seed"]
-            profile["encounter"]["targets"] = float(targets)
-            result = simulate(profile); role = "tank" if spec_id == "protection" else "dps"
-            rows.append({"id": f"paladin-{spec_id}", "race": race, "class_name": "Paladin", "name": spec_id.title(), "role": role, "targets": targets,
-                         "dps": result["metrics"]["dps"]["mean"], "tps": result["metrics"]["tps"]["mean"],
-                         "url": f"/paladin.html?spec={spec_id}&race={quote(race)}"})
+        for race in CLASS_RACES["Paladin"]:
+            for targets in target_counts:
+                profile = preset(spec_id); profile["race"] = race; profile["iterations"] = iterations; profile["seed"] = DEFAULTS["benchmark_seed"]
+                profile["encounter"]["targets"] = float(targets)
+                tasks.append(("paladin", profile))
+                role = "tank" if spec_id == "protection" else "dps"
+                meta.append({"id": f"paladin-{spec_id}", "race": race, "class_name": "Paladin", "name": spec_id.title(), "role": role, "targets": targets,
+                             "url": f"/paladin.html?spec={spec_id}&race={quote(race)}"})
+    results = _run_bench_tasks(tasks, parallel=parallel)
+    rows = [{**m, "dps": r["metrics"]["dps"]["mean"], "tps": r["metrics"]["tps"]["mean"]} for m, r in zip(meta, results)]
     return {"duration": DEFAULTS["duration"], "iterations": iterations, "encounter": "Patchwerk, level 63, 3731 armor",
             "target_counts": list(target_counts), "world_buffs": False, "talents": "saved default 51-point builds", "rows": rows}
 
@@ -95,22 +116,24 @@ def default_aoe_benchmarks():
     return AOE_BENCHMARK_CACHE
 
 
-def build_benchmarks(iterations=None):
+def build_benchmarks(iterations=None, parallel=True):
     iterations = iterations or DEFAULTS["benchmark_iterations"]
-    rows = []
+    tasks, meta = [], []
     for spec in public_specs():
         for race in CLASS_RACES[spec["class_name"]]:
-            result = simulate_spec(default_request(spec, race, iterations=iterations, seed=DEFAULTS["benchmark_seed"]))
-            rows.append({"id": spec["id"], "race": race, "class_name": spec["class_name"], "name": spec["name"], "role": spec["role"],
-                         "dps": result["metrics"]["dps"]["mean"], "tps": result["metrics"]["tps"]["mean"], "dtps": result["metrics"]["dtps"]["mean"],
-                         "total_damage": sum(result["ability_damage"].values()), "url": f"/all-specs.html?spec={spec['id']}&race={quote(race)}"})
+            tasks.append(("spec", default_request(spec, race, iterations=iterations, seed=DEFAULTS["benchmark_seed"])))
+            meta.append({"id": spec["id"], "race": race, "class_name": spec["class_name"], "name": spec["name"], "role": spec["role"],
+                         "url": f"/all-specs.html?spec={spec['id']}&race={quote(race)}"})
     for spec_id in ("protection", "retribution"):
         for race in CLASS_RACES["Paladin"]:
             profile = preset(spec_id); profile["race"] = race; profile["iterations"] = iterations; profile["seed"] = DEFAULTS["benchmark_seed"]
-            result = simulate(profile); role = "tank" if spec_id == "protection" else "dps"
-            rows.append({"id": f"paladin-{spec_id}", "race": race, "class_name": "Paladin", "name": spec_id.title(), "role": role,
-                         "dps": result["metrics"]["dps"]["mean"], "tps": result["metrics"]["tps"]["mean"], "dtps": result["metrics"]["dtps"]["mean"],
-                         "total_damage": sum(result["ability_damage"].values()), "url": f"/paladin.html?spec={spec_id}&race={quote(race)}"})
+            tasks.append(("paladin", profile))
+            role = "tank" if spec_id == "protection" else "dps"
+            meta.append({"id": f"paladin-{spec_id}", "race": race, "class_name": "Paladin", "name": spec_id.title(), "role": role,
+                         "url": f"/paladin.html?spec={spec_id}&race={quote(race)}"})
+    results = _run_bench_tasks(tasks, parallel=parallel)
+    rows = [{**m, "dps": r["metrics"]["dps"]["mean"], "tps": r["metrics"]["tps"]["mean"], "dtps": r["metrics"]["dtps"]["mean"],
+             "total_damage": sum(r["ability_damage"].values())} for m, r in zip(meta, results)]
     return {"duration": DEFAULTS["duration"], "iterations": iterations, "encounter": "Patchwerk, level 63, 3731 armor", "world_buffs": False,
             "talents": "saved default 51-point builds", "rows": rows, "race_source": "https://www.wowhead.com/forever/guide/new-race-class-combinations"}
 
