@@ -11,10 +11,10 @@
       "class_name": "Warrior",
       "name": "Arms",
       "role": "dps",
-      "dps": 810.1652957528364,
-      "tps": 763.250942063756,
+      "dps": 841.2328353842602,
+      "tps": 793.2056381861479,
       "dtps": 0.0,
-      "total_damage": 97219.8354903404,
+      "total_damage": 100947.94024611122,
       "url": "/all-specs.html?spec=warrior-arms&race=Human"
     },
     {
@@ -23,10 +23,10 @@
       "class_name": "Warrior",
       "name": "Arms",
       "role": "dps",
-      "dps": 800.9408419264676,
-      "tps": 754.6759837955793,
+      "dps": 827.8187687382406,
+      "tps": 781.4504470571933,
       "dtps": 0.0,
-      "total_damage": 96112.9010311761,
+      "total_damage": 99338.2522485889,
       "url": "/all-specs.html?spec=warrior-arms&race=Dwarf"
     },
     {
@@ -35,10 +35,10 @@
       "class_name": "Warrior",
       "name": "Arms",
       "role": "dps",
-      "dps": 808.2816958440133,
-      "tps": 760.6074012450566,
+      "dps": 834.3598980318226,
+      "tps": 786.8576417216434,
       "dtps": 0.0,
-      "total_damage": 96993.80350128155,
+      "total_damage": 100123.18776381866,
       "url": "/all-specs.html?spec=warrior-arms&race=Night%20Elf"
     },
     {
@@ -47,10 +47,10 @@
       "class_name": "Warrior",
       "name": "Arms",
       "role": "dps",
-      "dps": 795.923979557802,
-      "tps": 749.9901046772875,
+      "dps": 825.5651654558915,
+      "tps": 779.2744497811203,
       "dtps": 0.0,
-      "total_damage": 95510.87754693626,
+      "total_damage": 99067.81985470699,
       "url": "/all-specs.html?spec=warrior-arms&race=Gnome"
     },
     {
@@ -59,10 +59,10 @@
       "class_name": "Warrior",
       "name": "Arms",
       "role": "dps",
-      "dps": 804.6527219698172,
-      "tps": 757.6430766596327,
+      "dps": 832.5112422818409,
+      "tps": 785.3315762137127,
       "dtps": 0.0,
-      "total_damage": 96558.32663637807,
+      "total_damage": 99901.34907382095,
       "url": "/all-specs.html?spec=warrior-arms&race=Orc"
     },
     {
@@ -71,10 +71,10 @@
       "class_name": "Warrior",
       "name": "Arms",
       "role": "dps",
-      "dps": 805.293718282841,
-      "tps": 756.8517512080423,
+      "dps": 836.5107308755728,
+      "tps": 788.0200961019495,
       "dtps": 0.0,
-      "total_damage": 96635.24619394094,
+      "total_damage": 100381.28770506874,
       "url": "/all-specs.html?spec=warrior-arms&race=Undead"
     },
     {
@@ -83,10 +83,10 @@
       "class_name": "Warrior",
       "name": "Arms",
       "role": "dps",
-      "dps": 798.9498652205879,
-      "tps": 753.4691865564838,
+      "dps": 830.3406526894316,
+      "tps": 784.0885596911791,
       "dtps": 0.0,
-      "total_damage": 95873.98382647053,
+      "total_damage": 99640.87832273179,
       "url": "/all-specs.html?spec=warrior-arms&race=Tauren"
     },
     {
@@ -95,10 +95,10 @@
       "class_name": "Warrior",
       "name": "Arms",
       "role": "dps",
-      "dps": 802.0193015830755,
-      "tps": 756.0835668312385,
+      "dps": 828.1321346003604,
+      "tps": 782.6856326750484,
       "dtps": 0.0,
-      "total_damage": 96242.31618996907,
+      "total_damage": 99375.8561520432,
       "url": "/all-specs.html?spec=warrior-arms&race=Troll"
     },
     {
@@ -107,10 +107,10 @@
       "class_name": "Warrior",
       "name": "Arms",
       "role": "dps",
-      "dps": 800.7119835663117,
-      "tps": 754.9098900327239,
+      "dps": 828.3587633486263,
+      "tps": 782.3165892073405,
       "dtps": 0.0,
-      "total_damage": 96085.43802795745,
+      "total_damage": 99403.05160183519,
       "url": "/all-specs.html?spec=warrior-arms&race=Skyborne%20%28Alliance%29"
     },
     {
@@ -119,10 +119,10 @@
       "class_name": "Warrior",
       "name": "Arms",
       "role": "dps",
-      "dps": 800.7119835663117,
-      "tps": 754.9098900327239,
+      "dps": 828.3587633486263,
+      "tps": 782.3165892073405,
       "dtps": 0.0,
-      "total_damage": 96085.43802795745,
+      "total_damage": 99403.05160183519,
       "url": "/all-specs.html?spec=warrior-arms&race=Skyborne%20%28Horde%29"
     },
     {
@@ -131,10 +131,10 @@
       "class_name": "Warrior",
       "name": "Fury",
       "role": "dps",
-      "dps": 897.9339566719299,
-      "tps": 861.8385730706699,
+      "dps": 925.7610772347637,
+      "tps": 889.1411910645116,
       "dtps": 0.0,
-      "total_damage": 107752.0748006316,
+      "total_damage": 111091.32926817168,
       "url": "/all-specs.html?spec=warrior-fury&race=Human"
     },
     {
@@ -143,10 +143,10 @@
       "class_name": "Warrior",
       "name": "Fury",
       "role": "dps",
-      "dps": 889.3850877847776,
-      "tps": 854.069312455275,
+      "dps": 917.2224080913877,
+      "tps": 881.5611561357737,
       "dtps": 0.0,
-      "total_damage": 106726.21053417333,
+      "total_damage": 110066.68897096653,
       "url": "/all-specs.html?spec=warrior-fury&race=Dwarf"
     },
     {
@@ -155,10 +155,10 @@
       "class_name": "Warrior",
       "name": "Fury",
       "role": "dps",
-      "dps": 889.3861403863924,
-      "tps": 853.1168470791832,
+      "dps": 927.1868295438147,
+      "tps": 889.6932315128256,
       "dtps": 0.0,
-      "total_damage": 106726.3368463671,
+      "total_damage": 111262.41954525778,
       "url": "/all-specs.html?spec=warrior-fury&race=Night%20Elf"
     },
     {
@@ -167,10 +167,10 @@
       "class_name": "Warrior",
       "name": "Fury",
       "role": "dps",
-      "dps": 880.7975761133954,
-      "tps": 846.1138486249798,
+      "dps": 910.1883909498077,
+      "tps": 874.750957551113,
       "dtps": 0.0,
-      "total_damage": 105695.70913360747,
+      "total_damage": 109222.60691397692,
       "url": "/all-specs.html?spec=warrior-fury&race=Gnome"
     },
     {
@@ -179,10 +179,10 @@
       "class_name": "Warrior",
       "name": "Fury",
       "role": "dps",
-      "dps": 887.4495925280875,
-      "tps": 851.3296056531998,
+      "dps": 915.4006385315366,
+      "tps": 878.7434907772598,
       "dtps": 0.0,
-      "total_damage": 106493.95110337055,
+      "total_damage": 109848.0766237844,
       "url": "/all-specs.html?spec=warrior-fury&race=Orc"
     },
     {
@@ -191,10 +191,10 @@
       "class_name": "Warrior",
       "name": "Fury",
       "role": "dps",
-      "dps": 899.154661582668,
-      "tps": 861.5713827653417,
+      "dps": 920.2088885429208,
+      "tps": 882.7205419459447,
       "dtps": 0.0,
-      "total_damage": 107898.5593899202,
+      "total_damage": 110425.06662515053,
       "url": "/all-specs.html?spec=warrior-fury&race=Undead"
     },
     {
@@ -203,10 +203,10 @@
       "class_name": "Warrior",
       "name": "Fury",
       "role": "dps",
-      "dps": 889.9535475556174,
-      "tps": 855.1958247246408,
+      "dps": 910.5099141764225,
+      "tps": 875.2122268906719,
       "dtps": 0.0,
-      "total_damage": 106794.42570667413,
+      "total_damage": 109261.1897011707,
       "url": "/all-specs.html?spec=warrior-fury&race=Tauren"
     },
     {
@@ -215,10 +215,10 @@
       "class_name": "Warrior",
       "name": "Fury",
       "role": "dps",
-      "dps": 892.2808798747478,
-      "tps": 857.2599180121078,
+      "dps": 911.7774730861222,
+      "tps": 876.669330732895,
       "dtps": 0.0,
-      "total_damage": 107073.7055849698,
+      "total_damage": 109413.29677033464,
       "url": "/all-specs.html?spec=warrior-fury&race=Troll"
     },
     {
@@ -227,10 +227,10 @@
       "class_name": "Warrior",
       "name": "Fury",
       "role": "dps",
-      "dps": 885.9196917424989,
-      "tps": 851.7709876714088,
+      "dps": 915.8077059120103,
+      "tps": 880.6908694525532,
       "dtps": 0.0,
-      "total_damage": 106310.36300909989,
+      "total_damage": 109896.92470944129,
       "url": "/all-specs.html?spec=warrior-fury&race=Skyborne%20%28Alliance%29"
     },
     {
@@ -239,10 +239,10 @@
       "class_name": "Warrior",
       "name": "Fury",
       "role": "dps",
-      "dps": 885.9196917424989,
-      "tps": 851.7709876714088,
+      "dps": 915.8077059120103,
+      "tps": 880.6908694525532,
       "dtps": 0.0,
-      "total_damage": 106310.36300909989,
+      "total_damage": 109896.92470944129,
       "url": "/all-specs.html?spec=warrior-fury&race=Skyborne%20%28Horde%29"
     },
     {
@@ -371,10 +371,10 @@
       "class_name": "Druid",
       "name": "Balance",
       "role": "dps",
-      "dps": 367.8699169587227,
-      "tps": 367.8699169587227,
+      "dps": 376.6951671506102,
+      "tps": 376.6951671506102,
       "dtps": 0.0,
-      "total_damage": 44144.39003504674,
+      "total_damage": 45203.42005807324,
       "url": "/all-specs.html?spec=druid-balance&race=Night%20Elf"
     },
     {
@@ -383,10 +383,10 @@
       "class_name": "Druid",
       "name": "Balance",
       "role": "dps",
-      "dps": 362.5927546681834,
-      "tps": 362.5927546681834,
+      "dps": 371.4408183948972,
+      "tps": 371.4408183948972,
       "dtps": 0.0,
-      "total_damage": 43511.13056018204,
+      "total_damage": 44572.89820738769,
       "url": "/all-specs.html?spec=druid-balance&race=Tauren"
     },
     {
@@ -395,10 +395,10 @@
       "class_name": "Druid",
       "name": "Balance",
       "role": "dps",
-      "dps": 361.4288079377129,
-      "tps": 361.4288079377129,
+      "dps": 370.26573561061576,
+      "tps": 370.26573561061576,
       "dtps": 0.0,
-      "total_damage": 43371.45695252557,
+      "total_damage": 44431.888273273915,
       "url": "/all-specs.html?spec=druid-balance&race=Skyborne%20%28Alliance%29"
     },
     {
@@ -407,10 +407,10 @@
       "class_name": "Druid",
       "name": "Balance",
       "role": "dps",
-      "dps": 361.4288079377129,
-      "tps": 361.4288079377129,
+      "dps": 370.26573561061576,
+      "tps": 370.26573561061576,
       "dtps": 0.0,
-      "total_damage": 43371.45695252557,
+      "total_damage": 44431.888273273915,
       "url": "/all-specs.html?spec=druid-balance&race=Skyborne%20%28Horde%29"
     },
     {
@@ -1019,10 +1019,10 @@
       "class_name": "Priest",
       "name": "Shadow",
       "role": "dps",
-      "dps": 486.99041157517263,
-      "tps": 340.89328810262055,
+      "dps": 492.21282177363474,
+      "tps": 344.548975241544,
       "dtps": 0.0,
-      "total_damage": 58438.84938902062,
+      "total_damage": 59065.53861283608,
       "url": "/all-specs.html?spec=priest-shadow&race=Human"
     },
     {
@@ -1031,10 +1031,10 @@
       "class_name": "Priest",
       "name": "Shadow",
       "role": "dps",
-      "dps": 483.3325747607792,
-      "tps": 338.3328023325451,
+      "dps": 488.63853983011484,
+      "tps": 342.04697788108007,
       "dtps": 0.0,
-      "total_damage": 57999.90897129339,
+      "total_damage": 58636.624779613674,
       "url": "/all-specs.html?spec=priest-shadow&race=Dwarf"
     },
     {
@@ -1043,10 +1043,10 @@
       "class_name": "Priest",
       "name": "Shadow",
       "role": "dps",
-      "dps": 486.06786816315446,
-      "tps": 340.2475077142078,
+      "dps": 491.34418977363316,
+      "tps": 343.9409328415429,
       "dtps": 0.0,
-      "total_damage": 58328.14417957842,
+      "total_damage": 58961.30277283587,
       "url": "/all-specs.html?spec=priest-shadow&race=Night%20Elf"
     },
     {
@@ -1055,10 +1055,10 @@
       "class_name": "Priest",
       "name": "Shadow",
       "role": "dps",
-      "dps": 486.2822888992496,
-      "tps": 340.3976022294744,
+      "dps": 491.6177050995309,
+      "tps": 344.1323935696713,
       "dtps": 0.0,
-      "total_damage": 58353.87466790984,
+      "total_damage": 58994.124611943604,
       "url": "/all-specs.html?spec=priest-shadow&race=Gnome"
     },
     {
@@ -1067,10 +1067,10 @@
       "class_name": "Priest",
       "name": "Shadow",
       "role": "dps",
-      "dps": 486.6617690265886,
-      "tps": 340.6632383186117,
+      "dps": 492.4030640662384,
+      "tps": 344.6821448463665,
       "dtps": 0.0,
-      "total_damage": 58399.41228319054,
+      "total_damage": 59088.36768794851,
       "url": "/all-specs.html?spec=priest-shadow&race=Undead"
     },
     {
@@ -1079,10 +1079,10 @@
       "class_name": "Priest",
       "name": "Shadow",
       "role": "dps",
-      "dps": 484.3737104985217,
-      "tps": 339.0615973489649,
+      "dps": 490.29454105734806,
+      "tps": 343.20617874014334,
       "dtps": 0.0,
-      "total_damage": 58124.8452598225,
+      "total_damage": 58835.34492688167,
       "url": "/all-specs.html?spec=priest-shadow&race=Troll"
     },
     {
@@ -1307,10 +1307,10 @@
       "class_name": "Rogue",
       "name": "Subtlety",
       "role": "dps",
-      "dps": 681.761245582651,
-      "tps": 484.0504843636829,
+      "dps": 688.4175485390937,
+      "tps": 488.77645946275726,
       "dtps": 0.0,
-      "total_damage": 81811.34946991816,
+      "total_damage": 82610.1058246913,
       "url": "/all-specs.html?spec=rogue-subtlety&race=Human"
     },
     {
@@ -1319,10 +1319,10 @@
       "class_name": "Rogue",
       "name": "Subtlety",
       "role": "dps",
-      "dps": 679.6114687198959,
-      "tps": 482.5241427911264,
+      "dps": 686.7231643889794,
+      "tps": 487.5734467161756,
       "dtps": 0.0,
-      "total_damage": 81553.3762463875,
+      "total_damage": 82406.77972667753,
       "url": "/all-specs.html?spec=rogue-subtlety&race=Dwarf"
     },
     {
@@ -1331,10 +1331,10 @@
       "class_name": "Rogue",
       "name": "Subtlety",
       "role": "dps",
-      "dps": 691.9593754444443,
-      "tps": 491.29115656555564,
+      "dps": 698.9005894104008,
+      "tps": 496.2194184813847,
       "dtps": 0.0,
-      "total_damage": 83035.12505333331,
+      "total_damage": 83868.07072924811,
       "url": "/all-specs.html?spec=rogue-subtlety&race=Night%20Elf"
     },
     {
@@ -1343,10 +1343,10 @@
       "class_name": "Rogue",
       "name": "Subtlety",
       "role": "dps",
-      "dps": 685.0767821233245,
-      "tps": 486.4045153075607,
+      "dps": 689.999775029133,
+      "tps": 489.8998402706847,
       "dtps": 0.0,
-      "total_damage": 82209.21385479893,
+      "total_damage": 82799.97300349596,
       "url": "/all-specs.html?spec=rogue-subtlety&race=Gnome"
     },
     {
@@ -1355,10 +1355,10 @@
       "class_name": "Rogue",
       "name": "Subtlety",
       "role": "dps",
-      "dps": 686.7420100219144,
-      "tps": 487.58682711556,
+      "dps": 693.9864421993534,
+      "tps": 492.7303739615416,
       "dtps": 0.0,
-      "total_damage": 82409.04120262979,
+      "total_damage": 83278.37306392247,
       "url": "/all-specs.html?spec=rogue-subtlety&race=Orc"
     },
     {
@@ -1367,10 +1367,10 @@
       "class_name": "Rogue",
       "name": "Subtlety",
       "role": "dps",
-      "dps": 708.8807647878411,
-      "tps": 503.305342999367,
+      "dps": 713.5680623777056,
+      "tps": 506.6333242881706,
       "dtps": 0.0,
-      "total_damage": 85065.69177454096,
+      "total_damage": 85628.16748532468,
       "url": "/all-specs.html?spec=rogue-subtlety&race=Undead"
     },
     {
@@ -1379,10 +1379,10 @@
       "class_name": "Rogue",
       "name": "Subtlety",
       "role": "dps",
-      "dps": 686.5596383133602,
-      "tps": 487.4573432024853,
+      "dps": 692.1869307549719,
+      "tps": 491.4527208360295,
       "dtps": 0.0,
-      "total_damage": 82387.15659760321,
+      "total_damage": 83062.43169059661,
       "url": "/all-specs.html?spec=rogue-subtlety&race=Troll"
     },
     {
@@ -1391,10 +1391,10 @@
       "class_name": "Rogue",
       "name": "Subtlety",
       "role": "dps",
-      "dps": 687.3969953026946,
-      "tps": 488.05186666491386,
+      "dps": 692.4319219920825,
+      "tps": 491.6266646143792,
       "dtps": 0.0,
-      "total_damage": 82487.63943632341,
+      "total_damage": 83091.83063904995,
       "url": "/all-specs.html?spec=rogue-subtlety&race=Skyborne%20%28Alliance%29"
     },
     {
@@ -1403,10 +1403,10 @@
       "class_name": "Rogue",
       "name": "Subtlety",
       "role": "dps",
-      "dps": 687.3969953026946,
-      "tps": 488.05186666491386,
+      "dps": 692.4319219920825,
+      "tps": 491.6266646143792,
       "dtps": 0.0,
-      "total_damage": 82487.63943632341,
+      "total_damage": 83091.83063904995,
       "url": "/all-specs.html?spec=rogue-subtlety&race=Skyborne%20%28Horde%29"
     },
     {

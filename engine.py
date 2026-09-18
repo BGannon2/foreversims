@@ -581,6 +581,8 @@ class Iteration:
         else:
             crit = self.st["meleeCrit"] - 4.8
         if c.flag("weaponmaster") and weapon_type(c.mh) in {"Axe", "Polearm"}: crit += c.flag("weaponmaster") * 100
+        if c.flag("moonkin"): crit += c.flag("moonkin") * 100
+        if ability == "Shadow Word: Death" and c.flag("early_demise") and self.t >= self.execute_at: crit += c.flag("early_demise")
         if ability: crit += c.mod(f"crit_ability:{ability}")
         b = self.buffs.get("Elune's Light")
         if b and b["until"] > self.t: crit += 10
@@ -1413,6 +1415,9 @@ class Iteration:
         if a.get("kind") == "channel" and name == "Arcane Missiles":
             out, m = self.spell_outcome(name, school, True)
             if out == "miss": self.deal(name, 0, school, "spell", outcome="miss"); return
+        if name == "Drain Soul":
+            if c.flag("soul_siphon"): tick *= 1 + c.flag("soul_siphon")
+            if c.flag("nightfall") and self.rng.random() < c.flag("nightfall"): self.next_instant = True
         dmg = self.deal(name, tick, school, "spell", periodic=(name != "Arcane Missiles"), outcome=out, mult=m * a["mult"])
         self.after_spell_hit(name, school, out, dmg, a) if name == "Arcane Missiles" else None
 
@@ -1424,6 +1429,7 @@ class Iteration:
         school = d["school"]
         self.deal(name, tick, school, "spell" if school != "physical" else "melee", periodic=True, outcome="hit")
         if name == "Rupture" and c.flag("thousand_cuts"): self.add_buff("Thousand Cuts", 10, stacks_max=5)
+        if name == "Corruption" and c.flag("nightfall") and self.rng.random() < c.flag("nightfall"): self.next_instant = True
         if d["remaining"] <= 0 and name in {"Immolate", "Corruption", "Curse of Agony", "Siphon Life", "Serpent Sting", "Shadow Word: Pain", "Moonfire", "Insect Swarm", "Flame Shock", "Rip", "Rupture", "Explosive Trap"}:
             pass
 
@@ -1448,6 +1454,7 @@ class Iteration:
             self.avoided_recently = self.t
             if outcome in {"dodge", "parry"} and c.flag("master_of_defense") and rng.random() < min(1.0, c.flag("master_of_defense")): self.gain_rage(5)
             if outcome == "dodge" and self.s["form"] == "bear" and c.mod("dodge"): self.gain_rage(5)
+            if outcome in {"dodge", "parry"} and c.flag("improved_stormstrike") and rng.random() < min(1.0, c.flag("improved_stormstrike")): self.cooldowns["Stormstrike"] = self.t
             self.row("Boss melee").misses += 1; self.record("Boss melee", outcome, 0); return
         armor = self.st.get("armor", 0)
         mult = {"crit": 2.0, "crush": 1.5}.get(outcome, 1.0)
@@ -1589,6 +1596,9 @@ class Iteration:
         elif s["style"] == "ranged":
             self.next_ranged = 0.0
         if s["resource"] == "Rage" and s["class_name"] == "Warrior": pass
+        # Premeditation requires a stealth opener this sim doesn't model; approximated as a
+        # one-time 2-combo-point grant at the start of the fight, its only realistic use case.
+        if c.flag("premeditation"): self.cp = min(5, self.cp + 2)
         dur = self.duration
         guard = 0
         while self.t < dur - EPS and guard < 2_000_000:

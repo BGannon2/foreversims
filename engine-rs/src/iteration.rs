@@ -391,6 +391,12 @@ impl<'a> Iteration<'a> {
                 crit += c.flag("weaponmaster") * 100.0;
             }
         }
+        if c.flag("moonkin") != 0.0 {
+            crit += c.flag("moonkin") * 100.0;
+        }
+        if ability == Some("Shadow Word: Death") && c.flag("early_demise") != 0.0 && self.t >= self.execute_at {
+            crit += c.flag("early_demise");
+        }
         if let Some(a) = ability {
             crit += c.mod_(&format!("crit_ability:{a}"));
         }
@@ -1884,6 +1890,14 @@ impl<'a> Iteration<'a> {
                 return;
             }
         }
+        if name == "Drain Soul" {
+            if c.flag("soul_siphon") != 0.0 {
+                tick *= 1.0 + c.flag("soul_siphon");
+            }
+            if c.flag("nightfall") != 0.0 && self.rng.random() < c.flag("nightfall") {
+                self.next_instant = true;
+            }
+        }
         let dmg = self.deal(&name, tick, &school, "spell", false, name != "Arcane Missiles", 1.0, 0.0, out, m * a.mult);
         if name == "Arcane Missiles" {
             self.after_spell_hit(&name, &school, out, dmg, &a);
@@ -1900,6 +1914,9 @@ impl<'a> Iteration<'a> {
         self.row(name);
         let kind = if school != "physical" { "spell" } else { "melee" };
         self.deal(name, tick, &school, kind, false, true, 1.0, 0.0, Outcome::Hit, 1.0);
+        if name == "Corruption" && self.c.flag("nightfall") != 0.0 && self.rng.random() < self.c.flag("nightfall") {
+            self.next_instant = true;
+        }
         if name == "Rupture" && self.c.flag("thousand_cuts") != 0.0 {
             self.add_buff("Thousand Cuts", 10.0, Buff { stacks_max: Some(5), ..Default::default() });
         }
@@ -1937,6 +1954,9 @@ impl<'a> Iteration<'a> {
             }
             if outcome == Outcome::Dodge && c.spec.form_is("bear") && c.mod_("dodge") != 0.0 {
                 self.gain_rage(5.0);
+            }
+            if (outcome == Outcome::Dodge || outcome == Outcome::Parry) && c.flag("improved_stormstrike") != 0.0 && self.rng.random() < c.flag("improved_stormstrike").min(1.0) {
+                self.cooldowns.insert("Stormstrike".to_string(), self.t);
             }
             self.row("Boss melee").misses += 1.0;
             self.record("Boss melee", outcome.as_str(), 0.0);
@@ -2230,6 +2250,11 @@ impl<'a> Iteration<'a> {
             }
         } else if s.style == "ranged" {
             self.next_ranged = 0.0;
+        }
+        // Premeditation requires a stealth opener this sim doesn't model; approximated as a
+        // one-time 2-combo-point grant at the start of the fight, its only realistic use case.
+        if c.flag("premeditation") != 0.0 {
+            self.cp = 5.min(self.cp + 2);
         }
         let dur = self.duration;
         let mut guard = 0;
