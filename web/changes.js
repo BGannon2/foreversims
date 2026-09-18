@@ -8,14 +8,16 @@
       "Humans can now be Hunters.",
       "Gnomes can now be Priests.",
       "Orcs can now be Mages.",
-      "New race: Skyborne, playable on both factions and available to Warrior, Hunter, Rogue, and Druid — the first faction-flexible Druid combination.",
+      "Trolls can now be Warlocks.",
+      "New race: Skyborne, playable on both factions and available to Warrior, Hunter, Rogue, and Druid — the first faction-flexible Druid combination. Skyborne Mage is Alliance-only and Skyborne Shaman is Horde-only.",
     ]},
     { title: "Racials", items: [
       "New active: Elune's Light (Night Elf) — grants a burst of critical strike chance.",
       "New active: Eureka! (Gnome) — your next few spells or abilities deal bonus damage.",
       "New passive: Touch of the Grave (Undead) — a chance on spells and attacks to drain health from the target.",
       "Blood Fury (Orc) now also boosts spell power, in addition to attack power.",
-      "New race: Skyborne, playable on both factions, with two new racials — Wind Blessed (haste) and Elemental Insight (bonus damage to Elementals).",
+      "Endurance (Tauren) now also grants bonus hit chance, in addition to bonus health.",
+      "New race: Skyborne — Wind Blessed (haste) and Elemental Insight (bonus damage to Elementals) on both factions, plus a faction-specific racial: Skysight (Horde, bonus run speed) or Read Ley Line (Alliance, greatly increased health/mana regeneration).",
     ]},
     { title: "Gear", items: [
       "Avenger's Battlegear (Paladin tier set): 3-piece now increases Judgement duration by 20%; 5-piece grants spell power.",
@@ -65,6 +67,13 @@
       "New talent: Restless Blades (Combat) — damaging finishers reduce the remaining cooldown on Adrenaline Rush and Blade Flurry.",
       "New talent: Thousand Cuts (Subtlety) — Rupture ticks build stacks that discount the Energy cost of your next Hemorrhage or Backstab.",
       "Hemorrhage has been retuned.",
+    ]},
+    { title: "Druid", items: [
+      "New talent: Eclipse (Balance) — Wrath casts reduce the cast time of your next 2 Starfire casts, stacking charges.",
+      "New ability: Mangle (Feral) — a strong direct hit usable in Cat or Bear Form.",
+      "New talent: Berserk (Feral) — a cooldown that lets Mangle strike multiple targets, removes its cooldown, and boosts combo-point-generator critical chance.",
+      "New talent: Primal Fury (Feral) — critical strikes have a chance to grant bonus Rage in Bear Form or an extra combo point in Cat Form.",
+      "New talent: King of the Jungle (Feral) — Tiger's Fury also grants instant Energy.",
     ]},
     { title: "Mage", items: [
       "New talent: Arcane Blast (Arcane) — each cast stacks a self-buff that increases the damage of your other spells, at increasing mana cost per stack.",
