@@ -1,0 +1,20 @@
+version: 2
+updates:
+  # Keep the GitHub Actions used in ci.yml (checkout, setup-python, setup-node,
+  # rust-toolchain, cache) current and patched.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+
+  # ESLint and its config, the only npm dependencies (no runtime deps, no build step).
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+
+  # engine-rs's Rust dependencies (serde, wasm-bindgen, etc.).
+  - package-ecosystem: "cargo"
+    directory: "/engine-rs"
+    schedule:
+      interval: "monthly"
