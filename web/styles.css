@@ -56,3 +56,4 @@ body[data-spec="paladin-retribution"]{--pink:#f0b84f;--pink2:#ffda8c;--spec-glow
 body[data-spec]{background:radial-gradient(circle at 72% 7%,rgba(var(--spec-glow),.32),transparent 33%),radial-gradient(circle at 35% 18%,rgba(var(--spec-glow),.14),transparent 40%),linear-gradient(155deg,#06131f 0%,#081b29 48%,#100d25 100%);background-attachment:fixed}
 body[data-class] .share-fill{background:linear-gradient(90deg,color-mix(in srgb,var(--pink) 58%,#172b3b),var(--pink))}
 .rotation-opener{display:flex;flex-direction:column;gap:4px;padding:11px 12px;margin-bottom:8px;border-left:3px solid var(--gold);background:color-mix(in srgb,var(--gold) 12%,#101b25);color:var(--text)}.rotation-opener span{font-size:.7rem;color:var(--muted)}
+.about-model{border-left:3px solid var(--pink);margin-bottom:16px}.about-model p{margin:0 0 8px;font-size:.82rem;line-height:1.5;color:var(--text)}.about-model p:last-child{margin-bottom:0}.about-model strong{color:var(--pink)}

@@ -93,6 +93,8 @@ function renderSetBonuses() {
 }
 function renderRace() { const race = $("race").value; $("racialSummary").textContent = data.racials[race] || ""; }
 function renderRotation() {
+  $("aboutDps").textContent = spec.about?.dps || "Not documented yet.";
+  $("aboutTps").textContent = spec.about?.tps || "Not documented yet.";
   const race = $("race").value, summary = data.racials[race] || "";
   const rows = [{ name: `Racial: ${race}`, racial: true, note: summary }, ...(spec.opener ? [{ name: spec.opener, opener: true }] : []), ...spec.actions.map(name => ({ name }))];
   $("rotationList").innerHTML = rows.map((row, i) => row.opener ? `<li class="rotation-opener"><strong>${row.name}</strong><span>Opening cast on the assigned target before the priority list begins.</span></li>` : row.racial ? `<li class="rotation-racial"><label class="rotation-toggle"><input type="checkbox" data-racial="1" checked><span><strong>${row.name}</strong><small>${row.note}</small></span></label></li>` : `<li><label class="rotation-toggle"><input type="checkbox" data-rotation="${row.name}" checked><span><strong>${row.name}</strong><small>Priority ${i}${DOT}conditions are evaluated by the engine (execute phase, resource pooling, dot/buff uptime).</small></span></label></li>`).join("");

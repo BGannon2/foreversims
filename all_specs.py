@@ -9,7 +9,7 @@ import json
 from pathlib import Path
 
 import engine
-from engine_data import CLASS_RACES, CREATURE_TYPES, SPEC_MAP, ROTATIONS, DEFAULT_BUILDS, ABILITIES, TALENT_EFFECTS, default_consumables, default_buffs, RACIALS, BLOODLUST_DURATION
+from engine_data import CLASS_RACES, CREATURE_TYPES, SPEC_MAP, ROTATIONS, DEFAULT_BUILDS, ABILITIES, TALENT_EFFECTS, default_consumables, default_buffs, RACIALS, BLOODLUST_DURATION, SPEC_ABOUT
 
 ROOT = Path(__file__).resolve().parent
 SOURCE = "https://www.wowhead.com/forever/"
@@ -46,7 +46,8 @@ def public_specs():
     for spec in SPEC_MAP.values():
         out.append(dict(spec, actions=[n for n, _ in ROTATIONS[spec["id"]]], opener=("Taunt" if spec["role"] == "tank" else None),
                         races=CLASS_RACES[spec["class_name"]], default_talents=DEFAULT_BUILDS[spec["id"]],
-                        default_consumables=default_consumables(spec), default_buffs=default_buffs(spec)))
+                        default_consumables=default_consumables(spec), default_buffs=default_buffs(spec),
+                        about=SPEC_ABOUT.get(spec["id"], {})))
     return out
 
 

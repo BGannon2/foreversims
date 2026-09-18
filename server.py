@@ -16,7 +16,7 @@ from urllib.parse import urlparse, quote
 from sim import DATA, ASSUMPTIONS, TALENT_DATA, CONSUMABLE_DATA, preset, simulate, validate
 from gear_data import CATALOG, PHASE6_BIS
 from all_specs import public_specs, public_racials, simulate_spec, CLASS_RACES, ITEMS
-from engine_data import default_consumables, default_buffs, DEFAULT_BUILDS, BUFF_GROUPS, SET_EFFECTS, SET_NO_COMBAT_EFFECT, SET_PROVISIONAL
+from engine_data import default_consumables, default_buffs, DEFAULT_BUILDS, BUFF_GROUPS, SET_EFFECTS, SET_NO_COMBAT_EFFECT, SET_PROVISIONAL, PALADIN_ABOUT
 import engine as engine_module
 
 ROOT = Path(__file__).resolve().parent
@@ -135,7 +135,7 @@ class Handler(BaseHTTPRequestHandler):
                 "assumptions": ASSUMPTIONS, "excluded": DATA["excluded"],
                 "gear_catalog": {key: CATALOG[key] for key in ("version", "source", "license", "scope")},
                 "phase6_bis": PHASE6_BIS, "talent_data": TALENT_DATA, "consumable_data": CONSUMABLE_DATA,
-                "setting_data": SETTING_DATA, "races": CLASS_RACES["Paladin"], "racials": public_racials(), "defaults": DEFAULTS,
+                "setting_data": SETTING_DATA, "races": CLASS_RACES["Paladin"], "racials": public_racials(), "defaults": DEFAULTS, "about": PALADIN_ABOUT,
             })
         if path == "/api/items":
             return self.send_json({"version": CATALOG["version"], "items": CATALOG["items"] + EXTRA_ITEMS["items"]})

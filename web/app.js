@@ -106,6 +106,9 @@ function buildSettingCards(rootId,group){
 }
 
 function buildMechanics(){
+  const about=state.boot.about?.[state.spec]||{};
+  $("aboutDps").textContent=about.dps||"Not documented yet.";
+  $("aboutTps").textContent=about.tps||"Not documented yet.";
   addControls("rotationFields",["use_judgement","use_consecration","consecration_mana_floor","use_holy_strike","use_exorcism","use_holy_wrath","twist_seals","use_bulwark","bulwark_health_threshold"].map(k=>["rotation."+k,k]));
   if(state.spec==="protection"){
     const opener=document.createElement("div");opener.className="rotation-opener";

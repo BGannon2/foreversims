@@ -333,6 +333,87 @@ ROTATIONS = {
 CONSUMABLE_ACTIONS = {"goblin_sapper_charge": "Goblin Sapper Charge", "major_mana_potion": "Major Mana Potion", "mighty_rage_potion": "Mighty Rage Potion", "demonic_rune": "Demonic Rune", "thistle_tea": "Thistle Tea"}
 
 # ---------------------------------------------------------------------------
+# Plain-language "how this spec's model works" text, shown on each spec's simulator page.
+# Describes the actual priority rotation (from ROTATIONS above) and the threat formula that
+# produces TPS, not a generic description - kept in sync by hand when either changes.
+# ---------------------------------------------------------------------------
+SPEC_ABOUT = {
+    "warrior-arms": {
+        "dps": "Priority: Death Wish on cooldown, Execute below 20% health, Overpower after a dodge, Mortal Strike, Whirlwind, Spearing Strike against Giants/Dragonkin at high rage, Heroic Strike queued whenever rage allows.",
+        "tps": "Battle Stance carries a flat -20% threat penalty (×0.8) on every hit, so Arms' TPS trails its DPS more than a threat-neutral spec's would."},
+    "warrior-fury": {
+        "dps": "Priority: Death Wish on cooldown, Execute below 20% health, Bloodthirst, Whirlwind, Hamstring as a filler between Bloodthirst/Whirlwind cooldowns, Heroic Strike queued whenever rage allows.",
+        "tps": "Berserker Stance carries the same flat -20% threat penalty (×0.8) as Battle Stance."},
+    "warrior-protection": {
+        "dps": "A threat rotation first: Shield Slam, Revenge, Sunder Armor upkeep, Execute, Cleave once 2+ targets are up, Heroic Strike as a rage dump. Damage output is a side effect of holding aggro, not the priority.",
+        "tps": "Defensive Stance grants +30% threat (×1.3), and Shield Slam/Revenge/Sunder Armor/Cleave/Heroic Strike all add large flat threat bonuses on top of their damage-based threat - the most complete tank threat kit of the two shared-engine tanks."},
+    "druid-balance": {
+        "dps": "Priority: keep Moonfire and Insect Swarm up (spread across every available target once one is already active, rather than refreshing on the same target), Starfire as the main nuke, Wrath as filler. Eclipse lets Wrath charges shorten Starfire's cast time.",
+        "tps": "Moonkin Form carries no threat modifier (×1.0) and Balance has no dedicated threat tool, so its TPS tracks its DPS almost 1:1."},
+    "druid-feral-dps": {
+        "dps": "Priority: Berserk on cooldown, Tiger's Fury to bank Energy (and, with King of the Jungle, extra Energy directly), Ferocious Bite at 5 combo points with a healthy Rip up, Rip to apply the bleed, Mangle as the primary builder ahead of Shred, Claw as a fallback when Shred is unusable.",
+        "tps": "Cat Form carries the largest threat penalty modeled (×0.71), so Feral DPS's TPS trails its DPS more than any other melee spec."},
+    "druid-feral-tank": {
+        "dps": "A threat rotation: Berserk on cooldown, Mangle (Bear) as the primary attack, Swipe and Maul as rage allows.",
+        "tps": "Bear Form carries the largest threat bonus modeled (×1.45); combined with Mangle, Feral Tank leads both the DPS and TPS side of the tank comparison at every target count."},
+    "hunter-beast-mastery": {
+        "dps": "Priority: Volley once 3+ targets are up, Bestial Wrath, Rapid Fire, Serpent Sting upkeep, Summon Hawk upkeep, Multi-Shot, Arcane Shot as a mana-gated filler. Pet damage (Claw/Bite) adds on top via its own attack timer.",
+        "tps": "No stance or class threat modifier applies; pet damage generates its own threat independently, unscaled by any Hunter-specific multiplier."},
+    "hunter-marksmanship": {
+        "dps": "Priority: Volley once 3+ targets are up, Rapid Fire, Serpent Sting upkeep, Aimed Shot, Multi-Shot, Arcane Shot as a mana-gated filler.",
+        "tps": "No stance or class threat modifier applies, same as Beast Mastery."},
+    "hunter-survival": {
+        "dps": "Forever's melee-rebuilt Survival kit: Mongoose Bite whenever a dodge or Expose Prey proc allows it, Strider Kick, Raptor Strike as the main-hand filler.",
+        "tps": "No stance or class threat modifier applies; being melee range doesn't change Survival's threat math versus the ranged Hunter specs."},
+    "mage-arcane": {
+        "dps": "Priority: Arcane Explosion once 3+ targets are up, Arcane Power, Presence of Mind, Arcane Missiles under Missile Barrage or at 4 Arcane Blast stacks, Arcane Blast otherwise, Frostbolt as a fallback.",
+        "tps": "No threat modifier applies; TPS tracks DPS 1:1 like the other two Mage specs."},
+    "mage-fire": {
+        "dps": "Priority: Arcane Explosion once 3+ targets are up, Combustion, Pyroblast under any Hot Streak stack, Scorch to maintain Improved Scorch stacks, Fire Blast while moving, Fireball as the default nuke.",
+        "tps": "No threat modifier applies."},
+    "mage-frost": {
+        "dps": "Priority: Blizzard once 3+ targets are up, Ice Lance under a Fingers of Frost charge, Frostbolt as the main nuke, Fire Blast while moving.",
+        "tps": "No threat modifier applies."},
+    "priest-shadow": {
+        "dps": "Priority: Shadow Word: Pain upkeep (spread across available targets rather than refreshed on one), Shadow Word: Death in execute range, Mind Blast, Mind Flay as filler.",
+        "tps": "No threat modifier applies."},
+    "rogue-assassination": {
+        "dps": "Priority: Thistle Tea when low on Energy, Cold Blood at 5 combo points, Venom to buff poison effects, Slice and Dice upkeep, Eviscerate at 5 combo points, Mutilate as the main combo-point builder.",
+        "tps": "Rogues carry a class-wide -29% threat modifier (×0.71) regardless of stance or talents - the only class-level (not stance-level) threat penalty modeled - so all three Rogue specs' TPS trails their DPS by roughly the same margin."},
+    "rogue-combat": {
+        "dps": "Priority: Thistle Tea when low on Energy, Adrenaline Rush, Blade Flurry, Slice and Dice upkeep, Eviscerate at 5 combo points, Sinister Strike as the main builder.",
+        "tps": "Same class-wide -29% threat modifier (×0.71) as the other two Rogue specs."},
+    "rogue-subtlety": {
+        "dps": "Priority: Thistle Tea when low on Energy, Slice and Dice upkeep, Rupture at 5 combo points, Eviscerate at 5 combo points, Hemorrhage as the main builder.",
+        "tps": "Same class-wide -29% threat modifier (×0.71) as the other two Rogue specs."},
+    "shaman-elemental": {
+        "dps": "Priority: Flame Shock upkeep, Lava Burst, Chain Lightning (bounces to up to 2 extra targets on its own), Lightning Bolt as the default nuke.",
+        "tps": "No threat modifier applies."},
+    "shaman-enhancement": {
+        "dps": "Priority: Rage of the Farseer on cooldown, Lightning Bolt dumped free at 5 Maelstrom Weapon stacks, Stormstrike, Earth Shock, Flame Shock upkeep.",
+        "tps": "No threat modifier applies, despite Enhancement being a melee spec."},
+    "warlock-affliction": {
+        "dps": "Priority: Rain of Fire once 3+ targets are up, Life Tap to sustain mana, Curse of Agony/Corruption/Siphon Life kept up and spread across available targets, Drain Soul in execute range, Shadow Bolt as filler.",
+        "tps": "No threat modifier applies."},
+    "warlock-demonology": {
+        "dps": "Priority: Rain of Fire once 3+ targets are up, Life Tap, Curse of Agony/Corruption kept up and spread across available targets, Shadow Bolt as filler.",
+        "tps": "No threat modifier applies."},
+    "warlock-destruction": {
+        "dps": "Priority: Rain of Fire once 3+ targets are up, Life Tap, Immolate upkeep, Conflagrate while Immolate has time remaining, Shadowburn in execute range, Incinerate as the main nuke.",
+        "tps": "No threat modifier applies."},
+}
+
+# Same purpose as SPEC_ABOUT, for the two Paladin specs (sim.py's separate engine).
+PALADIN_ABOUT = {
+    "protection": {
+        "dps": "A threat rotation first: Templar's Bulwark as an emergency cooldown, Holy Shield upkeep, Exorcism/Holy Wrath against Undead or Demons, Consecration (its damage and threat both scale with the encounter's target count), Seal of Fury's melee swing proc plus Judgement.",
+        "tps": "Righteous Fury adds +90% Holy threat, and that Holy-school bonus plus Judgement of Fury's guaranteed taunt is the whole threat model - there's no blanket stance-style multiplier the way the shared engine's Warrior/Druid tanks get. This produces a real, currently-unexplained gap versus their TPS at equal DPS, read as intentional (see AUDIT_2026-09-17.md) but not confirmed by an explicit source."},
+    "retribution": {
+        "dps": "Twists Seal of Righteousness and Seal of Command (both scale with weapon speed/spell power now, not flat rolls), Judgement, Consecration, Exorcism/Holy Wrath against Undead or Demons, Holy Strike when talented.",
+        "tps": "No Righteous Fury bonus (Protection-only); since Holy damage is already the threat baseline everywhere in this model, Retribution's TPS sits closer to a 1:1 ratio with its DPS than most shared-engine DPS specs, just without the tank multiplier."},
+}
+
+# ---------------------------------------------------------------------------
 # Talent effects keyed by Forever talent id.  Each value is per rank.
 # Keys understood by the engine:
 #   melee_crit, spell_crit, hit, spell_hit, crit_dmg_school:<s>, crit_dmg_ability:<a>, crit_ability:<a>
