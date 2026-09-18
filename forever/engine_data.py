@@ -14,6 +14,7 @@ Sources
   checked-in data and is exposed in the result configuration.
 """
 from __future__ import annotations
+
 import re
 
 # ---------------------------------------------------------------------------

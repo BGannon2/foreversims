@@ -1,6 +1,9 @@
 """Write web/version.js from the VERSION file, git commit and date. Run before deploying."""
 from __future__ import annotations
-import datetime, json, subprocess
+
+import datetime
+import json
+import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -21,6 +24,7 @@ print("web/version.js:", info)
 # (and Cloudflare's edge cache) actually fetch the new wasm/js instead of serving a
 # stale cached response forever at an unchanging "?v=1" URL.
 import re
+
 worker_path = ROOT / "web" / "sim-worker.js"
 worker_src = re.sub(r"\?v=[^\"']+", f"?v={commit}", worker_path.read_text(encoding="utf-8"))
 worker_path.write_text(worker_src, encoding="utf-8")

@@ -255,20 +255,22 @@ impl<'a> Iteration<'a> {
     }
 
     fn buff_active(&self, name: &str) -> bool {
-        self.buffs.get(name).map_or(false, |b| b.until > self.t + EPS)
+        self.buffs.get(name).is_some_and(|b| b.until > self.t + EPS)
     }
 
     fn debuff_active(&self, name: &str) -> bool {
-        self.debuffs.get(name).map_or(false, |b| b.until > self.t + EPS)
+        self.debuffs.get(name).is_some_and(|b| b.until > self.t + EPS)
     }
 
     fn add_buff(&mut self, name: &str, duration: f64, mut kw: Buff) {
         let t = self.t;
         if let Some(b) = self.buffs.get_mut(name) {
-            if b.until > t && kw.stacks_max.is_some() {
-                b.stacks = kw.stacks_max.unwrap().min(b.stacks + 1);
-                b.until = t + duration;
-                return;
+            if b.until > t {
+                if let Some(max) = kw.stacks_max {
+                    b.stacks = max.min(b.stacks + 1);
+                    b.until = t + duration;
+                    return;
+                }
             }
         }
         kw.until = t + duration;
@@ -279,10 +281,12 @@ impl<'a> Iteration<'a> {
     fn add_debuff(&mut self, name: &str, duration: f64, stacks_max: Option<i64>) {
         let t = self.t;
         if let Some(b) = self.debuffs.get_mut(name) {
-            if b.until > t && stacks_max.is_some() {
-                b.stacks = stacks_max.unwrap().min(b.stacks + 1);
-                b.until = t + duration;
-                return;
+            if b.until > t {
+                if let Some(max) = stacks_max {
+                    b.stacks = max.min(b.stacks + 1);
+                    b.until = t + duration;
+                    return;
+                }
             }
         }
         self.debuffs.insert(name.to_string(), Buff { until: t + duration, stacks: 1, stacks_max, ..Default::default() });
@@ -490,8 +494,8 @@ impl<'a> Iteration<'a> {
         }
         acc += glance;
         if roll < acc {
-            let lo = (1.3 - 0.05 * delta).min(0.91).max(0.01);
-            let hi = (1.2 - 0.03 * delta).min(0.99).max(0.2);
+            let lo = (1.3 - 0.05 * delta).clamp(0.01, 0.91);
+            let hi = (1.2 - 0.03 * delta).clamp(0.2, 0.99);
             return (Outcome::Glance, self.rng.uniform(lo, hi));
         }
         acc += block;
@@ -602,10 +606,12 @@ impl<'a> Iteration<'a> {
                 m *= 1.0 + v;
             }
         }
-        if c.flag("master_demonologist") != 0.0 && c.pet.is_some() && self.sacrificed.is_none() {
-            let fam = c.pet.as_ref().unwrap().family();
-            if (fam == "imp" && school == "fire") || (fam == "succubus" && school == "shadow") {
-                m *= 1.0 + c.flag("master_demonologist");
+        if c.flag("master_demonologist") != 0.0 && self.sacrificed.is_none() {
+            if let Some(pet) = c.pet.as_ref() {
+                let fam = pet.family();
+                if (fam == "imp" && school == "fire") || (fam == "succubus" && school == "shadow") {
+                    m *= 1.0 + c.flag("master_demonologist");
+                }
             }
         }
         if c.flag("soul_link") != 0.0 && c.pet.is_some() && self.sacrificed.is_none() {
@@ -635,10 +641,10 @@ impl<'a> Iteration<'a> {
         if ability == "Rupture" && self.debuff_active("Hemorrhage") {
             m *= 1.15;
         }
-        if ability == "Lava Burst" && self.dots.get("Flame Shock").map_or(false, |d| d.remaining > 0) {
+        if ability == "Lava Burst" && self.dots.get("Flame Shock").is_some_and(|d| d.remaining > 0) {
             m *= 1.20;
         }
-        if ability == "Incinerate" && self.dots.get("Immolate").map_or(false, |d| d.remaining > 0) {
+        if ability == "Incinerate" && self.dots.get("Immolate").is_some_and(|d| d.remaining > 0) {
             m *= 1.25;
         }
         if c.flag("arcane_blast") != 0.0 && ability != "Arcane Blast" {
@@ -647,7 +653,7 @@ impl<'a> Iteration<'a> {
                 m *= 1.0 + 0.10 * stacks as f64;
             }
         }
-        if c.flag("rend_and_tear") != 0.0 && kind == "melee" && !white && self.dots.iter().any(|(d, dot)| dot.remaining > 0 && c.t.ABILITIES.get(d).map_or(false, |a| a.bleed)) {
+        if c.flag("rend_and_tear") != 0.0 && kind == "melee" && !white && self.dots.iter().any(|(d, dot)| dot.remaining > 0 && c.t.ABILITIES.get(d).is_some_and(|a| a.bleed)) {
             m *= 1.0 + c.flag("rend_and_tear");
         }
         if c.flag("quietus") != 0.0 && ["Sinister Strike", "Hemorrhage"].contains(&ability) && self.t >= self.duration * 0.65 {
@@ -1085,7 +1091,7 @@ impl<'a> Iteration<'a> {
             Cond::Execute => self.t >= self.execute_at,
             Cond::Moving => false,
             Cond::DotMissing => {
-                let active = self.dots.get(name).map_or(false, |d| d.remaining > 0 && d.next - self.t < 1e9);
+                let active = self.dots.get(name).is_some_and(|d| d.remaining > 0 && d.next - self.t < 1e9);
                 let a = &self.c.actions[name];
                 if a.spreadable && self.c.targets > 1 {
                     let extra_active = self.dots_extra.iter().filter(|(n, d)| n == name && d.remaining > 0).count() as i64;
@@ -1140,11 +1146,10 @@ impl<'a> Iteration<'a> {
                     return false;
                 }
             }
-            Some(r) if r.starts_with("dot:") => {
-                if !self.dots.get(&r[4..]).map_or(false, |d| d.remaining > 0) {
+            Some(r) if r.starts_with("dot:")
+                && !self.dots.get(&r[4..]).is_some_and(|d| d.remaining > 0) => {
                     return false;
                 }
-            }
             _ => {}
         }
         if a.finisher.is_some() && self.cp <= 0 {
@@ -1530,7 +1535,7 @@ impl<'a> Iteration<'a> {
                 self.deal(name, 0.0, "physical", "melee", false, false, 1.0, 0.0, Outcome::Miss, 1.0);
                 return;
             }
-            let poisoned = self.dots.get("Deadly Poison").map_or(false, |d| d.remaining > 0);
+            let poisoned = self.dots.get("Deadly Poison").is_some_and(|d| d.remaining > 0);
             let mut landed_any = false;
             for hand in [Hand::Main, Hand::Off] {
                 let item = if hand == Hand::Main { c.mh.clone() } else { c.oh.clone() };
@@ -1577,7 +1582,7 @@ impl<'a> Iteration<'a> {
             return;
         }
         let melee_like = a.weapon.is_some() || a.ap_mult.is_some() || a.execute_formula.is_some() || matches!(a.finisher.as_deref(), Some("eviscerate") | Some("ferocious_bite"))
-            || (school == "physical" && c.spec.style != "ranged" && (a.base.is_some() || a.flat.map_or(false, |f| f != 0.0)));
+            || (school == "physical" && c.spec.style != "ranged" && (a.base.is_some() || a.flat.is_some_and(|f| f != 0.0)));
         if melee_like {
             if a.weapon_hand() == Some("ranged") {
                 let (out, m) = self.ranged_outcome(Some(name));
@@ -1628,6 +1633,8 @@ impl<'a> Iteration<'a> {
             } else if a.weapon.is_none() {
                 base = a.flat.unwrap_or(0.0);
             } else {
+                // Safe: the `a.weapon.is_none()` branch above was already taken otherwise.
+                #[allow(clippy::unnecessary_unwrap)]
                 let w = a.weapon.as_ref().unwrap();
                 let mut mult = w.mult.unwrap_or(1.0);
                 if let Some(dm) = w.dagger_mult {
@@ -1753,12 +1760,11 @@ impl<'a> Iteration<'a> {
                 }
             }
             let mut fof_used = false;
-            if name == "Ice Lance" {
-                if self.buffs.get("Fingers of Frost").map_or(false, |b| b.until > self.t && b.stacks > 0) {
+            if name == "Ice Lance"
+                && self.buffs.get("Fingers of Frost").is_some_and(|b| b.until > self.t && b.stacks > 0) {
                     base *= 4.0;
                     fof_used = true;
                 }
-            }
             if self.next_crit {
                 self.next_crit = false;
             }
@@ -1804,7 +1810,7 @@ impl<'a> Iteration<'a> {
             tick *= 1.0 + self.crit_chance("spell", Some(name), Some(&school)) * pandemic;
         }
         let instance = Dot { next: self.t + a.tick_len, remaining: a.ticks, tick, tick_len: a.tick_len, school, bleed: a.bleed, stacks: 1 };
-        let primary_active = self.dots.get(name).map_or(false, |d| d.remaining > 0 && d.next - self.t < 1e9);
+        let primary_active = self.dots.get(name).is_some_and(|d| d.remaining > 0 && d.next - self.t < 1e9);
         if a.spreadable && c.targets > 1 && primary_active {
             if let Some(slot) = self.dots_extra.iter_mut().find(|(n, d)| n == name && d.remaining <= 0) {
                 slot.1 = instance;
@@ -1907,7 +1913,7 @@ impl<'a> Iteration<'a> {
         let school = a.school_str().to_string();
         let mut tick = a.tick + self.sp(&school) * a.coeff;
         if a.execute_bonus && self.t >= self.execute_at {
-            let active = ["Corruption", "Curse of Agony", "Siphon Life"].iter().filter(|d| self.dots.get(**d).map_or(false, |x| x.remaining > 0)).count() as f64;
+            let active = ["Corruption", "Curse of Agony", "Siphon Life"].iter().filter(|d| self.dots.get(**d).is_some_and(|x| x.remaining > 0)).count() as f64;
             tick *= 1.0 + (c.flag("improved_drains") * active).min(0.18) * 3.0;
         }
         let (mut out, mut m) = (Outcome::Hit, 1.0);
@@ -2417,7 +2423,7 @@ impl<'a> Iteration<'a> {
                     self.next_oh = t + c.oh.speed_or(2.0) / self.haste("melee");
                 }
             }
-            if s.style == "ranged" && t + EPS >= self.next_ranged && self.cast.as_ref().map_or(true, |cst| !c.actions[&cst.name].ranged_cast) {
+            if s.style == "ranged" && t + EPS >= self.next_ranged && self.cast.as_ref().is_none_or(|cst| !c.actions[&cst.name].ranged_cast) {
                 self.auto_shot();
                 self.next_ranged = t + c.ranged.speed_or(2.8) / self.haste("ranged");
             }

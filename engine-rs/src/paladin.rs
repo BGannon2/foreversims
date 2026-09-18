@@ -451,7 +451,7 @@ pub fn apply_gear(profile: &Value, catalog: &Catalog) -> Result<(Value, Value), 
         let bonuses: Vec<Value> = raw.into_iter().map(|mut b| {
             let req = b.get("required").and_then(|v| v.as_i64()).unwrap_or(99);
             if let Value::Object(m) = &mut b {
-                if m.get("modeled").map_or(false, |v| v.is_null()) {
+                if m.get("modeled").is_some_and(|v| v.is_null()) {
                     m.remove("modeled");
                 }
                 m.insert("active".into(), json!(count >= req));
@@ -466,7 +466,7 @@ pub fn apply_gear(profile: &Value, catalog: &Catalog) -> Result<(Value, Value), 
     if classic {
         modeled_keys.extend(pt.classic_primary.keys().cloned());
     }
-    let modeled: Map<String, Value> = modeled_keys.iter().filter(|k| totals.get(*k).map_or(false, |v| *v != 0.0)).map(|k| (k.clone(), json!(totals[k]))).collect();
+    let modeled: Map<String, Value> = modeled_keys.iter().filter(|k| totals.get(*k).is_some_and(|v| *v != 0.0)).map(|k| (k.clone(), json!(totals[k]))).collect();
     let unmodeled: Map<String, Value> = totals.iter().filter(|(k, v)| !modeled_keys.contains(k) && **v != 0.0).map(|(k, v)| (k.clone(), json!(v))).collect();
     let active_list = |group: &str| -> Vec<String> { effective.get(group).and_then(|g| g.as_object()).map(|o| o.iter().filter(|(_, v)| v.as_bool().unwrap_or(false)).map(|(k, _)| k.clone()).collect()).unwrap_or_default() };
     let summary = json!({"data_version": pt.catalog["version"], "source": pt.catalog["source"], "scope": pt.catalog["scope"],
@@ -895,6 +895,9 @@ impl<'a> Fight<'a> {
         self.deal_inner(name, amount, holy, can_crit, hit, extra_threat, melee_crit, physical, spell_coefficient).is_some()
     }
 
+    // Mirrors sim.py's `deal_inner` parameter list 1:1 for parity auditing; a
+    // struct wrapper would obscure the line-by-line comparison with Python.
+    #[allow(clippy::too_many_arguments)]
     fn deal_inner(&mut self, name: &str, amount: f64, holy: bool, can_crit: bool, hit: f64, extra_threat: f64, melee_crit: bool, physical: Option<bool>, spell_coefficient: f64) -> Option<f64> {
         let precision = 0.01 * self.rank("105638");
         let hit = (hit + precision).min(1.0);
@@ -1096,23 +1099,21 @@ impl<'a> Fight<'a> {
             let eligible_holy_target = self.e.boss_type == "demon" || self.e.boss_type == "undead";
             let conduit_discount = 1.0 - 0.20 * self.rank("105704");
             let purifying_cd = [1.0, 0.83, 0.67][self.rank("105327") as usize];
-            if !acted && eligible_holy_target && self.rot.use_exorcism && self.time >= self.cd("exorcism") {
-                if self.spend("Exorcism", 345.0 * conduit_discount) {
+            if !acted && eligible_holy_target && self.rot.use_exorcism && self.time >= self.cd("exorcism")
+                && self.spend("Exorcism", 345.0 * conduit_discount) {
                     let amt = self.rng.uniform(505.0, 563.0);
                     self.deal("Exorcism", amt, true, true, self.c.spell_hit_chance, 1.0, false, None, 0.429);
                     self.cd.insert("exorcism", self.time + 15.0 * purifying_cd);
                     acted = true;
                 }
-            }
-            if !acted && eligible_holy_target && self.rot.use_holy_wrath && self.time >= self.cd("holy_wrath") {
-                if self.spend("Holy Wrath", 805.0 * conduit_discount) {
+            if !acted && eligible_holy_target && self.rot.use_holy_wrath && self.time >= self.cd("holy_wrath")
+                && self.spend("Holy Wrath", 805.0 * conduit_discount) {
                     let amt = self.rng.uniform(490.0, 576.0);
                     self.deal("Holy Wrath", amt, true, true, self.c.spell_hit_chance, 1.0, false, None, 0.19);
                     self.cd.insert("holy_wrath", self.time + 60.0 * purifying_cd);
                     self.gcd = self.time + 2.0 / self.pull_haste();
                     acted = true;
                 }
-            }
             if !acted && self.rot.use_consecration && self.time >= self.cd("consecration") && self.mana / self.c.mana >= self.rot.consecration_mana_floor {
                 let cost = self.f("consecration", "cost");
                 if self.spend("Consecration", cost) {
@@ -1137,13 +1138,12 @@ impl<'a> Fight<'a> {
                 self.cast_seal(seal);
             }
         }
-        if self.rot.use_holy_strike && !self.holy_strike_queued && self.time >= self.cd("holy_strike") {
-            if self.spend("Holy Strike", self.m.holy_strike_cost) {
+        if self.rot.use_holy_strike && !self.holy_strike_queued && self.time >= self.cd("holy_strike")
+            && self.spend("Holy Strike", self.m.holy_strike_cost) {
                 self.holy_strike_queued = true;
                 let v = self.time + (self.m.holy_strike_cooldown - self.rank("105328")).max(0.1);
                 self.cd.insert("holy_strike", v);
             }
-        }
         let next = ((self.time + 0.1) * 1e8).round() / 1e8;
         self.schedule(next, Kind::Decision);
     }

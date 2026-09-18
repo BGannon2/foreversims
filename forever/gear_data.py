@@ -39,8 +39,9 @@ CLASSIC_PRIMARY = {
     "defense": "defense",
 }
 
-from .engine_data import BUFF_STATS as RAID_BUFF_STATS, RACE_STATS, RACIALS, WEAPON_CRIT_TYPES
 from .engine import SET_PATTERNS, _re
+from .engine_data import BUFF_STATS as RAID_BUFF_STATS
+from .engine_data import RACE_STATS, RACIALS
 
 # Set bonuses with a Paladin-engine effect beyond flat stats (Wowhead Classic tooltips).
 PALADIN_SET_FLAGS = {"Judgement Armor|8": "judgement_bonus_damage", "Battlegear of Eternal Justice|3": "eternal_justice_mana"}

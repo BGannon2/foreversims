@@ -13,7 +13,10 @@ Output: web/data/wowsims-import.json (embedded, no server call needed at import 
 Run from the project root:  python tools/build_wowsims_import.py
 """
 from __future__ import annotations
-import json, re, sys
+
+import json
+import re
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]

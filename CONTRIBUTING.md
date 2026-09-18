@@ -52,9 +52,16 @@ Open a [GitHub issue](../../issues) with:
 
 ## Code style
 
-No enforced linter yet — match the existing style in the file you're editing (this codebase
-favors dense, single-purpose functions over heavy abstraction). CI runs the test suite on every
-PR; see `.github/workflows/ci.yml`.
+This codebase favors dense, single-purpose functions over heavy abstraction, and the linters are
+configured to match that rather than fight it — they're scoped to real-bug and correctness checks
+(unused imports/variables, undefined names, unsafe patterns), not formatting opinions. Every PR
+must pass, and you can run them locally before pushing:
+
+- **Python** (`forever/`, `server.py`, `tools/`, `tests/`): `pip install ruff && ruff check .`
+- **JS** (`worker.js`, `web/*.js`): `npm install && npm run lint`
+- **Rust** (`engine-rs/`): `cargo clippy --release --all-targets -- -D warnings`
+
+CI runs the test suite and all three linters on every PR; see `.github/workflows/ci.yml`.
 
 ## Questions
 

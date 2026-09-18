@@ -4,8 +4,8 @@ import unittest
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
-from server import create_server
 from forever.sim import preset
+from server import create_server
 
 
 class ServerTests(unittest.TestCase):

@@ -114,12 +114,7 @@ impl Catalog {
 
 pub fn weapon_type(item: &Item) -> Option<&'static str> {
     let kind = item.subclass_str();
-    for t in WEAPON_TYPES.iter().chain(RANGED_TYPES.iter()).chain(["Wand"].iter()) {
-        if kind.contains(t) {
-            return Some(t);
-        }
-    }
-    None
+    WEAPON_TYPES.iter().chain(RANGED_TYPES.iter()).chain(["Wand"].iter()).find(|&t| kind.contains(t)).map(|v| v as _)
 }
 
 pub fn normalized_speed(item: &Item) -> f64 {
@@ -338,7 +333,7 @@ pub fn load_catalog(items_json: &str, extra_json: &str, enchants_json: &str, set
     let enchants: Enchants = serde_json::from_str(enchants_json).map_err(|e| format!("enchants: {e}"))?;
     let sets: Sets = serde_json::from_str(sets_json).map_err(|e| format!("sets: {e}"))?;
     let mut map = HashMap::new();
-    for it in items.items.into_iter().chain(extra.items.into_iter()) {
+    for it in items.items.into_iter().chain(extra.items) {
         if let Some(id) = it.id {
             map.insert(id, it);
         }

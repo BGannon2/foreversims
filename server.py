@@ -11,13 +11,13 @@ from concurrent.futures import ProcessPoolExecutor
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import urlparse, quote
+from urllib.parse import quote, urlparse
 
-from forever.sim import DATA, ASSUMPTIONS, TALENT_DATA, CONSUMABLE_DATA, preset, simulate, validate
-from forever.gear_data import CATALOG, PHASE6_BIS
-from forever.all_specs import public_specs, public_racials, simulate_spec, CLASS_RACES, ITEMS
-from forever.engine_data import default_consumables, default_buffs, DEFAULT_BUILDS, BUFF_GROUPS, SET_EFFECTS, SET_NO_COMBAT_EFFECT, SET_PROVISIONAL, PALADIN_ABOUT
 from forever import engine as engine_module
+from forever.all_specs import CLASS_RACES, public_racials, public_specs, simulate_spec
+from forever.engine_data import BUFF_GROUPS, DEFAULT_BUILDS, PALADIN_ABOUT, SET_EFFECTS, SET_NO_COMBAT_EFFECT, SET_PROVISIONAL, default_buffs, default_consumables
+from forever.gear_data import CATALOG, PHASE6_BIS
+from forever.sim import ASSUMPTIONS, CONSUMABLE_DATA, DATA, TALENT_DATA, preset, simulate, validate
 
 ROOT = Path(__file__).resolve().parent
 WEB = ROOT / "web"

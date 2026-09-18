@@ -487,7 +487,7 @@ impl Config {
                 }
                 row.effects = Some(effects.clone());
             }
-            row.modeled = !row.stats.is_empty() || row.effects.is_some() || t.SET_NO_COMBAT_EFFECT.iter().any(|k| *k == key);
+            row.modeled = !row.stats.is_empty() || row.effects.is_some() || t.SET_NO_COMBAT_EFFECT.contains(&key);
             if let Some(p) = t.SET_PROVISIONAL.get(&key) {
                 row.provisional = Some(p.clone());
                 self.notes.push(format!("{} ({}): {}", row.set, row.required, p));

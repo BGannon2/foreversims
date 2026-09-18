@@ -20,6 +20,47 @@ jobs:
       - name: Compile-check every Python source file
         run: python -m compileall -q forever server.py tools
 
+  lint-python:
+    name: Ruff
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install ruff
+      - run: ruff check .
+
+  lint-js:
+    name: ESLint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm ci
+      - run: npx eslint .
+
+  lint-rust:
+    name: Clippy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+      - name: Cache cargo build
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            engine-rs/target
+          key: ${{ runner.os }}-cargo-clippy-${{ hashFiles('engine-rs/Cargo.lock') }}
+      - name: cargo clippy
+        working-directory: engine-rs
+        run: cargo clippy --release --all-targets -- -D warnings
+
   rust-parity:
     name: Rust engine parity
     runs-on: ubuntu-latest

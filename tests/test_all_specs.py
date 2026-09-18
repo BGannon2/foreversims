@@ -6,10 +6,9 @@ import unittest
 from pathlib import Path
 
 from forever import engine
-from forever.all_specs import public_specs, simulate_spec, ITEMS, ENCHANTS, FOREVER_SETS
-from forever.engine_data import (CLASS_RACES, DEFAULT_BUILDS, SPEC_MAP, ROTATIONS, ABILITIES, TALENT_EFFECTS, RAGE_CONVERSION_60,
-                         default_consumables, default_buffs, CONSUME_STATS, BUFF_STATS)
-from server import default_request, DEFAULTS
+from forever.all_specs import ENCHANTS, FOREVER_SETS, ITEMS, public_specs, simulate_spec
+from forever.engine_data import ABILITIES, BUFF_STATS, CLASS_RACES, CONSUME_STATS, DEFAULT_BUILDS, RAGE_CONVERSION_60, ROTATIONS, SPEC_MAP, TALENT_EFFECTS, default_buffs, default_consumables
+from server import DEFAULTS, default_request
 
 ROOT = Path(__file__).resolve().parents[1]
 TALENT_DATA = json.loads((ROOT / "data" / "forever_talents_all.json").read_text(encoding="utf-8"))
@@ -325,8 +324,8 @@ class MechanicTests(unittest.TestCase):
 
 class SetBonusTests(unittest.TestCase):
     def test_every_catalog_set_bonus_is_classified(self):
-        from forever.engine_data import SET_EFFECTS, SET_NO_COMBAT_EFFECT
         from forever.engine import SET_PATTERNS
+        from forever.engine_data import SET_EFFECTS, SET_NO_COMBAT_EFFECT
         sets = {}
         for it in ITEMS.values():
             if it.get("set"): sets.setdefault(it["set"]["name"], it["set"])

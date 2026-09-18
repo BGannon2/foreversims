@@ -5,7 +5,12 @@ damage, attack tables and stat conversions (see engine_data.py).  There is no
 per-spec calibration multiplier.
 """
 from __future__ import annotations
-import math, random, re, statistics
+
+import math
+import random
+import re
+import statistics
+
 from .engine_data import *  # noqa: F401,F403
 
 EPS = 1e-7
@@ -1612,7 +1617,7 @@ class Iteration:
 
     # ---- main loop -------------------------------------------------------
     def run(self):
-        c = self.c; s = self.s; rng = self.rng
+        c = self.c; s = self.s
         self.taken_by = {}; self.pet_threat = 0.0
         self.pet_setup()
         if s["role"] == "tank":

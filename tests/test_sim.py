@@ -1,10 +1,11 @@
 import copy
-import copy
 import math
 import unittest
 from urllib.parse import urlparse
+
 from forever.gear_data import apply_gear
-from forever.sim import CONSUMABLE_GROUPS, DATA, F, TALENT_DATA, TALENTS, Fight, preset, simulate, validate
+from forever.sim import CONSUMABLE_GROUPS, DATA, TALENT_DATA, TALENTS, F, Fight, preset, simulate, validate
+
 
 class SimulationTests(unittest.TestCase):
     def basic(self,spec='protection'):

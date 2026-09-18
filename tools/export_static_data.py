@@ -9,18 +9,23 @@ Two consumers:
 Run from the project root:  python tools/export_static_data.py
 """
 from __future__ import annotations
-import hashlib, json, sys
+
+import hashlib
+import json
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from forever import engine_data as ed  # noqa: E402
-from forever import engine  # noqa: E402
-from forever import sim  # noqa: E402
-from forever import gear_data  # noqa: E402
-from forever import all_specs  # noqa: E402
 import server  # noqa: E402
+from forever import (
+    all_specs,  # noqa: E402
+    engine,  # noqa: E402
+    gear_data,  # noqa: E402
+    sim,  # noqa: E402
+)
+from forever import engine_data as ed  # noqa: E402
 
 WEB_DATA = ROOT / "web" / "data"
 RS_DATA = ROOT / "engine-rs" / "data"
@@ -66,8 +71,8 @@ def paladin_tables():
 
 def api_payloads():
     """Same bodies server.py returns for the GET routes."""
-    from forever.sim import DATA, ASSUMPTIONS, TALENT_DATA, CONSUMABLE_DATA, preset
     from forever.gear_data import CATALOG, PHASE6_BIS
+    from forever.sim import ASSUMPTIONS, CONSUMABLE_DATA, DATA, TALENT_DATA, preset
     return {
         "bootstrap": {
             "presets": {name: preset(name) for name in ("protection", "retribution")}, "sources": DATA["sources"], "source_status": DATA["status"],

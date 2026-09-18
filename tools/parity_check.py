@@ -9,7 +9,13 @@ Usage:  python tools/parity_check.py [--iterations N] [--duration S] [--spec ID 
 Exit status 1 if any spec differs by more than --tolerance (default 0.5%).
 """
 from __future__ import annotations
-import argparse, json, os, subprocess, sys, tempfile
+
+import argparse
+import json
+import os
+import subprocess
+import sys
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -40,9 +46,9 @@ def main():
         print(f"Rust CLI not built: {CLI}\nRun: cd engine-rs && cargo build --release")
         return 2
     from forever.all_specs import public_specs, simulate_spec
-    from server import default_request
-    from forever.sim import preset, simulate
     from forever.engine_data import CLASS_RACES
+    from forever.sim import preset, simulate
+    from server import default_request
 
     rows = []
     for spec in public_specs():

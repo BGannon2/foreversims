@@ -1,0 +1,13 @@
+{
+  "name": "foreversims",
+  "private": true,
+  "description": "Lint tooling for the Worker and web/ static site scripts. No build step or runtime deps — see README.md.",
+  "devDependencies": {
+    "eslint": "^9.13.0",
+    "@eslint/js": "^9.13.0",
+    "globals": "^15.11.0"
+  },
+  "scripts": {
+    "lint": "eslint ."
+  }
+}

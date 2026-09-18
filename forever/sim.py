@@ -3,6 +3,7 @@
 No third-party dependencies. All unstated game rules are explicit model assumptions.
 """
 from __future__ import annotations
+
 import argparse
 import copy
 import hashlib
@@ -13,8 +14,9 @@ import random
 import statistics
 from collections import defaultdict, deque
 from pathlib import Path
+
+from .engine_data import CLASS_RACES, RACIALS
 from .gear_data import apply_gear, phase6_gear
-from .engine_data import RACIALS, RACE_STATS, CLASS_BASE, CLASS_RACES
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "data"

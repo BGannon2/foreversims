@@ -5,11 +5,12 @@ loads the item catalog, enchants and set data, and exposes the functions used
 by server.py, tools/generate_benchmarks.py, tools/validation_matrix.py and the tests.
 """
 from __future__ import annotations
+
 import json
 from pathlib import Path
 
 from . import engine
-from .engine_data import CLASS_RACES, CREATURE_TYPES, SPEC_MAP, ROTATIONS, DEFAULT_BUILDS, ABILITIES, TALENT_EFFECTS, default_consumables, default_buffs, RACIALS, BLOODLUST_DURATION, SPEC_ABOUT
+from .engine_data import CLASS_RACES, DEFAULT_BUILDS, RACIALS, ROTATIONS, SPEC_ABOUT, SPEC_MAP, default_buffs, default_consumables
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "data"

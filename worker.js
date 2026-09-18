@@ -47,6 +47,7 @@ async function sha256(text) {
 }
 
 function clean(value, max) {
+  // eslint-disable-next-line no-control-regex -- intentional: strips control characters from user input
   return String(value ?? "").replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, "").trim().slice(0, max);
 }
 
@@ -91,7 +92,7 @@ async function createIssue(env, f) {
   const title = `[${f.category}] ${firstLine.length > 72 ? firstLine.slice(0, 69) + "..." : firstLine}`;
   const quoted = lines.map(l => `> ${l}`).join("\n");
   const meta = [["Feedback id", f.id], ["Spec", f.spec || "-"], ["Page", f.page || "-"], ["Version", f.version || "-"], ["Contact", f.contact || "-"], ["Browser", f.userAgent || "-"]]
-    .map(([k, v]) => `| ${k} | ${String(v).replace(/\|/g, "\|")} |`).join("\n");
+    .map(([k, v]) => `| ${k} | ${String(v).replace(/\|/g, "\\|")} |`).join("\n");
   const body = `${quoted}\n\n| | |\n|---|---|\n${meta}\n\n_Submitted through the site feedback form._`;
   try {
     const res = await fetch(`https://api.github.com/repos/${env.GITHUB_REPO}/issues`, {

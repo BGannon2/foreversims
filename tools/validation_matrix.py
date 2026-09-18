@@ -11,7 +11,6 @@ no-world-buff profile.
 from __future__ import annotations
 
 import json
-import math
 import sys
 from pathlib import Path
 
@@ -19,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from forever.all_specs import public_specs, simulate_spec
-from server import default_request, DEFAULTS
+from server import DEFAULTS, default_request
 
 # WoWSims Classic test fixtures (sim/*/Test*.results, "LongSingleTarget" style runs, FullBuffs = world buffs on).
 WOWSIMS_WORLD_BUFFED = {
@@ -56,7 +55,6 @@ def run_matrix(iterations=60, duration=None):
             checks["glancing_blows_present"] = white["glances"] > 0
             checks["glance_rate_plausible"] = 0.25 <= white["glances"] / max(1, white["casts"]) <= 0.45
         if spec["style"] == "spell":
-            spells = [v for k, v in st.items() if v["casts"] > 0 and full["configuration"]["actions"].get(k, {}).get("cast", 0) > 0]
             checks["cast_time_respected"] = all(v["casts"] <= duration / (full["configuration"]["actions"][k]["cast"] / 1.35) + 2 for k, v in st.items() if v["casts"] > 0 and full["configuration"]["actions"].get(k, {}).get("cast", 0) > 0)
         if spec["resource"] == "Energy":
             energy_spent = sum(v["casts"] * full["configuration"]["actions"][k]["cost"] for k, v in st.items() if k in full["configuration"]["actions"])
