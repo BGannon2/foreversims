@@ -118,7 +118,8 @@ function buildMechanics(){
   addControls("modelFields",[
     ["model.use_classic_era_conversions","Use Classic Era gear conversions"],
     ["model.command_proc_chance","Command proc probability"],["model.righteousness_damage","Righteousness swing damage"],
-    ["model.holy_strike_bonus","Holy Strike bonus damage (known record)"],["model.holy_strike_cost","Holy Strike mana cost"],["model.holy_strike_cooldown","Holy Strike cooldown (provisional)"],
+    ["model.holy_strike_cost","Holy Strike mana cost"],["model.holy_strike_cooldown","Holy Strike cooldown"],
+    ["model.holy_strike_weapon_pct","Holy Strike weapon damage %"],["model.holy_strike_holy_min","Holy Strike Holy damage (min)"],["model.holy_strike_holy_max","Holy Strike Holy damage (max)"],["model.holy_strike_coeff","Holy Strike spell-power coefficient"],
     ["model.melee_crit_multiplier","Melee crit multiplier"],["model.spell_crit_multiplier","Spell crit multiplier"],
     ["model.base_threat_per_damage","Physical threat per damage"],["model.holy_threat_per_damage","Holy threat per damage (audit coefficient)"],["model.thunderfury_proc_chance","Thunderfury proc chance"],["model.thunderfury_damage","Thunderfury proc damage"],["model.thunderfury_threat_multiplier","Thunderfury threat multiplier"],["rotation.bulwark_health_threshold","Bulwark health threshold"]
   ]);
