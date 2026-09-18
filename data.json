@@ -14,7 +14,7 @@
   },
   "facts": {
     "judgement": {"source":"judgement", "cooldown":10, "base_mana_fraction":0.06, "gcd":0},
-    "righteous_fury": {"source":"righteous_fury", "holy_threat_multiplier":1.6},
+    "righteous_fury": {"source":"righteous_fury", "holy_threat_multiplier":1.9},
     "righteousness": {"source":"righteousness", "cost":200, "duration":30, "gcd":1.5, "judgement_min":170, "judgement_max":187, "swing_tooltip_min":22, "swing_tooltip_max":75},
     "command": {"source":"talents", "cost":65, "duration":30, "weapon_fraction":0.7, "judgement_min":68, "judgement_max":73},
     "fury": {"source":"fury", "cost":200, "duration":30, "gcd":1.5, "swing_pct_sp":0.10, "absorb_pct":0.50, "judgement_pct_sp":0.45, "taunt_duration":4},

@@ -181,7 +181,7 @@ class SimulationTests(unittest.TestCase):
         self.assertEqual(f.hs_charges,0)
         self.assertEqual(f.hits['Holy Shield'],4)
         self.assertEqual(f.damage['Holy Shield'],440)
-        self.assertAlmostEqual(f.threat,440*1.5*1.6*1.2)
+        self.assertAlmostEqual(f.threat,440*1.5*1.9*1.2)
 
     def test_classic_attack_power_adds_normalized_weapon_damage(self):
         p=self.basic(); p['gear']={k:0 for k in p['gear']}

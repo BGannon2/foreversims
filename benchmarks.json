@@ -1716,7 +1716,7 @@
       "name": "Protection",
       "role": "tank",
       "dps": 306.3930915002973,
-      "tps": 421.2459271281575,
+      "tps": 469.6024883636047,
       "dtps": 274.0483451954625,
       "total_damage": 36767.17098003569,
       "url": "/paladin.html?spec=protection&race=Human"
@@ -1728,7 +1728,7 @@
       "name": "Protection",
       "role": "tank",
       "dps": 302.7727772056404,
-      "tps": 416.6147752157748,
+      "tps": 464.58884484457485,
       "dtps": 272.7955689596293,
       "total_damage": 36332.73326467684,
       "url": "/paladin.html?spec=protection&race=Dwarf"
@@ -1740,7 +1740,7 @@
       "name": "Protection",
       "role": "tank",
       "dps": 327.14906629896706,
-      "tps": 455.9652717516509,
+      "tps": 511.4337177755738,
       "dtps": 272.74289208939524,
       "total_damage": 39257.88795587605,
       "url": "/paladin.html?spec=protection&race=Undead"
