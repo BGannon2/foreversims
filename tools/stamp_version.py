@@ -16,3 +16,12 @@ info = {"version": version, "build": commit, "date": datetime.date.today().isofo
     "document.addEventListener(\"DOMContentLoaded\", () => { const v = window.FOREVER_SIMS_VERSION; const el = document.createElement(\"div\"); el.className = \"site-version\"; el.title = \"Forever Sims build\"; el.textContent = `Forever Sims v${v.version} · build ${v.build} · ${v.date}`; document.body.append(el); });\n",
     encoding="utf-8")
 print("web/version.js:", info)
+
+# Bump the engine/catalog cache-busting query string so returning visitors' browsers
+# (and Cloudflare's edge cache) actually fetch the new wasm/js instead of serving a
+# stale cached response forever at an unchanging "?v=1" URL.
+import re
+worker_path = ROOT / "web" / "sim-worker.js"
+worker_src = re.sub(r"\?v=[^\"']+", f"?v={commit}", worker_path.read_text(encoding="utf-8"))
+worker_path.write_text(worker_src, encoding="utf-8")
+print(f"web/sim-worker.js: cache-busted to ?v={commit}")

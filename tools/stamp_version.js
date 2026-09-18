@@ -12,3 +12,11 @@ fs.writeFileSync(path.join(root, "web", "version.js"),
   `window.FOREVER_SIMS_VERSION = ${JSON.stringify(info)};\n` +
   `document.addEventListener("DOMContentLoaded", () => { const el = document.createElement("div"); el.className = "site-version"; el.title = "Forever Sims build"; el.textContent = ${JSON.stringify(label)}; document.body.append(el); });\n`);
 console.log("web/version.js:", info);
+
+// Bump the engine/catalog cache-busting query string so returning visitors' browsers
+// (and Cloudflare's edge cache) actually fetch the new wasm/js instead of serving a
+// stale cached response forever at an unchanging "?v=1" URL.
+const workerPath = path.join(root, "web", "sim-worker.js");
+const workerSrc = fs.readFileSync(workerPath, "utf8").replace(/\?v=[^"']+/g, `?v=${commit}`);
+fs.writeFileSync(workerPath, workerSrc);
+console.log(`web/sim-worker.js: cache-busted to ?v=${commit}`);
