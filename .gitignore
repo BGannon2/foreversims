@@ -3,6 +3,10 @@ __pycache__/
 *.log
 engine-rs/target/
 .claude/
+node_modules/
+.venv/
+.vscode/
+.idea/
 work_*.py
 work_*.ts
 profiles/

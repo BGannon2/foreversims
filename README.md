@@ -101,6 +101,11 @@ what's assumed and why — surfaced in the UI's result configuration, not just i
 `THIRD_PARTY_NOTICES.md` for the WoWSims Classic license this project's Classic-era baseline
 values are adapted from.
 
+## Contributing
+
+Bug reports, sourcing corrections, and pull requests are welcome — see `CONTRIBUTING.md` for the
+workflow and `CODE_OF_CONDUCT.md` for community expectations.
+
 ## License
 
 MIT — see `LICENSE`.

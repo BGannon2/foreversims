@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+
+jobs:
+  test:
+    name: Python test suite
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run test suite
+        run: python -m unittest discover -s tests -t .
+      - name: Compile-check every Python source file
+        run: python -m compileall -q forever server.py tools
+
+  rust-parity:
+    name: Rust engine parity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Cache cargo build
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            engine-rs/target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('engine-rs/Cargo.lock') }}
+      - name: Build Rust engine (native, release)
+        working-directory: engine-rs
+        run: cargo build --release
+      - name: Check Python/Rust parity
+        run: python tools/parity_check.py --iterations 10 --duration 45

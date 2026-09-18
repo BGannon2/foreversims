@@ -1,0 +1,14 @@
+# Copy to .dev.vars for local `wrangler dev` runs. All of these are optional —
+# the site and simulators work fully without them; only the feedback form and
+# preview-URL auth are affected. Never commit the real .dev.vars file.
+
+# HTTP Basic auth on the *.workers.dev preview host and /feedback-admin.
+SITE_USER=forever
+SITE_PASSWORD=
+
+# Discord webhook URL that receives a message for each feedback submission.
+FEEDBACK_WEBHOOK=
+
+# Auto-file a GitHub issue per feedback submission (needs both set).
+GITHUB_TOKEN=
+GITHUB_REPO=owner/repo
