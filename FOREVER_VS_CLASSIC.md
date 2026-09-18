@@ -37,6 +37,37 @@ Forever roster.
 - No change found for Warrior, Rogue, or Warlock's race lists (already broad in vanilla) or
   for Night Elf/Tauren Druid specifically (still faction-exclusive outside Skyborne).
 
+## Racials (sourced, `engine_data.py`'s `RACIALS` table, Wowhead Forever guide)
+
+Diffed against vanilla Classic's actual racial kit per race. Confident additions (no vanilla
+equivalent at all):
+
+- **Night Elf — Elune's Light** (new active): +10% critical strike chance for 15 sec. Vanilla
+  Night Elf has no offensive active racial at all (Shadowmeld/Quickness/Wisp Spirit are
+  non-combat or a flat passive). Cooldown isn't published (provisionally modeled at 2 min).
+- **Gnome — Eureka!** (new active): the next 3 spells or abilities deal +10% bonus damage.
+  Vanilla Gnome has no offensive active racial (Escape Artist/Expansive Mind aren't combat
+  procs). Cooldown isn't published (provisionally modeled at 2 min).
+- **Undead — Touch of the Grave** (new passive): 5% chance on a spell or attack to drain health
+  for up to 5% of max health. Not part of vanilla Undead's kit at all (Cannibalize/Will of the
+  Forsaken/Shadow Resistance/Underwater Breathing).
+- **Orc — Blood Fury now also boosts Spell Power** (+10%, on top of +10% Attack Power). Vanilla
+  Blood Fury only affects melee Attack Power, with no spell-power component.
+- New race **Skyborne** (both factions) brings two entirely new racials: **Wind Blessed**
+  (+1% melee/ranged/spell haste) and **Elemental Insight** (+5% damage to Elementals).
+
+Lower-confidence, not claimed as confirmed Forever changes (flagged for whoever picks this up
+next):
+- **Troll — Berserking** is modeled here as a flat +10% haste for 10 sec (180 sec cooldown,
+  itself unpublished/provisional). Vanilla Berserking instead scales from 10–30% based on
+  missing health. It's unclear whether Forever actually flattened this mechanic or whether this
+  project just simplified it because the sim doesn't track a moment-to-moment health-missing
+  value the way this racial needs — don't cite this one without checking the actual Forever
+  tooltip first.
+- **Tauren — Endurance** here includes +1% hit chance alongside the usual +5% max health.
+  Vanilla Endurance is health-only; unconfirmed whether the hit component is a genuine Forever
+  addition or a transcription artifact.
+
 ## Gear: updated item set bonuses (sourced, Paladin-confirmed)
 
 Source: https://www.wowhead.com/forever/news/new-and-updated-gear-set-bonuses-in-wow-forever-382958.

@@ -10,6 +10,13 @@
       "Orcs can now be Mages.",
       "New race: Skyborne, playable on both factions and available to Warrior, Hunter, Rogue, and Druid — the first faction-flexible Druid combination.",
     ]},
+    { title: "Racials", items: [
+      "New active: Elune's Light (Night Elf) — grants a burst of critical strike chance.",
+      "New active: Eureka! (Gnome) — your next few spells or abilities deal bonus damage.",
+      "New passive: Touch of the Grave (Undead) — a chance on spells and attacks to drain health from the target.",
+      "Blood Fury (Orc) now also boosts spell power, in addition to attack power.",
+      "New race: Skyborne, playable on both factions, with two new racials — Wind Blessed (haste) and Elemental Insight (bonus damage to Elementals).",
+    ]},
     { title: "Gear", items: [
       "Avenger's Battlegear (Paladin tier set): 3-piece now increases Judgement duration by 20%; 5-piece grants spell power.",
       "Lightforge Armor and Soulforge Armor (Paladin dungeon sets): set bonuses reworked, including new proc and resource-return effects.",
