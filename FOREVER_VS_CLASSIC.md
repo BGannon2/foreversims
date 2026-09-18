@@ -13,7 +13,7 @@ without re-deriving it from the codebase each time.
   where it could otherwise be mistaken for an intentional design difference.
 
 Full incident-level detail (why each fix happened, what broke, what the numbers moved) lives in
-`AUDIT_2026-09-17.md`. This doc is the distilled "what's different" summary, not the investigation
+`CHANGELOG.md`. This doc is the distilled "what's different" summary, not the investigation
 log.
 
 ---
@@ -122,7 +122,7 @@ Paladin's depth.
   Paladin threat in Forever leans on "Holy-school damage bonus + guaranteed taunt," structurally
   different from Warrior's Defensive Stance or Druid's Bear Form (a blanket multiplier on *all*
   damage). This reads as intentional but isn't confirmed by an explicit "Paladin threat is X% of
-  Warrior's" source — flagged as an open question in `AUDIT_2026-09-17.md`.
+  Warrior's" source — flagged as an open question in `CHANGELOG.md`.
 
 ### Retribution Paladin (sourced)
 - Same seal/Judgement mechanics as above apply spec-wide, but Retribution isn't threat-optimized —
@@ -289,12 +289,12 @@ Python/Rust parity across all 23 specs after the change.
 - Several provisional values (Raptor Strike's damage, Arcane Blast's cast time/cost, Incinerate's
   coefficient, Summon Hawk's continued-assault tick rate) are placeholders pending a real
   Blizzard/Wowhead source — don't cite these as confirmed Forever numbers.
-- The original ground-floor audit (`AUDIT_2026-09-17.md` section 5, "Missing or unresolved
+- The original ground-floor audit (`CHANGELOG.md` section 5, "Missing or unresolved
   mechanics") predates the current event-driven engine rewrite and is largely stale, but a few
   items in it (combo points, DoT snapshotting, glancing blows, dual-wield miss penalty) are still
   real gaps in the shared 21-spec engine as of this writing — check that section before assuming
   something's modeled.
 
 *Last updated 2026-09-18. Update this doc whenever a Forever-vs-Classic mechanic gets newly
-sourced or corrected — keep it in sync with `AUDIT_2026-09-17.md`'s resolution log rather than
+sourced or corrected — keep it in sync with `CHANGELOG.md`'s resolution log rather than
 letting the two drift apart.*

@@ -1,9 +1,21 @@
 # World of Warcraft Forever Simulator — Correctness, Completeness and Maintainability Audit
 
+> **Reading this file:** Sections 1-6 below are the *initial* audit of the project's first
+> prototype engine (a calibration-multiplier model). That engine was replaced with the current
+> event-driven `engine.py`/`sim.py` shortly after, which most of those early findings don't
+> apply to — the "2026-09-18: original P0/P1/P2 findings reconciled against the current code"
+> entry in the resolution log (§7) explains exactly which findings were stale and which were
+> real and fixed. Section 7, the resolution log, is this project's running changelog and is
+> current; treat sections 1-6 as historical record of how the project got here, not a
+> description of its current state.
+
 Date: 2026-09-17
-Scope: `C:\Users\brend\Documents\Codex\2026-09-16\bli\outputs\forever-paladin` (local source), deployed copy at `http://192.168.50.143:8765/` (Synner-mini, Docker Compose, `/opt/forever-sim`).
-Reference: WoWSims Classic checkout at `...\bli\work\wowsims-classic`; Wowhead Forever racial/class guide (fetched 2026-09-17).
-Deployment was not modified. SSH to Synner-mini is key/password protected, so the container was inspected only over HTTP (health, benchmark payload and JS asset hashes all match the local tree byte for byte).
+Scope: this repository's source tree, cross-checked against a separately-hosted deployed copy
+that mirrored it byte-for-byte at the time (health, benchmark payload and JS asset hashes all
+matched).
+Reference: a local WoWSims Classic checkout; Wowhead's Forever racial/class guide (fetched
+2026-09-17).
+Deployment was not modified during this audit.
 
 ---
 
@@ -34,7 +46,7 @@ python - <<EOF  # calibration ratios / cast counts / starvation (Section 4, F-1.
 from all_specs import *; ...
 EOF
 python -c "import server; ..."  # benchmark row regeneration (F-13)
-curl http://192.168.50.143:8765/api/benchmarks | md5sum  # deployed vs local (F-13)
+curl <deployed-host>/api/benchmarks | md5sum  # deployed vs local (F-13)
 ```
 
 ---

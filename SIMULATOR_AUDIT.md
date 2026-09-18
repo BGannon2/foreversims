@@ -1,7 +1,7 @@
 # Forever Simulator Audit — status after the 2026-09-17 remediation
 
 This file replaces the earlier implementation audit. The full finding list with
-reproduction steps is in `AUDIT_2026-09-17.md`; this page records what was
+reproduction steps is in `CHANGELOG.md`; this page records what was
 changed and what remains provisional.
 
 ## Architecture

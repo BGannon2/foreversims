@@ -407,7 +407,7 @@ SPEC_ABOUT = {
 PALADIN_ABOUT = {
     "protection": {
         "dps": "A threat rotation first: Templar's Bulwark as an emergency cooldown, Holy Shield upkeep, Exorcism/Holy Wrath against Undead or Demons, Consecration (its damage and threat both scale with the encounter's target count), Seal of Fury's melee swing proc plus Judgement.",
-        "tps": "Righteous Fury adds +90% Holy threat, and that Holy-school bonus plus Judgement of Fury's guaranteed taunt is the whole threat model - there's no blanket stance-style multiplier the way the shared engine's Warrior/Druid tanks get. This produces a real, currently-unexplained gap versus their TPS at equal DPS, read as intentional (see AUDIT_2026-09-17.md) but not confirmed by an explicit source."},
+        "tps": "Righteous Fury adds +90% Holy threat, and that Holy-school bonus plus Judgement of Fury's guaranteed taunt is the whole threat model - there's no blanket stance-style multiplier the way the shared engine's Warrior/Druid tanks get. This produces a real, currently-unexplained gap versus their TPS at equal DPS, read as intentional (see CHANGELOG.md) but not confirmed by an explicit source."},
     "retribution": {
         "dps": "Twists Seal of Righteousness and Seal of Command (both scale with weapon speed/spell power now, not flat rolls), Judgement, Consecration, Exorcism/Holy Wrath against Undead or Demons, Holy Strike when talented.",
         "tps": "No Righteous Fury bonus (Protection-only); since Holy damage is already the threat baseline everywhere in this model, Retribution's TPS sits closer to a 1:1 ratio with its DPS than most shared-engine DPS specs, just without the tank multiplier."},
