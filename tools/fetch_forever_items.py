@@ -69,7 +69,7 @@ STAT_NAME_MAP = {
 }
 
 TEST_JUNK = re.compile(r"^\d+ Test |^Test ", re.I)
-PRESERVE_KEYS = ("set", "wowhead", "phase")
+PRESERVE_KEYS = ("set", "wowhead", "phase", "source")
 
 
 def convert_rating(key, amount, stats):

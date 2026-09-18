@@ -242,7 +242,7 @@ function itemStatLine(item){
 
 function renderPicker(){
   const query=$("itemSearch").value.trim().toLowerCase();
-  const matches=state.items.filter(item=>item.equipSlots.includes(state.pickerSlot)&&(!query||`${item.name} ${item.source} ${item.subclass||""}`.toLowerCase().includes(query))).slice(0,150);
+  const matches=state.items.filter(item=>!item.removedFromForever&&(item.equipSlots||[]).includes(state.pickerSlot)&&(!query||`${item.name} ${item.source} ${item.subclass||""}`.toLowerCase().includes(query))).slice(0,150);
   const list=$("itemList"); list.replaceChildren();
   matches.forEach(item=>{const row=document.createElement("button");row.type="button";row.className=`item-row quality-${item.quality}`;const icon=item.icon?`<img src="/item-icons/${item.icon}.jpg" alt="">`:item.name[0];row.innerHTML=`<span class="slot-icon">${icon}</span><span><h3>${item.name}</h3><p>${item.subclass||item.slot} · ${item.source}</p></span><span class="item-stats">${itemStatLine(item)}</span><span class="ilvl">iLvl ${item.itemLevel}</span>`;row.addEventListener("click",()=>selectItem(item));addItemTooltip(row,item);list.append(row)});
   $("itemCount").textContent=`${matches.length}${matches.length===150?"+":""} shown`;

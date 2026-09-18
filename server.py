@@ -25,6 +25,7 @@ DATA_DIR = ROOT / "data"
 SETTING_DATA = json.loads((DATA_DIR / "settings.json").read_text(encoding="utf-8"))
 ALL_TALENTS = json.loads((DATA_DIR / "forever_talents_all.json").read_text(encoding="utf-8"))
 PHASE12_BIS = json.loads((DATA_DIR / "phase12_bis_all.json").read_text(encoding="utf-8"))
+FOREVER_BIS = json.loads((DATA_DIR / "forever_bis_all.json").read_text(encoding="utf-8")) if (DATA_DIR / "forever_bis_all.json").is_file() else {"profiles": {}}
 ENCHANT_DATA = json.loads((DATA_DIR / "enchants.json").read_text(encoding="utf-8"))
 EXTRA_ITEMS = json.loads((DATA_DIR / "extra_items.json").read_text(encoding="utf-8")) if (DATA_DIR / "extra_items.json").is_file() else {"items": []}
 MAX_BODY = 1_000_000
@@ -146,7 +147,7 @@ class Handler(BaseHTTPRequestHandler):
             return self.send_json(default_benchmarks())
         if path == "/api/spec-bootstrap":
             return self.send_json({
-                "specs": public_specs(), "talents": ALL_TALENTS, "gear": PHASE12_BIS, "consumables": CONSUMABLE_DATA,
+                "specs": public_specs(), "talents": ALL_TALENTS, "gear": PHASE12_BIS, "forever_bis": FOREVER_BIS, "consumables": CONSUMABLE_DATA,
                 "settings": SETTING_DATA, "enchants": ENCHANT_DATA, "racials": public_racials(), "defaults": DEFAULTS, "buff_groups": BUFF_GROUPS,
                 "set_effects": SET_EFFECTS, "set_no_combat_effect": sorted(SET_NO_COMBAT_EFFECT), "set_provisional": SET_PROVISIONAL, "set_patterns": [p for _, p in engine_module.SET_PATTERNS],
             })

@@ -16,8 +16,20 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "data"
 SOURCE = "https://www.wowhead.com/forever/"
 
+SLOT_TO_EQUIP_SLOTS = {
+    "Head": ["head"], "Neck": ["neck"], "Shoulder": ["shoulders"], "Shoulders": ["shoulders"],
+    "Back": ["back"], "Chest": ["chest"], "Wrist": ["wrist"], "Hands": ["hands"],
+    "Waist": ["waist"], "Legs": ["legs"], "Feet": ["feet"], "Finger": ["finger1", "finger2"],
+    "Trinket": ["trinket1", "trinket2"], "Trinket 1": ["trinket1", "trinket2"], "Relic": ["relic"],
+    "Ranged": ["ranged"], "Ranged / Relic": ["ranged"], "One-Hand": ["main_hand", "off_hand"],
+    "Two-Hand": ["main_hand"], "Main Hand": ["main_hand"], "Off Hand": ["off_hand"],
+    "Held In Off-hand": ["off_hand"], "Shield": ["off_hand"],
+}
+
 
 def _load_items():
+    removed_path = DATA_DIR / "forever_removed_item_ids.json"
+    removed_ids = set(json.loads(removed_path.read_text(encoding="utf-8"))) if removed_path.is_file() else set()
     items = {x["id"]: x for x in json.loads((DATA_DIR / "classic_era_items.json").read_text(encoding="utf-8"))["items"]}
     extra_path = DATA_DIR / "extra_items.json"
     if extra_path.is_file():
@@ -35,6 +47,20 @@ def _load_items():
     items[14551] = {**items.get(14551, {}), "id": 14551, "name": "Edgemaster's Handguards", "slot": "Hands", "stats": {"armor": 201}, "effects": ["Increased Axes, Daggers, and Swords +7."]}
     items[13965] = {**items.get(13965, {}), "id": 13965, "name": "Blackhand's Breadth", "slot": "Trinket", "stats": {"meleeCrit": 2}, "effects": []}
     items[17069] = {**items.get(17069, {}), "id": 17069, "name": "Striker's Mark", "slot": "Ranged", "subclass": "Bow", "equipSlots": ["ranged"], "stats": {"attackPower": 22, "meleeHit": 1}, "effects": [], "weaponDamageMin": 69, "weaponDamageMax": 129, "weaponSpeed": 2.5}
+    # Some hardcoded overrides above and some phase12_bis_all.json preset rows never carried
+    # an equipSlots field; without one, the gear picker's `item.equipSlots.includes(...)`
+    # filter throws for every spec (not just the one whose preset introduced the bad row).
+    for item in items.values():
+        if not item.get("equipSlots"):
+            item["equipSlots"] = SLOT_TO_EQUIP_SLOTS.get(item.get("slot"), [])
+    # Items Forever removed vs Classic Era are flagged rather than deleted: some existing
+    # preset gear (and Paladin's separate gear_data.py catalog) still references them by id,
+    # and hard-deleting the rows crashes simulation for those specs. The flag instead hides
+    # them from the picker's search results (see web/app.js renderPicker) so nobody can newly
+    # equip a Forever-removed item, without breaking anything already equipped by default.
+    for item_id in removed_ids:
+        if item_id in items:
+            items[item_id]["removedFromForever"] = True
     return items
 
 

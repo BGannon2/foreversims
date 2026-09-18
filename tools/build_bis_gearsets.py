@@ -108,9 +108,55 @@ SLOTS = ["head", "neck", "shoulders", "back", "chest", "wrist", "hands", "waist"
 HIT_CAP = {"melee": 9.0, "melee_dw": 28.0, "ranged": 9.0, "spell": 16.0}
 DEFENSE_CAP = 440.0  # this engine's crit-immune threshold: TARGET_DEFENSE(315) + 125
 
+# Phase restriction: only Onyxia's Lair, the Forever-specific "Barrow Deeps"/"Hyjal Summit"
+# zones, and 5-man dungeons are allowed -- not Molten Core, Blackwing Lair, Zul'Gurub, either
+# Ahn'Qiraj raid, or Naxxramas (all later-phase raids). wago.tools' DB2 export has no
+# spawn/encounter-to-zone table (that data lives server-side, not in client files), so this
+# can't be derived programmatically; it's a hardcoded blocklist of each later-phase raid's
+# well-documented, unambiguous boss roster. Everything NOT on this list (zone drops, vendor
+# items, dungeon bosses, Onyxia, and anything from the Forever-only zones this project has no
+# boss-roster data for) is allowed by default.
+LATER_PHASE_RAID_BOSSES = {
+    # Molten Core
+    "Lucifron", "Magmadar", "Gehennas", "Garr", "Baron Geddon", "Shazzrah",
+    "Sulfuron Harbinger", "Golemagg the Incinerator", "Majordomo Executus", "Ragnaros",
+    # Blackwing Lair
+    "Razorgore the Untamed", "Vaelastrasz the Corrupt", "Broodlord Lashlayer", "Firemaw",
+    "Ebonroc", "Flamegor", "Chromaggus", "Nefarian",
+    # Zul'Gurub
+    "High Priestess Jeklik", "High Priest Venoxis", "High Priestess Mar'li", "Bloodlord Mandokir",
+    "Wushoolay", "Renataki", "Gri'lek", "Hazza'rah", "High Priest Thekal", "High Priestess Arlokk",
+    "Jin'do the Hexxer", "Hakkar", "Gahz'ranka",
+    # Ruins of Ahn'Qiraj (AQ20)
+    "Kurinnaxx", "General Rajaxx", "Moam", "Buru the Gorger", "Ayamiss the Hunter", "Ossirian the Unscarred",
+    # Temple of Ahn'Qiraj (AQ40)
+    "The Prophet Skeram", "Battleguard Sartura", "Fankriss the Unyielding", "Princess Huhuran",
+    "Emperor Vek'lor", "Emperor Vek'nilash", "C'Thun", "Viscidus", "Princess Yauj", "Lord Kri", "Vem", "Ouro",
+    # Naxxramas
+    "Anub'Rekhan", "Grand Widow Faerlina", "Maexxna", "Noth the Plaguebringer", "Heigan the Unclean",
+    "Loatheb", "Instructor Razuvious", "Gothik the Harvester", "Patchwerk", "Grobbulus", "Gluth",
+    "Thaddius", "Sapphiron", "Kel'Thuzad",
+}
+
+
+# Backstop for later-phase QUEST rewards (raid attunement chains, tier-set quest rewards,
+# etc.) that don't show up as "Boss Drop: X" and so aren't caught by the blocklist above --
+# e.g. Bonescythe (Rogue Tier 3, Naxxramas) and AQ40/BWL attunement rewards are all "Quest:"
+# sourced. Real Classic item levels: dungeon epics and Onyxia/Molten Core top out around
+# ilvl 77-81; Ahn'Qiraj/Zul'Gurub epics run into the low 80s; Blackwing Lair/Naxxramas start
+# at 86+. 82 is a deliberately generous ceiling that keeps Onyxia/MC-tier loot while cutting
+# BWL/Naxx and most AQ/ZG epics -- an imperfect proxy (item level, not verified zone data),
+# used because no zone/encounter data is available for Forever's exact drop locations.
+PHASE1_ITEM_LEVEL_CEILING = 82
+
 
 def eligible(item, cls, style):
     if item["id"] in REMOVED_IDS:
+        return False
+    if item.get("itemLevel", 0) > PHASE1_ITEM_LEVEL_CEILING:
+        return False
+    source = item.get("source", "")
+    if source.startswith("Boss Drop: ") and source[len("Boss Drop: "):] in LATER_PHASE_RAID_BOSSES:
         return False
     if item.get("requiredLevel", 0) and item["requiredLevel"] < 55:
         return False
@@ -146,9 +192,16 @@ def score(item, weights):
 
 
 def best_for_slot(candidates, weights, taken_ids, n=1):
-    ranked = sorted((it for it in candidates if it["id"] not in taken_ids),
-                     key=lambda it: score(it, weights), reverse=True)
-    return ranked[:n]
+    seen = set()
+    picked = []
+    for it in sorted(candidates, key=lambda it: score(it, weights), reverse=True):
+        if it["id"] in taken_ids or it["id"] in seen:
+            continue
+        seen.add(it["id"])
+        picked.append(it)
+        if len(picked) >= n:
+            break
+    return picked
 
 
 def pick_weapons(items_by_slot, cls, spec_id, weights, taken_ids):
@@ -280,7 +333,10 @@ def build_spec(spec_id, spec):
     cap_correction_pass(hit_key, cap, 40)
 
     # --- tank defense-cap correction pass ---
-    if role == "tank":
+    # Only chased for warrior-protection: get as close as the itemization pool allows,
+    # even if it can't fully close the gap. Skipped for druid-feral-tank (Bear Form
+    # itemization doesn't carry enough Defense Rating to make chasing this meaningful).
+    if spec_id == "warrior-protection":
         cap_correction_pass("defense", DEFENSE_CAP, 30, base=300.0)
 
     gear_list = []

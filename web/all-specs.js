@@ -192,6 +192,15 @@ $("enchantSelect").onchange = () => { const it = profile.gear[pickerIndex], rows
 $("clearItem").onclick = () => { const slot = profile.gear[pickerIndex].slot; profile.gear[pickerIndex] = { slot, id: 0, name: "Empty", icon: "inv_misc_questionmark", quality: "Common", itemLevel: 0, stats: {}, effects: [] }; $("itemDialog").close(); renderGear(); };
 $("itemDialog").addEventListener("close", () => { hideTip(); document.body.appendChild($("tooltip")); });
 $("resetProfile").onclick = () => { profile = structuredClone(baseProfile); profile.gear.forEach(x => x.enchant = defaultEnchant(x)); autoTalents(); renderGear(); renderOptions("buffs", data.settings.raid_buffs, "buffs"); renderOptions("consumables", data.consumables.items, "consumables"); showTab("gear"); };
+$("foreverBisProfile").onclick = () => {
+  const bis = data.forever_bis?.profiles?.[specId];
+  if (!bis) { $("error").textContent = "No Forever BiS set is available for this spec yet."; return; }
+  const hydrated = structuredClone(bis);
+  hydrated.gear = hydrated.gear.map(row => { const full = catalogItems.find(x => x.id === row.id); return full ? { ...row, ...full, slot: row.slot } : row; });
+  profile = hydrated; profile.gear.forEach(x => x.enchant = defaultEnchant(x));
+  $("gearSource").textContent = profile.source_label || "Assumed Forever BiS";
+  renderGear(); showTab("gear");
+};
 $("exportProfile").onclick = () => { const output = { ruleset: "World of Warcraft Forever prototype", spec: spec.id, race: $("race").value, gear: Object.fromEntries(profile.gear.map(x => [x.slot, { item_id: x.id, enchant_id: x.enchant?.id || null }])), talents: points, encounter: { duration: +$("duration").value, boss_armor: +$("armor").value, targets: +$("targets").value, boss_type: $("bossType").value } }; const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify(output, null, 2)], { type: "application/json" })); a.download = `${spec.id}-forever-profile.json`; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000); };
 
 // ---------------------------------------------------------------- WoWSims Exporter import

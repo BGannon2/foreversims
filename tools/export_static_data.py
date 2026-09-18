@@ -84,7 +84,7 @@ def api_payloads():
         "specs": {"specs": all_specs.public_specs()},
         "benchmarks": server.default_benchmarks(),
         "spec-bootstrap": {
-            "specs": all_specs.public_specs(), "talents": server.ALL_TALENTS, "gear": server.PHASE12_BIS, "consumables": CONSUMABLE_DATA,
+            "specs": all_specs.public_specs(), "talents": server.ALL_TALENTS, "gear": server.PHASE12_BIS, "forever_bis": server.FOREVER_BIS, "consumables": CONSUMABLE_DATA,
             "settings": server.SETTING_DATA, "enchants": server.ENCHANT_DATA, "racials": all_specs.public_racials(), "defaults": server.DEFAULTS, "buff_groups": ed.BUFF_GROUPS,
             "set_effects": ed.SET_EFFECTS, "set_no_combat_effect": sorted(ed.SET_NO_COMBAT_EFFECT), "set_provisional": ed.SET_PROVISIONAL, "set_patterns": [p for _, p in engine.SET_PATTERNS],
         },
