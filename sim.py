@@ -26,9 +26,15 @@ TALENTS = {str(t['id']): t for tree in TALENT_DATA['trees'] for t in tree['talen
 TREE_TALENTS = {tree['name']: [str(t['id']) for t in tree['talents']] for tree in TALENT_DATA['trees']}
 
 PROTECTION_BUILD = {
+    # Iron Creed (110879) maxed for its Holy Strike threat bonus, per the classicwow.gg guide's
+    # emphasis on it as a core Protection tool. Freed by trimming Deflection (an off-tree
+    # Retribution pick, 5->1 -- does not affect Protection's own tier-cumulative math) and
+    # dropping Seal of Command entirely (now irrelevant: Protection runs Seal of Fury exclusively
+    # instead of twisting through Command). Every in-tree Protection point is otherwise unchanged,
+    # to keep tier-cumulative margin identical for validate()'s prerequisite/tier checks.
     '105630': 5, '105626': 5, '105638': 3, '110875': 1, '105634': 3,
-    '110874': 3, '110878': 1, '105629': 3, '105625': 1, '105627': 5, '105628': 1,
-    '105707': 5, '105706': 5, '105705': 2, '105703': 4, '105701': 3, '105696': 1,
+    '110874': 3, '110878': 1, '105629': 3, '105625': 1, '105627': 5, '105628': 1, '110879': 5,
+    '105707': 1, '105706': 5, '105705': 2, '105703': 4, '105701': 3,
 }
 RETRIBUTION_BUILD = {
     '105707': 5, '105706': 5, '105705': 2, '105703': 5, '105701': 3,
@@ -55,7 +61,7 @@ ASSUMPTIONS = [
     'Righteousness swing damage is a user-supplied effective value (default 50); its speed/scaling formula is unresolved.',
     'Command proc probability (default 25% per landed swing) is an experiment input, not a sourced Forever proc rate.',
     'Seal procs do not crit or roll a second hit check. Judgements may crit with the supplied spell multiplier.',
-    'Judgement consumes the active seal; seal casts use 1.5 s GCD. Non-seal defensive GCDs also use 1.5 s provisionally.',
+    'Judgement does not consume the active seal (classicwow.gg Protection guide: "Judging does not consume your seal"); seal casts use 1.5 s GCD. Non-seal defensive GCDs also use 1.5 s provisionally.',
     'Twisting stores one echo, consumed on the next melee attempt even if it misses. No echo stacking or expiration.',
     'Vengeance refreshes all stacks together; only modeled direct attack and Judgement crits trigger it.',
     'Reckoning grants an immediate extra swing, can trigger seals, and does not reset the normal swing timer.',
@@ -69,7 +75,8 @@ ASSUMPTIONS = [
     'Sourced Forever set bonuses are applied at their equipped-piece thresholds. Unresolved proc/control effects remain labeled informational.',
     'Consecration Rank 5 uses its Forever level-60 tooltip: 565 mana, 384 Holy damage over 8 sec, 8 sec cooldown.',
     'Holy Strike uses the supplied unranked/low-rank record exactly (75 mana, next melee becomes Holy and gains 2 damage); its missing base cooldown is editable and defaults provisionally to 6 sec.',
-    'Seal of Fury remains unresolved because its indexed Forever rank records omit cost, shield amount, duration and Judgement effect.'
+    'Seal of Fury (rank 7, level 58) is sourced from its Wowhead Forever tooltip: 200 mana/30 sec, melee swings deal +10% spell power Holy damage, and while a shield is equipped each landed swing also grants a self-absorb shield worth 50% of that Holy damage. Judging while Seal of Fury is active deals 45% spell power Holy damage and taunts for 4 sec; the taunt has no separate effect in this single-tank model, where incoming attacks already always target the tank. Protection uses Seal of Fury exclusively (no twisting) in place of the earlier Righteousness/Command placeholder.',
+    "Improved Seal of Fury (single rank) restores 38 mana, +15% per level the attacker is above the Paladin up to 45%, when an incoming attack fully consumes the remaining absorb pool. The pool is shared with Templar's Bulwark's much larger shield in this model; a Bulwark shield being the one fully drained would also trigger this refund, a modeling simplification."
 ]
 
 def preset(spec='protection'):
@@ -259,11 +266,11 @@ class Fight:
         if tg and self.rng.random()<tg['chance']:
             self.deal('Touch of the Grave',self.c['health']*tg['health_fraction'],holy=True,physical=False,hit=1)
 
-    def deal(self,name,amount,holy=False,can_crit=False,hit=1.0,extra_threat=1.0,melee_crit=False,physical=None,spell_coefficient=0.0):
+    def deal(self,name,amount,holy=False,can_crit=False,hit=1.0,extra_threat=1.0,melee_crit=False,physical=None,spell_coefficient=0.0,return_amount=False):
         precision=0.01*self.rank(105638)
         hit=min(1,hit+precision)
         if self.rng.random() >= hit:
-            self.record(name+' miss'); return False
+            self.record(name+' miss'); return None if return_amount else False
         crit=self.c['crit_chance' if melee_crit or not holy else 'spell_crit_chance']
         if melee_crit or not holy: crit+=0.01*self.rank(105703)
         critical=can_crit and self.rng.random() < min(1,crit)
@@ -288,7 +295,7 @@ class Fight:
         if critical and self.rank(105693):
             self.vengeance=min(F['vengeance_rank1']['max_stacks'],self.vengeance+1)
             self.vengeance_until=self.time+F['vengeance_rank1']['duration']
-        return True
+        return amount if return_amount else True
 
     def seal_proc(self,seal,weapon,echo=False):
         suffix=' echo' if echo else ''
@@ -297,6 +304,11 @@ class Fight:
             self.deal('Seal of Command'+suffix,weapon*F['command']['weapon_fraction']*seal_bonus,holy=True,spell_coefficient=.29)
         elif seal=='righteousness':
             self.deal('Seal of Righteousness'+suffix,self.m['righteousness_damage']*seal_bonus,holy=True,spell_coefficient=.10)
+        elif seal=='fury':
+            dealt=self.deal('Seal of Fury'+suffix,0,holy=True,spell_coefficient=F['fury']['swing_pct_sp']*seal_bonus,return_amount=True)
+            if dealt and self.c.get('block_chance',0)>0:
+                self.absorb+=dealt*F['fury']['absorb_pct']
+                self.absorb_until=max(self.absorb_until,self.time+F['fury']['duration'])
 
     def swing(self,extra=False,bonus_ap=0.0):
         weapon=self.rng.uniform(self.c['weapon_min'],self.c['weapon_max'])
@@ -338,11 +350,14 @@ class Fight:
             cost=F['judgement']['base_mana_fraction']*self.c['base_mana']
             if self.spend('Judgement',cost):
                 seal=self.seal; f=F[seal]
-                self.deal('Judgement of '+seal.title(),self.rng.uniform(f['judgement_min'],f['judgement_max'])*(1+0.05*self.rank(105334)),
-                          holy=True,can_crit=True,hit=self.c['spell_hit_chance'],spell_coefficient=.43)
+                if seal=='fury':
+                    self.deal('Judgement of Fury',0,holy=True,can_crit=True,hit=self.c['spell_hit_chance'],spell_coefficient=F['fury']['judgement_pct_sp'])
+                else:
+                    self.deal('Judgement of '+seal.title(),self.rng.uniform(f['judgement_min'],f['judgement_max'])*(1+0.05*self.rank(105334)),
+                              holy=True,can_crit=True,hit=self.c['spell_hit_chance'],spell_coefficient=.43)
                 if self.set_flags.get('judgement_bonus_damage'): self.deal('Judgement Armor bonus',self.rng.uniform(60,66),holy=True,hit=1)
                 if self.set_flags.get('eternal_justice_mana') and self.rng.random()<0.20: self.gain_mana(100)
-                self.seal=None; self.seal_until=0
+                # Judgement does not consume the active seal in Forever (classicwow.gg guide).
                 cd=F['judgement']['cooldown']-F['improved_judgement_rank1']['cooldown_reduction']*self.rank(105705)
                 self.cd['judgement']=self.time+cd
                 sj_rank=self.rank(105701)
@@ -379,7 +394,7 @@ class Fight:
                     self.cd['consecration']=self.time+con['cooldown']; acted=True
             if acted and self.gcd<=self.time+1e-9: self.gcd=self.time+1.5/self.pull_haste()
             elif self.time>=self.seal_until:
-                self.cast_seal('righteousness' if self.prot or not self.rank(105696) else 'command')
+                self.cast_seal('fury' if self.prot else 'righteousness' if not self.rank(105696) else 'command')
             elif self.rot['twist_seals'] and self.rank(105692) and not self.echo:
                 self.cast_seal('righteousness' if self.seal=='command' else 'command')
         if self.rot['use_holy_strike'] and not self.holy_strike_queued and self.time>=self.cd['holy_strike']:
@@ -426,7 +441,12 @@ class Fight:
         if self.prot and self.time<self.iron_until: amount*=1-0.02*self.rank(110879)
         damaging=amount>0
         if self.time>=self.absorb_until: self.absorb=0
+        pre_absorb=self.absorb
         absorbed=min(amount,self.absorb); self.absorb-=absorbed; self.absorbed+=absorbed; amount-=absorbed
+        if pre_absorb>0 and self.absorb<=1e-9 and self.rank(110875):
+            isf=F['improved_seal_of_fury_rank1']
+            level_diff=max(0,self.e['target_level']-self.c['level'])
+            self.gain_mana(isf['base_mana']*(1+min(isf['max_pct'],isf['per_level_pct']*level_diff)))
         source='Boss block' if blocked else 'Boss critical' if critical else 'Boss crushing' if crushing else 'Boss melee'
         self.health=max(0,self.health-amount); self.taken+=amount; self.taken_by_source[source]+=amount
         self.damage_window.append((self.time,amount)); self.window_sum+=amount

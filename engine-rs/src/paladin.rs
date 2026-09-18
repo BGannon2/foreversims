@@ -643,10 +643,11 @@ impl Ord for Ev {
 enum Seal {
     Righteousness,
     Command,
+    Fury,
 }
 impl Seal {
     fn key(self) -> &'static str {
-        match self { Seal::Righteousness => "righteousness", Seal::Command => "command" }
+        match self { Seal::Righteousness => "righteousness", Seal::Command => "command", Seal::Fury => "fury" }
     }
 }
 
@@ -889,11 +890,15 @@ impl<'a> Fight<'a> {
 
     #[allow(clippy::too_many_arguments)]
     fn deal(&mut self, name: &str, amount: f64, holy: bool, can_crit: bool, hit: f64, extra_threat: f64, melee_crit: bool, physical: Option<bool>, spell_coefficient: f64) -> bool {
+        self.deal_inner(name, amount, holy, can_crit, hit, extra_threat, melee_crit, physical, spell_coefficient).is_some()
+    }
+
+    fn deal_inner(&mut self, name: &str, amount: f64, holy: bool, can_crit: bool, hit: f64, extra_threat: f64, melee_crit: bool, physical: Option<bool>, spell_coefficient: f64) -> Option<f64> {
         let precision = 0.01 * self.rank("105638");
         let hit = (hit + precision).min(1.0);
         if self.rng.random() >= hit {
             self.record(&format!("{name} miss"), 0.0);
-            return false;
+            return None;
         }
         let mut crit = if melee_crit || !holy { self.c.crit_chance } else { self.c.spell_crit_chance };
         if melee_crit || !holy {
@@ -936,7 +941,7 @@ impl<'a> Fight<'a> {
             self.vengeance = (self.f("vengeance_rank1", "max_stacks") as i64).min(self.vengeance + 1);
             self.vengeance_until = self.time + self.f("vengeance_rank1", "duration");
         }
-        true
+        Some(amount)
     }
 
     fn seal_proc(&mut self, seal: Seal, weapon: f64, echo: bool) {
@@ -952,6 +957,16 @@ impl<'a> Fight<'a> {
             Seal::Righteousness => {
                 let amt = self.m.righteousness_damage * seal_bonus;
                 self.deal(&format!("Seal of Righteousness{suffix}"), amt, true, false, 1.0, 1.0, false, None, 0.10);
+            }
+            Seal::Fury => {
+                let coeff = self.f("fury", "swing_pct_sp") * seal_bonus;
+                let dealt = self.deal_inner(&format!("Seal of Fury{suffix}"), 0.0, true, false, 1.0, 1.0, false, None, coeff);
+                if let Some(dealt) = dealt {
+                    if dealt != 0.0 && self.c.block_chance > 0.0 {
+                        self.absorb += dealt * self.f("fury", "absorb_pct");
+                        self.absorb_until = self.absorb_until.max(self.time + self.f("fury", "duration"));
+                    }
+                }
             }
         }
     }
@@ -1027,9 +1042,13 @@ impl<'a> Fight<'a> {
             let cost = self.f("judgement", "base_mana_fraction") * self.c.base_mana;
             if self.spend("Judgement", cost) {
                 let seal = self.seal.unwrap();
-                let (jmin, jmax) = (self.f(seal.key(), "judgement_min"), self.f(seal.key(), "judgement_max"));
-                let amt = self.rng.uniform(jmin, jmax) * (1.0 + 0.05 * self.rank("105334"));
-                self.deal(&format!("Judgement of {}", title(seal.key())), amt, true, true, self.c.spell_hit_chance, 1.0, false, None, 0.43);
+                if seal == Seal::Fury {
+                    self.deal("Judgement of Fury", 0.0, true, true, self.c.spell_hit_chance, 1.0, false, None, self.f("fury", "judgement_pct_sp"));
+                } else {
+                    let (jmin, jmax) = (self.f(seal.key(), "judgement_min"), self.f(seal.key(), "judgement_max"));
+                    let amt = self.rng.uniform(jmin, jmax) * (1.0 + 0.05 * self.rank("105334"));
+                    self.deal(&format!("Judgement of {}", title(seal.key())), amt, true, true, self.c.spell_hit_chance, 1.0, false, None, 0.43);
+                }
                 if self.judgement_bonus_damage {
                     let bonus = self.rng.uniform(60.0, 66.0);
                     self.deal("Judgement Armor bonus", bonus, true, false, 1.0, 1.0, false, None, 0.0);
@@ -1037,8 +1056,7 @@ impl<'a> Fight<'a> {
                 if self.eternal_justice_mana && self.rng.random() < 0.20 {
                     self.gain_mana(100.0);
                 }
-                self.seal = None;
-                self.seal_until = 0.0;
+                // Judgement does not consume the active seal in Forever (classicwow.gg guide).
                 let cd = self.f("judgement", "cooldown") - self.f("improved_judgement_rank1", "cooldown_reduction") * self.rank("105705");
                 self.cd.insert("judgement", self.time + cd);
                 let sj_rank = self.rank("105701");
@@ -1108,7 +1126,7 @@ impl<'a> Fight<'a> {
             if acted && self.gcd <= self.time + 1e-9 {
                 self.gcd = self.time + 1.5 / self.pull_haste();
             } else if self.time >= self.seal_until {
-                let seal = if self.prot || self.rank("105696") == 0.0 { Seal::Righteousness } else { Seal::Command };
+                let seal = if self.prot { Seal::Fury } else if self.rank("105696") == 0.0 { Seal::Righteousness } else { Seal::Command };
                 self.cast_seal(seal);
             } else if self.rot.twist_seals && self.rank("105692") != 0.0 && self.echo.is_none() {
                 let seal = if self.seal == Some(Seal::Command) { Seal::Righteousness } else { Seal::Command };
@@ -1187,10 +1205,16 @@ impl<'a> Fight<'a> {
         if self.time >= self.absorb_until {
             self.absorb = 0.0;
         }
+        let pre_absorb = self.absorb;
         let absorbed = amount.min(self.absorb);
         self.absorb -= absorbed;
         self.absorbed += absorbed;
         amount -= absorbed;
+        if pre_absorb > 0.0 && self.absorb <= 1e-9 && self.rank("110875") != 0.0 {
+            let level_diff = (self.e.target_level - self.c.level).max(0.0);
+            let pct = (self.f("improved_seal_of_fury_rank1", "per_level_pct") * level_diff).min(self.f("improved_seal_of_fury_rank1", "max_pct"));
+            self.gain_mana(self.f("improved_seal_of_fury_rank1", "base_mana") * (1.0 + pct));
+        }
         let source = if blocked { "Boss block" } else if critical { "Boss critical" } else if crushing { "Boss crushing" } else { "Boss melee" };
         self.health = (self.health - amount).max(0.0);
         self.taken += amount;
