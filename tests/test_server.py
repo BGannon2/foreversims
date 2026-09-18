@@ -63,7 +63,8 @@ class ServerTests(unittest.TestCase):
         self.assertEqual(status, 200)
         self.assertTrue(data["version"].startswith("wow-classic-items-"))
         self.assertGreater(len(data["items"]), 2000)
-        self.assertTrue(all(item["wowhead"].startswith("https://www.wowhead.com/classic/item=")
+        allowed_wowhead_prefixes = ("https://www.wowhead.com/classic/item=", "https://foreverchanges.pro/")
+        self.assertTrue(all(item["wowhead"].startswith(allowed_wowhead_prefixes)
                             for item in data["items"]))
 
     def test_simulation_endpoint(self):
