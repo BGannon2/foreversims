@@ -28,7 +28,9 @@
         <p class="feedback-status" aria-live="polite"></p>
         <footer><button type="button" class="feedback-cancel">Cancel</button><button type="submit" class="feedback-submit sim-button">Send</button></footer>
       </form>`;
-    document.body.append(button, dialog);
+    let tabs = document.getElementById("bottomTabs");
+    if (!tabs) { tabs = document.createElement("div"); tabs.id = "bottomTabs"; tabs.className = "bottom-tabs"; document.body.append(tabs); }
+    tabs.append(button); document.body.append(dialog);
     const form = dialog.querySelector("form"), status = dialog.querySelector(".feedback-status"), submit = dialog.querySelector(".feedback-submit");
     const open = () => { status.textContent = ""; status.className = "feedback-status"; form.reset(); dialog.showModal(); dialog.querySelector("textarea").focus(); };
     const close = () => dialog.close();
