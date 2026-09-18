@@ -12,3 +12,9 @@ FEEDBACK_WEBHOOK=
 # Auto-file a GitHub issue per feedback submission (needs both set).
 GITHUB_TOKEN=
 GITHUB_REPO=owner/repo
+
+# Discord webhook for #releases (posts release notes at deploy time via
+# tools/notify_release.js — this is a local shell env var, not a Worker secret,
+# since it's read by a Node script you run locally, not by worker.js).
+# Get it from: #releases channel settings -> Integrations -> Webhooks -> Copy Webhook URL.
+RELEASE_WEBHOOK_URL=

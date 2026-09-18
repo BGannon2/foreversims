@@ -48,6 +48,19 @@ indefinitely even after a successful deploy. Always run one of those before `wra
    the `*.workers.dev` subdomain.
 5. `python tools/export_static_data.py && bash tools/build_engine.sh && node tools/stamp_version.js`
    (or the `.py` equivalents), then `npx wrangler deploy`.
+6. Announce it: `RELEASE_WEBHOOK_URL=... node tools/notify_release.js "What changed."` posts a
+   release-notes embed to the Discord server's `#releases` channel (write-restricted to this
+   webhook — see below). Optional; skip it for a deploy with nothing user-facing to announce.
+
+## Discord release announcements
+
+`#releases` in the community Discord is an Announcement channel where `@everyone` has `Send
+Messages` (and thread creation) denied — only a webhook can post there. `tools/notify_release.js`
+posts an embed (version, build commit, your notes) to it via the webhook URL in
+`RELEASE_WEBHOOK_URL`, read from your shell environment — it's a local var for a script you run
+by hand, not a Cloudflare Worker secret. Get the URL from the channel's Integrations settings
+("Forever Sims Release Notes" webhook) and keep it out of version control, same as any other
+secret in this project.
 
 ## Deploying elsewhere
 
