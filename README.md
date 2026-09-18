@@ -4,6 +4,9 @@ DPS and tank simulators for every class/spec in *World of Warcraft: Forever* —
 **[foreversims.com](https://foreversims.com)**. Every simulation runs entirely in the visitor's
 browser (a Rust engine compiled to WebAssembly); there's no server-side compute in production.
 
+Join the community on [Discord](https://discord.gg/Ncgu5GfC6n) for discussion, bug reports, and
+sourcing corrections.
+
 This is an unofficial fan project. It is not affiliated with, endorsed by, or associated with
 Blizzard Entertainment. *World of Warcraft* and *World of Warcraft: Forever* are trademarks or
 registered trademarks of Blizzard Entertainment, Inc.
