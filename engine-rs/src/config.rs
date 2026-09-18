@@ -801,7 +801,13 @@ impl Config {
     fn resolve(&self, name: &str, base: &Ability) -> Ability {
         let mut a = base.clone();
         let school = a.school.clone().unwrap_or_else(|| "None".into());
-        a.cost = ((a.cost + self.mod_(&format!("cost:{name}"))) * (1.0 + self.mod_(&format!("cost_pct:{name}")) + self.mod_("cost_pct_all") + self.mod_(&format!("cost_pct_school:{school}")))).max(0.0);
+        let mut base_cost = a.cost;
+        if a.cost_pct != 0.0 && self.spec.resource == "Mana" {
+            // Forever's percent-of-base-mana abilities (e.g. Multi-Shot's 13.9%) cost a percentage
+            // of the intellect-derived base mana pool in self.stats["mana"].
+            base_cost = self.stats.get("mana").copied().unwrap_or(0.0) * a.cost_pct;
+        }
+        a.cost = ((base_cost + self.mod_(&format!("cost:{name}"))) * (1.0 + self.mod_(&format!("cost_pct:{name}")) + self.mod_("cost_pct_all") + self.mod_(&format!("cost_pct_school:{school}")))).max(0.0);
         if self.spec.resource == "Rage" && a.cost != 0.0 && self.flag("focused_rage") != 0.0 && name != "Heroic Strike" {
             a.cost = (a.cost - 3.0).max(0.0);
         }

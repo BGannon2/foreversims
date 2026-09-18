@@ -32,7 +32,8 @@ class ServerTests(unittest.TestCase):
         self.assertEqual(set(data["presets"]), {"protection", "retribution"})
         self.assertEqual(set(data["phase6_bis"]), {"protection", "retribution"})
         self.assertEqual(sum(len(tree["talents"]) for tree in data["talent_data"]["trees"]), 52)
-        self.assertTrue(all(url.startswith("https://www.wowhead.com/forever/") for url in data["sources"].values()))
+        allowed_prefixes = ("https://www.wowhead.com/forever/", "https://wago.tools/", "https://foreverchanges.pro/")
+        self.assertTrue(all(url.startswith(allowed_prefixes) for url in data["sources"].values()))
 
     def test_browser_assets(self):
         for path, marker in [("/", b"Forever Sims"), ("/paladin.html", b"Forever Paladin Simulator"),

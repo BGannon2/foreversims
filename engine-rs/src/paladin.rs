@@ -70,7 +70,8 @@ pub fn preset(spec: &str) -> Result<Value, String> {
             "demoralizing_shout": true, "thunder_clap": true,
             "insect_swarm": true, "scorpid_sting": true},
         "model": {"command_proc_chance": 0.25, "righteousness_damage": 50.0,
-            "holy_strike_bonus": 2.0, "holy_strike_cost": 75.0, "holy_strike_cooldown": 6.0,
+            "holy_strike_cost": 20.0, "holy_strike_cooldown": 12.0, "holy_strike_weapon_pct": 0.40,
+            "holy_strike_holy_min": 81.0, "holy_strike_holy_max": 105.0, "holy_strike_coeff": 0.429,
             "melee_crit_multiplier": 2.0, "spell_crit_multiplier": 1.5,
             "base_threat_per_damage": 1.0, "holy_threat_per_damage": 1.0,
             "use_classic_era_conversions": true, "thunderfury_proc_chance": 0.20,
@@ -542,9 +543,12 @@ pub struct Encounter {
 pub struct Model {
     pub command_proc_chance: f64,
     pub righteousness_damage: f64,
-    pub holy_strike_bonus: f64,
     pub holy_strike_cost: f64,
     pub holy_strike_cooldown: f64,
+    pub holy_strike_weapon_pct: f64,
+    pub holy_strike_holy_min: f64,
+    pub holy_strike_holy_max: f64,
+    pub holy_strike_coeff: f64,
     pub melee_crit_multiplier: f64,
     pub spell_crit_multiplier: f64,
     pub base_threat_per_damage: f64,
@@ -677,7 +681,6 @@ pub struct Fight<'a> {
     seal: Option<Seal>,
     seal_until: f64,
     echo: Option<Seal>,
-    holy_strike_queued: bool,
     iron_until: f64,
     hs_until: f64,
     hs_charges: i64,
@@ -759,7 +762,6 @@ impl<'a> Fight<'a> {
             seal: None,
             seal_until: 0.0,
             echo: None,
-            holy_strike_queued: false,
             iron_until: 0.0,
             hs_until: 0.0,
             hs_charges: 0,
@@ -992,20 +994,8 @@ impl<'a> Fight<'a> {
             Some("One-Hand") | Some("Main Hand") => weapon *= 1.0 + [0.0, 0.03, 0.07, 0.10][self.rank("105629") as usize],
             _ => {}
         }
-        let holy_strike = self.holy_strike_queued && !extra;
-        let landed;
-        if holy_strike {
-            self.holy_strike_queued = false;
-            let iron = self.rank("110879");
-            let arbiter = if self.rank("105700") != 0.0 { 1.1 } else { 1.0 };
-            landed = self.deal("Holy Strike", (weapon + self.m.holy_strike_bonus) * arbiter, true, true, self.c.hit_chance, 1.0 + 0.05 * iron, true, None, 0.0);
-            if landed && iron != 0.0 {
-                self.iron_until = self.time + 6.0;
-            }
-        } else {
-            let name = if bonus_ap != 0.0 { "Windfury Attack" } else if extra { "Reckoning" } else { "Melee" };
-            landed = self.deal(name, weapon, false, true, self.c.hit_chance, 1.0, false, None, 0.0);
-        }
+        let name = if bonus_ap != 0.0 { "Windfury Attack" } else if extra { "Reckoning" } else { "Melee" };
+        let landed = self.deal(name, weapon, false, true, self.c.hit_chance, 1.0, false, None, 0.0);
         if landed && !extra && self.raid_buffs.get("windfury_totem").copied().unwrap_or(false) && self.rng.random() < 0.20 {
             self.swing(true, 315.0);
         }
@@ -1106,6 +1096,20 @@ impl<'a> Fight<'a> {
                     self.cd.insert("exorcism", self.time + 15.0 * purifying_cd);
                     acted = true;
                 }
+            if !acted && self.rot.use_holy_strike && self.time >= self.cd("holy_strike")
+                && self.spend("Holy Strike", self.m.holy_strike_cost) {
+                    let iron = self.rank("110879");
+                    let arbiter = if self.rank("105700") != 0.0 { 1.1 } else { 1.0 };
+                    let weapon = self.rng.uniform(self.c.weapon_min, self.c.weapon_max);
+                    let amount = (weapon * self.m.holy_strike_weapon_pct + self.rng.uniform(self.m.holy_strike_holy_min, self.m.holy_strike_holy_max)) * arbiter;
+                    let landed = self.deal("Holy Strike", amount, true, true, self.c.hit_chance, 1.0 + 0.05 * iron, true, None, self.m.holy_strike_coeff);
+                    if landed && iron != 0.0 {
+                        self.iron_until = self.time + 6.0;
+                    }
+                    let v = self.time + (self.m.holy_strike_cooldown - self.rank("105328")).max(0.1);
+                    self.cd.insert("holy_strike", v);
+                    acted = true;
+                }
             if !acted && eligible_holy_target && self.rot.use_holy_wrath && self.time >= self.cd("holy_wrath")
                 && self.spend("Holy Wrath", 805.0 * conduit_discount) {
                     let amt = self.rng.uniform(490.0, 576.0);
@@ -1138,12 +1142,6 @@ impl<'a> Fight<'a> {
                 self.cast_seal(seal);
             }
         }
-        if self.rot.use_holy_strike && !self.holy_strike_queued && self.time >= self.cd("holy_strike")
-            && self.spend("Holy Strike", self.m.holy_strike_cost) {
-                self.holy_strike_queued = true;
-                let v = self.time + (self.m.holy_strike_cooldown - self.rank("105328")).max(0.1);
-                self.cd.insert("holy_strike", v);
-            }
         let next = ((self.time + 0.1) * 1e8).round() / 1e8;
         self.schedule(next, Kind::Decision);
     }
@@ -1296,7 +1294,10 @@ impl<'a> Fight<'a> {
                 Kind::Consecration => {
                     let ticks = self.f("consecration", "ticks");
                     let aoe = self.e.targets;
-                    let amt = self.f("consecration", "total_damage") / ticks * aoe;
+                    let base_total = self.f("consecration", "total_damage");
+                    let first4_total = self.f("consecration", "first4_total_damage");
+                    let first4 = aoe.min(4.0);
+                    let amt = (base_total * aoe + (first4_total - base_total) * first4) / ticks;
                     self.deal("Consecration", amt, true, false, 1.0, 1.0, false, None, 0.33 / ticks * aoe);
                 }
                 Kind::Mana => {

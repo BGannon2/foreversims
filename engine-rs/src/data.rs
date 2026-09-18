@@ -128,6 +128,8 @@ pub struct Ability {
     pub school: Option<String>,
     #[serde(default)]
     pub cost: f64,
+    #[serde(default, skip_serializing_if = "is_zero")]
+    pub cost_pct: f64,
     #[serde(default)]
     pub cooldown: f64,
     #[serde(default)]

@@ -10,8 +10,8 @@
     "command": "https://www.wowhead.com/forever/spell=20920/seal-of-command",
     "fury": "https://www.wowhead.com/forever/spell=20423/seal-of-fury",
     "ability_index": "https://www.wowhead.com/forever/spells/abilities/paladin",
-    "holy_strike_rank1": "https://www.wowhead.com/forever/spell=17143/holy-strike",
-    "consecration_rank5": "https://www.wowhead.com/forever/spell=20924/consecration"
+    "holy_strike_rank8": "https://wago.tools/db2/SpellEffect?build=1.60.1.69913&filter%5BSpellID%5D=10333",
+    "consecration_rank5": "https://foreverchanges.pro/class/paladin"
   },
   "facts": {
     "judgement": {"source":"judgement", "cooldown":10, "base_mana_fraction":0.06, "gcd":0},
@@ -30,7 +30,7 @@
     "sanctified_judgement_rank1": {"source":"talents", "proc":0.33, "seal_refund_fraction":0.2},
     "improved_judgement_rank1": {"source":"talents", "cooldown_reduction":1},
     "twist_of_light": {"source":"talents", "echo":"Replacing a seal with a different seal grants its effect to the next melee attack."},
-    "consecration": {"source":"consecration_rank5", "rank":5, "required_level":60, "cost":565, "cooldown":8, "duration":8, "total_damage":384, "ticks":8, "gcd":1.5}
+    "consecration": {"source":"consecration_rank5", "rank":5, "required_level":60, "cost":135, "cooldown":8, "duration":8, "total_damage":16, "first4_total_damage":48, "ticks":8, "gcd":1.5}
   },
   "excluded": ["Old comments, including Thottbot comments, even when embedded in Forever pages.", "No Classic, Season of Discovery, TBC or Retail combat formulas or engines were imported. A temporary pre-TBC Classic Era item catalog is the only cross-version dataset."]
 }

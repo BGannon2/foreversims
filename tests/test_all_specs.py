@@ -262,7 +262,7 @@ class MechanicTests(unittest.TestCase):
         it.st["spellHit"] = 40; it.t = 0
         it.resolve("Corruption")
         d = it.dots["Corruption"]; self.assertEqual(d["remaining"], 6); self.assertEqual(d["tick_len"], 3)
-        tick = (137 + it.sp("shadow") * 0.167) * it.c.actions["Corruption"]["mult"]
+        tick = (73 + it.sp("shadow") * 0.20) * it.c.actions["Corruption"]["mult"]
         self.assertAlmostEqual(d["tick"], tick * (1 + it.crit_chance("spell", "Corruption", "shadow") * it.c.mod("crit_dmg_periodic")), places=6)
 
     def test_windfury_totem_and_weapon_procs(self):

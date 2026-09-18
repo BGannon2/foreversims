@@ -109,9 +109,13 @@ class SimulationTests(unittest.TestCase):
             self.assertEqual(avoided.avoids,1,key); self.assertGreater(hit.taken,0,key)
 
     def test_sources_are_forever_only(self):
+        # Trusted Forever-specific sources: Wowhead's Forever section, wago.tools' raw beta-client
+        # DB2 export (build 1.60.1.69913), and foreverchanges.pro (a community site that reads the
+        # same beta client and diffs it against Classic Era).
         for url in DATA['sources'].values():
             u=urlparse(url)
-            self.assertEqual(u.netloc,'www.wowhead.com'); self.assertTrue(u.path.startswith('/forever/'))
+            if u.netloc=='www.wowhead.com': self.assertTrue(u.path.startswith('/forever/'))
+            else: self.assertIn(u.netloc,{'wago.tools','foreverchanges.pro'})
         for fact in F.values(): self.assertIn(fact['source'],DATA['sources'])
 
     def test_seed_reproduces_entire_result(self):
@@ -153,25 +157,25 @@ class SimulationTests(unittest.TestCase):
 
     def test_consecration_rank_five_cost_ticks_and_damage(self):
         p=self.basic('retribution'); p['duration']=9; p['iterations']=1
-        p['character'].update(mana=1000,mana_per_second=0,spell_hit_chance=0)
+        p['character'].update(mana=135,mana_per_second=0,spell_hit_chance=0)
         p['rotation'].update(use_judgement=False,twist_seals=False)
         p['talents']={k:0 for k in p['talents']}
         first=Fight(p,0); first.decision()
-        self.assertEqual(first.mana_spent,565)
+        self.assertEqual(first.mana_spent,135)
         row=Fight(p,0).run()
         self.assertEqual(row['casts']['Consecration'],1)
         self.assertEqual(row['hits']['Consecration'],8)
-        self.assertAlmostEqual(row['damage']['Consecration'],384)
+        self.assertAlmostEqual(row['damage']['Consecration'],48)
 
-    def test_holy_strike_replaces_next_melee_and_iron_creed_applies(self):
+    def test_holy_strike_is_a_direct_cast_and_iron_creed_applies(self):
         p=self.basic('protection'); p['gear']={k:0 for k in p['gear']}
-        p['character'].update(weapon_min=100,weapon_max=100,hit_chance=1,crit_chance=0)
-        p['model']['holy_threat_per_damage']=1.5
+        p['character'].update(weapon_min=100,weapon_max=100,hit_chance=1,crit_chance=0,spell_power=0)
+        p['model'].update(holy_threat_per_damage=1.5,holy_strike_holy_min=93,holy_strike_holy_max=93)
         p['talents']={k:0 for k in p['talents']}; p['talents']['110879']=5
-        f=Fight(p,0); f.decision(); self.assertTrue(f.holy_strike_queued)
-        f.swing(); self.assertFalse(f.holy_strike_queued)
-        self.assertAlmostEqual(f.damage['Holy Strike'],102)
-        self.assertAlmostEqual(f.threat,102*1.5*1.25*F['righteous_fury']['holy_threat_multiplier'])
+        f=Fight(p,0); f.decision()
+        expected=100*f.m['holy_strike_weapon_pct']+93
+        self.assertAlmostEqual(f.damage['Holy Strike'],expected)
+        self.assertAlmostEqual(f.threat,expected*1.5*1.25*F['righteous_fury']['holy_threat_multiplier'])
         self.assertEqual(f.iron_until,6)
 
     def test_holy_shield_four_charges_and_threat(self):

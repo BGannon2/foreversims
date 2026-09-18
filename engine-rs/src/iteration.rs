@@ -1643,6 +1643,9 @@ impl<'a> Iteration<'a> {
                     }
                 }
                 base = self.weapon_damage(&item, w.normalized, false, 0.0) * mult + w.flat.unwrap_or(0.0);
+                if w.hand == "both" && !c.oh.is_empty() {
+                    base += self.weapon_damage(&c.oh, w.normalized, false, 0.0) * mult + w.flat.unwrap_or(0.0);
+                }
                 if let Some(cm) = &a.creature_mult {
                     if let Some(v) = cm.get(&c.boss_type) {
                         base *= v;
@@ -1719,7 +1722,9 @@ impl<'a> Iteration<'a> {
         if a.finisher.as_deref() == Some("rupture") {
             let cp = self.cp;
             let scale = [0.0, 0.04 / 4.0, 0.10 / 5.0, 0.18 / 6.0, 0.21 / 7.0, 0.24 / 8.0][cp as usize];
-            let tick = 60.0 + 8.0 * cp as f64 + scale * self.ap(false);
+            // Forever cut Rupture's per-CP totals roughly in half vs Classic (foreverchanges.pro,
+            // build 1.60.1.69913); refit flat base in place of the old Classic-fit "60 + 8*cp".
+            let tick = 2.9 + 4.4 * cp as f64 + scale * self.ap(false);
             let (out, _m) = self.melee_outcome(Hand::Main, false, Some(name), false);
             if out.avoided() {
                 self.deal(name, 0.0, "physical", "melee", false, false, 1.0, 0.0, out, 1.0);

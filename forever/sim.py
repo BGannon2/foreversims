@@ -76,8 +76,8 @@ ASSUMPTIONS = [
     'The talent calculator enforces the sourced Forever ranks, prerequisites, five-points-per-tier rule and 51-point cap.',
     'Precision, Conviction, Deflection, Improved Seals, Crusade, and one/two-handed weapon specializations use their sourced Forever rank text.',
     'Sourced Forever set bonuses are applied at their equipped-piece thresholds. Unresolved proc/control effects remain labeled informational.',
-    'Consecration Rank 5 uses its Forever level-60 tooltip: 565 mana, 384 Holy damage over 8 sec, 8 sec cooldown.',
-    'Holy Strike uses the supplied unranked/low-rank record exactly (75 mana, next melee becomes Holy and gains 2 damage); its missing base cooldown is editable and defaults provisionally to 6 sec.',
+    'Consecration Rank 5 uses its Forever level-60 tooltip (foreverchanges.pro, build 1.60.1.69913): 135 mana, 8 sec cooldown, 16 Holy damage over 8 sec to enemies in the area, plus an additional 32 over 8 sec (48 total) to the first 4 enemies who enter it.',
+    "Holy Strike is Rank 8's confirmed value from wago.tools DB2 (build 1.60.1.69913, spell 10333): 20 mana, 12 sec cooldown, an instant direct-cast attack (not a next-swing modifier as previously modeled) dealing 40% weapon damage plus 81-105 Holy damage with a 0.429 spell-power-style coefficient on the Holy component.",
     'Seal of Fury (rank 7, level 58) is sourced from its Wowhead Forever tooltip: 200 mana/30 sec, melee swings deal +10% spell power Holy damage, and while a shield is equipped each landed swing also grants a self-absorb shield worth 50% of that Holy damage. Judging while Seal of Fury is active deals 45% spell power Holy damage and taunts for 4 sec; the taunt has no separate effect in this single-tank model, where incoming attacks already always target the tank. Protection uses Seal of Fury exclusively (no twisting) in place of the earlier Righteousness/Command placeholder.',
     "Improved Seal of Fury (single rank) restores 38 mana, +15% per level the attacker is above the Paladin up to 45%, when an incoming attack fully consumes the remaining absorb pool. The pool is shared with Templar's Bulwark's much larger shield in this model; a Bulwark shield being the one fully drained would also trigger this refund, a modeling simplification.",
     "Seal of Righteousness (rank 8, level 60) is sourced from its Wowhead Forever tooltip: 200 mana/30 sec, swings deal (24 to 83) Holy damage scaling with weapon speed and hand type, and Judgement deals (50% of Spell Power) Holy damage. The swing formula matches WoWSims Classic's underlying rank-8 model (18.8 base value, x0.85 one-hand / x1.2 two-hand, x weapon speed, +10% spell power coefficient), which reproduces the tooltip's stated range exactly.",
@@ -125,7 +125,8 @@ def preset(spec='protection'):
             'demoralizing_shout':True, 'thunder_clap':True,
             'insect_swarm':True, 'scorpid_sting':True},
         'model': {'command_proc_chance':0.25, 'righteousness_damage':50.0,
-            'holy_strike_bonus':2.0, 'holy_strike_cost':75.0, 'holy_strike_cooldown':6.0,
+            'holy_strike_cost':20.0, 'holy_strike_cooldown':12.0, 'holy_strike_weapon_pct':0.40,
+            'holy_strike_holy_min':81.0, 'holy_strike_holy_max':105.0, 'holy_strike_coeff':0.429,
             'melee_crit_multiplier':2.0, 'spell_crit_multiplier':1.5,
             'base_threat_per_damage':1.0, 'holy_threat_per_damage':1.0,
             'use_classic_era_conversions':True, 'thunderfury_proc_chance':0.20,
@@ -214,7 +215,7 @@ class Fight:
         self.time=0.0; self.health=self.c['health']; self.mana=self.c['mana']
         self.queue=[]; self.serial=0; self.gcd=0.0; self.cd=defaultdict(float)
         self.seal=None; self.seal_until=0.0; self.echo=None
-        self.holy_strike_queued=False; self.iron_until=0.0
+        self.iron_until=0.0
         self.hs_until=0.0; self.hs_charges=0; self.red_until=0.0; self.red_charges=0
         self.absorb=0.0; self.absorb_until=0.0; self.forbearance=0.0
         self.vengeance=0; self.vengeance_until=0.0; self.mana_icd=0.0
@@ -326,15 +327,7 @@ class Fight:
             weapon += (self.c['attack_power']+bonus_ap)/14*self.c['weapon_speed']
         if self.c.get('weapon_hands')=='Two-Hand': weapon*=1+(0,0.03,0.06,0.09)[self.rank(105697)]
         elif self.c.get('weapon_hands') in ('One-Hand','Main Hand'): weapon*=1+(0,0.03,0.07,0.10)[self.rank(105629)]
-        holy_strike=self.holy_strike_queued and not extra
-        if holy_strike:
-            self.holy_strike_queued=False; iron=self.rank(110879)
-            arbiter=1.1 if self.rank(105700) else 1.0
-            landed=self.deal('Holy Strike',(weapon+self.m['holy_strike_bonus'])*arbiter,holy=True,can_crit=True,
-                             hit=self.c['hit_chance'],extra_threat=1+0.05*iron,melee_crit=True)
-            if landed and iron: self.iron_until=self.time+6
-        else:
-            landed=self.deal('Windfury Attack' if bonus_ap else 'Reckoning' if extra else 'Melee',weapon,can_crit=True,hit=self.c['hit_chance'])
+        landed=self.deal('Windfury Attack' if bonus_ap else 'Reckoning' if extra else 'Melee',weapon,can_crit=True,hit=self.c['hit_chance'])
         if landed and not extra and self.p['raid_buffs'].get('windfury_totem') and self.rng.random()<0.20:
             self.swing(extra=True,bonus_ap=315)
         if landed:
@@ -390,6 +383,15 @@ class Fight:
                 if self.spend('Exorcism',345*conduit_discount):
                     self.deal('Exorcism',self.rng.uniform(505,563),holy=True,can_crit=True,hit=self.c['spell_hit_chance'],spell_coefficient=.429)
                     self.cd['exorcism']=self.time+15*purifying_cd;acted=True
+            if not acted and self.rot['use_holy_strike'] and self.time>=self.cd['holy_strike']:
+                if self.spend('Holy Strike',self.m['holy_strike_cost']):
+                    iron=self.rank(110879); arbiter=1.1 if self.rank(105700) else 1.0
+                    weapon=self.rng.uniform(self.c['weapon_min'],self.c['weapon_max'])
+                    amount=(weapon*self.m['holy_strike_weapon_pct']+self.rng.uniform(self.m['holy_strike_holy_min'],self.m['holy_strike_holy_max']))*arbiter
+                    landed=self.deal('Holy Strike',amount,holy=True,can_crit=True,hit=self.c['hit_chance'],
+                                     extra_threat=1+0.05*iron,melee_crit=True,spell_coefficient=self.m['holy_strike_coeff'])
+                    if landed and iron: self.iron_until=self.time+6
+                    self.cd['holy_strike']=self.time+max(0.1,self.m['holy_strike_cooldown']-self.rank(105328)); acted=True
             if not acted and eligible_holy_target and self.rot['use_holy_wrath'] and self.time>=self.cd['holy_wrath']:
                 if self.spend('Holy Wrath',805*conduit_discount):
                     self.deal('Holy Wrath',self.rng.uniform(490,576),holy=True,can_crit=True,hit=self.c['spell_hit_chance'],spell_coefficient=.19)
@@ -405,10 +407,6 @@ class Fight:
                 self.cast_seal('fury' if self.prot else 'righteousness' if not self.rank(105696) else 'command')
             elif self.rot['twist_seals'] and self.rank(105692) and not self.echo:
                 self.cast_seal('righteousness' if self.seal=='command' else 'command')
-        if self.rot['use_holy_strike'] and not self.holy_strike_queued and self.time>=self.cd['holy_strike']:
-            if self.spend('Holy Strike',self.m['holy_strike_cost']):
-                self.holy_strike_queued=True
-                self.cd['holy_strike']=self.time+max(0.1,self.m['holy_strike_cooldown']-self.rank(105328))
         # Fixed decision cadence is explicitly a model assumption, not the event clock.
         self.schedule(round(self.time+0.1,8),'decision')
 
@@ -494,8 +492,12 @@ class Fight:
             if kind=='decision': self.decision()
             elif kind=='swing': self.swing()
             elif kind=='consecration':
-                aoe=self.e.get('targets',1)
-                self.deal('Consecration',F['consecration']['total_damage']/F['consecration']['ticks']*aoe,holy=True,hit=1,spell_coefficient=.33/F['consecration']['ticks']*aoe)
+                # Forever's Consecration deals a base amount to every enemy in the area, plus a
+                # larger bonus to the first 4 enemies who entered it (foreverchanges.pro, build
+                # 1.60.1.69913: 16 dmg/8s base, +32 dmg/8s bonus for up to 4 targets = 48 total).
+                aoe=self.e.get('targets',1); c5=F['consecration']; first4=min(aoe,4)
+                per_tick=(c5['total_damage']*aoe+(c5['first4_total_damage']-c5['total_damage'])*first4)/c5['ticks']
+                self.deal('Consecration',per_tick,holy=True,hit=1,spell_coefficient=.33/c5['ticks']*aoe)
             elif kind=='mana': self.mana_tick(); self.schedule(t+2.0,'mana')
             elif kind=='enemy': self.enemy()
             else:

@@ -330,7 +330,12 @@ class Config:
     def _resolve(self, name, base):
         a = dict(base)
         a["name"] = name
-        a["cost"] = max(0.0, (a.get("cost", 0) + self.mod(f"cost:{name}")) * (1 + self.mod(f"cost_pct:{name}") + self.mod("cost_pct_all") + self.mod(f"cost_pct_school:{a.get('school')}")))
+        base_cost = a.get("cost", 0)
+        if a.get("cost_pct") and self.spec["resource"] == "Mana":
+            # Forever's percent-of-base-mana abilities (e.g. Multi-Shot's 13.9%) cost a percentage
+            # of self.st["mana"], the intellect-derived base mana pool computed above.
+            base_cost = self.stats["mana"] * a["cost_pct"]
+        a["cost"] = max(0.0, (base_cost + self.mod(f"cost:{name}")) * (1 + self.mod(f"cost_pct:{name}") + self.mod("cost_pct_all") + self.mod(f"cost_pct_school:{a.get('school')}")))
         if self.spec["resource"] == "Rage" and a.get("cost") and self.flag("focused_rage") and name not in {"Heroic Strike"}: a["cost"] = max(0, a["cost"] - 3)
         if self.flag("shadowform") and a.get("school") == "shadow": a["cost"] *= 0.5
         a["cast"] = max(0.0, a.get("cast", 0) + self.mod(f"cast:{name}"))
@@ -1293,8 +1298,9 @@ class Iteration:
             else:
                 w = a["weapon"]; mult = w.get("mult", 1.0)
                 if w.get("dagger_mult") and weapon_type(item) == "Dagger": mult = w["dagger_mult"]
-                if w.get("hand") == "both" and c.oh: pass
                 base = self.weapon_damage(item, normalized=w.get("normalized", False)) * mult + w.get("flat", 0)
+                if w.get("hand") == "both" and c.oh:
+                    base += self.weapon_damage(c.oh, normalized=w.get("normalized", False)) * mult + w.get("flat", 0)
                 if a.get("creature_mult") and c.boss_type in a["creature_mult"]: base *= a["creature_mult"][c.boss_type]
             fb = sum(b.get("flat_damage_bonus", 0) for b in self.buffs.values() if b["until"] > self.t)
             base += fb + c.mod(f"flat_ability:{name}")
@@ -1331,7 +1337,12 @@ class Iteration:
             self.finish(name); self.record(name, "applied", 0); return
         if a.get("finisher") == "rupture":
             cp = self.cp
-            tick = 60 + 8 * cp + [0, 0.04 / 4, 0.10 / 5, 0.18 / 6, 0.21 / 7, 0.24 / 8][cp] * self.ap()
+            # Forever cut Rupture's per-CP totals roughly in half vs Classic (foreverchanges.pro,
+            # build 1.60.1.69913: 159/222/295 total dmg for 1/2/3 combo points over 12s/6 ticks,
+            # vs Classic's 272/380/504). Refit flat base against those three data points
+            # (tick ~= 2.9 + 4.4*cp) in place of the old Classic-fit "60 + 8*cp"; AP-scaling
+            # coefficients per CP are not published and keep their prior placeholder ratios.
+            tick = 2.9 + 4.4 * cp + [0, 0.04 / 4, 0.10 / 5, 0.18 / 6, 0.21 / 7, 0.24 / 8][cp] * self.ap()
             out, m = self.melee_outcome(c.mh, False, name)
             if out in {"miss", "dodge", "parry"}:
                 self.deal(name, 0, "physical", "melee", outcome=out)
