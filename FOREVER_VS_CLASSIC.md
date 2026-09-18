@@ -18,6 +18,43 @@ log.
 
 ---
 
+## Character creation: new race/class combinations (sourced)
+
+Source: https://www.wowhead.com/forever/guide/new-race-class-combinations. Diffed against
+vanilla Classic's race/class matrix; `engine_data.py`'s `CLASS_RACES` already reflects the
+Forever roster.
+
+- **Undead can be Paladin** — the first Horde-side Paladin combination; vanilla Classic
+  restricted Paladin to Human/Dwarf only.
+- **Dwarf can be Shaman** — the first Alliance-side Shaman combination; vanilla Classic
+  restricted Shaman to Orc/Tauren/Troll only.
+- **Human can be Hunter** — not available in vanilla Classic.
+- **Gnome can be Priest** — not available in vanilla Classic.
+- **Orc can be Mage** — not available in vanilla Classic.
+- New race: **Skyborne**, playable on both factions (Skyborne (Alliance) / Skyborne (Horde)),
+  available to Warrior, Hunter, Rogue, and — notably — **Druid**, a class that was otherwise
+  the most faction-locked in vanilla Classic (Night Elf/Tauren only).
+- No change found for Warrior, Rogue, or Warlock's race lists (already broad in vanilla) or
+  for Night Elf/Tauren Druid specifically (still faction-exclusive outside Skyborne).
+
+## Gear: updated item set bonuses (sourced, Paladin-confirmed)
+
+Source: https://www.wowhead.com/forever/news/new-and-updated-gear-set-bonuses-in-wow-forever-382958.
+Blizzard's post covers dungeon/tier set reworks generally; this project has only cross-checked
+and implemented the **Paladin** sets so far (`forever_set_bonuses.json`) — treat other classes'
+sets as unaudited, not "unchanged."
+
+- **Avenger's Battlegear** (Paladin tier): 3-piece now increases Judgement duration by 20%;
+  5-piece grants up to 71 spell power (both reworked from their Classic bonuses).
+- **Lightforge Armor** (Paladin dungeon set): 2/3/4/5/6-piece bonuses reworked, including a
+  new 4-piece "Rebuke" effect and a 5-piece proc granting spell power on melee/spell casts.
+- **Soulforge Armor** (Paladin dungeon set): similarly reworked 2/3/5/6-piece bonuses.
+- Separately, Judgement Armor's 8-piece and Battlegear of Eternal Justice's 3-piece effects
+  were added to this project's Paladin engine (Classic-era sets, not Forever-reworked, but
+  previously unmodeled here).
+
+---
+
 ## Threat generation
 
 **Only Paladin has a confirmed, sourced Forever threat redesign.** Warrior Protection and Feral
@@ -83,16 +120,25 @@ someone does the same tooltip-by-tooltip pass that Paladin got.
 - `Weaponmaster`: mace/staff armor-ignore now scales **3%/rank** (was hardcoded at 15% regardless
   of rank); the axe/polearm crit bonus (**1%/rank**) didn't exist in this sim's model at all
   before — both sourced from the Forever guide.
+- New talent: **Spearing Strike** (Arms) — a rage-cost direct hit dealing 3x damage against
+  Giants and Dragonkin. No Classic equivalent.
+- `Mortal Strike`, `Bloodthirst`, and `Death Wish` all carry Forever-sourced damage/duration
+  values, retuned from their Classic numbers.
 
 ### Priest
 - `Improved Shadow Word: Pain`: rank 1 now correctly grants **+1 DoT tick**, rank 2 grants +2
   (this sim was granting the full rank-2 bonus at rank 1).
 
 ### Shaman
-- `Lightning Bolt` cast time: **2.5s** (Classic 3.0s).
-- `Chain Lightning` cast time: **2.0s** (Classic 2.5s).
+- `Lightning Bolt` cast time: **2.5s** (Classic 3.0s); base damage also retuned to Forever's
+  sourced value.
+- `Chain Lightning` cast time: **2.0s** (Classic 2.5s); base damage also retuned to Forever's
+  sourced value.
 - `Stormstrike` cooldown: **8s** (Classic 20s) — a large uptime change for Enhancement's core
   ability.
+- New talent: **Rage of the Farseer** (Enhancement) — a self-buff granting +30% melee haste and
+  +30% spell haste for 25 sec, functioning like a personal Bloodlust/Heroism. No Classic
+  equivalent; cooldown isn't published (provisionally modeled at 3 min).
 - New ability: **Lava Burst** (Elemental) — a guaranteed-crit-adjacent nuke, +20% damage vs. an
   active Flame Shock. No Classic equivalent.
 - New mechanic: **Maelstrom Weapon** (Enhancement) — landed melee hits have a (provisional, 20%)
@@ -128,6 +174,7 @@ someone does the same tooltip-by-tooltip pass that Paladin got.
   Adrenaline Rush/Blade Flurry by 2s per combo point spent.
 - New talent: **Thousand Cuts** (Subtlety) — Rupture ticks grant stacks (up to 5) that discount
   the Energy cost of the next Hemorrhage/Backstab.
+- `Hemorrhage` carries a Forever-sourced damage value, retuned from Classic.
 
 ### Mage
 - New mechanic: **Arcane Blast** + **Missile Barrage** (Arcane) — Arcane Blast stacks a self-buff
@@ -150,6 +197,12 @@ someone does the same tooltip-by-tooltip pass that Paladin got.
 
 - Whether Warrior Protection or Feral Druid tanking got any Forever-specific threat redesign at
   all, or whether Paladin is the outlier that got special attention. Not sourced either way.
+- **No Druid-specific Forever ability retuning has been sourced at all** (Moonfire, Starfire,
+  Wrath, Rip, Ferocious Bite all still run on plain Classic values) — Druid hasn't been audited
+  to the depth the other seven classes have.
+- Gear set-bonus changes (above) are confirmed only for Paladin's three dungeon/tier sets;
+  Blizzard's gear-set post likely covers other classes too, but this project hasn't
+  cross-checked them yet.
 - Several provisional values (Raptor Strike's damage, Arcane Blast's cast time/cost, Incinerate's
   coefficient, Summon Hawk's continued-assault tick rate) are placeholders pending a real
   Blizzard/Wowhead source — don't cite these as confirmed Forever numbers.

@@ -2,6 +2,18 @@
 // changed from regular Classic, per class. Injected next to the Feedback button.
 (function () {
   const SECTIONS = [
+    { title: "Character Creation", items: [
+      "Undead can now be Paladins — the first Horde-side Paladin combination.",
+      "Dwarves can now be Shaman — the first Alliance-side Shaman combination.",
+      "Humans can now be Hunters.",
+      "Gnomes can now be Priests.",
+      "Orcs can now be Mages.",
+      "New race: Skyborne, playable on both factions and available to Warrior, Hunter, Rogue, and Druid — the first faction-flexible Druid combination.",
+    ]},
+    { title: "Gear", items: [
+      "Avenger's Battlegear (Paladin tier set): 3-piece now increases Judgement duration by 20%; 5-piece grants spell power.",
+      "Lightforge Armor and Soulforge Armor (Paladin dungeon sets): set bonuses reworked, including new proc and resource-return effects.",
+    ]},
     { title: "Paladin — Protection", items: [
       "Righteous Fury grants +90% Holy threat (Classic Righteous Fury is a smaller bonus).",
       "New seal: Seal of Fury. Melee swings deal bonus Holy damage, and while a shield is equipped each landed swing also grants a small self-absorb shield.",
@@ -17,14 +29,17 @@
     { title: "Warrior", items: [
       "Weaponmaster: the mace/staff armor-ignore bonus scales per rank, and now also grants an axe/polearm critical strike chance bonus per rank.",
       "Shield Slam's damage and threat have been retuned.",
+      "New talent: Spearing Strike (Arms) — deals bonus damage against Giants and Dragonkin.",
+      "Mortal Strike, Bloodthirst and Death Wish have been retuned.",
     ]},
     { title: "Priest", items: [
       "Improved Shadow Word: Pain now grants its bonus DoT tick per rank (+1 at rank 1, +2 at rank 2) instead of all at once.",
     ]},
     { title: "Shaman", items: [
-      "Lightning Bolt cast time reduced to 2.5 sec (Classic: 3.0 sec).",
-      "Chain Lightning cast time reduced to 2.0 sec (Classic: 2.5 sec).",
+      "Lightning Bolt cast time reduced to 2.5 sec (Classic: 3.0 sec), and its damage has been retuned.",
+      "Chain Lightning cast time reduced to 2.0 sec (Classic: 2.5 sec), and its damage has been retuned.",
       "Stormstrike cooldown reduced to 8 sec (Classic: 20 sec).",
+      "New talent: Rage of the Farseer (Enhancement) — a personal cooldown granting bonus melee and spell haste.",
       "New ability: Lava Burst — a guaranteed-crit-adjacent nuke that deals bonus damage against a target affected by Flame Shock.",
       "New talent: Maelstrom Weapon — landed melee hits build stacks that reduce Lightning Bolt's cast time and mana cost, making it instant and free at max stacks.",
     ]},
@@ -42,6 +57,7 @@
       "New ability: Mutilate (Assassination) — a dual-weapon builder that becomes the spec's opener, dealing bonus damage while Deadly Poison is ticking on the target.",
       "New talent: Restless Blades (Combat) — damaging finishers reduce the remaining cooldown on Adrenaline Rush and Blade Flurry.",
       "New talent: Thousand Cuts (Subtlety) — Rupture ticks build stacks that discount the Energy cost of your next Hemorrhage or Backstab.",
+      "Hemorrhage has been retuned.",
     ]},
     { title: "Mage", items: [
       "New talent: Arcane Blast (Arcane) — each cast stacks a self-buff that increases the damage of your other spells, at increasing mana cost per stack.",
