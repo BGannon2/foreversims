@@ -170,6 +170,8 @@ pub struct Ability {
     pub forever: bool,
     #[serde(default, skip_serializing_if = "is_false")]
     pub aoe: bool,
+    #[serde(default, skip_serializing_if = "is_false")]
+    pub spreadable: bool,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub provisional: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]

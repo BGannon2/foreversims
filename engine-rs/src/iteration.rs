@@ -169,6 +169,7 @@ pub struct Iteration<'a> {
     pub buffs: IndexMap<String, Buff>,
     pub debuffs: IndexMap<String, Buff>,
     pub dots: IndexMap<String, Dot>,
+    pub dots_extra: Vec<(String, Dot)>,
     pub cooldowns: IndexMap<String, f64>,
     pub gcd_until: f64,
     pub cast: Option<Cast>,
@@ -222,7 +223,7 @@ impl<'a> Iteration<'a> {
         let mut it = Iteration {
             c, rng, trace, log: vec![], duration, execute_at: duration * 0.8, t: 0.0, rows: IndexMap::new(), total: 0.0, threat: 0.0, taken: 0.0,
             st, max_mana, max_energy, max_rage, mana: max_mana, energy: max_energy, rage: 0.0, cp: 0, health_max, health: health_max, alive: true, alive_seconds: duration,
-            buffs: IndexMap::new(), debuffs: IndexMap::new(), dots: IndexMap::new(), cooldowns: IndexMap::new(), gcd_until: 0.0, cast: None,
+            buffs: IndexMap::new(), debuffs: IndexMap::new(), dots: IndexMap::new(), dots_extra: Vec::new(), cooldowns: IndexMap::new(), gcd_until: 0.0, cast: None,
             next_mh: 0.0, next_oh: if !c.oh.is_empty() { c.oh.speed_or(2.0) / 2.0 } else { 0.0 }, next_ranged: 0.0, queued_swing: None,
             last_cast_time: -10.0, next_mana_tick: 2.0, next_energy_tick: 2.0, next_rage_tick: 3.0, next_boss: 2.0, next_heal: 2.0,
             flurry: 0, eureka: 0, dodged_recently: -10.0, avoided_recently: -10.0, combustion: None, clearcast: false, next_instant: false, next_crit: false, eclipse: 0,
@@ -998,7 +999,8 @@ impl<'a> Iteration<'a> {
                 if !out.avoided() {
                     dmg = self.weapon_damage(&item, false, false, 0.0) + a.weapon_flat();
                 }
-                dmg = self.deal(&queued, dmg, "physical", "melee", false, false, a.threat_mult(), a.flat_threat, out, m * a.mult);
+                let cleave_hits = if queued == "Cleave" { (c.targets as f64).min(2.0) } else { 1.0 };
+                dmg = self.deal(&queued, dmg, "physical", "melee", false, false, a.threat_mult(), a.flat_threat * cleave_hits, out, m * a.mult * cleave_hits);
                 if out.avoided() && self.c.spec.resource == "Rage" {
                     self.rage += cost * 0.8;
                 }
@@ -1082,7 +1084,16 @@ impl<'a> Iteration<'a> {
             Cond::Not(x) => !self.check(x, name),
             Cond::Execute => self.t >= self.execute_at,
             Cond::Moving => false,
-            Cond::DotMissing => !self.dots.get(name).map_or(false, |d| d.remaining > 0 && d.next - self.t < 1e9),
+            Cond::DotMissing => {
+                let active = self.dots.get(name).map_or(false, |d| d.remaining > 0 && d.next - self.t < 1e9);
+                let a = &self.c.actions[name];
+                if a.spreadable && self.c.targets > 1 {
+                    let extra_active = self.dots_extra.iter().filter(|(n, d)| n == name && d.remaining > 0).count() as i64;
+                    (if active { 1 } else { 0 }) + extra_active < self.c.targets
+                } else {
+                    !active
+                }
+            }
             Cond::BuffMissing => !self.buff_active(name),
             Cond::NoDagger => weapon_type(&self.c.mh) != Some("Dagger"),
             Cond::NoShred => !self.c.actions.contains_key("Shred"),
@@ -1792,7 +1803,17 @@ impl<'a> Iteration<'a> {
         if pandemic != 0.0 && ["Corruption", "Curse of Agony", "Siphon Life", "Drain Soul"].contains(&name) {
             tick *= 1.0 + self.crit_chance("spell", Some(name), Some(&school)) * pandemic;
         }
-        self.dots.insert(name.to_string(), Dot { next: self.t + a.tick_len, remaining: a.ticks, tick, tick_len: a.tick_len, school, bleed: a.bleed, stacks: 1 });
+        let instance = Dot { next: self.t + a.tick_len, remaining: a.ticks, tick, tick_len: a.tick_len, school, bleed: a.bleed, stacks: 1 };
+        let primary_active = self.dots.get(name).map_or(false, |d| d.remaining > 0 && d.next - self.t < 1e9);
+        if a.spreadable && c.targets > 1 && primary_active {
+            if let Some(slot) = self.dots_extra.iter_mut().find(|(n, d)| n == name && d.remaining <= 0) {
+                slot.1 = instance;
+            } else {
+                self.dots_extra.push((name.to_string(), instance));
+            }
+        } else {
+            self.dots.insert(name.to_string(), instance);
+        }
     }
 
     fn after_spell_hit(&mut self, name: &str, school: &str, out: Outcome, dmg: f64, a: &Ability) {
@@ -1928,6 +1949,21 @@ impl<'a> Iteration<'a> {
         }
         if name == "Rupture" && self.c.flag("thousand_cuts") != 0.0 {
             self.add_buff("Thousand Cuts", 10.0, Buff { stacks_max: Some(5), ..Default::default() });
+        }
+    }
+
+    fn dot_tick_extra(&mut self, idx: usize) {
+        let (name, tick, school) = {
+            let (name, d) = &mut self.dots_extra[idx];
+            d.remaining -= 1;
+            d.next += d.tick_len;
+            (name.clone(), d.tick * d.stacks as f64, d.school.clone())
+        };
+        self.row(&name);
+        let kind = if school != "physical" { "spell" } else { "melee" };
+        self.deal(&name, tick, &school, kind, false, true, 1.0, 0.0, Outcome::Hit, 1.0);
+        if name == "Corruption" && self.c.flag("nightfall") != 0.0 && self.rng.random() < self.c.flag("nightfall") {
+            self.next_instant = true;
         }
     }
 
@@ -2309,6 +2345,11 @@ impl<'a> Iteration<'a> {
                     cands.push(d.next);
                 }
             }
+            for (_, d) in self.dots_extra.iter() {
+                if d.remaining > 0 {
+                    cands.push(d.next);
+                }
+            }
             match s.resource.as_str() {
                 "Mana" => cands.push(self.next_mana_tick),
                 "Energy" => cands.push(self.next_energy_tick),
@@ -2357,6 +2398,10 @@ impl<'a> Iteration<'a> {
             let dot_names: Vec<String> = self.dots.iter().filter(|(_, d)| d.remaining > 0 && t + EPS >= d.next).map(|(n, _)| n.clone()).collect();
             for name in dot_names {
                 self.dot_tick(&name);
+            }
+            let extra_idxs: Vec<usize> = self.dots_extra.iter().enumerate().filter(|(_, (_, d))| d.remaining > 0 && t + EPS >= d.next).map(|(i, _)| i).collect();
+            for idx in extra_idxs {
+                self.dot_tick_extra(idx);
             }
             if s.style == "melee" {
                 if t + EPS >= self.next_mh {

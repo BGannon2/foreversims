@@ -472,6 +472,7 @@ class Iteration:
         self.buffs = {}   # name -> {"until":t, "stacks":n, ...}
         self.debuffs = {}  # on target
         self.dots = {}
+        self.dots_extra = []  # secondary-target instances of "spreadable" DoTs: [{"name":..., ...dot fields}]
         self.cooldowns = {}
         self.gcd_until = 0.0; self.cast = None  # {"name","until","ticks"...}
         self.next_mh = 0.0; self.next_oh = (c.oh.get("weaponSpeed", 2.0) / 2 if c.oh else None); self.next_ranged = 0.0
@@ -925,7 +926,8 @@ class Iteration:
                 if out not in {"miss", "dodge", "parry"}:
                     dmg = self.weapon_damage(item) + a["weapon"].get("flat", 0)
                     if queued == "Maul": dmg += 40 * 0 # Maul has no extra AP term
-                dmg = self.deal(queued, dmg, "physical", "melee", threat_mult=a.get("threat_mult", 1.0), flat_threat=a.get("flat_threat", 0), outcome=out, mult=m * a["mult"])
+                cleave_hits = min(c.targets, 2) if queued == "Cleave" else 1
+                dmg = self.deal(queued, dmg, "physical", "melee", threat_mult=a.get("threat_mult", 1.0), flat_threat=a.get("flat_threat", 0) * cleave_hits, outcome=out, mult=m * a["mult"] * cleave_hits)
                 if out in {"miss", "dodge", "parry"} and self.s["resource"] == "Rage": self.rage += cost * 0.8
                 if dmg:
                     self.on_weapon_hit(item, False, queued, dmg)
@@ -982,7 +984,11 @@ class Iteration:
         if cond == "execute": return self.t >= self.execute_at
         if cond == "moving": return False
         if cond == "dot_missing":
-            d = self.dots.get(name); return not (d and d["remaining"] > 0 and d["next"] - self.t < 1e9)
+            d = self.dots.get(name); active = bool(d and d["remaining"] > 0 and d["next"] - self.t < 1e9)
+            if a.get("spreadable") and c.targets > 1:
+                extra_active = sum(1 for x in self.dots_extra if x["name"] == name and x["remaining"] > 0)
+                return (1 if active else 0) + extra_active < c.targets
+            return not active
         if cond == "buff_missing": return not self.buff_active(name)
         if cond == "no_dagger": return weapon_type(c.mh) != "Dagger"
         if cond == "no_shred": return "Shred" not in c.actions
@@ -1371,7 +1377,16 @@ class Iteration:
         pandemic = c.mod("crit_dmg_periodic")
         if pandemic and name in {"Corruption", "Curse of Agony", "Siphon Life", "Drain Soul"}:
             tick *= 1 + self.crit_chance("spell", name, a["school"]) * pandemic
-        self.dots[name] = {"next": self.t + a["tick_len"], "remaining": a["ticks"], "tick": tick, "tick_len": a["tick_len"], "school": a["school"], "kind": "dot", "bleed": a.get("bleed", False)}
+        instance = {"next": self.t + a["tick_len"], "remaining": a["ticks"], "tick": tick, "tick_len": a["tick_len"], "school": a["school"], "kind": "dot", "bleed": a.get("bleed", False)}
+        primary = self.dots.get(name)
+        primary_active = bool(primary and primary["remaining"] > 0 and primary["next"] - self.t < 1e9)
+        if a.get("spreadable") and c.targets > 1 and primary_active:
+            slot = next((x for x in self.dots_extra if x["name"] == name and x["remaining"] <= 0), None)
+            if slot is None:
+                slot = {"name": name}; self.dots_extra.append(slot)
+            slot.update(instance)
+        else:
+            self.dots[name] = instance
 
     def after_spell_hit(self, name, school, out, dmg, a):
         c = self.c
@@ -1637,6 +1652,8 @@ class Iteration:
             if s["style"] == "ranged": cands.append(self.next_ranged)
             for d in self.dots.values():
                 if d["remaining"] > 0: cands.append(d["next"])
+            for d in self.dots_extra:
+                if d["remaining"] > 0: cands.append(d["next"])
             if s["resource"] == "Mana": cands.append(self.next_mana_tick)
             if s["resource"] == "Energy": cands.append(self.next_energy_tick)
             if s["resource"] == "Rage":
@@ -1654,6 +1671,8 @@ class Iteration:
             if self.cast is not None and t + EPS >= self.cast["until"]: self.complete_cast()
             for name, d in list(self.dots.items()):
                 if d["remaining"] > 0 and t + EPS >= d["next"]: self.dot_tick(name, d)
+            for d in self.dots_extra:
+                if d["remaining"] > 0 and t + EPS >= d["next"]: self.dot_tick(d["name"], d)
             if s["style"] == "melee":
                 if t + EPS >= self.next_mh:
                     if self.alive: self.swing(c.mh, "main")

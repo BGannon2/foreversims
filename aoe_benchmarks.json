@@ -106,8 +106,8 @@
       "name": "Protection",
       "role": "tank",
       "targets": 2,
-      "dps": 320.0990127075696,
-      "tps": 789.7132750622089,
+      "dps": 378.82572542878415,
+      "tps": 863.39571765242,
       "url": "/all-specs.html?spec=warrior-protection&race=Human"
     },
     {
@@ -117,8 +117,8 @@
       "name": "Protection",
       "role": "tank",
       "targets": 3,
-      "dps": 320.0990127075696,
-      "tps": 789.7132750622089,
+      "dps": 378.82572542878415,
+      "tps": 863.39571765242,
       "url": "/all-specs.html?spec=warrior-protection&race=Human"
     },
     {
@@ -128,8 +128,8 @@
       "name": "Protection",
       "role": "tank",
       "targets": 4,
-      "dps": 320.0990127075696,
-      "tps": 789.7132750622089,
+      "dps": 378.82572542878415,
+      "tps": 863.39571765242,
       "url": "/all-specs.html?spec=warrior-protection&race=Human"
     },
     {
@@ -139,8 +139,8 @@
       "name": "Protection",
       "role": "tank",
       "targets": 5,
-      "dps": 320.0990127075696,
-      "tps": 789.7132750622089,
+      "dps": 378.82572542878415,
+      "tps": 863.39571765242,
       "url": "/all-specs.html?spec=warrior-protection&race=Human"
     },
     {
@@ -150,8 +150,8 @@
       "name": "Balance",
       "role": "dps",
       "targets": 2,
-      "dps": 376.6951671506102,
-      "tps": 376.6951671506102,
+      "dps": 364.18000819325556,
+      "tps": 364.18000819325556,
       "url": "/all-specs.html?spec=druid-balance&race=Night%20Elf"
     },
     {
@@ -161,8 +161,8 @@
       "name": "Balance",
       "role": "dps",
       "targets": 3,
-      "dps": 376.6951671506102,
-      "tps": 376.6951671506102,
+      "dps": 357.23360562482065,
+      "tps": 357.23360562482065,
       "url": "/all-specs.html?spec=druid-balance&race=Night%20Elf"
     },
     {
@@ -172,8 +172,8 @@
       "name": "Balance",
       "role": "dps",
       "targets": 4,
-      "dps": 376.6951671506102,
-      "tps": 376.6951671506102,
+      "dps": 350.7747367669335,
+      "tps": 350.7747367669335,
       "url": "/all-specs.html?spec=druid-balance&race=Night%20Elf"
     },
     {
@@ -183,8 +183,8 @@
       "name": "Balance",
       "role": "dps",
       "targets": 5,
-      "dps": 376.6951671506102,
-      "tps": 376.6951671506102,
+      "dps": 345.9473283775696,
+      "tps": 345.9473283775696,
       "url": "/all-specs.html?spec=druid-balance&race=Night%20Elf"
     },
     {
@@ -546,8 +546,8 @@
       "name": "Shadow",
       "role": "dps",
       "targets": 2,
-      "dps": 492.21282177363474,
-      "tps": 344.548975241544,
+      "dps": 559.6026548669887,
+      "tps": 391.7218584068914,
       "url": "/all-specs.html?spec=priest-shadow&race=Human"
     },
     {
@@ -557,8 +557,8 @@
       "name": "Shadow",
       "role": "dps",
       "targets": 3,
-      "dps": 492.21282177363474,
-      "tps": 344.548975241544,
+      "dps": 619.2408531788435,
+      "tps": 433.46859722518883,
       "url": "/all-specs.html?spec=priest-shadow&race=Human"
     },
     {
@@ -568,8 +568,8 @@
       "name": "Shadow",
       "role": "dps",
       "targets": 4,
-      "dps": 492.21282177363474,
-      "tps": 344.548975241544,
+      "dps": 679.3986041652795,
+      "tps": 475.57902291569286,
       "url": "/all-specs.html?spec=priest-shadow&race=Human"
     },
     {
@@ -579,8 +579,8 @@
       "name": "Shadow",
       "role": "dps",
       "targets": 5,
-      "dps": 492.21282177363474,
-      "tps": 344.548975241544,
+      "dps": 740.4730938771777,
+      "tps": 518.331165714021,
       "url": "/all-specs.html?spec=priest-shadow&race=Human"
     },
     {
@@ -810,8 +810,8 @@
       "name": "Affliction",
       "role": "dps",
       "targets": 2,
-      "dps": 676.5590030848059,
-      "tps": 548.32653476909,
+      "dps": 795.8991882473877,
+      "tps": 643.7971156201464,
       "url": "/all-specs.html?spec=warlock-affliction&race=Human"
     },
     {
@@ -821,8 +821,8 @@
       "name": "Affliction",
       "role": "dps",
       "targets": 3,
-      "dps": 459.04058936949167,
-      "tps": 374.20093516103293,
+      "dps": 462.7871021442876,
+      "tps": 377.19729160514515,
       "url": "/all-specs.html?spec=warlock-affliction&race=Human"
     },
     {
@@ -832,8 +832,8 @@
       "name": "Affliction",
       "role": "dps",
       "targets": 4,
-      "dps": 581.7050613694919,
-      "tps": 472.3325127610328,
+      "dps": 585.9664990598966,
+      "tps": 475.74336779482974,
       "url": "/all-specs.html?spec=warlock-affliction&race=Human"
     },
     {
@@ -843,8 +843,8 @@
       "name": "Affliction",
       "role": "dps",
       "targets": 5,
-      "dps": 704.3695333694917,
-      "tps": 570.4640903610328,
+      "dps": 709.0940464640629,
+      "tps": 574.2454057181633,
       "url": "/all-specs.html?spec=warlock-affliction&race=Human"
     },
     {
@@ -854,8 +854,8 @@
       "name": "Demonology",
       "role": "dps",
       "targets": 2,
-      "dps": 602.7119041082301,
-      "tps": 491.4432134695716,
+      "dps": 719.9580105061452,
+      "tps": 585.3724652046831,
       "url": "/all-specs.html?spec=warlock-demonology&race=Human"
     },
     {
@@ -865,8 +865,8 @@
       "name": "Demonology",
       "role": "dps",
       "targets": 3,
-      "dps": 480.2514251549988,
-      "tps": 393.519305481192,
+      "dps": 485.45530445512935,
+      "tps": 397.6825066220915,
       "url": "/all-specs.html?spec=warlock-demonology&race=Human"
     },
     {
@@ -876,8 +876,8 @@
       "name": "Demonology",
       "role": "dps",
       "targets": 4,
-      "dps": 604.4360306323324,
-      "tps": 492.86698986305817,
+      "dps": 614.5095393610835,
+      "tps": 500.91724860945317,
       "url": "/all-specs.html?spec=warlock-demonology&race=Human"
     },
     {
@@ -887,8 +887,8 @@
       "name": "Demonology",
       "role": "dps",
       "targets": 5,
-      "dps": 728.620636109666,
-      "tps": 592.2146742449252,
+      "dps": 743.4650744150135,
+      "tps": 604.0783559998232,
       "url": "/all-specs.html?spec=warlock-demonology&race=Human"
     },
     {

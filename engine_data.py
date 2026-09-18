@@ -192,6 +192,8 @@ CLASS_THREAT = {"Rogue": 0.71}
 ABILITIES = {
     # ---- Warrior -----------------------------------------------------------
     "Heroic Strike": {"kind": "swing", "school": "physical", "cost": 15, "weapon": {"hand": "main", "flat": 157}, "flat_threat": 173},
+    "Cleave": {"kind": "swing", "school": "physical", "cost": 20, "weapon": {"hand": "main", "flat": 50}, "flat_threat": 100,
+               "provisional": "Rank 8 (baseline, unranked at level 60) values sourced from WoWSims Classic (sim/warrior/heroic_strike_cleave.go), a baseline Classic-era ability Forever doesn't appear to have redesigned. Hits the 2 nearest targets (or 1, at a single target); this sim approximates that as a flat x2 multiplier at 2+ targets rather than independent per-target rolls."},
     "Mortal Strike": {"kind": "direct", "school": "physical", "cost": 30, "cooldown": 6, "weapon": {"hand": "main", "normalized": True, "flat": 85}, "forever": True},
     "Overpower": {"kind": "direct", "school": "physical", "cost": 5, "cooldown": 5, "weapon": {"hand": "main", "normalized": True, "flat": 35}, "requires": "dodge", "no_dodge": True, "threat_mult": 0.75},
     "Whirlwind": {"kind": "direct", "school": "physical", "cost": 25, "cooldown": 10, "weapon": {"hand": "main", "normalized": True}, "threat_mult": 1.25},
@@ -218,8 +220,8 @@ ABILITIES = {
                        "provisional": "Damage (100% weapon plus 26) is the sourced Forever talent tooltip. Cooldown (6 sec) and its Rage cost are not published; cost mirrors Maul's, cooldown uses real Mangle's known value as a placeholder. Threat multiplier assumed equal to Maul's, not separately sourced."},
     "Berserk": {"kind": "buff", "cost": 0, "gcd": 0, "cooldown": 180, "duration": 15, "forever": True,
                 "provisional": "Duration (15 sec) is the sourced Forever talent tooltip; cooldown is not published (3 min assumed, matching this project's convention for other undocumented Forever cooldowns). Only the single-target-relevant effect (guaranteed critical strikes on combo-point generators) is modeled; the 3-target Mangle cleave, Mangle's cooldown removal, and the Fear-immunity clause have no effect in this single-target model."},
-    "Moonfire": {"kind": "direct_dot", "school": "arcane", "cost": 375, "base": (195, 228), "coeff": 0.15, "tick": 32, "ticks": 4, "tick_len": 3, "dot_coeff": 0.13},
-    "Insect Swarm": {"kind": "dot", "school": "nature", "cost": 155, "tick": 54, "ticks": 6, "tick_len": 2, "dot_coeff": 0.127},
+    "Moonfire": {"kind": "direct_dot", "school": "arcane", "cost": 375, "base": (195, 228), "coeff": 0.15, "tick": 32, "ticks": 4, "tick_len": 3, "dot_coeff": 0.13, "spreadable": True},
+    "Insect Swarm": {"kind": "dot", "school": "nature", "cost": 155, "tick": 54, "ticks": 6, "tick_len": 2, "dot_coeff": 0.127, "spreadable": True},
     "Starfire": {"kind": "direct", "school": "arcane", "cost": 340, "cast": 3.5, "base": (496, 584), "coeff": 1.0},
     "Wrath": {"kind": "direct", "school": "nature", "cost": 180, "cast": 2.0, "base": (248, 277), "coeff": 0.571},
     # ---- Hunter --------------------------------------------------------------
@@ -254,7 +256,7 @@ ABILITIES = {
     "Pyroblast": {"kind": "direct_dot", "school": "fire", "cost": 440, "cast": 6.0, "base": (155, 185), "coeff": 1.0, "tick": 76, "ticks": 4, "tick_len": 3, "dot_coeff": 0.15, "forever": True, "provisional": "Direct damage (155-185) and total DoT damage (76 over 12s) are the sourced Forever talent tooltip. Cast time (6.0s), mana cost (440), and DoT coefficient (0.15) are not published for Forever's rebalanced version; these use vanilla Classic Pyroblast's max-rank values (WoWSims Classic sim/mage/pyroblast.go) as a better-grounded placeholder than a same-spec-nuke guess, since Pyroblast itself (unlike Hot Streak) predates Forever."},
     "Ice Lance": {"kind": "direct", "school": "frost", "cost": 20, "base": (28, 33), "coeff": 0.1, "forever": True, "provisional": "Base damage (28-33) and the 300% Frozen-target bonus are the sourced Forever talent tooltip; instant cast, mana cost, and coefficient are not published and use placeholders reflecting its role as a cheap filler amplified by Fingers of Frost."},
     # ---- Priest --------------------------------------------------------------
-    "Shadow Word: Pain": {"kind": "dot", "school": "shadow", "cost": 470, "tick": 106.5, "ticks": 8, "tick_len": 3, "dot_coeff": 0.167},
+    "Shadow Word: Pain": {"kind": "dot", "school": "shadow", "cost": 470, "tick": 106.5, "ticks": 8, "tick_len": 3, "dot_coeff": 0.167, "spreadable": True},
     "Mind Blast": {"kind": "direct", "school": "shadow", "cost": 350, "cast": 1.5, "cooldown": 8, "base": (508, 537), "coeff": 0.429},
     "Mind Flay": {"kind": "channel", "school": "shadow", "cost": 205, "cast": 3.0, "tick": 142, "ticks": 3, "coeff": 0.15},
     "Shadow Word: Death": {"kind": "direct", "school": "shadow", "cost": 309, "cooldown": 12, "base": (572, 664), "coeff": 0.429, "provisional": "Forever tooltip not in the dataset; TBC rank 2 values used"},
@@ -284,9 +286,9 @@ ABILITIES = {
     "Shadow Bolt": {"kind": "direct", "school": "shadow", "cost": 380, "cast": 3.0, "base": (482, 538), "coeff": 0.857},
     "Rain of Fire": {"kind": "channel", "school": "fire", "cost": 1185, "cast": 8.0, "tick": 226, "ticks": 4, "coeff": 0.083, "aoe": True,
                       "provisional": "Rank 4 (level 58) values sourced from WoWSims Classic (sim/warlock/rain_of_fire.go), a baseline Classic-era spell Forever doesn't appear to have redesigned. Each tick applies to every target within range; approximated as a flat multiplier by the chosen target count."},
-    "Corruption": {"kind": "dot", "school": "shadow", "cost": 340, "cast": 2.0, "tick": 137, "ticks": 6, "tick_len": 3, "dot_coeff": 0.167},
-    "Curse of Agony": {"kind": "dot", "school": "shadow", "cost": 215, "tick": 87, "ticks": 12, "tick_len": 2, "dot_coeff": 0.083, "curse": True},
-    "Siphon Life": {"kind": "dot", "school": "shadow", "cost": 365, "tick": 45, "ticks": 10, "tick_len": 3, "dot_coeff": 0.1},
+    "Corruption": {"kind": "dot", "school": "shadow", "cost": 340, "cast": 2.0, "tick": 137, "ticks": 6, "tick_len": 3, "dot_coeff": 0.167, "spreadable": True},
+    "Curse of Agony": {"kind": "dot", "school": "shadow", "cost": 215, "tick": 87, "ticks": 12, "tick_len": 2, "dot_coeff": 0.083, "curse": True, "spreadable": True},
+    "Siphon Life": {"kind": "dot", "school": "shadow", "cost": 365, "tick": 45, "ticks": 10, "tick_len": 3, "dot_coeff": 0.1, "spreadable": True},
     "Drain Soul": {"kind": "channel", "school": "shadow", "cost": 290, "cast": 15.0, "tick": 91, "ticks": 5, "coeff": 0.1, "execute_bonus": True},
     "Immolate": {"kind": "direct_dot", "school": "fire", "cost": 380, "cast": 2.0, "base": (279, 279), "coeff": 0.2, "tick": 102, "ticks": 5, "tick_len": 3, "dot_coeff": 0.13},
     "Incinerate": {"kind": "direct", "school": "fire", "cost": 255, "cast": 2.0, "base": (125, 140), "coeff": 0.571, "forever": True, "provisional": "Base damage (125-140) and the +25% Immolate bonus are the sourced Forever tooltip; cast time, cost and spell-power coefficient are not published and use a Shadow-Bolt-comparable per-second placeholder."},
@@ -307,7 +309,7 @@ ABILITIES = {
 ROTATIONS = {
     "warrior-arms": [("Bloodrage", "rage<60"), ("Death Wish", "true"), ("Execute", "execute"), ("Overpower", "true"), ("Mortal Strike", "true"), ("Whirlwind", "true"), ("Spearing Strike", "rage>=50"), ("Heroic Strike", "rage>=45 and not execute")],
     "warrior-fury": [("Bloodrage", "rage<60"), ("Death Wish", "true"), ("Execute", "execute"), ("Bloodthirst", "true"), ("Whirlwind", "true"), ("Hamstring", "rage>=60 and not execute and cd:Bloodthirst>1.5 and cd:Whirlwind>1.5"), ("Heroic Strike", "rage>=40 and not execute")],
-    "warrior-protection": [("Bloodrage", "rage<60"), ("Shield Slam", "true"), ("Revenge", "true"), ("Sunder Armor", "stacks:Sunder Armor<5 or rage>=40"), ("Execute", "execute"), ("Heroic Strike", "rage>=30")],
+    "warrior-protection": [("Bloodrage", "rage<60"), ("Shield Slam", "true"), ("Revenge", "true"), ("Sunder Armor", "stacks:Sunder Armor<5 or rage>=40"), ("Execute", "execute"), ("Cleave", "targets>=2 and rage>=20"), ("Heroic Strike", "rage>=30")],
     "druid-balance": [("Moonfire", "dot_missing"), ("Insect Swarm", "dot_missing"), ("Starfire", "true"), ("Wrath", "true")],
     "druid-feral-dps": [("Berserk", "true"), ("Tiger's Fury", "buff_missing and energy>=60"), ("Ferocious Bite", "cp>=5 and dot:Rip>4"), ("Rip", "cp>=5 and dot_missing"), ("Mangle", "true"), ("Shred", "true"), ("Claw", "no_shred")],
     "druid-feral-tank": [("Berserk", "true"), ("Mangle (Bear)", "true"), ("Swipe", "rage>=45"), ("Maul", "rage>=20")],
