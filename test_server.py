@@ -46,14 +46,14 @@ class ServerTests(unittest.TestCase):
             self.assertGreater(len(response.read()), 500)
 
     def test_default_comparison_pages_and_endpoint(self):
-        for path in ("/dps-comparison.html","/tank-tps-comparison.html","/tank-dps-comparison.html"):
+        for path in ("/dps-comparison.html","/tank-comparison.html"):
             with urlopen(self.url+path,timeout=5) as response:
                 self.assertEqual(response.status,200);self.assertIn(b"Default profile comparisons",response.read())
         with urlopen(self.url+"/api/benchmarks",timeout=30) as response:
             data=json.load(response)
-        self.assertEqual(len(data["rows"]),148)
+        self.assertEqual(len(data["rows"]),148*len(data["target_counts"]))
         self.assertEqual(data["duration"],120)
-        self.assertEqual(sum(x["role"]=="tank" for x in data["rows"]),17)
+        self.assertEqual(sum(x["role"]=="tank" for x in data["rows"]),17*len(data["target_counts"]))
         self.assertTrue(all(x["race"] for x in data["rows"]))
         self.assertTrue(all(x["dps"]>0 and x["tps"]>0 for x in data["rows"]))
 

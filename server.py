@@ -31,8 +31,7 @@ mimetypes.add_type("application/wasm", ".wasm")
 mimetypes.add_type("application/javascript", ".js")
 mimetypes.add_type("application/json", ".json")
 BENCHMARK_CACHE = None
-AOE_BENCHMARK_CACHE = None
-AOE_TARGET_COUNTS = (2, 3, 4, 5)
+TARGET_COUNTS = (1, 2, 3, 4, 5)
 
 # Intended default configuration (shared by the UI, the benchmarks and the tests).
 DEFAULTS = {"duration": 120, "iterations": 300, "benchmark_iterations": 300, "seed": 42, "benchmark_seed": 917, "armor": 3731, "targets": 1, "boss_type": "none", "talent_points": 51}
@@ -78,11 +77,12 @@ def _run_bench_tasks(tasks, parallel=True):
         return list(pool.map(_bench_task, tasks, chunksize=1))
 
 
-def build_aoe_benchmarks(iterations=None, target_counts=AOE_TARGET_COUNTS, parallel=True):
-    """Same shape and race matrix as build_benchmarks (every race per spec, not just one
-    representative race), but a row per (spec, race, target count) instead of a row per
-    (spec, race). Used by the AoE comparison page; abilities with no AoE component (most
-    single-target rotations) simply show the same DPS/TPS at every target count."""
+def build_benchmarks(iterations=None, target_counts=TARGET_COUNTS, parallel=True):
+    """Every race per spec, at every target count in target_counts (1 = the original
+    single-target Patchwerk snapshot). One unified dataset backs both the DPS and Tank
+    comparison pages; each row carries a "targets" field the pages filter on. Abilities with
+    no AoE component (most single-target rotations) simply show the same DPS/TPS at every
+    target count above 1."""
     iterations = iterations or DEFAULTS["benchmark_iterations"]
     tasks, meta = [], []
     for spec in public_specs():
@@ -101,41 +101,11 @@ def build_aoe_benchmarks(iterations=None, target_counts=AOE_TARGET_COUNTS, paral
                 meta.append({"id": f"paladin-{spec_id}", "race": race, "class_name": "Paladin", "name": spec_id.title(), "role": role, "targets": targets,
                              "url": f"/paladin.html?spec={spec_id}&race={quote(race)}"})
     results = _run_bench_tasks(tasks, parallel=parallel)
-    rows = [{**m, "dps": r["metrics"]["dps"]["mean"], "tps": r["metrics"]["tps"]["mean"]} for m, r in zip(meta, results)]
-    return {"duration": DEFAULTS["duration"], "iterations": iterations, "encounter": "Patchwerk, level 63, 3731 armor",
-            "target_counts": list(target_counts), "world_buffs": False, "talents": "saved default 51-point builds", "rows": rows}
-
-
-def default_aoe_benchmarks():
-    global AOE_BENCHMARK_CACHE
-    if AOE_BENCHMARK_CACHE is not None: return AOE_BENCHMARK_CACHE
-    snapshot = ROOT / "aoe_benchmarks.json"
-    if snapshot.is_file():
-        AOE_BENCHMARK_CACHE = json.loads(snapshot.read_text(encoding="utf-8")); return AOE_BENCHMARK_CACHE
-    AOE_BENCHMARK_CACHE = build_aoe_benchmarks()
-    return AOE_BENCHMARK_CACHE
-
-
-def build_benchmarks(iterations=None, parallel=True):
-    iterations = iterations or DEFAULTS["benchmark_iterations"]
-    tasks, meta = [], []
-    for spec in public_specs():
-        for race in CLASS_RACES[spec["class_name"]]:
-            tasks.append(("spec", default_request(spec, race, iterations=iterations, seed=DEFAULTS["benchmark_seed"])))
-            meta.append({"id": spec["id"], "race": race, "class_name": spec["class_name"], "name": spec["name"], "role": spec["role"],
-                         "url": f"/all-specs.html?spec={spec['id']}&race={quote(race)}"})
-    for spec_id in ("protection", "retribution"):
-        for race in CLASS_RACES["Paladin"]:
-            profile = preset(spec_id); profile["race"] = race; profile["iterations"] = iterations; profile["seed"] = DEFAULTS["benchmark_seed"]
-            tasks.append(("paladin", profile))
-            role = "tank" if spec_id == "protection" else "dps"
-            meta.append({"id": f"paladin-{spec_id}", "race": race, "class_name": "Paladin", "name": spec_id.title(), "role": role,
-                         "url": f"/paladin.html?spec={spec_id}&race={quote(race)}"})
-    results = _run_bench_tasks(tasks, parallel=parallel)
     rows = [{**m, "dps": r["metrics"]["dps"]["mean"], "tps": r["metrics"]["tps"]["mean"], "dtps": r["metrics"]["dtps"]["mean"],
              "total_damage": sum(r["ability_damage"].values())} for m, r in zip(meta, results)]
-    return {"duration": DEFAULTS["duration"], "iterations": iterations, "encounter": "Patchwerk, level 63, 3731 armor", "world_buffs": False,
-            "talents": "saved default 51-point builds", "rows": rows, "race_source": "https://www.wowhead.com/forever/guide/new-race-class-combinations"}
+    return {"duration": DEFAULTS["duration"], "iterations": iterations, "encounter": "Patchwerk, level 63, 3731 armor",
+            "target_counts": list(target_counts), "world_buffs": False, "talents": "saved default 51-point builds", "rows": rows,
+            "race_source": "https://www.wowhead.com/forever/guide/new-race-class-combinations"}
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -173,8 +143,6 @@ class Handler(BaseHTTPRequestHandler):
             return self.send_json({"specs": public_specs()})
         if path == "/api/benchmarks":
             return self.send_json(default_benchmarks())
-        if path == "/api/aoe-benchmarks":
-            return self.send_json(default_aoe_benchmarks())
         if path == "/api/spec-bootstrap":
             return self.send_json({
                 "specs": public_specs(), "talents": ALL_TALENTS, "gear": PHASE12_BIS, "consumables": CONSUMABLE_DATA,
