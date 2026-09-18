@@ -78,6 +78,7 @@ def api_payloads():
         "items": {"version": CATALOG["version"], "items": list(all_specs.ITEMS.values())},  # full merged catalog: classic_era_items + extra_items + phase12_bis-only rows + engine hardcoded supplements
         "specs": {"specs": all_specs.public_specs()},
         "benchmarks": server.default_benchmarks(),
+        "aoe-benchmarks": server.default_aoe_benchmarks(),
         "spec-bootstrap": {
             "specs": all_specs.public_specs(), "talents": server.ALL_TALENTS, "gear": server.PHASE12_BIS, "consumables": CONSUMABLE_DATA,
             "settings": server.SETTING_DATA, "enchants": server.ENCHANT_DATA, "racials": all_specs.public_racials(), "defaults": server.DEFAULTS, "buff_groups": ed.BUFF_GROUPS,

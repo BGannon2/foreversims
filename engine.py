@@ -986,6 +986,10 @@ class Iteration:
         if cond == "buff_missing": return not self.buff_active(name)
         if cond == "no_dagger": return weapon_type(c.mh) != "Dagger"
         if cond == "no_shred": return "Shred" not in c.actions
+        m = re.match(r"targets\s*(<=|>=|<|>|==)\s*(\d+)", cond)
+        if m:
+            op, num = m.groups(); num = float(num)
+            return {"<": c.targets < num, ">": c.targets > num, "<=": c.targets <= num, ">=": c.targets >= num, "==": c.targets == num}[op]
         m = re.match(r"(rage|energy|mana|cp)\s*(<=|>=|<|>|==)\s*(\d+)", cond)
         if m:
             val = {"rage": self.rage, "energy": self.energy, "mana": self.mana, "cp": self.cp}[m.group(1)]
@@ -1342,7 +1346,7 @@ class Iteration:
                     base *= 4.0
                     fof_used = True
             if self.next_crit: self.next_crit = False
-            dmg = self.deal(name, base, school, "spell", threat_mult=threat_mult, flat_threat=flat_threat, outcome=out, mult=m * a["mult"])
+            dmg = self.deal(name, base, school, "spell", threat_mult=threat_mult, flat_threat=flat_threat, outcome=out, mult=m * a["mult"] * (c.targets if a.get("aoe") else 1))
             if self.eureka > 0: self.eureka -= 1
             if fof_used:
                 b = self.buffs.get("Fingers of Frost")
@@ -1421,7 +1425,7 @@ class Iteration:
         if name == "Drain Soul":
             if c.flag("soul_siphon"): tick *= 1 + c.flag("soul_siphon")
             if c.flag("nightfall") and self.rng.random() < c.flag("nightfall"): self.next_instant = True
-        dmg = self.deal(name, tick, school, "spell", periodic=(name != "Arcane Missiles"), outcome=out, mult=m * a["mult"])
+        dmg = self.deal(name, tick, school, "spell", periodic=(name != "Arcane Missiles"), outcome=out, mult=m * a["mult"] * (c.targets if a.get("aoe") else 1))
         self.after_spell_hit(name, school, out, dmg, a) if name == "Arcane Missiles" else None
 
     def dot_tick(self, name, d):

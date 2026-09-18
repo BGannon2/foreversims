@@ -99,6 +99,7 @@ def preset(spec='protection'):
             'physical_mitigation':0.0, 'avoidance':0.057,
             'block_chance':0.05 if prot else 0.0, 'block_value':0.0},
         'encounter': {'preset_name':'Patchwerk (120-second single-target model)',
+            'targets':1.0,
             'enemies':1, 'enemy_swing':2.0, 'enemy_damage_min':2700.0, 'enemy_damage_max':3300.0,
             'target_level':63.0, 'target_armor':3731.0, 'boss_type':'none',
             'enemy_crit_chance':0.05, 'enemy_crit_multiplier':2.0,
@@ -489,7 +490,9 @@ class Fight:
             self.time=t; self.gain_mana((t-previous)*self.c['mana_per_second']); previous=t
             if kind=='decision': self.decision()
             elif kind=='swing': self.swing()
-            elif kind=='consecration': self.deal('Consecration',F['consecration']['total_damage']/F['consecration']['ticks'],holy=True,hit=1,spell_coefficient=.33/F['consecration']['ticks'])
+            elif kind=='consecration':
+                aoe=self.e.get('targets',1)
+                self.deal('Consecration',F['consecration']['total_damage']/F['consecration']['ticks']*aoe,holy=True,hit=1,spell_coefficient=.33/F['consecration']['ticks']*aoe)
             elif kind=='mana': self.mana_tick(); self.schedule(t+2.0,'mana')
             elif kind=='enemy': self.enemy()
             else:

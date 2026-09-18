@@ -1086,6 +1086,7 @@ impl<'a> Iteration<'a> {
             Cond::BuffMissing => !self.buff_active(name),
             Cond::NoDagger => weapon_type(&self.c.mh) != Some("Dagger"),
             Cond::NoShred => !self.c.actions.contains_key("Shred"),
+            Cond::Targets(op, num) => compare(op, self.c.targets as f64, *num),
             Cond::Resource(res, op, num) => {
                 let val = match res.as_str() { "rage" => self.rage, "energy" => self.energy, "mana" => self.mana, _ => self.cp as f64 };
                 compare(op, val, *num)
@@ -1750,7 +1751,7 @@ impl<'a> Iteration<'a> {
             if self.next_crit {
                 self.next_crit = false;
             }
-            let dmg = self.deal(name, base, &school, "spell", false, false, threat_mult, flat_threat, out, m * a.mult);
+            let dmg = self.deal(name, base, &school, "spell", false, false, threat_mult, flat_threat, out, m * a.mult * (if a.aoe { c.targets as f64 } else { 1.0 }));
             if self.eureka > 0 {
                 self.eureka -= 1;
             }
@@ -1906,7 +1907,7 @@ impl<'a> Iteration<'a> {
                 self.next_instant = true;
             }
         }
-        let dmg = self.deal(&name, tick, &school, "spell", false, name != "Arcane Missiles", 1.0, 0.0, out, m * a.mult);
+        let dmg = self.deal(&name, tick, &school, "spell", false, name != "Arcane Missiles", 1.0, 0.0, out, m * a.mult * (if a.aoe { c.targets as f64 } else { 1.0 }));
         if name == "Arcane Missiles" {
             self.after_spell_hit(&name, &school, out, dmg, &a);
         }

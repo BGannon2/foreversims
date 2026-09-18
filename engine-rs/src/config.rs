@@ -28,6 +28,7 @@ pub enum Cond {
     BuffMissing,
     NoDagger,
     NoShred,
+    Targets(String, f64),
     Resource(String, String, f64),
     Keyed(String, String, String, f64),
 }
@@ -61,6 +62,10 @@ pub fn parse_cond(cond: &str) -> Result<Cond, String> {
         "no_dagger" => return Ok(Cond::NoDagger),
         "no_shred" => return Ok(Cond::NoShred),
         _ => {}
+    }
+    let re = regex_lite::Regex::new(r"^targets\s*(<=|>=|<|>|==)\s*(\d+)").unwrap();
+    if let Some(c) = re.captures(cond) {
+        return Ok(Cond::Targets(parse_cmp(&c[1]).unwrap().to_string(), c[2].parse().unwrap()));
     }
     let re = regex_lite::Regex::new(r"^(rage|energy|mana|cp)\s*(<=|>=|<|>|==)\s*(\d+)").unwrap();
     if let Some(c) = re.captures(cond) {

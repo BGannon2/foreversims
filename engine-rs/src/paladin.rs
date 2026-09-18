@@ -47,6 +47,7 @@ pub fn preset(spec: &str) -> Result<Value, String> {
             "physical_mitigation": 0.0, "avoidance": 0.057,
             "block_chance": if prot { 0.05 } else { 0.0 }, "block_value": 0.0},
         "encounter": {"preset_name": "Patchwerk (120-second single-target model)",
+            "targets": 1.0,
             "enemies": 1, "enemy_swing": 2.0, "enemy_damage_min": 2700.0, "enemy_damage_max": 3300.0,
             "target_level": 63.0, "target_armor": 3731.0, "boss_type": "none",
             "enemy_crit_chance": 0.05, "enemy_crit_multiplier": 2.0,
@@ -521,6 +522,7 @@ pub struct Character {
 
 #[derive(Deserialize, Clone, Debug)]
 pub struct Encounter {
+    pub targets: f64,
     pub enemies: i64,
     pub enemy_swing: f64,
     pub enemy_damage_min: f64,
@@ -1293,8 +1295,9 @@ impl<'a> Fight<'a> {
                 Kind::Swing => self.swing(false, 0.0),
                 Kind::Consecration => {
                     let ticks = self.f("consecration", "ticks");
-                    let amt = self.f("consecration", "total_damage") / ticks;
-                    self.deal("Consecration", amt, true, false, 1.0, 1.0, false, None, 0.33 / ticks);
+                    let aoe = self.e.targets;
+                    let amt = self.f("consecration", "total_damage") / ticks * aoe;
+                    self.deal("Consecration", amt, true, false, 1.0, 1.0, false, None, 0.33 / ticks * aoe);
                 }
                 Kind::Mana => {
                     self.mana_tick();

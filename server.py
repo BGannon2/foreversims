@@ -29,6 +29,8 @@ mimetypes.add_type("application/wasm", ".wasm")
 mimetypes.add_type("application/javascript", ".js")
 mimetypes.add_type("application/json", ".json")
 BENCHMARK_CACHE = None
+AOE_BENCHMARK_CACHE = None
+AOE_TARGET_COUNTS = (2, 3, 4, 5)
 
 # Intended default configuration (shared by the UI, the benchmarks and the tests).
 DEFAULTS = {"duration": 120, "iterations": 300, "benchmark_iterations": 300, "seed": 42, "benchmark_seed": 917, "armor": 3731, "targets": 1, "boss_type": "none", "talent_points": 51}
@@ -54,6 +56,43 @@ def default_benchmarks():
         BENCHMARK_CACHE = json.loads(snapshot.read_text(encoding="utf-8")); return BENCHMARK_CACHE
     BENCHMARK_CACHE = build_benchmarks()
     return BENCHMARK_CACHE
+
+
+def build_aoe_benchmarks(iterations=None, target_counts=AOE_TARGET_COUNTS):
+    """Same snapshot shape as build_benchmarks, but one representative race per spec and a
+    row per (spec, target count) instead of a row per (spec, race). Used by the AoE comparison
+    page; abilities with no AoE component (most single-target rotations) simply show the same
+    DPS/TPS at every target count."""
+    iterations = iterations or DEFAULTS["benchmark_iterations"]
+    rows = []
+    for spec in public_specs():
+        race = "Human" if "Human" in spec["races"] else spec["races"][0]
+        for targets in target_counts:
+            result = simulate_spec(default_request(spec, race, iterations=iterations, seed=DEFAULTS["benchmark_seed"], targets=targets))
+            rows.append({"id": spec["id"], "race": race, "class_name": spec["class_name"], "name": spec["name"], "role": spec["role"], "targets": targets,
+                         "dps": result["metrics"]["dps"]["mean"], "tps": result["metrics"]["tps"]["mean"],
+                         "url": f"/all-specs.html?spec={spec['id']}&race={quote(race)}"})
+    for spec_id in ("protection", "retribution"):
+        race = "Human"
+        for targets in target_counts:
+            profile = preset(spec_id); profile["race"] = race; profile["iterations"] = iterations; profile["seed"] = DEFAULTS["benchmark_seed"]
+            profile["encounter"]["targets"] = float(targets)
+            result = simulate(profile); role = "tank" if spec_id == "protection" else "dps"
+            rows.append({"id": f"paladin-{spec_id}", "race": race, "class_name": "Paladin", "name": spec_id.title(), "role": role, "targets": targets,
+                         "dps": result["metrics"]["dps"]["mean"], "tps": result["metrics"]["tps"]["mean"],
+                         "url": f"/paladin.html?spec={spec_id}&race={quote(race)}"})
+    return {"duration": DEFAULTS["duration"], "iterations": iterations, "encounter": "Patchwerk, level 63, 3731 armor",
+            "target_counts": list(target_counts), "world_buffs": False, "talents": "saved default 51-point builds", "rows": rows}
+
+
+def default_aoe_benchmarks():
+    global AOE_BENCHMARK_CACHE
+    if AOE_BENCHMARK_CACHE is not None: return AOE_BENCHMARK_CACHE
+    snapshot = ROOT / "aoe_benchmarks.json"
+    if snapshot.is_file():
+        AOE_BENCHMARK_CACHE = json.loads(snapshot.read_text(encoding="utf-8")); return AOE_BENCHMARK_CACHE
+    AOE_BENCHMARK_CACHE = build_aoe_benchmarks()
+    return AOE_BENCHMARK_CACHE
 
 
 def build_benchmarks(iterations=None):
@@ -111,6 +150,8 @@ class Handler(BaseHTTPRequestHandler):
             return self.send_json({"specs": public_specs()})
         if path == "/api/benchmarks":
             return self.send_json(default_benchmarks())
+        if path == "/api/aoe-benchmarks":
+            return self.send_json(default_aoe_benchmarks())
         if path == "/api/spec-bootstrap":
             return self.send_json({
                 "specs": public_specs(), "talents": ALL_TALENTS, "gear": PHASE12_BIS, "consumables": CONSUMABLE_DATA,

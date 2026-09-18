@@ -17,6 +17,7 @@ const fieldSets = {
   ],
   encounter:[
     ["duration","Fight duration","seconds",1],["duration_variance","Duration variance","seconds",1],["seed","Random seed","",1],
+    ["encounter.targets","Outgoing AoE targets","",1],
     ["encounter.enemies","Incoming attackers","",1],["encounter.enemy_damage_min","Raw enemy hit — minimum","",1],["encounter.enemy_damage_max","Raw enemy hit — maximum","",1],
     ["encounter.enemy_swing","Enemy swing interval","seconds",.1],["encounter.enemy_crit_chance","Enemy crit probability","0–1",.01],
     ["encounter.enemy_crit_multiplier","Enemy crit multiplier","",.1],["encounter.target_physical_mitigation","Target mitigation","0–1",.01],
