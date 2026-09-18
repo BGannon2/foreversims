@@ -193,12 +193,12 @@ CLASS_THREAT = {"Rogue": 0.71}
 ABILITIES = {
     # ---- Warrior -----------------------------------------------------------
     "Heroic Strike": {"kind": "swing", "school": "physical", "cost": 15, "weapon": {"hand": "main", "flat": 157}, "flat_threat": 173},
-    "Cleave": {"kind": "swing", "school": "physical", "cost": 20, "weapon": {"hand": "main", "flat": 50}, "flat_threat": 100,
-               "provisional": "Rank 8 (baseline, unranked at level 60) values sourced from WoWSims Classic (sim/warrior/heroic_strike_cleave.go), a baseline Classic-era ability Forever doesn't appear to have redesigned. Hits the 2 nearest targets (or 1, at a single target); this sim approximates that as a flat x2 multiplier at 2+ targets rather than independent per-target rolls."},
+    "Cleave": {"kind": "swing", "school": "physical", "cost": 20, "weapon": {"hand": "main", "flat": 50}, "flat_threat": 100},
     "Mortal Strike": {"kind": "direct", "school": "physical", "cost": 30, "cooldown": 6, "weapon": {"hand": "main", "normalized": True, "flat": 85}, "forever": True},
     "Overpower": {"kind": "direct", "school": "physical", "cost": 5, "cooldown": 5, "weapon": {"hand": "main", "normalized": True, "flat": 35}, "requires": "dodge", "no_dodge": True, "threat_mult": 0.75},
     "Whirlwind": {"kind": "direct", "school": "physical", "cost": 25, "cooldown": 10, "weapon": {"hand": "main", "normalized": True}, "threat_mult": 1.25},
-    "Spearing Strike": {"kind": "direct", "school": "physical", "cost": 20, "cooldown": 6, "weapon": {"hand": "main", "normalized": True, "mult": 0.40}, "creature_mult": {"giant": 3.0, "dragonkin": 3.0}, "forever": True, "provisional": "rage cost and cooldown are not published"},
+    "Spearing Strike": {"kind": "direct", "school": "physical", "cost": 20, "cooldown": 6, "weapon": {"hand": "main", "normalized": True, "mult": 0.40}, "creature_mult": {"giant": 3.0, "dragonkin": 3.0}, "forever": True,
+                        "provisional": "Damage formula (40% weapon, +80% additional i.e. 3x total against Giants/Dragonkin/mounted targets) is confirmed via foreverchanges.pro's beta-client talent data (build 1.60.1.69913): \"A brutal attack that deals 40% weapon damage. Deals an additional 80% weapon damage against Giants, Dragonkin, and mounted targets. Mounted targets are dismounted.\" Rage cost and cooldown are still not published by that source (talent tooltips there omit resource/cooldown fields) and remain a placeholder. The dismount-on-mounted-target effect has no combat relevance in this PvE model and isn't implemented."},
     "Execute": {"kind": "direct", "school": "physical", "cost": 15, "execute": True, "execute_formula": (600, 15), "threat_mult": 1.25},
     "Bloodthirst": {"kind": "direct", "school": "physical", "cost": 30, "cooldown": 6, "ap_mult": 0.35, "flat": 30, "forever": True},
     "Hamstring": {"kind": "direct", "school": "physical", "cost": 10, "flat": 45},
