@@ -15,11 +15,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-import engine_data as ed  # noqa: E402
-import engine  # noqa: E402
-import sim  # noqa: E402
-import gear_data  # noqa: E402
-import all_specs  # noqa: E402
+from forever import engine_data as ed  # noqa: E402
+from forever import engine  # noqa: E402
+from forever import sim  # noqa: E402
+from forever import gear_data  # noqa: E402
+from forever import all_specs  # noqa: E402
 import server  # noqa: E402
 
 WEB_DATA = ROOT / "web" / "data"
@@ -55,7 +55,7 @@ def paladin_tables():
     talents = {tid: {"name": t["name"], "row": t["row"], "ranks": len(t["ranks"]), "requires": [{"id": str(r["id"]), "qty": r["qty"]} for r in t["requires"]]} for tid, t in sim.TALENTS.items()}
     return {
         "facts": sim.F, "version": sim.DATA["version"], "sources": sim.DATA["sources"], "status": sim.DATA["status"], "excluded": sim.DATA["excluded"],
-        "data_sha256": hashlib.sha256((ROOT / "data.json").read_bytes()).hexdigest(), "assumptions": sim.ASSUMPTIONS,
+        "data_sha256": hashlib.sha256((ROOT / "data" / "data.json").read_bytes()).hexdigest(), "assumptions": sim.ASSUMPTIONS,
         "talents": talents, "tree_talents": sim.TREE_TALENTS, "points_per_tier": sim.TALENT_DATA["points_per_tier"], "max_points": sim.TALENT_DATA["max_points"],
         "protection_build": sim.PROTECTION_BUILD, "retribution_build": sim.RETRIBUTION_BUILD, "consumable_groups": sim.CONSUMABLE_GROUPS,
         "phase6_gear": {spec: gear_data.phase6_gear(spec) for spec in ("protection", "retribution")}, "gear_slots": list(gear_data.GEAR_SLOTS),
@@ -66,8 +66,8 @@ def paladin_tables():
 
 def api_payloads():
     """Same bodies server.py returns for the GET routes."""
-    from sim import DATA, ASSUMPTIONS, TALENT_DATA, CONSUMABLE_DATA, preset
-    from gear_data import CATALOG, PHASE6_BIS
+    from forever.sim import DATA, ASSUMPTIONS, TALENT_DATA, CONSUMABLE_DATA, preset
+    from forever.gear_data import CATALOG, PHASE6_BIS
     return {
         "bootstrap": {
             "presets": {name: preset(name) for name in ("protection", "retribution")}, "sources": DATA["sources"], "source_status": DATA["status"],

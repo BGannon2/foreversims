@@ -5,7 +5,7 @@ from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
 from server import create_server
-from sim import preset
+from forever.sim import preset
 
 
 class ServerTests(unittest.TestCase):

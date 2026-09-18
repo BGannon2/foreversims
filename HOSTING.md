@@ -24,8 +24,8 @@ out with [Wrangler](https://developers.cloudflare.com/workers/wrangler/).
 
 Regenerate `web/data` and `web/engine` with `tools/build_engine.sh` whenever the Python data
 tables or the Rust engine change, then re-export with `python tools/export_static_data.py`.
-`test_parity.py` fails if the exported data is stale or the Rust engine drifts from the Python
-reference — run it before every deploy.
+`tests/test_parity.py` fails if the exported data is stale or the Rust engine drifts from the
+Python reference — run it before every deploy.
 
 `web/sim-worker.js`'s engine/catalog URLs carry a `?v=<commit-hash>` cache-busting suffix that
 `tools/stamp_version.js` (Node) or `tools/stamp_version.py` (Python) rewrites on every build.
@@ -68,7 +68,7 @@ production path. `Dockerfile`/`compose.yaml` containerize this same server (`doc
 
 ## Regenerating benchmarks
 
-Benchmarks are precomputed by the Python reference engine (`python generate_benchmarks.py`,
+Benchmarks are precomputed by the Python reference engine (`python tools/generate_benchmarks.py`,
 parallelized across CPU cores via `ProcessPoolExecutor` — a few minutes for the full race matrix
 at every target count, 300 iterations each), then exported to `web/data/benchmarks.json` by
 `tools/export_static_data.py`. A CI job or a local run before deploying is enough; no

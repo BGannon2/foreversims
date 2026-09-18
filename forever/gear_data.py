@@ -5,13 +5,12 @@ import copy
 import json
 from collections import defaultdict
 from pathlib import Path
-import sys
-sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-ROOT = Path(__file__).resolve().parent
-CATALOG = json.loads((ROOT / "classic_era_items.json").read_text(encoding="utf-8"))
-PHASE6_BIS = json.loads((ROOT / "phase6_bis.json").read_text(encoding="utf-8"))
-FOREVER_SETS = json.loads((ROOT / "forever_set_bonuses.json").read_text(encoding="utf-8"))
+ROOT = Path(__file__).resolve().parents[1]
+DATA_DIR = ROOT / "data"
+CATALOG = json.loads((DATA_DIR / "classic_era_items.json").read_text(encoding="utf-8"))
+PHASE6_BIS = json.loads((DATA_DIR / "phase6_bis.json").read_text(encoding="utf-8"))
+FOREVER_SETS = json.loads((DATA_DIR / "forever_set_bonuses.json").read_text(encoding="utf-8"))
 ITEMS = {item["id"]: item for item in CATALOG["items"]}
 for item in ITEMS.values():
     item_set = item.get("set")
@@ -40,8 +39,8 @@ CLASSIC_PRIMARY = {
     "defense": "defense",
 }
 
-from engine_data import BUFF_STATS as RAID_BUFF_STATS, RACE_STATS, RACIALS, WEAPON_CRIT_TYPES
-from engine import SET_PATTERNS, _re
+from .engine_data import BUFF_STATS as RAID_BUFF_STATS, RACE_STATS, RACIALS, WEAPON_CRIT_TYPES
+from .engine import SET_PATTERNS, _re
 
 # Set bonuses with a Paladin-engine effect beyond flat stats (Wowhead Classic tooltips).
 PALADIN_SET_FLAGS = {"Judgement Armor|8": "judgement_bonus_damage", "Battlegear of Eternal Justice|3": "eternal_justice_mana"}

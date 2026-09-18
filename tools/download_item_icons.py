@@ -7,7 +7,7 @@ from pathlib import Path
 from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parents[1]
-CATALOG = json.loads((ROOT / "classic_era_items.json").read_text(encoding="utf-8"))
+CATALOG = json.loads((ROOT / "data" / "classic_era_items.json").read_text(encoding="utf-8"))
 OUTPUT = ROOT / "web" / "item-icons"
 OUTPUT.mkdir(exist_ok=True)
 

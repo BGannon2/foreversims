@@ -33,7 +33,7 @@ def main():
         trees.append({"id": int(tree_id), "name": name, "talents": clean})
     result = {"version": "wowhead-forever-paladin-2026-09-16", "source": PAGE,
               "data_source": DATA, "max_points": 51, "points_per_tier": 5, "trees": trees}
-    (root / "paladin_talents.json").write_text(json.dumps(result, indent=2), encoding="utf-8")
+    (root / "data" / "paladin_talents.json").write_text(json.dumps(result, indent=2), encoding="utf-8")
     print(f"Wrote {sum(len(t['talents']) for t in trees)} talents and local icons")
 
 

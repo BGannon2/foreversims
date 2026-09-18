@@ -2,26 +2,27 @@
 
 The simulation lives in engine.py; sourced data in engine_data.py.  This module
 loads the item catalog, enchants and set data, and exposes the functions used
-by server.py, generate_benchmarks.py, validation_matrix.py and the tests.
+by server.py, tools/generate_benchmarks.py, tools/validation_matrix.py and the tests.
 """
 from __future__ import annotations
 import json
 from pathlib import Path
 
-import engine
-from engine_data import CLASS_RACES, CREATURE_TYPES, SPEC_MAP, ROTATIONS, DEFAULT_BUILDS, ABILITIES, TALENT_EFFECTS, default_consumables, default_buffs, RACIALS, BLOODLUST_DURATION, SPEC_ABOUT
+from . import engine
+from .engine_data import CLASS_RACES, CREATURE_TYPES, SPEC_MAP, ROTATIONS, DEFAULT_BUILDS, ABILITIES, TALENT_EFFECTS, default_consumables, default_buffs, RACIALS, BLOODLUST_DURATION, SPEC_ABOUT
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[1]
+DATA_DIR = ROOT / "data"
 SOURCE = "https://www.wowhead.com/forever/"
 
 
 def _load_items():
-    items = {x["id"]: x for x in json.loads((ROOT / "classic_era_items.json").read_text(encoding="utf-8"))["items"]}
-    extra_path = ROOT / "extra_items.json"
+    items = {x["id"]: x for x in json.loads((DATA_DIR / "classic_era_items.json").read_text(encoding="utf-8"))["items"]}
+    extra_path = DATA_DIR / "extra_items.json"
     if extra_path.is_file():
         for x in json.loads(extra_path.read_text(encoding="utf-8"))["items"]:
             items.setdefault(x["id"], x)
-    for profile in json.loads((ROOT / "phase12_bis_all.json").read_text(encoding="utf-8"))["profiles"].values():
+    for profile in json.loads((DATA_DIR / "phase12_bis_all.json").read_text(encoding="utf-8"))["profiles"].values():
         for row in profile["gear"]:
             if not row.get("id"): continue
             item = items.setdefault(row["id"], dict(row))
@@ -37,8 +38,8 @@ def _load_items():
 
 
 ITEMS = _load_items()
-ENCHANTS = json.loads((ROOT / "enchants.json").read_text(encoding="utf-8"))["slots"]
-FOREVER_SETS = json.loads((ROOT / "forever_set_bonuses.json").read_text(encoding="utf-8"))["sets"]
+ENCHANTS = json.loads((DATA_DIR / "enchants.json").read_text(encoding="utf-8"))["slots"]
+FOREVER_SETS = json.loads((DATA_DIR / "forever_set_bonuses.json").read_text(encoding="utf-8"))["sets"]
 
 
 def public_specs():

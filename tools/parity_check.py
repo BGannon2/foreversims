@@ -39,10 +39,10 @@ def main():
     if not CLI.is_file():
         print(f"Rust CLI not built: {CLI}\nRun: cd engine-rs && cargo build --release")
         return 2
-    from all_specs import public_specs, simulate_spec
+    from forever.all_specs import public_specs, simulate_spec
     from server import default_request
-    from sim import preset, simulate
-    from engine_data import CLASS_RACES
+    from forever.sim import preset, simulate
+    from forever.engine_data import CLASS_RACES
 
     rows = []
     for spec in public_specs():

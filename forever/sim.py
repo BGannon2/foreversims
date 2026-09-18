@@ -13,14 +13,15 @@ import random
 import statistics
 from collections import defaultdict, deque
 from pathlib import Path
-from gear_data import apply_gear, phase6_gear
-from engine_data import RACIALS, RACE_STATS, CLASS_BASE, CLASS_RACES
+from .gear_data import apply_gear, phase6_gear
+from .engine_data import RACIALS, RACE_STATS, CLASS_BASE, CLASS_RACES
 
-ROOT = Path(__file__).resolve().parent
-DATA = json.loads((ROOT / 'data.json').read_text(encoding='utf-8'))
+ROOT = Path(__file__).resolve().parents[1]
+DATA_DIR = ROOT / "data"
+DATA = json.loads((DATA_DIR / 'data.json').read_text(encoding='utf-8'))
 F = DATA['facts']
-TALENT_DATA = json.loads((ROOT / 'paladin_talents.json').read_text(encoding='utf-8'))
-CONSUMABLE_DATA = json.loads((ROOT / 'consumables.json').read_text(encoding='utf-8'))
+TALENT_DATA = json.loads((DATA_DIR / 'paladin_talents.json').read_text(encoding='utf-8'))
+CONSUMABLE_DATA = json.loads((DATA_DIR / 'consumables.json').read_text(encoding='utf-8'))
 CONSUMABLE_GROUPS = {item['key']: item['group'] for item in CONSUMABLE_DATA['items']}
 TALENTS = {str(t['id']): t for tree in TALENT_DATA['trees'] for t in tree['talents']}
 TREE_TALENTS = {tree['name']: [str(t['id']) for t in tree['talents']] for tree in TALENT_DATA['trees']}
@@ -529,7 +530,7 @@ def simulate(profile, progress=None):
     metrics={k:summarize([r[k] for r in rows]) for k in ['dps','tps','dtps','alive_dtps','alive_seconds','peak_3s_damage','ending_mana','absorbed','blocked_damage']}
     metrics['survival_fraction']=sum(r['survived'] for r in rows)/len(rows)
     metrics['unaffordable_cast_fraction']=sum(r['first_unaffordable_cast'] is not None for r in rows)/len(rows)
-    return {'data_version':DATA['version'],'data_sha256':hashlib.sha256((ROOT/'data.json').read_bytes()).hexdigest(),
+    return {'data_version':DATA['version'],'data_sha256':hashlib.sha256((DATA_DIR/'data.json').read_bytes()).hexdigest(),
         'status':'EXPERIMENTAL — incomplete mechanics; not a validated Forever performance prediction',
         'profile':original,'effective_character':p['character'],'gear_summary':gear_summary,'metrics':metrics,
         'ability_dps':{k:v/len(rows) for k,v in sorted(totals.items(),key=lambda x:-x[1])},

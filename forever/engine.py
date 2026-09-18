@@ -6,7 +6,7 @@ per-spec calibration multiplier.
 """
 from __future__ import annotations
 import math, random, re, statistics
-from engine_data import *  # noqa: F401,F403
+from .engine_data import *  # noqa: F401,F403
 
 EPS = 1e-7
 WEAPON_TYPES = ("Axe", "Dagger", "Fist Weapon", "Mace", "Polearm", "Staff", "Sword")
@@ -77,7 +77,7 @@ class Config:
     # ---- consumables -----------------------------------------------------
     def _validate_consumes(self, consumes):
         groups = {}
-        from sim import CONSUMABLE_GROUPS  # single source of exclusivity rules
+        from .sim import CONSUMABLE_GROUPS  # single source of exclusivity rules
         for key in sorted(consumes):
             group = CONSUMABLE_GROUPS.get(key)
             if group and group in groups:

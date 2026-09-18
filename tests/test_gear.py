@@ -1,8 +1,8 @@
 import copy
 import unittest
 
-from gear_data import CATALOG, FOREVER_SETS, ITEMS, PHASE6_BIS, apply_gear, empty_gear
-from sim import preset, simulate
+from forever.gear_data import CATALOG, FOREVER_SETS, ITEMS, PHASE6_BIS, apply_gear, empty_gear
+from forever.sim import preset, simulate
 
 
 class GearTests(unittest.TestCase):

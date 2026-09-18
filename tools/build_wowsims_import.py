@@ -65,7 +65,7 @@ def build_enchant_map():
     by_name = {}
     for e in db["enchants"]:
         by_name.setdefault(norm(e["name"]), []).append(e["effectId"])
-    ours = json.loads((ROOT / "enchants.json").read_text(encoding="utf-8"))["slots"]
+    ours = json.loads((ROOT / "data" / "enchants.json").read_text(encoding="utf-8"))["slots"]
     mapping, unmatched = {}, []
     for slot, rows in ours.items():
         for row in rows:

@@ -12,12 +12,14 @@ from __future__ import annotations
 
 import json
 import math
+import sys
 from pathlib import Path
 
-from all_specs import public_specs, simulate_spec
-from server import default_request, DEFAULTS
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
 
-ROOT = Path(__file__).parent
+from forever.all_specs import public_specs, simulate_spec
+from server import default_request, DEFAULTS
 
 # WoWSims Classic test fixtures (sim/*/Test*.results, "LongSingleTarget" style runs, FullBuffs = world buffs on).
 WOWSIMS_WORLD_BUFFED = {

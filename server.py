@@ -13,19 +13,20 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlparse, quote
 
-from sim import DATA, ASSUMPTIONS, TALENT_DATA, CONSUMABLE_DATA, preset, simulate, validate
-from gear_data import CATALOG, PHASE6_BIS
-from all_specs import public_specs, public_racials, simulate_spec, CLASS_RACES, ITEMS
-from engine_data import default_consumables, default_buffs, DEFAULT_BUILDS, BUFF_GROUPS, SET_EFFECTS, SET_NO_COMBAT_EFFECT, SET_PROVISIONAL, PALADIN_ABOUT
-import engine as engine_module
+from forever.sim import DATA, ASSUMPTIONS, TALENT_DATA, CONSUMABLE_DATA, preset, simulate, validate
+from forever.gear_data import CATALOG, PHASE6_BIS
+from forever.all_specs import public_specs, public_racials, simulate_spec, CLASS_RACES, ITEMS
+from forever.engine_data import default_consumables, default_buffs, DEFAULT_BUILDS, BUFF_GROUPS, SET_EFFECTS, SET_NO_COMBAT_EFFECT, SET_PROVISIONAL, PALADIN_ABOUT
+from forever import engine as engine_module
 
 ROOT = Path(__file__).resolve().parent
 WEB = ROOT / "web"
-SETTING_DATA = json.loads((ROOT / "settings.json").read_text(encoding="utf-8"))
-ALL_TALENTS = json.loads((ROOT / "forever_talents_all.json").read_text(encoding="utf-8"))
-PHASE12_BIS = json.loads((ROOT / "phase12_bis_all.json").read_text(encoding="utf-8"))
-ENCHANT_DATA = json.loads((ROOT / "enchants.json").read_text(encoding="utf-8"))
-EXTRA_ITEMS = json.loads((ROOT / "extra_items.json").read_text(encoding="utf-8")) if (ROOT / "extra_items.json").is_file() else {"items": []}
+DATA_DIR = ROOT / "data"
+SETTING_DATA = json.loads((DATA_DIR / "settings.json").read_text(encoding="utf-8"))
+ALL_TALENTS = json.loads((DATA_DIR / "forever_talents_all.json").read_text(encoding="utf-8"))
+PHASE12_BIS = json.loads((DATA_DIR / "phase12_bis_all.json").read_text(encoding="utf-8"))
+ENCHANT_DATA = json.loads((DATA_DIR / "enchants.json").read_text(encoding="utf-8"))
+EXTRA_ITEMS = json.loads((DATA_DIR / "extra_items.json").read_text(encoding="utf-8")) if (DATA_DIR / "extra_items.json").is_file() else {"items": []}
 MAX_BODY = 1_000_000
 mimetypes.add_type("application/wasm", ".wasm")
 mimetypes.add_type("application/javascript", ".js")
@@ -52,7 +53,7 @@ def default_request(spec, race=None, **overrides):
 def default_benchmarks():
     global BENCHMARK_CACHE
     if BENCHMARK_CACHE is not None: return BENCHMARK_CACHE
-    snapshot = ROOT / "benchmarks.json"
+    snapshot = DATA_DIR / "benchmarks.json"
     if snapshot.is_file():
         BENCHMARK_CACHE = json.loads(snapshot.read_text(encoding="utf-8")); return BENCHMARK_CACHE
     BENCHMARK_CACHE = build_benchmarks()

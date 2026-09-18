@@ -3,8 +3,8 @@ import copy
 import math
 import unittest
 from urllib.parse import urlparse
-from gear_data import apply_gear
-from sim import CONSUMABLE_GROUPS, DATA, F, TALENT_DATA, TALENTS, Fight, preset, simulate, validate
+from forever.gear_data import apply_gear
+from forever.sim import CONSUMABLE_GROUPS, DATA, F, TALENT_DATA, TALENTS, Fight, preset, simulate, validate
 
 class SimulationTests(unittest.TestCase):
     def basic(self,spec='protection'):

@@ -22,17 +22,17 @@ summary of every sourced Forever-vs-Classic mechanic change, organized by class.
 23 specs are modeled: every class/spec except the three healer specializations, split across two
 engines that share no code:
 
-- **The shared engine** (`engine.py`/`engine_data.py`, 21 specs) — an event-driven simulator
-  (swing timers, cast times, GCD, DoTs, combo points, resource ticks, the full Classic attack
-  table, procs, racials, tank incoming-damage modeling) covering every non-Paladin spec.
-- **The Paladin engine** (`sim.py`/`gear_data.py`, Protection and Retribution) — a separate,
-  independently maintained model built first and kept apart because Paladin's seal/Judgement
-  mechanics don't map onto the shared engine's ability table.
+- **The shared engine** (`forever/engine.py`/`forever/engine_data.py`, 21 specs) — an event-driven
+  simulator (swing timers, cast times, GCD, DoTs, combo points, resource ticks, the full Classic
+  attack table, procs, racials, tank incoming-damage modeling) covering every non-Paladin spec.
+- **The Paladin engine** (`forever/sim.py`/`forever/gear_data.py`, Protection and Retribution) — a
+  separate, independently maintained model built first and kept apart because Paladin's
+  seal/Judgement mechanics don't map onto the shared engine's ability table.
 
 Both engines are written once in Python (the reference implementation, and what the test suite
 checks against) and ported by hand to Rust (`engine-rs/`), compiled to WebAssembly, and run in a
-pool of Web Workers in the browser. `test_parity.py` fails if the two ever disagree by more than
-floating-point noise, across all 23 specs — this is checked before every deploy.
+pool of Web Workers in the browser. `tests/test_parity.py` fails if the two ever disagree by more
+than floating-point noise, across all 23 specs — this is checked before every deploy.
 
 ## Features
 
@@ -53,18 +53,19 @@ floating-point noise, across all 23 specs — this is checked before every deplo
 ## Repository layout
 
 ```
-engine.py, engine_data.py     shared 21-spec engine + sourced data tables
-sim.py, gear_data.py          Paladin engine + gear/racial handling
-all_specs.py                  public API surface (item catalog, spec listing, simulate_spec)
-server.py                     local dev server + JSON API (not used in production)
-engine-rs/                    Rust port, compiled to WebAssembly (engine-rs/src/, data/)
-web/                          the deployed site: HTML/CSS/JS, exported data, the built engine
-tools/                        data export, engine build, version stamping
-generate_benchmarks.py        regenerates the comparison-page benchmark snapshot
-test_*.py                     Python test suite (mechanics, parity, gear, server)
-FOREVER_VS_CLASSIC.md         standing reference: every sourced Forever-vs-Classic change
-CHANGELOG.md                  dated log of fixes and findings as the project developed
-HOSTING.md                    how the production deploy works, and how to deploy your own
+forever/                      the Python package
+  engine.py, engine_data.py     shared 21-spec engine + sourced data tables
+  sim.py, gear_data.py          Paladin engine + gear/racial handling
+  all_specs.py                  public API surface (item catalog, spec listing, simulate_spec)
+data/                          sourced JSON data tables (items, talents, gear, benchmarks, ...)
+server.py                      local dev server + JSON API (not used in production)
+engine-rs/                     Rust port, compiled to WebAssembly (engine-rs/src/, data/)
+web/                           the deployed site: HTML/CSS/JS, exported data, the built engine
+tools/                         data export, engine build, version stamping, benchmark generation
+tests/                         Python test suite (mechanics, parity, gear, server)
+FOREVER_VS_CLASSIC.md          standing reference: every sourced Forever-vs-Classic change
+CHANGELOG.md                   dated log of fixes and findings as the project developed
+HOSTING.md                     how the production deploy works, and how to deploy your own
 ```
 
 ## Running locally
@@ -82,13 +83,14 @@ benchmark generation.
 
 ### Making a change
 
-1. Edit the Python source (`engine.py`/`engine_data.py` or `sim.py`/`gear_data.py`/`data.json`).
+1. Edit the Python source (`forever/engine.py`/`forever/engine_data.py` or
+   `forever/sim.py`/`forever/gear_data.py`/`data/data.json`).
 2. `python -m unittest discover` — the test suite.
 3. If the change affects simulation output, port it to the matching Rust file in `engine-rs/src/`.
 4. `bash tools/build_engine.sh` — re-exports data, rebuilds the Rust engine (native + WASM), and
    runs `tools/parity_check.py` (must show 0.000% diff across all 23 specs).
 5. If default rotations, talents, or gear changed, regenerate benchmarks:
-   `python generate_benchmarks.py`.
+   `python tools/generate_benchmarks.py`.
 6. See `HOSTING.md` for deploying.
 
 ## Data sourcing
