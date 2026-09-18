@@ -2109,9 +2109,10 @@ impl<'a> Iteration<'a> {
                     ps.last = t;
                 }
                 if t + EPS >= self.pet_state.as_ref().unwrap().next_swing {
+                    // WoWSims Classic hunter pets have no stat inheritance from the owner and no
+                    // Strength->AttackPower dependency; base swing damage is flat, not AP-scaled.
                     let speed = p.speed;
-                    let ap = 252.0;
-                    let base = self.rng.uniform(18.17, 27.66) * speed + ap / 14.0 * speed;
+                    let base = self.rng.uniform(18.17, 27.66) * speed;
                     let dmg = self.pet_attack("Pet Melee", base, "physical", crit, false);
                     let bl = if t < c.t.BLOODLUST_DURATION { 1.0 + c.t.BLOODLUST_HASTE } else { 1.0 };
                     let frenzy = if t < self.pet_state.as_ref().unwrap().frenzy_until { 1.3 } else { 1.0 };

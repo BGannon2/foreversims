@@ -1530,8 +1530,13 @@ class Iteration:
             ps["focus"] = min(100.0, ps["focus"] + (self.t - ps["last"]) * PET_FOCUS_PER_SEC * (1 + c.flag("pet_focus"))); ps["last"] = self.t
             crit = 0.05 + c.flag("pet_crit") / 100
             if self.t + EPS >= ps["next_swing"]:
-                speed = p["speed"]; ap = 252.0
-                base = rng.uniform(18.17, 27.66) * speed + ap / 14 * speed
+                # WoWSims Classic hunter pets have no stat inheritance from the owner and no
+                # Strength->AttackPower dependency (sim/hunter/pet.go: makeStatInheritance
+                # returns an empty stats.Stats{}; addUniversalStatDependencies has no AP dep) --
+                # base swing damage is flat, not AP-normalized. The previous ap=252.0 placeholder
+                # roughly doubled pet melee damage versus the sourced model.
+                speed = p["speed"]
+                base = rng.uniform(18.17, 27.66) * speed
                 dmg = self.pet_attack("Pet Melee", base, "physical", crit)
                 haste = (1 + BLOODLUST_HASTE if self.t < BLOODLUST_DURATION else 1.0) * (1.3 if self.t < ps["frenzy_until"] else 1.0)
                 ps["next_swing"] = self.t + speed / haste
