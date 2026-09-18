@@ -419,10 +419,10 @@
       "class_name": "Druid",
       "name": "Feral DPS",
       "role": "dps",
-      "dps": 414.53890269650606,
-      "tps": 294.32262091451923,
+      "dps": 391.63717715760464,
+      "tps": 278.06239578189917,
       "dtps": 0.0,
-      "total_damage": 49744.66832358069,
+      "total_damage": 46996.46125891255,
       "url": "/all-specs.html?spec=druid-feral-dps&race=Night%20Elf"
     },
     {
@@ -431,10 +431,10 @@
       "class_name": "Druid",
       "name": "Feral DPS",
       "role": "dps",
-      "dps": 408.25499389903507,
-      "tps": 289.8610456683147,
+      "dps": 388.3055001931302,
+      "tps": 275.69690513712226,
       "dtps": 0.0,
-      "total_damage": 48990.59926788421,
+      "total_damage": 46596.66002317561,
       "url": "/all-specs.html?spec=druid-feral-dps&race=Tauren"
     },
     {
@@ -443,10 +443,10 @@
       "class_name": "Druid",
       "name": "Feral DPS",
       "role": "dps",
-      "dps": 410.86093144246394,
-      "tps": 291.71126132414935,
+      "dps": 393.4168619700115,
+      "tps": 279.325971998708,
       "dtps": 0.0,
-      "total_damage": 49303.31177309567,
+      "total_damage": 47210.02343640139,
       "url": "/all-specs.html?spec=druid-feral-dps&race=Skyborne%20%28Alliance%29"
     },
     {
@@ -455,10 +455,10 @@
       "class_name": "Druid",
       "name": "Feral DPS",
       "role": "dps",
-      "dps": 410.86093144246394,
-      "tps": 291.71126132414935,
+      "dps": 393.4168619700115,
+      "tps": 279.325971998708,
       "dtps": 0.0,
-      "total_damage": 49303.31177309567,
+      "total_damage": 47210.02343640139,
       "url": "/all-specs.html?spec=druid-feral-dps&race=Skyborne%20%28Horde%29"
     },
     {
@@ -467,10 +467,10 @@
       "class_name": "Druid",
       "name": "Feral Tank",
       "role": "tank",
-      "dps": 317.4934537396874,
-      "tps": 820.9090408884628,
-      "dtps": 253.9764362039578,
-      "total_damage": 38099.214448762505,
+      "dps": 392.4735088872363,
+      "tps": 998.8718126246707,
+      "dtps": 267.23035376642673,
+      "total_damage": 47096.821066468336,
       "url": "/all-specs.html?spec=druid-feral-tank&race=Night%20Elf"
     },
     {
@@ -479,10 +479,10 @@
       "class_name": "Druid",
       "name": "Feral Tank",
       "role": "tank",
-      "dps": 310.86065797980115,
-      "tps": 803.8236220640442,
-      "dtps": 259.39260855863546,
-      "total_damage": 37303.27895757613,
+      "dps": 388.06741812486365,
+      "tps": 987.043926658557,
+      "dtps": 271.7246182250071,
+      "total_damage": 46568.09017498364,
       "url": "/all-specs.html?spec=druid-feral-tank&race=Tauren"
     },
     {
@@ -491,10 +491,10 @@
       "class_name": "Druid",
       "name": "Feral Tank",
       "role": "tank",
-      "dps": 312.06330694721004,
-      "tps": 806.9439947803902,
-      "dtps": 261.79315437608665,
-      "total_damage": 37447.596833665186,
+      "dps": 390.5504187216275,
+      "tps": 993.8932121913163,
+      "dtps": 273.0256344474675,
+      "total_damage": 46866.05024659532,
       "url": "/all-specs.html?spec=druid-feral-tank&race=Skyborne%20%28Alliance%29"
     },
     {
@@ -503,10 +503,10 @@
       "class_name": "Druid",
       "name": "Feral Tank",
       "role": "tank",
-      "dps": 312.06330694721004,
-      "tps": 806.9439947803902,
-      "dtps": 261.79315437608665,
-      "total_damage": 37447.596833665186,
+      "dps": 390.5504187216275,
+      "tps": 993.8932121913163,
+      "dtps": 273.0256344474675,
+      "total_damage": 46866.05024659532,
       "url": "/all-specs.html?spec=druid-feral-tank&race=Skyborne%20%28Horde%29"
     },
     {

@@ -405,6 +405,11 @@ impl<'a> Iteration<'a> {
                 crit += 10.0;
             }
         }
+        if let Some(b) = self.buffs.get("Berserk") {
+            if b.until > self.t && matches!(ability, Some("Shred") | Some("Claw") | Some("Mangle")) {
+                crit += 100.0;
+            }
+        }
         crit.clamp(0.0, 100.0) / 100.0
     }
 
@@ -1346,6 +1351,9 @@ impl<'a> Iteration<'a> {
             if let Some(v) = a.pet_damage_mult { kw.pet_damage_mult = v; }
             if let Some(v) = a.flat_damage_bonus { kw.flat_damage_bonus = v; }
             self.add_buff(name, dur + c.mod_(&format!("duration:{name}")), kw);
+        }
+        if name == "Tiger's Fury" && c.flag("king_of_the_jungle") != 0.0 {
+            self.gain_energy(c.flag("king_of_the_jungle"));
         }
         if a.combustion {
             self.combustion = Some((0, 0));

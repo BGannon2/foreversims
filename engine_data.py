@@ -212,6 +212,12 @@ ABILITIES = {
     "Tiger's Fury": {"kind": "buff", "cost": 30, "gcd": 1.0, "duration": 6, "flat_damage_bonus": 40},
     "Maul": {"kind": "swing", "school": "physical", "cost": 15, "weapon": {"hand": "form", "flat": 128}, "threat_mult": 1.75},
     "Swipe": {"kind": "direct", "school": "physical", "cost": 20, "base": (83, 83), "threat_mult": 2.0},
+    "Mangle": {"kind": "direct", "school": "physical", "cost": 45, "gcd": 1.0, "cooldown": 6, "weapon": {"hand": "form", "flat": 26}, "cp": 1, "forever": True,
+               "provisional": "Damage (100% weapon plus 26) is the sourced Forever talent tooltip; Wowhead's own guide flags Forever talent data as still incomplete, and real TBC-era Mangle also applies a bleed-vulnerability debuff and a higher weapon-damage percent not captured in this tooltip. Cooldown (6 sec) is not published and uses real Mangle's known Classic-era-adjacent value as a placeholder."},
+    "Mangle (Bear)": {"kind": "direct", "school": "physical", "cost": 15, "gcd": 1.0, "cooldown": 6, "weapon": {"hand": "form", "flat": 26}, "threat_mult": 1.75, "forever": True,
+                       "provisional": "Damage (100% weapon plus 26) is the sourced Forever talent tooltip. Cooldown (6 sec) and its Rage cost are not published; cost mirrors Maul's, cooldown uses real Mangle's known value as a placeholder. Threat multiplier assumed equal to Maul's, not separately sourced."},
+    "Berserk": {"kind": "buff", "cost": 0, "gcd": 0, "cooldown": 180, "duration": 15, "forever": True,
+                "provisional": "Duration (15 sec) is the sourced Forever talent tooltip; cooldown is not published (3 min assumed, matching this project's convention for other undocumented Forever cooldowns). Only the single-target-relevant effect (guaranteed critical strikes on combo-point generators) is modeled; the 3-target Mangle cleave, Mangle's cooldown removal, and the Fear-immunity clause have no effect in this single-target model."},
     "Moonfire": {"kind": "direct_dot", "school": "arcane", "cost": 375, "base": (195, 228), "coeff": 0.15, "tick": 32, "ticks": 4, "tick_len": 3, "dot_coeff": 0.13},
     "Insect Swarm": {"kind": "dot", "school": "nature", "cost": 155, "tick": 54, "ticks": 6, "tick_len": 2, "dot_coeff": 0.127},
     "Starfire": {"kind": "direct", "school": "arcane", "cost": 340, "cast": 3.5, "base": (496, 584), "coeff": 1.0},
@@ -295,8 +301,8 @@ ROTATIONS = {
     "warrior-fury": [("Bloodrage", "rage<60"), ("Death Wish", "true"), ("Execute", "execute"), ("Bloodthirst", "true"), ("Whirlwind", "true"), ("Hamstring", "rage>=60 and not execute and cd:Bloodthirst>1.5 and cd:Whirlwind>1.5"), ("Heroic Strike", "rage>=40 and not execute")],
     "warrior-protection": [("Bloodrage", "rage<60"), ("Shield Slam", "true"), ("Revenge", "true"), ("Sunder Armor", "stacks:Sunder Armor<5 or rage>=40"), ("Execute", "execute"), ("Heroic Strike", "rage>=30")],
     "druid-balance": [("Moonfire", "dot_missing"), ("Insect Swarm", "dot_missing"), ("Starfire", "true"), ("Wrath", "true")],
-    "druid-feral-dps": [("Tiger's Fury", "buff_missing and energy>=60"), ("Ferocious Bite", "cp>=5 and dot:Rip>4"), ("Rip", "cp>=5 and dot_missing"), ("Shred", "true"), ("Claw", "no_shred")],
-    "druid-feral-tank": [("Swipe", "rage>=45"), ("Maul", "rage>=20")],
+    "druid-feral-dps": [("Berserk", "true"), ("Tiger's Fury", "buff_missing and energy>=60"), ("Ferocious Bite", "cp>=5 and dot:Rip>4"), ("Rip", "cp>=5 and dot_missing"), ("Mangle", "true"), ("Shred", "true"), ("Claw", "no_shred")],
+    "druid-feral-tank": [("Berserk", "true"), ("Mangle (Bear)", "true"), ("Swipe", "rage>=45"), ("Maul", "rage>=20")],
     "hunter-beast-mastery": [("Bestial Wrath", "true"), ("Rapid Fire", "true"), ("Serpent Sting", "dot_missing"), ("Summon Hawk", "dot_missing"), ("Multi-Shot", "true"), ("Arcane Shot", "mana>=1500")],
     "hunter-marksmanship": [("Rapid Fire", "true"), ("Serpent Sting", "dot_missing"), ("Aimed Shot", "true"), ("Multi-Shot", "true"), ("Arcane Shot", "mana>=1500")],
     "hunter-survival": [("Mongoose Bite", "true"), ("Strider Kick", "true"), ("Raptor Strike", "true")],
@@ -341,10 +347,11 @@ TALENT_EFFECTS = {
     "104927": {"spell_crit": 2, "melee_crit": 2}, "104929": {"spell_hit": 2, "hit": 2}, "104930": {"flag:insect_swarm": 1}, "104932": {"crit_dmg_school:arcane": 0.20, "crit_dmg_school:nature": 0.20},
     "104933": {"cast:Starfire": -0.1}, "104934": {"flag:natures_grace": 1}, "104936": {"dmg_school:arcane": 0.01, "dmg_school:nature": 0.01}, "104937": {"flag:moonkin": 0.03}, "104935": {"flag:eclipse": 1},
     # Druid Feral
-    "104938": {"cost:Maul": -1, "cost:Swipe": -1, "cost:Claw": -1}, "104939": {"stat_pct:intellect": 0.02, "flag:hotw_cat_str": 0.02, "flag:hotw_bear_sta": 0.04},
+    "104938": {"cost:Maul": -1, "cost:Swipe": -1, "cost:Claw": -1, "cost:Mangle": -1, "cost:Mangle (Bear)": -1}, "104939": {"stat_pct:intellect": 0.02, "flag:hotw_cat_str": 0.02, "flag:hotw_bear_sta": 0.04},
     "104940": {"dmg_ability:Swipe": 0.10}, "104943": {"dodge": 2}, "104948": {"dmg_ability:Claw": 0.05, "dmg_ability:Shred": 0.05, "dmg_ability:Maul": 0.05, "dmg_ability:Swipe": 0.05},
     "104946": {"melee_crit": 3}, "104945": {"cost:Shred": -6}, "104952": {"flag:predatory_strikes": 30}, "104947": {"flag:primal_fury": 1},
     "104950": {"crit_dmg_school:physical_ability": 0.10}, "104953": {"flag:rend_and_tear": 0.02}, "104954": {"dodge": 1}, "104942": {"flag:thick_hide": 1},
+    "104949": {"flag:mangle": 1}, "104951": {"flag:king_of_the_jungle": 20}, "104956": {"flag:berserk": 1},
     # Hunter BM
     "104969": {"flag:pet_damage": 0.03}, "104967": {"flag:pet_crit": 2}, "104962": {"flag:pet_frenzy": 0.2}, "104961": {"flag:bestial_wrath": 1}, "104975": {"dmg_all": 0.01}, "104963": {"flag:pet_focus": 0.10},
     # Hunter MM
@@ -410,7 +417,8 @@ TALENT_GATED = {"Mortal Strike": "mortal_strike", "Spearing Strike": "spearing_s
                 "Hemorrhage": "hemorrhage", "Stormstrike": "stormstrike", "Rage of the Farseer": "rage_of_the_farseer", "Siphon Life": "siphon_life", "Conflagrate": "conflagrate",
                 "Shadowburn": "shadowburn", "Demonic Sacrifice": "demonic_sacrifice",
                 "Arcane Blast": "arcane_blast", "Pyroblast": "pyroblast", "Ice Lance": "ice_lance", "Summon Hawk": "summon_hawk",
-                "Mutilate": "mutilate", "Venom": "venom", "Lava Burst": "lava_burst", "Incinerate": "incinerate"}
+                "Mutilate": "mutilate", "Venom": "venom", "Lava Burst": "lava_burst", "Incinerate": "incinerate",
+                "Mangle": "mangle", "Mangle (Bear)": "mangle", "Berserk": "berserk"}
 
 # Default 51-point builds (validated against tier/prerequisite rules in tests).
 DEFAULT_BUILDS = {
@@ -422,10 +430,14 @@ DEFAULT_BUILDS = {
                            "105958": 3, "105956": 3, "105954": 5, "105951": 1, "105950": 1},
     "druid-balance": {"104923": 5, "104924": 5, "104925": 3, "104931": 2, "104927": 2, "104929": 2, "104930": 1, "104932": 5, "104933": 5, "104934": 1, "104935": 3, "104936": 5, "104937": 1,
                       "104939": 5, "104938": 5, "104942": 1},
-    "druid-feral-dps": {"104938": 5, "104939": 5, "104943": 2, "104940": 3, "104948": 2, "104946": 2, "104945": 3, "104952": 3, "104947": 2, "104950": 2, "104955": 1, "104953": 5,
+    # Mangle (row3) + King of the Jungle (row4, maxed) + Berserk (row6) added; Heart of the Wild
+    # 5->2, Feral Swiftness 2->1, and Predatory Instincts 2->1 trimmed to stay at 51.
+    "druid-feral-dps": {"104938": 5, "104939": 2, "104943": 1, "104940": 3, "104948": 2, "104946": 2, "104945": 3, "104952": 3, "104947": 2, "104949": 1, "104950": 1, "104951": 3, "104955": 1, "104953": 5, "104956": 1,
                         "104923": 5, "104924": 5, "104927": 2, "104929": 2, "104931": 2},
-    "druid-feral-tank": {"104938": 5, "104939": 5, "104942": 3, "104940": 3, "104948": 2, "104946": 2, "104952": 3, "104947": 2, "104950": 2, "104955": 1, "104954": 5,
-                         "104923": 5, "104924": 5, "104927": 2, "104929": 2, "104931": 2, "104943": 2},
+    # Mangle (row3) + Berserk (row6) added; Feral Swiftness 2->0 trimmed to stay at 51.
+    # King of the Jungle skipped (Feral Tank's rotation never casts Tiger's Fury).
+    "druid-feral-tank": {"104938": 5, "104939": 5, "104942": 3, "104940": 3, "104948": 2, "104946": 2, "104952": 3, "104947": 2, "104949": 1, "104950": 2, "104955": 1, "104954": 5, "104956": 1,
+                         "104923": 5, "104924": 5, "104927": 2, "104929": 2, "104931": 2},
     # Summon Hawk (row3) added; off-tree Improved Stings trimmed 3->2 to stay at 51.
     "hunter-beast-mastery": {"104960": 5, "104976": 5, "104975": 2, "104970": 1, "104969": 5, "104967": 5, "104966": 1, "104963": 1, "104964": 1, "104962": 5, "104961": 1,
                              "105011": 5, "110870": 2, "105009": 5, "105008": 5, "105003": 2},

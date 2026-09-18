@@ -586,6 +586,8 @@ class Iteration:
         if ability: crit += c.mod(f"crit_ability:{ability}")
         b = self.buffs.get("Elune's Light")
         if b and b["until"] > self.t: crit += 10
+        b = self.buffs.get("Berserk")
+        if b and b["until"] > self.t and ability in {"Shred", "Claw", "Mangle"}: crit += 100
         return max(0.0, min(100.0, crit)) / 100
 
     def crit_multiplier(self, kind, ability, school):
@@ -1123,6 +1125,7 @@ class Iteration:
             if a.get("pet_damage_mult"): kw["pet_damage_mult"] = a["pet_damage_mult"]
             if a.get("flat_damage_bonus"): kw["flat_damage_bonus"] = a["flat_damage_bonus"]
             self.add_buff(name, a["duration"] + c.mod(f"duration:{name}"), **kw)
+        if name == "Tiger's Fury" and c.flag("king_of_the_jungle"): self.gain_energy(c.flag("king_of_the_jungle"))
         if a.get("combustion"): self.combustion = {"stacks": 0, "crits": 0}
         if a.get("instant_next"): self.next_instant = True
         if a.get("next_crit"): self.next_crit = True

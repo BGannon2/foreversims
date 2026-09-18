@@ -218,37 +218,45 @@ someone does the same tooltip-by-tooltip pass that Paladin got.
   the Energy cost of the next Hemorrhage/Backstab.
 - `Hemorrhage` carries a Forever-sourced damage value, retuned from Classic.
 
-### Druid (sourced 2026-09-18; found via `forever_talents_all.json`, none implemented yet)
+### Druid (sourced/verified 2026-09-18)
 
-Druid was previously undocumented because nothing in its ability table carried a `forever:true`
-flag. Reading the actual Forever talent calculator payload (not just the ability tooltips)
-found real, sourced changes on the same scale as the other classes' redesigns — this project
-simply hadn't looked. **None of the following are implemented in `engine.py`/`engine_data.py`
-yet**, unlike every other item in this document:
+Druid was previously undocumented not because it's unchanged, but because this project had only
+ever grepped `engine_data.py`'s ability table for `forever:true` tags — several real Druid
+mechanics live as inline conditional logic in `engine.py` instead (the same pattern as Mage's
+Hot Streak or Shaman's Maelstrom Weapon), so a data-only grep missed them entirely. Reading the
+actual Forever talent calculator payload (`forever_talents_all.json`) and re-checking the engine
+code directly turned up the full picture:
 
-- New talent: **Eclipse** (Balance) — Wrath casts reduce the cast time of your next 2 Starfire
-  casts by up to 0.5 sec/rank (rank 3 max), stacking up to 4 charges, 15 sec duration. This is
-  Balance's equivalent of Mage's Missile Barrage / Shaman's Maelstrom Weapon — a Wrath→Starfire
-  weaving mechanic with no vanilla Classic equivalent.
-- New ability: **Mangle** (Feral) — 100% weapon damage + 26 flat, usable in both Cat and Bear
-  Form. No vanilla Classic equivalent (Mangle is a TBC-era ability).
-- New talent: **Berserk** (Feral cooldown) — for 15 sec, Mangle strikes up to 3 targets, loses
-  its cooldown, and combo-point generators gain +100% crit chance; also clears/grants Fear
-  immunity. No vanilla Classic equivalent.
-- New talent: **Primal Fury** (Feral) — Bear Form crits have a 50% chance to grant 5 bonus Rage;
-  Cat Form combo-point-generating crits have a 50% chance to grant an extra combo point. No
-  vanilla Classic equivalent.
-- New talent: **King of the Jungle** (Feral) — Tiger's Fury instantly grants 20 Energy on top of
-  its existing effect. No vanilla Classic equivalent.
-- `Improved Starfire` and `Improved Moonfire` (Balance) carry specific Forever rank text (cast
-  time/stun chance scaling for Starfire; damage/crit scaling for Moonfire) that should be
-  cross-checked against whatever values, if any, are currently assumed for these talents.
+- **Eclipse** (Balance) — Wrath casts grant 2 charges (cap 4, 15 sec) that each cut a following
+  Starfire cast by 0.5 sec. **Already implemented** (`self.eclipse` in `engine.py`/`iteration.rs`,
+  gated by talent 104935, already maxed in the default Balance build) — this audit's first pass
+  incorrectly reported it as missing.
+- **Primal Fury** (Feral) — Bear Form crits have a 50% chance to grant 5 bonus Rage; Cat Form
+  combo-point-generating crits have a 50% chance to grant an extra combo point. **Already
+  implemented** (`c.flag("primal_fury")` in `engine.py`/`iteration.rs`) — also incorrectly
+  reported as missing on the first pass.
+- **Mangle** (Feral, new ability) and **Berserk** (Feral cooldown, new talent) — genuinely were
+  missing; **implemented 2026-09-18**. Mangle (100% weapon + 26 flat, both a Cat-form version
+  costing Energy with a combo point and a Bear-form version costing Rage with Maul's threat
+  multiplier) is now the top rotation priority for both Feral specs, gated by talent 104949 and
+  discounted by Ferocity like Maul/Swipe/Claw. Berserk (talent 104956) is modeled for its
+  single-target-relevant effect only — guaranteed critical strikes on Shred/Claw/Mangle for 15
+  sec — since the 3-target Mangle cleave, Mangle's cooldown removal, and Fear immunity have no
+  effect in this single-target model. Cooldowns for both (6 sec Mangle, 3 min Berserk) aren't
+  published by Forever and use this project's usual placeholder convention.
+- **King of the Jungle** (Feral, new talent) — Tiger's Fury instantly grants bonus Energy,
+  20/40/60 per rank; **implemented 2026-09-18**, maxed (3/3) in Feral DPS's default build.
+  Skipped for Feral Tank, whose rotation never casts Tiger's Fury.
+- Both new Feral talents required freeing points from the default 51-point builds: Feral DPS
+  trimmed Heart of the Wild (5→2), Feral Swiftness (2→1), and Predatory Instincts (2→1); Feral
+  Tank trimmed Feral Swiftness (2→0) entirely. All trims are off-tree utility/defensive picks,
+  not throughput talents.
+- `Improved Starfire` and `Improved Moonfire` (Balance) still haven't been cross-checked against
+  whatever cast-time/damage assumptions this project currently uses for those talents — a
+  smaller remaining gap, not urgent.
 
-This is comparable in scope to the original "8 structurally missing mechanics" pass done for
-the other seven classes earlier in this project (Hunter Survival's melee rebuild, Shaman's
-Maelstrom Weapon, Mage's Hot Streak/Missile Barrage/Fingers of Frost, etc.) — it likely needs
-its own dedicated implementation pass rather than a quick patch, particularly Mangle/Berserk/
-Primal Fury, which touch both Feral specs' core rotations.
+Ported to the Rust engine (`crit_chance`/`activate_buff` in `iteration.rs`); verified 0.000%
+Python/Rust parity across all 23 specs after the change.
 
 ### Mage
 - New mechanic: **Arcane Blast** + **Missile Barrage** (Arcane) — Arcane Blast stacks a self-buff
@@ -272,9 +280,9 @@ Primal Fury, which touch both Feral specs' core rotations.
 - Whether Warrior Protection or Feral Druid tanking got any Forever-specific threat redesign at
   all, or whether Paladin is the outlier that got special attention. Not sourced either way.
 - Druid's *existing* abilities (Moonfire, Starfire, Wrath, Rip, Ferocious Bite) still run on
-  plain Classic values with no `forever:true` override sourced — but see the new Druid section
-  above: Eclipse/Mangle/Berserk/Primal Fury/King of the Jungle are all sourced and simply not
-  implemented yet, so "unchanged" was the wrong read; "unimplemented" is the right one.
+  plain Classic values with no `forever:true` override sourced. `Improved Starfire` and
+  `Improved Moonfire` (Balance) haven't been cross-checked against Forever's specific rank text
+  either — see the Druid section above for what has been implemented.
 - Gear set-bonus changes (above) are confirmed only for Paladin's three dungeon/tier sets;
   Blizzard's gear-set post likely covers other classes too, but this project hasn't
   cross-checked them yet.
