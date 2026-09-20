@@ -481,6 +481,9 @@ class Iteration:
         self.health_max = self.st["health"]; self.health = self.health_max; self.alive = True; self.alive_seconds = self.duration
         self.buffs = {}   # name -> {"until":t, "stacks":n, ...}
         self.debuffs = {}  # on target
+        self.buff_active_seconds = {}  # name -> total non-overlapping seconds the buff was up
+        self._buff_covered_until = {}  # name -> internal bookkeeping for the above
+        self.buff_procs = {}  # name -> number of times the buff was granted/refreshed (or an instant proc fired)
         self.dots = {}
         self.dots_extra = []  # secondary-target instances of "spreadable" DoTs: [{"name":..., ...dot fields}]
         self.cooldowns = {}
@@ -525,11 +528,35 @@ class Iteration:
 
     def add_buff(self, name, duration, **kw):
         b = self.buffs.get(name)
+        was_active = b is not None and b["until"] > self.t + EPS
         if b and b["until"] > self.t and kw.get("stacks_max"):
             b["stacks"] = min(kw["stacks_max"], b.get("stacks", 1) + 1); b["until"] = self.t + duration
         else:
             self.buffs[name] = {"until": self.t + duration, "stacks": 1, **kw}
+        self.note_proc(name, duration)
+        if self.trace and len(self.log) < 400:
+            self.log.append({"time": round(self.t, 2), "event": f"Buff: {name}", "outcome": "refreshed" if was_active else "gained", "amount": 0.0, "resource": self.resource()})
         self.uptime_track(name)
+
+    def note_proc(self, name, duration=0.0):
+        """Record a buff/proc activation for the Buffs tab: non-overlapping active-seconds
+        (for duration buffs) plus a proc/activation count (for instant procs like Nightfall,
+        where an actual timed buff object doesn't make sense)."""
+        end = self.t + duration
+        covered = self._buff_covered_until.get(name, 0.0)
+        if end > max(self.t, covered):
+            self.buff_active_seconds[name] = self.buff_active_seconds.get(name, 0.0) + (end - max(self.t, covered))
+        self._buff_covered_until[name] = max(covered, end)
+        self.buff_procs[name] = self.buff_procs.get(name, 0) + 1
+
+    def proc_nightfall(self):
+        """Nightfall doesn't grant a stateful buff (it's consumed by the very next cast), so it
+        can't go through add_buff -- but it should still show up as an activation for the Buffs
+        tab, same as every other proc."""
+        self.next_instant = True
+        self.note_proc("Nightfall")
+        if self.trace and len(self.log) < 400:
+            self.log.append({"time": round(self.t, 2), "event": "Buff: Nightfall", "outcome": "proc", "amount": 0.0, "resource": self.resource()})
 
     def add_debuff(self, name, duration, **kw):
         b = self.debuffs.get(name)
@@ -1455,7 +1482,7 @@ class Iteration:
             if out == "miss": self.deal(name, 0, school, "spell", outcome="miss"); return
         if name == "Drain Soul":
             if c.flag("soul_siphon"): tick *= 1 + c.flag("soul_siphon")
-            if c.flag("nightfall") and self.rng.random() < c.flag("nightfall"): self.next_instant = True
+            if c.flag("nightfall") and self.rng.random() < c.flag("nightfall"): self.proc_nightfall()
         dmg = self.deal(name, tick, school, "spell", periodic=(name != "Arcane Missiles"), outcome=out, mult=m * a["mult"] * (c.targets if a.get("aoe") else 1))
         self.after_spell_hit(name, school, out, dmg, a) if name == "Arcane Missiles" else None
 
@@ -1467,7 +1494,7 @@ class Iteration:
         school = d["school"]
         self.deal(name, tick, school, "spell" if school != "physical" else "melee", periodic=True, outcome="hit")
         if name == "Rupture" and c.flag("thousand_cuts"): self.add_buff("Thousand Cuts", 10, stacks_max=5)
-        if name == "Corruption" and c.flag("nightfall") and self.rng.random() < c.flag("nightfall"): self.next_instant = True
+        if name == "Corruption" and c.flag("nightfall") and self.rng.random() < c.flag("nightfall"): self.proc_nightfall()
         if d["remaining"] <= 0 and name in {"Immolate", "Corruption", "Curse of Agony", "Siphon Life", "Serpent Sting", "Shadow Word: Pain", "Moonfire", "Insect Swarm", "Flame Shock", "Rip", "Rupture", "Explosive Trap"}:
             pass
 
@@ -1725,7 +1752,8 @@ class Iteration:
     def result(self):
         dur = self.duration
         return {"total": self.total, "threat": self.threat + self.pet_threat * 0.0, "pet_threat": self.pet_threat, "taken": self.taken, "rows": {k: v.dict() for k, v in self.rows.items()},
-                "duration": dur, "starved": self.starved, "resource_end": self.resource(), "alive": self.alive, "alive_seconds": self.alive_seconds, "first_oom": self.first_oom, "taken_by": self.taken_by, "log": self.log}
+                "duration": dur, "starved": self.starved, "resource_end": self.resource(), "alive": self.alive, "alive_seconds": self.alive_seconds, "first_oom": self.first_oom, "taken_by": self.taken_by, "log": self.log,
+                "buff_active_seconds": self.buff_active_seconds, "buff_procs": self.buff_procs}
 
 
 # ---------------------------------------------------------------------------
@@ -1745,6 +1773,12 @@ def simulate(request, items, enchants, sets):
             target = agg.setdefault(name, {k: 0.0 for k in row})
             for k, v in row.items(): target[k] += v
     duration = cfg.duration
+    buff_seconds_agg, buff_proc_agg = {}, {}
+    for r in results:
+        for name, secs in r["buff_active_seconds"].items(): buff_seconds_agg[name] = buff_seconds_agg.get(name, 0.0) + secs
+        for name, procs in r["buff_procs"].items(): buff_proc_agg[name] = buff_proc_agg.get(name, 0) + procs
+    measured_buff_uptimes = {name: min(1.0, secs / n / duration) for name, secs in buff_seconds_agg.items()}
+    buff_procs_per_min = {name: procs / n / (duration / 60.0) for name, procs in buff_proc_agg.items()}
 
     def metric(values):
         mean = statistics.fmean(values); ci = None if len(values) < 2 else 1.96 * statistics.stdev(values) / math.sqrt(len(values))
@@ -1767,7 +1801,8 @@ def simulate(request, items, enchants, sets):
         "ability_dps": ability_dps, "ability_damage": ability_damage, "ability_stats": ability_stats, "threat_by_ability": threat_by, "taken_dtps": taken_by,
         "configuration": cfg_summary,
         "resource": {"name": res_name, "maximum": max_res, "mean_end": statistics.fmean(r["resource_end"] for r in results), "starved_fraction": starved, "first_out_of_mana": statistics.fmean([r["first_oom"] for r in results if r["first_oom"] is not None]) if any(r["first_oom"] is not None for r in results) else None},
-        "buff_uptimes": dict({x: 1.0 for x in sorted(cfg.buffs | cfg.consumes)}, bloodlust=min(1.0, BLOODLUST_DURATION / duration)), "debuff_uptimes": {x: 1.0 for x in sorted(cfg.debuffs)},
+        "buff_uptimes": dict({x: 1.0 for x in sorted(cfg.buffs | cfg.consumes)}, bloodlust=min(1.0, BLOODLUST_DURATION / duration), **measured_buff_uptimes), "debuff_uptimes": {x: 1.0 for x in sorted(cfg.debuffs)},
+        "buff_procs_per_min": buff_procs_per_min,
         "log": results[0]["log"],
         "model_status": "Event-driven level-60 model: sourced base damage, coefficients, cast times, Classic attack tables (miss, dodge, parry, glancing, block, crit suppression), resource ticks, combo points, DoTs, procs, timed cooldowns, pets and racials. No calibration multiplier. Provisional values are listed under configuration.notes.",
         "source": "https://www.wowhead.com/forever/ (roster, racials, talents) + WoWSims Classic (Classic Anniversary ability data)",

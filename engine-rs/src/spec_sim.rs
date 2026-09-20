@@ -81,6 +81,16 @@ pub fn finalize(cfg: &Config, results: &[IterResult]) -> Value {
     };
     let ooms: Vec<f64> = results.iter().filter_map(|r| r.first_oom).collect();
     let first_oom = if ooms.is_empty() { Value::Null } else { json!(fmean(&ooms)) };
+    let mut buff_seconds_agg: IndexMap<String, f64> = IndexMap::new();
+    let mut buff_proc_agg: IndexMap<String, i64> = IndexMap::new();
+    for r in results {
+        for (name, secs) in &r.buff_active_seconds {
+            *buff_seconds_agg.entry(name.clone()).or_insert(0.0) += secs;
+        }
+        for (name, procs) in &r.buff_procs {
+            *buff_proc_agg.entry(name.clone()).or_insert(0) += procs;
+        }
+    }
     let mut buff_uptimes = Map::new();
     let mut effects: Vec<&String> = cfg.buffs.iter().chain(cfg.consumes.iter()).collect();
     effects.sort();
@@ -89,6 +99,10 @@ pub fn finalize(cfg: &Config, results: &[IterResult]) -> Value {
         buff_uptimes.insert(x.clone(), json!(1.0));
     }
     buff_uptimes.insert("bloodlust".into(), json!((t.BLOODLUST_DURATION / duration).min(1.0)));
+    for (name, secs) in &buff_seconds_agg {
+        buff_uptimes.insert(name.clone(), json!((secs / n / duration).min(1.0)));
+    }
+    let buff_procs_per_min: Map<String, Value> = buff_proc_agg.iter().map(|(name, procs)| (name.clone(), json!(*procs as f64 / n / (duration / 60.0)))).collect();
     let debuff_uptimes: Map<String, Value> = cfg.debuffs.iter().map(|x| (x.clone(), json!(1.0))).collect();
     let mut spec = serde_json::to_value(&cfg.spec).unwrap();
     if let Value::Object(m) = &mut spec {
@@ -104,7 +118,7 @@ pub fn finalize(cfg: &Config, results: &[IterResult]) -> Value {
         "ability_dps": ability_dps, "ability_damage": ability_damage, "ability_stats": ability_stats, "threat_by_ability": threat_by, "taken_dtps": taken_by,
         "configuration": cfg_summary,
         "resource": {"name": res_name, "maximum": max_res, "mean_end": fmean(&results.iter().map(|r| r.resource_end).collect::<Vec<_>>()), "starved_fraction": starved, "first_out_of_mana": first_oom},
-        "buff_uptimes": buff_uptimes, "debuff_uptimes": debuff_uptimes,
+        "buff_uptimes": buff_uptimes, "debuff_uptimes": debuff_uptimes, "buff_procs_per_min": buff_procs_per_min,
         "log": results.first().map(|r| serde_json::to_value(&r.log).unwrap()).unwrap_or(Value::Array(vec![])),
         "model_status": "Event-driven level-60 model: sourced base damage, coefficients, cast times, Classic attack tables (miss, dodge, parry, glancing, block, crit suppression), resource ticks, combo points, DoTs, procs, timed cooldowns, pets and racials. No calibration multiplier. Provisional values are listed under configuration.notes.",
         "source": "https://www.wowhead.com/forever/ (roster, racials, talents) + WoWSims Classic (Classic Anniversary ability data)",

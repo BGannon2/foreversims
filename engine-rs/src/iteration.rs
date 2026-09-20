@@ -125,6 +125,8 @@ pub struct IterResult {
     pub first_oom: Option<f64>,
     pub taken_by: IndexMap<String, f64>,
     pub log: Vec<LogEntry>,
+    pub buff_active_seconds: IndexMap<String, f64>,
+    pub buff_procs: IndexMap<String, i64>,
 }
 
 fn title(s: &str) -> String {
@@ -208,6 +210,9 @@ pub struct Iteration<'a> {
     pub pet_threat: f64,
     pub wrath_discount: bool,
     pub next_parry: bool,
+    pub buff_active_seconds: IndexMap<String, f64>,
+    pub buff_covered_until: IndexMap<String, f64>,
+    pub buff_procs: IndexMap<String, i64>,
 }
 
 impl<'a> Iteration<'a> {
@@ -230,6 +235,7 @@ impl<'a> Iteration<'a> {
             busy_until: 0.0, starved: 0.0, first_oom: None, pet_state: None, enrage_until: 0.0, sacrificed: None, racial_next: 0.0, item_icd: IndexMap::new(), windfury_lock: 0.0,
             cur_school: String::new(), cur_cost: 0.0, blocked_by_resource: false, taken_by: IndexMap::new(), pet_threat: 0.0,
             wrath_discount: false, next_parry: false,
+            buff_active_seconds: IndexMap::new(), buff_covered_until: IndexMap::new(), buff_procs: IndexMap::new(),
         };
         if c.spec.resource == "Rage" {
             let start = c.request.get("starting_rage").and_then(|v| v.as_f64()).unwrap_or(0.0);
@@ -264,11 +270,14 @@ impl<'a> Iteration<'a> {
 
     fn add_buff(&mut self, name: &str, duration: f64, mut kw: Buff) {
         let t = self.t;
+        let was_active = self.buffs.get(name).is_some_and(|b| b.until > t + EPS);
         if let Some(b) = self.buffs.get_mut(name) {
             if b.until > t {
                 if let Some(max) = kw.stacks_max {
                     b.stacks = max.min(b.stacks + 1);
                     b.until = t + duration;
+                    self.note_proc(name, duration);
+                    self.log_buff(name, was_active);
                     return;
                 }
             }
@@ -276,6 +285,41 @@ impl<'a> Iteration<'a> {
         kw.until = t + duration;
         kw.stacks = 1;
         self.buffs.insert(name.to_string(), kw);
+        self.note_proc(name, duration);
+        self.log_buff(name, was_active);
+    }
+
+    /// Record a buff/proc activation for the Buffs tab: non-overlapping active-seconds (for
+    /// duration buffs) plus a proc/activation count (for instant procs like Nightfall, where an
+    /// actual timed buff object doesn't make sense).
+    fn note_proc(&mut self, name: &str, duration: f64) {
+        let t = self.t;
+        let end = t + duration;
+        let covered = self.buff_covered_until.get(name).copied().unwrap_or(0.0);
+        if end > t.max(covered) {
+            *self.buff_active_seconds.entry(name.to_string()).or_insert(0.0) += end - t.max(covered);
+        }
+        self.buff_covered_until.insert(name.to_string(), covered.max(end));
+        *self.buff_procs.entry(name.to_string()).or_insert(0) += 1;
+    }
+
+    fn log_buff(&mut self, name: &str, was_active: bool) {
+        if self.trace && self.log.len() < 400 {
+            let res = self.resource();
+            self.log.push(LogEntry { time: (self.t * 100.0).round() / 100.0, event: format!("Buff: {name}"), outcome: (if was_active { "refreshed" } else { "gained" }).to_string(), amount: 0.0, resource: (res * 10.0).round() / 10.0, note: None });
+        }
+    }
+
+    /// Nightfall doesn't grant a stateful buff (it's consumed by the very next cast), so it
+    /// can't go through add_buff -- but it should still show up as an activation for the Buffs
+    /// tab, same as every other proc.
+    fn proc_nightfall(&mut self) {
+        self.next_instant = true;
+        self.note_proc("Nightfall", 0.0);
+        if self.trace && self.log.len() < 400 {
+            let res = self.resource();
+            self.log.push(LogEntry { time: (self.t * 100.0).round() / 100.0, event: "Buff: Nightfall".to_string(), outcome: "proc".to_string(), amount: 0.0, resource: (res * 10.0).round() / 10.0, note: None });
+        }
     }
 
     fn add_debuff(&mut self, name: &str, duration: f64, stacks_max: Option<i64>) {
@@ -1936,7 +1980,7 @@ impl<'a> Iteration<'a> {
                 tick *= 1.0 + c.flag("soul_siphon");
             }
             if c.flag("nightfall") != 0.0 && self.rng.random() < c.flag("nightfall") {
-                self.next_instant = true;
+                self.proc_nightfall();
             }
         }
         let dmg = self.deal(&name, tick, &school, "spell", false, name != "Arcane Missiles", 1.0, 0.0, out, m * a.mult * (if a.aoe { c.targets as f64 } else { 1.0 }));
@@ -1956,7 +2000,7 @@ impl<'a> Iteration<'a> {
         let kind = if school != "physical" { "spell" } else { "melee" };
         self.deal(name, tick, &school, kind, false, true, 1.0, 0.0, Outcome::Hit, 1.0);
         if name == "Corruption" && self.c.flag("nightfall") != 0.0 && self.rng.random() < self.c.flag("nightfall") {
-            self.next_instant = true;
+            self.proc_nightfall();
         }
         if name == "Rupture" && self.c.flag("thousand_cuts") != 0.0 {
             self.add_buff("Thousand Cuts", 10.0, Buff { stacks_max: Some(5), ..Default::default() });
@@ -1974,7 +2018,7 @@ impl<'a> Iteration<'a> {
         let kind = if school != "physical" { "spell" } else { "melee" };
         self.deal(&name, tick, &school, kind, false, true, 1.0, 0.0, Outcome::Hit, 1.0);
         if name == "Corruption" && self.c.flag("nightfall") != 0.0 && self.rng.random() < self.c.flag("nightfall") {
-            self.next_instant = true;
+            self.proc_nightfall();
         }
     }
 
@@ -2492,6 +2536,8 @@ impl<'a> Iteration<'a> {
             first_oom: self.first_oom,
             taken_by: self.taken_by,
             log: self.log,
+            buff_active_seconds: self.buff_active_seconds,
+            buff_procs: self.buff_procs,
         }
     }
 }
