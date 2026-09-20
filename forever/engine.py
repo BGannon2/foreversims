@@ -1407,10 +1407,10 @@ class Iteration:
     def after_spell_hit(self, name, school, out, dmg, a):
         c = self.c
         if c.flag("arcane_blast") and name != "Arcane Blast": self.buffs.pop("Arcane Blast", None)
-        if c.flag("missile_barrage") and name in {"Arcane Blast", "Fireball", "Frostbolt"} and out in {"hit", "crit"}:
+        if c.flag("missile_barrage") and name in {"Arcane Blast", "Fireball", "Frostbolt", "Frostfire Bolt"} and out in {"hit", "crit"}:
             chance = 0.40 if name == "Arcane Blast" else 0.20
             if self.rng.random() < chance: self.add_buff("Missile Barrage", 20)
-        if c.flag("hot_streak") and name in {"Fireball", "Fire Blast", "Scorch"} and out == "crit":
+        if c.flag("hot_streak") and name in {"Fireball", "Fire Blast", "Scorch", "Frostfire Bolt"} and out == "crit":
             self.add_buff("Hot Streak", 15, stacks_max=3)
         if c.flag("fingers_of_frost") and name == "Frostbolt" and out in {"hit", "crit"} and self.rng.random() < 0.15:
             self.add_buff("Fingers of Frost", 15, stacks_max=2)

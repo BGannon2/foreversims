@@ -83,7 +83,8 @@ ASSUMPTIONS = [
     "Seal of Righteousness (rank 8, level 60) is sourced from its Wowhead Forever tooltip: 200 mana/30 sec, swings deal (24 to 83) Holy damage scaling with weapon speed and hand type, and Judgement deals (50% of Spell Power) Holy damage. The swing formula matches WoWSims Classic's underlying rank-8 model (18.8 base value, x0.85 one-hand / x1.2 two-hand, x weapon speed, +10% spell power coefficient), which reproduces the tooltip's stated range exactly.",
     "Seal of Command (rank 5, level 60) is sourced from its Wowhead Forever tooltip: 210 mana/30 sec (previously modeled at the wrong 65 mana talent-rank cost), swings deal 70% weapon damage on a 25% proc chance, and Judgement deals (42.9% of Spell Power) Holy damage (previously a flat, unsourced 68-73 range).",
     "Improved Seals (105334) is sourced from its Wowhead Forever tooltip as a flat +5%/+10%/+15% bonus to both Seal and Judgement damage; it is now applied uniformly to all three seals' swing procs and Judgements via the same multiplier, rather than only to the flat-roll Righteousness/Command Judgement formulas that preceded this fix.",
-    'Sacred Arbiter (105700) is sourced from its Forever talent-calculator tooltip: +10% Holy Strike damage, applied here. Its "refreshes all Judgement effects on the target" clause is a no-op in this model, since Judgement applies no persistent/refreshable debuff.'
+    'Sacred Arbiter (105700) is sourced from its Forever talent-calculator tooltip: +10% Holy Strike damage, applied here. Its "refreshes all Judgement effects on the target" clause is a no-op in this model, since Judgement applies no persistent/refreshable debuff.',
+    "Hammer of Wrath was entirely missing from this model until a Mobalytics.gg class-overview audit flagged it. Rank 3 (max) is sourced from wago.tools DB2 (build 1.60.1.69913, spell 24239): 425 mana, 6 sec cooldown, 474-522 Holy damage, 0.429 spell-power coefficient. Only usable on targets at or below 20% health; since this is a fixed-duration single-target model with no tracked boss health, that's approximated as the same last-20%-of-fight execute window Warrior's Execute uses. Enabled for Holy and Retribution by default (not Protection, which doesn't prioritize burst nukes)."
 ]
 
 def preset(spec='protection'):
@@ -127,11 +128,12 @@ def preset(spec='protection'):
         'model': {'command_proc_chance':0.25, 'righteousness_damage':50.0,
             'holy_strike_cost':20.0, 'holy_strike_cooldown':12.0, 'holy_strike_weapon_pct':0.40,
             'holy_strike_holy_min':81.0, 'holy_strike_holy_max':105.0, 'holy_strike_coeff':0.429,
+            'hammer_of_wrath_cost':425.0, 'hammer_of_wrath_cooldown':6.0, 'hammer_of_wrath_min':474.0, 'hammer_of_wrath_max':522.0, 'hammer_of_wrath_coeff':0.429,
             'melee_crit_multiplier':2.0, 'spell_crit_multiplier':1.5,
             'base_threat_per_damage':1.0, 'holy_threat_per_damage':1.0,
             'use_classic_era_conversions':True, 'thunderfury_proc_chance':0.20,
             'thunderfury_damage':300.0, 'thunderfury_threat_multiplier':1.43},
-        'rotation': {'use_judgement':True, 'use_consecration':True, 'consecration_mana_floor':0.30, 'use_holy_strike':prot, 'use_exorcism':True, 'use_holy_wrath':True, 'twist_seals':not prot,
+        'rotation': {'use_judgement':True, 'use_consecration':True, 'consecration_mana_floor':0.30, 'use_holy_strike':prot, 'use_exorcism':True, 'use_holy_wrath':True, 'use_hammer_of_wrath':not prot, 'twist_seals':not prot,
             'use_bulwark':prot, 'bulwark_health_threshold':0.5},
         'gear': phase6_gear(spec),
         'talents': talent_build(spec)
@@ -215,7 +217,7 @@ class Fight:
         self.time=0.0; self.health=self.c['health']; self.mana=self.c['mana']
         self.queue=[]; self.serial=0; self.gcd=0.0; self.cd=defaultdict(float)
         self.seal=None; self.seal_until=0.0; self.echo=None
-        self.iron_until=0.0
+        self.iron_until=0.0; self.execute_at=self.p['duration']*0.8
         self.hs_until=0.0; self.hs_charges=0; self.red_until=0.0; self.red_charges=0
         self.absorb=0.0; self.absorb_until=0.0; self.forbearance=0.0
         self.vengeance=0; self.vengeance_until=0.0; self.mana_icd=0.0
@@ -379,6 +381,11 @@ class Fight:
             eligible_holy_target=self.e['boss_type'] in {'demon','undead'}
             conduit_discount=1-.20*self.rank(105704)
             purifying_cd=(1,.83,.67)[self.rank(105327)]
+            if not acted and self.rot.get('use_hammer_of_wrath') and self.time>=self.execute_at and self.time>=self.cd['hammer_of_wrath']:
+                if self.spend('Hammer of Wrath',self.m['hammer_of_wrath_cost']):
+                    self.deal('Hammer of Wrath',self.rng.uniform(self.m['hammer_of_wrath_min'],self.m['hammer_of_wrath_max']),holy=True,can_crit=True,
+                             hit=self.c['spell_hit_chance'],spell_coefficient=self.m['hammer_of_wrath_coeff'])
+                    self.cd['hammer_of_wrath']=self.time+self.m['hammer_of_wrath_cooldown']; acted=True
             if not acted and eligible_holy_target and self.rot['use_exorcism'] and self.time>=self.cd['exorcism']:
                 if self.spend('Exorcism',345*conduit_discount):
                     self.deal('Exorcism',self.rng.uniform(505,563),holy=True,can_crit=True,hit=self.c['spell_hit_chance'],spell_coefficient=.429)

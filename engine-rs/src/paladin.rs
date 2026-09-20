@@ -72,11 +72,12 @@ pub fn preset(spec: &str) -> Result<Value, String> {
         "model": {"command_proc_chance": 0.25, "righteousness_damage": 50.0,
             "holy_strike_cost": 20.0, "holy_strike_cooldown": 12.0, "holy_strike_weapon_pct": 0.40,
             "holy_strike_holy_min": 81.0, "holy_strike_holy_max": 105.0, "holy_strike_coeff": 0.429,
+            "hammer_of_wrath_cost": 425.0, "hammer_of_wrath_cooldown": 6.0, "hammer_of_wrath_min": 474.0, "hammer_of_wrath_max": 522.0, "hammer_of_wrath_coeff": 0.429,
             "melee_crit_multiplier": 2.0, "spell_crit_multiplier": 1.5,
             "base_threat_per_damage": 1.0, "holy_threat_per_damage": 1.0,
             "use_classic_era_conversions": true, "thunderfury_proc_chance": 0.20,
             "thunderfury_damage": 300.0, "thunderfury_threat_multiplier": 1.43},
-        "rotation": {"use_judgement": true, "use_consecration": true, "consecration_mana_floor": 0.30, "use_holy_strike": prot, "use_exorcism": true, "use_holy_wrath": true, "twist_seals": !prot,
+        "rotation": {"use_judgement": true, "use_consecration": true, "consecration_mana_floor": 0.30, "use_holy_strike": prot, "use_exorcism": true, "use_holy_wrath": true, "use_hammer_of_wrath": !prot, "twist_seals": !prot,
             "use_bulwark": prot, "bulwark_health_threshold": 0.5},
         "gear": pt.phase6_gear[spec],
         "talents": talent_build(spec)
@@ -549,6 +550,11 @@ pub struct Model {
     pub holy_strike_holy_min: f64,
     pub holy_strike_holy_max: f64,
     pub holy_strike_coeff: f64,
+    pub hammer_of_wrath_cost: f64,
+    pub hammer_of_wrath_cooldown: f64,
+    pub hammer_of_wrath_min: f64,
+    pub hammer_of_wrath_max: f64,
+    pub hammer_of_wrath_coeff: f64,
     pub melee_crit_multiplier: f64,
     pub spell_crit_multiplier: f64,
     pub base_threat_per_damage: f64,
@@ -568,6 +574,8 @@ pub struct Rotation {
     pub use_holy_strike: bool,
     pub use_exorcism: bool,
     pub use_holy_wrath: bool,
+    #[serde(default)]
+    pub use_hammer_of_wrath: bool,
     pub twist_seals: bool,
     pub use_bulwark: bool,
     pub bulwark_health_threshold: f64,
@@ -682,6 +690,7 @@ pub struct Fight<'a> {
     seal_until: f64,
     echo: Option<Seal>,
     iron_until: f64,
+    execute_at: f64,
     hs_until: f64,
     hs_charges: i64,
     red_until: f64,
@@ -763,6 +772,7 @@ impl<'a> Fight<'a> {
             seal_until: 0.0,
             echo: None,
             iron_until: 0.0,
+            execute_at: duration * 0.8,
             hs_until: 0.0,
             hs_charges: 0,
             red_until: 0.0,
@@ -1089,6 +1099,14 @@ impl<'a> Fight<'a> {
             let eligible_holy_target = self.e.boss_type == "demon" || self.e.boss_type == "undead";
             let conduit_discount = 1.0 - 0.20 * self.rank("105704");
             let purifying_cd = [1.0, 0.83, 0.67][self.rank("105327") as usize];
+            if !acted && self.rot.use_hammer_of_wrath && self.time >= self.execute_at && self.time >= self.cd("hammer_of_wrath")
+                && self.spend("Hammer of Wrath", self.m.hammer_of_wrath_cost) {
+                    let amt = self.rng.uniform(self.m.hammer_of_wrath_min, self.m.hammer_of_wrath_max);
+                    self.deal("Hammer of Wrath", amt, true, true, self.c.spell_hit_chance, 1.0, false, None, self.m.hammer_of_wrath_coeff);
+                    let v = self.time + self.m.hammer_of_wrath_cooldown;
+                    self.cd.insert("hammer_of_wrath", v);
+                    acted = true;
+                }
             if !acted && eligible_holy_target && self.rot.use_exorcism && self.time >= self.cd("exorcism")
                 && self.spend("Exorcism", 345.0 * conduit_discount) {
                     let amt = self.rng.uniform(505.0, 563.0);
