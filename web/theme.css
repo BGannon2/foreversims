@@ -57,8 +57,6 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
   background-image:linear-gradient(transparent 95%,rgba(var(--accent-rgb),.55) 95%),linear-gradient(90deg,transparent 95%,rgba(var(--accent-rgb),.55) 95%);
   background-size:44px 44px;transform:perspective(520px) rotateX(62deg);transform-origin:bottom center;
   -webkit-mask-image:linear-gradient(to bottom,transparent,#000 70%);mask-image:linear-gradient(to bottom,transparent,#000 70%);opacity:.55}
-body::after{content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;
-  background:linear-gradient(rgba(18,16,20,0) 50%,rgba(0,0,0,.22) 50%),linear-gradient(90deg,rgba(255,0,0,.05),rgba(0,255,0,.02),rgba(0,0,255,.05));background-size:100% 4px,100% 100%}
 .sim-main,.home-header,.home-shell,.benchmark-shell{position:relative;z-index:1}.sim-sidebar{z-index:2}
 button,input,select{font-family:var(--font-mono)}
 h1,h2,h3,.brand h1,.home-header h1{font-family:var(--font-head);text-transform:uppercase;letter-spacing:.04em;font-weight:900}
