@@ -325,7 +325,8 @@ ABILITIES = {
                     "provisional": "Base damage (62-70) confirmed via foreverchanges.pro (build 1.60.1.69913). The previous value (462-514) matched neither Classic (87-99) nor Forever and was a pre-existing sourcing bug unrelated to this redesign."},
     "Searing Pain": {"kind": "direct", "school": "fire", "cost": 168, "cast": 1.5, "base": (105, 123), "coeff": 0.429, "threat_mult": 2.0, "forever": True, "provisional": "Rank 6 value confirmed via foreverchanges.pro (build 1.60.1.69913)."},
     "Life Tap": {"kind": "buff", "life_tap": 424},
-    "Demonic Sacrifice": {"kind": "buff", "sacrifice": True},
+    "Demonic Sacrifice": {"kind": "buff", "sacrifice": True, "off_gcd": True, "cooldown": 999999,
+                          "provisional": "Talented, one-time pet sacrifice: kills the pet for a permanent +15% school damage buff (Shadow for Imp, Fire for Succubus) for the rest of the fight. Modeled as a single off-GCD activation at the first opportunity (cooldown set far beyond any fight length so it never refires); no cast time or GCD in Classic."},
     # ---- Consumables -----------------------------------------------------------
     "Goblin Sapper Charge": {"kind": "direct", "school": "fire", "cooldown": 300, "base": (450, 750), "off_gcd": True, "always_hit": True, "no_crit": True},
     "Major Mana Potion": {"kind": "buff", "cooldown": 120, "mana": (1350, 2250), "off_gcd": True, "shared_cd": "potion"},
@@ -346,7 +347,7 @@ ROTATIONS = {
     "hunter-marksmanship": [("Volley", "targets>=3"), ("Rapid Fire", "true"), ("Serpent Sting", "dot_missing"), ("Aimed Shot", "true"), ("Multi-Shot", "true"), ("Arcane Shot", "mana>=1500")],
     "hunter-survival": [("Mongoose Bite", "true"), ("Strider Kick", "true"), ("Raptor Strike", "true")],
     "mage-arcane": [("Arcane Explosion", "targets>=3"), ("Arcane Power", "true"), ("Presence of Mind", "true"), ("Arcane Missiles", "buff:Missile Barrage>0"), ("Arcane Missiles", "buffstacks:Arcane Blast>=4"), ("Arcane Blast", "true"), ("Frostbolt", "true")],
-    "mage-fire": [("Arcane Explosion", "targets>=3"), ("Combustion", "true"), ("Pyroblast", "buffstacks:Hot Streak>=1"), ("Scorch", "stacks:Improved Scorch<5 or debuff:Improved Scorch<4"), ("Fire Blast", "moving"), ("Fireball", "true"), ("Scorch", "true")],
+    "mage-fire": [("Arcane Explosion", "targets>=3"), ("Scorch", "stacks:Improved Scorch<5 or debuff:Improved Scorch<4"), ("Combustion", "stacks:Improved Scorch>=5"), ("Pyroblast", "buffstacks:Hot Streak>=1"), ("Fire Blast", "moving"), ("Fireball", "true"), ("Scorch", "true")],
     "mage-frost": [("Blizzard", "targets>=3"), ("Cold Snap", "false"), ("Ice Lance", "buffstacks:Fingers of Frost>=1"), ("Frostbolt", "true"), ("Fire Blast", "moving")],
     "priest-shadow": [("Shadow Word: Pain", "dot_missing"), ("Devouring Plague", "dot_missing"), ("Shadow Word: Death", "execute"), ("Mind Blast", "true"), ("Mind Flay", "true")],
     "rogue-assassination": [("Thistle Tea", "energy<20"), ("Cold Blood", "cp>=5"), ("Venom", "cp>=2 and buff_missing"), ("Slice and Dice", "cp>=2 and buff_missing"), ("Eviscerate", "cp>=5"), ("Mutilate", "true")],
@@ -355,9 +356,9 @@ ROTATIONS = {
     # Elemental Mastery has no equivalent talent in the Forever Elemental tree (removed from the rotation; was unreachable dead code).
     "shaman-elemental": [("Flame Shock", "dot_missing and mana>=2000"), ("Lava Burst", "mana>=1500"), ("Chain Lightning", "mana>=2500"), ("Lightning Bolt", "true")],
     "shaman-enhancement": [("Rage of the Farseer", "true"), ("Lightning Bolt", "buffstacks:Maelstrom Weapon>=5"), ("Stormstrike", "true"), ("Earth Shock", "mana>=1200 or debuff:Stormstrike>0"), ("Flame Shock", "dot_missing and mana>=2500")],
-    "warlock-affliction": [("Rain of Fire", "targets>=3"), ("Life Tap", "mana<400"), ("Curse of Agony", "dot_missing"), ("Corruption", "dot_missing"), ("Siphon Life", "dot_missing"), ("Wrack", "dot_missing"), ("Drain Soul", "execute and dot:Corruption>0"), ("Shadow Bolt", "true")],
+    "warlock-affliction": [("Demonic Sacrifice", "true"), ("Rain of Fire", "targets>=3"), ("Life Tap", "mana<400"), ("Curse of Agony", "dot_missing"), ("Corruption", "dot_missing"), ("Siphon Life", "dot_missing"), ("Wrack", "dot_missing"), ("Drain Soul", "execute and dot:Corruption>0"), ("Shadow Bolt", "true")],
     "warlock-demonology": [("Rain of Fire", "targets>=3"), ("Life Tap", "mana<400"), ("Curse of Agony", "dot_missing"), ("Corruption", "dot_missing"), ("Shadow Bolt", "true")],
-    "warlock-destruction": [("Rain of Fire", "targets>=3"), ("Life Tap", "mana<400"), ("Immolate", "dot_missing"), ("Conflagrate", "dot:Immolate>0 and dot:Immolate<4"), ("Shadowburn", "execute"), ("Incinerate", "true")],
+    "warlock-destruction": [("Demonic Sacrifice", "true"), ("Rain of Fire", "targets>=3"), ("Life Tap", "mana<400"), ("Immolate", "dot_missing"), ("Conflagrate", "dot:Immolate>0 and dot:Immolate<4"), ("Shadowburn", "execute"), ("Incinerate", "true")],
 }
 CONSUMABLE_ACTIONS = {"goblin_sapper_charge": "Goblin Sapper Charge", "major_mana_potion": "Major Mana Potion", "mighty_rage_potion": "Mighty Rage Potion", "demonic_rune": "Demonic Rune", "thistle_tea": "Thistle Tea"}
 
@@ -426,7 +427,8 @@ SPEC_ABOUT = {
         "tps": "No threat modifier applies."},
     "warlock-demonology": {
         "dps": "Priority: Rain of Fire once 3+ targets are up, Life Tap, Curse of Agony/Corruption kept up and spread across available targets, Shadow Bolt as filler.",
-        "tps": "No threat modifier applies."},
+        "tps": "No threat modifier applies.",
+        "notes": "The default build's single point in Demonic Sacrifice (105900) is a pass-through toward Master Demonologist/Soul Link, not intended to be cast: sacrificing the pet trades away its DPS and pet-synergy talents for a flat +15% school damage buff, which is a net loss for a spec built around an empowered pet (tested: ~-18% DPS). Affliction and Destruction don't share that tradeoff -- their pets contribute comparatively little damage -- so Demonic Sacrifice is in their default rotations instead."},
     "warlock-destruction": {
         "dps": "Priority: Rain of Fire once 3+ targets are up, Life Tap, Immolate upkeep, Conflagrate while Immolate has time remaining, Shadowburn in execute range, Incinerate as the main nuke.",
         "tps": "No threat modifier applies."},

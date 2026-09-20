@@ -4700,10 +4700,10 @@
       "role": "dps",
       "targets": 1,
       "url": "/all-specs.html?spec=mage-fire&race=Human",
-      "dps": 495.8169967950021,
-      "tps": 495.8169967950021,
+      "dps": 532.5407029614656,
+      "tps": 532.5407029614656,
       "dtps": 0.0,
-      "total_damage": 59498.039615400274
+      "total_damage": 63904.88435537591
     },
     {
       "id": "mage-fire",
@@ -4713,10 +4713,10 @@
       "role": "dps",
       "targets": 2,
       "url": "/all-specs.html?spec=mage-fire&race=Human",
-      "dps": 495.8169967950021,
-      "tps": 495.8169967950021,
+      "dps": 532.5407029614656,
+      "tps": 532.5407029614656,
       "dtps": 0.0,
-      "total_damage": 59498.039615400274
+      "total_damage": 63904.88435537591
     },
     {
       "id": "mage-fire",
@@ -4726,10 +4726,10 @@
       "role": "dps",
       "targets": 3,
       "url": "/all-specs.html?spec=mage-fire&race=Human",
-      "dps": 400.51129794828944,
-      "tps": 400.51129794828944,
+      "dps": 401.8077135186263,
+      "tps": 401.8077135186263,
       "dtps": 0.0,
-      "total_damage": 48061.35575379472
+      "total_damage": 48216.925622235154
     },
     {
       "id": "mage-fire",
@@ -4739,10 +4739,10 @@
       "role": "dps",
       "targets": 4,
       "url": "/all-specs.html?spec=mage-fire&race=Human",
-      "dps": 491.0269326033309,
-      "tps": 491.0269326033309,
+      "dps": 492.3106146302236,
+      "tps": 492.3106146302236,
       "dtps": 0.0,
-      "total_damage": 58923.23191239969
+      "total_damage": 59077.273755626826
     },
     {
       "id": "mage-fire",
@@ -4752,10 +4752,10 @@
       "role": "dps",
       "targets": 5,
       "url": "/all-specs.html?spec=mage-fire&race=Human",
-      "dps": 581.5425672583724,
-      "tps": 581.5425672583724,
+      "dps": 582.8135157418209,
+      "tps": 582.8135157418209,
       "dtps": 0.0,
-      "total_damage": 69785.10807100468
+      "total_damage": 69937.62188901851
     },
     {
       "id": "mage-fire",
@@ -4765,10 +4765,10 @@
       "role": "dps",
       "targets": 1,
       "url": "/all-specs.html?spec=mage-fire&race=Gnome",
-      "dps": 491.89605765906725,
-      "tps": 491.89605765906725,
+      "dps": 524.4718563674446,
+      "tps": 524.4718563674446,
       "dtps": 0.0,
-      "total_damage": 59027.5269190881
+      "total_damage": 62936.622764093394
     },
     {
       "id": "mage-fire",
@@ -4778,10 +4778,10 @@
       "role": "dps",
       "targets": 2,
       "url": "/all-specs.html?spec=mage-fire&race=Gnome",
-      "dps": 491.89605765906725,
-      "tps": 491.89605765906725,
+      "dps": 524.4718563674446,
+      "tps": 524.4718563674446,
       "dtps": 0.0,
-      "total_damage": 59027.5269190881
+      "total_damage": 62936.622764093394
     },
     {
       "id": "mage-fire",
@@ -4791,10 +4791,10 @@
       "role": "dps",
       "targets": 3,
       "url": "/all-specs.html?spec=mage-fire&race=Gnome",
-      "dps": 398.04624282332304,
-      "tps": 398.04624282332304,
+      "dps": 398.8450931517359,
+      "tps": 398.8450931517359,
       "dtps": 0.0,
-      "total_damage": 47765.54913879879
+      "total_damage": 47861.41117820832
     },
     {
       "id": "mage-fire",
@@ -4804,10 +4804,10 @@
       "role": "dps",
       "targets": 4,
       "url": "/all-specs.html?spec=mage-fire&race=Gnome",
-      "dps": 488.45909278092984,
-      "tps": 488.45909278092984,
+      "dps": 489.19940669673156,
+      "tps": 489.19940669673156,
       "dtps": 0.0,
-      "total_damage": 58615.09113371161
+      "total_damage": 58703.92880360782
     },
     {
       "id": "mage-fire",
@@ -4817,10 +4817,10 @@
       "role": "dps",
       "targets": 5,
       "url": "/all-specs.html?spec=mage-fire&race=Gnome",
-      "dps": 578.8719427385366,
-      "tps": 578.8719427385366,
+      "dps": 579.5537202417273,
+      "tps": 579.5537202417273,
       "dtps": 0.0,
-      "total_damage": 69464.6331286244
+      "total_damage": 69546.44642900728
     },
     {
       "id": "mage-fire",
@@ -4830,10 +4830,10 @@
       "role": "dps",
       "targets": 1,
       "url": "/all-specs.html?spec=mage-fire&race=Orc",
-      "dps": 492.6084945132803,
-      "tps": 492.6084945132803,
+      "dps": 524.6302647089611,
+      "tps": 524.6302647089611,
       "dtps": 0.0,
-      "total_damage": 59113.01934159366
+      "total_damage": 62955.631765075355
     },
     {
       "id": "mage-fire",
@@ -4843,10 +4843,10 @@
       "role": "dps",
       "targets": 2,
       "url": "/all-specs.html?spec=mage-fire&race=Orc",
-      "dps": 492.6084945132803,
-      "tps": 492.6084945132803,
+      "dps": 524.6302647089611,
+      "tps": 524.6302647089611,
       "dtps": 0.0,
-      "total_damage": 59113.01934159366
+      "total_damage": 62955.631765075355
     },
     {
       "id": "mage-fire",
@@ -4856,10 +4856,10 @@
       "role": "dps",
       "targets": 3,
       "url": "/all-specs.html?spec=mage-fire&race=Orc",
-      "dps": 396.33579488184466,
-      "tps": 396.33579488184466,
+      "dps": 397.28958760976883,
+      "tps": 397.28958760976883,
       "dtps": 0.0,
-      "total_damage": 47560.295385821366
+      "total_damage": 47674.750513172265
     },
     {
       "id": "mage-fire",
@@ -4869,10 +4869,10 @@
       "role": "dps",
       "targets": 4,
       "url": "/all-specs.html?spec=mage-fire&race=Orc",
-      "dps": 485.873197879023,
-      "tps": 485.873197879023,
+      "dps": 486.8198769407425,
+      "tps": 486.8198769407425,
       "dtps": 0.0,
-      "total_damage": 58304.78374548279
+      "total_damage": 58418.38523288913
     },
     {
       "id": "mage-fire",
@@ -4882,10 +4882,10 @@
       "role": "dps",
       "targets": 5,
       "url": "/all-specs.html?spec=mage-fire&race=Orc",
-      "dps": 575.4106008762014,
-      "tps": 575.4106008762014,
+      "dps": 576.3501662717161,
+      "tps": 576.3501662717161,
       "dtps": 0.0,
-      "total_damage": 69049.27210514416
+      "total_damage": 69162.01995260592
     },
     {
       "id": "mage-fire",
@@ -4895,10 +4895,10 @@
       "role": "dps",
       "targets": 1,
       "url": "/all-specs.html?spec=mage-fire&race=Undead",
-      "dps": 490.9822307188338,
-      "tps": 490.9822307188338,
+      "dps": 523.8578736445037,
+      "tps": 523.8578736445037,
       "dtps": 0.0,
-      "total_damage": 58917.86768626008
+      "total_damage": 62862.94483734046
     },
     {
       "id": "mage-fire",
@@ -4908,10 +4908,10 @@
       "role": "dps",
       "targets": 2,
       "url": "/all-specs.html?spec=mage-fire&race=Undead",
-      "dps": 490.9822307188338,
-      "tps": 490.9822307188338,
+      "dps": 523.8578736445037,
+      "tps": 523.8578736445037,
       "dtps": 0.0,
-      "total_damage": 58917.86768626008
+      "total_damage": 62862.94483734046
     },
     {
       "id": "mage-fire",
@@ -4921,10 +4921,10 @@
       "role": "dps",
       "targets": 3,
       "url": "/all-specs.html?spec=mage-fire&race=Undead",
-      "dps": 395.73608455885295,
-      "tps": 395.73608455885295,
+      "dps": 397.6060814196081,
+      "tps": 397.6060814196081,
       "dtps": 0.0,
-      "total_damage": 47488.33014706231
+      "total_damage": 47712.72977035298
     },
     {
       "id": "mage-fire",
@@ -4934,10 +4934,10 @@
       "role": "dps",
       "targets": 4,
       "url": "/all-specs.html?spec=mage-fire&race=Undead",
-      "dps": 483.43329229060606,
-      "tps": 483.43329229060606,
+      "dps": 485.3663894232421,
+      "tps": 485.3663894232421,
       "dtps": 0.0,
-      "total_damage": 58011.99507487272
+      "total_damage": 58243.96673078908
     },
     {
       "id": "mage-fire",
@@ -4947,10 +4947,10 @@
       "role": "dps",
       "targets": 5,
       "url": "/all-specs.html?spec=mage-fire&race=Undead",
-      "dps": 571.1305000223591,
-      "tps": 571.1305000223591,
+      "dps": 573.1266974268761,
+      "tps": 573.1266974268761,
       "dtps": 0.0,
-      "total_damage": 68535.66000268311
+      "total_damage": 68775.20369122516
     },
     {
       "id": "mage-fire",
@@ -4960,10 +4960,10 @@
       "role": "dps",
       "targets": 1,
       "url": "/all-specs.html?spec=mage-fire&race=Troll",
-      "dps": 489.6477156068902,
-      "tps": 489.6477156068902,
+      "dps": 522.6724137156964,
+      "tps": 522.6724137156964,
       "dtps": 0.0,
-      "total_damage": 58757.72587282682
+      "total_damage": 62720.68964588358
     },
     {
       "id": "mage-fire",
@@ -4973,10 +4973,10 @@
       "role": "dps",
       "targets": 2,
       "url": "/all-specs.html?spec=mage-fire&race=Troll",
-      "dps": 489.6477156068902,
-      "tps": 489.6477156068902,
+      "dps": 522.6724137156964,
+      "tps": 522.6724137156964,
       "dtps": 0.0,
-      "total_damage": 58757.72587282682
+      "total_damage": 62720.68964588358
     },
     {
       "id": "mage-fire",
@@ -4986,10 +4986,10 @@
       "role": "dps",
       "targets": 3,
       "url": "/all-specs.html?spec=mage-fire&race=Troll",
-      "dps": 392.77520073394055,
-      "tps": 392.77520073394055,
+      "dps": 393.4713209455322,
+      "tps": 393.4713209455322,
       "dtps": 0.0,
-      "total_damage": 47133.02408807285
+      "total_damage": 47216.55851346385
     },
     {
       "id": "mage-fire",
@@ -4999,10 +4999,10 @@
       "role": "dps",
       "targets": 4,
       "url": "/all-specs.html?spec=mage-fire&race=Troll",
-      "dps": 480.79104041641034,
-      "tps": 480.79104041641034,
+      "dps": 481.4801279410812,
+      "tps": 481.4801279410812,
       "dtps": 0.0,
-      "total_damage": 57694.92484996928
+      "total_damage": 57777.615352929744
     },
     {
       "id": "mage-fire",
@@ -5012,10 +5012,10 @@
       "role": "dps",
       "targets": 5,
       "url": "/all-specs.html?spec=mage-fire&race=Troll",
-      "dps": 568.8068800988802,
-      "tps": 568.8068800988802,
+      "dps": 569.48893493663,
+      "tps": 569.48893493663,
       "dtps": 0.0,
-      "total_damage": 68256.82561186561
+      "total_damage": 68338.67219239558
     },
     {
       "id": "mage-fire",
@@ -5025,10 +5025,10 @@
       "role": "dps",
       "targets": 1,
       "url": "/all-specs.html?spec=mage-fire&race=Skyborne%20%28Alliance%29",
-      "dps": 492.5192525013287,
-      "tps": 492.5192525013287,
+      "dps": 524.7697666950141,
+      "tps": 524.7697666950141,
       "dtps": 0.0,
-      "total_damage": 59102.310300159486
+      "total_damage": 62972.3720034017
     },
     {
       "id": "mage-fire",
@@ -5038,10 +5038,10 @@
       "role": "dps",
       "targets": 2,
       "url": "/all-specs.html?spec=mage-fire&race=Skyborne%20%28Alliance%29",
-      "dps": 492.5192525013287,
-      "tps": 492.5192525013287,
+      "dps": 524.7697666950141,
+      "tps": 524.7697666950141,
       "dtps": 0.0,
-      "total_damage": 59102.310300159486
+      "total_damage": 62972.3720034017
     },
     {
       "id": "mage-fire",
@@ -5051,10 +5051,10 @@
       "role": "dps",
       "targets": 3,
       "url": "/all-specs.html?spec=mage-fire&race=Skyborne%20%28Alliance%29",
-      "dps": 393.83367032521966,
-      "tps": 393.83367032521966,
+      "dps": 394.94483153070485,
+      "tps": 394.94483153070485,
       "dtps": 0.0,
-      "total_damage": 47260.04043902636
+      "total_damage": 47393.37978368456
     },
     {
       "id": "mage-fire",
@@ -5064,10 +5064,10 @@
       "role": "dps",
       "targets": 4,
       "url": "/all-specs.html?spec=mage-fire&race=Skyborne%20%28Alliance%29",
-      "dps": 482.62583708291777,
-      "tps": 482.62583708291777,
+      "dps": 483.76012083175357,
+      "tps": 483.76012083175357,
       "dtps": 0.0,
-      "total_damage": 57915.100449950136
+      "total_damage": 58051.214499810434
     },
     {
       "id": "mage-fire",
@@ -5077,10 +5077,10 @@
       "role": "dps",
       "targets": 5,
       "url": "/all-specs.html?spec=mage-fire&race=Skyborne%20%28Alliance%29",
-      "dps": 571.4180038406158,
-      "tps": 571.4180038406158,
+      "dps": 572.5754101328023,
+      "tps": 572.5754101328023,
       "dtps": 0.0,
-      "total_damage": 68570.16046087386
+      "total_damage": 68709.04921593625
     },
     {
       "id": "mage-frost",
