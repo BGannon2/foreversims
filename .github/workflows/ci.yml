@@ -42,6 +42,7 @@ jobs:
       - run: npm ci
       - run: npx eslint .
       - run: npm run test:worker
+      - run: npm run test:release
 
   lint-rust:
     name: Clippy

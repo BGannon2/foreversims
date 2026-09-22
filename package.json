@@ -1,7 +1,7 @@
 {
   "name": "foreversims",
   "private": true,
-  "description": "Lint tooling for the Worker and web/ static site scripts. No build step or runtime deps — see README.md.",
+  "description": "Lint tooling for the Worker and web/ static site scripts. No build step or runtime deps \u00e2\u20ac\u201d see README.md.",
   "devDependencies": {
     "eslint": "^9.13.0",
     "@eslint/js": "^9.13.0",
@@ -9,6 +9,9 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "test:worker": "node --test tests/worker.test.mjs"
+    "test:worker": "node --test tests/worker.test.mjs",
+    "release": "node tools/release.js",
+    "announce-release": "node tools/notify_release.js",
+    "test:release": "node --test tests/release.test.mjs"
   }
 }
