@@ -5,17 +5,21 @@ Sources
 * Class/race roster and racials: https://www.wowhead.com/forever/guide/new-race-class-combinations
 * Talent names, ranks, prerequisites and rank text: forever_talents_all.json
   (Wowhead Forever calculator payload).
+* Reviewed client values and exact rank curves: data/wago_verified.json,
+  build-pinned Wago CSV rows. These override baseline definitions below.
 * Level-60 base stats, stat conversions, attack-table constants, ability base
   damage, coefficients, cast times, costs and cooldowns: WoWSims Classic
   (https://github.com/wowsims/classic).  Values are Classic Anniversary rules
   unless a Forever talent tooltip overrides them; every such override is
   marked ``forever=True`` in the ability record.
-* Anything marked ``provisional`` has no Forever or Classic source in the
-  checked-in data and is exposed in the result configuration.
+* ``provisional`` notes describe the verified fields and remaining assumptions;
+  a reviewed client value does not verify the surrounding server behavior.
 """
 from __future__ import annotations
 
+import json as _json
 import re
+from pathlib import Path as _Path
 
 # ---------------------------------------------------------------------------
 # Roster (verified cell by cell against the Wowhead Forever table, 2026-09-17)
@@ -709,3 +713,24 @@ SET_NO_COMBAT_EFFECT = {m.strip() for m in re.findall(r"[^|]+?\|\d+", SET_NO_COM
 SET_PROVISIONAL = {"Bloodfang Armor|8": "6 x 1-second ticks of 283-317 total physical damage at 1 PPM; the heal is ignored.",
                    "Spider's Kiss|2": "5% chance per melee hit to lower target armor by 100 for 10 sec.",
                    "Dragonstalker Armor|8": "Expose Weakness modeled as +450 ranged attack power for 7 sec at 0.5 PPM."}
+
+# Reviewed, build-pinned client rows take precedence over the historical
+# Classic/tooltip baselines above. Keep the evidence beside the imported values:
+# a client number being verified does not certify the entire combat mechanic.
+_wago = _json.loads((_Path(__file__).resolve().parents[1] / "data/wago_verified.json").read_text(encoding="utf-8"))
+TALENT_RANK_EFFECTS = {tid: entry["fields"] for tid, entry in _wago["talents"].items()}
+for _name, _record in _wago["spells"].items():
+    _ability = ABILITIES[_name]
+    for _key, _value in _record["fields"].items():
+        if "." in _key:
+            _parent, _child = _key.split(".", 1)
+            _ability[_parent][_child] = _value
+        else:
+            _ability[_key] = _value
+    _ability["spell_id"] = _record["spell_id"]
+    _ability["source"] = f"https://wago.tools/db2/SpellEffect?build={_wago['build']}&filter[SpellID]=exact:{_record['spell_id']}"
+    _ability["provisional"] = (
+        f"Reviewed client fields ({', '.join(_record['fields'])}) from Wago build {_wago['build']}, "
+        f"spell {_record['spell_id']}; raw rows and field mappings retained in data/wago_verified.json. "
+        "Other behavior remains modeled, including proc rules, threat, secondary effects and availability."
+    )

@@ -120,7 +120,7 @@ pub fn finalize(cfg: &Config, results: &[IterResult]) -> Value {
         "buff_uptimes": buff_uptimes, "debuff_uptimes": debuff_uptimes, "buff_procs_per_min": buff_procs_per_min,
         "log": results.first().map(|r| serde_json::to_value(&r.log).unwrap()).unwrap_or(Value::Array(vec![])),
         "model_status": "Event-driven level-60 model: sourced base damage, coefficients, cast times, Classic attack tables (miss, dodge, parry, glancing, block, crit suppression), resource ticks, combo points, DoTs, procs, timed cooldowns, pets and racials. No calibration multiplier. Provisional values are listed under configuration.notes.",
-        "source": "https://www.wowhead.com/forever/ (roster, racials, talents) + WoWSims Classic (Classic Anniversary ability data)",
+        "source": "https://wago.tools (reviewed client fields and talent curves, build 1.60.1.69913; data/wago_verified.json) + https://www.wowhead.com/forever/ (roster, racials, calculator) + WoWSims Classic (baseline mechanics). Unverified behavior remains provisional.",
         "engine": "rust-wasm",
     })
 }

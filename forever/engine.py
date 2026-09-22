@@ -107,7 +107,12 @@ class Config:
         mods = {}
         for tid, rank in self.talents.items():
             for key, per_rank in TALENT_EFFECTS.get(tid, {}).items():
-                mods[key] = mods.get(key, 0) + per_rank * rank
+                if key not in TALENT_RANK_EFFECTS.get(tid, {}):
+                    mods[key] = mods.get(key, 0) + per_rank * rank
+            for key, values in TALENT_RANK_EFFECTS.get(tid, {}).items():
+                if not 1 <= rank <= len(values):
+                    raise ValueError(f"Invalid rank {rank} for talent {tid}")
+                mods[key] = mods.get(key, 0) + values[rank - 1]
         self.mods = mods
 
     def mod(self, key, default=0.0):
@@ -1870,5 +1875,5 @@ def simulate(request, items, enchants, sets):
         "buff_procs_per_min": buff_procs_per_min,
         "log": results[0]["log"],
         "model_status": "Event-driven level-60 model: sourced base damage, coefficients, cast times, Classic attack tables (miss, dodge, parry, glancing, block, crit suppression), resource ticks, combo points, DoTs, procs, timed cooldowns, pets and racials. No calibration multiplier. Provisional values are listed under configuration.notes.",
-        "source": "https://www.wowhead.com/forever/ (roster, racials, talents) + WoWSims Classic (Classic Anniversary ability data)",
+        "source": "https://wago.tools (reviewed client fields and talent curves, build 1.60.1.69913; data/wago_verified.json) + https://www.wowhead.com/forever/ (roster, racials, calculator) + WoWSims Classic (baseline mechanics). Unverified behavior remains provisional.",
     }

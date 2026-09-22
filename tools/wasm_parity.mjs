@@ -25,6 +25,9 @@ for (const c of cases) {
   const request = JSON.stringify(c.request), paladin = c.kind === 'paladin';
   const result = JSON.parse((paladin ? engine.simulate_paladin : engine.simulate_spec)(request));
   assert.equal(result.error, undefined, `${c.name}: ${result.error}`);
+  if (c.kind === 'spec') {
+    compare(c.python.configuration.talent_effects, result.configuration.talent_effects, `${c.name}.talent_effects`);
+  }
   const run = paladin ? engine.run_paladin_iterations : engine.run_spec_iterations;
   const finalize = paladin ? engine.finalize_paladin : engine.finalize_spec;
   const merged = JSON.parse(finalize(request, `[${run(request, 0, 1)},${run(request, 1, 3)}]`));

@@ -395,6 +395,7 @@ pub struct Tables {
     pub ROTATIONS: HashMap<String, Vec<(String, String)>>,
     pub CONSUMABLE_ACTIONS: IndexMap<String, String>,
     pub TALENT_EFFECTS: HashMap<String, IndexMap<String, f64>>,
+    pub TALENT_RANK_EFFECTS: HashMap<String, IndexMap<String, Vec<f64>>>,
     pub TALENT_GATED: HashMap<String, String>,
     pub DEFAULT_BUILDS: HashMap<String, IndexMap<String, i64>>,
     pub PET_FAMILIES: HashMap<String, PetFamily>,

@@ -6,7 +6,7 @@ Watches two things, the same two a parallel Forever conversion project
 1. The newest wow_classic_beta build on wago.tools (https://wago.tools/api/builds) -- a new
    build means the DB2 tables (abilities, talents, items) may have changed.
 2. foreverchanges.pro's banner build tag and item counts ("5,340 new items and 4,292 changed")
-   -- an independent read of roughly the same data; if it moves without wago.tools' build
+   -- a secondary freshness signal, not independent verification of client values; if it moves without wago.tools' build
    number moving, foreverchanges.pro re-parsed something (or Wowhead's Forever data changed
    under it), which is worth knowing even without a new client build.
 

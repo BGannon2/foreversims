@@ -348,7 +348,16 @@ impl Config {
         for (tid, rank) in &talents {
             if let Some(effects) = t.TALENT_EFFECTS.get(tid) {
                 for (key, per_rank) in effects {
-                    *mods.entry(key.clone()).or_insert(0.0) += per_rank * *rank as f64;
+                    if !t.TALENT_RANK_EFFECTS.get(tid).is_some_and(|m| m.contains_key(key)) {
+                        *mods.entry(key.clone()).or_insert(0.0) += per_rank * *rank as f64;
+                    }
+                }
+            }
+            if let Some(effects) = t.TALENT_RANK_EFFECTS.get(tid) {
+                for (key, values) in effects {
+                    let value = usize::try_from(*rank - 1).ok().and_then(|i| values.get(i))
+                        .ok_or_else(|| format!("Invalid rank {rank} for talent {tid}"))?;
+                    *mods.entry(key.clone()).or_insert(0.0) += value;
                 }
             }
         }

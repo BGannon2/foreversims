@@ -30,30 +30,38 @@ import argparse
 import csv
 import io
 import urllib.request
+from pathlib import Path
+from urllib.parse import urlencode
 
 BUILD_DEFAULT = "1.60.1.69913"
 
 
-def fetch_csv(table: str, build: str, filters: dict | None = None) -> list[dict]:
-    url = f"https://wago.tools/db2/{table}/csv?build={build}"
-    if filters:
-        for k, v in filters.items():
-            url += f"&filter[{k}]={v}"
+def fetch_csv(table: str, build: str, filters: dict | None = None, raw_dir: Path | None = None) -> list[dict]:
+    if raw_dir is not None:
+        with (raw_dir / f"{table}.csv").open(encoding="utf-8-sig", newline="") as handle:
+            rows = list(csv.DictReader(handle))
+        return [r for r in rows if all(r.get(k) == str(v) for k, v in (filters or {}).items())]
+    params = {"build": build, **{f"filter[{k}]": f"exact:{v}" for k, v in (filters or {}).items()}}
+    url = f"https://wago.tools/db2/{table}/csv?{urlencode(params)}"
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (compatible; forever-sim-data-tools/1.0)"})
     with urllib.request.urlopen(req, timeout=30) as r:
         text = r.read().decode("utf-8")
-    return list(csv.DictReader(io.StringIO(text)))
+    reader = csv.DictReader(io.StringIO(text))
+    if "ID" not in (reader.fieldnames or []):
+        raise ValueError(f"{table} response is not a DB2 CSV")
+    return list(reader)
 
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("spell_id", type=int)
     ap.add_argument("--build", default=BUILD_DEFAULT, help=f"wow_classic_beta build (default {BUILD_DEFAULT}; check https://wago.tools/builds for a newer one)")
+    ap.add_argument("--raw-dir", type=Path, help="Read previously downloaded build-pinned CSVs without network access")
     args = ap.parse_args()
     build = args.build
 
     print(f"== SpellEffect rows for spell {args.spell_id} (build {build}) ==")
-    effects = fetch_csv("SpellEffect", build, {"SpellID": args.spell_id})
+    effects = fetch_csv("SpellEffect", build, {"SpellID": args.spell_id}, args.raw_dir)
     if not effects:
         print("  (none -- check the spell id)")
     for e in effects:
@@ -64,10 +72,11 @@ def main():
               f"Variance={e.get('Variance', '')}")
 
     print("\n== Talent/trait-tree check ==")
-    defs = fetch_csv("TraitDefinition", build, {"SpellID": args.spell_id})
+    defs = fetch_csv("TraitDefinition", build, {"SpellID": args.spell_id}, args.raw_dir)
     if not defs:
         print("  Not a talent/trait-tree spell (no TraitDefinition row references this SpellID).")
-        print("  EffectBasePointsF above is the only source for this id. If this ability has")
+        print("  No trait curve was found. Level scaling, triggered spells and server rules")
+        print("  still need separate checks. If this ability has")
         print("  separate Rank-N SpellIDs (the old Classic pattern for baseline spells), run")
         print("  this tool once per rank id and compare EffectBasePointsF across them instead")
         print("  of assuming which id is the max rank.")
@@ -76,19 +85,20 @@ def main():
     for d in defs:
         def_id = d["ID"]
         print(f"  TraitDefinition {def_id} references this spell.")
-        points = fetch_csv("TraitDefinitionEffectPoints", build, {"TraitDefinitionID": def_id})
+        points = fetch_csv("TraitDefinitionEffectPoints", build, {"TraitDefinitionID": def_id}, args.raw_dir)
         if not points:
             print("    No TraitDefinitionEffectPoints row -- this trait has no curve-scaled effect.")
             continue
         for p in points:
             curve_id = p["CurveID"]
-            print(f"    effect {p['EffectIndex']}: CurveID={curve_id}")
-            curve = fetch_csv("CurvePoint", build, {"CurveID": curve_id})
+            print(f"    effect {p['EffectIndex']}: CurveID={curve_id}, OperationType={p['OperationType']}")
+            curve = fetch_csv("CurvePoint", build, {"CurveID": curve_id}, args.raw_dir)
             curve.sort(key=lambda c: int(c["OrderIndex"]))
             ranks = [(c["Pos_0"], c["Pos_1"]) for c in curve]
             print(f"      per-rank values (rank -> value), from CurvePoint: {ranks}")
             print("      Compare this against the SpellEffect.EffectBasePointsF value above --")
-            print("      if they disagree, CurvePoint is the one to trust.")
+            print("      Interpret the curve using OperationType and the effect's units; do not")
+            print("      blindly substitute a percentage, milliseconds, or raw resource units.")
 
 
 if __name__ == "__main__":
