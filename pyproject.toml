@@ -1,3 +1,24 @@
+# This file exists only to configure ruff below -- the Python code here (forever/, tools/,
+# tests/, server.py) is never meant to be an installable pip package. Cloudflare Workers Builds
+# auto-detects any pyproject.toml and unconditionally runs `pip install .` before its configured
+# build/deploy commands even start (not something exposed in the dashboard's Build settings), and
+# without an explicit [build-system]/[project]/[tool.setuptools] section, setuptools' default
+# package auto-discovery chokes on this repo's multiple top-level directories ("Multiple
+# top-level packages discovered in a flat-layout"). The py-modules = [] below tells it there's
+# nothing to package, so `pip install .` succeeds as a no-op instead of failing the build.
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "forever-sim-tools"
+version = "0.0.0"
+description = "Not a real package -- see the comment above. Exists so Cloudflare Workers Builds' auto-detected `pip install .` succeeds."
+requires-python = ">=3.10"
+
+[tool.setuptools]
+py-modules = []
+
 [tool.ruff]
 line-length = 200
 target-version = "py310"
