@@ -46,11 +46,19 @@ indefinitely even after a successful deploy. Always run one of those before `wra
    `npx wrangler secret put <NAME>` for each.
 4. Point `wrangler.jsonc`'s `routes` at your own domain(s), or drop that key to deploy only to
    the `*.workers.dev` subdomain.
-5. `python tools/export_static_data.py && bash tools/build_engine.sh && node tools/stamp_version.js`
-   (or the `.py` equivalents), then `npx wrangler deploy`.
-6. Announce it: `RELEASE_WEBHOOK_URL=... node tools/notify_release.js "What changed."` posts a
-   release-notes embed to the Discord server's `#releases` channel (write-restricted to this
-   webhook — see below). Optional; skip it for a deploy with nothing user-facing to announce.
+5. Build and validate the engine, regenerate benchmarks when needed, and commit the release.
+6. Write the Discord announcement to a versioned Markdown file, then run:
+   `npm run release -- --notes-file docs/release-notes-v0.22.0.md`
+   (use the new version's notes path for later releases). This validates notes and the webhook,
+   stamps assets, runs `wrangler deploy`, and posts the full notes only if deployment succeeds.
+   Set `RELEASE_WEBHOOK_URL` in the shell environment or local ignored `.dev.vars`.
+7. If deployment succeeded but notification failed, inspect Discord before retrying. Recover
+   with `npm run announce-release -- --notes-file <notes-path>`; do not redeploy just to retry.
+
+Direct `wrangler deploy` remains a low-level command and does not announce anything. Use
+`npm run release` for normal releases. PR merges no longer announce undeployed changes.
+The GitHub **Announce an existing release** workflow is manual recovery only; supply the
+notes file for an already deployed release. It uses the repository webhook secret.
 
 ## Discord release announcements
 

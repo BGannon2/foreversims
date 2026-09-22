@@ -1,26 +1,27 @@
-name: Announce release
+name: Announce an existing release
 
-# Posts a release-notes embed to the Discord #releases channel whenever a PR
-# merges into main. This announces the merge, not a site deploy — deploys
-# (wrangler deploy) stay a manual, deliberate step per HOSTING.md.
+# Recovery only. Normal releases use npm run release, which deploys first and then announces.
 on:
-  pull_request:
-    types: [closed]
-    branches: [main]
+  workflow_dispatch:
+    inputs:
+      notes_file:
+        description: Repository path to notes for an already successfully deployed release
+        required: true
+        type: string
+
+permissions:
+  contents: read
 
 jobs:
   notify:
-    name: Post to Discord #releases
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Notify Discord
+      - name: Publish release notes to Discord
         env:
           RELEASE_WEBHOOK_URL: ${{ secrets.RELEASE_WEBHOOK_URL }}
-          RELEASE_NOTES: ${{ github.event.pull_request.title }}
-          PR_URL: ${{ github.event.pull_request.html_url }}
-        run: node tools/notify_release.js
+          NOTES_FILE: ${{ inputs.notes_file }}
+        run: node tools/notify_release.js --notes-file "$NOTES_FILE"

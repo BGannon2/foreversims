@@ -1,64 +1,35 @@
-// Posts a release announcement to the Forever Sims Discord #releases channel via webhook.
-// Run as the last step of a deploy, after `wrangler deploy` succeeds:
-//   node tools/notify_release.js "What changed in this release, in a sentence or two."
-// Or, if no argument is given, falls back to the RELEASE_NOTES env var — this is how
-// .github/workflows/release-notify.yml calls it automatically on every PR merge to main.
-//
-// Reads the webhook URL from the RELEASE_WEBHOOK_URL environment variable — never hardcode it.
-// Get the URL from Discord: #releases channel settings -> Integrations -> Webhooks
-// ("Forever Sims Release Notes") -> Copy Webhook URL.
-const { execSync } = require("child_process");
-const fs = require("fs");
-const path = require("path");
+const fs = require('node:fs');
+const path = require('node:path');
+const { parseEnv } = require('node:util');
+const ROOT = path.resolve(__dirname, '..');
 
-const ROOT = path.resolve(__dirname, "..");
-
-function main() {
-  const notes = (process.argv.slice(2).join(" ") || process.env.RELEASE_NOTES || "").trim();
-  if (!notes) {
-    console.error("Usage: node tools/notify_release.js \"Release notes for this deploy.\"");
-    console.error("(or set the RELEASE_NOTES env var)");
-    process.exit(1);
-  }
-  const webhookUrl = process.env.RELEASE_WEBHOOK_URL;
-  if (!webhookUrl) {
-    console.error("RELEASE_WEBHOOK_URL is not set — skipping Discord notification.");
-    console.error("Set it locally: export RELEASE_WEBHOOK_URL=... (see .dev.vars.example)");
-    process.exit(1);
-  }
-
-  const version = fs.readFileSync(path.join(ROOT, "VERSION"), "utf8").trim();
-  let commit = "local";
-  try {
-    commit = execSync("git rev-parse --short HEAD", { cwd: ROOT }).toString().trim();
-  } catch { /* not a git checkout */ }
-
-  const fields = [{ name: "Build", value: commit, inline: true }];
-  if (process.env.PR_URL) fields.push({ name: "Pull Request", value: process.env.PR_URL, inline: true });
-
-  const embed = {
-    title: `Forever Sims v${version}`,
-    url: "https://foreversims.com",
-    description: notes,
-    color: 0x3fc6e8, // matches the site's teal accent
-    fields,
-    timestamp: new Date().toISOString(),
-  };
-
-  const body = JSON.stringify({ username: "Forever Sims", embeds: [embed] });
-  fetch(webhookUrl, { method: "POST", headers: { "Content-Type": "application/json" }, body })
-    .then((res) => {
-      if (!res.ok) {
-        return res.text().then((text) => {
-          throw new Error(`Discord webhook returned ${res.status}: ${text}`);
-        });
-      }
-      console.log(`Posted release notes for v${version} (${commit}) to #releases.`);
-    })
-    .catch((err) => {
-      console.error("Failed to post release notes:", err.message);
-      process.exit(1);
-    });
+function releaseInput(argv = process.argv.slice(2), env = process.env) {
+  const fileIndex = argv.indexOf('--notes-file');
+  const notes = (fileIndex >= 0 ? fs.readFileSync(path.resolve(ROOT, argv[fileIndex + 1]), 'utf8') : argv.join(' ') || env.RELEASE_NOTES || '').trim();
+  if (!notes) throw new Error('Provide --notes-file <path> or RELEASE_NOTES before releasing.');
+  if (notes.length > 4096) throw new Error('Release notes exceed Discord’s 4096-character embed limit.');
+  let webhook = env.RELEASE_WEBHOOK_URL;
+  if (!webhook && fs.existsSync(path.join(ROOT, '.dev.vars'))) webhook = parseEnv(fs.readFileSync(path.join(ROOT, '.dev.vars'), 'utf8')).RELEASE_WEBHOOK_URL;
+  if (!webhook) throw new Error('RELEASE_WEBHOOK_URL is missing. Set it in the environment or local .dev.vars.');
+  const url = new URL(webhook);
+  if (url.protocol !== 'https:' || !['discord.com', 'discordapp.com'].includes(url.hostname) || !url.pathname.startsWith('/api/webhooks/')) throw new Error('Release webhook must be an HTTPS Discord webhook.');
+  url.searchParams.set('wait', 'true');
+  return { notes, url, version: fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim() };
 }
 
-main();
+async function publishRelease(input, fetchImpl = fetch) {
+  const body = { username: 'Forever Sims', allowed_mentions: { parse: [] }, embeds: [{ title: `Forever Sims v${input.version}`, url: 'https://foreversims.com', description: input.notes, color: 0x3fc6e8, timestamp: new Date().toISOString() }] };
+  let response;
+  try { response = await fetchImpl(input.url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: AbortSignal.timeout(30000) }); }
+  catch { throw new Error('Discord request did not return a confirmation. Check the channel before retrying to avoid duplicates.'); }
+  if (!response.ok) throw new Error(`Discord rejected the release announcement (HTTP ${response.status}).`);
+  const message = await response.json();
+  if (!message.id || !message.channel_id) throw new Error('Discord returned no message receipt; check the channel before retrying.');
+  console.log(`Posted v${input.version} release notes. Discord message: ${message.id}`);
+  return message;
+}
+
+if (require.main === module) {
+  Promise.resolve().then(() => publishRelease(releaseInput())).catch(error => { console.error(error.message); process.exitCode = 1; });
+}
+module.exports = { ROOT, releaseInput, publishRelease };
