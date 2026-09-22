@@ -28,11 +28,25 @@ def rust(kind, payload):
 
 @unittest.skipUnless(CLI.is_file(), "engine-rs CLI not built (cd engine-rs && cargo build --release)")
 class RustParityTests(unittest.TestCase):
+    def assert_numeric_tree(self, expected, actual, path):
+        if isinstance(expected, (float, int)) and not isinstance(expected, bool):
+            self.assertIsInstance(actual, (float, int), path)
+            tolerance = (.100000001 if path.endswith('.resource') else .010000001 if path.endswith('.time') else .001000001) if '.log.' in path else 1e-6
+            self.assertAlmostEqual(expected, actual, delta=tolerance, msg=path)
+        elif isinstance(expected, str) and '.log.' in path:
+            self.assertEqual(expected, actual, path)
+        elif isinstance(expected, dict):
+            for key, value in expected.items():
+                self.assert_numeric_tree(value, actual.get(key), f'{path}.{key}')
+        elif isinstance(expected, list):
+            self.assertEqual(len(expected), len(actual), path)
+            for i, value in enumerate(expected): self.assert_numeric_tree(value, actual[i], f'{path}.{i}')
+
     def test_shared_engine_specs_match_python_exactly(self):
         from forever.all_specs import public_specs, simulate_spec
         from server import default_request
-        for sid in ("warrior-fury", "mage-fire", "rogue-combat", "hunter-beast-mastery", "warlock-affliction", "druid-feral-tank"):
-            spec = next(s for s in public_specs() if s["id"] == sid)
+        for spec in public_specs():
+            sid = spec['id']
             req = default_request(spec, spec["races"][0], iterations=4, duration=45, seed=31)
             py, rs = simulate_spec(req), rust("spec", req)
             self.assertNotIn("error", rs, sid)
@@ -42,6 +56,8 @@ class RustParityTests(unittest.TestCase):
             for name, value in py["ability_dps"].items():
                 self.assertAlmostEqual(value, rs["ability_dps"][name], places=6, msg=f"{sid}: {name}")
             self.assertEqual(len(py["log"]), len(rs["log"]), sid)
+            for key in ('metrics', 'ability_stats', 'log', 'taken_dtps'):
+                if key in py: self.assert_numeric_tree(py[key], rs[key], f'{sid}.{key}')
 
     def test_paladin_matches_python_exactly(self):
         from forever.sim import preset, simulate
@@ -53,6 +69,8 @@ class RustParityTests(unittest.TestCase):
                 self.assertAlmostEqual(py["metrics"][key]["mean"], rs["metrics"][key]["mean"], places=6, msg=f"{spec_id}: {key}")
             self.assertEqual(list(py["ability_dps"]), list(rs["ability_dps"]), spec_id)
             self.assertEqual(py["gear_summary"]["totals"], rs["gear_summary"]["totals"], spec_id)
+            for key in ('metrics', 'ability_damage', 'log'):
+                if key in py: self.assert_numeric_tree(py[key], rs[key], f'{spec_id}.{key}')
 
     def test_rust_reports_validation_errors(self):
         from forever.sim import preset

@@ -26,10 +26,7 @@ class SimulationTests(unittest.TestCase):
         self.assertEqual((p['encounter']['enemy_damage_min'],p['encounter']['enemy_damage_max']),(2700,3300))
 
     def test_paladin_swing_cadence_has_no_pull_haste(self):
-        # Bloodlust/Heroism doesn't exist as a raid-wide buff in Forever (Classic-era-based; no
-        # such spell in the client data) -- Enhancement Shaman's Rage of the Farseer is its own
-        # personal haste cooldown, not a party/raid buff. Swings should run at flat weapon speed
-        # from t=0, not get a free opening haste window.
+        # With the optional opening Bloodlust scenario disabled, use base weapon speed.
         p=self.basic('retribution');p['duration']=10;p['character'].update(weapon_speed=3.5,hit_chance=1,crit_chance=0)
         r=Fight(p,0,True).run()
         self.assertEqual(r['hits']['Melee'],2)
@@ -66,7 +63,7 @@ class SimulationTests(unittest.TestCase):
 
     def test_every_settings_toggle_is_connected_to_the_model(self):
         p=preset('protection'); base,_=apply_gear(p)
-        fight_only={'gift_of_arthas','windfury_totem','grace_of_air','moonkin_aura','trueshot_aura','major_mana_potion','demonic_rune','goblin_sapper_charge','dragonbreath_chili'}
+        fight_only={'bloodlust','gift_of_arthas','windfury_totem','grace_of_air','moonkin_aura','trueshot_aura','major_mana_potion','demonic_rune','goblin_sapper_charge','dragonbreath_chili'}
         for group in ('raid_buffs','consumables'):
             for key in p[group]:
                 if key in fight_only or not p[group][key]: continue
@@ -106,6 +103,7 @@ class SimulationTests(unittest.TestCase):
             def random(self): return self.value
             def uniform(self,a,b): return a
         for key,value in [('insect_swarm',.01),('scorpid_sting',.04)]:
+            clean['character']['defense']=clean['encounter']['target_level']*5
             clean['debuffs'].update(insect_swarm=False,scorpid_sting=False); clean['debuffs'][key]=True
             avoided=Fight(clean,5); avoided.rng=FixedRandom(value); avoided.enemy()
             clean['debuffs'][key]=False
@@ -162,7 +160,7 @@ class SimulationTests(unittest.TestCase):
     def test_consecration_rank_five_cost_ticks_and_damage(self):
         p=self.basic('retribution'); p['duration']=9; p['iterations']=1
         p['character'].update(mana=135,mana_per_second=0,spell_hit_chance=0)
-        p['rotation'].update(use_judgement=False,twist_seals=False)
+        p['rotation'].update(use_judgement=False,twist_seals=False,use_holy_strike=False)
         p['talents']={k:0 for k in p['talents']}
         first=Fight(p,0); first.decision()
         self.assertEqual(first.mana_spent,135)
@@ -215,7 +213,7 @@ class SimulationTests(unittest.TestCase):
         p=self.basic(); p['model']['use_classic_era_conversions']=True
         r=simulate(p); c=r['effective_character']
         self.assertGreater(c['attack_power'],0); self.assertGreater(c['armor'],0)
-        self.assertAlmostEqual(c['physical_mitigation'],c['armor']/(c['armor']+400+85*c['level']))
+        self.assertAlmostEqual(c['physical_mitigation'],c['armor']/(c['armor']+400+85*p['encounter']['target_level']))
 
     def test_shield_expiration(self):
         p=self.basic(); p['character'].update(avoidance=0,block_chance=1)
@@ -343,4 +341,3 @@ class SimulationTests(unittest.TestCase):
         self.assertTrue(all(e['time']<7 for e in r['log']))
 
 if __name__=='__main__': unittest.main()
-

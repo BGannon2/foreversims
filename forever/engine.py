@@ -12,6 +12,7 @@ import re
 import statistics
 
 from .engine_data import *  # noqa: F401,F403
+from .profile_rules import item_allowed
 
 EPS = 1e-7
 WEAPON_TYPES = ("Axe", "Dagger", "Fist Weapon", "Mace", "Polearm", "Staff", "Sword")
@@ -68,11 +69,16 @@ class Config:
         self.racial = RACIALS[self.race]
         self.gear = [items.get(int(x), {}) for x in request.get("gear", []) if str(x).isdigit()]
         self.gear_slots = request.get("gear_slots", [])
+        for row in self.gear_slots:
+            iid = int(row.get('id') or 0)
+            if iid and not item_allowed(items.get(iid, {}), row.get('slot'), s['class_name']):
+                raise ValueError(f"Item {iid} cannot be equipped in {row.get('slot')} by {s['class_name']}.")
         self.items, self.enchant_data, self.set_data = items, enchants, sets
         self.buffs = set(request.get("buffs", []))
         self.debuffs = set(request.get("debuffs", []))
         self.consumes = self._validate_consumes(set(request.get("consumables", [])))
-        self.notes = []  # provisional / unresolved notes surfaced to the UI
+        self.notes = ["Periodic critical damage uses a snapshotted expected value, not independent tick outcomes. Tick crit counts, variance and proc interactions remain provisional. Monte Carlo intervals measure sampling noise, not uncertainty in mechanics."]
+        if 'bloodlust' in self.buffs: self.notes.append('Requested Bloodlust scenario: 30% haste from the pull; 40-second duration is provisional pending confirmed Forever spell data.')
         self._talents(request)
         self._weapons(request)
         self._stats()
@@ -167,6 +173,7 @@ class Config:
         gear_stats = {}
         self.item_uses, self.item_procs, unresolved, applied = [], [], [], []
         for item in self.gear:
+            self.notes.extend(f"{item.get('name', 'Item')}: {note}" for note in item.get("modelNotes", []))
             for k, v in permanent_item_stats(item).items(): gear_stats[k] = gear_stats.get(k, 0) + (v or 0)
             for effect in item.get("effects", []):
                 self._item_effect(item, effect, gear_stats, applied, unresolved)
@@ -196,6 +203,7 @@ class Config:
                 key = primary if k == "primary" else k
                 gear_stats[key] = gear_stats.get(key, 0) + (v or 0)
             if e["id"] == "crusader" and s["style"] == "melee": self.crusader_hands.add(slot)
+        gear_stats["armor"] = gear_stats.get("armor", 0) * (1 + self.mod("item_armor_pct"))
         for k, v in gear_stats.items(): st[k] = st.get(k, 0) + v
         for key in self.buffs:
             for k, v in BUFF_STATS.get(key, {}).items(): st[k] = st.get(k, 0) + v
@@ -205,6 +213,7 @@ class Config:
         if "mana_spring" in self.buffs and self.mod("buff_pct:mana_spring"): st["mp5"] = st.get("mp5", 0) + BUFF_STATS["mana_spring"]["mp5"] * self.mod("buff_pct:mana_spring")
         if "blessing_of_kings" in self.buffs:
             for stat in ("strength", "agility", "stamina", "intellect", "spirit"): st[stat] = st.get(stat, 0) * 1.10
+        if self.race == "Human" and self.racial_enabled: st["spirit"] *= 1.05
         self.windfury_totem = "windfury_totem" in self.buffs and s["style"] == "melee" and s["form"] is None and s["class_name"] != "Shaman"
         # Talent percentage stats
         for stat in ("strength", "agility", "stamina", "intellect", "spirit", "armor", "mana"):
@@ -218,10 +227,9 @@ class Config:
         if self.racial.get("health_pct"): st["health_pct"] = self.racial["health_pct"]
         # Derived
         st["attackPower"] = st.get("attackPower", 0) + st["strength"] * AP_PER_STRENGTH[cls] + st["agility"] * AP_PER_AGILITY[cls] + st["intellect"] * self.mod("ap_from_int") + self.flag("predatory_strikes")
-        # Ranged attack power: base + 2 per Agility (Hunter) + item Attack Power + ranged-only items + Aspect of the Hawk.
-        # Melee-only buffs (Battle Shout, Blessing of Might, Juju Might, Firewater) do not add ranged AP.
-        melee_only_ap = sum(BUFF_STATS.get(k, {}).get("attackPower", 0) for k in self.buffs) + sum(CONSUME_STATS.get(k, {}).get("attackPower", 0) for k in self.consumes)
-        st["rangedAttackPower"] = st.get("rangedAttackPower", 0) + (st.get("attackPower", 0) - melee_only_ap) + st["agility"] * 2 * (cls == "Hunter") + (120 * (1 + self.mod("hawk_pct")) if cls == "Hunter" else 0)
+        # RAP has its own base and Agility dependency; Strength and melee-only buffs never enter it.
+        # Generic item AP and Juju Might/Firewater grant both melee and ranged AP in Classic.
+        st["rangedAttackPower"] = st.get("rangedAttackPower", 0) + gear_stats.get("attackPower", 0) + sum(CONSUME_STATS.get(k, {}).get("attackPower", 0) for k in self.consumes) + (st["agility"] * 2 + st["intellect"] * self.mod("ap_from_int") + 120 * (1 + self.mod("hawk_pct")) if cls == "Hunter" else 0)
         st["spellPower"] = st.get("spellPower", 0) + st["intellect"] * self.mod("sp_from_int") + st["spirit"] * self.flag("spiritual_guidance") + (self.flag("demonic_knowledge") if cls == "Warlock" and self.request.get("pet_family", "succubus") != "none" else 0)
         st["meleeCrit"] = st.get("meleeCrit", 0) + st["agility"] * MELEE_CRIT_PER_AGI[cls] + self.mod("melee_crit")
         st["rangedCrit"] = st.get("rangedCrit", 0) + st["agility"] * MELEE_CRIT_PER_AGI[cls] + self.mod("melee_crit") + self.mod("ranged_crit")
@@ -250,6 +258,8 @@ class Config:
         def add(key, value):
             gear_stats[key] = gear_stats.get(key, 0) + value
         if effect.startswith("Equip:"):
+            if _re(r'^Equip: \+\d+ (?:Mana Regeneration|(?:Shadow|Fire|Frost|Arcane|Nature|Holy) Spell Damage)$', effect):
+                return  # Normalized into catalog stats at import.
             m = _re(r"\+(\d+) Attack Power(?! (?:when|in))", effect)
             if m:
                 if "attackPower" not in stats: add("attackPower", float(m.group(1)))
@@ -332,9 +342,8 @@ class Config:
         a["name"] = name
         base_cost = a.get("cost", 0)
         if a.get("cost_pct") and self.spec["resource"] == "Mana":
-            # Forever's percent-of-base-mana abilities (e.g. Multi-Shot's 13.9%) cost a percentage
-            # of self.st["mana"], the intellect-derived base mana pool computed above.
-            base_cost = self.stats["mana"] * a["cost_pct"]
+            # Base mana is the class/level pool, before Intellect, gear and percentage talents.
+            base_cost = CLASS_BASE[self.spec["class_name"]]["mana"] * a["cost_pct"]
         a["cost"] = max(0.0, (base_cost + self.mod(f"cost:{name}")) * (1 + self.mod(f"cost_pct:{name}") + self.mod("cost_pct_all") + self.mod(f"cost_pct_school:{a.get('school')}")))
         if self.spec["resource"] == "Rage" and a.get("cost") and self.flag("focused_rage") and name not in {"Heroic Strike"}: a["cost"] = max(0, a["cost"] - 3)
         if self.flag("shadowform") and a.get("school") == "shadow": a["cost"] *= 0.5
@@ -353,7 +362,10 @@ class Config:
     def _pets(self, request):
         s = self.spec; self.pet = None
         if s["class_name"] == "Hunter":
-            fam = str(request.get("pet_family", "cat")); family = PET_FAMILIES.get(fam, PET_FAMILIES["cat"])
+            fam = str(request.get("pet_family", "cat"))
+            if fam == "none": return
+            if fam not in PET_FAMILIES: raise ValueError("Choose a supported Hunter pet family or none.")
+            family = PET_FAMILIES[fam]
             self.pet = {"kind": "hunter", "family": fam, "damage": family["damage"], "special": family["special"], "dump": family["dump"], "speed": max(1.0, min(2.5, float(request.get("pet_attack_speed", 2.0)))), "uptime": max(0.0, min(1.0, float(request.get("pet_uptime", 1.0)))), "abilities": set(request.get("pet_abilities", [x for x in (family["special"], family["dump"]) if x]))}
         elif s["class_name"] == "Warlock":
             fam = str(request.get("pet_family", "succubus"))
@@ -429,8 +441,10 @@ def apply_set_bonuses(gear, stats, forever_sets):
         for bonus in bonuses:
             if count < int(bonus.get("required", 99)): continue
             desc = bonus.get("description", ""); applied = {}
-            for key, value in bonus.get("stats", {}).items(): stats[key] = stats.get(key, 0) + value; applied[key] = value
-            if not applied:
+            conditional = bool(_re(r"chance on|chance to (?:gain|increase|grant|restore|trigger)|proc|for \d+ sec|when |whenever |after |stack", desc))
+            if not conditional:
+                for key, value in bonus.get("stats", {}).items(): stats[key] = stats.get(key, 0) + value; applied[key] = value
+            if not applied and not conditional:
                 for key, pattern in SET_PATTERNS:
                     m = _re(pattern, desc)
                     if m: value = float(m.group(1)); stats[key] = stats.get(key, 0) + value; applied[key] = value; break
@@ -534,7 +548,7 @@ class Iteration:
             self.buffs[name] = {"until": self.t + duration, "stacks": 1, **kw}
         self.note_proc(name, duration)
         if self.trace and len(self.log) < 400:
-            self.log.append({"time": round(self.t, 2), "event": f"Buff: {name}", "outcome": "refreshed" if was_active else "gained", "amount": 0.0, "resource": self.resource()})
+            self.log.append({"time": round(self.t, 2), "event": f"Buff: {name}", "outcome": "refreshed" if was_active else "gained", "amount": 0.0, "resource": round(self.resource(), 1)})
         self.uptime_track(name)
 
     def note_proc(self, name, duration=0.0):
@@ -555,7 +569,7 @@ class Iteration:
         self.next_instant = True
         self.note_proc("Nightfall")
         if self.trace and len(self.log) < 400:
-            self.log.append({"time": round(self.t, 2), "event": "Buff: Nightfall", "outcome": "proc", "amount": 0.0, "resource": self.resource()})
+            self.log.append({"time": round(self.t, 2), "event": "Buff: Nightfall", "outcome": "proc", "amount": 0.0, "resource": round(self.resource(), 1)})
 
     def add_debuff(self, name, duration, **kw):
         b = self.debuffs.get(name)
@@ -568,9 +582,10 @@ class Iteration:
 
     def haste(self, kind):
         h = 1.0
+        if "bloodlust" in self.c.buffs and self.t < 40: h *= 1.30
         h *= 1 + self.c.racial.get("haste", 0) * self.c.racial_enabled
         if kind == "melee":
-            if self.flurry > 0: h *= 1 + 0.25 * (self.c.flag("flurry") > 0)
+            if self.flurry > 0: h *= 1 + self.c.flag("flurry")
             for name in ("Slice and Dice", "Blade Flurry", "Berserking", "Rage of the Farseer", "Frenzy"):
                 b = self.buffs.get(name)
                 if b and b["until"] > self.t: h *= 1 + b.get("haste", 0)
@@ -587,12 +602,24 @@ class Iteration:
                 if b and b["until"] > self.t: h *= 1 + b.get("haste", 0)
         return h
 
+    def attack_delay(self, speed, kind):
+        haste=self.haste(kind); delay=speed/haste
+        if 'bloodlust' in self.c.buffs and self.t<40 and self.t+delay>40:
+            before=40-self.t
+            return before+(speed-before*haste)/(haste/1.30)
+        return delay
+
+    def pet_delay(self, speed):
+        if 'bloodlust' not in self.c.buffs or self.t >= 40: return speed
+        before = 40 - self.t
+        return speed / 1.30 if speed / 1.30 <= before else before + speed - before * 1.30
+
     def ap(self, ranged=False):
         base = self.st["rangedAttackPower"] if ranged else self.st["attackPower"]
         for b in self.buffs.values():
             if b["until"] > self.t:
                 if b.get("stat") == "attackPower" or (ranged and b.get("stat") == "rangedAttackPower"): base += b["value"]
-                if b.get("stat") == "strength": base += b["value"] * AP_PER_STRENGTH[self.s["class_name"]]
+                if not ranged and b.get("stat") == "strength": base += b["value"] * AP_PER_STRENGTH[self.s["class_name"]]
                 if b.get("ap_pct"): base *= 1 + b["ap_pct"]
         return base
 
@@ -718,7 +745,7 @@ class Iteration:
             return "miss", 0.0
         crit = self.crit_chance("spell", ability, school) if can_crit else 0.0
         if self.next_crit and can_crit: crit = 1.0
-        if roll < crit: return "crit", self.crit_multiplier("spell", ability, school)
+        if rng.random() < crit: return "crit", self.crit_multiplier("spell", ability, school)
         return "hit", 1.0
 
     # ---- damage ---------------------------------------------------------
@@ -766,7 +793,7 @@ class Iteration:
         if c.flag("rend_and_tear") and kind == "melee" and not white and any(self.dots.get(d) and self.dots[d]["remaining"] > 0 and ABILITIES.get(d, {}).get("bleed") for d in self.dots): m *= 1 + c.flag("rend_and_tear")
         if c.flag("quietus") and ability in {"Sinister Strike", "Hemorrhage"} and self.t >= self.duration * 0.65: m *= 1 + c.flag("quietus")
         if self.eureka > 0 and not white and kind != "pet" and not periodic: m *= 1.10
-        if c.pet is None and c.flag("lone_wolf"): m *= 1 + c.flag("lone_wolf")
+        if c.flag("lone_wolf") and (c.pet is None or c.pet["uptime"] <= 0 or (self.pet_state and self.t >= self.pet_state["active_until"])): m *= 1 + c.flag("lone_wolf")
         return m
 
     def armor_mult(self, ability=None):
@@ -788,7 +815,7 @@ class Iteration:
             self.record(name, outcome, 0.0)
             return 0.0
         dmg = amount * mult * self.multiplier(name, school, kind, periodic, white)
-        if school == "physical": dmg *= self.armor_mult(name)
+        if school == "physical" and not (periodic and (self.dots.get(name, {}).get("bleed") or ABILITIES.get(name, {}).get("bleed"))): dmg *= self.armor_mult(name)
         if outcome == "glance": r.glances += 1
         if outcome == "crit": r.crits += 1
         r.hits += 1; r.damage += dmg; self.total += dmg
@@ -807,9 +834,19 @@ class Iteration:
         return m
 
     # ---- resources -------------------------------------------------------
-    def gain_rage(self, amount):
+    def gain_rage(self, amount, source="ability"):
         before = self.rage; self.rage = min(self.max_rage, self.rage + amount)
-        self.threat += (self.rage - before) * 5 * self.threat_multiplier()
+        # Classic rage from dealt/taken damage and refunds is threat-free. Other gains
+        # produce 5 flat threat per actual Rage, without stance/threat multipliers.
+        if source == "ability":
+            threat = (self.rage - before) * 5
+            self.threat += threat; self.row("Rage gains").threat += threat
+
+    def white_rage(self, hand_item, damage):
+        if self.s["resource"] == "Rage":
+            gained = damage * 7.5 / RAGE_CONVERSION_60
+            if hand_item is self.c.oh: gained *= 1 + self.c.flag("dw_rage")
+            self.gain_rage(gained, source="damage")
 
     def gain_energy(self, amount):
         self.energy = min(self.max_energy, self.energy + amount)
@@ -847,9 +884,7 @@ class Iteration:
         # Rage
         if self.s["resource"] == "Rage":
             if white:
-                gained = damage * 7.5 / RAGE_CONVERSION_60
-                if hand_item is c.oh: gained *= 1 + c.flag("dw_rage")
-                self.gain_rage(gained)
+                self.white_rage(hand_item, damage)
             if c.flag("unbridled_wrath") and rng.random() < c.flag("unbridled_wrath"): self.gain_rage(2 if c.two_hand else 1)
             if c.flag("primal_fury") and self.s["form"] == "bear" and ability_name and "crit" in ability_name: pass
         # Weapon enchants / item procs
@@ -949,7 +984,10 @@ class Iteration:
     def extra_attack(self, name, item, bonus_ap=0.0):
         out, m = self.melee_outcome(item, True, name)
         self.row(name).casts += 1
-        dmg = self.deal(name, self.weapon_damage(item, bonus_ap=bonus_ap) if out not in {"miss", "dodge", "parry"} else 0, "physical", "melee", white=True, outcome=out, mult=m)
+        raw = self.weapon_damage(item, bonus_ap=bonus_ap) if out != "miss" else 0
+        if out in {"dodge", "parry"}:
+            self.white_rage(item, raw * self.multiplier(name, "physical", "melee", white=True) * self.armor_mult(name))
+        dmg = self.deal(name, raw, "physical", "melee", white=True, outcome=out, mult=m)
         if dmg:
             self.on_weapon_hit(item, True, name, dmg)
             if out == "crit": self.on_crit(name, dmg, item)
@@ -991,9 +1029,11 @@ class Iteration:
         self.row(name).casts += 1
         if out == "dodge": self.dodged_recently = self.t
         dmg = 0.0
-        if out not in {"miss", "dodge", "parry"}:
+        if out != "miss":
             dmg = self.weapon_damage(item)
             if hand == "off": dmg *= 0.5 * (1 + c.flag("dw_damage"))
+        if out in {"dodge", "parry"}:
+            self.white_rage(item, dmg * self.multiplier(name, "physical", "melee", white=True) * self.armor_mult(name))
         dmg = self.deal(name, dmg, "physical", "melee", white=True, outcome=out, mult=m)
         if dmg:
             self.on_weapon_hit(item, True, name, dmg)
@@ -1116,9 +1156,11 @@ class Iteration:
     def use_offgcd(self):
         """Off-GCD actions: racial actives, potions, item uses, Bloodrage, cooldown buffs."""
         c = self.c
-        if c.racial_enabled and c.racial.get("active") and self.t >= self.racial_next:
+        if c.racial_enabled and c.racial.get("active") and self.t >= self.racial_next and (c.racial["active"]["name"] != "Stoneform" or (self.s["role"] == "tank" and self.t + EPS >= self.gcd_until and self.cast is None)):
             r = c.racial["active"]; self.racial_next = self.t + r["cooldown"]
-            if r.get("crit"): self.add_buff(r["name"], r["duration"])
+            if r["name"] == "Stoneform":
+                self.add_buff("Stoneform", r["duration"]); self.gcd_until = self.t + GCD; self.row("Stoneform").casts += 1
+            elif r.get("crit"): self.add_buff(r["name"], r["duration"])
             elif r.get("haste"): self.add_buff(r["name"], r["duration"], haste=r["haste"])
             elif r.get("ap_pct"): self.add_buff(r["name"], r["duration"], ap_pct=r["ap_pct"], sp_pct=r["sp_pct"])
             elif r.get("charges"): self.eureka = r["charges"]
@@ -1519,13 +1561,13 @@ class Iteration:
     def boss_swing(self):
         c = self.c; rng = self.rng
         raw = rng.uniform(2700, 3300)
-        defense_bonus = max(0.0, self.st["defense"] - TARGET_DEFENSE) * 0.0004
-        miss = 0.05 + defense_bonus
-        dodge = self.st["dodge"] / 100 + defense_bonus
-        parry = (self.st["parry"] / 100 + defense_bonus) if self.s["class_name"] in {"Warrior", "Paladin"} else 0.0
-        block = (self.st["block"] / 100 + defense_bonus) if self.st.get("block", 0) > 0 else 0.0
+        defense_bonus = (self.st["defense"] - TARGET_DEFENSE) * 0.0004
+        miss = max(0.0, 0.05 + defense_bonus)
+        dodge = max(0.0, self.st["dodge"] / 100 + defense_bonus)
+        parry = max(0.0, self.st["parry"] / 100 + defense_bonus) if self.s["class_name"] in {"Warrior", "Paladin"} else 0.0
+        block = max(0.0, self.st["block"] / 100 + defense_bonus) if self.st.get("block", 0) > 0 else 0.0
         crit = max(0.0, 0.05 - defense_bonus)
-        crush = max(0.0, ((TARGET_DEFENSE - self.st["defense"]) * 2 - 15) / 100) if False else max(0.0, (0.15 - (self.st["defense"] - 300) * 0.02))
+        crush = 0.15 if TARGET_LEVEL - LEVEL >= 3 else 0.0  # bonus defense only pushes crushes off via table coverage
         roll = rng.random(); acc = 0.0
         outcome = "hit"
         for name, chance in (("miss", miss), ("dodge", dodge), ("parry", parry), ("block", block), ("crit", crit), ("crush", crush)):
@@ -1540,7 +1582,7 @@ class Iteration:
             self.row("Boss melee").misses += 1; self.record("Boss melee", outcome, 0); return
         armor = self.st.get("armor", 0)
         mult = {"crit": 2.0, "crush": 1.5}.get(outcome, 1.0)
-        amount = raw * mult * (1 - min(0.75, armor / (armor + 400 + 85 * (TARGET_LEVEL + 4.5 * (TARGET_LEVEL - 59)))))
+        amount = raw * mult * (1 - min(0.75, armor / (armor + 400 + 85 * TARGET_LEVEL)))
         amount *= STANCE_MODS.get(self.s["stance"] or self.s["form"], {}).get("taken", 1.0)
         if "demoralizing_shout" in c.debuffs: amount *= 0.90
         if outcome == "block":
@@ -1549,8 +1591,9 @@ class Iteration:
             amount = max(0.0, amount - bv)
             if c.flag("shield_spec_rage") and rng.random() < min(1.0, c.flag("shield_spec_rage")): self.gain_rage(5)
             if c.flag("wrath_parry") and rng.random() < c.flag("wrath_parry"): self.next_parry = True
+        if self.buff_active("Stoneform"): amount *= 0.90
         self.taken += amount; self.health -= amount
-        self.gain_rage(amount * 2.5 / RAGE_CONVERSION_60)
+        self.gain_rage(amount * 2.5 / (0.0091107836 * TARGET_LEVEL ** 2 + 3.225598133 * TARGET_LEVEL + 4.2652911), source="damage")
         if c.flag("enrage") and rng.random() < c.flag("enrage") * 3: self.enrage_until = self.t + 12
         if c.flag("might_rage") and rng.random() < c.flag("might_rage"): self.gain_rage(1)
         if c.flag("wildheart_proc") and rng.random() < c.flag("wildheart_proc"):
@@ -1589,19 +1632,29 @@ class Iteration:
 
     def pet_attack(self, name, base, school, crit_chance, ability=False):
         rng = self.rng
+        # Pets have their own level-60 hit table. Owner hit, crit, dual wield,
+        # weapon skill and forced-crit buffs must not leak into it.
+        roll = rng.random()
         if school == "physical":
-            out, m = self.melee_outcome(None, not ability, None)
-            if out == "crit": m = 2.0
-            elif out == "hit" and rng.random() < crit_chance: out, m = "crit", 2.0
+            glance = 0.0 if ability else 0.40
+            if roll < 0.08: out, m = "miss", 0.0
+            elif roll < 0.145: out, m = "dodge", 0.0
+            elif roll < 0.145 + glance: out, m = "glance", rng.uniform(0.55, 0.75)
+            elif roll < 0.145 + glance + max(0.0, crit_chance - 0.048): out, m = "crit", 2.0
+            else: out, m = "hit", 1.0
         else:
-            out, m = self.spell_outcome(name, school, True)
-            if out == "crit": m = 1.5
+            if roll >= 0.83: out, m = "miss", 0.0
+            elif rng.random() < max(0.0, crit_chance - 0.021): out, m = "crit", 1.5
+            else: out, m = "hit", 1.0
         r = self.row(name); r.casts += 1
         if out in {"miss", "dodge", "parry"}: r.misses += 1; self.record(name, out, 0); return 0.0
         dmg = base * m * self.pet_multiplier()
         if school == "physical": dmg *= self.armor_mult()
         if out == "crit": r.crits += 1
+        if out == "glance": r.glances += 1
         r.hits += 1; r.damage += dmg; self.total += dmg; r.threat += dmg; self.pet_threat += dmg
+        if out == "crit" and self.c.pet["kind"] == "hunter" and self.c.flag("pet_frenzy") and rng.random() < self.c.flag("pet_frenzy"):
+            self.pet_state["frenzy_until"] = self.t + 8
         self.record(name, out, dmg)
         return dmg
 
@@ -1612,25 +1665,20 @@ class Iteration:
             ps["focus"] = min(100.0, ps["focus"] + (self.t - ps["last"]) * PET_FOCUS_PER_SEC * (1 + c.flag("pet_focus"))); ps["last"] = self.t
             crit = 0.05 + c.flag("pet_crit") / 100
             if self.t + EPS >= ps["next_swing"]:
-                # WoWSims Classic hunter pets have no stat inheritance from the owner and no
-                # Strength->AttackPower dependency (sim/hunter/pet.go: makeStatInheritance
-                # returns an empty stats.Stats{}; addUniversalStatDependencies has no AP dep) --
-                # base swing damage is flat, not AP-normalized. The previous ap=252.0 placeholder
-                # roughly doubled pet melee damage versus the sourced model.
+                # WoWSims sim/hunter/pet.go: own 136 Strength, 2 AP/Strength,
+                # base -20 AP; no owner stat inheritance.
                 speed = p["speed"]
-                base = rng.uniform(18.17, 27.66) * speed
-                dmg = self.pet_attack("Pet Melee", base, "physical", crit)
+                base = (rng.uniform(18.17, 27.66) + 252 / 14) * speed
+                self.pet_attack("Pet Melee", base, "physical", crit)
                 haste = 1.3 if self.t < ps["frenzy_until"] else 1.0
-                ps["next_swing"] = self.t + speed / haste
-                if dmg and c.flag("pet_frenzy") and rng.random() < c.flag("pet_frenzy") and self.row("Pet Melee").crits: pass
+                ps["next_swing"] = self.t + self.pet_delay(speed / haste)
             if ps["gcd"] <= self.t + EPS:
                 for name in (p["special"], p["dump"]):
                     if not name or name not in p["abilities"]: continue
                     cfg = PET_ABILITIES[name]
                     if ps["ready"].get(name, 0) > self.t or ps["focus"] < cfg["cost"]: continue
                     ps["focus"] -= cfg["cost"]; ps["ready"][name] = self.t + cfg["cooldown"]; ps["gcd"] = self.t + 1.6
-                    dmg = self.pet_attack(f"Pet - {name}", rng.uniform(cfg["min"], cfg["max"]), cfg["school"], crit, ability=True)
-                    if dmg and c.flag("pet_frenzy") and self.row(f"Pet - {name}").crits and rng.random() < c.flag("pet_frenzy"): ps["frenzy_until"] = self.t + 8
+                    self.pet_attack(f"Pet - {name}", rng.uniform(cfg["min"], cfg["max"]), cfg["school"], crit, ability=True)
                     break
                 else:
                     ps["gcd"] = self.t + 0.5
@@ -1642,7 +1690,7 @@ class Iteration:
                 ap = cfg.get("strength", 0) * 2 - 20
                 base = rng.uniform(*cfg["melee"]) + ap / 14 * cfg["speed"]
                 self.pet_attack(f"{fam.title()} - Melee", base, "physical", 0.05)
-                ps["next_swing"] = self.t + cfg["speed"]
+                ps["next_swing"] = self.t + self.pet_delay(cfg["speed"])
             spell = cfg.get("spell")
             if spell and spell in p["abilities"]:
                 if ps["cast_until"] is not None and self.t + EPS >= ps["cast_until"]:
@@ -1654,7 +1702,7 @@ class Iteration:
                 if ps["cast_until"] is None and self.t + EPS >= ps["next_cast"] and ps["mana"] >= cfg["spell_cost"]:
                     ps["mana"] -= cfg["spell_cost"]
                     cast = cfg.get("cast", 0)
-                    ps["cast_until"] = self.t + max(cast, 0.0)
+                    ps["cast_until"] = self.t + max(cast, 0.0) / (1.30 if "bloodlust" in c.buffs and self.t < 40 else 1)
                     if cast == 0: ps["cast_until"] = self.t
             if cfg.get("utility") in p["abilities"] and self.t + EPS >= ps.get("next_utility", 0):
                 ps["next_utility"] = self.t + 5; r = self.row(f"{fam.title()} - {cfg['utility']}"); r.casts += 1; r.threat += 120; self.pet_threat += 120
@@ -1736,12 +1784,12 @@ class Iteration:
             if s["style"] == "melee":
                 if t + EPS >= self.next_mh:
                     if self.alive: self.swing(c.mh, "main")
-                    self.next_mh = t + float(c.mh["weaponSpeed"]) / self.haste("melee")
+                    self.next_mh = t + self.attack_delay(float(c.mh["weaponSpeed"]), "melee")
                 if c.oh and t + EPS >= self.next_oh:
                     if self.alive: self.swing(c.oh, "off")
-                    self.next_oh = t + float(c.oh["weaponSpeed"]) / self.haste("melee")
+                    self.next_oh = t + self.attack_delay(float(c.oh["weaponSpeed"]), "melee")
             if s["style"] == "ranged" and t + EPS >= self.next_ranged and (self.cast is None or not c.actions[self.cast["name"]].get("ranged_cast")):
-                self.auto_shot(); self.next_ranged = t + float(c.ranged["weaponSpeed"]) / self.haste("ranged")
+                self.auto_shot(); self.next_ranged = t + self.attack_delay(float(c.ranged["weaponSpeed"]), "ranged")
             if s["resource"] == "Mana" and t + EPS >= self.next_mana_tick:
                 self.next_mana_tick += 2.0
                 mp5 = self.st.get("mp5", 0)

@@ -4859,7 +4859,7 @@
     },
     "priest-shadow": {
       "source": "https://github.com/wowsims/classic/blob/master/ui/shadow_priest/gear_sets/p1.bis.gear.json",
-      "source_label": "WoWSims Classic P1.Bis (completed with same-role phase preset)",
+      "source_label": "Classic Phase 1-2 baseline with Anathema (legal Priest weapon)",
       "gear": [
         {
           "slot": "Head",
@@ -5224,52 +5224,44 @@
           ]
         },
         {
-          "slot": "Main Hand",
-          "id": 17103,
-          "name": "Azuresong Mageblade",
-          "icon": "inv_sword_39",
+          "id": 18609,
+          "name": "Anathema",
+          "icon": "inv_staff_12",
           "quality": "Epic",
-          "itemLevel": 71,
-          "stats": {
-            "intellect": 12.0,
-            "stamina": 7.0,
-            "spellCrit": 1.0,
-            "spellPower": 40.0
-          },
-          "effects": [
-            "Equip: Improves your chance to get a critical strike with spells by 1%.",
-            "Equip: Increases damage and healing done by magical spells and effects by up to 40."
-          ],
-          "source": "Boss Drop: Golemagg the Incinerator",
-          "subclass": "Sword",
-          "weaponDamageMin": 64,
-          "weaponDamageMax": 140,
-          "weaponSpeed": 2.4,
+          "itemLevel": 75,
+          "requiredLevel": 60,
+          "slot": "Main Hand",
           "equipSlots": [
             "main_hand"
-          ]
+          ],
+          "subclass": "Staff",
+          "stats": {
+            "stamina": 22,
+            "intellect": 31,
+            "shadowPower": 69,
+            "mp5": 7,
+            "shadowResistance": 20
+          },
+          "effects": [],
+          "tooltip": "",
+          "source": "WoWSims Classic item database (MIT)",
+          "wowhead": "https://www.wowhead.com/classic/item=18609",
+          "phase": 1,
+          "weaponDamageMin": 134,
+          "weaponDamageMax": 222,
+          "weaponSpeed": 3,
+          "allowedClasses": [
+            "Priest"
+          ],
+          "itemSlot": "Two-Hand"
         },
         {
           "slot": "Off Hand",
-          "id": 10796,
-          "name": "Drakestone",
-          "icon": "inv_misc_orb_03",
-          "quality": "Rare",
-          "itemLevel": 54,
-          "stats": {
-            "spellPower": 7.0
-          },
-          "effects": [
-            "Equip: Increases damage and healing done by magical spells and effects by up to 7."
-          ],
-          "source": "Zone Drop",
-          "subclass": "Held In Off-hand",
-          "weaponDamageMin": null,
-          "weaponDamageMax": null,
-          "weaponSpeed": null,
-          "equipSlots": [
-            "off_hand"
-          ]
+          "id": 0,
+          "name": "Empty (two-hand equipped)",
+          "stats": {},
+          "effects": [],
+          "icon": "inv_misc_questionmark"
         },
         {
           "slot": "Ranged / Relic",

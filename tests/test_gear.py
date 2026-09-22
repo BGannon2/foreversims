@@ -60,7 +60,9 @@ class GearTests(unittest.TestCase):
         profile["model"]["use_classic_era_conversions"] = False
         profile["gear"] = empty_gear()
         effective, summary = apply_gear(profile)
-        self.assertEqual(effective["character"], profile["character"])
+        for key, value in profile["character"].items():
+            self.assertEqual(effective["character"][key], 0 if key == 'block_chance' else value)
+        self.assertFalse(effective["character"]['has_shield'])
         self.assertEqual(summary["equipped"], [])
 
     def test_weapon_and_direct_stats_are_applied(self):

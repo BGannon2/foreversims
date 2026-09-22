@@ -39,6 +39,7 @@ def dump(path: Path, value, compact=True):
 
 
 def engine_tables():
+    from forever.profile_rules import equipment_rules
     stance = {("none" if k is None else k): v for k, v in ed.STANCE_MODS.items()}
     return {
         "CLASS_RACES": ed.CLASS_RACES, "CREATURE_TYPES": sorted(ed.CREATURE_TYPES), "RACE_STATS": ed.RACE_STATS, "CLASS_BASE": ed.CLASS_BASE,
@@ -53,6 +54,7 @@ def engine_tables():
         "PET_FOCUS_PER_SEC": ed.PET_FOCUS_PER_SEC, "WARLOCK_PETS": ed.WARLOCK_PETS, "POISONS": ed.POISONS, "WINDFURY": ed.WINDFURY,
         "ITEM_PROC_PPM": {str(k): v for k, v in ed.ITEM_PROC_PPM.items()}, "CONSUMABLE_GROUPS": sim.CONSUMABLE_GROUPS,
         "SET_EFFECTS": ed.SET_EFFECTS, "SET_NO_COMBAT_EFFECT": sorted(ed.SET_NO_COMBAT_EFFECT), "SET_PROVISIONAL": ed.SET_PROVISIONAL,
+        "EQUIPMENT_RULES": equipment_rules(),
     }
 
 
@@ -66,19 +68,22 @@ def paladin_tables():
         "phase6_gear": {spec: gear_data.phase6_gear(spec) for spec in ("protection", "retribution")}, "gear_slots": list(gear_data.GEAR_SLOTS),
         "catalog": {key: gear_data.CATALOG[key] for key in ("version", "source", "scope")}, "forever_sets": gear_data.FOREVER_SETS["sets"],
         "consumable_stats": gear_data.CONSUMABLE_STATS, "direct_stats": {k: list(v) for k, v in gear_data.DIRECT_STATS.items()}, "classic_primary": gear_data.CLASSIC_PRIMARY,
+        "item_models": {str(i): gear_data.item_stats_and_effects(item) for i, item in gear_data.ITEMS.items()},
+        "default_enchants": {spec: gear_data.paladin_enchants(spec) for spec in ('protection', 'retribution')},
     }
 
 
 def api_payloads():
     """Same bodies server.py returns for the GET routes."""
     from forever.gear_data import CATALOG, PHASE6_BIS
+    from forever.profile_rules import enchant_preferences, equipment_rules
     from forever.sim import ASSUMPTIONS, CONSUMABLE_DATA, DATA, TALENT_DATA, preset
     return {
         "bootstrap": {
             "presets": {name: preset(name) for name in ("protection", "retribution")}, "sources": DATA["sources"], "source_status": DATA["status"],
             "assumptions": ASSUMPTIONS, "excluded": DATA["excluded"], "gear_catalog": {key: CATALOG[key] for key in ("version", "source", "license", "scope")},
             "phase6_bis": PHASE6_BIS, "talent_data": TALENT_DATA, "consumable_data": CONSUMABLE_DATA, "setting_data": server.SETTING_DATA,
-            "races": ed.CLASS_RACES["Paladin"], "racials": all_specs.public_racials(), "defaults": server.DEFAULTS, "about": ed.PALADIN_ABOUT,
+            "races": ed.CLASS_RACES["Paladin"], "racials": all_specs.public_racials(), "defaults": server.DEFAULTS, "about": ed.PALADIN_ABOUT, "enchants": server.ENCHANT_DATA,
         },
         "items": {"version": CATALOG["version"], "items": list(all_specs.ITEMS.values())},  # full merged catalog: classic_era_items + extra_items + phase12_bis-only rows + engine hardcoded supplements
         "specs": {"specs": all_specs.public_specs()},
@@ -86,6 +91,7 @@ def api_payloads():
         "spec-bootstrap": {
             "specs": all_specs.public_specs(), "talents": server.ALL_TALENTS, "gear": server.PHASE12_BIS, "forever_bis": server.FOREVER_BIS, "consumables": CONSUMABLE_DATA,
             "settings": server.SETTING_DATA, "enchants": server.ENCHANT_DATA, "racials": all_specs.public_racials(), "defaults": server.DEFAULTS, "buff_groups": ed.BUFF_GROUPS,
+            "enchant_preferences": {s['id']: enchant_preferences(s) for s in all_specs.public_specs()}, "equipment_rules": equipment_rules(),
             "set_effects": ed.SET_EFFECTS, "set_no_combat_effect": sorted(ed.SET_NO_COMBAT_EFFECT), "set_provisional": ed.SET_PROVISIONAL, "set_patterns": [p for _, p in engine.SET_PATTERNS],
         },
     }

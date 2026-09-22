@@ -41,6 +41,7 @@ jobs:
           node-version: "22"
       - run: npm ci
       - run: npx eslint .
+      - run: npm run test:worker
 
   lint-rust:
     name: Clippy
@@ -82,3 +83,10 @@ jobs:
         run: cargo build --release
       - name: Check Python/Rust parity
         run: python tools/parity_check.py --iterations 10 --duration 45
+      - name: Run native regression and full metric parity tests
+        run: python -m unittest discover -s tests -t .
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Check committed browser WASM and worker merges
+        run: python tools/wasm_parity.py

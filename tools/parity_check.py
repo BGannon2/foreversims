@@ -84,7 +84,7 @@ def main():
             print(f"{sid:24} {pd:10.2f} {'ERROR':>10}   {err}")
             bad += 1
             continue
-        diff = abs(rd - pd) / max(pd, 1e-9)
+        diff = max(abs(rd - pd) / max(abs(pd), 1e-9), abs(rt - pt) / max(abs(pt), 1e-9))
         flag = "" if diff <= args.tolerance else "  <-- MISMATCH"
         if flag:
             bad += 1

@@ -115,6 +115,9 @@ class StatTests(unittest.TestCase):
                     self.assertNotEqual(reduced.stats, full.stats, f"{sid}: {key} has no stat effect")
             for key in s["default_buffs"]:
                 reduced = config(sid, buffs=[k for k in s["default_buffs"] if k != key])
+                if key == 'bloodlust':
+                    self.assertAlmostEqual(engine.Iteration(full, 1, False).haste('spell') / engine.Iteration(reduced, 1, False).haste('spell'), 1.30)
+                    continue
                 self.assertTrue(reduced.stats != full.stats or reduced.windfury_totem != full.windfury_totem, f"{sid}: {key} is inert")
 
     def test_item_effects_are_parsed(self):
@@ -136,7 +139,7 @@ class StatTests(unittest.TestCase):
         self.assertEqual(oh["configuration"]["rejected_enchants"][0]["slot"], "off_hand")
         rogue = default_request(spec("rogue-combat"), iterations=1, duration=20)
         ok = simulate_spec({**rogue, "enchants": [{"slot": "main_hand", "id": "agility_15"}]})
-        self.assertEqual(ok["configuration"]["rejected_enchants"], []); self.assertAlmostEqual(ok["configuration"]["gear_stats"]["agility"], config("rogue-combat").stats["agility"] + 15 * 1.1, places=3)
+        self.assertEqual(ok["configuration"]["rejected_enchants"], []); self.assertAlmostEqual(ok["configuration"]["gear_stats"]["agility"], config("rogue-combat", enchants=[]).stats["agility"] + 15 * 1.1, places=3)
 
 
 class AttackTableTests(unittest.TestCase):
@@ -174,7 +177,7 @@ class AttackTableTests(unittest.TestCase):
         it.st["spellHit"] = 0; it.st["spellCrit"] = 20.0
         n = 40000; outs = [it.spell_outcome("Frostbolt", "frost")[0] for _ in range(n)]
         self.assertAlmostEqual(outs.count("miss") / n, 0.17, delta=0.01)
-        self.assertAlmostEqual(outs.count("crit") / n, 0.20 - 0.021, delta=0.01)
+        self.assertAlmostEqual(outs.count("crit") / (n - outs.count("miss")), 0.20 - 0.021, delta=0.01)
         it.st["spellHit"] = 40
         self.assertAlmostEqual([it.spell_outcome("Frostbolt", "frost")[0] for _ in range(n)].count("miss") / n, 0.01, delta=0.004)
 

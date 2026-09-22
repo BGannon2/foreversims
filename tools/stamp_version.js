@@ -20,3 +20,16 @@ const workerPath = path.join(root, "web", "sim-worker.js");
 const workerSrc = fs.readFileSync(workerPath, "utf8").replace(/\?v=[^"']+/g, `?v=${commit}`);
 fs.writeFileSync(workerPath, workerSrc);
 console.log(`web/sim-worker.js: cache-busted to ?v=${commit}`);
+
+// The client and HTML must also change URLs, otherwise a cached client keeps
+// requesting an old worker even after the worker's internal URLs are updated.
+const clientPath = path.join(root, "web", "sim-client.js");
+fs.writeFileSync(clientPath, fs.readFileSync(clientPath, "utf8").replace(/const VERSION = "[^"]+"/, `const VERSION = "${commit}"`));
+for (const name of fs.readdirSync(path.join(root, "web")).filter(n => n.endsWith(".html"))) {
+  const file = path.join(root, "web", name);
+  fs.writeFileSync(file, fs.readFileSync(file, "utf8").replace(/((?:src|href)="\/[^"?]+\.(?:js|css))(?:\?v=[^"]*)?"/g, `$1?v=${commit}"`));
+}
+for (const name of fs.readdirSync(path.join(root, "web")).filter(n => n.endsWith(".js"))) {
+  const file = path.join(root, "web", name);
+  fs.writeFileSync(file, fs.readFileSync(file, "utf8").replace(/(["'])(\/data\/[^"'?]+\.json)(?:\?v=[^"']*)?\1/g, (_, quote, url) => `${quote}${url}?v=${commit}${quote}`));
+}

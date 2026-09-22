@@ -289,6 +289,13 @@ impl Config {
         let racial = t.RACIALS.get(&race).cloned().unwrap_or_default();
         let gear: Vec<Item> = request.get("gear").and_then(|g| g.as_array()).map(|a| a.iter().filter_map(value_digits).map(|id| catalog.get(id)).collect()).unwrap_or_default();
         let gear_slots: Vec<GearSlot> = request.get("gear_slots").and_then(|g| g.as_array()).map(|a| a.iter().filter(|x| x.is_object()).filter_map(|x| serde_json::from_value(x.clone()).ok()).collect()).unwrap_or_default();
+        for row in &gear_slots {
+            let id = row.id_digits().unwrap_or(0);
+            let slot = row.slot.as_deref().unwrap_or("");
+            if id != 0 && !crate::items::item_allowed(&catalog.get(id), slot, &spec.class_name, &t.EQUIPMENT_RULES) {
+                return Err(format!("Item {id} cannot be equipped in {slot} by {}.", spec.class_name));
+            }
+        }
         let buffs = str_set(request.get("buffs"));
         let debuffs = str_set(request.get("debuffs"));
         let consumes = Self::validate_consumes(t, str_set(request.get("consumables")))?;
@@ -299,6 +306,8 @@ impl Config {
             active_set_bonuses: vec![], unresolved_set_bonuses: vec![], applied_enchants: vec![], rejected_enchants: vec![], crusader_hands: HashSet::new(), windfury_totem: false, racial_crit: 0.0, threat_reduction: 0.0,
             rotation: vec![], rotation_conds: vec![], rotation_last: HashMap::new(), actions: IndexMap::new(), action_names: vec![], pet: None,
         };
+        c.notes.push("Periodic critical damage uses a snapshotted expected value, not independent tick outcomes. Tick crit counts, variance and proc interactions remain provisional. Monte Carlo intervals measure sampling noise, not uncertainty in mechanics.".into());
+        if c.buffs.contains("bloodlust") { c.notes.push("Requested Bloodlust scenario: 30% haste from the pull; 40-second duration is provisional pending confirmed Forever spell data.".into()); }
         c.init_talents()?;
         c.init_weapons(catalog);
         c.init_stats(catalog);
@@ -424,6 +433,9 @@ impl Config {
         let mut skills: IndexMap<String, i64> = IndexMap::new();
         let splitter = regex_lite::Regex::new(r", and |, | and ").unwrap();
         for item in &self.gear {
+            if let Some(Value::Array(notes)) = item.extra.get("modelNotes") {
+                self.notes.extend(notes.iter().filter_map(|n| n.as_str()).map(|n| format!("{}: {n}", item.name)));
+            }
             for effect in &item.effects {
                 if let Some(g) = re_search(r"Increased (.+?) \+(\d+)", effect) {
                     let amount: i64 = g[2].clone().unwrap().parse().unwrap();
@@ -517,6 +529,8 @@ impl Config {
                 }
             }
         }
+        let armor = gear_stats.get("armor").copied().unwrap_or(0.0) * (1.0 + self.mod_("item_armor_pct"));
+        gear_stats.insert("armor".into(), armor);
         for (k, v) in &gear_stats {
             add(&mut st, k, *v);
         }
@@ -547,6 +561,7 @@ impl Config {
                 st.insert(stat.into(), v);
             }
         }
+        if self.race == "Human" && self.racial_enabled { st["spirit"] *= 1.05; }
         self.windfury_totem = self.buffs.contains("windfury_totem") && self.spec.style == "melee" && self.spec.form.is_none() && cls != "Shaman";
         for stat in ["strength", "agility", "stamina", "intellect", "spirit", "armor", "mana"] {
             let pct = self.mod_(&format!("stat_pct:{stat}"));
@@ -577,10 +592,9 @@ impl Config {
         let g = |st: &StatMap, k: &str| st.get(k).copied().unwrap_or(0.0);
         let v = g(&st, "attackPower") + st["strength"] * t.AP_PER_STRENGTH[&cls] + st["agility"] * t.AP_PER_AGILITY[&cls] + st["intellect"] * self.mod_("ap_from_int") + self.flag("predatory_strikes");
         st.insert("attackPower".into(), v);
-        let melee_only_ap: f64 = self.buffs.iter().map(|k| t.BUFF_STATS.get(k).and_then(|m| m.get("attackPower")).copied().unwrap_or(0.0)).sum::<f64>()
-            + self.consumes.iter().map(|k| t.CONSUME_STATS.get(k).and_then(|m| m.get("attackPower")).copied().unwrap_or(0.0)).sum::<f64>();
+        let consumable_ap: f64 = self.consumes.iter().map(|k| t.CONSUME_STATS.get(k).and_then(|m| m.get("attackPower")).copied().unwrap_or(0.0)).sum::<f64>();
         let hunter = cls == "Hunter";
-        let v = g(&st, "rangedAttackPower") + (g(&st, "attackPower") - melee_only_ap) + st["agility"] * 2.0 * (hunter as i32 as f64) + if hunter { 120.0 * (1.0 + self.mod_("hawk_pct")) } else { 0.0 };
+        let v = g(&st, "rangedAttackPower") + g(&gear_stats, "attackPower") + consumable_ap + if hunter { st["agility"] * 2.0 + st["intellect"] * self.mod_("ap_from_int") + 120.0 * (1.0 + self.mod_("hawk_pct")) } else { 0.0 };
         st.insert("rangedAttackPower".into(), v);
         let dk = if cls == "Warlock" && req_str(self.request.get("pet_family"), "succubus") != "none" { self.flag("demonic_knowledge") } else { 0.0 };
         let v = g(&st, "spellPower") + st["intellect"] * self.mod_("sp_from_int") + st["spirit"] * self.flag("spiritual_guidance") + dk;
@@ -623,6 +637,9 @@ impl Config {
         let applied = &mut self.item_effects_applied;
         let unresolved = &mut self.item_effects_unresolved;
         if effect.starts_with("Equip:") {
+            if re_matches(r"^Equip: \+\d+ (?:Mana Regeneration|(?:Shadow|Fire|Frost|Arcane|Nature|Holy) Spell Damage)$", effect) {
+                return; // Normalized into catalog stats at import.
+            }
             // "+N Attack Power" not followed by " when" / " in" (negative lookahead in the Python source).
             let re = regex_lite::Regex::new(r"(?i)\+(\d+) Attack Power").unwrap();
             for m in re.captures_iter(effect) {
@@ -803,9 +820,8 @@ impl Config {
         let school = a.school.clone().unwrap_or_else(|| "None".into());
         let mut base_cost = a.cost;
         if a.cost_pct != 0.0 && self.spec.resource == "Mana" {
-            // Forever's percent-of-base-mana abilities (e.g. Multi-Shot's 13.9%) cost a percentage
-            // of the intellect-derived base mana pool in self.stats["mana"].
-            base_cost = self.stats.get("mana").copied().unwrap_or(0.0) * a.cost_pct;
+            // Base mana excludes Intellect, gear, buffs and percentage talents.
+            base_cost = self.t.CLASS_BASE[&self.spec.class_name]["mana"] * a.cost_pct;
         }
         a.cost = ((base_cost + self.mod_(&format!("cost:{name}"))) * (1.0 + self.mod_(&format!("cost_pct:{name}")) + self.mod_("cost_pct_all") + self.mod_(&format!("cost_pct_school:{school}")))).max(0.0);
         if self.spec.resource == "Rage" && a.cost != 0.0 && self.flag("focused_rage") != 0.0 && name != "Heroic Strike" {
@@ -839,7 +855,8 @@ impl Config {
         let r = &self.request;
         if self.spec.class_name == "Hunter" {
             let fam = req_str(r.get("pet_family"), "cat");
-            let family = t.PET_FAMILIES.get(&fam).unwrap_or(&t.PET_FAMILIES["cat"]).clone();
+            if fam == "none" { return Ok(()); }
+            let family = t.PET_FAMILIES.get(&fam).ok_or("Choose a supported Hunter pet family or none.")?.clone();
             let abilities = match r.get("pet_abilities") {
                 Some(v) if v.is_array() => str_set(Some(v)),
                 _ => [family.special.clone(), family.dump.clone()].into_iter().flatten().collect(),

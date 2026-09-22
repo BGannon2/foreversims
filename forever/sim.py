@@ -16,7 +16,7 @@ from collections import defaultdict, deque
 from pathlib import Path
 
 from .engine_data import CLASS_RACES, RACIALS
-from .gear_data import apply_gear, phase6_gear
+from .gear_data import GEAR_SLOTS, apply_gear, paladin_enchants, phase6_gear
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "data"
@@ -52,6 +52,7 @@ def talent_build(spec):
     return build
 
 ASSUMPTIONS = [
+    "Requested Bloodlust scenario: 30% melee and casting haste from the pull when enabled. The 40-second duration is provisional pending confirmed Forever spell data.",
     'Base attributes use the WoWSims Classic level-60 Paladin table plus Forever race offsets (Human, Dwarf, Undead). Race selection applies the sourced Forever racial (Sword/Mace Specialization, Touch of the Grave).',
     'The optional Classic Era audit converts equipped Strength, Agility, Stamina, Intellect, attack power and armor with level-60 Classic formulas. It is not asserted as a Forever ruleset.',
     'Weapon attacks add attack-power normalization (AP / 14 * weapon speed) when the Classic Era audit is enabled.',
@@ -115,7 +116,7 @@ def preset(spec='protection'):
         # windfury_totem can't both be the raid's Air Totem, and moonkin_aura/leader_of_the_pack
         # can't both be the raid's 3%-crit aura -- so we keep the picks that actually matter for
         # a melee/physical spec (matches the shared engine's default_buffs() logic).
-        'raid_buffs': {'power_word_fortitude':True, 'mark_of_the_wild':True,
+        'raid_buffs': {'bloodlust':True, 'power_word_fortitude':True, 'mark_of_the_wild':True,
             'arcane_intellect':True, 'battle_shout':True, 'blessing_of_might':True,
             'devotion_aura':True, 'blessing_of_kings':True, 'blessing_of_wisdom':True,
             'strength_of_earth':True, 'windfury_totem':True, 'grace_of_air':False,
@@ -139,9 +140,9 @@ def preset(spec='protection'):
             'base_threat_per_damage':1.0, 'holy_threat_per_damage':1.0,
             'use_classic_era_conversions':True, 'thunderfury_proc_chance':0.20,
             'thunderfury_damage':300.0, 'thunderfury_threat_multiplier':1.43},
-        'rotation': {'use_judgement':True, 'use_consecration':True, 'consecration_mana_floor':0.30, 'use_holy_strike':prot, 'use_exorcism':True, 'use_holy_wrath':True, 'use_hammer_of_wrath':not prot, 'twist_seals':not prot,
+        'rotation': {'use_judgement':True, 'use_consecration':True, 'consecration_mana_floor':0.30, 'use_holy_strike':True, 'use_exorcism':True, 'use_holy_wrath':True, 'use_hammer_of_wrath':not prot, 'twist_seals':not prot,
             'use_bulwark':prot, 'bulwark_health_threshold':0.5},
-        'gear': phase6_gear(spec),
+        'gear': phase6_gear(spec), 'enchants': paladin_enchants(spec),
         'talents': talent_build(spec)
     }
 
@@ -149,6 +150,8 @@ def validate(p):
     if not isinstance(p, dict) or p.get('spec') not in ('protection','retribution'):
         raise ValueError('Choose protection or retribution.')
     if isinstance(p, dict) and 'race' not in p: p['race'] = 'Human'
+    if 'enchants' not in p: p['enchants'] = {slot: '' for slot in GEAR_SLOTS}
+    if isinstance(p.get('raid_buffs'),dict): p['raid_buffs'].setdefault('bloodlust',True)
     if p.get('race') not in CLASS_RACES['Paladin']:
         raise ValueError(f"{p.get('race')} cannot be a Paladin in World of Warcraft: Forever.")
     template = preset(p['spec'])
@@ -237,6 +240,26 @@ class Fight:
         self.last_cast=-10.0; self.next_mana_tick=2.0; self.potion_cd=0.0; self.rune_cd=0.0
         self.set_flags=profile.get('set_flags',{})
         self.sapper_used=False
+        self.item_effects=profile.get('item_effects',[]); self.item_until={}; self.item_ready={}
+
+    def item_stat(self, stat):
+        value=self.c.get(stat,0)
+        for effect in self.item_effects:
+            if self.item_until.get(effect['name'],0)>self.time:
+                if effect.get('stat')==stat: value+=effect.get('value',0)
+                if effect['kind']=='strength' and stat=='attack_power': value+=effect['value']*2
+                if effect['kind']=='weapon_defense': value+=effect.get(stat,0)
+        return value
+
+    def swing_delay(self):
+        speed=self.c['weapon_speed']
+        if not self.p['raid_buffs'].get('bloodlust') or self.time>=40: return speed
+        before=40-self.time
+        return speed/1.30 if speed/1.30<=before else before+(speed-before*1.30)
+
+    def activate_item(self,effect):
+        self.item_until[effect['name']]=self.time+effect.get('duration',0)
+        self.casts[effect['name']]+=1; self.record(effect['name']+' activated')
 
     def rank(self, talent_id):
         return self.tal[str(talent_id)]
@@ -255,6 +278,7 @@ class Fight:
         self.mana+=gained; self.mana_gained+=gained
 
     def spend(self,name,amount):
+        if name.startswith('Seal'): amount=max(0,amount-self.c.get('seal_cost_reduction',0))
         amount*=1-0.02*self.rank(105706) if name.startswith('Seal') or name in ('Judgement','Holy Shield','Holy Strike',"Templar's Bulwark",'Consecration') else 1
         if self.mana+1e-9 < amount:
             if self.oom is None: self.oom=self.time
@@ -282,27 +306,47 @@ class Fight:
 
     def deal(self,name,amount,holy=False,can_crit=False,hit=1.0,extra_threat=1.0,melee_crit=False,physical=None,spell_coefficient=0.0,return_amount=False):
         precision=0.01*self.rank(105638)
-        hit=min(1,hit+precision)
-        if self.rng.random() >= hit:
-            self.record(name+' miss'); return None if return_amount else False
         crit=self.c['crit_chance' if melee_crit or not holy else 'spell_crit_chance']
         if melee_crit or not holy: crit+=0.01*self.rank(105703)
-        critical=can_crit and self.rng.random() < min(1,crit)
+        white=name in {'Melee','Reckoning','Windfury Attack','Hand of Justice'}
+        glance=1.0
+        if self.m['use_classic_era_conversions'] and (white or melee_crit):
+            delta=self.e['target_level']*5-self.c.get('weapon_skill',self.c['level']*5)
+            miss=(.05+delta*(.002 if delta>10 else .001))
+            bonus=max(0,hit-.92)+precision
+            miss=max(0,miss-max(0,bonus-(.01 if delta>10 else 0)))
+            dodge=max(0,.05+delta*.001); parry=.14 if self.prot else 0
+            roll=self.rng.random()
+            if roll<miss+dodge+parry:
+                self.record(name+(' miss' if roll<miss else ' dodge' if roll<miss+dodge else ' parry'))
+                return None if return_amount else False
+            glancing=.40 if white else 0
+            if roll<miss+dodge+parry+glancing:
+                glance=self.rng.uniform(max(.01,min(.91,1.3-.05*delta)),max(.2,min(.99,1.2-.03*delta)))
+                critical=False
+            else: critical=can_crit and roll<miss+dodge+parry+glancing+max(0,crit+(15-delta)*.0004)
+        else:
+            if self.rng.random() >= min(1,hit+precision):
+                self.record(name+' miss'); return None if return_amount else False
+            critical=can_crit and self.rng.random() < min(1,crit)
         if self.time >= self.vengeance_until: self.vengeance=0
         if holy and spell_coefficient:
-            holy_bonus=self.c['spell_power']+(140 if self.p['debuffs']['judgement_of_the_crusader'] else 0)
+            holy_bonus=self.item_stat('spell_power')+(140 if self.p['debuffs']['judgement_of_the_crusader'] else 0)
             amount+=holy_bonus*spell_coefficient
         amount*=1 + self.vengeance*F['vengeance_rank1']['bonus_per_stack']*self.rank(105693)
         crusade_rank=self.rank(110883)
         creature_crusade=crusade_rank if self.e['boss_type'] in {'demon','undead'} else 0
         amount*=1+0.01*(crusade_rank+creature_crusade)
+        amount*=1+self.racial.get('creature_damage',{}).get(self.e['boss_type'],0)
         if physical is None: physical=not holy
         if physical and self.p['debuffs']['gift_of_arthas'] and self.p['consumables']['gift_of_arthas']: amount+=8
         if physical: amount*=1-self.e['target_physical_mitigation']
         if critical: amount*=self.m['melee_crit_multiplier' if melee_crit or not holy else 'spell_crit_multiplier']
+        amount*=glance
         self.damage[name]+=amount; self.hits[name]+=1
         base_threat=self.m['holy_threat_per_damage'] if holy else self.m['base_threat_per_damage']
         generated=amount*base_threat*extra_threat*(F['righteous_fury']['holy_threat_multiplier'] if holy and self.prot else 1)
+        generated*=1-self.c.get('threat_reduction',0)
         self.threat+=generated; self.threat_by_source[name]+=generated
         self.record(name+(' crit' if critical else ''),amount)
         if name!='Touch of the Grave' and not name.startswith('Consecration'): self.touch_of_the_grave()
@@ -315,27 +359,34 @@ class Fight:
         suffix=' echo' if echo else ''
         seal_bonus=1+0.05*self.rank(105334)
         if seal=='command' and self.rng.random() < self.m['command_proc_chance']:
-            self.deal('Seal of Command'+suffix,weapon*F['command']['weapon_fraction']*seal_bonus,holy=True,spell_coefficient=.29)
+            self.deal('Seal of Command'+suffix,weapon*F['command']['weapon_fraction']*seal_bonus,holy=True,spell_coefficient=.29*seal_bonus)
         elif seal=='righteousness':
             hand_mult=F['righteousness']['proc_two_hand_mult'] if self.c.get('weapon_hands')=='Two-Hand' else F['righteousness']['proc_one_hand_mult']
             amt=F['righteousness']['proc_base']*hand_mult*self.c['weapon_speed']*seal_bonus
-            self.deal('Seal of Righteousness'+suffix,amt,holy=True,spell_coefficient=F['righteousness']['proc_coeff'])
+            self.deal('Seal of Righteousness'+suffix,amt,holy=True,spell_coefficient=F['righteousness']['proc_coeff']*seal_bonus)
         elif seal=='fury':
             dealt=self.deal('Seal of Fury'+suffix,0,holy=True,spell_coefficient=F['fury']['swing_pct_sp']*seal_bonus,return_amount=True)
             if dealt and self.c.get('block_chance',0)>0:
                 self.absorb+=dealt*F['fury']['absorb_pct']
                 self.absorb_until=max(self.absorb_until,self.time+F['fury']['duration'])
 
-    def swing(self,extra=False,bonus_ap=0.0):
+    def swing(self,extra=False,bonus_ap=0.0,extra_name="Reckoning"):
         weapon=self.rng.uniform(self.c['weapon_min'],self.c['weapon_max'])
         if self.m['use_classic_era_conversions']:
-            weapon += (self.c['attack_power']+bonus_ap)/14*self.c['weapon_speed']
+            weapon += (self.item_stat('attack_power')+bonus_ap)/14*self.c['weapon_speed']
         if self.c.get('weapon_hands')=='Two-Hand': weapon*=1+(0,0.03,0.06,0.09)[self.rank(105697)]
         elif self.c.get('weapon_hands') in ('One-Hand','Main Hand'): weapon*=1+(0,0.03,0.07,0.10)[self.rank(105629)]
-        landed=self.deal('Windfury Attack' if bonus_ap else 'Reckoning' if extra else 'Melee',weapon,can_crit=True,hit=self.c['hit_chance'])
+        landed=self.deal('Windfury Attack' if bonus_ap else extra_name if extra else 'Melee',weapon,can_crit=True,hit=self.c['hit_chance'])
         if landed and not extra and self.p['raid_buffs'].get('windfury_totem') and self.rng.random()<0.20:
             self.swing(extra=True,bonus_ap=315)
         if landed:
+            for effect in self.item_effects:
+                kind=effect['kind']
+                if kind in {'extra_attack','strength','weapon_defense'} and not (extra and kind=='extra_attack'):
+                    chance=effect.get('chance',effect.get('ppm',0)*self.c['weapon_speed']/60)
+                    if self.rng.random()<chance:
+                        if kind=='extra_attack': self.casts[effect['name']]+=1; self.swing(extra=True,extra_name=effect['name'])
+                        else: self.activate_item(effect)
             if self.p['consumables'].get('dragonbreath_chili') and self.rng.random()<0.05:
                 self.deal('Dragonbreath Chili',self.rng.uniform(60,90),holy=False,physical=False,hit=1)
             if self.p['gear']['main_hand']==19019 and self.rng.random()<self.m['thunderfury_proc_chance']:
@@ -344,7 +395,7 @@ class Fight:
             if self.time < self.seal_until: self.seal_proc(self.seal,weapon)
             if self.echo: self.seal_proc(self.echo,weapon,True)
         self.echo=None
-        if not extra: self.schedule(self.time+self.c['weapon_speed'],'swing')
+        if not extra: self.schedule(self.time+self.swing_delay(),'swing')
 
     def cast_seal(self,seal):
         if not self.spend('Seal of '+seal.title(),F[seal]['cost']): return False
@@ -354,6 +405,12 @@ class Fight:
         self.gcd=self.time+F['righteousness']['gcd']; return True
 
     def decision(self):
+        for effect in self.item_effects:
+            if effect['kind']=='use' and self.time>=self.item_ready.get(effect['name'],0) and (not effect.get('shared_cooldown') or self.time>=self.item_ready.get('trinkets',0)):
+                self.activate_item(effect); self.item_ready[effect['name']]=self.time+effect['cooldown']
+                if effect.get('shared_cooldown'): self.item_ready['trinkets']=self.time+effect['shared_cooldown']
+        if self.race=='Dwarf' and self.e['incoming_enabled'] and self.time>=self.item_ready.get('Stoneform',0) and self.time>=self.gcd:
+            self.activate_item({'name':'Stoneform','duration':8}); self.item_ready['Stoneform']=self.time+180; self.gcd=self.time+1.5
         # Judgement is off-GCD. Do not consume an already queued echo.
         if self.rot['use_judgement'] and self.time>=self.cd['judgement'] and self.time<self.seal_until:
             cost=F['judgement']['base_mana_fraction']*self.c['base_mana']
@@ -397,6 +454,7 @@ class Fight:
                 if self.spend('Holy Strike',self.m['holy_strike_cost']):
                     iron=self.rank(110879); arbiter=1.1 if self.rank(105700) else 1.0
                     weapon=self.rng.uniform(self.c['weapon_min'],self.c['weapon_max'])
+                    if self.m['use_classic_era_conversions']: weapon+=self.item_stat('attack_power')/14*self.c.get('normalized_speed',2.4)
                     amount=(weapon*self.m['holy_strike_weapon_pct']+self.rng.uniform(self.m['holy_strike_holy_min'],self.m['holy_strike_holy_max']))*arbiter
                     landed=self.deal('Holy Strike',amount,holy=True,can_crit=True,hit=self.c['hit_chance'],
                                      extra_threat=1+0.05*iron,melee_crit=True,spell_coefficient=self.m['holy_strike_coeff'])
@@ -406,13 +464,13 @@ class Fight:
                 if self.spend('Holy Wrath',805*conduit_discount):
                     self.deal('Holy Wrath',self.rng.uniform(490,576),holy=True,can_crit=True,hit=self.c['spell_hit_chance'],spell_coefficient=.19)
                     self.cd['holy_wrath']=self.time+60*purifying_cd
-                    self.gcd=self.time+2.0;acted=True
+                    self.gcd=self.time+2.0/(1.30 if self.p['raid_buffs'].get('bloodlust') and self.time<40 else 1);acted=True
             if not acted and self.rot['use_consecration'] and self.time>=self.cd['consecration'] and self.mana/self.c['mana']>=self.rot.get('consecration_mana_floor',0):
                 con=F['consecration']
                 if self.spend('Consecration',con['cost']):
                     for tick in range(1,con['ticks']+1): self.schedule(self.time+tick*con['duration']/con['ticks'],'consecration')
                     self.cd['consecration']=self.time+con['cooldown']; acted=True
-            if acted and self.gcd<=self.time+1e-9: self.gcd=self.time+1.5
+            if acted: self.gcd=max(self.gcd,self.time+1.5)
             elif self.time>=self.seal_until:
                 self.cast_seal('fury' if self.prot else 'righteousness' if not self.rank(105696) else 'command')
             elif self.rot['twist_seals'] and self.rank(105692) and not self.echo:
@@ -425,14 +483,14 @@ class Fight:
         self.schedule(self.time+swing,'enemy')
         hs=self.hs_charges>0 and self.time<self.hs_until
         red=self.red_charges>0 and self.time<self.red_until
-        block=self.c['block_chance']+(F['holy_shield']['block_bonus'] if hs else 0)+(F['redoubt_rank1']['block_bonus']*self.rank(105626) if red else 0)
+        defense_bonus=(self.item_stat('defense')-self.e['target_level']*5)*.0004 if self.m['use_classic_era_conversions'] else 0
+        block=max(0,self.c['block_chance']+defense_bonus)+(F['holy_shield']['block_bonus'] if hs and self.c.get('has_shield',True) else 0)+(F['redoubt_rank1']['block_bonus']*self.rank(105626) if red and self.c.get('has_shield',True) else 0)
         miss_debuff=(0.02 if self.p['debuffs']['insect_swarm'] else 0)+(0.05 if self.p['debuffs']['scorpid_sting'] else 0)
-        roll=self.rng.random(); avoid=min(1,self.c['avoidance']+0.01*self.rank(105707)+miss_debuff)
+        roll=self.rng.random(); avoid=max(0,min(1,self.c['avoidance']+0.01*self.rank(105707)+miss_debuff+3*defense_bonus))
         if roll<avoid:
             self.avoids+=1; self.record('Enemy avoided'); return
         blocked=roll<min(1,avoid+block)
-        defense_bonus=max(0,self.c['defense']-self.e['target_level']*5)
-        crit_chance=max(0,self.e['enemy_crit_chance']-defense_bonus*0.0004) if self.m['use_classic_era_conversions'] else self.e['enemy_crit_chance']
+        crit_chance=max(0,self.e['enemy_crit_chance']-defense_bonus)
         critical=not blocked and roll<min(1,avoid+block+crit_chance)
         crushing=False
         if self.m['use_classic_era_conversions'] and not blocked and not critical and self.e['target_level']-self.c['level']>=3:
@@ -440,7 +498,15 @@ class Fight:
         multiplier=1.5 if crushing else self.e['enemy_crit_multiplier'] if critical else 1
         raw_damage=self.rng.uniform(self.e['enemy_damage_min'],self.e['enemy_damage_max'])
         if self.p['debuffs']['demoralizing_shout']: raw_damage*=0.90
-        amount=raw_damage*multiplier*(1-self.c['physical_mitigation'])
+        mitigation=self.c['physical_mitigation']
+        if self.m['use_classic_era_conversions']:
+            armor=self.item_stat('armor'); mitigation=min(.75,armor/(armor+400+85*self.e['target_level']))
+        amount=raw_damage*multiplier*(1-mitigation)
+        if self.item_until.get('Stoneform',0)>self.time: amount*=.90
+        for effect in self.item_effects:
+            if effect['kind']=='incoming_flat':
+                if self.item_until.get(effect['name'],0)>self.time: amount=max(0,amount-effect['value'])
+                if self.rng.random()<effect['chance']: self.activate_item(effect)
         if blocked:
             self.blocks+=1
             ss_rank=self.rank(110874)
@@ -486,7 +552,7 @@ class Fight:
             self.schedule(1.5,'decision')
         else:
             self.schedule(0,'decision')
-        self.schedule(self.c['weapon_speed'],'swing')
+        self.schedule(self.swing_delay(),'swing')
         self.schedule(2.0,'mana')
         if self.p['consumables'].get('goblin_sapper_charge'):
             self.deal('Goblin Sapper Charge',self.rng.uniform(450,750),holy=False,physical=False,hit=1)

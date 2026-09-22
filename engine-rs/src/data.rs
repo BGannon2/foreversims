@@ -411,6 +411,7 @@ pub struct Tables {
     pub SET_NO_COMBAT_EFFECT: Vec<String>,
     #[serde(default)]
     pub SET_PROVISIONAL: HashMap<String, String>,
+    pub EQUIPMENT_RULES: Value,
 }
 
 static TABLES: OnceLock<Tables> = OnceLock::new();
@@ -483,6 +484,8 @@ pub struct PaladinTables {
     pub consumable_stats: IndexMap<String, StatMap>,
     pub direct_stats: IndexMap<String, (String, f64)>,
     pub classic_primary: IndexMap<String, String>,
+    pub item_models: IndexMap<String, (StatMap, Vec<Value>, Vec<Value>)>,
+    pub default_enchants: IndexMap<String, Value>,
 }
 
 impl PaladinTables {

@@ -29,3 +29,10 @@ worker_path = ROOT / "web" / "sim-worker.js"
 worker_src = re.sub(r"\?v=[^\"']+", f"?v={commit}", worker_path.read_text(encoding="utf-8"))
 worker_path.write_text(worker_src, encoding="utf-8")
 print(f"web/sim-worker.js: cache-busted to ?v={commit}")
+
+client_path = ROOT / "web" / "sim-client.js"
+client_path.write_text(re.sub(r'const VERSION = "[^"]+"', f'const VERSION = "{commit}"', client_path.read_text(encoding="utf-8")), encoding="utf-8")
+for path in (ROOT / "web").glob("*.html"):
+    path.write_text(re.sub(r'((?:src|href)="/[^"?]+\.(?:js|css))(?:\?v=[^"]*)?"', rf'\1?v={commit}"', path.read_text(encoding="utf-8")), encoding="utf-8")
+for path in (ROOT / "web").glob("*.js"):
+    path.write_text(re.sub(r'''(["'])(/data/[^"'?]+\.json)(?:\?v=[^"']*)?\1''', lambda m: f'{m[1]}{m[2]}?v={commit}{m[1]}', path.read_text(encoding="utf-8")), encoding="utf-8")

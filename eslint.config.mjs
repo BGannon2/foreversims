@@ -46,6 +46,10 @@ export default [
     },
   },
   {
+    files: ["tools/*.mjs", "tests/*.mjs"],
+    languageOptions: { ecmaVersion: "latest", sourceType: "module", globals: { ...globals.node } },
+  },
+  {
     ignores: ["web/data/**", "web/item-icons/**", "web/talent-icons/**", "web/engine/**", "node_modules/**"],
   },
 ];

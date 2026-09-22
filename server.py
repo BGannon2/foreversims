@@ -17,6 +17,7 @@ from forever import engine as engine_module
 from forever.all_specs import CLASS_RACES, public_racials, public_specs, simulate_spec
 from forever.engine_data import BUFF_GROUPS, DEFAULT_BUILDS, PALADIN_ABOUT, SET_EFFECTS, SET_NO_COMBAT_EFFECT, SET_PROVISIONAL, default_buffs, default_consumables
 from forever.gear_data import CATALOG, PHASE6_BIS
+from forever.profile_rules import enchant_preferences, equipment_rules
 from forever.sim import ASSUMPTIONS, CONSUMABLE_DATA, DATA, TALENT_DATA, preset, simulate, validate
 
 ROOT = Path(__file__).resolve().parent
@@ -48,6 +49,10 @@ def default_request(spec, race=None, **overrides):
                "gear": [x["id"] for x in profile["gear"]], "gear_slots": [{"slot": x["slot"], "id": x["id"]} for x in profile["gear"]],
                "talents": DEFAULT_BUILDS[spec["id"]], "buffs": default_buffs(spec), "debuffs": DEBUFFS, "consumables": default_consumables(spec)}
     request.update(overrides)
+    if 'enchants' not in overrides:
+        from forever.all_specs import ENCHANTS, ITEMS
+        from forever.profile_rules import default_enchants
+        request['enchants'] = default_enchants(spec, request['gear_slots'], ITEMS, ENCHANTS)
     return request
 
 
@@ -75,7 +80,7 @@ def _run_bench_tasks(tasks, parallel=True):
     False, or a single task) to avoid process-pool startup overhead for tiny runs."""
     if not parallel or len(tasks) < 2:
         return [_bench_task(t) for t in tasks]
-    with ProcessPoolExecutor(max_workers=min(len(tasks), os.cpu_count() or 4)) as pool:
+    with ProcessPoolExecutor(max_workers=min(len(tasks), 8, os.cpu_count() or 4)) as pool:
         return list(pool.map(_bench_task, tasks, chunksize=1))
 
 
@@ -92,7 +97,7 @@ def build_benchmarks(iterations=None, target_counts=TARGET_COUNTS, parallel=True
             for targets in target_counts:
                 tasks.append(("spec", default_request(spec, race, iterations=iterations, seed=DEFAULTS["benchmark_seed"], targets=targets)))
                 meta.append({"id": spec["id"], "race": race, "class_name": spec["class_name"], "name": spec["name"], "role": spec["role"], "targets": targets,
-                             "url": f"/all-specs.html?spec={spec['id']}&race={quote(race)}"})
+                             "url": f"/all-specs.html?spec={spec['id']}&race={quote(race)}&targets={targets}&benchmark=1"})
     for spec_id in ("protection", "retribution"):
         for race in CLASS_RACES["Paladin"]:
             for targets in target_counts:
@@ -101,7 +106,7 @@ def build_benchmarks(iterations=None, target_counts=TARGET_COUNTS, parallel=True
                 tasks.append(("paladin", profile))
                 role = "tank" if spec_id == "protection" else "dps"
                 meta.append({"id": f"paladin-{spec_id}", "race": race, "class_name": "Paladin", "name": spec_id.title(), "role": role, "targets": targets,
-                             "url": f"/paladin.html?spec={spec_id}&race={quote(race)}"})
+                             "url": f"/paladin.html?spec={spec_id}&race={quote(race)}&targets={targets}&benchmark=1"})
     results = _run_bench_tasks(tasks, parallel=parallel)
     rows = [{**m, "dps": r["metrics"]["dps"]["mean"], "tps": r["metrics"]["tps"]["mean"], "dtps": r["metrics"]["dtps"]["mean"],
              "total_damage": sum(r["ability_damage"].values())} for m, r in zip(meta, results)]
@@ -138,6 +143,7 @@ class Handler(BaseHTTPRequestHandler):
                 "gear_catalog": {key: CATALOG[key] for key in ("version", "source", "license", "scope")},
                 "phase6_bis": PHASE6_BIS, "talent_data": TALENT_DATA, "consumable_data": CONSUMABLE_DATA,
                 "setting_data": SETTING_DATA, "races": CLASS_RACES["Paladin"], "racials": public_racials(), "defaults": DEFAULTS, "about": PALADIN_ABOUT,
+                "enchants": ENCHANT_DATA,
             })
         if path == "/api/items":
             return self.send_json({"version": CATALOG["version"], "items": CATALOG["items"] + EXTRA_ITEMS["items"]})
@@ -149,6 +155,7 @@ class Handler(BaseHTTPRequestHandler):
             return self.send_json({
                 "specs": public_specs(), "talents": ALL_TALENTS, "gear": PHASE12_BIS, "forever_bis": FOREVER_BIS, "consumables": CONSUMABLE_DATA,
                 "settings": SETTING_DATA, "enchants": ENCHANT_DATA, "racials": public_racials(), "defaults": DEFAULTS, "buff_groups": BUFF_GROUPS,
+                "enchant_preferences": {s['id']: enchant_preferences(s) for s in public_specs()}, "equipment_rules": equipment_rules(),
                 "set_effects": SET_EFFECTS, "set_no_combat_effect": sorted(SET_NO_COMBAT_EFFECT), "set_provisional": SET_PROVISIONAL, "set_patterns": [p for _, p in engine_module.SET_PATTERNS],
             })
         target = "index.html" if path in ("", "/") else path.lstrip("/")

@@ -339,10 +339,11 @@ impl<'a> Iteration<'a> {
     fn haste(&self, kind: &str) -> f64 {
         let c = self.c;
         let mut h = 1.0;
+        if c.buffs.contains("bloodlust") && self.t < 40.0 { h *= 1.30; }
         h *= 1.0 + c.racial.haste * (c.racial_enabled as i32 as f64);
         if kind == "melee" {
             if self.flurry > 0 {
-                h *= 1.0 + 0.25 * ((c.flag("flurry") > 0.0) as i32 as f64);
+                h *= 1.0 + c.flag("flurry");
             }
             for name in ["Slice and Dice", "Blade Flurry", "Berserking", "Rage of the Farseer", "Frenzy"] {
                 if let Some(b) = self.buffs.get(name) {
@@ -377,6 +378,21 @@ impl<'a> Iteration<'a> {
         h
     }
 
+    fn pet_delay(&self, speed: f64) -> f64 {
+        if !self.c.buffs.contains("bloodlust") || self.t >= 40.0 { return speed; }
+        let before = 40.0 - self.t;
+        if speed / 1.30 <= before { speed / 1.30 } else { before + speed - before * 1.30 }
+    }
+
+    fn attack_delay(&self, speed: f64, kind: &str) -> f64 {
+        let haste = self.haste(kind); let delay = speed / haste;
+        if self.c.buffs.contains("bloodlust") && self.t < 40.0 && self.t + delay > 40.0 {
+            let before = 40.0 - self.t;
+            return before + (speed - before * haste) / (haste / 1.30);
+        }
+        delay
+    }
+
     fn ap(&self, ranged: bool) -> f64 {
         let mut base = if ranged { self.st("rangedAttackPower") } else { self.st("attackPower") };
         for b in self.buffs.values() {
@@ -384,7 +400,7 @@ impl<'a> Iteration<'a> {
                 if b.stat.as_deref() == Some("attackPower") || (ranged && b.stat.as_deref() == Some("rangedAttackPower")) {
                     base += b.value;
                 }
-                if b.stat.as_deref() == Some("strength") {
+                if !ranged && b.stat.as_deref() == Some("strength") {
                     base += b.value * self.c.t.AP_PER_STRENGTH[&self.c.spec.class_name];
                 }
                 if b.ap_pct != 0.0 {
@@ -602,7 +618,7 @@ impl<'a> Iteration<'a> {
         if self.next_crit && can_crit {
             crit = 1.0;
         }
-        if roll < crit {
+        if self.rng.random() < crit {
             return (Outcome::Crit, self.crit_multiplier("spell", ability, school));
         }
         (Outcome::Hit, 1.0)
@@ -719,7 +735,7 @@ impl<'a> Iteration<'a> {
         if self.eureka > 0 && !white && kind != "pet" && !periodic {
             m *= 1.10;
         }
-        if c.pet.is_none() && c.flag("lone_wolf") != 0.0 {
+        if c.flag("lone_wolf") != 0.0 && (c.pet.is_none() || self.pet_state.as_ref().is_some_and(|p| self.t >= p.active_until)) {
             m *= 1.0 + c.flag("lone_wolf");
         }
         m
@@ -751,7 +767,7 @@ impl<'a> Iteration<'a> {
             return 0.0;
         }
         let mut dmg = amount * mult * self.multiplier(name, school, kind, periodic, white);
-        if school == "physical" {
+        if school == "physical" && !(periodic && (self.dots.get(name).is_some_and(|d| d.bleed) || self.c.t.ABILITIES.get(name).is_some_and(|a| a.bleed))) {
             dmg *= self.armor_mult();
         }
         let th_mult = self.threat_multiplier(Some(school)) * (1.0 + self.c.mod_(&format!("threat_ability:{name}")));
@@ -786,7 +802,17 @@ impl<'a> Iteration<'a> {
     fn gain_rage(&mut self, amount: f64) {
         let before = self.rage;
         self.rage = self.max_rage.min(self.rage + amount);
-        self.threat += (self.rage - before) * 5.0 * self.threat_multiplier(None);
+        let threat = (self.rage - before) * 5.0;
+        self.threat += threat;
+        self.row("Rage gains").threat += threat;
+    }
+
+    fn white_rage(&mut self, hand: Hand, damage: f64) {
+        if self.c.spec.resource == "Rage" {
+            let mut gained = damage * 7.5 / self.c.t.RAGE_CONVERSION_60;
+            if hand == Hand::Off { gained *= 1.0 + self.c.flag("dw_rage"); }
+            self.rage = self.max_rage.min(self.rage + gained);
+        }
     }
 
     fn gain_energy(&mut self, amount: f64) {
@@ -839,11 +865,7 @@ impl<'a> Iteration<'a> {
         let is_extra = ability_name == "Melee (Extra Attack)" || ability_name == "Windfury Attack";
         if c.spec.resource == "Rage" {
             if white {
-                let mut gained = damage * 7.5 / c.t.RAGE_CONVERSION_60;
-                if hand == Hand::Off {
-                    gained *= 1.0 + c.flag("dw_rage");
-                }
-                self.gain_rage(gained);
+                self.white_rage(hand, damage);
             }
             if c.flag("unbridled_wrath") != 0.0 && self.rng.random() < c.flag("unbridled_wrath") {
                 self.gain_rage(if c.two_hand { 2.0 } else { 1.0 });
@@ -1022,7 +1044,10 @@ impl<'a> Iteration<'a> {
         let (out, m) = self.melee_outcome(hand, true, Some(name), false);
         self.row(name).casts += 1.0;
         let item = self.c.hand_item(hand).unwrap().clone();
-        let raw = if !out.avoided() { self.weapon_damage(&item, false, false, bonus_ap) } else { 0.0 };
+        let raw = if out != Outcome::Miss { self.weapon_damage(&item, false, false, bonus_ap) } else { 0.0 };
+        if matches!(out, Outcome::Dodge | Outcome::Parry) {
+            self.white_rage(hand, raw * self.multiplier(name, "physical", "melee", false, true) * self.armor_mult());
+        }
         let dmg = self.deal(name, raw, "physical", "melee", true, false, 1.0, 0.0, out, m);
         if dmg != 0.0 {
             self.on_weapon_hit(hand, true, name, dmg);
@@ -1085,11 +1110,14 @@ impl<'a> Iteration<'a> {
             self.dodged_recently = self.t;
         }
         let mut dmg = 0.0;
-        if !out.avoided() {
+        if out != Outcome::Miss {
             dmg = self.weapon_damage(&item, false, false, 0.0);
             if hand == Hand::Off {
                 dmg *= 0.5 * (1.0 + c.flag("dw_damage"));
             }
+        }
+        if matches!(out, Outcome::Dodge | Outcome::Parry) {
+            self.white_rage(hand, dmg * self.multiplier(name, "physical", "melee", false, true) * self.armor_mult());
         }
         dmg = self.deal(name, dmg, "physical", "melee", true, false, 1.0, 0.0, out, m);
         if dmg != 0.0 {
@@ -1270,9 +1298,13 @@ impl<'a> Iteration<'a> {
         let c = self.c;
         if c.racial_enabled {
             if let Some(r) = &c.racial.active {
-                if self.t >= self.racial_next {
+                if self.t >= self.racial_next && (r.name != "Stoneform" || (c.spec.role == "tank" && self.t + EPS >= self.gcd_until && self.cast.is_none())) {
                     self.racial_next = self.t + r.cooldown;
-                    if r.crit != 0.0 {
+                    if r.name == "Stoneform" {
+                        self.add_buff("Stoneform", r.duration, Buff::default());
+                        self.gcd_until = self.t + c.t.GCD;
+                        self.row("Stoneform").casts += 1.0;
+                    } else if r.crit != 0.0 {
                         self.add_buff(&r.name, r.duration, Buff::default());
                     } else if r.haste != 0.0 {
                         self.add_buff(&r.name, r.duration, Buff { haste: r.haste, ..Default::default() });
@@ -2041,13 +2073,13 @@ impl<'a> Iteration<'a> {
     fn boss_swing(&mut self) {
         let c = self.c;
         let raw = self.rng.uniform(2700.0, 3300.0);
-        let defense_bonus = (self.st("defense") - c.t.TARGET_DEFENSE).max(0.0) * 0.0004;
-        let miss = 0.05 + defense_bonus;
-        let dodge = self.st("dodge") / 100.0 + defense_bonus;
-        let parry = if c.spec.class_name == "Warrior" || c.spec.class_name == "Paladin" { self.st("parry") / 100.0 + defense_bonus } else { 0.0 };
-        let block = if self.st("block") > 0.0 { self.st("block") / 100.0 + defense_bonus } else { 0.0 };
+        let defense_bonus = (self.st("defense") - c.t.TARGET_DEFENSE) * 0.0004;
+        let miss = (0.05 + defense_bonus).max(0.0);
+        let dodge = (self.st("dodge") / 100.0 + defense_bonus).max(0.0);
+        let parry = if c.spec.class_name == "Warrior" || c.spec.class_name == "Paladin" { (self.st("parry") / 100.0 + defense_bonus).max(0.0) } else { 0.0 };
+        let block = if self.st("block") > 0.0 { (self.st("block") / 100.0 + defense_bonus).max(0.0) } else { 0.0 };
         let crit = (0.05 - defense_bonus).max(0.0);
-        let crush = (0.15 - (self.st("defense") - 300.0) * 0.02).max(0.0);
+        let crush = if c.t.TARGET_LEVEL - c.t.LEVEL >= 3.0 { 0.15 } else { 0.0 };
         let roll = self.rng.random();
         let mut acc = 0.0;
         let mut outcome = Outcome::Hit;
@@ -2080,7 +2112,7 @@ impl<'a> Iteration<'a> {
         let armor = self.st("armor");
         let mult = match outcome { Outcome::Crit => 2.0, Outcome::Crush => 1.5, _ => 1.0 };
         let tl = c.t.TARGET_LEVEL;
-        let mut amount = raw * mult * (1.0 - (armor / (armor + 400.0 + 85.0 * (tl + 4.5 * (tl - 59.0)))).min(0.75));
+        let mut amount = raw * mult * (1.0 - (armor / (armor + 400.0 + 85.0 * tl)).min(0.75));
         amount *= c.t.stance_mod(&c.spec.stance_or_form()).taken;
         if c.debuffs.contains("demoralizing_shout") {
             amount *= 0.90;
@@ -2096,9 +2128,11 @@ impl<'a> Iteration<'a> {
                 self.next_parry = true;
             }
         }
+        if self.buff_active("Stoneform") { amount *= 0.90; }
         self.taken += amount;
         self.health -= amount;
-        self.gain_rage(amount * 2.5 / c.t.RAGE_CONVERSION_60);
+        let conversion = 0.0091107836 * tl * tl + 3.225598133 * tl + 4.2652911;
+        self.rage = self.max_rage.min(self.rage + amount * 2.5 / conversion);
         if c.flag("enrage") != 0.0 && self.rng.random() < c.flag("enrage") * 3.0 {
             self.enrage_until = self.t + 12.0;
         }
@@ -2165,23 +2199,20 @@ impl<'a> Iteration<'a> {
     }
 
     fn pet_attack(&mut self, name: &str, base: f64, school: &str, crit_chance: f64, ability: bool) -> f64 {
-        let (mut out, mut m) = if school == "physical" {
-            let (o, mm) = self.melee_outcome(Hand::None, !ability, None, false);
-            (o, mm)
+        // Independent level-60 pet table: never inherit owner combat stats.
+        let roll = self.rng.random();
+        let (out, m) = if school == "physical" {
+            let glance = if ability { 0.0 } else { 0.40 };
+            if roll < 0.08 { (Outcome::Miss, 0.0) }
+            else if roll < 0.145 { (Outcome::Dodge, 0.0) }
+            else if roll < 0.145 + glance { (Outcome::Glance, self.rng.uniform(0.55, 0.75)) }
+            else if roll < 0.145 + glance + (crit_chance - 0.048).max(0.0) { (Outcome::Crit, 2.0) }
+            else { (Outcome::Hit, 1.0) }
         } else {
-            let (o, mm) = self.spell_outcome(name, school, true);
-            (o, mm)
+            if roll >= 0.83 { (Outcome::Miss, 0.0) }
+            else if self.rng.random() < (crit_chance - 0.021).max(0.0) { (Outcome::Crit, 1.5) }
+            else { (Outcome::Hit, 1.0) }
         };
-        if school == "physical" {
-            if out == Outcome::Crit {
-                m = 2.0;
-            } else if out == Outcome::Hit && self.rng.random() < crit_chance {
-                out = Outcome::Crit;
-                m = 2.0;
-            }
-        } else if out == Outcome::Crit {
-            m = 1.5;
-        }
         self.row(name).casts += 1.0;
         if out.avoided() {
             self.row(name).misses += 1.0;
@@ -2196,11 +2227,15 @@ impl<'a> Iteration<'a> {
         if out == Outcome::Crit {
             r.crits += 1.0;
         }
+        if out == Outcome::Glance { r.glances += 1.0; }
         r.hits += 1.0;
         r.damage += dmg;
         r.threat += dmg;
         self.total += dmg;
         self.pet_threat += dmg;
+        if out == Outcome::Crit && matches!(self.c.pet, Some(Pet::Hunter(_))) && self.c.flag("pet_frenzy") != 0.0 && self.rng.random() < self.c.flag("pet_frenzy") {
+            self.pet_state.as_mut().unwrap().frenzy_until = self.t + 8.0;
+        }
         self.record(name, out.as_str(), dmg);
         dmg
     }
@@ -2224,16 +2259,12 @@ impl<'a> Iteration<'a> {
                     ps.last = t;
                 }
                 if t + EPS >= self.pet_state.as_ref().unwrap().next_swing {
-                    // WoWSims Classic hunter pets have no stat inheritance from the owner and no
-                    // Strength->AttackPower dependency; base swing damage is flat, not AP-scaled.
+                    // Own 136 Strength * 2 - 20 = 252 AP; no owner inheritance.
                     let speed = p.speed;
-                    let base = self.rng.uniform(18.17, 27.66) * speed;
-                    let dmg = self.pet_attack("Pet Melee", base, "physical", crit, false);
+                    let base = (self.rng.uniform(18.17, 27.66) + 252.0 / 14.0) * speed;
+                    self.pet_attack("Pet Melee", base, "physical", crit, false);
                     let frenzy = if t < self.pet_state.as_ref().unwrap().frenzy_until { 1.3 } else { 1.0 };
-                    self.pet_state.as_mut().unwrap().next_swing = t + speed / frenzy;
-                    if dmg != 0.0 && c.flag("pet_frenzy") != 0.0 {
-                        let _ = self.rng.random() < c.flag("pet_frenzy");
-                    }
+                    self.pet_state.as_mut().unwrap().next_swing = t + self.pet_delay(speed / frenzy);
                 }
                 if self.pet_state.as_ref().unwrap().gcd <= t + EPS {
                     let mut broke = false;
@@ -2256,10 +2287,7 @@ impl<'a> Iteration<'a> {
                         }
                         let base = self.rng.uniform(cfg.min, cfg.max);
                         let label = format!("Pet - {name}");
-                        let dmg = self.pet_attack(&label, base, &cfg.school, crit, true);
-                        if dmg != 0.0 && c.flag("pet_frenzy") != 0.0 && self.rows[&label].crits > 0.0 && self.rng.random() < c.flag("pet_frenzy") {
-                            self.pet_state.as_mut().unwrap().frenzy_until = t + 8.0;
-                        }
+                        self.pet_attack(&label, base, &cfg.school, crit, true);
                         broke = true;
                         break;
                     }
@@ -2281,7 +2309,7 @@ impl<'a> Iteration<'a> {
                     let (lo, hi) = cfg.melee.unwrap_or((0.0, 0.0));
                     let base = self.rng.uniform(lo, hi) + ap / 14.0 * cfg.speed;
                     self.pet_attack(&format!("{} - Melee", title(&fam)), base, "physical", 0.05, false);
-                    self.pet_state.as_mut().unwrap().next_swing = t + cfg.speed;
+                    self.pet_state.as_mut().unwrap().next_swing = t + self.pet_delay(cfg.speed);
                 }
                 if let Some(spell) = &cfg.spell {
                     if p.abilities.contains(spell) {
@@ -2304,7 +2332,7 @@ impl<'a> Iteration<'a> {
                         if ps.cast_until.is_none() && t + EPS >= ps.next_cast && ps.mana >= cfg.spell_cost {
                             ps.mana -= cfg.spell_cost;
                             let cast = cfg.cast;
-                            ps.cast_until = Some(t + cast.max(0.0));
+                            ps.cast_until = Some(t + cast.max(0.0) / if c.buffs.contains("bloodlust") && t < 40.0 { 1.30 } else { 1.0 });
                             if cast == 0.0 {
                                 ps.cast_until = Some(t);
                             }
@@ -2476,18 +2504,18 @@ impl<'a> Iteration<'a> {
                     if self.alive {
                         self.swing(Hand::Main);
                     }
-                    self.next_mh = t + c.mh.speed_or(2.0) / self.haste("melee");
+                    self.next_mh = t + self.attack_delay(c.mh.speed_or(2.0), "melee");
                 }
                 if !c.oh.is_empty() && t + EPS >= self.next_oh {
                     if self.alive {
                         self.swing(Hand::Off);
                     }
-                    self.next_oh = t + c.oh.speed_or(2.0) / self.haste("melee");
+                    self.next_oh = t + self.attack_delay(c.oh.speed_or(2.0), "melee");
                 }
             }
             if s.style == "ranged" && t + EPS >= self.next_ranged && self.cast.as_ref().is_none_or(|cst| !c.actions[&cst.name].ranged_cast) {
                 self.auto_shot();
-                self.next_ranged = t + c.ranged.speed_or(2.8) / self.haste("ranged");
+                self.next_ranged = t + self.attack_delay(c.ranged.speed_or(2.8), "ranged");
             }
             if s.resource == "Mana" && t + EPS >= self.next_mana_tick {
                 self.next_mana_tick += 2.0;

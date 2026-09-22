@@ -53,7 +53,7 @@ pub fn preset(spec: &str) -> Result<Value, String> {
             "enemy_crit_chance": 0.05, "enemy_crit_multiplier": 2.0,
             "target_physical_mitigation": 0.3, "heal_amount": 2500.0,
             "heal_interval": 2.0, "incoming_enabled": prot},
-        "raid_buffs": {"power_word_fortitude": true, "mark_of_the_wild": true,
+        "raid_buffs": {"bloodlust": true, "power_word_fortitude": true, "mark_of_the_wild": true,
             "arcane_intellect": true, "battle_shout": true, "blessing_of_might": true,
             "devotion_aura": true, "blessing_of_kings": true, "blessing_of_wisdom": true,
             "strength_of_earth": true, "windfury_totem": true, "grace_of_air": false,
@@ -77,9 +77,9 @@ pub fn preset(spec: &str) -> Result<Value, String> {
             "base_threat_per_damage": 1.0, "holy_threat_per_damage": 1.0,
             "use_classic_era_conversions": true, "thunderfury_proc_chance": 0.20,
             "thunderfury_damage": 300.0, "thunderfury_threat_multiplier": 1.43},
-        "rotation": {"use_judgement": true, "use_consecration": true, "consecration_mana_floor": 0.30, "use_holy_strike": prot, "use_exorcism": true, "use_holy_wrath": true, "use_hammer_of_wrath": !prot, "twist_seals": !prot,
+        "rotation": {"use_judgement": true, "use_consecration": true, "consecration_mana_floor": 0.30, "use_holy_strike": true, "use_exorcism": true, "use_holy_wrath": true, "use_hammer_of_wrath": !prot, "twist_seals": !prot,
             "use_bulwark": prot, "bulwark_health_threshold": 0.5},
-        "gear": pt.phase6_gear[spec],
+        "gear": pt.phase6_gear[spec], "enchants": pt.default_enchants[spec],
         "talents": talent_build(spec)
     }))
 }
@@ -146,6 +146,8 @@ pub fn validate(profile: &Value) -> Result<Value, String> {
     if p.get("race").is_none() {
         p["race"] = json!("Human");
     }
+    if p.get("enchants").is_none() { p["enchants"] = Value::Object(pt.gear_slots.iter().map(|slot| (slot.clone(), json!(""))).collect()); }
+    if let Some(buffs) = p.get_mut("raid_buffs").and_then(|v| v.as_object_mut()) { buffs.entry("bloodlust").or_insert(json!(true)); }
     let race = p["race"].as_str().unwrap_or("").to_string();
     if !t.CLASS_RACES["Paladin"].contains(&race) {
         return Err(format!("{} cannot be a Paladin in World of Warcraft: Forever.", p["race"].as_str().map(|s| s.to_string()).unwrap_or_else(|| p["race"].to_string())));
@@ -265,6 +267,9 @@ pub fn apply_gear(profile: &Value, catalog: &Catalog) -> Result<(Value, Value), 
     let mut set_counts: IndexMap<String, i64> = IndexMap::new();
     let mut set_definitions: IndexMap<String, crate::items::ItemSet> = IndexMap::new();
     let gear = effective["gear"].clone();
+    let mut item_effects = Vec::new();
+    let mut unresolved_effects = Vec::new();
+    let mut applied_enchants = Vec::new();
     for slot in &pt.gear_slots {
         let item_id = gear.get(slot).and_then(|v| v.as_i64()).unwrap_or(0);
         if item_id == 0 {
@@ -275,8 +280,24 @@ pub fn apply_gear(profile: &Value, catalog: &Catalog) -> Result<(Value, Value), 
             return Err(format!("{} cannot be equipped in {slot}.", item.name));
         }
         equipped.push(json!({"slot": slot, "id": item_id, "name": item.name, "quality": item.extra.get("quality"), "itemLevel": item.extra.get("itemLevel"), "wowhead": item.extra.get("wowhead"), "set": item.set}));
-        for (key, value) in item.stat_map() {
+        let modeled = pt.item_models.get(&item_id.to_string());
+        let stats = modeled.map(|m| m.0.clone()).unwrap_or_else(|| item.stat_map());
+        if let Some((_, effects, unresolved)) = modeled {
+            item_effects.extend(effects.clone());
+            unresolved_effects.extend(unresolved.clone());
+        }
+        for (key, value) in stats {
             *totals.entry(key).or_insert(0.0) += value;
+        }
+        let enchant_id = effective.get("enchants").and_then(|e| e.get(slot)).and_then(|v| v.as_str()).unwrap_or("");
+        if !enchant_id.is_empty() {
+            let Some(enchant) = catalog.enchants.get(slot).and_then(|rows| rows.iter().find(|e| e.id == enchant_id)) else { return Err(format!("Unknown enchant {enchant_id} in {slot}.")); };
+            if ["main_hand", "off_hand"].contains(&slot.as_str()) && !item.has_weapon_damage() { return Err(format!("{} requires a weapon in {slot}.", enchant.name)); }
+            for (key, value) in &enchant.stats {
+                *totals.entry(if key == "primary" { "strength".into() } else { key.clone() }).or_insert(0.0) += value.as_f64().unwrap_or(0.0);
+            }
+            if enchant_id == "crusader" { item_effects.push(json!({"name": "Crusader", "kind": "strength", "ppm": 1.0, "value": 100, "duration": 15})); }
+            applied_enchants.push(json!({"slot": slot, "id": enchant_id, "name": enchant.name}));
         }
         if let Some(set) = &item.set {
             *set_counts.entry(set.name.clone()).or_insert(0) += 1;
@@ -296,8 +317,9 @@ pub fn apply_gear(profile: &Value, catalog: &Catalog) -> Result<(Value, Value), 
                 if *count < bonus.required {
                     continue;
                 }
-                let mut stats: IndexMap<String, f64> = bonus.stats.clone();
-                if stats.is_empty() {
+                let conditional = crate::items::re_search(r"chance on|chance to (?:gain|increase|grant|restore|trigger)|proc|for \d+ sec|when |whenever |after |stack", &bonus.description).is_some();
+                let mut stats: IndexMap<String, f64> = if conditional { IndexMap::new() } else { bonus.stats.clone() };
+                if stats.is_empty() && !conditional {
                     for (key, pattern) in crate::items::SET_PATTERNS {
                         if let Some(g) = crate::items::re_search(pattern, &bonus.description) {
                             stats.insert(key.to_string(), g[1].clone().unwrap().parse().unwrap());
@@ -373,6 +395,7 @@ pub fn apply_gear(profile: &Value, catalog: &Catalog) -> Result<(Value, Value), 
         }
     }
     effective["set_flags"] = Value::Object(set_flags.clone());
+    effective["item_effects"] = json!(item_effects);
     if let Some(m) = &main {
         if m.slot.as_deref() == Some("Two-Hand") && effective["gear"]["off_hand"].as_i64().unwrap_or(0) != 0 {
             return Err("A two-handed weapon cannot be combined with an off-hand item.".into());
@@ -394,8 +417,10 @@ pub fn apply_gear(profile: &Value, catalog: &Catalog) -> Result<(Value, Value), 
             let v = obj_f(&effective["character"], field) * kings;
             set_f(&mut effective["character"], field, v);
         }
+        if race == "Human" { let v = obj_f(&effective["character"], "spirit") * 1.05; set_f(&mut effective["character"], "spirit", v); }
         let talent = |id: &str| effective.get("talents").and_then(|t| t.get(id)).and_then(|v| v.as_f64()).unwrap_or(0.0);
         let (t639, t332, t632, t630, t882) = (talent("105639"), talent("105332"), talent("105632"), talent("105630"), talent("110882"));
+        let target_level = obj_f(&effective["encounter"], "target_level");
         let ch = &mut effective["character"];
         set_f(ch, "strength", obj_f(ch, "strength") * (1.0 + 0.02 * t639));
         set_f(ch, "intellect", obj_f(ch, "intellect") * (1.0 + 0.02 * t332));
@@ -422,7 +447,7 @@ pub fn apply_gear(profile: &Value, catalog: &Catalog) -> Result<(Value, Value), 
         set_f(ch, "spell_crit_chance", (obj_f(ch, "spell_crit_chance") - 0.021).max(0.0));
         let level = obj_f(ch, "level");
         let armor = obj_f(ch, "armor");
-        set_f(ch, "physical_mitigation", (armor / (armor + 400.0 + 85.0 * level)).min(0.75));
+        set_f(ch, "physical_mitigation", (armor / (armor + 400.0 + 85.0 * target_level)).min(0.75));
         let d = &effective["debuffs"];
         let mut reductions = if d["sunder_armor_5"].as_bool().unwrap_or(false) { 2250.0 } else { 0.0 };
         reductions += if d["faerie_fire"].as_bool().unwrap_or(false) { 505.0 } else { 0.0 };
@@ -430,7 +455,7 @@ pub fn apply_gear(profile: &Value, catalog: &Catalog) -> Result<(Value, Value), 
         let target_armor = (obj_f(&effective["encounter"], "target_armor") - reductions).max(0.0);
         set_f(&mut effective["encounter"], "target_physical_mitigation", target_armor / (target_armor + 400.0 + 85.0 * level));
     }
-    for key in ["hit_chance", "crit_chance", "spell_hit_chance", "spell_crit_chance", "block_chance", "avoidance"] {
+    for key in ["crit_chance", "spell_hit_chance", "spell_crit_chance", "block_chance", "avoidance"] {
         let v = obj_f(&effective["character"], key).min(1.0);
         set_f(&mut effective["character"], key, v);
     }
@@ -440,8 +465,33 @@ pub fn apply_gear(profile: &Value, catalog: &Catalog) -> Result<(Value, Value), 
             set_f(&mut effective["character"], "weapon_max", m.dmg_max());
             set_f(&mut effective["character"], "weapon_speed", m.speed_or(0.0));
             effective["character"]["weapon_hands"] = json!(m.slot);
+            set_f(&mut effective["character"], "normalized_speed", crate::items::normalized_speed(m));
         }
     }
+    let mut weapon_skill = obj_f(&effective["character"], "level") * 5.0;
+    if let Some(m) = &main {
+        let kind = m.subclass_str();
+        let key = format!("{}{kind}", if m.slot_str() == "Two-Hand" { "Two-Hand " } else { "" });
+        for slot in &pt.gear_slots {
+            let item = catalog.get(gear.get(slot).and_then(|v| v.as_i64()).unwrap_or(0));
+            for text in &item.effects {
+                if let Some(g) = crate::items::re_search(r"Increased (.+?) \+(\d+)", text) {
+                    let types = g[1].as_deref().unwrap_or("").replace(", and ", ",").replace(", ", ",").replace(" and ", ",");
+                    if types.split(',').map(|s| s.trim().trim_end_matches('s').replace("Two-handed", "Two-Hand")).any(|s| s == key || s == kind) {
+                        weapon_skill += g[2].as_deref().unwrap_or("0").parse::<f64>().unwrap_or(0.0);
+                    }
+                }
+            }
+        }
+    }
+    let ch = &mut effective["character"];
+    set_f(ch, "weapon_skill", weapon_skill);
+    set_f(ch, "seal_cost_reduction", tot("sealCostReduction"));
+    set_f(ch, "threat_reduction", tot("threatReduction") / 100.0);
+    set_f(ch, "spell_power", obj_f(ch, "spell_power") + tot("holyPower"));
+    let has_shield = catalog.get(gear["off_hand"].as_i64().unwrap_or(0)).subclass_str() == "Shield";
+    ch["has_shield"] = json!(has_shield);
+    if !has_shield { set_f(ch, "block_chance", 0.0); }
     let mut sets = Vec::new();
     let mut names: Vec<&String> = set_counts.keys().collect();
     names.sort();
@@ -480,6 +530,7 @@ pub fn apply_gear(profile: &Value, catalog: &Catalog) -> Result<(Value, Value), 
         "active_debuffs": active_list("debuffs"),
         "active_forever_set_bonuses": active_forever_bonuses, "active_classic_set_bonuses": active_classic_bonuses, "set_flags": set_flags,
         "effective_character": effective["character"].clone(),
+        "item_effects": {"applied": item_effects, "unresolved": unresolved_effects}, "enchants": applied_enchants,
         "note": "Sourced Forever set bonuses apply at their equipped thresholds. Classic primary-stat, armor and attack-power conversions are applied only when the audit switch is enabled. Item effects are modeled individually when identified."});
     Ok((effective, summary))
 }
@@ -510,6 +561,16 @@ pub struct Character {
     pub weapon_min: f64,
     pub weapon_max: f64,
     pub weapon_speed: f64,
+    #[serde(default)]
+    pub normalized_speed: f64,
+    #[serde(default)]
+    pub weapon_skill: f64,
+    #[serde(default)]
+    pub seal_cost_reduction: f64,
+    #[serde(default)]
+    pub threat_reduction: f64,
+    #[serde(default)]
+    pub has_shield: bool,
     pub hit_chance: f64,
     pub crit_chance: f64,
     pub spell_hit_chance: f64,
@@ -730,6 +791,9 @@ pub struct Fight<'a> {
     last_cast: f64,
     potion_cd: f64,
     rune_cd: f64,
+    item_effects: Vec<Value>,
+    item_until: IndexMap<String, f64>,
+    item_ready: IndexMap<String, f64>,
     _marker: std::marker::PhantomData<&'a ()>,
 }
 
@@ -812,12 +876,41 @@ impl<'a> Fight<'a> {
             last_cast: -10.0,
             potion_cd: 0.0,
             rune_cd: 0.0,
+            item_effects: profile.get("item_effects").and_then(|v| v.as_array()).cloned().unwrap_or_default(),
+            item_until: IndexMap::new(), item_ready: IndexMap::new(),
             _marker: Default::default(),
         })
     }
 
     fn rank(&self, id: &str) -> f64 {
         self.tal.get(id).copied().unwrap_or(0) as f64
+    }
+
+    fn item_stat(&self, stat: &str) -> f64 {
+        let mut value = match stat { "attack_power" => self.c.attack_power, "spell_power" => self.c.spell_power, "defense" => self.c.defense, "armor" => self.c.armor, _ => 0.0 };
+        for effect in &self.item_effects {
+            let name = effect["name"].as_str().unwrap_or("");
+            if self.item_until.get(name).copied().unwrap_or(0.0) > self.time {
+                if effect.get("stat").and_then(|v| v.as_str()) == Some(stat) { value += obj_f(effect, "value"); }
+                if effect["kind"] == "strength" && stat == "attack_power" { value += obj_f(effect, "value") * 2.0; }
+                if effect["kind"] == "weapon_defense" { value += obj_f(effect, stat); }
+            }
+        }
+        value
+    }
+
+    fn swing_delay(&self) -> f64 {
+        let speed = self.c.weapon_speed;
+        if !self.raid_buffs.get("bloodlust").copied().unwrap_or(false) || self.time >= 40.0 { return speed; }
+        let before = 40.0 - self.time;
+        if speed / 1.30 <= before { speed / 1.30 } else { before + (speed - before * 1.30) }
+    }
+
+    fn activate_item(&mut self, effect: &Value) {
+        let name = effect["name"].as_str().unwrap_or("");
+        self.item_until.insert(name.into(), self.time + obj_f(effect, "duration"));
+        *self.casts.entry(name.into()).or_insert(0) += 1;
+        self.record(&format!("{name} activated"), 0.0);
     }
 
     fn f(&self, group: &str, key: &str) -> f64 {
@@ -848,6 +941,7 @@ impl<'a> Fight<'a> {
     }
 
     fn spend(&mut self, name: &str, amount: f64) -> bool {
+        let amount = if name.starts_with("Seal") { (amount - self.c.seal_cost_reduction).max(0.0) } else { amount };
         let discounted = name.starts_with("Seal") || ["Judgement", "Holy Shield", "Holy Strike", "Templar's Bulwark", "Consecration"].contains(&name);
         let amount = amount * if discounted { 1.0 - 0.02 * self.rank("105706") } else { 1.0 };
         if self.mana + 1e-9 < amount {
@@ -908,28 +1002,49 @@ impl<'a> Fight<'a> {
     #[allow(clippy::too_many_arguments)]
     fn deal_inner(&mut self, name: &str, amount: f64, holy: bool, can_crit: bool, hit: f64, extra_threat: f64, melee_crit: bool, physical: Option<bool>, spell_coefficient: f64) -> Option<f64> {
         let precision = 0.01 * self.rank("105638");
-        let hit = (hit + precision).min(1.0);
-        if self.rng.random() >= hit {
-            self.record(&format!("{name} miss"), 0.0);
-            return None;
-        }
         let mut crit = if melee_crit || !holy { self.c.crit_chance } else { self.c.spell_crit_chance };
         if melee_crit || !holy {
             crit += 0.01 * self.rank("105703");
         }
-        let critical = can_crit && self.rng.random() < crit.min(1.0);
+        let white = ["Melee", "Reckoning", "Windfury Attack", "Hand of Justice"].contains(&name);
+        let mut glance = 1.0;
+        let critical;
+        if self.m.use_classic_era_conversions && (white || melee_crit) {
+            let delta = self.e.target_level * 5.0 - self.c.weapon_skill;
+            let miss = 0.05 + delta * if delta > 10.0 { 0.002 } else { 0.001 };
+            let bonus = (hit - 0.92).max(0.0) + precision;
+            let miss = (miss - (bonus - if delta > 10.0 { 0.01 } else { 0.0 }).max(0.0)).max(0.0);
+            let dodge = (0.05 + delta * 0.001).max(0.0);
+            let parry = if self.prot { 0.14 } else { 0.0 };
+            let roll = self.rng.random();
+            if roll < miss + dodge + parry {
+                self.record(&format!("{name}{}", if roll < miss { " miss" } else if roll < miss + dodge { " dodge" } else { " parry" }), 0.0);
+                return None;
+            }
+            let glancing = if white { 0.40 } else { 0.0 };
+            if roll < miss + dodge + parry + glancing {
+                glance = self.rng.uniform((1.3 - 0.05 * delta).clamp(0.01, 0.91), (1.2 - 0.03 * delta).clamp(0.2, 0.99));
+                critical = false;
+            } else { critical = can_crit && roll < miss + dodge + parry + glancing + (crit + (15.0 - delta) * 0.0004).max(0.0); }
+        } else {
+            if self.rng.random() >= (hit + precision).min(1.0) {
+                self.record(&format!("{name} miss"), 0.0); return None;
+            }
+            critical = can_crit && self.rng.random() < crit.min(1.0);
+        }
         if self.time >= self.vengeance_until {
             self.vengeance = 0;
         }
         let mut amount = amount;
         if holy && spell_coefficient != 0.0 {
-            let holy_bonus = self.c.spell_power + if self.debuffs.get("judgement_of_the_crusader").copied().unwrap_or(false) { 140.0 } else { 0.0 };
+            let holy_bonus = self.item_stat("spell_power") + if self.debuffs.get("judgement_of_the_crusader").copied().unwrap_or(false) { 140.0 } else { 0.0 };
             amount += holy_bonus * spell_coefficient;
         }
         amount *= 1.0 + self.vengeance as f64 * self.f("vengeance_rank1", "bonus_per_stack") * self.rank("105693");
         let crusade_rank = self.rank("110883");
         let creature_crusade = if self.e.boss_type == "demon" || self.e.boss_type == "undead" { crusade_rank } else { 0.0 };
         amount *= 1.0 + 0.01 * (crusade_rank + creature_crusade);
+        amount *= 1.0 + self.racial.creature_damage.get(&self.e.boss_type).copied().unwrap_or(0.0);
         let physical = physical.unwrap_or(!holy);
         if physical && self.debuffs.get("gift_of_arthas").copied().unwrap_or(false) && self.consumables.get("gift_of_arthas").copied().unwrap_or(false) {
             amount += 8.0;
@@ -940,10 +1055,12 @@ impl<'a> Fight<'a> {
         if critical {
             amount *= if melee_crit || !holy { self.m.melee_crit_multiplier } else { self.m.spell_crit_multiplier };
         }
+        amount *= glance;
         *self.damage.entry(name.to_string()).or_insert(0.0) += amount;
         *self.hits.entry(name.to_string()).or_insert(0) += 1;
         let base_threat = if holy { self.m.holy_threat_per_damage } else { self.m.base_threat_per_damage };
         let generated = amount * base_threat * extra_threat * if holy && self.prot { self.f("righteous_fury", "holy_threat_multiplier") } else { 1.0 };
+        let generated = generated * (1.0 - self.c.threat_reduction);
         self.threat += generated;
         *self.threat_by_source.entry(name.to_string()).or_insert(0.0) += generated;
         self.record(&format!("{name}{}", if critical { " crit" } else { "" }), amount);
@@ -964,7 +1081,7 @@ impl<'a> Fight<'a> {
             Seal::Command => {
                 if self.rng.random() < self.m.command_proc_chance {
                     let amt = weapon * self.f("command", "weapon_fraction") * seal_bonus;
-                    self.deal(&format!("Seal of Command{suffix}"), amt, true, false, 1.0, 1.0, false, None, 0.29);
+                    self.deal(&format!("Seal of Command{suffix}"), amt, true, false, 1.0, 1.0, false, None, 0.29 * seal_bonus);
                 }
             }
             Seal::Righteousness => {
@@ -974,7 +1091,7 @@ impl<'a> Fight<'a> {
                     self.f("righteousness", "proc_one_hand_mult")
                 };
                 let amt = self.f("righteousness", "proc_base") * hand_mult * self.c.weapon_speed * seal_bonus;
-                let coeff = self.f("righteousness", "proc_coeff");
+                let coeff = self.f("righteousness", "proc_coeff") * seal_bonus;
                 self.deal(&format!("Seal of Righteousness{suffix}"), amt, true, false, 1.0, 1.0, false, None, coeff);
             }
             Seal::Fury => {
@@ -990,22 +1107,32 @@ impl<'a> Fight<'a> {
         }
     }
 
-    fn swing(&mut self, extra: bool, bonus_ap: f64) {
+    fn swing(&mut self, extra: bool, bonus_ap: f64, extra_name: &str) {
         let mut weapon = self.rng.uniform(self.c.weapon_min, self.c.weapon_max);
         if self.m.use_classic_era_conversions {
-            weapon += (self.c.attack_power + bonus_ap) / 14.0 * self.c.weapon_speed;
+            weapon += (self.item_stat("attack_power") + bonus_ap) / 14.0 * self.c.weapon_speed;
         }
         match self.c.weapon_hands.as_deref() {
             Some("Two-Hand") => weapon *= 1.0 + [0.0, 0.03, 0.06, 0.09][self.rank("105697") as usize],
             Some("One-Hand") | Some("Main Hand") => weapon *= 1.0 + [0.0, 0.03, 0.07, 0.10][self.rank("105629") as usize],
             _ => {}
         }
-        let name = if bonus_ap != 0.0 { "Windfury Attack" } else if extra { "Reckoning" } else { "Melee" };
+        let name = if bonus_ap != 0.0 { "Windfury Attack" } else if extra { extra_name } else { "Melee" };
         let landed = self.deal(name, weapon, false, true, self.c.hit_chance, 1.0, false, None, 0.0);
         if landed && !extra && self.raid_buffs.get("windfury_totem").copied().unwrap_or(false) && self.rng.random() < 0.20 {
-            self.swing(true, 315.0);
+            self.swing(true, 315.0, "Windfury Attack");
         }
         if landed {
+            for effect in self.item_effects.clone() {
+                let kind = effect["kind"].as_str().unwrap_or("");
+                if ["extra_attack", "strength", "weapon_defense"].contains(&kind) && !(extra && kind == "extra_attack") {
+                    let chance = effect.get("chance").and_then(|v| v.as_f64()).unwrap_or_else(|| obj_f(&effect, "ppm") * self.c.weapon_speed / 60.0);
+                    if self.rng.random() < chance {
+                        if kind == "extra_attack" { *self.casts.entry(effect["name"].as_str().unwrap_or("").into()).or_insert(0) += 1; self.swing(true, 0.0, effect["name"].as_str().unwrap_or("Hand of Justice")); }
+                        else { self.activate_item(&effect); }
+                    }
+                }
+            }
             if self.consumables.get("dragonbreath_chili").copied().unwrap_or(false) && self.rng.random() < 0.05 {
                 let amt = self.rng.uniform(60.0, 90.0);
                 self.deal("Dragonbreath Chili", amt, false, false, 1.0, 1.0, false, Some(false), 0.0);
@@ -1024,7 +1151,7 @@ impl<'a> Fight<'a> {
         }
         self.echo = None;
         if !extra {
-            let next = self.time + self.c.weapon_speed;
+            let next = self.time + self.swing_delay();
             self.schedule(next, Kind::Swing);
         }
     }
@@ -1046,6 +1173,16 @@ impl<'a> Fight<'a> {
     }
 
     fn decision(&mut self) {
+        for effect in self.item_effects.clone() {
+            let name = effect["name"].as_str().unwrap_or("");
+            if effect["kind"] == "use" && self.time >= self.item_ready.get(name).copied().unwrap_or(0.0) && (obj_f(&effect, "shared_cooldown") == 0.0 || self.time >= self.item_ready.get("trinkets").copied().unwrap_or(0.0)) {
+                self.activate_item(&effect); self.item_ready.insert(name.into(), self.time + obj_f(&effect, "cooldown"));
+                if obj_f(&effect, "shared_cooldown") > 0.0 { self.item_ready.insert("trinkets".into(), self.time + obj_f(&effect, "shared_cooldown")); }
+            }
+        }
+        if self.racial.active.as_ref().is_some_and(|r| r.name == "Stoneform") && self.e.incoming_enabled && self.time >= self.item_ready.get("Stoneform").copied().unwrap_or(0.0) && self.time >= self.gcd {
+            self.activate_item(&json!({"name": "Stoneform", "duration": 8})); self.item_ready.insert("Stoneform".into(), self.time + 180.0); self.gcd = self.time + 1.5;
+        }
         if self.rot.use_judgement && self.time >= self.cd("judgement") && self.time < self.seal_until {
             let cost = self.f("judgement", "base_mana_fraction") * self.c.base_mana;
             if self.spend("Judgement", cost) {
@@ -1114,7 +1251,8 @@ impl<'a> Fight<'a> {
                 && self.spend("Holy Strike", self.m.holy_strike_cost) {
                     let iron = self.rank("110879");
                     let arbiter = if self.rank("105700") != 0.0 { 1.1 } else { 1.0 };
-                    let weapon = self.rng.uniform(self.c.weapon_min, self.c.weapon_max);
+                    let mut weapon = self.rng.uniform(self.c.weapon_min, self.c.weapon_max);
+                    if self.m.use_classic_era_conversions { weapon += self.item_stat("attack_power") / 14.0 * if self.c.normalized_speed > 0.0 { self.c.normalized_speed } else { 2.4 }; }
                     let amount = (weapon * self.m.holy_strike_weapon_pct + self.rng.uniform(self.m.holy_strike_holy_min, self.m.holy_strike_holy_max)) * arbiter;
                     let landed = self.deal("Holy Strike", amount, true, true, self.c.hit_chance, 1.0 + 0.05 * iron, true, None, self.m.holy_strike_coeff);
                     if landed && iron != 0.0 {
@@ -1129,7 +1267,7 @@ impl<'a> Fight<'a> {
                     let amt = self.rng.uniform(490.0, 576.0);
                     self.deal("Holy Wrath", amt, true, true, self.c.spell_hit_chance, 1.0, false, None, 0.19);
                     self.cd.insert("holy_wrath", self.time + 60.0 * purifying_cd);
-                    self.gcd = self.time + 2.0;
+                    self.gcd = self.time + 2.0 / if self.raid_buffs.get("bloodlust").copied().unwrap_or(false) && self.time < 40.0 { 1.30 } else { 1.0 };
                     acted = true;
                 }
             if !acted && self.rot.use_consecration && self.time >= self.cd("consecration") && self.mana / self.c.mana >= self.rot.consecration_mana_floor {
@@ -1146,8 +1284,8 @@ impl<'a> Fight<'a> {
                     acted = true;
                 }
             }
-            if acted && self.gcd <= self.time + 1e-9 {
-                self.gcd = self.time + 1.5;
+            if acted {
+                self.gcd = self.gcd.max(self.time + 1.5);
             } else if self.time >= self.seal_until {
                 let seal = if self.prot { Seal::Fury } else if self.rank("105696") == 0.0 { Seal::Righteousness } else { Seal::Command };
                 self.cast_seal(seal);
@@ -1166,18 +1304,18 @@ impl<'a> Fight<'a> {
         self.schedule(next, Kind::Enemy);
         let hs = self.hs_charges > 0 && self.time < self.hs_until;
         let red = self.red_charges > 0 && self.time < self.red_until;
-        let block = self.c.block_chance + if hs { self.f("holy_shield", "block_bonus") } else { 0.0 } + if red { self.f("redoubt_rank1", "block_bonus") * self.rank("105626") } else { 0.0 };
+        let defense_bonus = if self.m.use_classic_era_conversions { (self.item_stat("defense") - self.e.target_level * 5.0) * 0.0004 } else { 0.0 };
+        let block = (self.c.block_chance + defense_bonus).max(0.0) + if hs && self.c.has_shield { self.f("holy_shield", "block_bonus") } else { 0.0 } + if red && self.c.has_shield { self.f("redoubt_rank1", "block_bonus") * self.rank("105626") } else { 0.0 };
         let miss_debuff = if self.debuffs.get("insect_swarm").copied().unwrap_or(false) { 0.02 } else { 0.0 } + if self.debuffs.get("scorpid_sting").copied().unwrap_or(false) { 0.05 } else { 0.0 };
         let roll = self.rng.random();
-        let avoid = (self.c.avoidance + 0.01 * self.rank("105707") + miss_debuff).min(1.0);
+        let avoid = (self.c.avoidance + 0.01 * self.rank("105707") + miss_debuff + 3.0 * defense_bonus).clamp(0.0, 1.0);
         if roll < avoid {
             self.avoids += 1;
             self.record("Enemy avoided", 0.0);
             return;
         }
         let blocked = roll < (avoid + block).min(1.0);
-        let defense_bonus = (self.c.defense - self.e.target_level * 5.0).max(0.0);
-        let crit_chance = if self.m.use_classic_era_conversions { (self.e.enemy_crit_chance - defense_bonus * 0.0004).max(0.0) } else { self.e.enemy_crit_chance };
+        let crit_chance = (self.e.enemy_crit_chance - defense_bonus).max(0.0);
         let critical = !blocked && roll < (avoid + block + crit_chance).min(1.0);
         let mut crushing = false;
         if self.m.use_classic_era_conversions && !blocked && !critical && self.e.target_level - self.c.level >= 3.0 {
@@ -1188,7 +1326,16 @@ impl<'a> Fight<'a> {
         if self.debuffs.get("demoralizing_shout").copied().unwrap_or(false) {
             raw_damage *= 0.90;
         }
-        let mut amount = raw_damage * multiplier * (1.0 - self.c.physical_mitigation);
+        let mut mitigation = self.c.physical_mitigation;
+        if self.m.use_classic_era_conversions { let armor = self.item_stat("armor"); mitigation = (armor / (armor + 400.0 + 85.0 * self.e.target_level)).min(0.75); }
+        let mut amount = raw_damage * multiplier * (1.0 - mitigation);
+        if self.item_until.get("Stoneform").copied().unwrap_or(0.0) > self.time { amount *= 0.90; }
+        for effect in self.item_effects.clone() {
+            if effect["kind"] == "incoming_flat" {
+                if self.item_until.get(effect["name"].as_str().unwrap_or("")).copied().unwrap_or(0.0) > self.time { amount = (amount - obj_f(&effect, "value")).max(0.0); }
+                if self.rng.random() < obj_f(&effect, "chance") { self.activate_item(&effect); }
+            }
+        }
         if blocked {
             self.blocks += 1;
             let ss_rank = self.rank("110874");
@@ -1263,7 +1410,7 @@ impl<'a> Fight<'a> {
             let block_hit = blocked && self.rng.random() < (self.f("reckoning_rank1", "block_proc") * reck_rank).min(1.0);
             let crit_hit = !block_hit && critical && self.rng.random() < (self.f("reckoning_rank1", "crit_proc") * reck_rank).min(1.0);
             if block_hit || crit_hit {
-                self.swing(true, 0.0);
+                self.swing(true, 0.0, "Reckoning");
             }
         }
     }
@@ -1276,7 +1423,7 @@ impl<'a> Fight<'a> {
         } else {
             self.schedule(0.0, Kind::Decision);
         }
-        let first_swing = self.c.weapon_speed;
+        let first_swing = self.swing_delay();
         self.schedule(first_swing, Kind::Swing);
         self.schedule(2.0, Kind::Mana);
         if self.consumables.get("goblin_sapper_charge").copied().unwrap_or(false) {
@@ -1304,7 +1451,7 @@ impl<'a> Fight<'a> {
             previous = ev.time;
             match ev.kind {
                 Kind::Decision => self.decision(),
-                Kind::Swing => self.swing(false, 0.0),
+                Kind::Swing => self.swing(false, 0.0, "Melee"),
                 Kind::Consecration => {
                     let ticks = self.f("consecration", "ticks");
                     let aoe = self.e.targets;

@@ -11,6 +11,7 @@ from pathlib import Path
 
 from . import engine
 from .engine_data import CLASS_RACES, DEFAULT_BUILDS, RACIALS, ROTATIONS, SPEC_ABOUT, SPEC_MAP, default_buffs, default_consumables
+from .profile_rules import annotate_rating_assumptions, classify_availability
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "data"
@@ -53,14 +54,10 @@ def _load_items():
     for item in items.values():
         if not item.get("equipSlots"):
             item["equipSlots"] = SLOT_TO_EQUIP_SLOTS.get(item.get("slot"), [])
-    # Items Forever removed vs Classic Era are flagged rather than deleted: some existing
-    # preset gear (and Paladin's separate gear_data.py catalog) still references them by id,
-    # and hard-deleting the rows crashes simulation for those specs. The flag instead hides
-    # them from the picker's search results (see web/app.js renderPicker) so nobody can newly
-    # equip a Forever-removed item, without breaking anything already equipped by default.
-    for item_id in removed_ids:
-        if item_id in items:
-            items[item_id]["removedFromForever"] = True
+    # Snapshot absence is not proof of removal; keep Classic baseline choices explicit.
+    for item in items.values():
+        classify_availability(item, removed_ids)
+        annotate_rating_assumptions(item)
     return items
 
 

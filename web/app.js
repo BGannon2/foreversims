@@ -190,11 +190,14 @@ function buildTalents(){
   $("talentPoints").textContent=`${totalTalentPoints()} / ${state.boot.talent_data.max_points} points`;
 }
 
+function permanentStats(it) { const out = { ...(it.stats || {}) }; for (const e of it.effects || []) { if (!e.startsWith("Use:")) continue; if (/damage and healing.*?up to \d+ for \d+ sec/i.test(e)) delete out.spellPower; if (/Attack Power by \d+ for \d+ sec/i.test(e)) delete out.attackPower; if (/attack speed by \d+% for \d+ sec/i.test(e)) { delete out.meleeHaste; delete out.rangedHaste; delete out.spellHaste; } } return out; }
+
 function aggregateGear(){
   const totals={}, sets={}, sources={}; let equipped=0;
   const add=(k,v,src)=>{if(!v)return;totals[k]=(totals[k]||0)+v;(sources[k]??=[]).push({source:src,value:v})};
-  Object.values(state.profile.gear).forEach(id=>{const item=state.itemsById.get(id);if(!item)return;equipped++;Object.entries(item.stats).forEach(([k,v])=>add(k,v,item.name));if(item.set){sets[item.set.name]??={...item.set,count:0};sets[item.set.name].count++}});
-  Object.values(sets).forEach(set=>set.bonuses.filter(b=>set.count>=b.required).forEach(b=>Object.entries(b.stats||{}).forEach(([k,v])=>add(k,v,`${set.name} (${b.required} pieces)`))));
+  Object.values(state.profile.gear).forEach(id=>{const item=state.itemsById.get(id);if(!item)return;equipped++;Object.entries(permanentStats(item)).forEach(([k,v])=>add(k,v,item.name));if(item.set){sets[item.set.name]??={...item.set,count:0};sets[item.set.name].count++}});
+  Object.values(sets).forEach(set=>set.bonuses.filter(b=>set.count>=b.required&&!/chance on|chance to (?:gain|increase|grant|restore|trigger)|proc|for \d+ sec|when |whenever |after |stack/i.test(b.description||"")).forEach(b=>Object.entries(b.stats||{}).forEach(([k,v])=>add(k,v,`${set.name} (${b.required} pieces)`))));
+  Object.entries(state.profile.enchants||{}).forEach(([slot,id])=>{if(!state.profile.gear[slot])return;const enchant=state.boot.enchants?.slots?.[slot]?.find(e=>e.id===id);Object.entries(enchant?.stats||{}).forEach(([key,value])=>add(key==="primary"?"strength":key,value,enchant.name));});
   return {totals,equipped,sets,sources};
 }
 
@@ -206,7 +209,7 @@ function showItemTooltip(item,event){
   const stats=itemStatLine(item);if(stats!=="No parsed direct stats"){const p=document.createElement("p");p.textContent=stats;tip.append(p)}
   (item.effects||[]).forEach(text=>{const p=document.createElement("p");p.className="tooltip-effect";p.textContent=text;tip.append(p)});
   if(item.set){const count=item.set.pieces.filter(name=>equippedNames.has(name)).length;const head=document.createElement("h4");head.textContent=`${item.set.name} (${count}/${item.set.pieces.length}) · ${item.set.ruleset||"Classic Era"}`;tip.append(head);const list=document.createElement("ul");item.set.pieces.forEach(name=>{const li=document.createElement("li");li.className=equippedNames.has(name)?"equipped-piece":"";li.textContent=name;list.append(li)});tip.append(list);item.set.bonuses.forEach(bonus=>{const p=document.createElement("p");p.className=`set-bonus ${count>=bonus.required?"active":"inactive"}`;p.textContent=`(${bonus.required}) Set: ${bonus.description}${bonus.modeled===false?" · informational":" · modeled"}`;tip.append(p)})}
-  const source=document.createElement("p");source.className="tooltip-source";source.textContent=item.source;tip.append(source);tip.hidden=false;positionTooltip(event)
+  const source=document.createElement("p");source.className="tooltip-source";source.textContent=[item.source,item.availabilityNote,...(item.modelNotes||[])].filter(Boolean).join(" � ");tip.append(source);tip.hidden=false;positionTooltip(event)
 }
 function positionTooltip(event){const tip=$("gearTooltip");if(tip.hidden)return;const x=Math.min(innerWidth-tip.offsetWidth-12,(event.clientX||20)+18),y=Math.min(innerHeight-tip.offsetHeight-12,(event.clientY||20)+18);tip.style.left=`${Math.max(8,x)}px`;tip.style.top=`${Math.max(8,y)}px`}
 function hideItemTooltip(){$("gearTooltip").hidden=true}
@@ -218,7 +221,15 @@ function buildGear(){
     button.className=`gear-slot ${item?`equipped quality-${item.quality}`:""}`; button.dataset.slot=slot;
     const icon=item&&item.icon?`<img src="/item-icons/${item.icon}.jpg" alt="">`:label[0];
     button.innerHTML=`<span class="slot-icon">${icon}</span><span class="slot-copy"><small>${label}</small><strong>${item?item.name:"Empty"}</strong></span><span class="slot-level">${item?`iLvl ${item.itemLevel}`:"Choose"}</span>`;
-    button.addEventListener("click",()=>openPicker(slot));addItemTooltip(button,item); root.append(button);
+    button.addEventListener("click",()=>openPicker(slot));addItemTooltip(button,item);
+    const wrap=document.createElement("div");wrap.className="gear-entry";wrap.append(button);root.append(wrap);
+    const options=state.boot.enchants?.slots?.[slot]||[];
+    if(item&&options.length&&(!["main_hand","off_hand"].includes(slot)||item.weaponDamageMin)){
+      state.profile.enchants??=Object.fromEntries(Object.keys(gearLabels).map(k=>[k,""]));
+      const select=document.createElement("select");select.setAttribute("aria-label",`${label} enchant`);select.add(new Option("No enchant",""));
+      options.forEach(e=>{const option=new Option(e.name,e.id);option.title=e.description;select.add(option)});select.value=state.profile.enchants[slot]||"";
+      select.addEventListener("change",()=>{state.profile.enchants[slot]=select.value;buildGear()});wrap.append(select);
+    }
   });
   const {totals,equipped,sets,sources}=aggregateGear(); const summary=$("gearTotals"); summary.replaceChildren();
   const statTip=(row,k)=>{const src=sources[k]||[];if(!src.length)return;row.classList.add("has-tip");const html=`<h3>${statLabels[k]||labelize(k)}: +${fmt(totals[k],totals[k]%1?1:0)}</h3><p class="tooltip-meta">${src.map(x=>`${x.source}: +${fmt(x.value,x.value%1?1:0)}`).join("<br>")}</p><p class="tooltip-meta">Base attributes, buffs, consumables and talents are added in the simulation result.</p>`;row.addEventListener("mouseenter",e=>showInfoTooltip(html,e));row.addEventListener("mousemove",positionInfoTooltip);row.addEventListener("mouseleave",hideInfoTooltip)};
@@ -241,7 +252,7 @@ function itemStatLine(item){
 
 function renderPicker(){
   const query=$("itemSearch").value.trim().toLowerCase();
-  const matches=state.items.filter(item=>!item.removedFromForever&&(item.equipSlots||[]).includes(state.pickerSlot)&&(!query||`${item.name} ${item.source} ${item.subclass||""}`.toLowerCase().includes(query))).slice(0,150);
+  const matches=state.items.filter(item=>item.simulationAvailability!=="excluded"&&(item.equipSlots||[]).includes(state.pickerSlot)&&(!query||`${item.name} ${item.source} ${item.subclass||""}`.toLowerCase().includes(query))).slice(0,150);
   const list=$("itemList"); list.replaceChildren();
   matches.forEach(item=>{const row=document.createElement("button");row.type="button";row.className=`item-row quality-${item.quality}`;const icon=item.icon?`<img src="/item-icons/${item.icon}.jpg" alt="">`:item.name[0];row.innerHTML=`<span class="slot-icon">${icon}</span><span><h3>${item.name}</h3><p>${item.subclass||item.slot} · ${item.source}</p></span><span class="item-stats">${itemStatLine(item)}</span><span class="ilvl">iLvl ${item.itemLevel}</span>`;row.addEventListener("click",()=>selectItem(item));addItemTooltip(row,item);list.append(row)});
   $("itemCount").textContent=`${matches.length}${matches.length===150?"+":""} shown`;
@@ -249,6 +260,7 @@ function renderPicker(){
 
 function selectItem(item){
   state.profile.gear[state.pickerSlot]=item.id;
+  if(state.profile.enchants&&["main_hand","off_hand"].includes(state.pickerSlot)&&!item.weaponDamageMin)state.profile.enchants[state.pickerSlot]="";
   if(state.pickerSlot==="main_hand"&&item.slot==="Two-Hand") state.profile.gear.off_hand=0;
   buildGear(); $("itemDialog").close();
 }
@@ -348,6 +360,13 @@ function renderResult(){
     ["Gear data",state.result.gear_summary.data_version],["Mechanics data",state.result.data_version]
   ];
   diagnostics.forEach(([name,value])=>{ const dt=document.createElement("dt"); const dd=document.createElement("dd"); dt.textContent=name; dd.textContent=value; d.append(dt,dd); });
+  const gearAudit=state.result.gear_summary;
+  const addNote=(label,text)=>{const dt=document.createElement("dt"),dd=document.createElement("dd");dt.textContent=label;dd.textContent=text;d.append(dt,dd)};
+  (gearAudit.item_effects?.unresolved||[]).forEach(x=>addNote("Unmodeled item effect",`${x.item}: ${x.effect}`));
+  (gearAudit.item_effects?.applied||[]).filter(x=>x.provisional).forEach(x=>addNote("Provisional effect",x.provisional));
+  (gearAudit.equipped||[]).forEach(x=>(state.itemsById.get(x.id)?.modelNotes||[]).forEach(note=>addNote(x.name,note)));
+  (gearAudit.active_classic_set_bonuses||[]).filter(x=>!x.modeled).forEach(x=>addNote("Unmodeled set bonus",`${x.set} (${x.required}): ${x.description}`));
+  addNote("Accuracy", "Alpha model. Confidence intervals measure simulation sampling noise, not uncertainty in game mechanics. Defaults are suggested builds, not proven global optima.");
   $("quickDps").textContent=fmt(state.result.metrics.dps.mean,1); $("quickTps").textContent=fmt(state.result.metrics.tps.mean,1);
   $("quickSurvival").textContent=`${(state.result.metrics.survival_fraction*100).toFixed(1)}%`; $("quickDtps").textContent=fmt(state.result.metrics.alive_dtps.mean,1); $("quickMana").textContent=fmt(state.result.metrics.ending_mana.mean,0);
   $("runMeta").textContent=`${state.result.profile.iterations.toLocaleString()} iterations · seed ${state.result.profile.seed} · ${state.result.profile.duration}s`;
@@ -385,6 +404,8 @@ async function init(){
     state.boot.assumptions.forEach(text=>{const li=document.createElement("li");li.textContent=text;$("assumptions").append(li)});
     const requested=new URLSearchParams(location.search).get("spec");
     selectSpec(requested==="retribution"?"retribution":"protection");
+    const query=new URLSearchParams(location.search);state.profile.encounter.targets=Math.max(1,Math.min(10,Number(query.get("targets"))||1));
+    if(query.get("benchmark")==="1"){state.profile.seed=state.boot.defaults.benchmark_seed;state.profile.iterations=state.boot.defaults.benchmark_iterations;}hydrateForm();
     const requestedRace=new URLSearchParams(location.search).get("race"); if(requestedRace&&(state.boot.races||[]).includes(requestedRace)){state.profile.race=requestedRace;$("race").value=requestedRace;$("race").dispatchEvent(new Event("change"));}
   }catch(error){ $("serverText").textContent="Server connection failed"; $("formError").textContent=error.message; }
 }
@@ -450,5 +471,3 @@ $("itemSearch").addEventListener("input",renderPicker);
 $("clearItem").addEventListener("click",()=>{state.profile.gear[state.pickerSlot]=0;buildGear();$("itemDialog").close()});
 $("resetTalents").addEventListener("click",()=>{Object.keys(state.profile.talents).forEach(id=>state.profile.talents[id]=0);buildTalents();$("talentInfo").textContent="Talents reset. Choose talents from any tree."});
 init();
-
-

@@ -134,12 +134,21 @@
       "description": "Increases Ranged Attack Power by 100 (Classic rank 3; the Forever talent text shows 30).",
       "icon": "ability_trueshot",
       "wowhead": "https://www.wowhead.com/classic/spell=20906"
+    },
+    {
+      "key": "bloodlust",
+      "name": "Bloodlust / Heroism",
+      "source": "Encounter assumption",
+      "spell_id": 2825,
+      "description": "Requested scenario: 30% melee, ranged and casting haste from the pull. A 40-second duration is assumed, pending confirmed Forever spell data.",
+      "icon": "spell_nature_bloodlust",
+      "wowhead": "https://www.wowhead.com/forever/spell=2825/bloodlust"
     }
   ],
   "debuffs": [
     {
       "key": "sunder_armor_5",
-      "name": "Sunder Armor ×5",
+      "name": "Sunder Armor \u00d75",
       "source": "Warrior",
       "spell_id": 11597,
       "description": "Reduces target armor by 2,250 at five stacks.",

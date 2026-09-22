@@ -233,11 +233,14 @@ pub fn apply_set_bonuses(gear: &[Item], stats: &mut StatMap, forever_sets: &Inde
                 continue;
             }
             let mut applied = StatMap::new();
+            let conditional = re_search(r"chance on|chance to (?:gain|increase|grant|restore|trigger)|proc|for \d+ sec|when |whenever |after |stack", &bonus.description).is_some();
+            if !conditional {
             for (key, value) in &bonus.stats {
                 *stats.entry(key.clone()).or_insert(0.0) += value;
                 applied.insert(key.clone(), *value);
             }
-            if applied.is_empty() {
+            }
+            if applied.is_empty() && !conditional {
                 for (key, pattern) in SET_PATTERNS {
                     if let Some(g) = re_search(pattern, &bonus.description) {
                         let value: f64 = g[1].clone().unwrap().parse().unwrap();
@@ -298,6 +301,30 @@ pub fn enchant_compatible(slot: &str, gear: &[Item], gear_slots: &[GearSlot], ca
         return candidates.iter().any(|x| x.subclass.as_deref() == Some("Gun"));
     }
     candidates.iter().any(|x| matches!(weapon_type(x), Some(k) if WEAPON_TYPES.contains(&k)))
+}
+
+pub fn item_allowed(item: &Item, slot: &str, class: &str, rules: &Value) -> bool {
+    let contains = |v: &Value, s: &str| v.as_array().is_some_and(|a| a.iter().any(|x| x.as_str() == Some(s)));
+    if item.id.is_none() || item.extra.get("simulationAvailability").and_then(|v| v.as_str()) == Some("excluded") { return false; }
+    if !item.equipSlots.iter().any(|s| contains(&rules["slots"][slot], s)) { return false; }
+    if item.extra.get("requiredLevel").and_then(|v| v.as_f64()).unwrap_or(0.0) > 60.0 { return false; }
+    let sub = item.subclass_str();
+    if let Some(index) = rules["armor_order"].as_array().and_then(|a| a.iter().position(|x| x.as_str() == Some(sub))) {
+        if index as u64 > rules["armor_max"][class].as_u64().unwrap_or(0) { return false; }
+    }
+    if let Some(allowed) = item.extra.get("allowedClasses") { if allowed.as_array().is_some_and(|a| !a.is_empty()) && !contains(allowed, class) { return false; } }
+    if let Some(rows) = item.extra.get("tooltip").and_then(|v| v.as_array()) {
+        for row in rows { if let Some(text) = row["label"].as_str().and_then(|s| s.strip_prefix("Classes:")) { if !text.split(',').any(|s| s.trim() == class) { return false; } } }
+    }
+    let kind = rules["weapon_kinds"].as_array().and_then(|a| a.iter().filter_map(|x| x.as_str()).find(|s| sub.contains(s)));
+    if let Some(kind) = kind {
+        if !contains(&rules["class_weapons"][class], kind) { return false; }
+        if slot == "Main Hand" && !contains(&rules["melee_weapons"], kind) { return false; }
+        if slot == "Off Hand" && contains(&rules["melee_weapons"], kind) {
+            return contains(&rules["dual_wield_classes"], class) && item.slot_str() != "Two-Hand";
+        }
+    } else if slot == "Main Hand" { return false; }
+    true
 }
 
 /// `"%g" % value` for the small numbers used in proc notes.

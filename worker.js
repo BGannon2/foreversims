@@ -51,16 +51,31 @@ function clean(value, max) {
   return String(value ?? "").replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, "").trim().slice(0, max);
 }
 
+// Validate schemes as well as HTML escaping. Existing database rows are untrusted too.
+function safeUrl(value, origin, page = false) {
+  try {
+    const url = new URL(String(value));
+    if (!["http:", "https:"].includes(url.protocol) || url.username || url.password) return "";
+    if (page && ![origin, "https://foreversims.com", "https://www.foreversims.com"].includes(url.origin)) return "";
+    url.hash = "";
+    if (page) for (const key of [...url.searchParams.keys()]) {
+      if (!["spec", "race", "targets", "benchmark", "v"].includes(key)) url.searchParams.delete(key);
+    }
+    return url.href;
+  } catch { return ""; }
+}
+
 async function submitFeedback(request, env) {
   if (!env.DB) return json({ error: "Feedback storage is not configured." }, 503);
   let body;
   try { body = await request.json(); } catch { return json({ error: "Send JSON." }, 400); }
+  if (!body || typeof body !== "object" || Array.isArray(body)) return json({ error: "Send a feedback object." }, 400);
   if (body.website) return json({ ok: true }); // honeypot field filled by bots
   const message = clean(body.message, MAX_MESSAGE);
   if (message.length < 5) return json({ error: "Please write a few words of feedback." }, 400);
   const category = CATEGORIES.has(body.category) ? body.category : "other";
   const contact = clean(body.contact, 200);
-  const page = clean(body.page, 300);
+  const page = safeUrl(clean(body.page, 300), new URL(request.url).origin, true);
   const spec = clean(body.spec, 80);
   const version = clean(body.version, 120);
   const userAgent = clean(request.headers.get("User-Agent"), 300);
@@ -74,11 +89,11 @@ async function submitFeedback(request, env) {
   const id = result.meta?.last_row_id;
   let issueUrl = null;
   if (env.GITHUB_TOKEN && env.GITHUB_REPO) {
-    issueUrl = await createIssue(env, { id, category, message, contact, page, spec, version, userAgent });
+    issueUrl = await createIssue(env, { id, category, message, page, spec, version });
     if (issueUrl) await env.DB.prepare("UPDATE feedback SET issue_url = ?1 WHERE id = ?2").bind(issueUrl, id).run();
   }
   if (env.FEEDBACK_WEBHOOK) {
-    const text = `**Feedback #${id} · ${category}**${spec ? ` · ${spec}` : ""}\n${message.slice(0, 1500)}${contact ? `\n_contact: ${contact}_` : ""}${page ? `\n<${page}>` : ""}`;
+    const text = `**Feedback #${id} · ${category}**${spec ? ` · ${spec}` : ""}\n${message.slice(0, 1500)}${page ? `\n<${page}>` : ""}`;
     await fetch(env.FEEDBACK_WEBHOOK, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ content: text, allowed_mentions: { parse: [] } }) }).catch(() => {});
   }
   return json({ ok: true, id });
@@ -91,8 +106,8 @@ async function createIssue(env, f) {
   const firstLine = lines[0].trim();
   const title = `[${f.category}] ${firstLine.length > 72 ? firstLine.slice(0, 69) + "..." : firstLine}`;
   const quoted = lines.map(l => `> ${l}`).join("\n");
-  const meta = [["Feedback id", f.id], ["Spec", f.spec || "-"], ["Page", f.page || "-"], ["Version", f.version || "-"], ["Contact", f.contact || "-"], ["Browser", f.userAgent || "-"]]
-    .map(([k, v]) => `| ${k} | ${String(v).replace(/\|/g, "\\|")} |`).join("\n");
+  const meta = [["Feedback id", f.id], ["Spec", f.spec || "-"], ["Page", f.page || "-"], ["Version", f.version || "-"]]
+    .map(([k, v]) => `| ${k} | ${String(v).replace(/[\r\n]/g, " ").replace(/\|/g, "\\|")} |`).join("\n");
   const body = `${quoted}\n\n| | |\n|---|---|\n${meta}\n\n_Submitted through the site feedback form._`;
   try {
     const res = await fetch(`https://api.github.com/repos/${env.GITHUB_REPO}/issues`, {
@@ -113,19 +128,24 @@ async function feedbackAdmin(request, env, url) {
   if (!authorized(request, env)) return unauthorized("feedback");
   if (!env.DB) return new Response("Feedback storage is not configured.", { status: 503 });
   if (request.method === "POST") {
+    if (request.headers.get("Origin") !== url.origin) return json({ error: "Same-origin form required." }, 403);
     const form = await request.formData();
     const id = Number(form.get("id")), status = String(form.get("status") || "new");
-    if (id && ["new", "seen", "done"].includes(status)) await env.DB.prepare("UPDATE feedback SET status = ?1 WHERE id = ?2").bind(status, id).run();
+    if (Number.isSafeInteger(id) && id > 0 && ["new", "seen", "done"].includes(status)) await env.DB.prepare("UPDATE feedback SET status = ?1 WHERE id = ?2").bind(status, id).run();
     return Response.redirect(url.origin + url.pathname, 303);
   }
+  if (request.method !== "GET") return new Response("Method not allowed", { status: 405, headers: { Allow: "GET, POST" } });
   const { results } = await env.DB.prepare("SELECT id, created_at, category, message, contact, page, spec, version, status, issue_url FROM feedback ORDER BY id DESC LIMIT 500").all();
   if (url.searchParams.get("format") === "json") return json(results);
-  const rows = results.map(r => `<tr class="${r.status}"><td>${r.id}</td><td>${escapeHtml(r.created_at.slice(0, 16).replace("T", " "))}</td><td>${escapeHtml(r.category)}</td><td class="msg">${escapeHtml(r.message)}</td><td>${escapeHtml(r.contact || "")}</td><td>${r.page ? `<a href="${escapeHtml(r.page)}">${escapeHtml(r.spec || "page")}</a>` : escapeHtml(r.spec || "")}</td><td>${escapeHtml(r.version || "")}</td><td>${r.issue_url ? `<a href="${escapeHtml(r.issue_url)}">#${r.issue_url.split("/").pop()}</a>` : ""}</td><td><form method="post"><input type="hidden" name="id" value="${r.id}"><select name="status">${["new", "seen", "done"].map(s => `<option value="${s}"${s === r.status ? " selected" : ""}>${s}</option>`).join("")}</select><button>save</button></form></td></tr>`).join("");
+  const rows = results.map(r => {
+    const page = safeUrl(r.page, url.origin, true), issue = safeUrl(r.issue_url, url.origin);
+    return `<tr class="${escapeHtml(r.status)}"><td>${r.id}</td><td>${escapeHtml(r.created_at.slice(0, 16).replace("T", " "))}</td><td>${escapeHtml(r.category)}</td><td class="msg">${escapeHtml(r.message)}</td><td>${escapeHtml(r.contact || "")}</td><td>${page ? `<a href="${escapeHtml(page)}">${escapeHtml(r.spec || "page")}</a>` : escapeHtml(r.spec || "")}</td><td>${escapeHtml(r.version || "")}</td><td>${issue ? `<a href="${escapeHtml(issue)}">issue</a>` : ""}</td><td><form method="post"><input type="hidden" name="id" value="${r.id}"><select name="status">${["new", "seen", "done"].map(s => `<option value="${s}"${s === r.status ? " selected" : ""}>${s}</option>`).join("")}</select><button>save</button></form></td></tr>`;
+  }).join("");
   const html = `<!doctype html><html><head><meta charset="utf-8"><title>Forever Sims feedback</title><style>
 body{font:14px/1.45 system-ui,sans-serif;background:#0d0a1f;color:#e8e6f0;margin:0;padding:24px}h1{font-size:20px;margin:0 0 14px}table{border-collapse:collapse;width:100%}th,td{border-bottom:1px solid #2a2547;padding:8px 10px;vertical-align:top;text-align:left}th{color:#3fc6e8;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
 td.msg{white-space:pre-wrap;max-width:560px}tr.done{opacity:.45}tr.seen td.msg{color:#bdb8d6}a{color:#e3bd62}form{display:flex;gap:4px}select,button{background:#1a1533;color:#fff;border:1px solid #3a3466;padding:3px 6px}small{color:#8f89b0}</style></head>
 <body><h1>Forever Sims feedback <small>${results.length} entries · <a href="?format=json">json</a></small></h1><table><thead><tr><th>#</th><th>When (UTC)</th><th>Type</th><th>Message</th><th>Contact</th><th>Page</th><th>Version</th><th>Issue</th><th>Status</th></tr></thead><tbody>${rows || '<tr><td colspan="9">No feedback yet.</td></tr>'}</tbody></table></body></html>`;
-  return new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store", "X-Robots-Tag": "noindex" } });
+  return new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store", "X-Robots-Tag": "noindex", "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'", "X-Content-Type-Options": "nosniff", "Referrer-Policy": "no-referrer" } });
 }
 
 export default {

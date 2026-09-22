@@ -75,8 +75,8 @@ GCD, ENERGY_GCD = 1.5, 1.0
 # Racials (Wowhead Forever guide).  Unpublished numbers are provisional.
 # ---------------------------------------------------------------------------
 RACIALS = {
-    "Human": {"weapon_crit": {"Sword": 2.0}, "summary": "Sword Specialization: +2% spell and ability critical chance while a sword is equipped."},
-    "Dwarf": {"weapon_crit": {"Mace": 1.0}, "creature_damage": {"beast": 0.05}, "summary": "Mace Specialization: +1% critical chance with a mace equipped. Big Game Hunter: +5% damage to Beasts."},
+    "Human": {"spirit_pct": 0.05, "weapon_crit": {"Sword": 2.0}, "summary": "The Human Spirit: +5% Spirit. Sword Specialization: +2% spell and ability critical chance while a sword is equipped."},
+    "Dwarf": {"weapon_crit": {"Mace": 1.0}, "creature_damage": {"beast": 0.05}, "active": {"name": "Stoneform", "duration": 8, "cooldown": 180}, "summary": "Stoneform: 10% reduced Physical damage taken for 8 sec, 3 min cooldown. Mace Specialization: +1% critical chance with a mace equipped. Big Game Hunter: +5% damage to Beasts."},
     "Night Elf": {"dodge": 1.0, "active": {"name": "Elune's Light", "crit": 10.0, "duration": 15, "cooldown": 120, "provisional_cooldown": True}, "summary": "Elune's Light: +10% critical chance for 15 sec (cooldown unpublished; 2 min assumed). Quickness: +1% dodge."},
     "Gnome": {"active": {"name": "Eureka!", "charges": 3, "damage": 0.10, "cooldown": 120, "provisional_cooldown": True}, "summary": "Eureka!: next 3 spells or abilities deal +10% damage (cost reduction and cooldown unpublished; 2 min assumed)."},
     "Orc": {"weapon_crit": {"Axe": 1.0, "provisional": True}, "active": {"name": "Blood Fury", "ap_pct": 0.10, "sp_pct": 0.10, "duration": 15, "cooldown": 120}, "summary": "Blood Fury: +10% Attack Power and Spell Power for 15 sec, 2 min cooldown. Axe Specialization: critical chance with axes (amount unpublished; 1% assumed)."},
@@ -91,6 +91,7 @@ RACIALS = {
 # Raid buffs, target debuffs and consumables (Classic Anniversary values)
 # ---------------------------------------------------------------------------
 BUFF_STATS = {
+    "bloodlust": {},  # Requested encounter assumption; timed haste in both engines.
     "power_word_fortitude": {"stamina": 70}, "mark_of_the_wild": {"strength": 16, "agility": 16, "stamina": 16, "intellect": 16, "spirit": 16, "armor": 385},
     "arcane_intellect": {"intellect": 31}, "battle_shout": {"attackPower": 290}, "blessing_of_might": {"attackPower": 222}, "devotion_aura": {"armor": 735},
     "blessing_of_wisdom": {"mp5": 33}, "strength_of_earth": {"strength": 77}, "grace_of_air": {"agility": 77}, "mana_spring": {"mp5": 15},
@@ -467,7 +468,8 @@ TALENT_EFFECTS = {
     "105931": {"flag:enrage": 0.02}, "105932": {"cost:Execute": -2.5}, "105929": {"hit": 1}, "105927": {"flag:death_wish": 1}, "105928": {"flag:flurry": 0.05}, "105930": {"flag:bloodthirst": 1},
     "105953": {"flag:max_rage": 10},
     # Warrior Protection
-    "105976": {"block": 1, "flag:shield_spec_rage": 0.20},  # guide: 20%/rank chance for a flat 5 rage, not scaling rage amount "105975": {"defense": 4}, "105973": {"stat_pct:armor": 0.02}, "105969": {"dmg_ability:Revenge": 0.20},
+    "105976": {"block": 1, "flag:shield_spec_rage": 0.20},
+    "105975": {"defense": 4}, "105973": {"item_armor_pct": 0.02}, "105969": {"dmg_ability:Revenge": 0.20},
     "110856": {"flag:defiance": 0.05}, "105968": {"cost:Sunder Armor": -1}, "105962": {"stat_pct:strength": 0.02, "stat_pct:stamina": 0.02}, "105961": {"flag:focused_rage": 1},
     "105959": {"flag:shield_slam": 1}, "105974": {"flag:improved_bloodrage": 0.25}, "105971": {"flag:master_of_defense": 0.50},  # guide: 50%/rank chance on dodge OR parry for a flat 5 rage
     # Druid Balance
@@ -483,11 +485,11 @@ TALENT_EFFECTS = {
     # Hunter BM
     "104969": {"flag:pet_damage": 0.03}, "104967": {"flag:pet_crit": 2}, "104962": {"flag:pet_frenzy": 0.2}, "104961": {"flag:bestial_wrath": 1}, "104975": {"dmg_all": 0.01}, "104963": {"flag:pet_focus": 0.10},
     # Hunter MM
-    "105011": {"melee_crit": 1, "ranged_crit": 1}, "110870": {"dmg_ability:Serpent Sting": 0.0667}, "105009": {"cost_pct_all": -0.03}, "105008": {"ap_from_int": 0.20},
+    "105011": {"melee_crit": 1}, "110870": {"dmg_ability:Serpent Sting": 0.0667}, "105009": {"cost_pct_all": -0.03}, "105008": {"ap_from_int": 0.20},
     "105006": {"cooldown:Arcane Shot": -0.3}, "105007": {"flag:lone_wolf": 0.20}, "105002": {"crit_dmg_school:ranged": 0.06}, "105003": {"dmg_ability:Serpent Sting": 0.02},
     "105001": {"dmg_ability:Multi-Shot": 0.0333, "dmg_ability:Aimed Shot": 0.0333}, "104998": {"dmg_school:ranged": 0.01}, "105004": {},
     # Hunter Survival
-    "104996": {"flag:improved_tracking": 0.01}, "104991": {"dmg_ability:Explosive Trap": 0.15}, "104987": {"hit": 1, "ranged_hit": 1}, "104983": {"cost_pct:Explosive Trap": -0.30},
+    "104996": {"flag:improved_tracking": 0.01}, "104991": {"dmg_ability:Explosive Trap": 0.15}, "104987": {"hit": 1}, "104983": {"cost_pct:Explosive Trap": -0.30},
     "110859": {"stat_pct:agility": 0.02}, "104985": {"flag:expose_prey": 0.05}, "104984": {"flag:lacerating_strikes": 1}, "104981": {"flag:strider_kick": 1}, "104966": {"flag:summon_hawk": 1},
     # Mage Fire
     "105796": {"crit_ability:Fire Blast": 2, "crit_ability:Scorch": 2}, "105795": {"cast:Fireball": -0.1}, "105794": {"flag:ignite": 0.08}, "105797": {"cooldown:Fire Blast": -1},

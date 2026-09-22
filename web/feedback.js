@@ -23,7 +23,8 @@
           </select>
         </label>
         <label>Feedback <textarea name="message" rows="6" maxlength="4000" required placeholder="What happened, what you expected, and the spec or item involved."></textarea></label>
-        <label>How to reach you <small>(optional: Discord handle or email)</small><input name="contact" maxlength="200" autocomplete="off"></label>
+        <p class="feedback-intro">Your feedback may be shared in public GitHub issues or our community Discord. Keep private information out of the message. Contact details below are stored privately for the maintainers and are not forwarded.</p>
+        <label>How to reach you <small>(optional, private: Discord handle or email)</small><input name="contact" maxlength="200" autocomplete="off"></label>
         <input name="website" class="feedback-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
         <p class="feedback-status" aria-live="polite"></p>
         <footer><button type="button" class="feedback-cancel">Cancel</button><button type="submit" class="feedback-submit sim-button">Send</button></footer>

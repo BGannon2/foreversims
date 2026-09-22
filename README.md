@@ -13,6 +13,9 @@ registered trademarks of Blizzard Entertainment, Inc.
 
 ## What this is
 
+See the [v0.22.0 accuracy release notes](docs/accuracy-release-2026-09-22.md) for the
+latest audit fixes, validation coverage and remaining model limitations.
+
 *World of Warcraft: Forever* is a not-yet-released Classic-era ruleset with its own talent
 changes, new race/class combinations, and reworked abilities layered on top of Classic Anniversary
 mechanics. Forever's own data isn't fully public yet, so this project sources every number it can
