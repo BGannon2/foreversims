@@ -828,10 +828,6 @@ impl<'a> Fight<'a> {
         self.cd.get(key).copied().unwrap_or(0.0)
     }
 
-    fn pull_haste(&self) -> f64 {
-        if self.time < 40.0 { 1.30 } else { 1.0 }
-    }
-
     fn schedule(&mut self, time: f64, kind: Kind) {
         let prio = match kind { Kind::Decision => 0, Kind::Swing => 1, Kind::Consecration => 2, Kind::Enemy => 3, Kind::Heal => 4, Kind::Mana => 5 };
         self.serial += 1;
@@ -1028,7 +1024,7 @@ impl<'a> Fight<'a> {
         }
         self.echo = None;
         if !extra {
-            let next = self.time + self.c.weapon_speed / self.pull_haste();
+            let next = self.time + self.c.weapon_speed;
             self.schedule(next, Kind::Swing);
         }
     }
@@ -1045,7 +1041,7 @@ impl<'a> Fight<'a> {
         }
         self.seal = Some(seal);
         self.seal_until = self.time + self.f(seal.key(), "duration");
-        self.gcd = self.time + self.f("righteousness", "gcd") / self.pull_haste();
+        self.gcd = self.time + self.f("righteousness", "gcd");
         true
     }
 
@@ -1133,7 +1129,7 @@ impl<'a> Fight<'a> {
                     let amt = self.rng.uniform(490.0, 576.0);
                     self.deal("Holy Wrath", amt, true, true, self.c.spell_hit_chance, 1.0, false, None, 0.19);
                     self.cd.insert("holy_wrath", self.time + 60.0 * purifying_cd);
-                    self.gcd = self.time + 2.0 / self.pull_haste();
+                    self.gcd = self.time + 2.0;
                     acted = true;
                 }
             if !acted && self.rot.use_consecration && self.time >= self.cd("consecration") && self.mana / self.c.mana >= self.rot.consecration_mana_floor {
@@ -1151,7 +1147,7 @@ impl<'a> Fight<'a> {
                 }
             }
             if acted && self.gcd <= self.time + 1e-9 {
-                self.gcd = self.time + 1.5 / self.pull_haste();
+                self.gcd = self.time + 1.5;
             } else if self.time >= self.seal_until {
                 let seal = if self.prot { Seal::Fury } else if self.rank("105696") == 0.0 { Seal::Righteousness } else { Seal::Command };
                 self.cast_seal(seal);
@@ -1280,7 +1276,7 @@ impl<'a> Fight<'a> {
         } else {
             self.schedule(0.0, Kind::Decision);
         }
-        let first_swing = self.c.weapon_speed / 1.30;
+        let first_swing = self.c.weapon_speed;
         self.schedule(first_swing, Kind::Swing);
         self.schedule(2.0, Kind::Mana);
         if self.consumables.get("goblin_sapper_charge").copied().unwrap_or(false) {

@@ -893,7 +893,6 @@ impl Config {
     }
 
     pub fn summary(&self) -> Value {
-        let t = self.t;
         let s = &self.spec;
         let mut weapons = vec![self.weapon_row("Main Hand", &self.mh)];
         if !self.oh.is_empty() {
@@ -937,7 +936,6 @@ impl Config {
             "set_bonuses": {"counts": self.set_counts, "active": self.active_set_bonuses, "unresolved": self.unresolved_set_bonuses},
             "talent_points": self.talent_points, "talents": self.talents, "primary_tree": s.tree, "talent_effects": talent_effects,
             "weapons": weapons, "actions": actions, "rotation": self.rotation,
-            "bloodlust": {"haste": t.BLOODLUST_HASTE, "starts_at": 0.0, "duration": self.duration.min(t.BLOODLUST_DURATION)},
             "execute_phase": {"starts_at": self.duration * 0.8, "fraction": 0.2},
             "pet": pet, "notes": notes, "classic_reference_dps": null, "multiplier": 1.0,
         })

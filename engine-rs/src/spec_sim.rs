@@ -98,7 +98,6 @@ pub fn finalize(cfg: &Config, results: &[IterResult]) -> Value {
     for x in effects {
         buff_uptimes.insert(x.clone(), json!(1.0));
     }
-    buff_uptimes.insert("bloodlust".into(), json!((t.BLOODLUST_DURATION / duration).min(1.0)));
     for (name, secs) in &buff_seconds_agg {
         buff_uptimes.insert(name.clone(), json!((secs / n / duration).min(1.0)));
     }

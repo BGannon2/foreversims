@@ -339,9 +339,6 @@ impl<'a> Iteration<'a> {
     fn haste(&self, kind: &str) -> f64 {
         let c = self.c;
         let mut h = 1.0;
-        if self.t < c.t.BLOODLUST_DURATION {
-            h *= 1.0 + c.t.BLOODLUST_HASTE;
-        }
         h *= 1.0 + c.racial.haste * (c.racial_enabled as i32 as f64);
         if kind == "melee" {
             if self.flurry > 0 {
@@ -2214,9 +2211,8 @@ impl<'a> Iteration<'a> {
                     let speed = p.speed;
                     let base = self.rng.uniform(18.17, 27.66) * speed;
                     let dmg = self.pet_attack("Pet Melee", base, "physical", crit, false);
-                    let bl = if t < c.t.BLOODLUST_DURATION { 1.0 + c.t.BLOODLUST_HASTE } else { 1.0 };
                     let frenzy = if t < self.pet_state.as_ref().unwrap().frenzy_until { 1.3 } else { 1.0 };
-                    self.pet_state.as_mut().unwrap().next_swing = t + speed / (bl * frenzy);
+                    self.pet_state.as_mut().unwrap().next_swing = t + speed / frenzy;
                     if dmg != 0.0 && c.flag("pet_frenzy") != 0.0 {
                         let _ = self.rng.random() < c.flag("pet_frenzy");
                     }
@@ -2262,13 +2258,12 @@ impl<'a> Iteration<'a> {
                     ps.mana = cfg.mana.min(ps.mana + cfg.spirit / 5.0 * 2.0);
                     ps.next_mana += 2.0;
                 }
-                let bl = if t < c.t.BLOODLUST_DURATION { 1.0 + c.t.BLOODLUST_HASTE } else { 1.0 };
                 if cfg.speed != 0.0 && p.abilities.contains("Melee") && t + EPS >= self.pet_state.as_ref().unwrap().next_swing {
                     let ap = cfg.strength * 2.0 - 20.0;
                     let (lo, hi) = cfg.melee.unwrap_or((0.0, 0.0));
                     let base = self.rng.uniform(lo, hi) + ap / 14.0 * cfg.speed;
                     self.pet_attack(&format!("{} - Melee", title(&fam)), base, "physical", 0.05, false);
-                    self.pet_state.as_mut().unwrap().next_swing = t + cfg.speed / bl;
+                    self.pet_state.as_mut().unwrap().next_swing = t + cfg.speed;
                 }
                 if let Some(spell) = &cfg.spell {
                     if p.abilities.contains(spell) {
@@ -2290,7 +2285,7 @@ impl<'a> Iteration<'a> {
                         let ps = self.pet_state.as_mut().unwrap();
                         if ps.cast_until.is_none() && t + EPS >= ps.next_cast && ps.mana >= cfg.spell_cost {
                             ps.mana -= cfg.spell_cost;
-                            let cast = cfg.cast / bl;
+                            let cast = cfg.cast;
                             ps.cast_until = Some(t + cast.max(0.0));
                             if cast == 0.0 {
                                 ps.cast_until = Some(t);

@@ -235,9 +235,6 @@ class Fight:
     def rank(self, talent_id):
         return self.tal[str(talent_id)]
 
-    def pull_haste(self):
-        return 1.30 if self.time < 40.0 else 1.0
-
     def schedule(self,time,kind):
         priority={'decision':0,'swing':1,'consecration':2,'enemy':3,'heal':4,'mana':5}[kind]
         self.serial+=1; heapq.heappush(self.queue,(time,priority,self.serial,kind))
@@ -341,14 +338,14 @@ class Fight:
             if self.time < self.seal_until: self.seal_proc(self.seal,weapon)
             if self.echo: self.seal_proc(self.echo,weapon,True)
         self.echo=None
-        if not extra: self.schedule(self.time+self.c['weapon_speed']/self.pull_haste(),'swing')
+        if not extra: self.schedule(self.time+self.c['weapon_speed'],'swing')
 
     def cast_seal(self,seal):
         if not self.spend('Seal of '+seal.title(),F[seal]['cost']): return False
         if self.seal and self.time < self.seal_until and self.seal != seal and self.rank(105692):
             self.echo=self.seal
         self.seal=seal; self.seal_until=self.time+F[seal]['duration']
-        self.gcd=self.time+F['righteousness']['gcd']/self.pull_haste(); return True
+        self.gcd=self.time+F['righteousness']['gcd']; return True
 
     def decision(self):
         # Judgement is off-GCD. Do not consume an already queued echo.
@@ -403,13 +400,13 @@ class Fight:
                 if self.spend('Holy Wrath',805*conduit_discount):
                     self.deal('Holy Wrath',self.rng.uniform(490,576),holy=True,can_crit=True,hit=self.c['spell_hit_chance'],spell_coefficient=.19)
                     self.cd['holy_wrath']=self.time+60*purifying_cd
-                    self.gcd=self.time+2.0/self.pull_haste();acted=True
+                    self.gcd=self.time+2.0;acted=True
             if not acted and self.rot['use_consecration'] and self.time>=self.cd['consecration'] and self.mana/self.c['mana']>=self.rot.get('consecration_mana_floor',0):
                 con=F['consecration']
                 if self.spend('Consecration',con['cost']):
                     for tick in range(1,con['ticks']+1): self.schedule(self.time+tick*con['duration']/con['ticks'],'consecration')
                     self.cd['consecration']=self.time+con['cooldown']; acted=True
-            if acted and self.gcd<=self.time+1e-9: self.gcd=self.time+1.5/self.pull_haste()
+            if acted and self.gcd<=self.time+1e-9: self.gcd=self.time+1.5
             elif self.time>=self.seal_until:
                 self.cast_seal('fury' if self.prot else 'righteousness' if not self.rank(105696) else 'command')
             elif self.rot['twist_seals'] and self.rank(105692) and not self.echo:
@@ -483,7 +480,7 @@ class Fight:
             self.schedule(1.5,'decision')
         else:
             self.schedule(0,'decision')
-        self.schedule(self.c['weapon_speed']/1.30,'swing')
+        self.schedule(self.c['weapon_speed'],'swing')
         self.schedule(2.0,'mana')
         if self.p['consumables'].get('goblin_sapper_charge'):
             self.deal('Goblin Sapper Charge',self.rng.uniform(450,750),holy=False,physical=False,hit=1)

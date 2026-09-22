@@ -25,10 +25,14 @@ class SimulationTests(unittest.TestCase):
         self.assertIn('Patchwerk',p['encounter']['preset_name'])
         self.assertEqual((p['encounter']['enemy_damage_min'],p['encounter']['enemy_damage_max']),(2700,3300))
 
-    def test_paladin_pull_bloodlust_increases_opening_swing_cadence(self):
+    def test_paladin_swing_cadence_has_no_pull_haste(self):
+        # Bloodlust/Heroism doesn't exist as a raid-wide buff in Forever (Classic-era-based; no
+        # such spell in the client data) -- Enhancement Shaman's Rage of the Farseer is its own
+        # personal haste cooldown, not a party/raid buff. Swings should run at flat weapon speed
+        # from t=0, not get a free opening haste window.
         p=self.basic('retribution');p['duration']=10;p['character'].update(weapon_speed=3.5,hit_chance=1,crit_chance=0)
         r=Fight(p,0,True).run()
-        self.assertEqual(r['hits']['Melee'],3)
+        self.assertEqual(r['hits']['Melee'],2)
 
     def test_paladin_demon_and_undead_damage_rules(self):
         neutral=self.basic('retribution');neutral['duration']=60;neutral['iterations']=10
@@ -335,7 +339,7 @@ class SimulationTests(unittest.TestCase):
     def test_no_event_at_fight_endpoint(self):
         p=self.basic('retribution'); p['duration']=7; p['character']['weapon_speed']=3.5
         p['character']['hit_chance']=1
-        r=Fight(p,0,True).run(); self.assertEqual(r['hits']['Melee'],2)
+        r=Fight(p,0,True).run(); self.assertEqual(r['hits']['Melee'],1)
         self.assertTrue(all(e['time']<7 for e in r['log']))
 
 if __name__=='__main__': unittest.main()

@@ -69,7 +69,6 @@ SPIRIT_REGEN = {"Mage": (0.25, 12.5), "Priest": (0.25, 12.5), "Warlock": (0.2, 1
 RAGE_CONVERSION_60 = 0.0091107836 * 60 * 60 + 3.225598133 * 60 + 4.2652911  # 230.6
 LEVEL, TARGET_LEVEL = 60, 63
 TARGET_DEFENSE = TARGET_LEVEL * 5
-BLOODLUST_DURATION, BLOODLUST_HASTE = 40.0, 0.30
 GCD, ENERGY_GCD = 1.5, 1.0
 
 # ---------------------------------------------------------------------------

@@ -52,7 +52,6 @@ function buildFields(){
       typeWrap.querySelector("select").addEventListener("change",syncCreatureAbilities);
       const wrap=document.createElement("div"); wrap.className="toggle-row field wide";
       wrap.innerHTML='<label for="incoming">Receive enemy attacks</label><input id="incoming" type="checkbox">'; root.append(wrap);
-      const lust=document.createElement("p"); lust.className="racial-summary wide"; lust.innerHTML='<strong>Pull Bloodlust / Heroism:</strong> +30% melee, ranged, and spell casting speed for the opening 40 seconds.'; root.append(lust);
     }
   }
 }
@@ -320,13 +319,12 @@ function settingsSummary(group,title){
   const data=group==='consumables'?state.boot.consumable_data.items:state.boot.setting_data[group];
   data.filter(item=>state.result.profile[group][item.key]).forEach(item=>{const row=document.createElement("div");row.className="active-setting-row";const folder=group==='consumables'?'consumable-icons':'setting-icons';row.innerHTML=`<img src="/${folder}/${item.icon}.jpg" alt=""><span><strong>${item.name}</strong><small>${item.description}</small></span>`;wrap.append(row)});return wrap;
 }
-function bloodlustSummary(){const wrap=document.createElement('div');wrap.className='active-settings';wrap.innerHTML='<h3>Pull haste</h3><div class="active-setting-row"><img src="/talent-icons/spell_nature_bloodlust.jpg" alt=""><span><strong>Bloodlust / Heroism</strong><small>30% melee, ranged, and spell casting speed for the opening 40 seconds.</small></span></div>';return wrap}
 function renderResultDetail(){
   const root=$("resultDetail");root.replaceChildren();document.querySelectorAll(".result-tab").forEach(b=>b.classList.toggle("active",b.dataset.resultView===state.resultView));
   if(state.resultView==='damage')root.append(contributionTable(state.result.ability_dps,'DPS'));
   else if(state.resultView==='threat')root.append(contributionTable(state.result.ability_tps,'TPS'));
   else if(state.resultView==='taken')root.append(contributionTable(state.result.taken_dtps,'DTPS'));
-  else if(state.resultView==='buffs'){root.append(bloodlustSummary(),settingsSummary('raid_buffs','Active raid buffs'),settingsSummary('consumables','Active consumables'))}
+  else if(state.resultView==='buffs'){root.append(settingsSummary('raid_buffs','Active raid buffs'),settingsSummary('consumables','Active consumables'))}
   else if(state.resultView==='debuffs')root.append(settingsSummary('debuffs','Active target debuffs'));
   else if(state.resultView==='resources'){const table=document.createElement('dl');table.className='diagnostics';[['Mana spent',state.result.first_iteration.mana_spent],['Mana gained',state.result.first_iteration.mana_gained],['Ending mana',state.result.metrics.ending_mana.mean],['First unaffordable cast',state.result.first_iteration.first_unaffordable_cast??'Never']].forEach(([a,b])=>{const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=a;dd.textContent=typeof b==='number'?fmt(b,1):b;table.append(dt,dd)});root.append(table)}
   else {const wrap=document.createElement('div');wrap.className='table-wrap';wrap.innerHTML='<table><thead><tr><th>Time</th><th>Event</th><th>Amount</th><th>Health</th><th>Mana</th></tr></thead><tbody></tbody></table>';state.result.first_iteration.log.forEach(e=>{const tr=document.createElement('tr');[e.time.toFixed(3),e.event,fmt(e.amount,2),fmt(e.health,2),fmt(e.mana,2)].forEach(v=>{const td=document.createElement('td');td.textContent=v;tr.append(td)});wrap.querySelector('tbody').append(tr)});root.append(wrap)}

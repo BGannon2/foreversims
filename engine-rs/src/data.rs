@@ -380,8 +380,6 @@ pub struct Tables {
     pub LEVEL: f64,
     pub TARGET_LEVEL: f64,
     pub TARGET_DEFENSE: f64,
-    pub BLOODLUST_DURATION: f64,
-    pub BLOODLUST_HASTE: f64,
     pub GCD: f64,
     pub ENERGY_GCD: f64,
     pub RACIALS: IndexMap<String, Racial>,

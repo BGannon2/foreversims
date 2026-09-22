@@ -372,7 +372,6 @@ class Config:
             "talent_points": self.talent_points, "talents": self.talents, "primary_tree": s["tree"], "talent_effects": {k: round(v, 4) for k, v in self.mods.items()},
             "weapons": [{"slot": "Main Hand", "name": self.mh.get("name"), "speed": self.mh.get("weaponSpeed"), "damage": [self.mh.get("weaponDamageMin"), self.mh.get("weaponDamageMax")], "skill": self.skill(self.mh)}] + ([{"slot": "Off Hand", "name": self.oh.get("name"), "speed": self.oh.get("weaponSpeed"), "damage": [self.oh.get("weaponDamageMin"), self.oh.get("weaponDamageMax")], "skill": self.skill(self.oh)}] if self.oh else []) + ([{"slot": "Ranged", "name": self.ranged.get("name"), "speed": self.ranged.get("weaponSpeed"), "damage": [self.ranged.get("weaponDamageMin"), self.ranged.get("weaponDamageMax")], "skill": self.skill(self.ranged)}] if self.ranged.get("weaponDamageMin") else []),
             "actions": {n: {k: v for k, v in a.items() if k not in {"name", "use"}} for n, a in self.actions.items()}, "rotation": self.rotation,
-            "bloodlust": {"haste": BLOODLUST_HASTE, "starts_at": 0.0, "duration": min(self.duration, BLOODLUST_DURATION)},
             "execute_phase": {"starts_at": self.duration * 0.8, "fraction": 0.2},
             "pet": ({k: v for k, v in self.pet.items() if k not in {"cfg"}} | {"abilities": sorted(self.pet["abilities"])}) if self.pet else None,
             "notes": self.notes + [f"{n}: {a['provisional']}" for n, a in self.actions.items() if a.get("provisional")] + ([f"{self.racial['active']['name']} cooldown is not published by Wowhead; {self.racial['active']['cooldown']} sec assumed."] if self.racial.get("active", {}).get("provisional_cooldown") else []),
@@ -569,7 +568,6 @@ class Iteration:
 
     def haste(self, kind):
         h = 1.0
-        if self.t < BLOODLUST_DURATION: h *= 1 + BLOODLUST_HASTE
         h *= 1 + self.c.racial.get("haste", 0) * self.c.racial_enabled
         if kind == "melee":
             if self.flurry > 0: h *= 1 + 0.25 * (self.c.flag("flurry") > 0)
@@ -1603,7 +1601,7 @@ class Iteration:
                 speed = p["speed"]
                 base = rng.uniform(18.17, 27.66) * speed
                 dmg = self.pet_attack("Pet Melee", base, "physical", crit)
-                haste = (1 + BLOODLUST_HASTE if self.t < BLOODLUST_DURATION else 1.0) * (1.3 if self.t < ps["frenzy_until"] else 1.0)
+                haste = 1.3 if self.t < ps["frenzy_until"] else 1.0
                 ps["next_swing"] = self.t + speed / haste
                 if dmg and c.flag("pet_frenzy") and rng.random() < c.flag("pet_frenzy") and self.row("Pet Melee").crits: pass
             if ps["gcd"] <= self.t + EPS:
@@ -1625,7 +1623,7 @@ class Iteration:
                 ap = cfg.get("strength", 0) * 2 - 20
                 base = rng.uniform(*cfg["melee"]) + ap / 14 * cfg["speed"]
                 self.pet_attack(f"{fam.title()} - Melee", base, "physical", 0.05)
-                ps["next_swing"] = self.t + cfg["speed"] / (1 + BLOODLUST_HASTE if self.t < BLOODLUST_DURATION else 1.0)
+                ps["next_swing"] = self.t + cfg["speed"]
             spell = cfg.get("spell")
             if spell and spell in p["abilities"]:
                 if ps["cast_until"] is not None and self.t + EPS >= ps["cast_until"]:
@@ -1636,7 +1634,7 @@ class Iteration:
                     ps["next_cast"] = self.t + cfg.get("cooldown", 0)
                 if ps["cast_until"] is None and self.t + EPS >= ps["next_cast"] and ps["mana"] >= cfg["spell_cost"]:
                     ps["mana"] -= cfg["spell_cost"]
-                    cast = cfg.get("cast", 0) / (1 + BLOODLUST_HASTE if self.t < BLOODLUST_DURATION else 1.0)
+                    cast = cfg.get("cast", 0)
                     ps["cast_until"] = self.t + max(cast, 0.0)
                     if cast == 0: ps["cast_until"] = self.t
             if cfg.get("utility") in p["abilities"] and self.t + EPS >= ps.get("next_utility", 0):
@@ -1801,7 +1799,7 @@ def simulate(request, items, enchants, sets):
         "ability_dps": ability_dps, "ability_damage": ability_damage, "ability_stats": ability_stats, "threat_by_ability": threat_by, "taken_dtps": taken_by,
         "configuration": cfg_summary,
         "resource": {"name": res_name, "maximum": max_res, "mean_end": statistics.fmean(r["resource_end"] for r in results), "starved_fraction": starved, "first_out_of_mana": statistics.fmean([r["first_oom"] for r in results if r["first_oom"] is not None]) if any(r["first_oom"] is not None for r in results) else None},
-        "buff_uptimes": dict({x: 1.0 for x in sorted(cfg.buffs | cfg.consumes)}, bloodlust=min(1.0, BLOODLUST_DURATION / duration), **measured_buff_uptimes), "debuff_uptimes": {x: 1.0 for x in sorted(cfg.debuffs)},
+        "buff_uptimes": dict({x: 1.0 for x in sorted(cfg.buffs | cfg.consumes)}, **measured_buff_uptimes), "debuff_uptimes": {x: 1.0 for x in sorted(cfg.debuffs)},
         "buff_procs_per_min": buff_procs_per_min,
         "log": results[0]["log"],
         "model_status": "Event-driven level-60 model: sourced base damage, coefficients, cast times, Classic attack tables (miss, dodge, parry, glancing, block, crit suppression), resource ticks, combo points, DoTs, procs, timed cooldowns, pets and racials. No calibration multiplier. Provisional values are listed under configuration.notes.",
