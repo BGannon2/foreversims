@@ -11,14 +11,20 @@
     { "pattern": "www.foreversims.com", "custom_domain": true }
   ],
   "d1_databases": [
-    { "binding": "DB", "database_name": "foreversims-feedback", "database_id": "515d12dc-a051-4034-a897-a4861c446595", "preview_database_id": "fdf67c6a-5ffe-4caa-87d1-82f7c0250ee8", "migrations_dir": "migrations" }
+    { "binding": "DB", "database_name": "foreversims-feedback", "database_id": "515d12dc-a051-4034-a897-a4861c446595", "migrations_dir": "migrations" }
   ],
-  // `wrangler preview` (what Cloudflare Workers Builds runs for any branch other than the
-  // tracked production branch, per Settings > Build > Preview command) refuses to run at all
-  // without an explicit previews block for every bound resource with a production id -- it
-  // won't guess that it's safe to point a preview at production data. This is a separate D1
-  // database (`foreversims-feedback-preview`), not the production one, so preview/test builds
-  // never read or write real feedback submissions.
+  // `wrangler preview` (an separate, open-beta command -- NOT what Cloudflare Workers Builds'
+  // dashboard "Version command" runs; that's `wrangler versions upload`, which uses the same
+  // production D1 binding below and needs no preview override) refuses to start without an
+  // explicit previews block for every bound resource with a production id. Kept here so
+  // `wrangler preview` stays usable ad hoc, pointed at a separate D1 database
+  // (`foreversims-feedback-preview`) rather than production data.
+  //
+  // Deliberately NOT setting `preview_database_id` on the d1_databases entry below: it does the
+  // same job for `wrangler dev`/`--dry-run`, but a real `wrangler deploy` also silently prefers
+  // it over `database_id` when both are present -- confirmed by running a real deploy with it
+  // set, which bound production's Worker to this preview database instead of the real one.
+  // Immediately redeployed once removed; nothing else reads this field.
   "previews": {
     "d1_databases": [
       { "binding": "DB", "database_id": "fdf67c6a-5ffe-4caa-87d1-82f7c0250ee8" }
