@@ -1,0 +1,47 @@
+name: Watch Forever data sources
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch: {}
+
+jobs:
+  watch:
+    name: Check wago.tools build + foreverchanges.pro snapshot
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run data watch
+        id: watch
+        run: python tools/data_watch.py
+      - name: Open a PR if something moved
+        if: steps.watch.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "data: Forever source snapshot changed"
+          branch: data-watch/snapshot
+          delete-branch: true
+          title: "data-change: Forever source snapshot changed"
+          labels: data-change
+          body: |
+            `tools/data_watch.py` found that wago.tools' newest `wow_classic_beta` build and/or
+            foreverchanges.pro's banner build tag or item/talent counts moved since the last
+            recorded snapshot (`data/.watch_state.json`, updated by this PR).
+
+            This does **not** mean anything in the sim is wrong yet -- it means new data is
+            available to check. Before merging:
+
+            - [ ] Compare the old vs. new `data/.watch_state.json` values in this diff.
+            - [ ] If the wago.tools build changed, re-run `tools/fetch_forever_items.py` and
+                  spot-check any abilities sourced from `SpellEffect`/`TraitDefinitionEffectPoints`
+                  with `tools/spell_curve.py <spell_id>` against the new build.
+            - [ ] If foreverchanges.pro's item/talent counts changed independently of the build
+                  number, it re-parsed something -- check `docs`/`forever_talents_all.json`
+                  provenance for staleness.
+            - [ ] Re-run the full pipeline (`export_static_data.py`, `build_engine.sh`,
+                  `generate_benchmarks.py`) only after confirming what actually needs updating.
+
+            🤖 Generated with [Claude Code](https://claude.com/claude-code)
