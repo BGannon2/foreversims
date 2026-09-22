@@ -60,6 +60,21 @@ Direct `wrangler deploy` remains a low-level command and does not announce anyth
 The GitHub **Announce an existing release** workflow is manual recovery only; supply the
 notes file for an already deployed release. It uses the repository webhook secret.
 
+## Automatic (Workers Builds) deployments go to a preview, never production
+
+The repo is connected to Cloudflare's Workers Builds (Settings > Build in the dashboard), which
+runs on every push. Production deploys stay manual (`npm run release`, above) — Workers Builds is
+configured to run its **Preview command** (`npx wrangler preview`, the default) rather than its
+Deploy command, so a push never touches `foreversims.com` on its own; it only creates/updates a
+`<branch>-foreversims.<subdomain>.workers.dev` preview.
+
+`wrangler preview` refuses to run at all unless every bound resource with a production id also has
+a preview-safe counterpart declared, so it can't accidentally point a test deployment at real data.
+`wrangler.jsonc`'s `previews` block (and the `DB` binding's `preview_database_id`) point the
+feedback D1 binding at a separate `foreversims-feedback-preview` database instead of the
+production one. If a new binding is ever added (KV, R2, another D1 database, etc.), it needs the
+same treatment — `wrangler preview` will name exactly what's missing if you forget.
+
 ## Discord release announcements
 
 `#releases` in the community Discord is an Announcement channel where `@everyone` has `Send

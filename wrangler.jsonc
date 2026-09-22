@@ -11,8 +11,19 @@
     { "pattern": "www.foreversims.com", "custom_domain": true }
   ],
   "d1_databases": [
-    { "binding": "DB", "database_name": "foreversims-feedback", "database_id": "515d12dc-a051-4034-a897-a4861c446595", "migrations_dir": "migrations" }
+    { "binding": "DB", "database_name": "foreversims-feedback", "database_id": "515d12dc-a051-4034-a897-a4861c446595", "preview_database_id": "fdf67c6a-5ffe-4caa-87d1-82f7c0250ee8", "migrations_dir": "migrations" }
   ],
+  // `wrangler preview` (what Cloudflare Workers Builds runs for any branch other than the
+  // tracked production branch, per Settings > Build > Preview command) refuses to run at all
+  // without an explicit previews block for every bound resource with a production id -- it
+  // won't guess that it's safe to point a preview at production data. This is a separate D1
+  // database (`foreversims-feedback-preview`), not the production one, so preview/test builds
+  // never read or write real feedback submissions.
+  "previews": {
+    "d1_databases": [
+      { "binding": "DB", "database_id": "fdf67c6a-5ffe-4caa-87d1-82f7c0250ee8" }
+    ]
+  },
   "assets": {
     "directory": "web",
     "binding": "ASSETS",
