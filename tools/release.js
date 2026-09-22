@@ -9,7 +9,7 @@ async function release(input, run = command, announce = publishRelease) {
   run(process.execPath, ['tools/stamp_version.js']);
   run(process.platform === 'win32' ? 'npx.cmd' : 'npx', ['wrangler', 'deploy'], process.platform === 'win32');
   try { return await announce(input); }
-  catch (error) { throw new Error(`Deployment succeeded, but announcement needs attention: ${error.message} Use npm run announce-release -- --notes-file <path> after checking Discord; do not redeploy merely to retry the announcement.`); }
+  catch (error) { throw new Error(`Deployment succeeded, but announcement needs attention: ${error.message} Use npm run announce-release -- --notes-file <path> after checking Discord; do not redeploy merely to retry the announcement.`, { cause: error }); }
 }
 if (require.main === module) Promise.resolve().then(() => release(releaseInput())).catch(error => { console.error(error.message); process.exitCode = 1; });
 module.exports = { release };
