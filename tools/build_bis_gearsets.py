@@ -34,15 +34,16 @@ Known limitations (flagged, not silently hidden):
     reference them.
 """
 from __future__ import annotations
-import json, sys
+
+import json
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from forever.all_specs import ITEMS, ENCHANTS, FOREVER_SETS  # noqa: E402
-from forever.engine_data import SPEC_MAP, RACIALS, CLASS_RACES, DEFAULT_BUILDS  # noqa: E402
-from forever import all_specs  # noqa: E402
+from forever.all_specs import ITEMS  # noqa: E402
+from forever.engine_data import SPEC_MAP  # noqa: E402
 
 REMOVED_IDS = set(json.loads((ROOT / "data" / "forever_removed_item_ids.json").read_text(encoding="utf-8"))) \
     if (ROOT / "data" / "forever_removed_item_ids.json").is_file() else set()
@@ -243,7 +244,7 @@ def pick_weapons(items_by_slot, cls, spec_id, weights, taken_ids):
 
 
 def build_spec(spec_id, spec):
-    cls, style, role = spec["class_name"], spec["style"], spec["role"]
+    cls, style = spec["class_name"], spec["style"]
     weights = dict(SPEC_ARCHETYPE[spec_id])
 
     by_slot = {s: [] for s in SLOTS}

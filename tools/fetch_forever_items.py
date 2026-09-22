@@ -21,7 +21,12 @@ exclude these ids from consideration and then this script (or a variant of it) c
 delete them once nothing references them any more.
 """
 from __future__ import annotations
-import argparse, json, re, sys, urllib.request
+
+import argparse
+import json
+import re
+import sys
+import urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
