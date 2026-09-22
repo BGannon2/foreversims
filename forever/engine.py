@@ -642,6 +642,22 @@ class Iteration:
             if ability in {"Sinister Strike", "Backstab", "Hemorrhage"}: bonus += c.mod("crit_dmg_builder")
         return 1 + bonus
 
+    def periodic_crit_mult(self, ability, school, bleed=False, extra_bonus=0.0):
+        """Forever lets periodic damage (spell DoTs and bleeds) roll crits, unlike Classic.
+        Sourced from tooltip language, not inference: Nature's Grace and Primal Fury both
+        explicitly say "non-periodic" crits (a qualifier that's meaningless unless periodic
+        crits are the alternative), and Pandemic's tooltip is "increases the critical strike
+        damage bonus of [DoTs]" -- only sensible if those DoTs already have a crit damage bonus
+        to increase. This sim doesn't roll each tick individually; instead the flat per-tick
+        damage already stored on dot instances (see apply_dot) is scaled by the expected value
+        of crit chance * crit bonus, the same averaging approach used elsewhere in this engine.
+        Ignite is excluded by construction (it's built directly from a share of the triggering
+        crit, not through this path) since Forever explicitly excludes it from periodic crits."""
+        kind = "melee" if bleed else "spell"
+        crit_chance = self.crit_chance(kind, ability, school)
+        crit_bonus = self.crit_multiplier(kind, ability, school) - 1 + extra_bonus
+        return 1 + crit_chance * crit_bonus
+
     # ---- attack tables ---------------------------------------------------
     def melee_outcome(self, hand_item, white, ability=None, no_dodge=False):
         """Returns (outcome, damage_multiplier)."""
@@ -913,7 +929,8 @@ class Iteration:
             if c.flag("deep_wounds") and hand_item is not None:
                 avg = (float(hand_item["weaponDamageMin"]) + float(hand_item["weaponDamageMax"])) / 2 + self.ap() / 14 * float(hand_item.get("weaponSpeed", 2.0))
                 if hand_item is c.oh: avg *= 0.5 * (1 + c.flag("dw_damage"))
-                self.dots["Deep Wounds"] = {"next": self.t + 3, "remaining": 4, "tick": avg * c.flag("deep_wounds") / 4, "tick_len": 3, "school": "physical", "kind": "dot", "bleed": True}
+                tick = avg * c.flag("deep_wounds") / 4 * self.periodic_crit_mult("Deep Wounds", "physical", bleed=True)
+                self.dots["Deep Wounds"] = {"next": self.t + 3, "remaining": 4, "tick": tick, "tick_len": 3, "school": "physical", "kind": "dot", "bleed": True}
             if c.flag("primal_fury") and self.s["form"] == "bear": self.gain_rage(5)
         if kind == "spell":
             if c.flag("ignite") and self.cur_school == "fire":
@@ -1342,7 +1359,8 @@ class Iteration:
             if name == "Mongoose Bite":
                 self.buffs.pop("Mongoose Bite Ready", None)
                 if dmg and c.flag("lacerating_strikes"):
-                    self.dots["Lacerating Strikes"] = {"next": self.t + 3, "remaining": 7, "tick": dmg * 0.40 / 7, "tick_len": 3, "school": "physical", "kind": "dot", "bleed": True}
+                    tick = dmg * 0.40 / 7 * self.periodic_crit_mult("Lacerating Strikes", "physical", bleed=True)
+                    self.dots["Lacerating Strikes"] = {"next": self.t + 3, "remaining": 7, "tick": tick, "tick_len": 3, "school": "physical", "kind": "dot", "bleed": True}
             if dmg:
                 self.on_weapon_hit(item, False, name, dmg) if a.get("weapon") else None
                 if out == "crit": self.on_crit(name, dmg, item if a.get("weapon") else None)
@@ -1358,7 +1376,8 @@ class Iteration:
                 self.deal(name, 0, "physical", "melee", outcome=out)
                 if c.flag("finisher_refund"): self.gain_energy(c.flag("finisher_refund"))
                 return
-            self.dots[name] = {"next": self.t + a["tick_len"], "remaining": a["ticks"], "tick": tick * a["mult"], "tick_len": a["tick_len"], "school": "physical", "kind": "dot", "bleed": True}
+            tick *= a["mult"] * self.periodic_crit_mult(name, "physical", bleed=True)
+            self.dots[name] = {"next": self.t + a["tick_len"], "remaining": a["ticks"], "tick": tick, "tick_len": a["tick_len"], "school": "physical", "kind": "dot", "bleed": True}
             self.finish(name); self.record(name, "applied", 0); return
         if a.get("finisher") == "rupture":
             cp = self.cp
@@ -1373,7 +1392,8 @@ class Iteration:
                 self.deal(name, 0, "physical", "melee", outcome=out)
                 if c.flag("finisher_refund"): self.gain_energy(c.flag("finisher_refund"))
                 return
-            self.dots[name] = {"next": self.t + 2, "remaining": 3 + cp, "tick": tick * a["mult"], "tick_len": 2, "school": "physical", "kind": "dot", "bleed": True}
+            tick *= a["mult"] * self.periodic_crit_mult(name, "physical", bleed=True)
+            self.dots[name] = {"next": self.t + 2, "remaining": 3 + cp, "tick": tick, "tick_len": 2, "school": "physical", "kind": "dot", "bleed": True}
             self.finish(name); self.record(name, "applied", 0); return
         sp = self.sp(school)
         if kind in {"direct", "direct_dot"}:
@@ -1415,9 +1435,8 @@ class Iteration:
     def apply_dot(self, name, a, sp):
         c = self.c
         tick = (a.get("tick", 0) + sp * a.get("dot_coeff", 0)) * a["mult"]
-        pandemic = c.mod("crit_dmg_periodic")
-        if pandemic and name in {"Corruption", "Curse of Agony", "Siphon Life", "Drain Soul"}:
-            tick *= 1 + self.crit_chance("spell", name, a["school"]) * pandemic
+        pandemic = c.mod("crit_dmg_periodic") if name in {"Corruption", "Curse of Agony", "Siphon Life", "Drain Soul", "Wrack"} else 0.0
+        tick *= self.periodic_crit_mult(name, a["school"], bleed=a.get("bleed", False), extra_bonus=pandemic)
         instance = {"next": self.t + a["tick_len"], "remaining": a["ticks"], "tick": tick, "tick_len": a["tick_len"], "school": a["school"], "kind": "dot", "bleed": a.get("bleed", False)}
         primary = self.dots.get(name)
         primary_active = bool(primary and primary["remaining"] > 0 and primary["next"] - self.t < 1e9)

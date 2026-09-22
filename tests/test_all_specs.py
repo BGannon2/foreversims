@@ -263,7 +263,7 @@ class MechanicTests(unittest.TestCase):
         it.resolve("Corruption")
         d = it.dots["Corruption"]; self.assertEqual(d["remaining"], 6); self.assertEqual(d["tick_len"], 3)
         tick = (73 + it.sp("shadow") * 0.20) * it.c.actions["Corruption"]["mult"]
-        self.assertAlmostEqual(d["tick"], tick * (1 + it.crit_chance("spell", "Corruption", "shadow") * it.c.mod("crit_dmg_periodic")), places=6)
+        self.assertAlmostEqual(d["tick"], tick * it.periodic_crit_mult("Corruption", "shadow", extra_bonus=it.c.mod("crit_dmg_periodic")), places=6)
 
     def test_windfury_totem_and_weapon_procs(self):
         it = iteration("rogue-combat"); it.c.windfury_totem = True

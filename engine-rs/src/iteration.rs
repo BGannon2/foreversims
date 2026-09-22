@@ -487,6 +487,22 @@ impl<'a> Iteration<'a> {
         1.0 + bonus
     }
 
+    /// Forever lets periodic damage (spell DoTs and bleeds) roll crits, unlike Classic. Sourced
+    /// from tooltip language: Nature's Grace and Primal Fury both explicitly say "non-periodic"
+    /// crits (a qualifier that's meaningless unless periodic crits are the alternative), and
+    /// Pandemic's tooltip is "increases the critical strike damage bonus of [DoTs]" -- only
+    /// sensible if those DoTs already have a crit damage bonus to increase. This sim doesn't
+    /// roll each tick individually; the flat per-tick damage already stored on dot instances is
+    /// scaled by the expected value of crit chance * crit bonus, the same averaging approach
+    /// used elsewhere in this engine. Ignite is excluded by construction (it's built directly
+    /// from a share of the triggering crit, not through this path).
+    fn periodic_crit_mult(&self, ability: &str, school: &str, bleed: bool, extra_bonus: f64) -> f64 {
+        let kind = if bleed { "melee" } else { "spell" };
+        let crit_chance = self.crit_chance(kind, Some(ability), Some(school));
+        let crit_bonus = self.crit_multiplier(kind, ability, school) - 1.0 + extra_bonus;
+        1.0 + crit_chance * crit_bonus
+    }
+
     // ---- attack tables ---------------------------------------------------
     fn melee_outcome(&mut self, hand: Hand, white: bool, ability: Option<&str>, no_dodge: bool) -> (Outcome, f64) {
         let c = self.c;
@@ -960,7 +976,8 @@ impl<'a> Iteration<'a> {
                 if hand == Hand::Off {
                     avg *= 0.5 * (1.0 + c.flag("dw_damage"));
                 }
-                self.dots.insert("Deep Wounds".into(), Dot { next: self.t + 3.0, remaining: 4, tick: avg * c.flag("deep_wounds") / 4.0, tick_len: 3.0, school: "physical".into(), bleed: true, stacks: 1 });
+                let tick = avg * c.flag("deep_wounds") / 4.0 * self.periodic_crit_mult("Deep Wounds", "physical", true, 0.0);
+                self.dots.insert("Deep Wounds".into(), Dot { next: self.t + 3.0, remaining: 4, tick, tick_len: 3.0, school: "physical".into(), bleed: true, stacks: 1 });
             }
             if c.flag("primal_fury") != 0.0 && c.spec.form_is("bear") {
                 self.gain_rage(5.0);
@@ -1728,7 +1745,8 @@ impl<'a> Iteration<'a> {
             if name == "Mongoose Bite" {
                 self.buffs.shift_remove("Mongoose Bite Ready");
                 if dmg != 0.0 && c.flag("lacerating_strikes") != 0.0 {
-                    self.dots.insert("Lacerating Strikes".into(), Dot { next: self.t + 3.0, remaining: 7, tick: dmg * 0.40 / 7.0, tick_len: 3.0, school: "physical".into(), bleed: true, stacks: 1 });
+                    let tick = dmg * 0.40 / 7.0 * self.periodic_crit_mult("Lacerating Strikes", "physical", true, 0.0);
+                    self.dots.insert("Lacerating Strikes".into(), Dot { next: self.t + 3.0, remaining: 7, tick, tick_len: 3.0, school: "physical".into(), bleed: true, stacks: 1 });
                 }
             }
             if dmg != 0.0 {
@@ -1755,7 +1773,8 @@ impl<'a> Iteration<'a> {
                 }
                 return;
             }
-            self.dots.insert(name.to_string(), Dot { next: self.t + a.tick_len, remaining: a.ticks, tick: tick * a.mult, tick_len: a.tick_len, school: "physical".into(), bleed: true, stacks: 1 });
+            let tick = tick * a.mult * self.periodic_crit_mult(name, "physical", true, 0.0);
+            self.dots.insert(name.to_string(), Dot { next: self.t + a.tick_len, remaining: a.ticks, tick, tick_len: a.tick_len, school: "physical".into(), bleed: true, stacks: 1 });
             self.finish(name);
             self.record(name, "applied", 0.0);
             return;
@@ -1774,7 +1793,8 @@ impl<'a> Iteration<'a> {
                 }
                 return;
             }
-            self.dots.insert(name.to_string(), Dot { next: self.t + 2.0, remaining: 3 + cp, tick: tick * a.mult, tick_len: 2.0, school: "physical".into(), bleed: true, stacks: 1 });
+            let tick = tick * a.mult * self.periodic_crit_mult(name, "physical", true, 0.0);
+            self.dots.insert(name.to_string(), Dot { next: self.t + 2.0, remaining: 3 + cp, tick, tick_len: 2.0, school: "physical".into(), bleed: true, stacks: 1 });
             self.finish(name);
             self.record(name, "applied", 0.0);
             return;
@@ -1850,11 +1870,9 @@ impl<'a> Iteration<'a> {
     fn apply_dot(&mut self, name: &str, a: &Ability, sp: f64) {
         let c = self.c;
         let mut tick = (a.tick + sp * a.dot_coeff) * a.mult;
-        let pandemic = c.mod_("crit_dmg_periodic");
+        let pandemic = if ["Corruption", "Curse of Agony", "Siphon Life", "Drain Soul", "Wrack"].contains(&name) { c.mod_("crit_dmg_periodic") } else { 0.0 };
         let school = a.school_str().to_string();
-        if pandemic != 0.0 && ["Corruption", "Curse of Agony", "Siphon Life", "Drain Soul"].contains(&name) {
-            tick *= 1.0 + self.crit_chance("spell", Some(name), Some(&school)) * pandemic;
-        }
+        tick *= self.periodic_crit_mult(name, &school, a.bleed, pandemic);
         let instance = Dot { next: self.t + a.tick_len, remaining: a.ticks, tick, tick_len: a.tick_len, school, bleed: a.bleed, stacks: 1 };
         let primary_active = self.dots.get(name).is_some_and(|d| d.remaining > 0 && d.next - self.t < 1e9);
         if a.spreadable && c.targets > 1 && primary_active {
