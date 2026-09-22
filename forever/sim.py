@@ -109,11 +109,17 @@ def preset(spec='protection'):
             'enemy_crit_chance':0.05, 'enemy_crit_multiplier':2.0,
             'target_physical_mitigation':0.3, 'heal_amount':2500.0,
             'heal_interval':2.0, 'incoming_enabled':prot},
+        # Assume a full 40-man raid bringing every class: every raid buff is on by default,
+        # including ones that are a no-op for a melee Paladin (Trueshot Aura). The only ones
+        # left False are the losing half of a mutually-exclusive raid slot -- grace_of_air and
+        # windfury_totem can't both be the raid's Air Totem, and moonkin_aura/leader_of_the_pack
+        # can't both be the raid's 3%-crit aura -- so we keep the picks that actually matter for
+        # a melee/physical spec (matches the shared engine's default_buffs() logic).
         'raid_buffs': {'power_word_fortitude':True, 'mark_of_the_wild':True,
             'arcane_intellect':True, 'battle_shout':True, 'blessing_of_might':True,
-            'devotion_aura':prot, 'blessing_of_kings':True, 'blessing_of_wisdom':True,
-            'strength_of_earth':True, 'windfury_totem':not prot, 'grace_of_air':False,
-            'mana_spring':True, 'leader_of_the_pack':True, 'moonkin_aura':False, 'trueshot_aura':False},
+            'devotion_aura':True, 'blessing_of_kings':True, 'blessing_of_wisdom':True,
+            'strength_of_earth':True, 'windfury_totem':True, 'grace_of_air':False,
+            'mana_spring':True, 'leader_of_the_pack':True, 'moonkin_aura':False, 'trueshot_aura':True},
         'consumables': {'flask_of_the_titans':prot, 'elixir_of_the_mongoose':True,
             'elixir_of_superior_defense':prot, 'elixir_of_fortitude':prot,
             'greater_stoneshield_potion':prot, 'smoked_desert_dumplings':True,

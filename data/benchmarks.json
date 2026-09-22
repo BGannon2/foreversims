@@ -8275,10 +8275,10 @@
       "role": "dps",
       "targets": 1,
       "url": "/all-specs.html?spec=warlock-affliction&race=Human",
-      "dps": 530.3787113554149,
-      "tps": 430.79197993344974,
+      "dps": 529.9581229269345,
+      "tps": 430.7467118119724,
       "dtps": 0.0,
-      "total_damage": 63645.445362649836
+      "total_damage": 63594.97475123216
     },
     {
       "id": "warlock-affliction",
@@ -8288,10 +8288,10 @@
       "role": "dps",
       "targets": 2,
       "url": "/all-specs.html?spec=warlock-affliction&race=Human",
-      "dps": 662.4292154400598,
-      "tps": 536.5549251065578,
+      "dps": 662.99324416371,
+      "tps": 537.2482190431001,
       "dtps": 0.0,
-      "total_damage": 79491.50585280705
+      "total_damage": 79559.18929964505
     },
     {
       "id": "warlock-affliction",
@@ -8301,10 +8301,10 @@
       "role": "dps",
       "targets": 3,
       "url": "/all-specs.html?spec=warlock-affliction&race=Human",
-      "dps": 412.31354932637964,
-      "tps": 336.20658141956187,
+      "dps": 411.7553180766192,
+      "tps": 336.0083904419965,
       "dtps": 0.0,
-      "total_damage": 49477.625919165504
+      "total_damage": 49410.63816919428
     },
     {
       "id": "warlock-affliction",
@@ -8314,10 +8314,10 @@
       "role": "dps",
       "targets": 4,
       "url": "/all-specs.html?spec=warlock-affliction&race=Human",
-      "dps": 518.4137826733564,
-      "tps": 421.083880507238,
+      "dps": 518.4396752816058,
+      "tps": 421.3610032752958,
       "dtps": 0.0,
-      "total_damage": 62209.65392080268
+      "total_damage": 62212.761033792645
     },
     {
       "id": "warlock-affliction",
@@ -8327,10 +8327,10 @@
       "role": "dps",
       "targets": 5,
       "url": "/all-specs.html?spec=warlock-affliction&race=Human",
-      "dps": 627.9517381525233,
-      "tps": 508.7142448905709,
+      "dps": 627.9431043399392,
+      "tps": 508.9637465219621,
       "dtps": 0.0,
-      "total_damage": 75354.20857830264
+      "total_damage": 75353.17252079259
     },
     {
       "id": "warlock-affliction",
@@ -8340,10 +8340,10 @@
       "role": "dps",
       "targets": 1,
       "url": "/all-specs.html?spec=warlock-affliction&race=Gnome",
-      "dps": 525.7355425952989,
-      "tps": 426.9848262881377,
+      "dps": 524.7695474423847,
+      "tps": 426.46740621959935,
       "dtps": 0.0,
-      "total_damage": 63088.26511143593
+      "total_damage": 62972.34569308621
     },
     {
       "id": "warlock-affliction",
@@ -8353,10 +8353,10 @@
       "role": "dps",
       "targets": 2,
       "url": "/all-specs.html?spec=warlock-affliction&race=Gnome",
-      "dps": 656.4421156512919,
-      "tps": 531.6369998287615,
+      "dps": 657.4807842021092,
+      "tps": 532.7286415156232,
       "dtps": 0.0,
-      "total_damage": 78773.05387815509
+      "total_damage": 78897.69410425318
     },
     {
       "id": "warlock-affliction",
@@ -8366,10 +8366,10 @@
       "role": "dps",
       "targets": 3,
       "url": "/all-specs.html?spec=warlock-affliction&race=Gnome",
-      "dps": 411.90858257018704,
-      "tps": 335.7660227423365,
+      "dps": 408.73356829345084,
+      "tps": 333.48848344113355,
       "dtps": 0.0,
-      "total_damage": 49429.02990842244
+      "total_damage": 49048.02819521412
     },
     {
       "id": "warlock-affliction",
@@ -8379,10 +8379,10 @@
       "role": "dps",
       "targets": 4,
       "url": "/all-specs.html?spec=warlock-affliction&race=Gnome",
-      "dps": 518.8657494443684,
-      "tps": 421.33334000113774,
+      "dps": 514.2677808646492,
+      "tps": 417.91518279513434,
       "dtps": 0.0,
-      "total_damage": 62263.88993332424
+      "total_damage": 61712.133703757936
     },
     {
       "id": "warlock-affliction",
@@ -8392,10 +8392,10 @@
       "role": "dps",
       "targets": 5,
       "url": "/all-specs.html?spec=warlock-affliction&race=Gnome",
-      "dps": 629.1598784360349,
-      "tps": 509.5686431944705,
+      "dps": 623.0114361354823,
+      "tps": 504.91010701180045,
       "dtps": 0.0,
-      "total_damage": 75499.1854123242
+      "total_damage": 74761.37233625789
     },
     {
       "id": "warlock-affliction",
@@ -8405,10 +8405,10 @@
       "role": "dps",
       "targets": 1,
       "url": "/all-specs.html?spec=warlock-affliction&race=Orc",
-      "dps": 524.8249589633463,
-      "tps": 426.23179790725453,
+      "dps": 524.8119838607771,
+      "tps": 426.5046998116795,
       "dtps": 0.0,
-      "total_damage": 62978.99507560155
+      "total_damage": 62977.43806329326
     },
     {
       "id": "warlock-affliction",
@@ -8418,10 +8418,10 @@
       "role": "dps",
       "targets": 2,
       "url": "/all-specs.html?spec=warlock-affliction&race=Orc",
-      "dps": 653.8342901603264,
-      "tps": 529.4967685064939,
+      "dps": 660.0926901250067,
+      "tps": 534.7760021968196,
       "dtps": 0.0,
-      "total_damage": 78460.11481923913
+      "total_damage": 79211.1228150008
     },
     {
       "id": "warlock-affliction",
@@ -8431,10 +8431,10 @@
       "role": "dps",
       "targets": 3,
       "url": "/all-specs.html?spec=warlock-affliction&race=Orc",
-      "dps": 411.55646698427796,
-      "tps": 335.4496636743966,
+      "dps": 413.5094545072095,
+      "tps": 337.28576886107606,
       "dtps": 0.0,
-      "total_damage": 49386.77603811338
+      "total_damage": 49621.134540865154
     },
     {
       "id": "warlock-affliction",
@@ -8444,10 +8444,10 @@
       "role": "dps",
       "targets": 4,
       "url": "/all-specs.html?spec=warlock-affliction&race=Orc",
-      "dps": 518.8630170018068,
-      "tps": 421.2971800210647,
+      "dps": 519.0622438089242,
+      "tps": 421.7180607934624,
       "dtps": 0.0,
-      "total_damage": 62263.5620402168
+      "total_damage": 62287.46925707093
     },
     {
       "id": "warlock-affliction",
@@ -8457,10 +8457,10 @@
       "role": "dps",
       "targets": 5,
       "url": "/all-specs.html?spec=warlock-affliction&race=Orc",
-      "dps": 628.9070139901401,
-      "tps": 509.33237761173075,
+      "dps": 628.761467393924,
+      "tps": 509.47743966146186,
       "dtps": 0.0,
-      "total_damage": 75468.84167881674
+      "total_damage": 75451.37608727076
     },
     {
       "id": "warlock-affliction",
@@ -8470,10 +8470,10 @@
       "role": "dps",
       "targets": 1,
       "url": "/all-specs.html?spec=warlock-affliction&race=Undead",
-      "dps": 524.1713335860771,
-      "tps": 425.70286373905185,
+      "dps": 531.2583345307723,
+      "tps": 431.6697043570121,
       "dtps": 0.0,
-      "total_damage": 62900.560030329274
+      "total_damage": 63751.00014369271
     },
     {
       "id": "warlock-affliction",
@@ -8483,10 +8483,10 @@
       "role": "dps",
       "targets": 2,
       "url": "/all-specs.html?spec=warlock-affliction&race=Undead",
-      "dps": 654.5052450025843,
-      "tps": 530.0418183348721,
+      "dps": 657.7327582967557,
+      "tps": 532.886767442699,
       "dtps": 0.0,
-      "total_damage": 78540.62940031016
+      "total_damage": 78927.93099561075
     },
     {
       "id": "warlock-affliction",
@@ -8496,10 +8496,10 @@
       "role": "dps",
       "targets": 3,
       "url": "/all-specs.html?spec=warlock-affliction&race=Undead",
-      "dps": 410.5392213534396,
-      "tps": 334.6515582920201,
+      "dps": 408.9037074194486,
+      "tps": 333.58513753967776,
       "dtps": 0.0,
-      "total_damage": 49264.70656241271
+      "total_damage": 49068.4448903338
     },
     {
       "id": "warlock-affliction",
@@ -8509,10 +8509,10 @@
       "role": "dps",
       "targets": 4,
       "url": "/all-specs.html?spec=warlock-affliction&race=Undead",
-      "dps": 516.3707311803292,
-      "tps": 419.31225162313314,
+      "dps": 514.9794404959149,
+      "tps": 418.447829186908,
       "dtps": 0.0,
-      "total_damage": 61964.48774163949
+      "total_damage": 61797.53285950974
     },
     {
       "id": "warlock-affliction",
@@ -8522,10 +8522,10 @@
       "role": "dps",
       "targets": 5,
       "url": "/all-specs.html?spec=warlock-affliction&race=Undead",
-      "dps": 625.9713833844958,
-      "tps": 506.99277338646635,
+      "dps": 623.8301683209147,
+      "tps": 505.52841144690785,
       "dtps": 0.0,
-      "total_damage": 75116.56600613936
+      "total_damage": 74859.62019850968
     },
     {
       "id": "warlock-affliction",
@@ -8535,10 +8535,10 @@
       "role": "dps",
       "targets": 1,
       "url": "/all-specs.html?spec=warlock-affliction&race=Troll",
-      "dps": 529.0694621521305,
-      "tps": 429.7093287326112,
+      "dps": 531.3649272188457,
+      "tps": 431.80468963848466,
       "dtps": 0.0,
-      "total_damage": 63488.33545825567
+      "total_damage": 63763.79126626149
     },
     {
       "id": "warlock-affliction",
@@ -8548,10 +8548,10 @@
       "role": "dps",
       "targets": 2,
       "url": "/all-specs.html?spec=warlock-affliction&race=Troll",
-      "dps": 656.0344177129009,
-      "tps": 531.2271287767128,
+      "dps": 657.715046869779,
+      "tps": 532.8394464446574,
       "dtps": 0.0,
-      "total_damage": 78724.13012554811
+      "total_damage": 78925.8056243735
     },
     {
       "id": "warlock-affliction",
@@ -8561,10 +8561,10 @@
       "role": "dps",
       "targets": 3,
       "url": "/all-specs.html?spec=warlock-affliction&race=Troll",
-      "dps": 409.7446467448427,
-      "tps": 334.15764847599314,
+      "dps": 412.6926142703729,
+      "tps": 336.78958241524094,
       "dtps": 0.0,
-      "total_damage": 49169.35760938115
+      "total_damage": 49523.113712444756
     },
     {
       "id": "warlock-affliction",
@@ -8574,10 +8574,10 @@
       "role": "dps",
       "targets": 4,
       "url": "/all-specs.html?spec=warlock-affliction&race=Troll",
-      "dps": 520.1210841770447,
-      "tps": 422.4687959913221,
+      "dps": 523.9589804832498,
+      "tps": 425.79618756305604,
       "dtps": 0.0,
-      "total_damage": 62414.53010124542
+      "total_damage": 62875.07765799002
     },
     {
       "id": "warlock-affliction",
@@ -8587,10 +8587,10 @@
       "role": "dps",
       "targets": 5,
       "url": "/all-specs.html?spec=warlock-affliction&race=Troll",
-      "dps": 630.7408783978781,
-      "tps": 510.9646313679884,
+      "dps": 635.0713463874164,
+      "tps": 514.6860802863889,
       "dtps": 0.0,
-      "total_damage": 75688.90540774543
+      "total_damage": 76208.56156649003
     },
     {
       "id": "warlock-demonology",
@@ -8600,10 +8600,10 @@
       "role": "dps",
       "targets": 1,
       "url": "/all-specs.html?spec=warlock-demonology&race=Human",
-      "dps": 462.70659084139936,
-      "tps": 378.8345586524983,
+      "dps": 466.62985934190635,
+      "tps": 382.3271171454695,
       "dtps": 0.0,
-      "total_damage": 55524.790900968015
+      "total_damage": 55995.583121028845
     },
     {
       "id": "warlock-demonology",
@@ -8613,10 +8613,10 @@
       "role": "dps",
       "targets": 2,
       "url": "/all-specs.html?spec=warlock-demonology&race=Human",
-      "dps": 578.2372042196569,
-      "tps": 471.2967222252135,
+      "dps": 580.2645307542575,
+      "tps": 473.2496766753067,
       "dtps": 0.0,
-      "total_damage": 69388.46450635875
+      "total_damage": 69631.74369051088
     },
     {
       "id": "warlock-demonology",
@@ -8626,10 +8626,10 @@
       "role": "dps",
       "targets": 3,
       "url": "/all-specs.html?spec=warlock-demonology&race=Human",
-      "dps": 435.42748584724865,
-      "tps": 356.78410739680317,
+      "dps": 435.05301422258674,
+      "tps": 356.8054365299335,
       "dtps": 0.0,
-      "total_damage": 52251.29830166976
+      "total_damage": 52206.361706710384
     },
     {
       "id": "warlock-demonology",
@@ -8639,10 +8639,10 @@
       "role": "dps",
       "targets": 4,
       "url": "/all-specs.html?spec=warlock-demonology&race=Human",
-      "dps": 546.5976697914151,
-      "tps": 445.7336762555738,
+      "dps": 545.7123864382058,
+      "tps": 445.3502003802047,
       "dtps": 0.0,
-      "total_damage": 65591.72037496975
+      "total_damage": 65485.48637258462
     },
     {
       "id": "warlock-demonology",
@@ -8652,10 +8652,10 @@
       "role": "dps",
       "targets": 5,
       "url": "/all-specs.html?spec=warlock-demonology&race=Human",
-      "dps": 661.0454221256045,
-      "tps": 537.2840467908094,
+      "dps": 660.3706846695703,
+      "tps": 537.0700507241685,
       "dtps": 0.0,
-      "total_damage": 79325.45065507248
+      "total_damage": 79244.48216034842
     },
     {
       "id": "warlock-demonology",
@@ -8665,10 +8665,10 @@
       "role": "dps",
       "targets": 1,
       "url": "/all-specs.html?spec=warlock-demonology&race=Gnome",
-      "dps": 463.68410565211457,
-      "tps": 379.4933005323924,
+      "dps": 464.23631204583063,
+      "tps": 380.2259624102694,
       "dtps": 0.0,
-      "total_damage": 55642.092678253815
+      "total_damage": 55708.35744549973
     },
     {
       "id": "warlock-demonology",
@@ -8678,10 +8678,10 @@
       "role": "dps",
       "targets": 2,
       "url": "/all-specs.html?spec=warlock-demonology&race=Gnome",
-      "dps": 579.2833299107505,
-      "tps": 471.9643218244715,
+      "dps": 579.7557918112058,
+      "tps": 472.6747250495663,
       "dtps": 0.0,
-      "total_damage": 69513.99958928999
+      "total_damage": 69570.69501734465
     },
     {
       "id": "warlock-demonology",
@@ -8691,10 +8691,10 @@
       "role": "dps",
       "targets": 3,
       "url": "/all-specs.html?spec=warlock-demonology&race=Gnome",
-      "dps": 433.9097757598364,
-      "tps": 355.40464380034746,
+      "dps": 434.6387739977947,
+      "tps": 356.2987018365619,
       "dtps": 0.0,
-      "total_damage": 52069.173091180295
+      "total_damage": 52156.65287973534
     },
     {
       "id": "warlock-demonology",
@@ -8704,10 +8704,10 @@
       "role": "dps",
       "targets": 4,
       "url": "/all-specs.html?spec=warlock-demonology&race=Gnome",
-      "dps": 544.644345260013,
-      "tps": 443.99839104011784,
+      "dps": 545.9724238626168,
+      "tps": 445.3824723015924,
       "dtps": 0.0,
-      "total_damage": 65357.321431201504
+      "total_damage": 65516.69086351391
     },
     {
       "id": "warlock-demonology",
@@ -8717,10 +8717,10 @@
       "role": "dps",
       "targets": 5,
       "url": "/all-specs.html?spec=warlock-demonology&race=Gnome",
-      "dps": 659.1360255619209,
-      "tps": 535.5930554366781,
+      "dps": 660.2610295046533,
+      "tps": 536.8095739665558,
       "dtps": 0.0,
-      "total_damage": 79096.32306743045
+      "total_damage": 79231.32354055835
     },
     {
       "id": "warlock-demonology",
@@ -8730,10 +8730,10 @@
       "role": "dps",
       "targets": 1,
       "url": "/all-specs.html?spec=warlock-demonology&race=Orc",
-      "dps": 462.74204730169055,
-      "tps": 378.6820055174864,
+      "dps": 464.77159071353526,
+      "tps": 380.626971044416,
       "dtps": 0.0,
-      "total_damage": 55529.04567620279
+      "total_damage": 55772.590885624166
     },
     {
       "id": "warlock-demonology",
@@ -8743,10 +8743,10 @@
       "role": "dps",
       "targets": 2,
       "url": "/all-specs.html?spec=warlock-demonology&race=Orc",
-      "dps": 581.1792266784033,
-      "tps": 473.4723062954949,
+      "dps": 582.6000211533088,
+      "tps": 474.9431685328658,
       "dtps": 0.0,
-      "total_damage": 69741.50720140839
+      "total_damage": 69912.002538397
     },
     {
       "id": "warlock-demonology",
@@ -8756,10 +8756,10 @@
       "role": "dps",
       "targets": 3,
       "url": "/all-specs.html?spec=warlock-demonology&race=Orc",
-      "dps": 437.9563734206744,
-      "tps": 358.624607540668,
+      "dps": 436.174154087693,
+      "tps": 357.5092969702798,
       "dtps": 0.0,
-      "total_damage": 52554.76481048084
+      "total_damage": 52340.89849052308
     },
     {
       "id": "warlock-demonology",
@@ -8769,10 +8769,10 @@
       "role": "dps",
       "targets": 4,
       "url": "/all-specs.html?spec=warlock-demonology&race=Orc",
-      "dps": 546.9988287209218,
-      "tps": 445.84441953765304,
+      "dps": 547.1489386630876,
+      "tps": 446.2893732894014,
       "dtps": 0.0,
-      "total_damage": 65639.85944651053
+      "total_damage": 65657.87263957041
     },
     {
       "id": "warlock-demonology",
@@ -8782,10 +8782,10 @@
       "role": "dps",
       "targets": 5,
       "url": "/all-specs.html?spec=warlock-demonology&race=Orc",
-      "dps": 661.1593508899642,
-      "tps": 537.1724117926174,
+      "dps": 660.7509784335089,
+      "tps": 537.175298745813,
       "dtps": 0.0,
-      "total_damage": 79339.12210679571
+      "total_damage": 79290.11741202108
     },
     {
       "id": "warlock-demonology",
@@ -8795,10 +8795,10 @@
       "role": "dps",
       "targets": 1,
       "url": "/all-specs.html?spec=warlock-demonology&race=Undead",
-      "dps": 464.7010058691612,
-      "tps": 380.2968896194816,
+      "dps": 465.48150716065544,
+      "tps": 381.2057552579093,
       "dtps": 0.0,
-      "total_damage": 55764.120704299414
+      "total_damage": 55857.780859278726
     },
     {
       "id": "warlock-demonology",
@@ -8808,10 +8808,10 @@
       "role": "dps",
       "targets": 2,
       "url": "/all-specs.html?spec=warlock-demonology&race=Undead",
-      "dps": 581.154176699627,
-      "tps": 473.44121034246587,
+      "dps": 583.7842952603496,
+      "tps": 475.87455864226223,
       "dtps": 0.0,
-      "total_damage": 69738.50120395518
+      "total_damage": 70054.11543124188
     },
     {
       "id": "warlock-demonology",
@@ -8821,10 +8821,10 @@
       "role": "dps",
       "targets": 3,
       "url": "/all-specs.html?spec=warlock-demonology&race=Undead",
-      "dps": 437.91407054224993,
-      "tps": 358.58803407186804,
+      "dps": 435.8682756111888,
+      "tps": 357.251679547302,
       "dtps": 0.0,
-      "total_damage": 52549.68846506989
+      "total_damage": 52304.19307334258
     },
     {
       "id": "warlock-demonology",
@@ -8834,10 +8834,10 @@
       "role": "dps",
       "targets": 4,
       "url": "/all-specs.html?spec=warlock-demonology&race=Undead",
-      "dps": 549.5428321274526,
-      "tps": 447.9160279063195,
+      "dps": 546.0494026064702,
+      "tps": 445.3927272754439,
       "dtps": 0.0,
-      "total_damage": 65945.13985529426
+      "total_damage": 65525.92831277636
     },
     {
       "id": "warlock-demonology",
@@ -8847,10 +8847,10 @@
       "role": "dps",
       "targets": 5,
       "url": "/all-specs.html?spec=warlock-demonology&race=Undead",
-      "dps": 664.5786370251287,
-      "tps": 539.9463491741808,
+      "dps": 659.5826487622156,
+      "tps": 536.2206713594294,
       "dtps": 0.0,
-      "total_damage": 79749.43644301541
+      "total_damage": 79149.91785146587
     },
     {
       "id": "warlock-demonology",
@@ -8860,10 +8860,10 @@
       "role": "dps",
       "targets": 1,
       "url": "/all-specs.html?spec=warlock-demonology&race=Troll",
-      "dps": 464.9867548238768,
-      "tps": 380.5326007202365,
+      "dps": 465.13854853279287,
+      "tps": 380.99369739453516,
       "dtps": 0.0,
-      "total_damage": 55798.41057886528
+      "total_damage": 55816.62582393518
     },
     {
       "id": "warlock-demonology",
@@ -8873,10 +8873,10 @@
       "role": "dps",
       "targets": 2,
       "url": "/all-specs.html?spec=warlock-demonology&race=Troll",
-      "dps": 578.3131999439818,
-      "tps": 471.2357042810313,
+      "dps": 579.8246134853085,
+      "tps": 472.7278977523124,
       "dtps": 0.0,
-      "total_damage": 69397.58399327775
+      "total_damage": 69578.95361823695
     },
     {
       "id": "warlock-demonology",
@@ -8886,10 +8886,10 @@
       "role": "dps",
       "targets": 3,
       "url": "/all-specs.html?spec=warlock-demonology&race=Troll",
-      "dps": 443.1251206768329,
-      "tps": 362.98650643336566,
+      "dps": 446.9990295342511,
+      "tps": 366.42617652023176,
       "dtps": 0.0,
-      "total_damage": 53175.01448121991
+      "total_damage": 53639.883544110075
     },
     {
       "id": "warlock-demonology",
@@ -8899,10 +8899,10 @@
       "role": "dps",
       "targets": 4,
       "url": "/all-specs.html?spec=warlock-demonology&race=Troll",
-      "dps": 553.7893242169719,
-      "tps": 451.5274971365703,
+      "dps": 555.8545779801573,
+      "tps": 453.5231069514074,
       "dtps": 0.0,
-      "total_damage": 66454.71890603653
+      "total_damage": 66702.54935761879
     },
     {
       "id": "warlock-demonology",
@@ -8912,10 +8912,10 @@
       "role": "dps",
       "targets": 5,
       "url": "/all-specs.html?spec=warlock-demonology&race=Troll",
-      "dps": 668.7998720305064,
-      "tps": 543.5379956256577,
+      "dps": 670.3981408612268,
+      "tps": 545.1677119901298,
       "dtps": 0.0,
-      "total_damage": 80255.98464366075
+      "total_damage": 80447.77690334716
     },
     {
       "id": "warlock-destruction",
@@ -8925,10 +8925,10 @@
       "role": "dps",
       "targets": 1,
       "url": "/all-specs.html?spec=warlock-destruction&race=Human",
-      "dps": 326.3369273317305,
-      "tps": 267.50953904949085,
+      "dps": 327.97013927728506,
+      "tps": 269.1173089759344,
       "dtps": 0.0,
-      "total_damage": 39160.43127980764
+      "total_damage": 39356.41671327423
     },
     {
       "id": "warlock-destruction",
@@ -8938,10 +8938,10 @@
       "role": "dps",
       "targets": 2,
       "url": "/all-specs.html?spec=warlock-destruction&race=Human",
-      "dps": 326.3369273317305,
-      "tps": 267.50953904949085,
+      "dps": 327.97013927728506,
+      "tps": 269.1173089759344,
       "dtps": 0.0,
-      "total_damage": 39160.43127980764
+      "total_damage": 39356.41671327423
     },
     {
       "id": "warlock-destruction",
@@ -8951,10 +8951,10 @@
       "role": "dps",
       "targets": 3,
       "url": "/all-specs.html?spec=warlock-destruction&race=Human",
-      "dps": 383.9455985840934,
-      "tps": 313.4910742649398,
+      "dps": 384.2799985243996,
+      "tps": 313.9855153992153,
       "dtps": 0.0,
-      "total_damage": 46073.471830091206
+      "total_damage": 46113.59982292795
     },
     {
       "id": "warlock-destruction",
@@ -8964,10 +8964,10 @@
       "role": "dps",
       "targets": 4,
       "url": "/all-specs.html?spec=warlock-destruction&race=Human",
-      "dps": 493.4782320215936,
-      "tps": 401.1171810149398,
+      "dps": 493.4542280156498,
+      "tps": 401.3248989922152,
       "dtps": 0.0,
-      "total_damage": 59217.38784259122
+      "total_damage": 59214.50736187797
     },
     {
       "id": "warlock-destruction",
@@ -8977,10 +8977,10 @@
       "role": "dps",
       "targets": 5,
       "url": "/all-specs.html?spec=warlock-destruction&race=Human",
-      "dps": 603.0108654590928,
-      "tps": 488.7432877649401,
+      "dps": 602.6284575068992,
+      "tps": 488.6642825852156,
       "dtps": 0.0,
-      "total_damage": 72361.30385509106
+      "total_damage": 72315.41490082785
     },
     {
       "id": "warlock-destruction",
@@ -8990,10 +8990,10 @@
       "role": "dps",
       "targets": 1,
       "url": "/all-specs.html?spec=warlock-destruction&race=Gnome",
-      "dps": 324.5076916994613,
-      "tps": 265.91883818531494,
+      "dps": 325.5841188374174,
+      "tps": 267.0647537280234,
       "dtps": 0.0,
-      "total_damage": 38940.92300393538
+      "total_damage": 39070.09426049009
     },
     {
       "id": "warlock-destruction",
@@ -9003,10 +9003,10 @@
       "role": "dps",
       "targets": 2,
       "url": "/all-specs.html?spec=warlock-destruction&race=Gnome",
-      "dps": 324.5076916994613,
-      "tps": 265.91883818531494,
+      "dps": 325.5841188374174,
+      "tps": 267.0647537280234,
       "dtps": 0.0,
-      "total_damage": 38940.92300393538
+      "total_damage": 39070.09426049009
     },
     {
       "id": "warlock-destruction",
@@ -9016,10 +9016,10 @@
       "role": "dps",
       "targets": 3,
       "url": "/all-specs.html?spec=warlock-destruction&race=Gnome",
-      "dps": 385.72361157128285,
-      "tps": 314.7875131190057,
+      "dps": 384.350827417691,
+      "tps": 313.9347698035855,
       "dtps": 0.0,
-      "total_damage": 46286.83338855395
+      "total_damage": 46122.099290122926
     },
     {
       "id": "warlock-destruction",
@@ -9029,10 +9029,10 @@
       "role": "dps",
       "targets": 4,
       "url": "/all-specs.html?spec=warlock-destruction&race=Gnome",
-      "dps": 495.58977287711645,
-      "tps": 402.6804421636723,
+      "dps": 493.50099245769127,
+      "tps": 401.2549018355854,
       "dtps": 0.0,
-      "total_damage": 59470.77274525399
+      "total_damage": 59220.119094922935
     },
     {
       "id": "warlock-destruction",
@@ -9042,10 +9042,10 @@
       "role": "dps",
       "targets": 5,
       "url": "/all-specs.html?spec=warlock-destruction&race=Gnome",
-      "dps": 605.455934182949,
-      "tps": 490.5733712083393,
+      "dps": 602.6511574976905,
+      "tps": 488.5750338675858,
       "dtps": 0.0,
-      "total_damage": 72654.71210195386
+      "total_damage": 72318.13889972279
     },
     {
       "id": "warlock-destruction",
@@ -9055,10 +9055,10 @@
       "role": "dps",
       "targets": 1,
       "url": "/all-specs.html?spec=warlock-destruction&race=Orc",
-      "dps": 326.4529028439467,
-      "tps": 267.4610648480916,
+      "dps": 327.8999216206292,
+      "tps": 268.9102923519115,
       "dtps": 0.0,
-      "total_damage": 39174.34834127361
+      "total_damage": 39347.99059447553
     },
     {
       "id": "warlock-destruction",
@@ -9068,10 +9068,10 @@
       "role": "dps",
       "targets": 2,
       "url": "/all-specs.html?spec=warlock-destruction&race=Orc",
-      "dps": 326.4529028439467,
-      "tps": 267.4610648480916,
+      "dps": 327.8999216206292,
+      "tps": 268.9102923519115,
       "dtps": 0.0,
-      "total_damage": 39174.34834127361
+      "total_damage": 39347.99059447553
     },
     {
       "id": "warlock-destruction",
@@ -9081,10 +9081,10 @@
       "role": "dps",
       "targets": 3,
       "url": "/all-specs.html?spec=warlock-destruction&race=Orc",
-      "dps": 383.71388137387254,
-      "tps": 313.1603403440374,
+      "dps": 383.0433442414715,
+      "tps": 312.8556254254886,
       "dtps": 0.0,
-      "total_damage": 46045.66576486468
+      "total_damage": 45965.20130897661
     },
     {
       "id": "warlock-destruction",
@@ -9094,10 +9094,10 @@
       "role": "dps",
       "targets": 4,
       "url": "/all-specs.html?spec=warlock-destruction&race=Orc",
-      "dps": 493.6163060951228,
-      "tps": 401.0822801210373,
+      "dps": 492.29415635480507,
+      "tps": 400.25627511615517,
       "dtps": 0.0,
-      "total_damage": 59233.95673141478
+      "total_damage": 59075.298762576655
     },
     {
       "id": "warlock-destruction",
@@ -9107,10 +9107,10 @@
       "role": "dps",
       "targets": 5,
       "url": "/all-specs.html?spec=warlock-destruction&race=Orc",
-      "dps": 603.518730816372,
-      "tps": 489.00421989803766,
+      "dps": 601.5449684681377,
+      "tps": 487.6569248068222,
       "dtps": 0.0,
-      "total_damage": 72422.24769796466
+      "total_damage": 72185.39621617658
     },
     {
       "id": "warlock-destruction",
@@ -9120,10 +9120,10 @@
       "role": "dps",
       "targets": 1,
       "url": "/all-specs.html?spec=warlock-destruction&race=Undead",
-      "dps": 329.5706795861858,
-      "tps": 269.9789601467813,
+      "dps": 330.8937390845926,
+      "tps": 271.30665080286036,
       "dtps": 0.0,
-      "total_damage": 39548.481550342294
+      "total_damage": 39707.24869015112
     },
     {
       "id": "warlock-destruction",
@@ -9133,10 +9133,10 @@
       "role": "dps",
       "targets": 2,
       "url": "/all-specs.html?spec=warlock-destruction&race=Undead",
-      "dps": 329.5706795861858,
-      "tps": 269.9789601467813,
+      "dps": 330.8937390845926,
+      "tps": 271.30665080286036,
       "dtps": 0.0,
-      "total_damage": 39548.481550342294
+      "total_damage": 39707.24869015112
     },
     {
       "id": "warlock-destruction",
@@ -9146,10 +9146,10 @@
       "role": "dps",
       "targets": 3,
       "url": "/all-specs.html?spec=warlock-destruction&race=Undead",
-      "dps": 383.84001693109775,
-      "tps": 313.23669189184716,
+      "dps": 383.3633363317301,
+      "tps": 313.09948213225056,
       "dtps": 0.0,
-      "total_damage": 46060.80203173177
+      "total_damage": 46003.60035980766
     },
     {
       "id": "warlock-destruction",
@@ -9159,10 +9159,10 @@
       "role": "dps",
       "targets": 4,
       "url": "/all-specs.html?spec=warlock-destruction&race=Undead",
-      "dps": 493.77775447359795,
-      "tps": 401.1868819258471,
+      "dps": 492.47339499131357,
+      "tps": 400.38752905991714,
       "dtps": 0.0,
-      "total_damage": 59253.33053683172
+      "total_damage": 59096.80739895762
     },
     {
       "id": "warlock-destruction",
@@ -9172,10 +9172,10 @@
       "role": "dps",
       "targets": 5,
       "url": "/all-specs.html?spec=warlock-destruction&race=Undead",
-      "dps": 603.7154920160972,
-      "tps": 489.13707195984745,
+      "dps": 601.5834536508962,
+      "tps": 487.6755759875842,
       "dtps": 0.0,
-      "total_damage": 72445.85904193168
+      "total_damage": 72190.01443810752
     },
     {
       "id": "warlock-destruction",
@@ -9185,10 +9185,10 @@
       "role": "dps",
       "targets": 1,
       "url": "/all-specs.html?spec=warlock-destruction&race=Troll",
-      "dps": 326.6162608064414,
-      "tps": 267.7246845151818,
+      "dps": 329.43630105853424,
+      "tps": 270.2508334768649,
       "dtps": 0.0,
-      "total_damage": 39193.95129677299
+      "total_damage": 39532.35612702412
     },
     {
       "id": "warlock-destruction",
@@ -9198,10 +9198,10 @@
       "role": "dps",
       "targets": 2,
       "url": "/all-specs.html?spec=warlock-destruction&race=Troll",
-      "dps": 326.6162608064414,
-      "tps": 267.7246845151818,
+      "dps": 329.43630105853424,
+      "tps": 270.2508334768649,
       "dtps": 0.0,
-      "total_damage": 39193.95129677299
+      "total_damage": 39532.35612702412
     },
     {
       "id": "warlock-destruction",
@@ -9211,10 +9211,10 @@
       "role": "dps",
       "targets": 3,
       "url": "/all-specs.html?spec=warlock-destruction&race=Troll",
-      "dps": 386.3165073451654,
-      "tps": 315.3650241615004,
+      "dps": 390.8835460865692,
+      "tps": 319.3035164494543,
       "dtps": 0.0,
-      "total_damage": 46357.98088141986
+      "total_damage": 46906.02553038831
     },
     {
       "id": "warlock-destruction",
@@ -9224,10 +9224,10 @@
       "role": "dps",
       "targets": 4,
       "url": "/all-specs.html?spec=warlock-destruction&race=Troll",
-      "dps": 497.2661678130823,
-      "tps": 404.1247525358337,
+      "dps": 503.1698908049028,
+      "tps": 409.13259222412097,
       "dtps": 0.0,
-      "total_damage": 59671.94013756984
+      "total_damage": 60380.386896588316
     },
     {
       "id": "warlock-destruction",
@@ -9237,10 +9237,10 @@
       "role": "dps",
       "targets": 5,
       "url": "/all-specs.html?spec=warlock-destruction&race=Troll",
-      "dps": 608.2158282809982,
-      "tps": 492.8844809101673,
+      "dps": 615.4562355232354,
+      "tps": 498.96166799878796,
       "dtps": 0.0,
-      "total_damage": 72985.89939371975
+      "total_damage": 73854.74826278823
     },
     {
       "id": "paladin-protection",
@@ -9250,10 +9250,10 @@
       "role": "tank",
       "targets": 1,
       "url": "/paladin.html?spec=protection&race=Human",
-      "dps": 268.2301697437154,
-      "tps": 340.96671126744246,
-      "dtps": 288.4629509037766,
-      "total_damage": 32187.620369245848
+      "dps": 311.04897769208975,
+      "tps": 385.18335463691835,
+      "dtps": 287.7407146642995,
+      "total_damage": 37325.87732305077
     },
     {
       "id": "paladin-protection",
@@ -9263,10 +9263,10 @@
       "role": "tank",
       "targets": 2,
       "url": "/paladin.html?spec=protection&race=Human",
-      "dps": 280.60616974371544,
-      "tps": 364.48111126744175,
-      "dtps": 288.4629509037766,
-      "total_damage": 33672.74036924585
+      "dps": 323.4249776920897,
+      "tps": 408.69775463691724,
+      "dtps": 287.7407146642995,
+      "total_damage": 38810.997323050775
     },
     {
       "id": "paladin-protection",
@@ -9276,10 +9276,10 @@
       "role": "tank",
       "targets": 3,
       "url": "/paladin.html?spec=protection&race=Human",
-      "dps": 292.9821697437155,
-      "tps": 387.9955112674425,
-      "dtps": 288.4629509037766,
-      "total_damage": 35157.860369245864
+      "dps": 335.8009776920898,
+      "tps": 432.2121546369182,
+      "dtps": 287.7407146642995,
+      "total_damage": 40296.11732305079
     },
     {
       "id": "paladin-protection",
@@ -9289,10 +9289,10 @@
       "role": "tank",
       "targets": 4,
       "url": "/paladin.html?spec=protection&race=Human",
-      "dps": 305.3581697437154,
-      "tps": 411.50991126744225,
-      "dtps": 288.4629509037766,
-      "total_damage": 36642.98036924584
+      "dps": 348.17697769208974,
+      "tps": 455.7265546369175,
+      "dtps": 287.7407146642995,
+      "total_damage": 41781.237323050766
     },
     {
       "id": "paladin-protection",
@@ -9302,10 +9302,10 @@
       "role": "tank",
       "targets": 5,
       "url": "/paladin.html?spec=protection&race=Human",
-      "dps": 314.00083641038225,
-      "tps": 427.9309779341098,
-      "dtps": 288.4629509037766,
-      "total_damage": 37680.1003692459
+      "dps": 356.81964435875653,
+      "tps": 472.1476213035855,
+      "dtps": 287.7407146642995,
+      "total_damage": 42818.35732305083
     },
     {
       "id": "paladin-protection",
@@ -9315,10 +9315,10 @@
       "role": "tank",
       "targets": 1,
       "url": "/paladin.html?spec=protection&race=Dwarf",
-      "dps": 264.93813921266167,
-      "tps": 337.3651844979241,
-      "dtps": 288.7299895129056,
-      "total_damage": 31792.576705519397
+      "dps": 306.67364394590027,
+      "tps": 380.35641020446997,
+      "dtps": 288.99182386709003,
+      "total_damage": 36800.837273508034
     },
     {
       "id": "paladin-protection",
@@ -9328,10 +9328,10 @@
       "role": "tank",
       "targets": 2,
       "url": "/paladin.html?spec=protection&race=Dwarf",
-      "dps": 277.3141392126617,
-      "tps": 360.87958449792336,
-      "dtps": 288.7299895129056,
-      "total_damage": 33277.696705519396
+      "dps": 319.04964394590024,
+      "tps": 403.87081020446885,
+      "dtps": 288.99182386709003,
+      "total_damage": 38285.95727350803
     },
     {
       "id": "paladin-protection",
@@ -9341,10 +9341,10 @@
       "role": "tank",
       "targets": 3,
       "url": "/paladin.html?spec=protection&race=Dwarf",
-      "dps": 289.69013921266173,
-      "tps": 384.39398449792407,
-      "dtps": 288.7299895129056,
-      "total_damage": 34762.81670551941
+      "dps": 331.42564394590033,
+      "tps": 427.38521020446984,
+      "dtps": 288.99182386709003,
+      "total_damage": 39771.077273508046
     },
     {
       "id": "paladin-protection",
@@ -9354,10 +9354,10 @@
       "role": "tank",
       "targets": 4,
       "url": "/paladin.html?spec=protection&race=Dwarf",
-      "dps": 302.06613921266165,
-      "tps": 407.90838449792386,
-      "dtps": 288.7299895129056,
-      "total_damage": 36247.93670551939
+      "dps": 343.80164394590025,
+      "tps": 450.89961020446924,
+      "dtps": 288.99182386709003,
+      "total_damage": 41256.19727350802
     },
     {
       "id": "paladin-protection",
@@ -9367,10 +9367,10 @@
       "role": "tank",
       "targets": 5,
       "url": "/paladin.html?spec=protection&race=Dwarf",
-      "dps": 310.70880587932845,
-      "tps": 424.3294511645914,
-      "dtps": 288.7299895129056,
-      "total_damage": 37285.05670551945
+      "dps": 352.444310612567,
+      "tps": 467.3206768711372,
+      "dtps": 288.99182386709003,
+      "total_damage": 42293.31727350808
     },
     {
       "id": "paladin-protection",
@@ -9380,10 +9380,10 @@
       "role": "tank",
       "targets": 1,
       "url": "/paladin.html?spec=protection&race=Undead",
-      "dps": 289.2598166198006,
-      "tps": 383.8744234311661,
-      "dtps": 292.1467036151385,
-      "total_damage": 34711.17799437605
+      "dps": 333.3070771823561,
+      "tps": 432.65687770004615,
+      "dtps": 287.9044895134505,
+      "total_damage": 39996.84926188273
     },
     {
       "id": "paladin-protection",
@@ -9393,10 +9393,10 @@
       "role": "tank",
       "targets": 2,
       "url": "/paladin.html?spec=protection&race=Undead",
-      "dps": 301.63581661980055,
-      "tps": 407.38882343116506,
-      "dtps": 292.1467036151385,
-      "total_damage": 36196.297994376044
+      "dps": 345.68307718235604,
+      "tps": 456.17127770004475,
+      "dtps": 287.9044895134505,
+      "total_damage": 41481.969261882725
     },
     {
       "id": "paladin-protection",
@@ -9406,10 +9406,10 @@
       "role": "tank",
       "targets": 3,
       "url": "/paladin.html?spec=protection&race=Undead",
-      "dps": 314.01181661980064,
-      "tps": 430.903223431166,
-      "dtps": 292.1467036151385,
-      "total_damage": 37681.41799437607
+      "dps": 358.05907718235613,
+      "tps": 479.6856777000459,
+      "dtps": 287.9044895134505,
+      "total_damage": 42967.08926188275
     },
     {
       "id": "paladin-protection",
@@ -9419,10 +9419,10 @@
       "role": "tank",
       "targets": 4,
       "url": "/paladin.html?spec=protection&race=Undead",
-      "dps": 326.3878166198005,
-      "tps": 454.4176234311654,
-      "dtps": 292.1467036151385,
-      "total_damage": 39166.53799437604
+      "dps": 370.4350771823561,
+      "tps": 503.200077700045,
+      "dtps": 287.9044895134505,
+      "total_damage": 44452.209261882716
     },
     {
       "id": "paladin-protection",
@@ -9432,10 +9432,10 @@
       "role": "tank",
       "targets": 5,
       "url": "/paladin.html?spec=protection&race=Undead",
-      "dps": 335.0304832864673,
-      "tps": 470.83869009783325,
-      "dtps": 292.1467036151385,
-      "total_damage": 40203.6579943761
+      "dps": 379.07774384902285,
+      "tps": 519.6211443667131,
+      "dtps": 287.9044895134505,
+      "total_damage": 45489.329261882776
     },
     {
       "id": "paladin-retribution",

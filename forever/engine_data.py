@@ -101,18 +101,25 @@ BUFF_GROUPS = {"air_totem": ["grace_of_air", "windfury_totem"], "crit_aura": ["l
 WINDFURY_TOTEM = {"chance": 0.20, "ap": 315}
 
 def default_buffs(spec):
-    """Full compatible raid package for a spec (no world buffs)."""
-    core = ["power_word_fortitude", "mark_of_the_wild", "arcane_intellect", "blessing_of_kings", "devotion_aura"]
+    """Assume a full 40-man raid bringing every class: every raid buff is on by default,
+    including ones that are a no-op for this spec's resource/damage type (e.g. Blessing of
+    Wisdom for a Rage class) -- they're harmless to leave applied and match "every class is
+    present" rather than "only the buffs that help me". The only buffs left out are the ones
+    that are mechanically impossible to have simultaneously: each entry in BUFF_GROUPS is a
+    single raid slot only one spell can occupy at a time (one Air Totem, one 3%-crit aura), so
+    we pick whichever member of the group actually benefits this spec's style/class. Windfury
+    Totem only procs off melee weapon swings, so it goes to melee specs only -- Druids never get
+    it since it doesn't function while shapeshifted, and ranged/spell specs get Grace of Air
+    (agility) instead, same as the crit aura pick (Leader of the Pack for melee/ranged physical
+    crit, Moonkin Aura for spell crit)."""
+    non_exclusive = sorted(set(BUFF_STATS) - {b for group in BUFF_GROUPS.values() for b in group})
     if spec["style"] == "spell":
-        return core + ["blessing_of_wisdom", "mana_spring", "moonkin_aura"]
-    physical = core + ["battle_shout", "blessing_of_might", "strength_of_earth", "leader_of_the_pack"]
-    if spec["style"] == "ranged":
-        return physical + ["grace_of_air", "trueshot_aura", "blessing_of_wisdom", "mana_spring"]
-    if spec["class_name"] in {"Shaman", "Hunter"}:
-        return physical + ["windfury_totem", "blessing_of_wisdom", "mana_spring"]
-    if spec["class_name"] == "Druid":
-        return physical + ["grace_of_air"]  # Windfury does not work in forms
-    return physical + ["windfury_totem"]
+        picks = ["moonkin_aura", "grace_of_air"]
+    elif spec["style"] == "melee" and spec["class_name"] != "Druid":
+        picks = ["leader_of_the_pack", "windfury_totem"]
+    else:
+        picks = ["leader_of_the_pack", "grace_of_air"]
+    return non_exclusive + picks
 
 DEBUFF_ARMOR = {"sunder_armor_5": 2250, "faerie_fire": 505, "curse_of_recklessness": 640}
 CONSUME_STATS = {
