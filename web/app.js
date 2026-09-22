@@ -209,7 +209,7 @@ function showItemTooltip(item,event){
   const stats=itemStatLine(item);if(stats!=="No parsed direct stats"){const p=document.createElement("p");p.textContent=stats;tip.append(p)}
   (item.effects||[]).forEach(text=>{const p=document.createElement("p");p.className="tooltip-effect";p.textContent=text;tip.append(p)});
   if(item.set){const count=item.set.pieces.filter(name=>equippedNames.has(name)).length;const head=document.createElement("h4");head.textContent=`${item.set.name} (${count}/${item.set.pieces.length}) · ${item.set.ruleset||"Classic Era"}`;tip.append(head);const list=document.createElement("ul");item.set.pieces.forEach(name=>{const li=document.createElement("li");li.className=equippedNames.has(name)?"equipped-piece":"";li.textContent=name;list.append(li)});tip.append(list);item.set.bonuses.forEach(bonus=>{const p=document.createElement("p");p.className=`set-bonus ${count>=bonus.required?"active":"inactive"}`;p.textContent=`(${bonus.required}) Set: ${bonus.description}${bonus.modeled===false?" · informational":" · modeled"}`;tip.append(p)})}
-  const source=document.createElement("p");source.className="tooltip-source";source.textContent=[item.source,item.availabilityNote,...(item.modelNotes||[])].filter(Boolean).join(" � ");tip.append(source);tip.hidden=false;positionTooltip(event)
+  const source=document.createElement("p");source.className="tooltip-source";source.textContent=[item.source,item.availabilityNote,...(item.modelNotes||[])].filter(Boolean).join(" � ");tip.append(source);tip.hidden=false;positionTooltip(event)
 }
 function positionTooltip(event){const tip=$("gearTooltip");if(tip.hidden)return;const x=Math.min(innerWidth-tip.offsetWidth-12,(event.clientX||20)+18),y=Math.min(innerHeight-tip.offsetHeight-12,(event.clientY||20)+18);tip.style.left=`${Math.max(8,x)}px`;tip.style.top=`${Math.max(8,y)}px`}
 function hideItemTooltip(){$("gearTooltip").hidden=true}
@@ -393,7 +393,7 @@ function exportResult(){
 async function init(){
   buildFields();
   try{
-    const [response,itemResponse,wsResponse]=await Promise.all([fetch("/data/bootstrap.json"),fetch("/data/items.json"),fetch("/data/wowsims-import.json").catch(()=>null)]); if(!response.ok||!itemResponse.ok) throw new Error("Simulator data unavailable."); ForeverSim.warm(); state.wsData=wsResponse&&wsResponse.ok?await wsResponse.json():null; state.boot=await response.json(); const catalog=await itemResponse.json(); state.items=catalog.items; state.itemsById=new Map(state.items.map(item=>[item.id,item]));
+    const [response,itemResponse,wsResponse]=await Promise.all([fetch("/data/bootstrap.json?v=42f0bb7"),fetch("/data/items.json?v=42f0bb7"),fetch("/data/wowsims-import.json?v=42f0bb7").catch(()=>null)]); if(!response.ok||!itemResponse.ok) throw new Error("Simulator data unavailable."); ForeverSim.warm(); state.wsData=wsResponse&&wsResponse.ok?await wsResponse.json():null; state.boot=await response.json(); const catalog=await itemResponse.json(); state.items=catalog.items; state.itemsById=new Map(state.items.map(item=>[item.id,item]));
     $("serverDot").classList.add("online"); $("serverText").textContent="Browser engine ready";
     $("gearVersion").textContent=`Classic Anniversary Phase 1–2 preset equipped · ${state.items.length.toLocaleString()} items`;
     const sources=$("sources"); Object.entries(state.boot.sources).forEach(([name,url])=>{ const p=document.createElement("p"); const a=document.createElement("a"); a.href=url; a.target="_blank"; a.rel="noopener noreferrer"; a.textContent=labelize(name); p.append(a); sources.append(p); });
