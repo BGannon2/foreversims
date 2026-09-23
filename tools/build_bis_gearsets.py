@@ -42,6 +42,7 @@ sys.path.insert(0, str(ROOT))
 
 from forever.all_specs import ITEMS  # noqa: E402
 from forever.engine import permanent_item_stats  # noqa: E402
+from forever.engine_data import ITEM_EFFECTS  # noqa: E402
 from forever.engine_data import SPEC_MAP  # noqa: E402
 
 _RESTRICTIONS = json.loads((ROOT / "data" / "item_class_restrictions.json").read_text(encoding="utf-8"))
@@ -178,10 +179,14 @@ LATER_PHASE_RAID_BOSSES = {
 # BWL/Naxx and most AQ/ZG epics -- an imperfect proxy (item level, not verified zone data),
 # used because no zone/encounter data is available for Forever's exact drop locations.
 PHASE1_ITEM_LEVEL_CEILING = 82
+# Quest rewards whose quests start from a blocked raid (the boss blocklist only sees boss drops).
+LATER_PHASE_QUESTS = {"Rise, Thunderfury!", "The Fall of Ossirian"}
 
 
 def eligible(item, cls, style):
-    if item["id"] in REMOVED_IDS:
+    if item["id"] in REMOVED_IDS or item.get("simulationAvailability") == "excluded":
+        return False
+    if item.get("source", "").removeprefix("Quest: ") in LATER_PHASE_QUESTS:
         return False
     if cls not in CLASS_RESTRICTIONS.get(str(item["id"]), [cls]):
         return False
@@ -399,7 +404,7 @@ def build_spec(spec_id, spec):
     if spec_id == "warrior-protection":
         cap_correction_pass("defense", DEFENSE_CAP, 30, base=300.0)
 
-    sim_weapon_pass(spec_id, spec, gear, by_slot, weights, taken_ids)
+    sim_pass(spec_id, spec, gear, by_slot, weights, taken_ids)
 
     gear_list = []
     for slot_name, item in gear.items():
@@ -417,7 +422,7 @@ UI_SLOT = {"head": "Head", "neck": "Neck", "shoulders": "Shoulders", "back": "Ba
            "hands": "Hands", "waist": "Waist", "legs": "Legs", "feet": "Feet", "finger1": "Finger 1", "finger2": "Finger 2",
            "trinket1": "Trinket 1", "trinket2": "Trinket 2", "main_hand": "Main Hand", "off_hand": "Off Hand",
            "ranged": "Ranged / Relic", "relic": "Ranged / Relic"}
-WEAPON_CANDIDATES = 6
+SCORE_CANDIDATES = 4
 
 
 def sim_value(spec_id, spec, gear):
@@ -439,30 +444,53 @@ def sim_value(spec_id, spec, gear):
     return simulate_spec(req)["metrics"][key]["mean"]
 
 
-def sim_weapon_pass(spec_id, spec, gear, by_slot, weights, taken_ids):
-    """Stat weights can't see weapon speed (slow weapons win for Mortal Strike, Seal of Command,
-    Aimed Shot...), so let the sim choose among the top-scoring candidates for the main weapon."""
-    if spec["style"] == "spell":
-        return
-    slot = "ranged" if spec_id in RANGED_PRIMARY else "main_hand"
-    current = gear.get(slot)
-    if not current:
-        return
-    pool = by_slot["two_hand" if current["slot"] == "Two-Hand" else slot]
-    others = taken_ids - {current["id"]}
-    candidates = [current] + [it for it in sorted(pool, key=lambda it: score(it, weights), reverse=True)
-                              if it["id"] not in taken_ids and not limit_taken(it, others)][:WEAPON_CANDIDATES]
-    best, best_value = current, None
-    for it in candidates:
-        gear[slot] = it
-        try:
-            value = sim_value(spec_id, spec, gear)
-        except ValueError:  # the engine's equipment rules refuse this weapon for the class
+def has_effect(item):
+    """True if the item has an on-use, proc or other triggered effect the engines might model."""
+    override = ITEM_EFFECTS.get(item["id"], {})
+    for text in item.get("effects", []):
+        kind = text.split(":", 1)[0]
+        if kind in override:
+            if override[kind]:
+                return True
+        elif kind in ("Use", "Chance on hit") or (kind == "Equip" and ("chance" in text.lower() or "extra attack" in text.lower())):
+            return True
+    return False
+
+
+def sim_pass(spec_id, spec, gear, by_slot, weights, taken_ids):
+    """Stat weights can't see weapon speed or value procs and on-use effects (Hand of Justice has
+    no stats at all), so the sim chooses, slot by slot, among the current pick, the next few by
+    score and every item with a triggered effect. Weapons are skipped for casters (stat sticks)."""
+    slots = ([] if spec["style"] == "spell" else ["ranged" if spec_id in RANGED_PRIMARY else "main_hand"])
+    if spec_id in DUAL_WIELD or spec_id in SHIELD_TANK:
+        slots.append("off_hand")
+    slots += ["trinket1", "trinket2", "finger1", "finger2"] + SLOTS
+    for slot in slots:
+        current = gear.get(slot)
+        if not current:
             continue
-        if best_value is None or value > best_value:
-            best, best_value = it, value
-    gear[slot] = best
-    taken_ids.discard(current["id"]); taken_ids.add(best["id"])
+        pool_key = "two_hand" if current["slot"] == "Two-Hand" else "trinket" if slot.startswith("trinket") \
+            else "finger" if slot.startswith("finger") else slot
+        pool = [it for it in by_slot.get(pool_key, [])
+                if slot != "off_hand" or off_hand_kind(it) == off_hand_kind(current)]
+        others = taken_ids - {current["id"]}
+        free = [it for it in pool if it["id"] not in taken_ids and not limit_taken(it, others)]
+        effects = [it for it in free if has_effect(it)]
+        if not effects and slot not in ("main_hand", "ranged"):
+            continue
+        ranked = sorted(free, key=lambda it: score(it, weights), reverse=True)[:SCORE_CANDIDATES]
+        candidates = [current] + [it for it in {it["id"]: it for it in ranked + effects}.values()]
+        best, best_value = current, None
+        for it in candidates:
+            gear[slot] = it
+            try:
+                value = sim_value(spec_id, spec, gear)
+            except ValueError:  # the engine's equipment rules refuse this item for the class
+                continue
+            if best_value is None or value > best_value:
+                best, best_value = it, value
+        gear[slot] = best
+        taken_ids.discard(current["id"]); taken_ids.add(best["id"])
 
 
 def main():
