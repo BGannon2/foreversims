@@ -34,6 +34,14 @@ def run_rust(kind: str, payload: dict) -> dict:
         os.unlink(path)
 
 
+def compare(task):
+    """Python and Rust results for one (label, kind, payload) task, run in a worker process."""
+    _, kind, payload = task
+    from forever.all_specs import simulate_spec
+    from forever.sim import simulate
+    return (simulate_spec if kind == "spec" else simulate)(payload), run_rust(kind, payload)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--iterations", type=int, default=20)
@@ -45,38 +53,36 @@ def main():
     if not CLI.is_file():
         print(f"Rust CLI not built: {CLI}\nRun: cd engine-rs && cargo build --release")
         return 2
-    from forever.all_specs import public_specs, simulate_spec
+    from forever.all_specs import public_specs
     from forever.engine_data import CLASS_RACES
-    from forever.sim import preset, simulate
+    from forever.sim import preset
     from server import default_request
 
-    rows = []
+    tasks = []
     for spec in public_specs():
         if args.spec and spec["id"] not in args.spec:
             continue
         race = spec["races"][0] if "Human" not in spec["races"] else "Human"
-        req = default_request(spec, race, iterations=args.iterations, duration=args.duration, seed=917)
-        py = simulate_spec(req)
-        rs = run_rust("spec", req)
-        if "error" in rs:
-            rows.append((spec["id"], py["metrics"]["dps"]["mean"], None, None, None, rs["error"]))
-            continue
-        rows.append((spec["id"], py["metrics"]["dps"]["mean"], rs["metrics"]["dps"]["mean"], py["metrics"]["tps"]["mean"], rs["metrics"]["tps"]["mean"], None))
-        if args.verbose:
-            for name in py["ability_dps"]:
-                a, b = py["ability_dps"][name], rs["ability_dps"].get(name)
-                print(f"    {spec['id']:22} {name:28} py={a:10.3f} rs={b if b is None else round(b, 3)}")
+        tasks.append((spec["id"], "spec", default_request(spec, race, iterations=args.iterations, duration=args.duration, seed=917)))
     for spec_id in ("protection", "retribution"):
         if args.spec and f"paladin-{spec_id}" not in args.spec:
             continue
         for race in CLASS_RACES["Paladin"][:1]:
             profile = preset(spec_id); profile["race"] = race; profile["iterations"] = args.iterations; profile["duration"] = args.duration; profile["seed"] = 917
-            py = simulate(profile)
-            rs = run_rust("paladin", profile)
-            if "error" in rs:
-                rows.append((f"paladin-{spec_id}", py["metrics"]["dps"]["mean"], None, None, None, rs["error"]))
-                continue
-            rows.append((f"paladin-{spec_id}", py["metrics"]["dps"]["mean"], rs["metrics"]["dps"]["mean"], py["metrics"]["tps"]["mean"], rs["metrics"]["tps"]["mean"], None))
+            tasks.append((f"paladin-{spec_id}", "paladin", profile))
+    from concurrent.futures import ProcessPoolExecutor
+    with ProcessPoolExecutor(max_workers=os.cpu_count()) as pool:  # each comparison is independent
+        results = list(pool.map(compare, tasks, chunksize=1))
+    rows = []
+    for (sid, _, _), (py, rs) in zip(tasks, results):
+        if "error" in rs:
+            rows.append((sid, py["metrics"]["dps"]["mean"], None, None, None, rs["error"]))
+            continue
+        rows.append((sid, py["metrics"]["dps"]["mean"], rs["metrics"]["dps"]["mean"], py["metrics"]["tps"]["mean"], rs["metrics"]["tps"]["mean"], None))
+        if args.verbose:
+            for name in py["ability_dps"]:
+                a, b = py["ability_dps"][name], rs["ability_dps"].get(name)
+                print(f"    {sid:22} {name:28} py={a:10.3f} rs={b if b is None else round(b, 3)}")
     bad = 0
     print(f"{'spec':24} {'py dps':>10} {'rs dps':>10} {'diff':>8}   {'py tps':>10} {'rs tps':>10}")
     for sid, pd, rd, pt, rt, err in rows:

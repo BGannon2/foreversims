@@ -90,7 +90,7 @@ def _run_bench_tasks(tasks, parallel=True):
     False, or a single task) to avoid process-pool startup overhead for tiny runs."""
     if not parallel or len(tasks) < 2:
         return [_bench_task(t) for t in tasks]
-    with ProcessPoolExecutor(max_workers=min(len(tasks), 8, os.cpu_count() or 4)) as pool:
+    with ProcessPoolExecutor(max_workers=min(len(tasks), os.cpu_count() or 4)) as pool:
         return list(pool.map(_bench_task, tasks, chunksize=1))
 
 

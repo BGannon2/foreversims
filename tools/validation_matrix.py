@@ -11,6 +11,7 @@ no-world-buff profile.
 from __future__ import annotations
 
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -29,46 +30,54 @@ WOWSIMS_WORLD_BUFFED = {
 }
 
 
+def spec_row(task):
+    """Mechanic checks for one spec (top-level so worker processes can run it)."""
+    spec, iterations, duration = task
+    sid = spec["id"]
+    base = default_request(spec, iterations=iterations, seed=917, duration=duration)
+    full = simulate_spec(base)
+    no_gear = simulate_spec({**base, "gear": [], "gear_slots": []})
+    no_talents = simulate_spec({**base, "talents": {}})
+    no_buffs = simulate_spec({**base, "buffs": [], "consumables": []})
+    dps = full["metrics"]["dps"]["mean"]
+    st = full["ability_stats"]
+    checks = {
+        "gear_increases_dps": dps > no_gear["metrics"]["dps"]["mean"] * 1.05,
+        "talents_increase_dps": dps > no_talents["metrics"]["dps"]["mean"] * 1.02,
+        "buffs_increase_dps": dps > no_buffs["metrics"]["dps"]["mean"] * 1.02,
+        "breakdown_reconciles": abs(sum(full["ability_dps"].values()) - dps) < 1e-6,
+        "finite_positive": 0 < dps < 5000,
+        "no_calibration": full["configuration"].get("multiplier", 1.0) == 1.0,
+    }
+    # Attack-table sanity: white melee against a level-63 target must show glancing blows and misses.
+    white = st.get("Melee (Main-Hand)") or st.get("Auto Shot")
+    if spec["style"] == "melee" and white:
+        checks["glancing_blows_present"] = white["glances"] > 0
+        checks["glance_rate_plausible"] = 0.25 <= white["glances"] / max(1, white["casts"]) <= 0.45
+    if spec["style"] == "spell":
+        checks["cast_time_respected"] = all(v["casts"] <= duration / (full["configuration"]["actions"][k]["cast"] / 1.35) + 2 for k, v in st.items() if v["casts"] > 0 and full["configuration"]["actions"].get(k, {}).get("cast", 0) > 0)
+    if spec["resource"] == "Energy":
+        energy_spent = sum(v["casts"] * full["configuration"]["actions"][k]["cost"] for k, v in st.items() if k in full["configuration"]["actions"])
+        checks["energy_budget_respected"] = energy_spent <= (duration / 2 * 20 * 1.35 + 100 + 100 + 25 * 20)
+    if spec["role"] == "tank":
+        checks["tank_takes_damage"] = full["metrics"]["dtps"]["mean"] > 0
+        checks["tank_threat_exceeds_damage"] = full["metrics"]["tps"]["mean"] > dps
+    lo, hi = WOWSIMS_WORLD_BUFFED.get(sid, (None, None))
+    ratio = round(dps / ((lo + hi) / 2), 3) if lo else None
+    row = {"spec": sid, "dps": round(dps, 1), "tps": round(full["metrics"]["tps"]["mean"], 1), "without_gear": round(no_gear["metrics"]["dps"]["mean"], 1),
+           "without_talents": round(no_talents["metrics"]["dps"]["mean"], 1), "without_buffs": round(no_buffs["metrics"]["dps"]["mean"], 1),
+           "wowsims_world_buffed": [lo, hi], "ratio_to_world_buffed": ratio, "starved": round(full["resource"]["starved_fraction"], 3), "checks": checks}
+    return row, [f"{sid}: {name}" for name, passed in checks.items() if not passed]
+
+
 def run_matrix(iterations=60, duration=None):
     duration = duration or DEFAULTS["duration"]
     rows, failures = [], []
-    for spec in public_specs():
-        sid = spec["id"]
-        base = default_request(spec, iterations=iterations, seed=917, duration=duration)
-        full = simulate_spec(base)
-        no_gear = simulate_spec({**base, "gear": [], "gear_slots": []})
-        no_talents = simulate_spec({**base, "talents": {}})
-        no_buffs = simulate_spec({**base, "buffs": [], "consumables": []})
-        dps = full["metrics"]["dps"]["mean"]
-        st = full["ability_stats"]
-        checks = {
-            "gear_increases_dps": dps > no_gear["metrics"]["dps"]["mean"] * 1.05,
-            "talents_increase_dps": dps > no_talents["metrics"]["dps"]["mean"] * 1.02,
-            "buffs_increase_dps": dps > no_buffs["metrics"]["dps"]["mean"] * 1.02,
-            "breakdown_reconciles": abs(sum(full["ability_dps"].values()) - dps) < 1e-6,
-            "finite_positive": 0 < dps < 5000,
-            "no_calibration": full["configuration"].get("multiplier", 1.0) == 1.0,
-        }
-        # Attack-table sanity: white melee against a level-63 target must show glancing blows and misses.
-        white = st.get("Melee (Main-Hand)") or st.get("Auto Shot")
-        if spec["style"] == "melee" and white:
-            checks["glancing_blows_present"] = white["glances"] > 0
-            checks["glance_rate_plausible"] = 0.25 <= white["glances"] / max(1, white["casts"]) <= 0.45
-        if spec["style"] == "spell":
-            checks["cast_time_respected"] = all(v["casts"] <= duration / (full["configuration"]["actions"][k]["cast"] / 1.35) + 2 for k, v in st.items() if v["casts"] > 0 and full["configuration"]["actions"].get(k, {}).get("cast", 0) > 0)
-        if spec["resource"] == "Energy":
-            energy_spent = sum(v["casts"] * full["configuration"]["actions"][k]["cost"] for k, v in st.items() if k in full["configuration"]["actions"])
-            checks["energy_budget_respected"] = energy_spent <= (duration / 2 * 20 * 1.35 + 100 + 100 + 25 * 20)
-        if spec["role"] == "tank":
-            checks["tank_takes_damage"] = full["metrics"]["dtps"]["mean"] > 0
-            checks["tank_threat_exceeds_damage"] = full["metrics"]["tps"]["mean"] > dps
-        lo, hi = WOWSIMS_WORLD_BUFFED.get(sid, (None, None))
-        ratio = round(dps / ((lo + hi) / 2), 3) if lo else None
-        row = {"spec": sid, "dps": round(dps, 1), "tps": round(full["metrics"]["tps"]["mean"], 1), "without_gear": round(no_gear["metrics"]["dps"]["mean"], 1),
-               "without_talents": round(no_talents["metrics"]["dps"]["mean"], 1), "without_buffs": round(no_buffs["metrics"]["dps"]["mean"], 1),
-               "wowsims_world_buffed": [lo, hi], "ratio_to_world_buffed": ratio, "starved": round(full["resource"]["starved_fraction"], 3), "checks": checks}
-        rows.append(row)
-        failures.extend(f"{sid}: {name}" for name, passed in checks.items() if not passed)
+    from concurrent.futures import ProcessPoolExecutor
+    with ProcessPoolExecutor(max_workers=os.cpu_count()) as pool:  # each spec's checks are independent
+        for row, spec_failures in pool.map(spec_row, [(spec, iterations, duration) for spec in public_specs()], chunksize=1):
+            rows.append(row)
+            failures.extend(spec_failures)
 
     focused = []
     def check(name, passed, detail):
