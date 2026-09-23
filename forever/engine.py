@@ -1345,8 +1345,11 @@ class Iteration:
             self.touch_of_the_grave()
             return
         if a.get("no_damage"):
-            self.row(name).hits += 1; th = flat_threat * (1 + c.mod(f"threat_ability:{name}")) * self.threat_multiplier(); self.row(name).threat += th; self.threat += th
+            self.row(name).hits += 1
+            th = flat_threat * (c.targets if name == "Demoralizing Shout" else 1) * (1 + c.mod(f"threat_ability:{name}")) * self.threat_multiplier()
+            self.row(name).threat += th; self.threat += th
             if name == "Sunder Armor": self.add_debuff("Sunder Armor", 30, stacks_max=5)
+            if name == "Demoralizing Shout": self.add_debuff("Demoralizing Shout", 45)
             self.record(name, "hit", 0); return
         # ---- weapon-based melee
         if a.get("weapon") or a.get("ap_mult") or a.get("execute_formula") or a.get("finisher") in {"eviscerate", "ferocious_bite"} or (school == "physical" and self.s["style"] != "ranged" and (a.get("base") or a.get("flat"))):

@@ -1346,10 +1346,10 @@
       "role": "tank",
       "targets": 3,
       "url": "/all-specs.html?spec=warrior-protection&race=Human&targets=3&benchmark=1",
-      "dps": 405.23237655037866,
-      "tps": 877.0104953732148,
-      "dtps": 305.8062566522948,
-      "total_damage": 48627.88518604543
+      "dps": 399.9928535436279,
+      "tps": 870.7646758698193,
+      "dtps": 309.11086141353394,
+      "total_damage": 47999.14242523533
     },
     {
       "id": "warrior-protection",
@@ -1359,10 +1359,10 @@
       "role": "tank",
       "targets": 4,
       "url": "/all-specs.html?spec=warrior-protection&race=Human&targets=4&benchmark=1",
-      "dps": 416.2425311939701,
-      "tps": 905.8158124595112,
-      "dtps": 305.8062566522948,
-      "total_damage": 49949.10374327641
+      "dps": 410.96418022286014,
+      "tps": 901.0830092943609,
+      "dtps": 309.11086141353394,
+      "total_damage": 49315.70162674321
     },
     {
       "id": "warrior-protection",
@@ -1372,10 +1372,10 @@
       "role": "tank",
       "targets": 5,
       "url": "/all-specs.html?spec=warrior-protection&race=Human&targets=5&benchmark=1",
-      "dps": 416.2425311939701,
-      "tps": 905.8158124595112,
-      "dtps": 305.8062566522948,
-      "total_damage": 49949.10374327641
+      "dps": 410.96418022286014,
+      "tps": 902.697609294361,
+      "dtps": 309.11086141353394,
+      "total_damage": 49315.70162674321
     },
     {
       "id": "warrior-protection",
@@ -1411,10 +1411,10 @@
       "role": "tank",
       "targets": 3,
       "url": "/all-specs.html?spec=warrior-protection&race=Dwarf&targets=3&benchmark=1",
-      "dps": 394.5387147642225,
-      "tps": 857.0261899462894,
-      "dtps": 306.41262558230903,
-      "total_damage": 47344.64577170669
+      "dps": 387.1782305628642,
+      "tps": 845.7198178759459,
+      "dtps": 306.005246696018,
+      "total_damage": 46461.38766754369
     },
     {
       "id": "warrior-protection",
@@ -1424,10 +1424,10 @@
       "role": "tank",
       "targets": 4,
       "url": "/all-specs.html?spec=warrior-protection&race=Dwarf&targets=4&benchmark=1",
-      "dps": 405.21883171076115,
-      "tps": 884.9680459076716,
-      "dtps": 306.41262558230903,
-      "total_damage": 48626.25980529133
+      "dps": 397.6108192366132,
+      "tps": 874.6286779936421,
+      "dtps": 306.005246696018,
+      "total_damage": 47713.29830839359
     },
     {
       "id": "warrior-protection",
@@ -1437,10 +1437,10 @@
       "role": "tank",
       "targets": 5,
       "url": "/all-specs.html?spec=warrior-protection&race=Dwarf&targets=5&benchmark=1",
-      "dps": 405.21883171076115,
-      "tps": 884.9680459076716,
-      "dtps": 306.41262558230903,
-      "total_damage": 48626.25980529133
+      "dps": 397.6108192366132,
+      "tps": 876.2432779936421,
+      "dtps": 306.005246696018,
+      "total_damage": 47713.29830839359
     },
     {
       "id": "warrior-protection",
@@ -1476,10 +1476,10 @@
       "role": "tank",
       "targets": 3,
       "url": "/all-specs.html?spec=warrior-protection&race=Night%20Elf&targets=3&benchmark=1",
-      "dps": 400.53976117822543,
-      "tps": 867.4195725337097,
-      "dtps": 303.7472430286686,
-      "total_damage": 48064.77134138703
+      "dps": 398.29799747846886,
+      "tps": 868.3900570620109,
+      "dtps": 301.9392778546335,
+      "total_damage": 47795.75969741625
     },
     {
       "id": "warrior-protection",
@@ -1489,10 +1489,10 @@
       "role": "tank",
       "targets": 4,
       "url": "/all-specs.html?spec=warrior-protection&race=Night%20Elf&targets=4&benchmark=1",
-      "dps": 411.4237249376496,
-      "tps": 895.8947427193035,
-      "dtps": 303.7472430286686,
-      "total_damage": 49370.846992517945
+      "dps": 409.0751843359053,
+      "tps": 898.2004721777795,
+      "dtps": 301.9392778546335,
+      "total_damage": 49089.02212030865
     },
     {
       "id": "warrior-protection",
@@ -1502,10 +1502,10 @@
       "role": "tank",
       "targets": 5,
       "url": "/all-specs.html?spec=warrior-protection&race=Night%20Elf&targets=5&benchmark=1",
-      "dps": 411.4237249376496,
-      "tps": 895.8947427193035,
-      "dtps": 303.7472430286686,
-      "total_damage": 49370.846992517945
+      "dps": 409.0751843359053,
+      "tps": 899.8150721777795,
+      "dtps": 301.9392778546335,
+      "total_damage": 49089.02212030865
     },
     {
       "id": "warrior-protection",
@@ -1541,10 +1541,10 @@
       "role": "tank",
       "targets": 3,
       "url": "/all-specs.html?spec=warrior-protection&race=Gnome&targets=3&benchmark=1",
-      "dps": 398.78837198454266,
-      "tps": 864.2430711178001,
-      "dtps": 307.0906579706006,
-      "total_damage": 47854.60463814514
+      "dps": 394.31920789277973,
+      "tps": 860.5899174955051,
+      "dtps": 308.20447832373384,
+      "total_damage": 47318.30494713358
     },
     {
       "id": "warrior-protection",
@@ -1554,10 +1554,10 @@
       "role": "tank",
       "targets": 4,
       "url": "/all-specs.html?spec=warrior-protection&race=Gnome&targets=4&benchmark=1",
-      "dps": 409.65728990777757,
-      "tps": 892.6788776344641,
-      "dtps": 307.0906579706006,
-      "total_damage": 49158.874788933346
+      "dps": 405.16652776083987,
+      "tps": 890.5838181003181,
+      "dtps": 308.20447832373384,
+      "total_damage": 48619.98333130082
     },
     {
       "id": "warrior-protection",
@@ -1567,10 +1567,10 @@
       "role": "tank",
       "targets": 5,
       "url": "/all-specs.html?spec=warrior-protection&race=Gnome&targets=5&benchmark=1",
-      "dps": 409.65728990777757,
-      "tps": 892.6788776344641,
-      "dtps": 307.0906579706006,
-      "total_damage": 49158.874788933346
+      "dps": 405.16652776083987,
+      "tps": 892.1984181003181,
+      "dtps": 308.20447832373384,
+      "total_damage": 48619.98333130082
     },
     {
       "id": "warrior-protection",
@@ -1606,10 +1606,10 @@
       "role": "tank",
       "targets": 3,
       "url": "/all-specs.html?spec=warrior-protection&race=Orc&targets=3&benchmark=1",
-      "dps": 390.6543721452286,
-      "tps": 851.3096482803769,
-      "dtps": 307.6481579577841,
-      "total_damage": 46878.524657427435
+      "dps": 390.2481797921079,
+      "tps": 852.2283441340965,
+      "dtps": 310.6704006170303,
+      "total_damage": 46829.781575052955
     },
     {
       "id": "warrior-protection",
@@ -1619,10 +1619,10 @@
       "role": "tank",
       "targets": 4,
       "url": "/all-specs.html?spec=warrior-protection&race=Orc&targets=4&benchmark=1",
-      "dps": 401.41942526380285,
-      "tps": 879.4737185018473,
-      "dtps": 307.6481579577841,
-      "total_damage": 48170.33103165636
+      "dps": 400.68804870917427,
+      "tps": 881.1562511883719,
+      "dtps": 310.6704006170303,
+      "total_damage": 48082.56584510094
     },
     {
       "id": "warrior-protection",
@@ -1632,10 +1632,10 @@
       "role": "tank",
       "targets": 5,
       "url": "/all-specs.html?spec=warrior-protection&race=Orc&targets=5&benchmark=1",
-      "dps": 401.41942526380285,
-      "tps": 879.4737185018473,
-      "dtps": 307.6481579577841,
-      "total_damage": 48170.33103165636
+      "dps": 400.68804870917427,
+      "tps": 882.7708511883717,
+      "dtps": 310.6704006170303,
+      "total_damage": 48082.56584510094
     },
     {
       "id": "warrior-protection",
@@ -1671,10 +1671,10 @@
       "role": "tank",
       "targets": 3,
       "url": "/all-specs.html?spec=warrior-protection&race=Undead&targets=3&benchmark=1",
-      "dps": 407.35576453021986,
-      "tps": 875.2049133300815,
-      "dtps": 311.5341710487597,
-      "total_damage": 48882.69174362634
+      "dps": 407.4497754682822,
+      "tps": 879.8456289832278,
+      "dtps": 310.97039893854145,
+      "total_damage": 48893.973056193856
     },
     {
       "id": "warrior-protection",
@@ -1684,10 +1684,10 @@
       "role": "tank",
       "targets": 4,
       "url": "/all-specs.html?spec=warrior-protection&race=Undead&targets=4&benchmark=1",
-      "dps": 418.033454728986,
-      "tps": 903.1404203126039,
-      "dtps": 311.5341710487597,
-      "total_damage": 50164.01456747828
+      "dps": 418.2026948479942,
+      "tps": 909.5925543103998,
+      "dtps": 310.97039893854145,
+      "total_damage": 50184.323381759306
     },
     {
       "id": "warrior-protection",
@@ -1697,10 +1697,10 @@
       "role": "tank",
       "targets": 5,
       "url": "/all-specs.html?spec=warrior-protection&race=Undead&targets=5&benchmark=1",
-      "dps": 418.033454728986,
-      "tps": 903.1404203126039,
-      "dtps": 311.5341710487597,
-      "total_damage": 50164.01456747828
+      "dps": 418.2026948479942,
+      "tps": 911.2071543103998,
+      "dtps": 310.97039893854145,
+      "total_damage": 50184.323381759306
     },
     {
       "id": "warrior-protection",
@@ -1736,10 +1736,10 @@
       "role": "tank",
       "targets": 3,
       "url": "/all-specs.html?spec=warrior-protection&race=Tauren&targets=3&benchmark=1",
-      "dps": 397.65789419872436,
-      "tps": 864.7849546092262,
-      "dtps": 305.9912295157825,
-      "total_damage": 47718.94730384692
+      "dps": 394.4435416416742,
+      "tps": 861.3166607639923,
+      "dtps": 307.2290808368036,
+      "total_damage": 47333.22499700092
     },
     {
       "id": "warrior-protection",
@@ -1749,10 +1749,10 @@
       "role": "tank",
       "targets": 4,
       "url": "/all-specs.html?spec=warrior-protection&race=Tauren&targets=4&benchmark=1",
-      "dps": 408.52487072374134,
-      "tps": 893.2156819428025,
-      "dtps": 305.9912295157825,
-      "total_damage": 49022.98448684897
+      "dps": 405.2037412647035,
+      "tps": 891.0826330277432,
+      "dtps": 307.2290808368036,
+      "total_damage": 48624.448951764454
     },
     {
       "id": "warrior-protection",
@@ -1762,10 +1762,10 @@
       "role": "tank",
       "targets": 5,
       "url": "/all-specs.html?spec=warrior-protection&race=Tauren&targets=5&benchmark=1",
-      "dps": 408.52487072374134,
-      "tps": 893.2156819428025,
-      "dtps": 305.9912295157825,
-      "total_damage": 49022.98448684897
+      "dps": 405.2037412647035,
+      "tps": 892.6972330277432,
+      "dtps": 307.2290808368036,
+      "total_damage": 48624.448951764454
     },
     {
       "id": "warrior-protection",
@@ -1801,10 +1801,10 @@
       "role": "tank",
       "targets": 3,
       "url": "/all-specs.html?spec=warrior-protection&race=Troll&targets=3&benchmark=1",
-      "dps": 394.58333070691856,
-      "tps": 859.2073717893334,
-      "dtps": 307.4360981490182,
-      "total_damage": 47349.99968483023
+      "dps": 392.56568481596275,
+      "tps": 856.8530439497325,
+      "dtps": 309.4633889980098,
+      "total_damage": 47107.88217791553
     },
     {
       "id": "warrior-protection",
@@ -1814,10 +1814,10 @@
       "role": "tank",
       "targets": 4,
       "url": "/all-specs.html?spec=warrior-protection&race=Troll&targets=4&benchmark=1",
-      "dps": 405.4478804841631,
-      "tps": 887.6317501440499,
-      "dtps": 307.4360981490182,
-      "total_damage": 48653.74565809959
+      "dps": 403.10262364392696,
+      "tps": 886.0349101583945,
+      "dtps": 309.4633889980098,
+      "total_damage": 48372.31483727125
     },
     {
       "id": "warrior-protection",
@@ -1827,10 +1827,10 @@
       "role": "tank",
       "targets": 5,
       "url": "/all-specs.html?spec=warrior-protection&race=Troll&targets=5&benchmark=1",
-      "dps": 405.4478804841631,
-      "tps": 887.6317501440499,
-      "dtps": 307.4360981490182,
-      "total_damage": 48653.74565809959
+      "dps": 403.10262364392696,
+      "tps": 887.6495101583945,
+      "dtps": 309.4633889980098,
+      "total_damage": 48372.31483727125
     },
     {
       "id": "warrior-protection",
@@ -1866,10 +1866,10 @@
       "role": "tank",
       "targets": 3,
       "url": "/all-specs.html?spec=warrior-protection&race=Skyborne%20%28Alliance%29&targets=3&benchmark=1",
-      "dps": 399.0667174301115,
-      "tps": 865.1708276759116,
-      "dtps": 308.1724611312048,
-      "total_damage": 47888.006091613366
+      "dps": 392.7278783615281,
+      "tps": 858.4748586972466,
+      "dtps": 307.5892170390995,
+      "total_damage": 47127.345403383355
     },
     {
       "id": "warrior-protection",
@@ -1879,10 +1879,10 @@
       "role": "tank",
       "targets": 4,
       "url": "/all-specs.html?spec=warrior-protection&race=Skyborne%20%28Alliance%29&targets=4&benchmark=1",
-      "dps": 409.72499364669807,
-      "tps": 893.0555428275567,
-      "dtps": 308.1724611312048,
-      "total_damage": 49166.99923760376
+      "dps": 403.59970838209006,
+      "tps": 888.5328839885423,
+      "dtps": 307.5892170390995,
+      "total_damage": 48431.9650058508
     },
     {
       "id": "warrior-protection",
@@ -1892,10 +1892,10 @@
       "role": "tank",
       "targets": 5,
       "url": "/all-specs.html?spec=warrior-protection&race=Skyborne%20%28Alliance%29&targets=5&benchmark=1",
-      "dps": 409.72499364669807,
-      "tps": 893.0555428275567,
-      "dtps": 308.1724611312048,
-      "total_damage": 49166.99923760376
+      "dps": 403.59970838209006,
+      "tps": 890.1474839885423,
+      "dtps": 307.5892170390995,
+      "total_damage": 48431.9650058508
     },
     {
       "id": "warrior-protection",
@@ -1931,10 +1931,10 @@
       "role": "tank",
       "targets": 3,
       "url": "/all-specs.html?spec=warrior-protection&race=Skyborne%20%28Horde%29&targets=3&benchmark=1",
-      "dps": 399.0667174301115,
-      "tps": 865.1708276759116,
-      "dtps": 308.1724611312048,
-      "total_damage": 47888.006091613366
+      "dps": 392.7278783615281,
+      "tps": 858.4748586972466,
+      "dtps": 307.5892170390995,
+      "total_damage": 47127.345403383355
     },
     {
       "id": "warrior-protection",
@@ -1944,10 +1944,10 @@
       "role": "tank",
       "targets": 4,
       "url": "/all-specs.html?spec=warrior-protection&race=Skyborne%20%28Horde%29&targets=4&benchmark=1",
-      "dps": 409.72499364669807,
-      "tps": 893.0555428275567,
-      "dtps": 308.1724611312048,
-      "total_damage": 49166.99923760376
+      "dps": 403.59970838209006,
+      "tps": 888.5328839885423,
+      "dtps": 307.5892170390995,
+      "total_damage": 48431.9650058508
     },
     {
       "id": "warrior-protection",
@@ -1957,10 +1957,10 @@
       "role": "tank",
       "targets": 5,
       "url": "/all-specs.html?spec=warrior-protection&race=Skyborne%20%28Horde%29&targets=5&benchmark=1",
-      "dps": 409.72499364669807,
-      "tps": 893.0555428275567,
-      "dtps": 308.1724611312048,
-      "total_damage": 49166.99923760376
+      "dps": 403.59970838209006,
+      "tps": 890.1474839885423,
+      "dtps": 307.5892170390995,
+      "total_damage": 48431.9650058508
     },
     {
       "id": "druid-balance",
