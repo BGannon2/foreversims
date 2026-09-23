@@ -9445,10 +9445,10 @@
       "role": "dps",
       "targets": 1,
       "url": "/paladin.html?spec=retribution&race=Human&targets=1&benchmark=1",
-      "dps": 602.5698972829741,
-      "tps": 602.5698972829747,
+      "dps": 641.8491769738075,
+      "tps": 641.849176973808,
       "dtps": 0.0,
-      "total_damage": 72308.3876739569
+      "total_damage": 77021.9012368569
     },
     {
       "id": "paladin-retribution",
@@ -9458,10 +9458,10 @@
       "role": "dps",
       "targets": 2,
       "url": "/paladin.html?spec=retribution&race=Human&targets=2&benchmark=1",
-      "dps": 615.0950202098492,
-      "tps": 615.0950202098495,
+      "dps": 654.3742999006826,
+      "tps": 654.3742999006828,
       "dtps": 0.0,
-      "total_damage": 73811.40242518189
+      "total_damage": 78524.91598808189
     },
     {
       "id": "paladin-retribution",
@@ -9471,10 +9471,10 @@
       "role": "dps",
       "targets": 3,
       "url": "/paladin.html?spec=retribution&race=Human&targets=3&benchmark=1",
-      "dps": 627.6201431367242,
-      "tps": 627.6201431367246,
+      "dps": 666.8994228275574,
+      "tps": 666.8994228275579,
       "dtps": 0.0,
-      "total_damage": 75314.41717640689
+      "total_damage": 80027.93073930689
     },
     {
       "id": "paladin-retribution",
@@ -9484,10 +9484,10 @@
       "role": "dps",
       "targets": 4,
       "url": "/paladin.html?spec=retribution&race=Human&targets=4&benchmark=1",
-      "dps": 640.1452660635991,
-      "tps": 640.1452660635994,
+      "dps": 679.4245457544325,
+      "tps": 679.4245457544326,
       "dtps": 0.0,
-      "total_damage": 76817.43192763189
+      "total_damage": 81530.9454905319
     },
     {
       "id": "paladin-retribution",
@@ -9497,10 +9497,10 @@
       "role": "dps",
       "targets": 5,
       "url": "/paladin.html?spec=retribution&race=Human&targets=5&benchmark=1",
-      "dps": 649.2047259238076,
-      "tps": 649.2047259238068,
+      "dps": 688.4840056146409,
+      "tps": 688.48400561464,
       "dtps": 0.0,
-      "total_damage": 77904.5671108569
+      "total_damage": 82618.0806737569
     },
     {
       "id": "paladin-retribution",
@@ -9510,10 +9510,10 @@
       "role": "dps",
       "targets": 1,
       "url": "/paladin.html?spec=retribution&race=Dwarf&targets=1&benchmark=1",
-      "dps": 591.9196248258997,
-      "tps": 591.9196248259002,
+      "dps": 630.9304217600665,
+      "tps": 630.9304217600668,
       "dtps": 0.0,
-      "total_damage": 71030.35497910797
+      "total_damage": 75711.65061120797
     },
     {
       "id": "paladin-retribution",
@@ -9523,10 +9523,10 @@
       "role": "dps",
       "targets": 2,
       "url": "/paladin.html?spec=retribution&race=Dwarf&targets=2&benchmark=1",
-      "dps": 604.3910213405873,
-      "tps": 604.3910213405877,
+      "dps": 643.401818274754,
+      "tps": 643.4018182747542,
       "dtps": 0.0,
-      "total_damage": 72526.92256087047
+      "total_damage": 77208.21819297047
     },
     {
       "id": "paladin-retribution",
@@ -9536,10 +9536,10 @@
       "role": "dps",
       "targets": 3,
       "url": "/paladin.html?spec=retribution&race=Dwarf&targets=3&benchmark=1",
-      "dps": 616.8624178552747,
-      "tps": 616.8624178552751,
+      "dps": 655.8732147894414,
+      "tps": 655.8732147894417,
       "dtps": 0.0,
-      "total_damage": 74023.49014263297
+      "total_damage": 78704.78577473297
     },
     {
       "id": "paladin-retribution",
@@ -9549,10 +9549,10 @@
       "role": "dps",
       "targets": 4,
       "url": "/paladin.html?spec=retribution&race=Dwarf&targets=4&benchmark=1",
-      "dps": 629.3338143699623,
-      "tps": 629.3338143699625,
+      "dps": 668.344611304129,
+      "tps": 668.3446113041291,
       "dtps": 0.0,
-      "total_damage": 75520.05772439548
+      "total_damage": 80201.35335649547
     },
     {
       "id": "paladin-retribution",
@@ -9562,10 +9562,10 @@
       "role": "dps",
       "targets": 5,
       "url": "/paladin.html?spec=retribution&race=Dwarf&targets=5&benchmark=1",
-      "dps": 638.3544137513165,
-      "tps": 638.3544137513156,
+      "dps": 677.3652106854831,
+      "tps": 677.3652106854822,
       "dtps": 0.0,
-      "total_damage": 76602.52965015799
+      "total_damage": 81283.82528225798
     },
     {
       "id": "paladin-retribution",
@@ -9575,10 +9575,10 @@
       "role": "dps",
       "targets": 1,
       "url": "/paladin.html?spec=retribution&race=Undead&targets=1&benchmark=1",
-      "dps": 604.0157591887464,
-      "tps": 604.015759188747,
+      "dps": 643.2805516779132,
+      "tps": 643.2805516779135,
       "dtps": 0.0,
-      "total_damage": 72481.89110264956
+      "total_damage": 77193.66620134957
     },
     {
       "id": "paladin-retribution",
@@ -9588,10 +9588,10 @@
       "role": "dps",
       "targets": 2,
       "url": "/paladin.html?spec=retribution&race=Undead&targets=2&benchmark=1",
-      "dps": 616.424905645309,
-      "tps": 616.4249056453094,
+      "dps": 655.6896981344756,
+      "tps": 655.6896981344759,
       "dtps": 0.0,
-      "total_damage": 73970.98867743707
+      "total_damage": 78682.76377613707
     },
     {
       "id": "paladin-retribution",
@@ -9601,10 +9601,10 @@
       "role": "dps",
       "targets": 3,
       "url": "/paladin.html?spec=retribution&race=Undead&targets=3&benchmark=1",
-      "dps": 628.8340521018714,
-      "tps": 628.8340521018719,
+      "dps": 668.0988445910381,
+      "tps": 668.0988445910385,
       "dtps": 0.0,
-      "total_damage": 75460.08625222456
+      "total_damage": 80171.86135092456
     },
     {
       "id": "paladin-retribution",
@@ -9614,10 +9614,10 @@
       "role": "dps",
       "targets": 4,
       "url": "/paladin.html?spec=retribution&race=Undead&targets=4&benchmark=1",
-      "dps": 641.243198558434,
-      "tps": 641.2431985584342,
+      "dps": 680.5079910476006,
+      "tps": 680.5079910476009,
       "dtps": 0.0,
-      "total_damage": 76949.18382701206
+      "total_damage": 81660.95892571207
     },
     {
       "id": "paladin-retribution",
@@ -9627,10 +9627,10 @@
       "role": "dps",
       "targets": 5,
       "url": "/paladin.html?spec=retribution&race=Undead&targets=5&benchmark=1",
-      "dps": 650.2187722816632,
-      "tps": 650.2187722816624,
+      "dps": 689.4835647708298,
+      "tps": 689.4835647708289,
       "dtps": 0.0,
-      "total_damage": 78026.25267379958
+      "total_damage": 82738.02777249957
     }
   ],
   "race_source": "https://www.wowhead.com/forever/guide/new-race-class-combinations"
