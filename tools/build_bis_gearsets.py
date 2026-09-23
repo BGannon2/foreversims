@@ -1,5 +1,5 @@
-"""Builds a greedy stat-weight-based BiS gear set for every non-Paladin spec (Paladin uses
-its own separate sim.py/data.json system, not this shared-engine item catalog).
+"""Builds a greedy stat-weight-based BiS gear set for every spec, including both Paladin
+specs (which run on the separate Paladin engine but share this item catalog).
 
 Approach (a heuristic greedy optimizer, not a full combinatorial solver):
   1. Filter the item catalog to items the spec's class can actually equip (armor type,
@@ -22,10 +22,8 @@ Approach (a heuristic greedy optimizer, not a full combinatorial solver):
      with no unaffordable-cast/validation errors.
 
 Known limitations (flagged, not silently hidden):
-  - Item "Classes:" restriction text isn't parsed into the catalog (only armor/weapon type
-    is), so a small number of faction-reputation or class-specific accessories could in
-    theory be suggested for the wrong class. Armor/weapon-type filtering catches the large
-    majority of real mismatches.
+  - Class restrictions come from data/item_class_restrictions.json (client AllowableClass,
+    built by tools/build_item_class_restrictions.py); on-use stats are scored as not always-on.
   - Set-bonus synergy isn't scored (an item that completes a 4pc bonus isn't weighted any
     higher than one that doesn't) -- this is a pure per-slot stat-weight greedy, not a
     true combinatorial optimizer.
@@ -43,8 +41,12 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from forever.all_specs import ITEMS  # noqa: E402
+from forever.engine import permanent_item_stats  # noqa: E402
 from forever.engine_data import SPEC_MAP  # noqa: E402
 
+_RESTRICTIONS = json.loads((ROOT / "data" / "item_class_restrictions.json").read_text(encoding="utf-8"))
+CLASS_RESTRICTIONS = _RESTRICTIONS["items"]
+LIMIT_CATEGORY = {int(k): v for k, v in _RESTRICTIONS["limit_categories"].items()}
 REMOVED_IDS = set(json.loads((ROOT / "data" / "forever_removed_item_ids.json").read_text(encoding="utf-8"))) \
     if (ROOT / "data" / "forever_removed_item_ids.json").is_file() else set()
 
@@ -57,6 +59,7 @@ ARMOR_ALLOWED = {
     "Mage": {"Cloth", "Miscellaneous"},
     "Warlock": {"Cloth", "Miscellaneous"},
     "Druid": {"Leather", "Cloth", "Miscellaneous"},
+    "Paladin": {"Plate", "Mail", "Leather", "Cloth", "Miscellaneous", "Shield"},
 }
 
 WEAPON_ALLOWED = {
@@ -68,6 +71,7 @@ WEAPON_ALLOWED = {
     "Mage": {"Dagger", "Sword", "Staff", "Wand"},
     "Warlock": {"Dagger", "Sword", "Staff", "Wand"},
     "Druid": {"Dagger", "Fist Weapon", "Mace", "Staff"},
+    "Paladin": {"Axe", "Mace", "Polearm", "Sword"},
 }
 
 # Melee weight archetypes. Every weight is per 1 point of the stat (except hit/crit/
@@ -83,7 +87,24 @@ RANGED_DPS = {"attackPower": 0.9, "meleeCrit": 2.0, "agility": 1.3, "stamina": 0
 TANK = {"defense": 3.0, "stamina": 1.4, "dodge": 1.3, "parry": 1.1, "block": 0.8,
         "blockValue": 0.15, "armor": 0.03, "strength": 0.4, "agility": 0.3}
 
+# Paladin weights come from the Paladin engine itself: finite differences on the Phase 1-2
+# presets (1500 iterations, seed 11), normalized to attack power = 1. Protection is TPS per
+# point -- spell power (holy threat) is its strongest stat at 3.8x attack power. For survival
+# it keeps the shared TANK weights, with the threat weights scaled so strength matches
+# TANK's 0.4. Retribution is DPS per point. Hit is handled by the cap pass (8% melee here:
+# the Paladin engine starts at 92% melee hit), so it carries no weight.
+_PROT_THREAT = {"strength": 2.2, "agility": 1.46, "attackPower": 1.0, "spellPower": 3.81, "holyPower": 3.81,
+                "meleeCrit": 31.5, "spellCrit": 2.6, "spellHit": 10.4}
+PALADIN_PROT = {**TANK, **{k: round(v * 0.4 / 2.2, 3) for k, v in _PROT_THREAT.items()}}
+PALADIN_PROT["agility"] = max(PALADIN_PROT["agility"], TANK["agility"])
+PALADIN_RET = {"strength": 2.42, "agility": 1.62, "attackPower": 1.0, "spellPower": 1.46, "holyPower": 1.46,
+               "meleeCrit": 29.2, "spellCrit": 2.1, "spellHit": 1.6, "stamina": 0.3, "armor": 0.02}
+PALADIN_SPECS = {"paladin-protection": {"class_name": "Paladin", "style": "melee"},
+                 "paladin-retribution": {"class_name": "Paladin", "style": "melee"}}
+PALADIN_HIT_CAP = 8.0
+
 SPEC_ARCHETYPE = {
+    "paladin-protection": PALADIN_PROT, "paladin-retribution": PALADIN_RET,
     "warrior-arms": MELEE_DPS, "warrior-fury": MELEE_DPS, "warrior-protection": TANK,
     "druid-balance": CASTER_DPS, "druid-feral-dps": MELEE_DPS_AGI, "druid-feral-tank": TANK,
     "hunter-beast-mastery": RANGED_DPS, "hunter-marksmanship": RANGED_DPS, "hunter-survival": RANGED_DPS,
@@ -95,9 +116,17 @@ SPEC_ARCHETYPE = {
 }
 
 DUAL_WIELD = {"warrior-fury", "rogue-assassination", "rogue-combat", "rogue-subtlety", "shaman-enhancement"}
-TWO_HAND_PREFERRED = {"warrior-arms"}  # compared against 1H+offhand anyway; this just breaks ties
-SHIELD_TANK = {"warrior-protection"}
+TWO_HAND_PREFERRED = {"warrior-arms", "paladin-retribution"}  # compared against 1H+offhand anyway; this just breaks ties
+SHIELD_TANK = {"warrior-protection", "paladin-protection"}
 RANGED_PRIMARY = {"hunter-beast-mastery", "hunter-marksmanship", "hunter-survival"}
+
+CAN_DUAL_WIELD = {"Warrior", "Rogue", "Hunter", "Shaman"}
+
+
+def off_hand_kind(item):
+    if "Shield" in (item["slot"], item.get("subclass")): return "shield"
+    return "held" if item["slot"] == "Held In Off-hand" else "weapon"
+
 
 SLOTS = ["head", "neck", "shoulders", "back", "chest", "wrist", "hands", "waist", "legs", "feet"]
 
@@ -154,6 +183,8 @@ PHASE1_ITEM_LEVEL_CEILING = 82
 def eligible(item, cls, style):
     if item["id"] in REMOVED_IDS:
         return False
+    if cls not in CLASS_RESTRICTIONS.get(str(item["id"]), [cls]):
+        return False
     if item.get("itemLevel", 0) > PHASE1_ITEM_LEVEL_CEILING:
         return False
     source = item.get("source", "")
@@ -165,6 +196,8 @@ def eligible(item, cls, style):
         return False
     sub = item.get("subclass")
     slot = item["slot"]
+    if sub == "Shield" or slot == "Shield":
+        return cls in {"Warrior", "Paladin", "Shaman"}
     if slot in ("Two-Hand", "One-Hand", "Main Hand", "Off Hand", "Ranged", "Held In Off-hand"):
         if slot == "Held In Off-hand" or sub == "Off Hand" or sub is None:
             return True  # off-hand held items (tomes, etc.), not true weapons
@@ -181,7 +214,7 @@ def eligible(item, cls, style):
 
 
 def score(item, weights):
-    stats = item.get("stats", {})
+    stats = permanent_item_stats(item)  # on-use values (Earthstrike's 280 AP) aren't always-on
     total = 0.0
     for key, w in weights.items():
         if key == "hitWeight":
@@ -192,11 +225,17 @@ def score(item, weights):
     return total
 
 
+def limit_taken(item, taken_ids):
+    """Another equipped item already uses this item's client limit category (max one)."""
+    cat = LIMIT_CATEGORY.get(item["id"])
+    return bool(cat) and any(LIMIT_CATEGORY.get(t) == cat for t in taken_ids if t != item["id"])
+
+
 def best_for_slot(candidates, weights, taken_ids, n=1):
     seen = set()
     picked = []
     for it in sorted(candidates, key=lambda it: score(it, weights), reverse=True):
-        if it["id"] in taken_ids or it["id"] in seen:
+        if it["id"] in taken_ids or it["id"] in seen or limit_taken(it, taken_ids | seen):
             continue
         seen.add(it["id"])
         picked.append(it)
@@ -216,7 +255,7 @@ def pick_weapons(items_by_slot, cls, spec_id, weights, taken_ids):
     if spec_id in SHIELD_TANK:
         mh = best_for_slot(items_by_slot.get("main_hand", []), weights, taken_ids)
         if mh: picks["main_hand"] = mh[0]
-        oh_shield = [it for it in items_by_slot.get("off_hand", []) if it["slot"] == "Shield"]
+        oh_shield = [it for it in items_by_slot.get("off_hand", []) if "Shield" in (it["slot"], it.get("subclass"))]
         sh = best_for_slot(oh_shield, weights, taken_ids)
         if sh: picks["off_hand"] = sh[0]
         return picks
@@ -225,8 +264,13 @@ def pick_weapons(items_by_slot, cls, spec_id, weights, taken_ids):
         if mh:
             picks["main_hand"] = mh[0]
             taken_ids = taken_ids | {mh[0]["id"]}
-        oh = best_for_slot(items_by_slot.get("off_hand", []), weights, taken_ids)
+        oh = best_for_slot([it for it in items_by_slot.get("off_hand", []) if off_hand_kind(it) == "weapon"], weights, taken_ids)
         if oh: picks["off_hand"] = oh[0]
+        return picks
+    if SPEC_MAP.get(spec_id, PALADIN_SPECS.get(spec_id, {})).get("style") == "melee":
+        # Non-dual-wield melee DPS: two-hander (no shield or caster off-hand).
+        two_h = best_for_slot(items_by_slot.get("two_hand", []), weights, taken_ids)
+        if two_h: picks["main_hand"] = two_h[0]
         return picks
     # 2H vs 1H+offhand comparison (melee 2H weapon, or caster staff vs wand+offhand-stat-item)
     two_h = best_for_slot(items_by_slot.get("two_hand", []), weights, taken_ids)
@@ -250,6 +294,7 @@ def build_spec(spec_id, spec):
     by_slot = {s: [] for s in SLOTS}
     by_slot.update({"main_hand": [], "off_hand": [], "two_hand": [], "ranged": [],
                      "held_off_hand": [], "finger": [], "trinket": []})
+
     for item in ITEMS.values():
         if not eligible(item, cls, style):
             continue
@@ -261,6 +306,8 @@ def build_spec(spec_id, spec):
             elif eq == "off_hand" and item["slot"] == "Held In Off-hand":
                 by_slot["held_off_hand"].append(item)
             elif eq == "off_hand":
+                if off_hand_kind(item) == "weapon" and cls not in CAN_DUAL_WIELD:
+                    continue
                 by_slot["off_hand"].append(item)
             elif eq == "ranged":
                 by_slot["ranged"].append(item)
@@ -299,6 +346,12 @@ def build_spec(spec_id, spec):
             gear["relic"] = rel[0]
             taken_ids.add(rel[0]["id"])
 
+    if cls == "Paladin":
+        # Librams carry effects only, which stat weights can't rank; keep the preset's sourced pick.
+        relic_id = json.loads((ROOT / "data" / "phase6_bis.json").read_text(encoding="utf-8"))[spec_id.split("-", 1)[1]]["gear"].get("relic")
+        if relic_id in ITEMS:
+            gear["relic"] = ITEMS[relic_id]
+
     def pool_key_for(slot_name):
         if slot_name.startswith("finger"): return "finger"
         if slot_name.startswith("trinket"): return "trinket"
@@ -315,7 +368,9 @@ def build_spec(spec_id, spec):
                 pool = by_slot.get(pool_key_for(slot_name), [])
                 current = gear[slot_name]
                 alt_pool = sorted(
-                    [it for it in pool if it["id"] not in taken_ids and it["stats"].get(stat_key, 0) > current["stats"].get(stat_key, 0)],
+                    [it for it in pool if it["id"] not in taken_ids and not limit_taken(it, taken_ids - {current["id"]})
+                     and it["stats"].get(stat_key, 0) > current["stats"].get(stat_key, 0)
+                     and (slot_name != "off_hand" or off_hand_kind(it) == off_hand_kind(current))],
                     key=lambda it: (it["stats"].get(stat_key, 0), score(it, weights)), reverse=True)
                 if alt_pool:
                     taken_ids.discard(current["id"])
@@ -329,7 +384,7 @@ def build_spec(spec_id, spec):
     # --- hit-cap correction pass ---
     dw = spec_id in DUAL_WIELD
     cap = HIT_CAP["spell"] if style == "spell" else HIT_CAP["ranged"] if style == "ranged" else \
-        (HIT_CAP["melee_dw"] if dw else HIT_CAP["melee"])
+        (HIT_CAP["melee_dw"] if dw else PALADIN_HIT_CAP if cls == "Paladin" else HIT_CAP["melee"])
     hit_key = "spellHit" if style == "spell" else ("rangedHit" if style == "ranged" else "meleeHit")
     cap_correction_pass(hit_key, cap, 40)
 
@@ -346,15 +401,14 @@ def build_spec(spec_id, spec):
                                           "source", "subclass", "weaponDamageMin", "weaponDamageMax",
                                           "weaponSpeed", "equipSlots", "set")}
         row["slot"] = item["slot"]
+        row["gear_slot"] = slot_name
         gear_list.append(row)
     return gear_list
 
 
 def main():
     profiles = {}
-    for spec_id, spec in SPEC_MAP.items():
-        if spec_id not in SPEC_ARCHETYPE:
-            continue  # paladin specs use a separate system
+    for spec_id, spec in {**SPEC_MAP, **PALADIN_SPECS}.items():
         gear = build_spec(spec_id, spec)
         profiles[spec_id] = {
             "source": "tools/build_bis_gearsets.py (greedy stat-weight optimizer over the Forever item catalog)",

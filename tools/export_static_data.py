@@ -83,7 +83,7 @@ def api_payloads():
         "bootstrap": {
             "presets": {name: preset(name) for name in ("protection", "retribution")}, "sources": DATA["sources"], "source_status": DATA["status"],
             "assumptions": ASSUMPTIONS, "excluded": DATA["excluded"], "gear_catalog": {key: CATALOG[key] for key in ("version", "source", "license", "scope")},
-            "phase6_bis": PHASE6_BIS, "talent_data": TALENT_DATA, "consumable_data": CONSUMABLE_DATA, "setting_data": server.SETTING_DATA,
+            "phase6_bis": PHASE6_BIS, "forever_bis": server.PALADIN_FOREVER_BIS, "talent_data": TALENT_DATA, "consumable_data": CONSUMABLE_DATA, "setting_data": server.SETTING_DATA,
             "races": ed.CLASS_RACES["Paladin"], "racials": all_specs.public_racials(), "defaults": server.DEFAULTS, "about": ed.PALADIN_ABOUT, "enchants": server.ENCHANT_DATA,
         },
         "items": {"version": CATALOG["version"], "items": list(all_specs.ITEMS.values())},  # full merged catalog: classic_era_items + extra_items + phase12_bis-only rows + engine hardcoded supplements

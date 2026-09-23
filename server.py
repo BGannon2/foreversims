@@ -27,6 +27,9 @@ SETTING_DATA = json.loads((DATA_DIR / "settings.json").read_text(encoding="utf-8
 ALL_TALENTS = json.loads((DATA_DIR / "forever_talents_all.json").read_text(encoding="utf-8"))
 PHASE12_BIS = json.loads((DATA_DIR / "phase12_bis_all.json").read_text(encoding="utf-8"))
 FOREVER_BIS = json.loads((DATA_DIR / "forever_bis_all.json").read_text(encoding="utf-8")) if (DATA_DIR / "forever_bis_all.json").is_file() else {"profiles": {}}
+# Paladin page shape: {spec: {gear_slot: item_id}}.
+PALADIN_FOREVER_BIS = {spec: {row["gear_slot"]: row["id"] for row in FOREVER_BIS["profiles"][f"paladin-{spec}"]["gear"]}
+                       for spec in ("protection", "retribution") if f"paladin-{spec}" in FOREVER_BIS["profiles"]}
 ENCHANT_DATA = json.loads((DATA_DIR / "enchants.json").read_text(encoding="utf-8"))
 EXTRA_ITEMS = json.loads((DATA_DIR / "extra_items.json").read_text(encoding="utf-8")) if (DATA_DIR / "extra_items.json").is_file() else {"items": []}
 MAX_BODY = 1_000_000
@@ -141,7 +144,7 @@ class Handler(BaseHTTPRequestHandler):
                 "sources": DATA["sources"], "source_status": DATA["status"],
                 "assumptions": ASSUMPTIONS, "excluded": DATA["excluded"],
                 "gear_catalog": {key: CATALOG[key] for key in ("version", "source", "license", "scope")},
-                "phase6_bis": PHASE6_BIS, "talent_data": TALENT_DATA, "consumable_data": CONSUMABLE_DATA,
+                "phase6_bis": PHASE6_BIS, "forever_bis": PALADIN_FOREVER_BIS, "talent_data": TALENT_DATA, "consumable_data": CONSUMABLE_DATA,
                 "setting_data": SETTING_DATA, "races": CLASS_RACES["Paladin"], "racials": public_racials(), "defaults": DEFAULTS, "about": PALADIN_ABOUT,
                 "enchants": ENCHANT_DATA,
             })

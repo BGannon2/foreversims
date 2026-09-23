@@ -8,10 +8,15 @@ from forever.sim import preset, simulate
 class GearTests(unittest.TestCase):
     def test_catalog_is_pre_tbc_classic_snapshot(self):
         self.assertTrue(CATALOG["version"].startswith("wow-classic-items-e848aab57261"))
-        self.assertGreater(len(ITEMS), 2000)
-        self.assertTrue(all(45 <= item["requiredLevel"] <= 60 or item["id"] in {18404, 21180}
-                            for item in ITEMS.values()))
-        self.assertTrue(all(item["quality"] in {"Rare", "Epic", "Legendary"} for item in ITEMS.values()))
+        classic = CATALOG["items"]
+        self.assertGreater(len(classic), 2000)
+        self.assertTrue(all(45 <= item["requiredLevel"] <= 60 or item["id"] in {18404, 21180} for item in classic))
+        self.assertTrue(all(item["quality"] in {"Rare", "Epic", "Legendary"} for item in classic))
+
+    def test_paladin_models_every_catalog_item(self):
+        from forever.all_specs import ITEMS as ALL_ITEMS
+        self.assertEqual(set(ITEMS), set(ALL_ITEMS))  # the Paladin gear picker lists the merged catalog
+        self.assertEqual(ITEMS[250599]["stats"]["spellPower"], 38)
 
     def test_known_original_cloak_stats(self):
         cloak = ITEMS[23050]

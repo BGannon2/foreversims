@@ -7,6 +7,7 @@ import re
 from collections import defaultdict
 from pathlib import Path
 
+from .all_specs import ITEMS as _ALL_ITEMS
 from .profile_rules import annotate_rating_assumptions
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -14,7 +15,9 @@ DATA_DIR = ROOT / "data"
 CATALOG = json.loads((DATA_DIR / "classic_era_items.json").read_text(encoding="utf-8"))
 PHASE6_BIS = json.loads((DATA_DIR / "phase6_bis.json").read_text(encoding="utf-8"))
 FOREVER_SETS = json.loads((DATA_DIR / "forever_set_bonuses.json").read_text(encoding="utf-8"))
-ITEMS = {item["id"]: item for item in CATALOG["items"]}
+# Same merged catalog the gear picker shows (Classic Era + Forever extras); copied because the
+# loop below rewrites set data in place.
+ITEMS = {iid: copy.deepcopy(item) for iid, item in _ALL_ITEMS.items()}
 for item in ITEMS.values():
     annotate_rating_assumptions(item)
     item_set = item.get("set")
@@ -138,7 +141,7 @@ def apply_gear(profile):
         if slot not in item["equipSlots"]:
             raise ValueError(f"{item['name']} cannot be equipped in {slot}.")
         equipped.append({"slot": slot, "id": item_id, "name": item["name"], "quality": item["quality"],
-                         "itemLevel": item["itemLevel"], "wowhead": item["wowhead"], "set": item.get("set")})
+                         "itemLevel": item["itemLevel"], "wowhead": item.get("wowhead"), "set": item.get("set")})
         stats, effects, unresolved = item_stats_and_effects(item)
         for key, value in stats.items(): totals[key] += value
         item_effects.extend(effects); unresolved_effects.extend(unresolved)
