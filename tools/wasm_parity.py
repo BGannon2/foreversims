@@ -43,6 +43,15 @@ def cases():
     for sid, talents in partials.items():
         request = default_request(specs[sid], iterations=3, duration=90, seed=917, talents=talents)
         yield {'name': f'{sid}/partial-ranks', 'kind': 'spec', 'request': request, 'python': simulate_spec(request)}
+    for sid in ('warrior-protection', 'druid-feral-tank'):
+        for label, overrides in [('lethal', {'enemy_damage_min': 100000, 'enemy_damage_max': 100000, 'heal_amount': 100000}),
+                                 ('unhealed', {'heal_amount': 0, 'enemies': 3, 'enemy_swing': 1.5, 'duration_variance': 10})]:
+            request = default_request(specs[sid], iterations=3, duration=90, seed=917, **overrides)
+            yield {'name': f'{sid}/{label}', 'kind': 'spec', 'request': request, 'python': simulate_spec(request)}
+    request = copy.deepcopy(preset('protection'))
+    request.update(iterations=3, duration=90, seed=917)
+    request['encounter'].update(enemy_damage_min=100000, enemy_damage_max=100000, heal_amount=100000)
+    yield {'name': 'paladin-protection/lethal', 'kind': 'paladin', 'request': request, 'python': simulate(request)}
 
 
 if __name__ == '__main__':

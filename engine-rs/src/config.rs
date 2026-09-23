@@ -166,6 +166,7 @@ pub struct Config {
     pub race: String,
     pub boss_type: String,
     pub targets: i64,
+    pub incoming: IndexMap<String, f64>,
     pub racial_enabled: bool,
     pub racial: Racial,
     pub gear: Vec<Item>,
@@ -285,6 +286,16 @@ impl Config {
             return Err("Choose a supported boss creature type.".into());
         }
         let targets = req_i64(request.get("targets"), 1)?.clamp(1, 10);
+        let mut incoming = IndexMap::new();
+        for (key, default, low, high) in [("enemy_damage_min", 2700.0, 0.0, 1000000.0), ("enemy_damage_max", 3300.0, 0.0, 1000000.0),
+            ("enemy_swing", 2.0, 0.2, 60.0), ("heal_amount", 2500.0, 0.0, 1000000.0), ("heal_interval", 2.0, 0.2, 60.0), ("enemies", 1.0, 1.0, 10.0)] {
+            let value = req_f64(request.get(key), default)?;
+            if !value.is_finite() || value < low || value > high || (key == "enemies" && value.fract() != 0.0) {
+                return Err(format!("{key} must be between {low} and {high}"));
+            }
+            incoming.insert(key.to_string(), value);
+        }
+        if incoming["enemy_damage_min"] > incoming["enemy_damage_max"] { return Err("Minimum incoming damage cannot exceed maximum incoming damage".into()); }
         let racial_enabled = req_bool(request.get("racial_enabled"), true);
         let racial = t.RACIALS.get(&race).cloned().unwrap_or_default();
         let gear: Vec<Item> = request.get("gear").and_then(|g| g.as_array()).map(|a| a.iter().filter_map(value_digits).map(|id| catalog.get(id)).collect()).unwrap_or_default();
@@ -300,7 +311,7 @@ impl Config {
         let debuffs = str_set(request.get("debuffs"));
         let consumes = Self::validate_consumes(t, str_set(request.get("consumables")))?;
         let mut c = Config {
-            t, request, spec, duration, variance, iterations, seed, race, boss_type, targets, racial_enabled, racial, gear, gear_slots, buffs, debuffs, consumes,
+            t, request, spec, duration, variance, iterations, seed, race, boss_type, targets, incoming, racial_enabled, racial, gear, gear_slots, buffs, debuffs, consumes,
             notes: vec![], talents: IndexMap::new(), talent_points: 0, mods: IndexMap::new(), mh: Item::default(), oh: Item::default(), ranged: Item::default(), has_shield: false, two_hand: false, dual_wield: false,
             weapon_skill_bonus: IndexMap::new(), stats: StatMap::new(), item_uses: vec![], item_procs: vec![], item_effects_applied: vec![], item_effects_unresolved: vec![], set_counts: IndexMap::new(),
             active_set_bonuses: vec![], unresolved_set_bonuses: vec![], applied_enchants: vec![], rejected_enchants: vec![], crusader_hands: HashSet::new(), windfury_totem: false, racial_crit: 0.0, threat_reduction: 0.0,

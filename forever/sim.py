@@ -607,7 +607,7 @@ def simulate(profile, progress=None):
         for name,threat in row['threat_by_source'].items(): threat_totals[name]+=threat/iteration_profile['duration']
         for name,damage in row['taken_by_source'].items(): taken_totals[name]+=damage/iteration_profile['duration']
         if progress and (i%20==0 or i==p['iterations']-1): progress(i+1,p['iterations'])
-    metrics={k:summarize([r[k] for r in rows]) for k in ['dps','tps','dtps','alive_dtps','alive_seconds','peak_3s_damage','ending_mana','absorbed','blocked_damage']}
+    metrics={k:summarize([r[k] for r in rows]) for k in ['dps','tps','dtps','alive_dtps','alive_seconds','peak_3s_damage','ending_mana','absorbed','blocked_damage','damage_taken','effective_healing','overhealing']}
     metrics['survival_fraction']=sum(r['survived'] for r in rows)/len(rows)
     metrics['unaffordable_cast_fraction']=sum(r['first_unaffordable_cast'] is not None for r in rows)/len(rows)
     return {'data_version':DATA['version'],'data_sha256':hashlib.sha256((DATA_DIR/'data.json').read_bytes()).hexdigest(),

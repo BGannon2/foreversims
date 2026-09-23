@@ -1581,10 +1581,11 @@ pub fn finalize(prep: &Prepared, rows: &[FightResult]) -> Value {
         v.into_iter().map(|(k, x)| (k.clone(), json!(x / n))).collect()
     };
     let mut metrics = Map::new();
-    for key in ["dps", "tps", "dtps", "alive_dtps", "alive_seconds", "peak_3s_damage", "ending_mana", "absorbed", "blocked_damage"] {
+    for key in ["dps", "tps", "dtps", "alive_dtps", "alive_seconds", "peak_3s_damage", "ending_mana", "absorbed", "blocked_damage", "damage_taken", "effective_healing", "overhealing"] {
         let values: Vec<f64> = rows.iter().map(|r| match key {
             "dps" => r.dps, "tps" => r.tps, "dtps" => r.dtps, "alive_dtps" => r.alive_dtps, "alive_seconds" => r.alive_seconds,
-            "peak_3s_damage" => r.peak_3s_damage, "ending_mana" => r.ending_mana, "absorbed" => r.absorbed, _ => r.blocked_damage,
+            "peak_3s_damage" => r.peak_3s_damage, "ending_mana" => r.ending_mana, "absorbed" => r.absorbed,
+            "damage_taken" => r.damage_taken, "effective_healing" => r.effective_healing, "overhealing" => r.overhealing, _ => r.blocked_damage,
         }).collect();
         metrics.insert(key.into(), summarize(&values));
     }
