@@ -47,24 +47,60 @@ TWIN_TITLES = (("Grand Marshal's", "High Warlord's"), ("Field Marshal's", "Warlo
                ("Talisman of Arathor", "Defiler's Talisman"))
 
 
+def swap_title(name, faction):
+    """The other faction's version of a rank-titled name (Premier prefix kept), or None."""
+    prefix = "Premier " if name.startswith("Premier ") else ""
+    base = name[len(prefix):]
+    for alliance, horde in TWIN_TITLES:
+        src, dst = (alliance, horde) if faction == "Alliance" else (horde, alliance)
+        if base.startswith(src):
+            return prefix + dst + base[len(src):]
+    return None
+
+
+def stat_key(item):
+    return (item["slot"], item.get("subclass"), item.get("itemLevel"), tuple(sorted(item.get("stats", {}).items())),
+            tuple(item.get("effects", [])))
+
+
 def faction_twins(factions):
-    by_name = {}
-    for iid, item in ITEMS.items():
-        by_name.setdefault(item["name"], []).append(item)
-    twins = {}
+    """Pair each faction item with the other faction's equivalent.
+
+    1. "name": same name after swapping the rank title (Knight-Captain's <-> Legionnaire's).
+    2. "stats": Blizzard often renamed the item too (Grand Marshal's Longsword <-> High Warlord's
+       Blade), so fall back to the one other-faction item with identical slot, armor type, item
+       level, stats and effects. When several match (the Silk / Dreadweave / Satin belts of
+       different class sets), take the one in the same set under the other title, else none.
+
+    TODO(gear data): the "stats" pairings and the unpaired items are inferred, not sourced. Revisit
+    once there's concrete Forever evidence of which PvP/battleground gear exists per faction
+    (vendor lists, datamined item ids), especially Horde Paladin gear (Lamellar sets were
+    Alliance-only in Classic), Forever "Premier" items and reputation rewards whose stats differ.
+    """
+    by_name, by_stats = {}, {}
     for iid, faction in factions.items():
         item = ITEMS[int(iid)]
-        prefix = "Premier " if item["name"].startswith("Premier ") else ""
-        base = item["name"][len(prefix):]
-        for alliance, horde in TWIN_TITLES:
-            src, dst = (alliance, horde) if faction == "Alliance" else (horde, alliance)
-            if base.startswith(src):
-                match = [x for x in by_name.get(prefix + dst + base[len(src):], [])
-                         if factions.get(str(x["id"])) not in (None, faction) and x["slot"] == item["slot"]]
-                if match:
-                    twins[iid] = match[0]["id"]
-                    break
-    return twins
+        by_name.setdefault(item["name"], []).append(item)
+        by_stats.setdefault((faction, stat_key(item)), []).append(item)
+    twins, method = {}, {}
+    for iid, faction in factions.items():
+        item = ITEMS[int(iid)]
+        other = "Horde" if faction == "Alliance" else "Alliance"
+        named = [x for x in by_name.get(swap_title(item["name"], faction) or "", [])
+                 if factions.get(str(x["id"])) == other and x["slot"] == item["slot"]]
+        if named:
+            twins[iid], method[iid] = named[0]["id"], "name"
+            continue
+        same = by_stats.get((other, stat_key(item)), [])
+        if len(same) > 1:
+            own_set = (item.get("set") or {}).get("name")
+            twin_set = swap_title(own_set, faction) if own_set else None
+            same = [x for x in same if twin_set and (x.get("set") or {}).get("name") == twin_set]
+        if len(same) == 1:
+            twins[iid], method[iid] = same[0]["id"], "stats"
+    # One-to-one only: duplicate catalog names/ids can otherwise send A -> B -> C on a round trip.
+    mutual = {iid: t for iid, t in twins.items() if twins.get(str(t)) == int(iid)}
+    return mutual, {iid: method[iid] for iid in mutual}
 
 
 def faction_of(name, min_faction):
@@ -103,12 +139,16 @@ def main():
         if label:
             out[str(iid)] = [c.strip() for c in label[len("Classes:"):].split(",")]
             from_tooltip += 1
+    twins, twin_method = faction_twins(factions)
     payload = {"source": URL, "field": "ItemSparse.AllowableClass", "tooltip_fallback": from_tooltip, "items": out,
                "limit_categories": dict(sorted(limits.items(), key=lambda kv: int(kv[0]))), "factions": factions,
-               "faction_twins": faction_twins(factions)}
+               "faction_twins": twins,
+               "faction_twin_method": twin_method}
     (ROOT / "data" / "item_class_restrictions.json").write_text(json.dumps(payload, indent=1) + "\n", encoding="utf-8")
     print(f"{len(out)} restricted items ({from_tooltip} from tooltip fallback); {len(limits)} with a limit category; "
-          f"{sum(f == 'Alliance' for f in factions.values())} Alliance-only, {sum(f == 'Horde' for f in factions.values())} Horde-only")
+          f"{sum(f == 'Alliance' for f in factions.values())} Alliance-only, {sum(f == 'Horde' for f in factions.values())} Horde-only; "
+          f"twins: {sum(m == 'name' for m in twin_method.values())} by name, {sum(m == 'stats' for m in twin_method.values())} by identical stats, "
+          f"{len(factions) - len(twins)} unpaired")
 
 
 if __name__ == "__main__":

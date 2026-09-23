@@ -87,3 +87,22 @@ Values come from WoWSims Classic (`sim/common/item_effects.go`,
 Remaining unresolved item text: Hand of Edward the Odd (instant-cast proc), Sword
 of Zeal (tooltip split across lines by the importer), and Block/Parry Rating and
 unknown "Stat 124/127" equip lines, which need a sourced Forever rating conversion.
+
+## Faction gear — to revisit with better gear evidence
+
+Alliance/Horde-only items are tagged from client reputation factions (`MinFactionID`) and,
+for PvP rank gear the client doesn't mark, from the rank title in the name
+(`tools/build_item_class_restrictions.py`). Switching race swaps each item to its
+other-faction twin: 209 pairs match by name after swapping the title, 439 by identical slot,
+armor type, item level, stats and effects (kept only when the pairing is one-to-one).
+
+**Cleanup needed once there's concrete Forever evidence** (vendor lists, datamined item ids):
+
+- The 439 stat-matched pairs are inferred, not sourced (e.g. Grand Marshal's Longsword vs
+  High Warlord's Blade style renames).
+- 149 faction items stay unpaired and are cleared on a faction switch: Paladin Lamellar PvP
+  sets (Alliance-only in Classic, yet Forever allows Undead Paladins), rank items whose stats
+  differ between factions, Forever "Premier" items, battleground reputation rewards, items
+  with several identical candidates (Silk / Dreadweave / Satin belts), and duplicate catalog
+  entries (two "Lieutenant Commander's Lamellar Headguard" ids).
+- Faction tags for rank gear are name-based; a client or vendor source would replace them.
