@@ -5,6 +5,11 @@ on:
     - cron: "0 */6 * * *"
   workflow_dispatch: {}
 
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+
 jobs:
   watch:
     name: Check wago.tools build + foreverchanges.pro snapshot
@@ -20,14 +25,17 @@ jobs:
         id: watch
         run: python tools/data_watch.py
       - name: Open a PR if something moved
+        id: cpr
         if: steps.watch.outputs.changed == 'true'
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v7
         with:
           commit-message: "data: Forever source snapshot changed"
           branch: data-watch/snapshot
           delete-branch: true
           title: "data-change: Forever source snapshot changed"
           labels: data-change
+          assignees: BGannon2
+          reviewers: BGannon2
           body: |
             `tools/data_watch.py` found that wago.tools' newest `wow_classic_beta` build and/or
             foreverchanges.pro's banner build tag or item/talent counts moved since the last
@@ -47,3 +55,19 @@ jobs:
                   `generate_benchmarks.py`) only after confirming what actually needs updating.
 
             🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+      - name: Run CI on the PR branch
+        if: steps.cpr.outputs.pull-request-number
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run ci.yml --ref data-watch/snapshot --repo "$GITHUB_REPOSITORY"
+
+      - name: Notify Discord (optional)
+        if: steps.cpr.outputs.pull-request-operation == 'created' || steps.cpr.outputs.pull-request-operation == 'updated'
+        env:
+          WEBHOOK: ${{ secrets.DATA_WATCH_WEBHOOK_URL }}
+          PR_URL: ${{ steps.cpr.outputs.pull-request-url }}
+          OP: ${{ steps.cpr.outputs.pull-request-operation }}
+        run: |
+          [ -z "$WEBHOOK" ] && { echo "DATA_WATCH_WEBHOOK_URL not set; skipping"; exit 0; }
+          jq -n --arg c "Forever data-watch PR $OP: $PR_URL" '{content:$c}' | curl -fsS -H 'Content-Type: application/json' -d @- "$WEBHOOK"
