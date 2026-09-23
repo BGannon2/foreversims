@@ -183,6 +183,11 @@ PHASE1_ITEM_LEVEL_CEILING = 82
 LATER_PHASE_QUESTS = {"Rise, Thunderfury!", "The Fall of Ossirian"}
 
 
+# Armor-type requirement for the armor slots (cloaks, jewelry and trinkets are unaffected).
+ARMOR_TYPE_ONLY = {"paladin-protection": "Plate"}
+ARMOR_SLOTS = {"head", "shoulders", "chest", "wrist", "hands", "waist", "legs", "feet"}
+
+
 def eligible(item, cls, style, faction=None):
     if item["id"] in REMOVED_IDS or item.get("simulationAvailability") == "excluded":
         return False
@@ -328,6 +333,8 @@ def build_spec(spec_id, spec):
             elif eq in ("trinket1", "trinket2"):
                 by_slot["trinket"].append(item)
             elif eq in by_slot:
+                if eq in ARMOR_SLOTS and spec_id in ARMOR_TYPE_ONLY and item.get("subclass") != ARMOR_TYPE_ONLY[spec_id]:
+                    continue
                 by_slot[eq].append(item)
 
     taken_ids = set()
@@ -505,8 +512,15 @@ def sim_pass(spec_id, spec, gear, by_slot, weights, taken_ids):
 
 
 def main():
-    profiles = {}
+    import argparse
+    parser = argparse.ArgumentParser(description="Build auto-generated BiS sets.")
+    parser.add_argument("--specs", nargs="+", help="rebuild only these spec ids, keeping the others as they are")
+    args = parser.parse_args()
+    path = ROOT / "data" / "forever_bis_all.json"
+    profiles = json.loads(path.read_text(encoding="utf-8"))["profiles"] if args.specs else {}
     for spec_id, spec in {**SPEC_MAP, **PALADIN_SPECS}.items():
+        if args.specs and spec_id not in args.specs:
+            continue
         gear = build_spec(spec_id, spec)
         profiles[spec_id] = {
             "source": "tools/build_bis_gearsets.py (greedy stat-weight optimizer over the Forever item catalog)",
@@ -517,7 +531,8 @@ def main():
         print(f"{spec_id}: {len(gear)} slots filled", file=sys.stderr)
 
     out = {"scope": "Forever level-60 auto-generated BiS, greedy stat-weight optimizer", "profiles": profiles}
-    (ROOT / "data" / "forever_bis_all.json").write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
+    profiles = {sid: profiles[sid] for sid in {**SPEC_MAP, **PALADIN_SPECS} if sid in profiles}
+    path.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
     print("wrote data/forever_bis_all.json", file=sys.stderr)
 
 

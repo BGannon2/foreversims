@@ -10878,25 +10878,19 @@
      "gear_slot": "neck"
     },
     {
-     "id": 21391,
-     "name": "Avenger's Pauldrons",
-     "icon": "inv_shoulder_35",
-     "quality": "Epic",
-     "itemLevel": 78,
+     "id": 19695,
+     "name": "Darksoul Shoulders",
+     "icon": "inv_shoulder_01",
+     "quality": "Rare",
+     "itemLevel": 65,
      "stats": {
-      "armor": 659.0,
-      "agility": 14.0,
-      "strength": 18.0,
-      "intellect": 13.0,
-      "spirit": 6.0,
-      "stamina": 15.0,
-      "spellPower": 14.0,
-      "mp5": 3.0
+      "armor": 507.0,
+      "stamina": 24.0,
+      "meleeHit": 1.25,
+      "spellHit": 1.25
      },
-     "effects": [
-      "Equip: +3 Mana Regeneration"
-     ],
-     "source": "Quest: Avenger's Pauldrons",
+     "effects": [],
+     "source": "Unknown",
      "subclass": "Plate",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -10905,22 +10899,16 @@
       "shoulders"
      ],
      "set": {
-      "name": "Avenger's Battlegear",
+      "name": "The Darksoul",
       "pieces": [
-       "Avenger's Breastplate",
-       "Avenger's Crown",
-       "Avenger's Greaves",
-       "Avenger's Legguards",
-       "Avenger's Pauldrons"
+       "Requires Blacksmithing (300)",
+       "Darksoul Breastplate",
+       "Darksoul Leggings"
       ],
       "bonuses": [
        {
         "required": 3,
-        "description": "Increases the duration of your Judgements by 20%."
-       },
-       {
-        "required": 5,
-        "description": "Increases damage and healing done by magical spells and effects by up to 71."
+        "description": "Increased Defense +20."
        }
       ]
      },
@@ -10953,21 +10941,26 @@
      "gear_slot": "back"
     },
     {
-     "id": 19682,
-     "name": "Bloodvine Vest",
-     "icon": "inv_chest_cloth_07",
-     "quality": "Rare",
-     "itemLevel": 65,
+     "id": 16473,
+     "name": "Field Marshal's Lamellar Chestplate",
+     "icon": "inv_chest_plate03",
+     "quality": "Epic",
+     "itemLevel": 74,
      "stats": {
-      "armor": 92.0,
-      "intellect": 13.0,
-      "meleeHit": 2.5,
-      "spellHit": 2.5,
-      "spellPower": 27.0
+      "armor": 835.0,
+      "stamina": 21.0,
+      "strength": 21.0,
+      "intellect": 20.0,
+      "meleeCrit": 1.0,
+      "spellCrit": 1.0,
+      "spellPower": 25.0,
+      "mp5": 5.0
      },
-     "effects": [],
-     "source": "Unknown",
-     "subclass": "Cloth",
+     "effects": [
+      "Equip: +5 Mana Regeneration"
+     ],
+     "source": "Vendor: Captain Dirgehammer",
+     "subclass": "Plate",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -10975,16 +10968,27 @@
       "chest"
      ],
      "set": {
-      "name": "Bloodvine Garb",
+      "name": "Field Marshal's Aegis",
       "pieces": [
-       "Requires Tailoring (300)",
-       "Bloodvine Vest",
-       "Bloodvine Leggings"
+       "Field Marshal's Lamellar Chestplate",
+       "Field Marshal's Lamellar Faceguard",
+       "Field Marshal's Lamellar Pauldrons",
+       "Marshal's Lamellar Boots",
+       "Marshal's Lamellar Gloves",
+       "Marshal's Lamellar Legplates"
       ],
       "bonuses": [
        {
+        "required": 2,
+        "description": "+20 Stamina."
+       },
+       {
         "required": 3,
-        "description": "Improves your chance to get a critical strike with spells by 2%."
+        "description": "Reduces the cooldown of your Hammer of Justice by 10 sec."
+       },
+       {
+        "required": 6,
+        "description": "Increases damage and healing done by magical spells and effects by up to 23."
        }
       ]
      },
@@ -11099,23 +11103,19 @@
      "gear_slot": "waist"
     },
     {
-     "id": 22753,
-     "name": "Sentinel's Lamellar Legguards",
-     "icon": "inv_pants_plate_15",
-     "quality": "Epic",
+     "id": 19694,
+     "name": "Darksoul Leggings",
+     "icon": "inv_pants_plate_21",
+     "quality": "Rare",
      "itemLevel": 65,
      "stats": {
-      "armor": 646.0,
-      "strength": 21.0,
-      "stamina": 21.0,
-      "meleeCrit": 1.0,
-      "spellCrit": 1.0,
-      "meleeHit": 1.25,
-      "spellHit": 1.25,
-      "spellPower": 25.0
+      "armor": 722.0,
+      "stamina": 22.0,
+      "meleeHit": 2.5,
+      "spellHit": 2.5
      },
      "effects": [],
-     "source": "Zone Drop",
+     "source": "Unknown",
      "subclass": "Plate",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -11123,24 +11123,43 @@
      "equipSlots": [
       "legs"
      ],
-     "set": null,
+     "set": {
+      "name": "The Darksoul",
+      "pieces": [
+       "Requires Blacksmithing (300)",
+       "Darksoul Breastplate",
+       "Darksoul Leggings"
+      ],
+      "bonuses": [
+       {
+        "required": 3,
+        "description": "Increased Defense +20."
+       }
+      ]
+     },
      "slot": "Legs",
      "gear_slot": "legs"
     },
     {
-     "id": 279263,
-     "name": "Depleted Thorium Sabatons",
-     "icon": "inv_boots_plate_02",
+     "id": 21388,
+     "name": "Avenger's Greaves",
+     "icon": "inv_boots_chain_07",
      "quality": "Epic",
-     "itemLevel": 65,
+     "itemLevel": 78,
      "stats": {
-      "armor": 507.0,
-      "strength": 14.0,
-      "stamina": 21.0,
-      "spellPower": 21.0
+      "armor": 604.0,
+      "agility": 13.0,
+      "strength": 18.0,
+      "intellect": 14.0,
+      "spirit": 6.0,
+      "stamina": 18.0,
+      "spellPower": 14.0,
+      "mp5": 4.0
      },
-     "effects": [],
-     "source": "forever-1.60.1.69913",
+     "effects": [
+      "Equip: +4 Mana Regeneration"
+     ],
+     "source": "Quest: Avenger's Greaves",
      "subclass": "Plate",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -11148,7 +11167,26 @@
      "equipSlots": [
       "feet"
      ],
-     "set": null,
+     "set": {
+      "name": "Avenger's Battlegear",
+      "pieces": [
+       "Avenger's Breastplate",
+       "Avenger's Crown",
+       "Avenger's Greaves",
+       "Avenger's Legguards",
+       "Avenger's Pauldrons"
+      ],
+      "bonuses": [
+       {
+        "required": 3,
+        "description": "Increases the duration of your Judgements by 20%."
+       },
+       {
+        "required": 5,
+        "description": "Increases damage and healing done by magical spells and effects by up to 71."
+       }
+      ]
+     },
      "slot": "Feet",
      "gear_slot": "feet"
     },
