@@ -18,11 +18,13 @@ latest audit fixes, validation coverage and remaining model limitations.
 
 *World of Warcraft: Forever* is a not-yet-released Classic-era ruleset with its own talent
 changes, new race/class combinations, and reworked abilities layered on top of Classic Anniversary
-mechanics. Forever's own data isn't fully public yet, so this project sources every number it can
-directly from Wowhead's Forever spell/talent pages and the Forever talent calculator, falls back
-to [WoWSims Classic](https://github.com/wowsims/classic)'s sourced Classic-era values for anything
-Forever hasn't redesigned, and labels anything neither source publishes as `provisional` — visible
-per-value in every simulation result, not hidden in code. `FOREVER_VS_CLASSIC.md` is a standing
+mechanics. Build-pinned [Wago client tables](https://wago.tools) take precedence for verified
+spell values and talent curves. Wowhead Forever provides roster and calculator information;
+derived data sites provide discovery and freshness signals, not independent confirmation of
+the same client values. [WoWSims Classic](https://github.com/wowsims/classic) supplies baseline
+combat mechanics where Forever behavior has not been established. Client numbers do not prove
+server-side proc rules or spell availability. See the [Wago verification report](docs/wago-verification-2026-09-22.md)
+for exact coverage and remaining assumptions. `FOREVER_VS_CLASSIC.md` is a standing
 summary of every sourced Forever-vs-Classic mechanic change, organized by class.
 
 23 specs are modeled: every class/spec except the three healer specializations, split across two

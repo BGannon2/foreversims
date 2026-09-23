@@ -65,6 +65,16 @@ class Config:
         if self.boss_type not in CREATURE_TYPES:
             raise ValueError("Choose a supported boss creature type.")
         self.targets = max(1, min(10, int(request.get("targets", 1))))
+        self.incoming = {}
+        for key, default, low, high in (("enemy_damage_min", 2700, 0, 1000000), ("enemy_damage_max", 3300, 0, 1000000),
+                                       ("enemy_swing", 2, .2, 60), ("heal_amount", 2500, 0, 1000000),
+                                       ("heal_interval", 2, .2, 60), ("enemies", 1, 1, 10)):
+            value = float(request.get(key, default))
+            if not math.isfinite(value) or not low <= value <= high or (key == "enemies" and not value.is_integer()):
+                raise ValueError(f"{key} must be between {low} and {high}")
+            self.incoming[key] = value
+        if self.incoming['enemy_damage_min'] > self.incoming['enemy_damage_max']:
+            raise ValueError("Minimum incoming damage cannot exceed maximum incoming damage")
         self.racial_enabled = bool(request.get("racial_enabled", True))
         self.racial = RACIALS[self.race]
         self.gear = [items.get(int(x), {}) for x in request.get("gear", []) if str(x).isdigit()]
@@ -107,7 +117,12 @@ class Config:
         mods = {}
         for tid, rank in self.talents.items():
             for key, per_rank in TALENT_EFFECTS.get(tid, {}).items():
-                mods[key] = mods.get(key, 0) + per_rank * rank
+                if key not in TALENT_RANK_EFFECTS.get(tid, {}):
+                    mods[key] = mods.get(key, 0) + per_rank * rank
+            for key, values in TALENT_RANK_EFFECTS.get(tid, {}).items():
+                if not 1 <= rank <= len(values):
+                    raise ValueError(f"Invalid rank {rank} for talent {tid}")
+                mods[key] = mods.get(key, 0) + values[rank - 1]
         self.mods = mods
 
     def mod(self, key, default=0.0):
@@ -504,7 +519,8 @@ class Iteration:
         self.next_mh = 0.0; self.next_oh = (c.oh.get("weaponSpeed", 2.0) / 2 if c.oh else None); self.next_ranged = 0.0
         self.queued_swing = None
         self.last_cast_time = -10.0; self.next_mana_tick = 2.0; self.next_energy_tick = 2.0; self.next_rage_tick = 3.0
-        self.next_boss = 2.0; self.next_heal = 2.0
+        self.next_boss = c.incoming['enemy_swing']; self.next_heal = c.incoming['heal_interval']
+        self.healed = 0.0; self.overheal = 0.0; self.peak_3s_damage = 0.0; self.incoming_hits = []
         self.flurry = 0; self.eureka = 0; self.dodged_recently = -10.0; self.avoided_recently = -10.0
         self.combustion = None; self.clearcast = False; self.next_instant = False; self.next_crit = False; self.eclipse = 0
         self.busy_until = 0.0; self.starved = 0.0; self.first_oom = None
@@ -1563,12 +1579,13 @@ class Iteration:
     # ---- boss ------------------------------------------------------------
     def boss_swing(self):
         c = self.c; rng = self.rng
-        raw = rng.uniform(2700, 3300)
+        if not self.alive: return
+        raw = rng.uniform(c.incoming['enemy_damage_min'], c.incoming['enemy_damage_max'])
         defense_bonus = (self.st["defense"] - TARGET_DEFENSE) * 0.0004
         miss = max(0.0, 0.05 + defense_bonus)
         dodge = max(0.0, self.st["dodge"] / 100 + defense_bonus)
         parry = max(0.0, self.st["parry"] / 100 + defense_bonus) if self.s["class_name"] in {"Warrior", "Paladin"} else 0.0
-        block = max(0.0, self.st["block"] / 100 + defense_bonus) if self.st.get("block", 0) > 0 else 0.0
+        block = max(0.0, self.st["block"] / 100 + defense_bonus) if c.has_shield else 0.0
         crit = max(0.0, 0.05 - defense_bonus)
         crush = 0.15 if TARGET_LEVEL - LEVEL >= 3 else 0.0  # bonus defense only pushes crushes off via table coverage
         roll = rng.random(); acc = 0.0
@@ -1595,8 +1612,11 @@ class Iteration:
             if c.flag("shield_spec_rage") and rng.random() < min(1.0, c.flag("shield_spec_rage")): self.gain_rage(5)
             if c.flag("wrath_parry") and rng.random() < c.flag("wrath_parry"): self.next_parry = True
         if self.buff_active("Stoneform"): amount *= 0.90
-        self.taken += amount; self.health -= amount
-        self.gain_rage(amount * 2.5 / (0.0091107836 * TARGET_LEVEL ** 2 + 3.225598133 * TARGET_LEVEL + 4.2652911), source="damage")
+        self.taken += amount; self.health = max(0.0, self.health - amount)
+        self.incoming_hits = [(t, a) for t, a in self.incoming_hits if self.t - t < 3.0]
+        self.incoming_hits.append((self.t, amount))
+        self.peak_3s_damage = max(self.peak_3s_damage, sum(a for _, a in self.incoming_hits))
+        self.gain_rage(amount * 2.5 / RAGE_CONVERSION_60, source="damage")
         if c.flag("enrage") and rng.random() < c.flag("enrage") * 3: self.enrage_until = self.t + 12
         if c.flag("might_rage") and rng.random() < c.flag("might_rage"): self.gain_rage(1)
         if c.flag("wildheart_proc") and rng.random() < c.flag("wildheart_proc"):
@@ -1739,7 +1759,7 @@ class Iteration:
         if c.flag("premeditation"): self.cp = min(5, self.cp + 2)
         dur = self.duration
         guard = 0
-        while self.t < dur - EPS and guard < 2_000_000:
+        while self.t < dur - EPS and self.alive and guard < 2_000_000:
             guard += 1
             self.use_offgcd()
             self.queue_swings()
@@ -1811,8 +1831,16 @@ class Iteration:
                 b = self.buffs.get("Bloodrage")
                 if b and b["until"] > t and t + EPS >= b["next"]: b["next"] += 1.0; self.gain_rage(b["tick"])
             if s["role"] == "tank":
-                if t + EPS >= self.next_boss: self.boss_swing(); self.next_boss += 2.0 / (0.9 if "thunder_clap" in c.debuffs else 1.0)
-                if t + EPS >= self.next_heal: self.health = min(self.health_max, self.health + 2500); self.next_heal += 2.0
+                if t + EPS >= self.next_boss:
+                    for _ in range(int(c.incoming['enemies'])):
+                        self.boss_swing()
+                    self.next_boss += c.incoming['enemy_swing'] / (0.9 if "thunder_clap" in c.debuffs else 1.0)
+                if not self.alive: break
+                if t + EPS >= self.next_heal:
+                    amount = min(self.health_max - self.health, c.incoming['heal_amount'])
+                    self.health += amount; self.healed += amount; self.overheal += c.incoming['heal_amount'] - amount
+                    self.record("Healing", "heal", amount)
+                    self.next_heal += c.incoming['heal_interval']
             if c.pet: self.pet_step()
             if self.resource() < 1 and s["resource"] == "Mana" and self.first_oom is None: self.first_oom = t
         return self.result()
@@ -1821,7 +1849,8 @@ class Iteration:
         dur = self.duration
         return {"total": self.total, "threat": self.threat + self.pet_threat * 0.0, "pet_threat": self.pet_threat, "taken": self.taken, "rows": {k: v.dict() for k, v in self.rows.items()},
                 "duration": dur, "starved": self.starved, "resource_end": self.resource(), "alive": self.alive, "alive_seconds": self.alive_seconds, "first_oom": self.first_oom, "taken_by": self.taken_by, "log": self.log,
-                "buff_active_seconds": self.buff_active_seconds, "buff_procs": self.buff_procs}
+                "buff_active_seconds": self.buff_active_seconds, "buff_procs": self.buff_procs,
+                "ending_health": self.health, "effective_healing": self.healed, "overhealing": self.overheal, "peak_3s_damage": self.peak_3s_damage}
 
 
 # ---------------------------------------------------------------------------
@@ -1858,14 +1887,16 @@ def simulate(request, items, enchants, sets):
     starved = statistics.fmean(r["starved"] / r["duration"] for r in results)
     taken_by = {}
     for r in results:
-        for k, v in r["taken_by"].items(): taken_by[k] = taken_by.get(k, 0.0) + v / n / duration
+        for k, v in r["taken_by"].items(): taken_by[k] = taken_by.get(k, 0.0) + v / n / r['duration']
     cfg_summary = cfg.summary()
     res_name = cfg.spec["resource"]
     max_res = {"Mana": cfg.stats.get("mana", 0), "Energy": 100 + cfg.flag("max_energy") + cfg.stats.get("maxEnergy", 0), "Rage": 100 + cfg.flag("max_rage")}[res_name]
     return {
         "profile": {"spec": cfg.spec["id"], "race": cfg.race, "level": LEVEL, "target_level": TARGET_LEVEL, "duration": duration, "duration_variance": cfg.variance, "iterations": cfg.iterations, "seed": cfg.seed},
         "spec": dict(cfg.spec, actions=cfg.action_names, opener=("Taunt" if cfg.spec["role"] == "tank" else None), races=CLASS_RACES[cfg.spec["class_name"]]),
-        "metrics": {"dps": metric(dps), "tps": metric(tps), "dtps": metric(dtps), "alive_dtps": metric(alive), "survival_fraction": sum(r["alive"] for r in results) / n},
+        "metrics": {"dps": metric(dps), "tps": metric(tps), "dtps": metric(dtps), "alive_dtps": metric(alive), "survival_fraction": sum(r["alive"] for r in results) / n,
+                    **{k: metric([r[k] for r in results]) for k in ("alive_seconds", "ending_health", "effective_healing", "overhealing", "peak_3s_damage", "taken")}},
+        "incoming": dict(cfg.incoming, enabled=cfg.spec['role'] == 'tank'),
         "ability_dps": ability_dps, "ability_damage": ability_damage, "ability_stats": ability_stats, "threat_by_ability": threat_by, "taken_dtps": taken_by,
         "configuration": cfg_summary,
         "resource": {"name": res_name, "maximum": max_res, "mean_end": statistics.fmean(r["resource_end"] for r in results), "starved_fraction": starved, "first_out_of_mana": statistics.fmean([r["first_oom"] for r in results if r["first_oom"] is not None]) if any(r["first_oom"] is not None for r in results) else None},
@@ -1873,5 +1904,5 @@ def simulate(request, items, enchants, sets):
         "buff_procs_per_min": buff_procs_per_min,
         "log": results[0]["log"],
         "model_status": "Event-driven level-60 model: sourced base damage, coefficients, cast times, Classic attack tables (miss, dodge, parry, glancing, block, crit suppression), resource ticks, combo points, DoTs, procs, timed cooldowns, pets and racials. No calibration multiplier. Provisional values are listed under configuration.notes.",
-        "source": "https://www.wowhead.com/forever/ (roster, racials, talents) + WoWSims Classic (Classic Anniversary ability data)",
+        "source": "https://wago.tools (reviewed client fields and talent curves, build 1.60.1.69913; data/wago_verified.json) + https://www.wowhead.com/forever/ (roster, racials, calculator) + WoWSims Classic (baseline mechanics). Unverified behavior remains provisional.",
     }

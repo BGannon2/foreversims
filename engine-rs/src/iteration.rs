@@ -112,6 +112,10 @@ pub struct PetState {
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct IterResult {
+    pub ending_health: f64,
+    pub effective_healing: f64,
+    pub overhealing: f64,
+    pub peak_3s_damage: f64,
     pub total: f64,
     pub threat: f64,
     pub pet_threat: f64,
@@ -185,6 +189,10 @@ pub struct Iteration<'a> {
     pub next_rage_tick: f64,
     pub next_boss: f64,
     pub next_heal: f64,
+    pub healed: f64,
+    pub overheal: f64,
+    pub peak_3s_damage: f64,
+    pub incoming_hits: Vec<(f64, f64)>,
     pub flurry: i64,
     pub eureka: i64,
     pub dodged_recently: f64,
@@ -230,7 +238,8 @@ impl<'a> Iteration<'a> {
             st, max_mana, max_energy, max_rage, mana: max_mana, energy: max_energy, rage: 0.0, cp: 0, health_max, health: health_max, alive: true, alive_seconds: duration,
             buffs: IndexMap::new(), debuffs: IndexMap::new(), dots: IndexMap::new(), dots_extra: Vec::new(), cooldowns: IndexMap::new(), gcd_until: 0.0, cast: None,
             next_mh: 0.0, next_oh: if !c.oh.is_empty() { c.oh.speed_or(2.0) / 2.0 } else { 0.0 }, next_ranged: 0.0, queued_swing: None,
-            last_cast_time: -10.0, next_mana_tick: 2.0, next_energy_tick: 2.0, next_rage_tick: 3.0, next_boss: 2.0, next_heal: 2.0,
+            last_cast_time: -10.0, next_mana_tick: 2.0, next_energy_tick: 2.0, next_rage_tick: 3.0, next_boss: c.incoming["enemy_swing"], next_heal: c.incoming["heal_interval"],
+            healed: 0.0, overheal: 0.0, peak_3s_damage: 0.0, incoming_hits: vec![],
             flurry: 0, eureka: 0, dodged_recently: -10.0, avoided_recently: -10.0, combustion: None, clearcast: false, next_instant: false, next_crit: false, eclipse: 0,
             busy_until: 0.0, starved: 0.0, first_oom: None, pet_state: None, enrage_until: 0.0, sacrificed: None, racial_next: 0.0, item_icd: IndexMap::new(), windfury_lock: 0.0,
             cur_school: String::new(), cur_cost: 0.0, blocked_by_resource: false, taken_by: IndexMap::new(), pet_threat: 0.0,
@@ -2076,12 +2085,13 @@ impl<'a> Iteration<'a> {
     // ---- boss ------------------------------------------------------------
     fn boss_swing(&mut self) {
         let c = self.c;
-        let raw = self.rng.uniform(2700.0, 3300.0);
+        if !self.alive { return; }
+        let raw = self.rng.uniform(c.incoming["enemy_damage_min"], c.incoming["enemy_damage_max"]);
         let defense_bonus = (self.st("defense") - c.t.TARGET_DEFENSE) * 0.0004;
         let miss = (0.05 + defense_bonus).max(0.0);
         let dodge = (self.st("dodge") / 100.0 + defense_bonus).max(0.0);
         let parry = if c.spec.class_name == "Warrior" || c.spec.class_name == "Paladin" { (self.st("parry") / 100.0 + defense_bonus).max(0.0) } else { 0.0 };
-        let block = if self.st("block") > 0.0 { (self.st("block") / 100.0 + defense_bonus).max(0.0) } else { 0.0 };
+        let block = if c.has_shield { (self.st("block") / 100.0 + defense_bonus).max(0.0) } else { 0.0 };
         let crit = (0.05 - defense_bonus).max(0.0);
         let crush = if c.t.TARGET_LEVEL - c.t.LEVEL >= 3.0 { 0.15 } else { 0.0 };
         let roll = self.rng.random();
@@ -2134,8 +2144,11 @@ impl<'a> Iteration<'a> {
         }
         if self.buff_active("Stoneform") { amount *= 0.90; }
         self.taken += amount;
-        self.health -= amount;
-        let conversion = 0.0091107836 * tl * tl + 3.225598133 * tl + 4.2652911;
+        self.health = (self.health - amount).max(0.0);
+        self.incoming_hits.retain(|(t, _)| self.t - t < 3.0);
+        self.incoming_hits.push((self.t, amount));
+        self.peak_3s_damage = self.peak_3s_damage.max(self.incoming_hits.iter().map(|(_, a)| a).sum());
+        let conversion = c.t.RAGE_CONVERSION_60;
         self.rage = self.max_rage.min(self.rage + amount * 2.5 / conversion);
         if c.flag("enrage") != 0.0 && self.rng.random() < c.flag("enrage") * 3.0 {
             self.enrage_until = self.t + 12.0;
@@ -2405,7 +2418,7 @@ impl<'a> Iteration<'a> {
         let dur = self.duration;
         let mut guard = 0;
         let mut cands: Vec<f64> = Vec::with_capacity(16);
-        while self.t < dur - EPS && guard < 2_000_000 {
+        while self.t < dur - EPS && self.alive && guard < 2_000_000 {
             guard += 1;
             self.use_offgcd();
             self.queue_swings();
@@ -2552,12 +2565,15 @@ impl<'a> Iteration<'a> {
             }
             if s.role == "tank" {
                 if t + EPS >= self.next_boss {
-                    self.boss_swing();
-                    self.next_boss += 2.0 / if c.debuffs.contains("thunder_clap") { 0.9 } else { 1.0 };
+                    for _ in 0..c.incoming["enemies"] as i64 { self.boss_swing(); }
+                    self.next_boss += c.incoming["enemy_swing"] / if c.debuffs.contains("thunder_clap") { 0.9 } else { 1.0 };
                 }
+                if !self.alive { break; }
                 if t + EPS >= self.next_heal {
-                    self.health = self.health_max.min(self.health + 2500.0);
-                    self.next_heal += 2.0;
+                    let amount = (self.health_max - self.health).min(c.incoming["heal_amount"]);
+                    self.health += amount; self.healed += amount; self.overheal += c.incoming["heal_amount"] - amount;
+                    self.record("Healing", "heal", amount);
+                    self.next_heal += c.incoming["heal_interval"];
                 }
             }
             if c.pet.is_some() {
@@ -2568,6 +2584,7 @@ impl<'a> Iteration<'a> {
             }
         }
         IterResult {
+            ending_health: self.health, effective_healing: self.healed, overhealing: self.overheal, peak_3s_damage: self.peak_3s_damage,
             total: self.total,
             threat: self.threat + self.pet_threat * 0.0,
             pet_threat: self.pet_threat,

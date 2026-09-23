@@ -69,7 +69,7 @@ pub fn finalize(cfg: &Config, results: &[IterResult]) -> Value {
     let mut taken_by: IndexMap<String, f64> = IndexMap::new();
     for r in results {
         for (k, v) in &r.taken_by {
-            *taken_by.entry(k.clone()).or_insert(0.0) += v / n / duration;
+            *taken_by.entry(k.clone()).or_insert(0.0) += v / n / r.duration;
         }
     }
     let cfg_summary = cfg.summary();
@@ -113,14 +113,22 @@ pub fn finalize(cfg: &Config, results: &[IterResult]) -> Value {
     json!({
         "profile": {"spec": cfg.spec.id, "race": cfg.race, "level": t.LEVEL, "target_level": t.TARGET_LEVEL, "duration": duration, "duration_variance": cfg.variance, "iterations": cfg.iterations, "seed": cfg.seed},
         "spec": spec,
-        "metrics": {"dps": metric(&dps), "tps": metric(&tps), "dtps": metric(&dtps), "alive_dtps": metric(&alive), "survival_fraction": survival},
+        "metrics": {"dps": metric(&dps), "tps": metric(&tps), "dtps": metric(&dtps), "alive_dtps": metric(&alive), "survival_fraction": survival,
+            "alive_seconds": metric(&results.iter().map(|r| r.alive_seconds).collect::<Vec<_>>()),
+            "ending_health": metric(&results.iter().map(|r| r.ending_health).collect::<Vec<_>>()),
+            "effective_healing": metric(&results.iter().map(|r| r.effective_healing).collect::<Vec<_>>()),
+            "overhealing": metric(&results.iter().map(|r| r.overhealing).collect::<Vec<_>>()),
+            "peak_3s_damage": metric(&results.iter().map(|r| r.peak_3s_damage).collect::<Vec<_>>()),
+            "taken": metric(&results.iter().map(|r| r.taken).collect::<Vec<_>>())},
+        "incoming": {"enabled": cfg.spec.role == "tank", "enemy_damage_min": cfg.incoming["enemy_damage_min"], "enemy_damage_max": cfg.incoming["enemy_damage_max"],
+            "enemy_swing": cfg.incoming["enemy_swing"], "enemies": cfg.incoming["enemies"], "heal_amount": cfg.incoming["heal_amount"], "heal_interval": cfg.incoming["heal_interval"]},
         "ability_dps": ability_dps, "ability_damage": ability_damage, "ability_stats": ability_stats, "threat_by_ability": threat_by, "taken_dtps": taken_by,
         "configuration": cfg_summary,
         "resource": {"name": res_name, "maximum": max_res, "mean_end": fmean(&results.iter().map(|r| r.resource_end).collect::<Vec<_>>()), "starved_fraction": starved, "first_out_of_mana": first_oom},
         "buff_uptimes": buff_uptimes, "debuff_uptimes": debuff_uptimes, "buff_procs_per_min": buff_procs_per_min,
         "log": results.first().map(|r| serde_json::to_value(&r.log).unwrap()).unwrap_or(Value::Array(vec![])),
         "model_status": "Event-driven level-60 model: sourced base damage, coefficients, cast times, Classic attack tables (miss, dodge, parry, glancing, block, crit suppression), resource ticks, combo points, DoTs, procs, timed cooldowns, pets and racials. No calibration multiplier. Provisional values are listed under configuration.notes.",
-        "source": "https://www.wowhead.com/forever/ (roster, racials, talents) + WoWSims Classic (Classic Anniversary ability data)",
+        "source": "https://wago.tools (reviewed client fields and talent curves, build 1.60.1.69913; data/wago_verified.json) + https://www.wowhead.com/forever/ (roster, racials, calculator) + WoWSims Classic (baseline mechanics). Unverified behavior remains provisional.",
         "engine": "rust-wasm",
     })
 }

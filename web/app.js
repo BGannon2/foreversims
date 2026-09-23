@@ -335,7 +335,14 @@ function renderResultDetail(){
   const root=$("resultDetail");root.replaceChildren();document.querySelectorAll(".result-tab").forEach(b=>b.classList.toggle("active",b.dataset.resultView===state.resultView));
   if(state.resultView==='damage')root.append(contributionTable(state.result.ability_dps,'DPS'));
   else if(state.resultView==='threat')root.append(contributionTable(state.result.ability_tps,'TPS'));
-  else if(state.resultView==='taken')root.append(contributionTable(state.result.taken_dtps,'DTPS'));
+  else if(state.resultView==='taken'){
+    const e=state.result.profile.encounter,m=state.result.metrics;
+    if(!e.incoming_enabled){const note=document.createElement('p');note.textContent='Incoming damage is disabled. Enable it in Encounter to evaluate survivability.';root.append(note);return}
+    const cards=document.createElement('div');cards.className='metrics';
+    cards.append(metricCard('Damage / alive second','alive_dtps'),metricCard('Time alive','alive_seconds',false,'s'),metricCard('Peak 3-second damage','peak_3s_damage'),metricCard('Total damage taken','damage_taken'),metricCard('Effective healing','effective_healing'),metricCard('Overhealing','overhealing'));
+    const note=document.createElement('p');note.textContent=`${(m.survival_fraction*100).toFixed(1)}% survived. ${e.enemies} level-63 attacker(s), ${e.enemy_damage_min}–${e.enemy_damage_max} raw physical damage every ${e.enemy_swing}s; healing ${e.heal_amount} every ${e.heal_interval}s. Configure these in Encounter; use zero healing for unhealed survival. DTPS divides by full fight duration, while damage/alive second divides by time alive. Early death can lower full-fight DTPS. Survival is conditional on this simplified healing scenario.`;
+    root.append(cards,note,contributionTable(state.result.taken_dtps,'DTPS'));
+  }
   else if(state.resultView==='buffs'){root.append(settingsSummary('raid_buffs','Active raid buffs'),settingsSummary('consumables','Active consumables'))}
   else if(state.resultView==='debuffs')root.append(settingsSummary('debuffs','Active target debuffs'));
   else if(state.resultView==='resources'){const table=document.createElement('dl');table.className='diagnostics';[['Mana spent',state.result.first_iteration.mana_spent],['Mana gained',state.result.first_iteration.mana_gained],['Ending mana',state.result.metrics.ending_mana.mean],['First unaffordable cast',state.result.first_iteration.first_unaffordable_cast??'Never']].forEach(([a,b])=>{const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=a;dd.textContent=typeof b==='number'?fmt(b,1):b;table.append(dt,dd)});root.append(table)}
@@ -347,7 +354,7 @@ function renderResult(){
   const cards=$("metricCards"); cards.replaceChildren(
     metricCard("Damage / second","dps",true),metricCard("Threat / second","tps"),
     metricCard("Damage taken / alive sec","alive_dtps"),metricCard("Peak 3-second damage","peak_3s_damage"),
-    metricCard("Survival","alive_seconds",false,"s"),metricCard("Ending mana","ending_mana"),
+    metricCard("Time alive","alive_seconds",false,"s"),metricCard("Ending mana","ending_mana"),
     metricCard("Damage absorbed","absorbed"),metricCard("Damage blocked","blocked_damage")
   );
   renderResultDetail();

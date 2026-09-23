@@ -138,7 +138,15 @@ function renderResultView(view) {
   if (!lastResult) return; document.querySelectorAll(".result-tab").forEach(x => x.classList.toggle("active", x.dataset.result === view)); const x = lastResult, detail = $("resultDetail");
   if (view === "damage") { const max = Math.max(1, ...Object.values(x.ability_dps)); detail.innerHTML = '<h3>Damage</h3><div class="result-table-wrap"><table class="result-breakdown"><thead><tr><th>Ability</th><th>Contribution</th><th>DPS</th><th>Total</th><th>Casts</th><th>Hits</th><th>Crits</th><th>Misses</th><th>Dodged/Parried</th><th>Glances</th></tr></thead><tbody>' + Object.entries(x.ability_dps).sort((a, b) => b[1] - a[1]).map(([n, v]) => { const r = x.ability_stats[n]; return `<tr><td>${n}</td><td><div class="share-track"><div class="share-fill" data-bar-width="${100 * v / max}"></div></div></td><td>${fmt(v)}</td><td>${fmt(x.ability_damage?.[n] ?? r.damage, 0)}</td><td>${fmt(r.casts, 1)}</td><td>${fmt(r.hits, 1)}</td><td>${fmt(r.crits, 1)}</td><td>${fmt(r.misses, 1)}</td><td>${fmt(r.dodges || 0, 1)}</td><td>${fmt(r.glances || 0, 1)}</td></tr>`; }).join("") + "</tbody></table></div>"; applyBarWidths(detail); return; }
   if (view === "threat") { const max = Math.max(1, ...Object.values(x.threat_by_ability)); detail.innerHTML = "<h3>Threat</h3>" + Object.entries(x.threat_by_ability).sort((a, b) => b[1] - a[1]).filter(([, v]) => v > 0).map(([n, v]) => `<div class="result-row"><span>${n}</span><div class="share-track"><div class="share-fill" data-bar-width="${100 * v / max}"></div></div><strong>${fmt(v)} TPS</strong></div>`).join(""); applyBarWidths(detail); return; }
-  if (view === "taken") { const tank = x.spec.role === "tank"; detail.innerHTML = `<h3>Damage Taken</h3><div class="metrics">${metricCard("DTPS", fmt(x.metrics.dtps?.mean ?? 0), true)}${metricCard("ALIVE DTPS", fmt(x.metrics.alive_dtps.mean))}${metricCard("SURVIVAL", fmt((x.metrics.survival_fraction ?? 1) * 100, 0) + "%")}</div>${tank ? "<h4>By boss outcome</h4>" + Object.entries(x.taken_dtps || {}).map(([k, v]) => `<div class="result-row"><span>${k}</span><div class="share-track"><div class="share-fill" data-bar-width="${100 * v / Math.max(1, x.metrics.dtps.mean)}"></div></div><strong>${fmt(v)} DTPS</strong></div>`).join("") + "<p>Level-63 boss: 2.0 s swings of 2,700-3,300 raw damage against your armor, dodge, parry, block, defense and crushing-blow table. Healing pulses of 2,500 every 2 s keep the tank alive for the sample; survival counts iterations that never reached zero health.</p>" : "<p>No incoming attacks are scheduled for a DPS assignment.</p>"}`; applyBarWidths(detail); return; }
+  if (view === "taken") {
+    const tank = x.spec.role === "tank", m = x.metrics, e = x.incoming;
+    detail.innerHTML = `<h3>Damage Taken & Survival</h3>`;
+    if (!tank) { detail.innerHTML += "<p>No incoming attacks are scheduled for a DPS assignment.</p>"; return; }
+    detail.innerHTML += `<div class="metrics">${metricCard("DAMAGE / ALIVE SEC", fmt(m.alive_dtps.mean), true)}${metricCard("SURVIVED FIGHT", fmt(m.survival_fraction * 100, 1) + "%")}${metricCard("TIME ALIVE", fmt(m.alive_seconds.mean) + " s")}${metricCard("PEAK 3-SECOND DAMAGE", fmt(m.peak_3s_damage.mean))}${metricCard("TOTAL DAMAGE TAKEN", fmt(m.taken.mean))}${metricCard("EFFECTIVE HEALING", fmt(m.effective_healing.mean))}${metricCard("OVERHEALING", fmt(m.overhealing.mean))}${metricCard("ENDING HEALTH", fmt(m.ending_health.mean))}</div><h4>Incoming damage by outcome</h4>`;
+    detail.innerHTML += Object.entries(x.taken_dtps || {}).map(([k, v]) => `<div class="result-row"><span>${k}</span><div class="share-track"><div class="share-fill" data-bar-width="${100 * v / Math.max(1, m.dtps.mean)}"></div></div><strong>${fmt(v)} DTPS</strong></div>`).join("");
+    detail.innerHTML += `<p>${e.enemies} level-63 attacker(s), ${fmt(e.enemy_damage_min, 0)}–${fmt(e.enemy_damage_max, 0)} raw physical damage every ${e.enemy_swing} s before attack-speed debuffs. Healing: ${fmt(e.heal_amount, 0)} every ${e.heal_interval} s. Change these in Encounter.</p><p>Survival is the fraction of runs alive at fight end under this healing scenario. Time alive is capped at encounter length. Outcome DTPS divides by full fight duration (${fmt(m.dtps.mean)} total); damage/alive-second divides by time alive. Attacks and healing stop at death. A low full-fight DTPS caused by early death is not better mitigation.</p>`;
+    applyBarWidths(detail); return;
+  }
   if (view === "buffs" || view === "debuffs") {
     const rows = view === "buffs" ? x.buff_uptimes : x.debuff_uptimes;
     let html = `<h3>${view === "buffs" ? "Buff uptime" : "Debuff uptime"}</h3>` + Object.entries(rows).sort((a, b) => b[1] - a[1]).map(([n, v]) => `<div class="result-row"><span>${n.replaceAll("_", " ")}</span><div class="share-track"><div class="share-fill" data-bar-width="${v * 100}"></div></div><strong>${fmt(v * 100, 0)}%</strong></div>`).join("");
@@ -167,18 +175,32 @@ async function run() {
   try {
     $("error").textContent = ""; $("progress").className = "running";
     const chosen = kind => [...document.querySelectorAll(`[data-kind=${kind}]:checked`)].map(x => x.dataset.key);
-    const payload = { spec: spec.id, duration: +$("duration").value, duration_variance: +$("durationVariance").value, iterations: +$("iterations").value, seed: data.defaults.seed, race: $("race").value, gear: profile.gear.map(x => x.id), gear_slots: profile.gear.map(x => ({ slot: x.slot, id: x.id })), enchants: profile.gear.filter(x => x.enchant).map(x => ({ slot: enchantSlot(x.slot), id: x.enchant.id })), talents: points, armor: +$("armor").value, targets: +$("targets").value, boss_type: $("bossType").value, buffs: chosen("buffs"), debuffs: chosen("debuffs"), consumables: chosen("consumables"), racial_enabled: !!document.querySelector("[data-racial]:checked"), rotation_enabled: [...document.querySelectorAll("[data-rotation]:checked")].map(x => x.dataset.rotation), pet_family: $("petFamily")?.value || "cat", pet_attack_speed: +($("petAttackSpeed")?.value || 2), pet_uptime: +($("petUptime")?.value || 100) / 100, pet_abilities: [...document.querySelectorAll("[data-pet-ability]:checked")].map(x => x.dataset.petAbility) };
+    const payload = { ...tankEncounter(), spec: spec.id, duration: +$("duration").value, duration_variance: +$("durationVariance").value, iterations: +$("iterations").value, seed: data.defaults.seed, race: $("race").value, gear: profile.gear.map(x => x.id), gear_slots: profile.gear.map(x => ({ slot: x.slot, id: x.id })), enchants: profile.gear.filter(x => x.enchant).map(x => ({ slot: enchantSlot(x.slot), id: x.enchant.id })), talents: points, armor: +$("armor").value, targets: +$("targets").value, boss_type: $("bossType").value, buffs: chosen("buffs"), debuffs: chosen("debuffs"), consumables: chosen("consumables"), racial_enabled: !!document.querySelector("[data-racial]:checked"), rotation_enabled: [...document.querySelectorAll("[data-rotation]:checked")].map(x => x.dataset.rotation), pet_family: $("petFamily")?.value || "cat", pet_attack_speed: +($("petAttackSpeed")?.value || 2), pet_uptime: +($("petUptime")?.value || 100) / 100, pet_abilities: [...document.querySelectorAll("[data-pet-ability]:checked")].map(x => x.dataset.petAbility) };
     const bar = $("progress"); bar.style.width = "0%";
     const x = await ForeverSim.simulate("spec", payload, payload.iterations, (done, total) => { bar.style.width = `${Math.round(100 * done / total)}%`; });
     if (x.error) throw new Error(x.error);
     lastResult = x;
     const ci = m => m.mean_95ci_half_width == null ? "" : `<small>95% CI ${PM} ${fmt(m.mean_95ci_half_width, 2)}</small>`;
     $("quickDps").textContent = fmt(x.metrics.dps.mean); $("quickTps").textContent = fmt(x.metrics.tps.mean);
-    $("metrics").innerHTML = metricCard("DPS", `${fmt(x.metrics.dps.mean)}${ci(x.metrics.dps)}`, true) + metricCard("TPS", `${fmt(x.metrics.tps.mean)}${ci(x.metrics.tps)}`) + (x.spec.role === "tank" ? metricCard("DTPS", `${fmt(x.metrics.dtps.mean)}${ci(x.metrics.dtps)}`) + metricCard("SURVIVAL", `${fmt((x.metrics.survival_fraction ?? 1) * 100, 0)}%`) : metricCard("STARVED", `${fmt(x.resource.starved_fraction * 100, 1)}%`));
+    $("metrics").innerHTML = metricCard("DPS", `${fmt(x.metrics.dps.mean)}${ci(x.metrics.dps)}`, true) + metricCard("TPS", `${fmt(x.metrics.tps.mean)}${ci(x.metrics.tps)}`) + (x.spec.role === "tank" ? metricCard("DAMAGE / ALIVE SEC", `${fmt(x.metrics.alive_dtps.mean)}${ci(x.metrics.alive_dtps)}`) + metricCard("SURVIVAL", `${fmt((x.metrics.survival_fraction ?? 1) * 100, 0)}%`) : metricCard("STARVED", `${fmt(x.resource.starved_fraction * 100, 1)}%`));
     renderResultView("damage"); renderConfiguration(x);
     $("resultLabel").textContent = `${payload.iterations.toLocaleString()} iterations${DOT}${payload.duration}s Patchwerk${DOT}${x.configuration.race}${DOT}${payload.boss_type === "none" ? "unspecified creature type" : payload.boss_type}`;
     showTab("results");
   } catch (e) { $("error").textContent = e.message; } finally { $("progress").className = ""; $("progress").style.width = ""; }
+}
+
+const incomingDefaults = { enemies: 1, enemy_damage_min: 2700, enemy_damage_max: 3300, enemy_swing: 2, heal_amount: 2500, heal_interval: 2 };
+function tankEncounter() { return Object.fromEntries(Object.entries(incomingDefaults).map(([key, value]) => [key, document.getElementById(`incoming-${key}`) ? Number(document.getElementById(`incoming-${key}`).value) : value])); }
+function renderTankEncounter() {
+  if (spec.role !== "tank") return;
+  const card = document.createElement("div"); card.className = "settings-card";
+  card.innerHTML = '<h3>Incoming damage & healing</h3><p>Physical melee scenario; healing is a fixed pulse, not a healer simulation. Set healing to 0 to measure unhealed survival. Incoming attackers are independent of outgoing targets.</p><div class="form-grid"></div>';
+  const labels = { enemies: "Incoming attackers", enemy_damage_min: "Raw hit minimum", enemy_damage_max: "Raw hit maximum", enemy_swing: "Attack interval (seconds)", heal_amount: "Healing per pulse", heal_interval: "Healing interval (seconds)" };
+  for (const [key, value] of Object.entries(incomingDefaults)) {
+    const interval = key.endsWith("interval") || key === "enemy_swing";
+    card.querySelector(".form-grid").insertAdjacentHTML("beforeend", `<div class="field"><label for="incoming-${key}">${labels[key]}</label><input id="incoming-${key}" type="number" min="${interval ? .2 : key === "enemies" ? 1 : 0}" max="${interval ? 60 : key === "enemies" ? 10 : 1000000}" step="${interval ? .1 : 1}" value="${value}"></div>`);
+  }
+  $("view-encounter").append(card);
 }
 
 // ---------------------------------------------------------------- init
@@ -197,7 +219,7 @@ async function init() {
   if(query.get("benchmark")==="1"){data.defaults.seed=data.defaults.benchmark_seed;$("iterations").value=data.defaults.benchmark_iterations;}
   const raceNames = spec.races || ["Human"]; $("race").innerHTML = raceNames.map(name => `<option>${name}</option>`).join("");
   const requestedRace = new URLSearchParams(location.search).get("race"); $("race").value = raceNames.includes(requestedRace) ? requestedRace : (raceNames.includes("Human") ? "Human" : raceNames[0]);
-  $("race").onchange = () => { renderRace(); renderRotation(); renderSpecCards(); }; renderRace(); renderSpecCards();
+  $("race").onchange = () => { renderRace(); renderRotation(); renderSpecCards(); }; renderRace(); renderSpecCards(); renderTankEncounter();
   trees = data.talents.classes[spec.class_name.toLowerCase()]; profile.gear.forEach(x => x.enchant = defaultEnchant(x));
   $("sideSpec").textContent = `${spec.class_name}${DOT}${spec.name}`; $("talentHeading").textContent = `${spec.class_name} talents`; $("className").textContent = spec.class_name.toUpperCase(); $("specName").textContent = spec.name; $("gearSource").textContent = profile.source_label || ""; $("serverDot").className = "online";
   renderGear(); renderOptions("buffs", data.settings.raid_buffs, "buffs"); renderOptions("debuffs", data.settings.debuffs, "debuffs"); renderOptions("consumables", data.consumables.items, "consumables"); renderRotation(); renderPetSettings();
@@ -224,7 +246,7 @@ $("foreverBisProfile").onclick = () => {
   $("gearSource").textContent = profile.source_label || "Assumed Forever BiS";
   renderGear(); showTab("gear");
 };
-$("exportProfile").onclick = () => { const output = { ruleset: "World of Warcraft Forever prototype", spec: spec.id, race: $("race").value, gear: Object.fromEntries(profile.gear.map(x => [x.slot, { item_id: x.id, enchant_id: x.enchant?.id || null }])), talents: points, encounter: { duration: +$("duration").value, boss_armor: +$("armor").value, targets: +$("targets").value, boss_type: $("bossType").value } }; const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify(output, null, 2)], { type: "application/json" })); a.download = `${spec.id}-forever-profile.json`; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000); };
+$("exportProfile").onclick = () => { const output = { ruleset: "World of Warcraft Forever prototype", spec: spec.id, race: $("race").value, gear: Object.fromEntries(profile.gear.map(x => [x.slot, { item_id: x.id, enchant_id: x.enchant?.id || null }])), talents: points, encounter: { ...tankEncounter(), duration: +$("duration").value, boss_armor: +$("armor").value, targets: +$("targets").value, boss_type: $("bossType").value } }; const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify(output, null, 2)], { type: "application/json" })); a.download = `${spec.id}-forever-profile.json`; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000); };
 
 // ---------------------------------------------------------------- WoWSims Exporter import
 function applyWowSimsImport(text) {

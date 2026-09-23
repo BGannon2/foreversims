@@ -62,10 +62,12 @@ class RosterAndDataTests(unittest.TestCase):
     def test_forever_talent_text_matches_modeled_values(self):
         w = BY_CLASS["warrior"]
         self.assertIn("35% of your Attack Power plus 30", w["105930"][1]["descriptions"]["1"])
-        self.assertEqual(ABILITIES["Bloodthirst"]["ap_mult"], 0.35); self.assertEqual(ABILITIES["Bloodthirst"]["flat"], 30)
+        # Talent calculator text describes the learned rank, not the level-60
+        # spell. Build-pinned SpellEffect 23894 supplies the rank-4 flat bonus.
+        self.assertEqual(ABILITIES["Bloodthirst"]["ap_mult"], 0.35); self.assertEqual(ABILITIES["Bloodthirst"]["flat"], 48)
         self.assertIn("60% chance", w["105937"][1]["descriptions"]["5"]); self.assertAlmostEqual(TALENT_EFFECTS["105937"]["flag:unbridled_wrath"] * 5, 0.60)
         self.assertIn("off-hand weapon damage by 25%", w["105933"][1]["descriptions"]["5"]); self.assertAlmostEqual(TALENT_EFFECTS["105933"]["flag:dw_damage"] * 5, 0.25)
-        self.assertIn("weapon damage plus 85", w["105941"][1]["descriptions"]["1"]); self.assertEqual(ABILITIES["Mortal Strike"]["weapon"]["flat"], 85)
+        self.assertIn("weapon damage plus 85", w["105941"][1]["descriptions"]["1"]); self.assertEqual(ABILITIES["Mortal Strike"]["weapon"]["flat"], 160)
         wl = BY_CLASS["warlock"]
         self.assertIn("100% of your level", wl["105893"][1]["descriptions"]["3"]); self.assertEqual(TALENT_EFFECTS["105893"]["flag:demonic_knowledge"] * 3, 60)
 

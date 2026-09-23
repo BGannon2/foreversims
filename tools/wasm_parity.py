@@ -27,6 +27,31 @@ def cases():
             request.update(iterations=3, duration=90, seed=917, race=race)
             request['encounter']['boss_type'] = creature
             yield {'name': f'paladin-{spec}/{race}', 'kind': 'paladin', 'request': request, 'python': simulate(request)}
+    # Partial ranks specifically exercise the non-linear DB2 curve path. These
+    # are engine fixtures, not recommended complete player builds.
+    partials = {
+        'warrior-fury': {'105932': 1},
+        'rogue-combat': {'105741': 1, '105708': 2, '105716': 3},
+        'druid-balance': {'104925': 2, '104936': 3},
+        'shaman-elemental': {'104765': 2, '104759': 2, '104758': 1},
+        'hunter-marksmanship': {'105001': 2, '110870': 1},
+        'mage-frost': {'105768': 2, '105803': 1},
+        'priest-shadow': {'105843': 2, '105853': 3},
+        'warlock-destruction': {'105887': 2, '105879': 2, '105877': 2, '105917': 2},
+    }
+    specs = {s['id']: s for s in public_specs()}
+    for sid, talents in partials.items():
+        request = default_request(specs[sid], iterations=3, duration=90, seed=917, talents=talents)
+        yield {'name': f'{sid}/partial-ranks', 'kind': 'spec', 'request': request, 'python': simulate_spec(request)}
+    for sid in ('warrior-protection', 'druid-feral-tank'):
+        for label, overrides in [('lethal', {'enemy_damage_min': 100000, 'enemy_damage_max': 100000, 'heal_amount': 100000}),
+                                 ('unhealed', {'heal_amount': 0, 'enemies': 3, 'enemy_swing': 1.5, 'duration_variance': 10})]:
+            request = default_request(specs[sid], iterations=3, duration=90, seed=917, **overrides)
+            yield {'name': f'{sid}/{label}', 'kind': 'spec', 'request': request, 'python': simulate_spec(request)}
+    request = copy.deepcopy(preset('protection'))
+    request.update(iterations=3, duration=90, seed=917)
+    request['encounter'].update(enemy_damage_min=100000, enemy_damage_max=100000, heal_amount=100000)
+    yield {'name': 'paladin-protection/lethal', 'kind': 'paladin', 'request': request, 'python': simulate(request)}
 
 
 if __name__ == '__main__':

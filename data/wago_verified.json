@@ -1,0 +1,6075 @@
+{
+  "build": "1.60.1.69913",
+  "product": "wow_classic_beta",
+  "tables": [
+    {
+      "table": "CurvePoint",
+      "sha256": "6b6f53aaa7e27d29706a3411d651594eb7cfe05b3ec21360c7ec19d0c226ee04",
+      "bytes": 911767,
+      "url": "https://wago.tools/db2/CurvePoint/csv?build=1.60.1.69913"
+    },
+    {
+      "table": "Spell",
+      "sha256": "7c9acd23c5bc839cc2c66009b8ac3911f7091f795d1f9412254fe42730606007",
+      "bytes": 2187777,
+      "url": "https://wago.tools/db2/Spell/csv?build=1.60.1.69913"
+    },
+    {
+      "table": "SpellCastTimes",
+      "sha256": "f94e1e3a3495d11af875fd7b007124fdd660a19ba626bc1de00a609da81f25d8",
+      "bytes": 982,
+      "url": "https://wago.tools/db2/SpellCastTimes/csv?build=1.60.1.69913"
+    },
+    {
+      "table": "SpellCooldowns",
+      "sha256": "988c4ce99d5652a89eba379a4844aa12489b5c89a75205b45d565dcec5121b0c",
+      "bytes": 117570,
+      "url": "https://wago.tools/db2/SpellCooldowns/csv?build=1.60.1.69913"
+    },
+    {
+      "table": "SpellDuration",
+      "sha256": "8a2d2a82c96d2a3dfa20883093cf9a1071abc8b26f9681da3500324e9560b31c",
+      "bytes": 2505,
+      "url": "https://wago.tools/db2/SpellDuration/csv?build=1.60.1.69913"
+    },
+    {
+      "table": "SpellEffect",
+      "sha256": "f08c0780f920f41f84b6d6d13ada78db59a4c5ae8ca369c8bee3ab7642af41c1",
+      "bytes": 3828322,
+      "url": "https://wago.tools/db2/SpellEffect/csv?build=1.60.1.69913"
+    },
+    {
+      "table": "SpellLevels",
+      "sha256": "552b476ddbe494b9f87c26a488c83da7ae4dc0d757d38dcddff0772d4b720286",
+      "bytes": 309211,
+      "url": "https://wago.tools/db2/SpellLevels/csv?build=1.60.1.69913"
+    },
+    {
+      "table": "SpellMisc",
+      "sha256": "f6ed1f30f53e311b231b4ae007f8ca5f605e1ad6c960a70f3fce871fb87583bd",
+      "bytes": 3005647,
+      "url": "https://wago.tools/db2/SpellMisc/csv?build=1.60.1.69913"
+    },
+    {
+      "table": "SpellName",
+      "sha256": "ede393ee7dd2d8a7e9bacbf4f14a32a88ded7f67ba08b33d564e931a352773ab",
+      "bytes": 833945,
+      "url": "https://wago.tools/db2/SpellName/csv?build=1.60.1.69913"
+    },
+    {
+      "table": "SpellPower",
+      "sha256": "02f4ef844b849fe94f0c4b49fb7e21a178213c90d44afa7d1665cb8b62a32380",
+      "bytes": 138308,
+      "url": "https://wago.tools/db2/SpellPower/csv?build=1.60.1.69913"
+    },
+    {
+      "table": "TraitDefinition",
+      "sha256": "41ef26487af21af2082cf1174ad3a3c56e5003f8700d904c861f800bf87b2575",
+      "bytes": 14955,
+      "url": "https://wago.tools/db2/TraitDefinition/csv?build=1.60.1.69913"
+    },
+    {
+      "table": "TraitDefinitionEffectPoints",
+      "sha256": "64105c2e36b1f4381ba4584d7924aacec9dd1fdfbdaac0089034f90fbb97e147",
+      "bytes": 14890,
+      "url": "https://wago.tools/db2/TraitDefinitionEffectPoints/csv?build=1.60.1.69913"
+    },
+    {
+      "table": "TraitNode",
+      "sha256": "bf782192555e1a3618b3bc36d5c3344cbb7040630af1619534ae63e6e004479c",
+      "bytes": 15776,
+      "url": "https://wago.tools/db2/TraitNode/csv?build=1.60.1.69913"
+    },
+    {
+      "table": "TraitNodeEntry",
+      "sha256": "2072534b68d4de57509f96eb2476aec373be07a3b4d8ffebfc80093f71605518",
+      "bytes": 13174,
+      "url": "https://wago.tools/db2/TraitNodeEntry/csv?build=1.60.1.69913"
+    },
+    {
+      "table": "TraitNodeXTraitNodeEntry",
+      "sha256": "3d34473f8b5bf24b5599ab314e6fa4156f39a850682a74294e58c8b0eb65c1b0",
+      "bytes": 14096,
+      "url": "https://wago.tools/db2/TraitNodeXTraitNodeEntry/csv?build=1.60.1.69913"
+    },
+    {
+      "table": "TraitTree",
+      "sha256": "6f63def42b6b42b7524e36aef48f7afd9a399b6968b5a979e8c3f349f163f3a6",
+      "bytes": 533,
+      "url": "https://wago.tools/db2/TraitTree/csv?build=1.60.1.69913"
+    }
+  ],
+  "interpretation": "Explicit reviewed IDs only. Client tables do not prove server proc rules, target eligibility, or spell availability. Remaining abilities are not certified by this snapshot.",
+  "spells": {
+    "Mortal Strike": {
+      "spell_id": 21553,
+      "fields": {
+        "weapon.flat": 160.0,
+        "cost": 30.0,
+        "cooldown": 6.0
+      },
+      "rows": {
+        "SpellEffect": [
+          {
+            "ID": "697709",
+            "EffectAura": "118",
+            "DifficultyID": "0",
+            "EffectIndex": "0",
+            "Effect": "6",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "0",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "-50",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "127",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "21553"
+          },
+          {
+            "ID": "697710",
+            "EffectAura": "0",
+            "DifficultyID": "0",
+            "EffectIndex": "1",
+            "Effect": "121",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "1",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "160",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "21553"
+          }
+        ],
+        "SpellPower": [
+          {
+            "ID": "184952",
+            "OrderIndex": "0",
+            "ManaCost": "300",
+            "ManaCostPerLevel": "0",
+            "ManaPerSecond": "0",
+            "PowerDisplayID": "0",
+            "AltPowerBarID": "0",
+            "PowerCostPct": "0",
+            "PowerCostMaxPct": "0",
+            "OptionalCostPct": "0",
+            "PowerPctPerSecond": "0",
+            "PowerType": "1",
+            "RequiredAuraSpellID": "0",
+            "OptionalCost": "0",
+            "SpellID": "21553"
+          }
+        ],
+        "SpellCooldowns": [
+          {
+            "ID": "55515",
+            "DifficultyID": "0",
+            "CategoryRecoveryTime": "6000",
+            "RecoveryTime": "0",
+            "StartRecoveryTime": "1500",
+            "AuraSpellID": "0",
+            "SpellID": "21553"
+          }
+        ],
+        "SpellLevels": [
+          {
+            "ID": "103533",
+            "DifficultyID": "0",
+            "MaxLevel": "0",
+            "MaxPassiveAuraLevel": "0",
+            "BaseLevel": "60",
+            "SpellLevel": "60",
+            "SpellID": "21553"
+          }
+        ],
+        "SpellMisc": [
+          {
+            "ID": "329897",
+            "Attributes_0": "327696",
+            "Attributes_1": "134218240",
+            "Attributes_2": "0",
+            "Attributes_3": "1024",
+            "Attributes_4": "0",
+            "Attributes_5": "0",
+            "Attributes_6": "0",
+            "Attributes_7": "0",
+            "Attributes_8": "0",
+            "Attributes_9": "0",
+            "Attributes_10": "0",
+            "Attributes_11": "0",
+            "Attributes_12": "0",
+            "Attributes_13": "128",
+            "Attributes_14": "0",
+            "Attributes_15": "8192",
+            "Attributes_16": "0",
+            "DifficultyID": "0",
+            "CastingTimeIndex": "1",
+            "DurationIndex": "1",
+            "PvPDurationIndex": "0",
+            "RangeIndex": "2",
+            "SchoolMask": "1",
+            "Speed": "0",
+            "LaunchDelay": "0",
+            "MinDuration": "0",
+            "SpellIconFileDataID": "132355",
+            "ActiveIconFileDataID": "0",
+            "ContentTuningID": "0",
+            "ShowFutureSpellPlayerConditionID": "0",
+            "SpellVisualScript": "0",
+            "ActiveSpellVisualScript": "0",
+            "SpellID": "21553"
+          }
+        ],
+        "Spell": [
+          {
+            "ID": "21553",
+            "NameSubtext_lang": "Rank 4",
+            "Description_lang": "A vicious strike that deals weapon damage plus $s2 and wounds the target, reducing the effectiveness of any healing by $s1% for $d.",
+            "AuraDescription_lang": "Healing effects reduced by $s1%."
+          }
+        ],
+        "SpellName": [
+          {
+            "ID": "21553",
+            "Name_lang": "Mortal Strike"
+          }
+        ],
+        "SpellDuration": [
+          {
+            "ID": "1",
+            "Duration": "10000",
+            "MaxDuration": "10000",
+            "DurationPerResource": "0"
+          }
+        ],
+        "SpellCastTimes": [
+          {
+            "ID": "1",
+            "Base": "0",
+            "Minimum": "0"
+          }
+        ]
+      },
+      "status": "client-values-verified; engine behavior separately modeled"
+    },
+    "Bloodthirst": {
+      "spell_id": 23894,
+      "fields": {
+        "flat": 48.0,
+        "cost": 30.0,
+        "cooldown": 6.0
+      },
+      "rows": {
+        "SpellEffect": [
+          {
+            "ID": "701080",
+            "EffectAura": "0",
+            "DifficultyID": "0",
+            "EffectIndex": "0",
+            "Effect": "2",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "1",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "48",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "23894"
+          },
+          {
+            "ID": "1339740",
+            "EffectAura": "0",
+            "DifficultyID": "0",
+            "EffectIndex": "1",
+            "Effect": "3",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "1",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "35",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "23894"
+          },
+          {
+            "ID": "1339741",
+            "EffectAura": "31",
+            "DifficultyID": "0",
+            "EffectIndex": "2",
+            "Effect": "6",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "1",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "10",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "1",
+            "ImplicitTarget_1": "0",
+            "SpellID": "23894"
+          }
+        ],
+        "SpellPower": [
+          {
+            "ID": "187635",
+            "OrderIndex": "0",
+            "ManaCost": "300",
+            "ManaCostPerLevel": "0",
+            "ManaPerSecond": "0",
+            "PowerDisplayID": "0",
+            "AltPowerBarID": "0",
+            "PowerCostPct": "0",
+            "PowerCostMaxPct": "0",
+            "OptionalCostPct": "0",
+            "PowerPctPerSecond": "0",
+            "PowerType": "1",
+            "RequiredAuraSpellID": "0",
+            "OptionalCost": "0",
+            "SpellID": "23894"
+          }
+        ],
+        "SpellCooldowns": [
+          {
+            "ID": "55792",
+            "DifficultyID": "0",
+            "CategoryRecoveryTime": "6000",
+            "RecoveryTime": "0",
+            "StartRecoveryTime": "1500",
+            "AuraSpellID": "0",
+            "SpellID": "23894"
+          }
+        ],
+        "SpellLevels": [
+          {
+            "ID": "104412",
+            "DifficultyID": "0",
+            "MaxLevel": "0",
+            "MaxPassiveAuraLevel": "0",
+            "BaseLevel": "60",
+            "SpellLevel": "60",
+            "SpellID": "23894"
+          }
+        ],
+        "SpellMisc": [
+          {
+            "ID": "332580",
+            "Attributes_0": "327696",
+            "Attributes_1": "134218240",
+            "Attributes_2": "0",
+            "Attributes_3": "0",
+            "Attributes_4": "0",
+            "Attributes_5": "0",
+            "Attributes_6": "0",
+            "Attributes_7": "0",
+            "Attributes_8": "0",
+            "Attributes_9": "0",
+            "Attributes_10": "0",
+            "Attributes_11": "0",
+            "Attributes_12": "0",
+            "Attributes_13": "0",
+            "Attributes_14": "0",
+            "Attributes_15": "8192",
+            "Attributes_16": "0",
+            "DifficultyID": "0",
+            "CastingTimeIndex": "1",
+            "DurationIndex": "1",
+            "PvPDurationIndex": "0",
+            "RangeIndex": "2",
+            "SchoolMask": "1",
+            "Speed": "0",
+            "LaunchDelay": "0",
+            "MinDuration": "0",
+            "SpellIconFileDataID": "136012",
+            "ActiveIconFileDataID": "0",
+            "ContentTuningID": "0",
+            "ShowFutureSpellPlayerConditionID": "0",
+            "SpellVisualScript": "0",
+            "ActiveSpellVisualScript": "0",
+            "SpellID": "23894"
+          }
+        ],
+        "Spell": [
+          {
+            "ID": "23894",
+            "NameSubtext_lang": "Rank 4",
+            "Description_lang": "Instantly attack the target causing damage equal to $s2% of your Attack Power plus $s1 and increasing your movement speed by $s3% for $d.",
+            "AuraDescription_lang": "Movement speed increased by $s3%."
+          }
+        ],
+        "SpellName": [
+          {
+            "ID": "23894",
+            "Name_lang": "Bloodthirst"
+          }
+        ],
+        "SpellDuration": [
+          {
+            "ID": "1",
+            "Duration": "10000",
+            "MaxDuration": "10000",
+            "DurationPerResource": "0"
+          }
+        ],
+        "SpellCastTimes": [
+          {
+            "ID": "1",
+            "Base": "0",
+            "Minimum": "0"
+          }
+        ]
+      },
+      "status": "client-values-verified; engine behavior separately modeled"
+    },
+    "Shield Slam": {
+      "spell_id": 23925,
+      "fields": {
+        "base": [
+          640.028572,
+          669.971428
+        ],
+        "cost": 20.0,
+        "cooldown": 6.0
+      },
+      "rows": {
+        "SpellEffect": [
+          {
+            "ID": "701793",
+            "EffectAura": "0",
+            "DifficultyID": "0",
+            "EffectIndex": "0",
+            "Effect": "38",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "0",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "1",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "1",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "23925"
+          },
+          {
+            "ID": "701794",
+            "EffectAura": "0",
+            "DifficultyID": "0",
+            "EffectIndex": "1",
+            "Effect": "2",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "1",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0.04571428522",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "655",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "23925"
+          }
+        ],
+        "SpellPower": [
+          {
+            "ID": "188188",
+            "OrderIndex": "0",
+            "ManaCost": "200",
+            "ManaCostPerLevel": "0",
+            "ManaPerSecond": "0",
+            "PowerDisplayID": "0",
+            "AltPowerBarID": "0",
+            "PowerCostPct": "0",
+            "PowerCostMaxPct": "0",
+            "OptionalCostPct": "0",
+            "PowerPctPerSecond": "0",
+            "PowerType": "1",
+            "RequiredAuraSpellID": "0",
+            "OptionalCost": "0",
+            "SpellID": "23925"
+          }
+        ],
+        "SpellCooldowns": [
+          {
+            "ID": "55840",
+            "DifficultyID": "0",
+            "CategoryRecoveryTime": "6000",
+            "RecoveryTime": "0",
+            "StartRecoveryTime": "1500",
+            "AuraSpellID": "0",
+            "SpellID": "23925"
+          }
+        ],
+        "SpellLevels": [
+          {
+            "ID": "104594",
+            "DifficultyID": "0",
+            "MaxLevel": "0",
+            "MaxPassiveAuraLevel": "0",
+            "BaseLevel": "60",
+            "SpellLevel": "60",
+            "SpellID": "23925"
+          }
+        ],
+        "SpellMisc": [
+          {
+            "ID": "333133",
+            "Attributes_0": "327696",
+            "Attributes_1": "134218240",
+            "Attributes_2": "0",
+            "Attributes_3": "0",
+            "Attributes_4": "0",
+            "Attributes_5": "0",
+            "Attributes_6": "0",
+            "Attributes_7": "0",
+            "Attributes_8": "0",
+            "Attributes_9": "0",
+            "Attributes_10": "0",
+            "Attributes_11": "0",
+            "Attributes_12": "0",
+            "Attributes_13": "0",
+            "Attributes_14": "0",
+            "Attributes_15": "8192",
+            "Attributes_16": "0",
+            "DifficultyID": "0",
+            "CastingTimeIndex": "1",
+            "DurationIndex": "0",
+            "PvPDurationIndex": "0",
+            "RangeIndex": "2",
+            "SchoolMask": "1",
+            "Speed": "0",
+            "LaunchDelay": "0",
+            "MinDuration": "0",
+            "SpellIconFileDataID": "134951",
+            "ActiveIconFileDataID": "0",
+            "ContentTuningID": "0",
+            "ShowFutureSpellPlayerConditionID": "0",
+            "SpellVisualScript": "0",
+            "ActiveSpellVisualScript": "0",
+            "SpellID": "23925"
+          }
+        ],
+        "Spell": [
+          {
+            "ID": "23925",
+            "NameSubtext_lang": "Rank 4",
+            "Description_lang": "Slam the target with your shield, causing $s2 damage, increased by your Block Value, and has a 50% chance of dispelling $s1 magic effect on the target. Causes a very high amount of threat.",
+            "AuraDescription_lang": ""
+          }
+        ],
+        "SpellName": [
+          {
+            "ID": "23925",
+            "Name_lang": "Shield Slam"
+          }
+        ],
+        "SpellDuration": [],
+        "SpellCastTimes": [
+          {
+            "ID": "1",
+            "Base": "0",
+            "Minimum": "0"
+          }
+        ]
+      },
+      "status": "client-values-verified; engine behavior separately modeled"
+    },
+    "Revenge": {
+      "spell_id": 25288,
+      "fields": {
+        "base": [
+          137.7,
+          168.3
+        ],
+        "cost": 5.0,
+        "cooldown": 5.0
+      },
+      "rows": {
+        "SpellEffect": [
+          {
+            "ID": "701608",
+            "EffectAura": "0",
+            "DifficultyID": "0",
+            "EffectIndex": "0",
+            "Effect": "2",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "1",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0.20000000298",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "153",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "25288"
+          }
+        ],
+        "SpellPower": [
+          {
+            "ID": "188046",
+            "OrderIndex": "0",
+            "ManaCost": "50",
+            "ManaCostPerLevel": "0",
+            "ManaPerSecond": "0",
+            "PowerDisplayID": "0",
+            "AltPowerBarID": "0",
+            "PowerCostPct": "0",
+            "PowerCostMaxPct": "0",
+            "OptionalCostPct": "0",
+            "PowerPctPerSecond": "0",
+            "PowerType": "1",
+            "RequiredAuraSpellID": "0",
+            "OptionalCost": "0",
+            "SpellID": "25288"
+          }
+        ],
+        "SpellCooldowns": [
+          {
+            "ID": "55826",
+            "DifficultyID": "0",
+            "CategoryRecoveryTime": "5000",
+            "RecoveryTime": "0",
+            "StartRecoveryTime": "1500",
+            "AuraSpellID": "0",
+            "SpellID": "25288"
+          }
+        ],
+        "SpellLevels": [
+          {
+            "ID": "104551",
+            "DifficultyID": "0",
+            "MaxLevel": "0",
+            "MaxPassiveAuraLevel": "0",
+            "BaseLevel": "60",
+            "SpellLevel": "60",
+            "SpellID": "25288"
+          }
+        ],
+        "SpellMisc": [
+          {
+            "ID": "332991",
+            "Attributes_0": "327696",
+            "Attributes_1": "134218240",
+            "Attributes_2": "0",
+            "Attributes_3": "1024",
+            "Attributes_4": "512",
+            "Attributes_5": "0",
+            "Attributes_6": "0",
+            "Attributes_7": "0",
+            "Attributes_8": "0",
+            "Attributes_9": "0",
+            "Attributes_10": "0",
+            "Attributes_11": "0",
+            "Attributes_12": "0",
+            "Attributes_13": "0",
+            "Attributes_14": "0",
+            "Attributes_15": "8192",
+            "Attributes_16": "0",
+            "DifficultyID": "0",
+            "CastingTimeIndex": "1",
+            "DurationIndex": "0",
+            "PvPDurationIndex": "0",
+            "RangeIndex": "2",
+            "SchoolMask": "1",
+            "Speed": "0",
+            "LaunchDelay": "0",
+            "MinDuration": "0",
+            "SpellIconFileDataID": "132353",
+            "ActiveIconFileDataID": "0",
+            "ContentTuningID": "0",
+            "ShowFutureSpellPlayerConditionID": "0",
+            "SpellVisualScript": "0",
+            "ActiveSpellVisualScript": "0",
+            "SpellID": "25288"
+          }
+        ],
+        "Spell": [
+          {
+            "ID": "25288",
+            "NameSubtext_lang": "Rank 6",
+            "Description_lang": "Instantly counterattack an enemy for $s1 damage and a high amount of threat.   Revenge must follow a block, dodge or parry.",
+            "AuraDescription_lang": ""
+          }
+        ],
+        "SpellName": [
+          {
+            "ID": "25288",
+            "Name_lang": "Revenge"
+          }
+        ],
+        "SpellDuration": [],
+        "SpellCastTimes": [
+          {
+            "ID": "1",
+            "Base": "0",
+            "Minimum": "0"
+          }
+        ]
+      },
+      "status": "client-values-verified; engine behavior separately modeled"
+    },
+    "Insect Swarm": {
+      "spell_id": 24977,
+      "fields": {
+        "tick": 31.0,
+        "dot_coeff": 0.158,
+        "tick_len": 2.0,
+        "ticks": 6,
+        "cost": 160.0
+      },
+      "rows": {
+        "SpellEffect": [
+          {
+            "ID": "703380",
+            "EffectAura": "3",
+            "DifficultyID": "0",
+            "EffectIndex": "0",
+            "Effect": "6",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "2000",
+            "EffectBonusCoefficient": "0.15800000727",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "31",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "24977"
+          },
+          {
+            "ID": "703381",
+            "EffectAura": "54",
+            "DifficultyID": "0",
+            "EffectIndex": "1",
+            "Effect": "6",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "1",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "-2",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "24977"
+          }
+        ],
+        "SpellPower": [
+          {
+            "ID": "189423",
+            "OrderIndex": "0",
+            "ManaCost": "160",
+            "ManaCostPerLevel": "0",
+            "ManaPerSecond": "0",
+            "PowerDisplayID": "0",
+            "AltPowerBarID": "0",
+            "PowerCostPct": "0",
+            "PowerCostMaxPct": "0",
+            "OptionalCostPct": "0",
+            "PowerPctPerSecond": "0",
+            "PowerType": "0",
+            "RequiredAuraSpellID": "0",
+            "OptionalCost": "0",
+            "SpellID": "24977"
+          }
+        ],
+        "SpellCooldowns": [
+          {
+            "ID": "55967",
+            "DifficultyID": "0",
+            "CategoryRecoveryTime": "0",
+            "RecoveryTime": "0",
+            "StartRecoveryTime": "1500",
+            "AuraSpellID": "0",
+            "SpellID": "24977"
+          }
+        ],
+        "SpellLevels": [
+          {
+            "ID": "104960",
+            "DifficultyID": "0",
+            "MaxLevel": "0",
+            "MaxPassiveAuraLevel": "0",
+            "BaseLevel": "60",
+            "SpellLevel": "60",
+            "SpellID": "24977"
+          }
+        ],
+        "SpellMisc": [
+          {
+            "ID": "334368",
+            "Attributes_0": "65536",
+            "Attributes_1": "0",
+            "Attributes_2": "524288",
+            "Attributes_3": "128",
+            "Attributes_4": "536870912",
+            "Attributes_5": "0",
+            "Attributes_6": "8388608",
+            "Attributes_7": "0",
+            "Attributes_8": "512",
+            "Attributes_9": "0",
+            "Attributes_10": "0",
+            "Attributes_11": "0",
+            "Attributes_12": "0",
+            "Attributes_13": "128",
+            "Attributes_14": "0",
+            "Attributes_15": "8192",
+            "Attributes_16": "0",
+            "DifficultyID": "0",
+            "CastingTimeIndex": "1",
+            "DurationIndex": "29",
+            "PvPDurationIndex": "0",
+            "RangeIndex": "4",
+            "SchoolMask": "8",
+            "Speed": "0",
+            "LaunchDelay": "0",
+            "MinDuration": "0",
+            "SpellIconFileDataID": "136045",
+            "ActiveIconFileDataID": "0",
+            "ContentTuningID": "0",
+            "ShowFutureSpellPlayerConditionID": "0",
+            "SpellVisualScript": "0",
+            "ActiveSpellVisualScript": "0",
+            "SpellID": "24977"
+          }
+        ],
+        "Spell": [
+          {
+            "ID": "24977",
+            "NameSubtext_lang": "Rank 5",
+            "Description_lang": "The enemy target is swarmed by insects, decreasing their chance to hit with attacks by $s2% and causing $o1 Nature damage over $d.",
+            "AuraDescription_lang": "Chance to hit with attacks decreased by $s2% and $s1 Nature damage every $t1 sec."
+          }
+        ],
+        "SpellName": [
+          {
+            "ID": "24977",
+            "Name_lang": "Insect Swarm"
+          }
+        ],
+        "SpellDuration": [
+          {
+            "ID": "29",
+            "Duration": "12000",
+            "MaxDuration": "12000",
+            "DurationPerResource": "0"
+          }
+        ],
+        "SpellCastTimes": [
+          {
+            "ID": "1",
+            "Base": "0",
+            "Minimum": "0"
+          }
+        ]
+      },
+      "status": "client-values-verified; engine behavior separately modeled"
+    },
+    "Arcane Blast": {
+      "spell_id": 1239700,
+      "fields": {
+        "base": [
+          364.24898,
+          423.75102
+        ],
+        "coeff": 0.714,
+        "cost": 0.0,
+        "cost_pct": 0.15,
+        "cast": 2.5
+      },
+      "rows": {
+        "SpellEffect": [
+          {
+            "ID": "1237649",
+            "EffectAura": "0",
+            "DifficultyID": "0",
+            "EffectIndex": "0",
+            "Effect": "2",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "0.71399998665",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "2.59999990463",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0.15102040768",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "394",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "1239700"
+          }
+        ],
+        "SpellPower": [
+          {
+            "ID": "310884",
+            "OrderIndex": "0",
+            "ManaCost": "0",
+            "ManaCostPerLevel": "0",
+            "ManaPerSecond": "0",
+            "PowerDisplayID": "0",
+            "AltPowerBarID": "0",
+            "PowerCostPct": "15",
+            "PowerCostMaxPct": "0",
+            "OptionalCostPct": "0",
+            "PowerPctPerSecond": "0",
+            "PowerType": "0",
+            "RequiredAuraSpellID": "0",
+            "OptionalCost": "0",
+            "SpellID": "1239700"
+          }
+        ],
+        "SpellCooldowns": [
+          {
+            "ID": "94652",
+            "DifficultyID": "0",
+            "CategoryRecoveryTime": "0",
+            "RecoveryTime": "0",
+            "StartRecoveryTime": "1500",
+            "AuraSpellID": "0",
+            "SpellID": "1239700"
+          }
+        ],
+        "SpellLevels": [
+          {
+            "ID": "148353",
+            "DifficultyID": "0",
+            "MaxLevel": "68",
+            "MaxPassiveAuraLevel": "0",
+            "BaseLevel": "60",
+            "SpellLevel": "60",
+            "SpellID": "1239700"
+          }
+        ],
+        "SpellMisc": [
+          {
+            "ID": "794273",
+            "Attributes_0": "262144",
+            "Attributes_1": "0",
+            "Attributes_2": "256",
+            "Attributes_3": "0",
+            "Attributes_4": "0",
+            "Attributes_5": "0",
+            "Attributes_6": "0",
+            "Attributes_7": "0",
+            "Attributes_8": "0",
+            "Attributes_9": "0",
+            "Attributes_10": "0",
+            "Attributes_11": "0",
+            "Attributes_12": "0",
+            "Attributes_13": "0",
+            "Attributes_14": "0",
+            "Attributes_15": "8192",
+            "Attributes_16": "0",
+            "DifficultyID": "0",
+            "CastingTimeIndex": "19",
+            "DurationIndex": "0",
+            "PvPDurationIndex": "0",
+            "RangeIndex": "4",
+            "SchoolMask": "64",
+            "Speed": "0",
+            "LaunchDelay": "0",
+            "MinDuration": "0",
+            "SpellIconFileDataID": "135735",
+            "ActiveIconFileDataID": "0",
+            "ContentTuningID": "0",
+            "ShowFutureSpellPlayerConditionID": "0",
+            "SpellVisualScript": "0",
+            "ActiveSpellVisualScript": "0",
+            "SpellID": "1239700"
+          }
+        ],
+        "Spell": [
+          {
+            "ID": "1239700",
+            "NameSubtext_lang": "Rank 5",
+            "Description_lang": "Blasts the target with energy, dealing $s1 Arcane damage. Each time you cast Arcane Blast, the damage of all your other spells is increased by $400573s1% and the mana cost of Arcane Blast is increased by $400573s2%. Effect stacks up to $400573u times and lasts $400573d or until any other damage spell is cast.",
+            "AuraDescription_lang": ""
+          }
+        ],
+        "SpellName": [
+          {
+            "ID": "1239700",
+            "Name_lang": "Arcane Blast"
+          }
+        ],
+        "SpellDuration": [],
+        "SpellCastTimes": [
+          {
+            "ID": "19",
+            "Base": "2500",
+            "Minimum": "2500"
+          }
+        ]
+      },
+      "status": "client-values-verified; engine behavior separately modeled"
+    },
+    "Pyroblast": {
+      "spell_id": 18809,
+      "fields": {
+        "base": [
+          519.835615,
+          646.164385
+        ],
+        "coeff": 1.0,
+        "tick": 53.0,
+        "dot_coeff": 0.15,
+        "cost": 440.0,
+        "cast": 6.0
+      },
+      "rows": {
+        "SpellEffect": [
+          {
+            "ID": "691706",
+            "EffectAura": "0",
+            "DifficultyID": "0",
+            "EffectIndex": "0",
+            "Effect": "2",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "1",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "4.59999990463",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0.21668742597",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "583",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "18809"
+          },
+          {
+            "ID": "691707",
+            "EffectAura": "3",
+            "DifficultyID": "0",
+            "EffectIndex": "1",
+            "Effect": "6",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "3000",
+            "EffectBonusCoefficient": "0.15000000596",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "53",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "18809"
+          }
+        ],
+        "SpellPower": [
+          {
+            "ID": "180073",
+            "OrderIndex": "0",
+            "ManaCost": "440",
+            "ManaCostPerLevel": "0",
+            "ManaPerSecond": "0",
+            "PowerDisplayID": "0",
+            "AltPowerBarID": "0",
+            "PowerCostPct": "0",
+            "PowerCostMaxPct": "0",
+            "OptionalCostPct": "0",
+            "PowerPctPerSecond": "0",
+            "PowerType": "0",
+            "RequiredAuraSpellID": "0",
+            "OptionalCost": "0",
+            "SpellID": "18809"
+          }
+        ],
+        "SpellCooldowns": [
+          {
+            "ID": "54904",
+            "DifficultyID": "0",
+            "CategoryRecoveryTime": "0",
+            "RecoveryTime": "0",
+            "StartRecoveryTime": "1500",
+            "AuraSpellID": "0",
+            "SpellID": "18809"
+          }
+        ],
+        "SpellLevels": [
+          {
+            "ID": "101842",
+            "DifficultyID": "0",
+            "MaxLevel": "66",
+            "MaxPassiveAuraLevel": "0",
+            "BaseLevel": "60",
+            "SpellLevel": "60",
+            "SpellID": "18809"
+          }
+        ],
+        "SpellMisc": [
+          {
+            "ID": "325018",
+            "Attributes_0": "65536",
+            "Attributes_1": "0",
+            "Attributes_2": "0",
+            "Attributes_3": "0",
+            "Attributes_4": "0",
+            "Attributes_5": "0",
+            "Attributes_6": "0",
+            "Attributes_7": "0",
+            "Attributes_8": "512",
+            "Attributes_9": "0",
+            "Attributes_10": "0",
+            "Attributes_11": "0",
+            "Attributes_12": "0",
+            "Attributes_13": "128",
+            "Attributes_14": "0",
+            "Attributes_15": "8192",
+            "Attributes_16": "0",
+            "DifficultyID": "0",
+            "CastingTimeIndex": "171",
+            "DurationIndex": "29",
+            "PvPDurationIndex": "0",
+            "RangeIndex": "35",
+            "SchoolMask": "4",
+            "Speed": "24",
+            "LaunchDelay": "0",
+            "MinDuration": "0",
+            "SpellIconFileDataID": "135808",
+            "ActiveIconFileDataID": "0",
+            "ContentTuningID": "0",
+            "ShowFutureSpellPlayerConditionID": "0",
+            "SpellVisualScript": "0",
+            "ActiveSpellVisualScript": "0",
+            "SpellID": "18809"
+          }
+        ],
+        "Spell": [
+          {
+            "ID": "18809",
+            "NameSubtext_lang": "Rank 8",
+            "Description_lang": "Hurls an immense fiery boulder that causes $s1 Fire damage and an additional $o2 Fire damage over $d.",
+            "AuraDescription_lang": "$s2 Fire damage every $t2 seconds."
+          }
+        ],
+        "SpellName": [
+          {
+            "ID": "18809",
+            "Name_lang": "Pyroblast"
+          }
+        ],
+        "SpellDuration": [
+          {
+            "ID": "29",
+            "Duration": "12000",
+            "MaxDuration": "12000",
+            "DurationPerResource": "0"
+          }
+        ],
+        "SpellCastTimes": [
+          {
+            "ID": "171",
+            "Base": "6000",
+            "Minimum": "6000"
+          }
+        ]
+      },
+      "status": "client-values-verified; engine behavior separately modeled"
+    },
+    "Ice Lance": {
+      "spell_id": 1240047,
+      "fields": {
+        "base": [
+          136.516666,
+          160.683334
+        ],
+        "coeff": 0.0,
+        "cost": 160.0
+      },
+      "rows": {
+        "SpellEffect": [
+          {
+            "ID": "1238151",
+            "EffectAura": "0",
+            "DifficultyID": "0",
+            "EffectIndex": "0",
+            "Effect": "2",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "0",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0.89999997616",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0.16666667163",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "145",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "1240047"
+          },
+          {
+            "ID": "1238152",
+            "EffectAura": "0",
+            "DifficultyID": "0",
+            "EffectIndex": "1",
+            "Effect": "3",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "0",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "300",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "0",
+            "ImplicitTarget_1": "0",
+            "SpellID": "1240047"
+          },
+          {
+            "ID": "1238153",
+            "EffectAura": "0",
+            "DifficultyID": "0",
+            "EffectIndex": "2",
+            "Effect": "3",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "0",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "20",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "0",
+            "ImplicitTarget_1": "0",
+            "SpellID": "1240047"
+          },
+          {
+            "ID": "1238154",
+            "EffectAura": "0",
+            "DifficultyID": "0",
+            "EffectIndex": "3",
+            "Effect": "3",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "0",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "5",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "0",
+            "ImplicitTarget_1": "0",
+            "SpellID": "1240047"
+          }
+        ],
+        "SpellPower": [
+          {
+            "ID": "310892",
+            "OrderIndex": "0",
+            "ManaCost": "160",
+            "ManaCostPerLevel": "0",
+            "ManaPerSecond": "0",
+            "PowerDisplayID": "0",
+            "AltPowerBarID": "0",
+            "PowerCostPct": "0",
+            "PowerCostMaxPct": "0",
+            "OptionalCostPct": "0",
+            "PowerPctPerSecond": "0",
+            "PowerType": "0",
+            "RequiredAuraSpellID": "0",
+            "OptionalCost": "0",
+            "SpellID": "1240047"
+          }
+        ],
+        "SpellCooldowns": [
+          {
+            "ID": "94689",
+            "DifficultyID": "0",
+            "CategoryRecoveryTime": "0",
+            "RecoveryTime": "0",
+            "StartRecoveryTime": "1500",
+            "AuraSpellID": "0",
+            "SpellID": "1240047"
+          }
+        ],
+        "SpellLevels": [
+          {
+            "ID": "148364",
+            "DifficultyID": "0",
+            "MaxLevel": "64",
+            "MaxPassiveAuraLevel": "0",
+            "BaseLevel": "56",
+            "SpellLevel": "56",
+            "SpellID": "1240047"
+          }
+        ],
+        "SpellMisc": [
+          {
+            "ID": "794618",
+            "Attributes_0": "327680",
+            "Attributes_1": "0",
+            "Attributes_2": "256",
+            "Attributes_3": "0",
+            "Attributes_4": "0",
+            "Attributes_5": "0",
+            "Attributes_6": "0",
+            "Attributes_7": "0",
+            "Attributes_8": "0",
+            "Attributes_9": "0",
+            "Attributes_10": "0",
+            "Attributes_11": "0",
+            "Attributes_12": "0",
+            "Attributes_13": "0",
+            "Attributes_14": "0",
+            "Attributes_15": "8192",
+            "Attributes_16": "0",
+            "DifficultyID": "0",
+            "CastingTimeIndex": "1",
+            "DurationIndex": "0",
+            "PvPDurationIndex": "0",
+            "RangeIndex": "4",
+            "SchoolMask": "16",
+            "Speed": "38",
+            "LaunchDelay": "0",
+            "MinDuration": "0",
+            "SpellIconFileDataID": "135844",
+            "ActiveIconFileDataID": "0",
+            "ContentTuningID": "0",
+            "ShowFutureSpellPlayerConditionID": "0",
+            "SpellVisualScript": "0",
+            "ActiveSpellVisualScript": "0",
+            "SpellID": "1240047"
+          }
+        ],
+        "Spell": [
+          {
+            "ID": "1240047",
+            "NameSubtext_lang": "Rank 6",
+            "Description_lang": "Deals $s1 Frost damage to an enemy target. Deals $s2% increased damage to Frozen targets.",
+            "AuraDescription_lang": ""
+          }
+        ],
+        "SpellName": [
+          {
+            "ID": "1240047",
+            "Name_lang": "Ice Lance"
+          }
+        ],
+        "SpellDuration": [],
+        "SpellCastTimes": [
+          {
+            "ID": "1",
+            "Base": "0",
+            "Minimum": "0"
+          }
+        ]
+      },
+      "status": "client-values-verified; engine behavior separately modeled"
+    },
+    "Shadow Word: Pain": {
+      "spell_id": 10894,
+      "fields": {
+        "tick": 127.0,
+        "ticks": 6,
+        "cost": 470.0
+      },
+      "rows": {
+        "SpellEffect": [
+          {
+            "ID": "688996",
+            "EffectAura": "3",
+            "DifficultyID": "0",
+            "EffectIndex": "0",
+            "Effect": "6",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "3000",
+            "EffectBonusCoefficient": "0.20000000298",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "127",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "10894"
+          }
+        ],
+        "SpellPower": [
+          {
+            "ID": "177793",
+            "OrderIndex": "0",
+            "ManaCost": "470",
+            "ManaCostPerLevel": "0",
+            "ManaPerSecond": "0",
+            "PowerDisplayID": "0",
+            "AltPowerBarID": "0",
+            "PowerCostPct": "0",
+            "PowerCostMaxPct": "0",
+            "OptionalCostPct": "0",
+            "PowerPctPerSecond": "0",
+            "PowerType": "0",
+            "RequiredAuraSpellID": "0",
+            "OptionalCost": "0",
+            "SpellID": "10894"
+          }
+        ],
+        "SpellCooldowns": [
+          {
+            "ID": "54548",
+            "DifficultyID": "0",
+            "CategoryRecoveryTime": "0",
+            "RecoveryTime": "0",
+            "StartRecoveryTime": "1500",
+            "AuraSpellID": "0",
+            "SpellID": "10894"
+          }
+        ],
+        "SpellLevels": [
+          {
+            "ID": "100790",
+            "DifficultyID": "0",
+            "MaxLevel": "0",
+            "MaxPassiveAuraLevel": "0",
+            "BaseLevel": "58",
+            "SpellLevel": "58",
+            "SpellID": "10894"
+          }
+        ],
+        "SpellMisc": [
+          {
+            "ID": "322738",
+            "Attributes_0": "327680",
+            "Attributes_1": "0",
+            "Attributes_2": "524288",
+            "Attributes_3": "0",
+            "Attributes_4": "0",
+            "Attributes_5": "0",
+            "Attributes_6": "8388608",
+            "Attributes_7": "0",
+            "Attributes_8": "512",
+            "Attributes_9": "0",
+            "Attributes_10": "0",
+            "Attributes_11": "0",
+            "Attributes_12": "0",
+            "Attributes_13": "128",
+            "Attributes_14": "0",
+            "Attributes_15": "8192",
+            "Attributes_16": "0",
+            "DifficultyID": "0",
+            "CastingTimeIndex": "1",
+            "DurationIndex": "85",
+            "PvPDurationIndex": "0",
+            "RangeIndex": "4",
+            "SchoolMask": "32",
+            "Speed": "0",
+            "LaunchDelay": "0",
+            "MinDuration": "0",
+            "SpellIconFileDataID": "136207",
+            "ActiveIconFileDataID": "0",
+            "ContentTuningID": "0",
+            "ShowFutureSpellPlayerConditionID": "0",
+            "SpellVisualScript": "0",
+            "ActiveSpellVisualScript": "0",
+            "SpellID": "10894"
+          }
+        ],
+        "Spell": [
+          {
+            "ID": "10894",
+            "NameSubtext_lang": "Rank 8",
+            "Description_lang": "A word of darkness that causes $o1 Shadow damage over $d.",
+            "AuraDescription_lang": "$s1 Shadow damage every $t1 seconds."
+          }
+        ],
+        "SpellName": [
+          {
+            "ID": "10894",
+            "Name_lang": "Shadow Word: Pain"
+          }
+        ],
+        "SpellDuration": [
+          {
+            "ID": "85",
+            "Duration": "18000",
+            "MaxDuration": "18000",
+            "DurationPerResource": "0"
+          }
+        ],
+        "SpellCastTimes": [
+          {
+            "ID": "1",
+            "Base": "0",
+            "Minimum": "0"
+          }
+        ]
+      },
+      "status": "client-values-verified; engine behavior separately modeled"
+    },
+    "Shadow Word: Death": {
+      "spell_id": 1309636,
+      "fields": {
+        "base": [
+          444.448,
+          471.552
+        ],
+        "coeff": 0.429,
+        "cost": 340.0,
+        "cooldown": 15.0
+      },
+      "rows": {
+        "SpellEffect": [
+          {
+            "ID": "1338685",
+            "EffectAura": "0",
+            "DifficultyID": "0",
+            "EffectIndex": "0",
+            "Effect": "2",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "0.42899999022",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "2.5",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0.06049999967",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "448",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "1309636"
+          },
+          {
+            "ID": "1338686",
+            "EffectAura": "0",
+            "DifficultyID": "0",
+            "EffectIndex": "1",
+            "Effect": "77",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "0",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "150",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "1309636"
+          },
+          {
+            "ID": "1338687",
+            "EffectAura": "0",
+            "DifficultyID": "0",
+            "EffectIndex": "2",
+            "Effect": "3",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "0",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "10",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "0",
+            "ImplicitTarget_1": "0",
+            "SpellID": "1309636"
+          }
+        ],
+        "SpellPower": [
+          {
+            "ID": "314468",
+            "OrderIndex": "0",
+            "ManaCost": "340",
+            "ManaCostPerLevel": "0",
+            "ManaPerSecond": "0",
+            "PowerDisplayID": "0",
+            "AltPowerBarID": "0",
+            "PowerCostPct": "0",
+            "PowerCostMaxPct": "0",
+            "OptionalCostPct": "0",
+            "PowerPctPerSecond": "0",
+            "PowerType": "0",
+            "RequiredAuraSpellID": "0",
+            "OptionalCost": "0",
+            "SpellID": "1309636"
+          }
+        ],
+        "SpellCooldowns": [
+          {
+            "ID": "100966",
+            "DifficultyID": "0",
+            "CategoryRecoveryTime": "15000",
+            "RecoveryTime": "0",
+            "StartRecoveryTime": "1500",
+            "AuraSpellID": "0",
+            "SpellID": "1309636"
+          }
+        ],
+        "SpellLevels": [
+          {
+            "ID": "153225",
+            "DifficultyID": "0",
+            "MaxLevel": "61",
+            "MaxPassiveAuraLevel": "0",
+            "BaseLevel": "56",
+            "SpellLevel": "56",
+            "SpellID": "1309636"
+          }
+        ],
+        "SpellMisc": [
+          {
+            "ID": "856275",
+            "Attributes_0": "327680",
+            "Attributes_1": "0",
+            "Attributes_2": "524288",
+            "Attributes_3": "0",
+            "Attributes_4": "0",
+            "Attributes_5": "0",
+            "Attributes_6": "0",
+            "Attributes_7": "0",
+            "Attributes_8": "4096",
+            "Attributes_9": "0",
+            "Attributes_10": "0",
+            "Attributes_11": "0",
+            "Attributes_12": "0",
+            "Attributes_13": "0",
+            "Attributes_14": "0",
+            "Attributes_15": "8192",
+            "Attributes_16": "0",
+            "DifficultyID": "0",
+            "CastingTimeIndex": "1",
+            "DurationIndex": "0",
+            "PvPDurationIndex": "0",
+            "RangeIndex": "4",
+            "SchoolMask": "32",
+            "Speed": "0",
+            "LaunchDelay": "0",
+            "MinDuration": "0",
+            "SpellIconFileDataID": "136149",
+            "ActiveIconFileDataID": "0",
+            "ContentTuningID": "0",
+            "ShowFutureSpellPlayerConditionID": "0",
+            "SpellVisualScript": "0",
+            "ActiveSpellVisualScript": "0",
+            "SpellID": "1309636"
+          }
+        ],
+        "Spell": [
+          {
+            "ID": "1309636",
+            "NameSubtext_lang": "Rank 4",
+            "Description_lang": "A word of dark binding that inflicts $s1 Shadow damage to the target. If your target is not killed by Shadow Word: Death, you take backlash damage equal to $s3% of your maximum health.",
+            "AuraDescription_lang": ""
+          }
+        ],
+        "SpellName": [
+          {
+            "ID": "1309636",
+            "Name_lang": "Shadow Word: Death"
+          }
+        ],
+        "SpellDuration": [],
+        "SpellCastTimes": [
+          {
+            "ID": "1",
+            "Base": "0",
+            "Minimum": "0"
+          }
+        ]
+      },
+      "status": "client-values-verified; engine behavior separately modeled"
+    },
+    "Devouring Plague": {
+      "spell_id": 19280,
+      "fields": {
+        "tick": 106.0,
+        "dot_coeff": 0.1,
+        "cost": 985.0,
+        "cooldown": 60.0
+      },
+      "rows": {
+        "SpellEffect": [
+          {
+            "ID": "696311",
+            "EffectAura": "53",
+            "DifficultyID": "0",
+            "EffectIndex": "0",
+            "Effect": "6",
+            "EffectAmplitude": "1",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "3000",
+            "EffectBonusCoefficient": "0.10000000149",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "106",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "19280"
+          }
+        ],
+        "SpellPower": [
+          {
+            "ID": "183825",
+            "OrderIndex": "0",
+            "ManaCost": "985",
+            "ManaCostPerLevel": "0",
+            "ManaPerSecond": "0",
+            "PowerDisplayID": "0",
+            "AltPowerBarID": "0",
+            "PowerCostPct": "0",
+            "PowerCostMaxPct": "0",
+            "OptionalCostPct": "0",
+            "PowerPctPerSecond": "0",
+            "PowerType": "0",
+            "RequiredAuraSpellID": "0",
+            "OptionalCost": "0",
+            "SpellID": "19280"
+          }
+        ],
+        "SpellCooldowns": [
+          {
+            "ID": "55344",
+            "DifficultyID": "0",
+            "CategoryRecoveryTime": "60000",
+            "RecoveryTime": "0",
+            "StartRecoveryTime": "1500",
+            "AuraSpellID": "0",
+            "SpellID": "19280"
+          }
+        ],
+        "SpellLevels": [
+          {
+            "ID": "103137",
+            "DifficultyID": "0",
+            "MaxLevel": "0",
+            "MaxPassiveAuraLevel": "0",
+            "BaseLevel": "60",
+            "SpellLevel": "60",
+            "SpellID": "19280"
+          }
+        ],
+        "SpellMisc": [
+          {
+            "ID": "328770",
+            "Attributes_0": "65536",
+            "Attributes_1": "0",
+            "Attributes_2": "524288",
+            "Attributes_3": "0",
+            "Attributes_4": "0",
+            "Attributes_5": "0",
+            "Attributes_6": "8388608",
+            "Attributes_7": "0",
+            "Attributes_8": "0",
+            "Attributes_9": "0",
+            "Attributes_10": "0",
+            "Attributes_11": "0",
+            "Attributes_12": "0",
+            "Attributes_13": "128",
+            "Attributes_14": "0",
+            "Attributes_15": "8192",
+            "Attributes_16": "0",
+            "DifficultyID": "0",
+            "CastingTimeIndex": "1",
+            "DurationIndex": "106",
+            "PvPDurationIndex": "0",
+            "RangeIndex": "4",
+            "SchoolMask": "32",
+            "Speed": "0",
+            "LaunchDelay": "0",
+            "MinDuration": "0",
+            "SpellIconFileDataID": "252997",
+            "ActiveIconFileDataID": "0",
+            "ContentTuningID": "0",
+            "ShowFutureSpellPlayerConditionID": "0",
+            "SpellVisualScript": "0",
+            "ActiveSpellVisualScript": "0",
+            "SpellID": "19280"
+          }
+        ],
+        "Spell": [
+          {
+            "ID": "19280",
+            "NameSubtext_lang": "Rank 6",
+            "Description_lang": "Afflicts the target with a disease that causes $o1 Shadow damage over $d.  Damage caused by the Devouring Plague heals the caster.",
+            "AuraDescription_lang": "Causes $s1 damage every $t1 seconds, healing the caster."
+          }
+        ],
+        "SpellName": [
+          {
+            "ID": "19280",
+            "Name_lang": "Devouring Plague"
+          }
+        ],
+        "SpellDuration": [
+          {
+            "ID": "106",
+            "Duration": "24000",
+            "MaxDuration": "24000",
+            "DurationPerResource": "0"
+          }
+        ],
+        "SpellCastTimes": [
+          {
+            "ID": "1",
+            "Base": "0",
+            "Minimum": "0"
+          }
+        ]
+      },
+      "status": "client-values-verified; engine behavior separately modeled"
+    },
+    "Lightning Bolt": {
+      "spell_id": 15208,
+      "fields": {
+        "coeff": 0.714,
+        "cost": 220.0,
+        "cast": 2.5
+      },
+      "rows": {
+        "SpellEffect": [
+          {
+            "ID": "691780",
+            "EffectAura": "0",
+            "DifficultyID": "0",
+            "EffectIndex": "0",
+            "Effect": "2",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "0.71399998665",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "1.20000004768",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0.10835214704",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "196",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "15208"
+          }
+        ],
+        "SpellPower": [
+          {
+            "ID": "180138",
+            "OrderIndex": "0",
+            "ManaCost": "220",
+            "ManaCostPerLevel": "0",
+            "ManaPerSecond": "0",
+            "PowerDisplayID": "0",
+            "AltPowerBarID": "0",
+            "PowerCostPct": "0",
+            "PowerCostMaxPct": "0",
+            "OptionalCostPct": "0",
+            "PowerPctPerSecond": "0",
+            "PowerType": "0",
+            "RequiredAuraSpellID": "0",
+            "OptionalCost": "0",
+            "SpellID": "15208"
+          }
+        ],
+        "SpellCooldowns": [
+          {
+            "ID": "54911",
+            "DifficultyID": "0",
+            "CategoryRecoveryTime": "0",
+            "RecoveryTime": "0",
+            "StartRecoveryTime": "1500",
+            "AuraSpellID": "0",
+            "SpellID": "15208"
+          }
+        ],
+        "SpellLevels": [
+          {
+            "ID": "101857",
+            "DifficultyID": "0",
+            "MaxLevel": "61",
+            "MaxPassiveAuraLevel": "0",
+            "BaseLevel": "56",
+            "SpellLevel": "56",
+            "SpellID": "15208"
+          }
+        ],
+        "SpellMisc": [
+          {
+            "ID": "325083",
+            "Attributes_0": "65536",
+            "Attributes_1": "0",
+            "Attributes_2": "0",
+            "Attributes_3": "0",
+            "Attributes_4": "0",
+            "Attributes_5": "0",
+            "Attributes_6": "33554432",
+            "Attributes_7": "0",
+            "Attributes_8": "0",
+            "Attributes_9": "0",
+            "Attributes_10": "0",
+            "Attributes_11": "0",
+            "Attributes_12": "0",
+            "Attributes_13": "0",
+            "Attributes_14": "0",
+            "Attributes_15": "8192",
+            "Attributes_16": "0",
+            "DifficultyID": "0",
+            "CastingTimeIndex": "19",
+            "DurationIndex": "0",
+            "PvPDurationIndex": "0",
+            "RangeIndex": "4",
+            "SchoolMask": "8",
+            "Speed": "20",
+            "LaunchDelay": "0",
+            "MinDuration": "0",
+            "SpellIconFileDataID": "136048",
+            "ActiveIconFileDataID": "0",
+            "ContentTuningID": "0",
+            "ShowFutureSpellPlayerConditionID": "0",
+            "SpellVisualScript": "0",
+            "ActiveSpellVisualScript": "0",
+            "SpellID": "15208"
+          }
+        ],
+        "Spell": [
+          {
+            "ID": "15208",
+            "NameSubtext_lang": "Rank 10",
+            "Description_lang": "Casts a bolt of lightning at the target for $s1 Nature damage.",
+            "AuraDescription_lang": ""
+          }
+        ],
+        "SpellName": [
+          {
+            "ID": "15208",
+            "Name_lang": "Lightning Bolt"
+          }
+        ],
+        "SpellDuration": [],
+        "SpellCastTimes": [
+          {
+            "ID": "19",
+            "Base": "2500",
+            "Minimum": "2500"
+          }
+        ]
+      },
+      "status": "client-values-verified; engine behavior separately modeled"
+    },
+    "Chain Lightning": {
+      "spell_id": 10605,
+      "fields": {
+        "coeff": 0.571,
+        "cost": 485.0,
+        "cast": 2.0,
+        "cooldown": 6.0
+      },
+      "rows": {
+        "SpellEffect": [
+          {
+            "ID": "688920",
+            "EffectAura": "0",
+            "DifficultyID": "0",
+            "EffectIndex": "0",
+            "Effect": "2",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "0.57099997997",
+            "EffectChainAmplitude": "0.69999998808",
+            "EffectChainTargets": "3",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0.80000001192",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0.11111111194",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "123",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "10605"
+          }
+        ],
+        "SpellPower": [
+          {
+            "ID": "177727",
+            "OrderIndex": "0",
+            "ManaCost": "485",
+            "ManaCostPerLevel": "0",
+            "ManaPerSecond": "0",
+            "PowerDisplayID": "0",
+            "AltPowerBarID": "0",
+            "PowerCostPct": "0",
+            "PowerCostMaxPct": "0",
+            "OptionalCostPct": "0",
+            "PowerPctPerSecond": "0",
+            "PowerType": "0",
+            "RequiredAuraSpellID": "0",
+            "OptionalCost": "0",
+            "SpellID": "10605"
+          }
+        ],
+        "SpellCooldowns": [
+          {
+            "ID": "54534",
+            "DifficultyID": "0",
+            "CategoryRecoveryTime": "6000",
+            "RecoveryTime": "0",
+            "StartRecoveryTime": "1500",
+            "AuraSpellID": "0",
+            "SpellID": "10605"
+          }
+        ],
+        "SpellLevels": [
+          {
+            "ID": "100755",
+            "DifficultyID": "0",
+            "MaxLevel": "61",
+            "MaxPassiveAuraLevel": "0",
+            "BaseLevel": "56",
+            "SpellLevel": "56",
+            "SpellID": "10605"
+          }
+        ],
+        "SpellMisc": [
+          {
+            "ID": "322672",
+            "Attributes_0": "65536",
+            "Attributes_1": "0",
+            "Attributes_2": "0",
+            "Attributes_3": "0",
+            "Attributes_4": "0",
+            "Attributes_5": "0",
+            "Attributes_6": "33554432",
+            "Attributes_7": "0",
+            "Attributes_8": "0",
+            "Attributes_9": "0",
+            "Attributes_10": "0",
+            "Attributes_11": "0",
+            "Attributes_12": "0",
+            "Attributes_13": "0",
+            "Attributes_14": "0",
+            "Attributes_15": "8192",
+            "Attributes_16": "0",
+            "DifficultyID": "0",
+            "CastingTimeIndex": "5",
+            "DurationIndex": "0",
+            "PvPDurationIndex": "0",
+            "RangeIndex": "4",
+            "SchoolMask": "8",
+            "Speed": "0",
+            "LaunchDelay": "0",
+            "MinDuration": "0",
+            "SpellIconFileDataID": "136015",
+            "ActiveIconFileDataID": "0",
+            "ContentTuningID": "0",
+            "ShowFutureSpellPlayerConditionID": "0",
+            "SpellVisualScript": "0",
+            "ActiveSpellVisualScript": "0",
+            "SpellID": "10605"
+          }
+        ],
+        "Spell": [
+          {
+            "ID": "10605",
+            "NameSubtext_lang": "Rank 4",
+            "Description_lang": "Hurls a lightning bolt at the enemy, dealing $s1 Nature damage and then jumping to additional nearby enemies.  Each jump reduces the damage by $?a415096[20%][30%].  Affects $x1 total targets.",
+            "AuraDescription_lang": ""
+          }
+        ],
+        "SpellName": [
+          {
+            "ID": "10605",
+            "Name_lang": "Chain Lightning"
+          }
+        ],
+        "SpellDuration": [],
+        "SpellCastTimes": [
+          {
+            "ID": "5",
+            "Base": "2000",
+            "Minimum": "2000"
+          }
+        ]
+      },
+      "status": "client-values-verified; engine behavior separately modeled"
+    },
+    "Lava Burst": {
+      "spell_id": 1238300,
+      "fields": {
+        "base": [
+          192.141526,
+          247.858474
+        ],
+        "coeff": 0.714,
+        "cost": 265.0,
+        "cast": 2.5,
+        "cooldown": 10.0
+      },
+      "rows": {
+        "SpellEffect": [
+          {
+            "ID": "1235457",
+            "EffectAura": "0",
+            "DifficultyID": "0",
+            "EffectIndex": "0",
+            "Effect": "2",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "0.71399998665",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "1.29999995232",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0.25325885415",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "220",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "1238300"
+          },
+          {
+            "ID": "1340790",
+            "EffectAura": "0",
+            "DifficultyID": "0",
+            "EffectIndex": "1",
+            "Effect": "3",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "0.71399998665",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "4.19999980927",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "20",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "1238300"
+          }
+        ],
+        "SpellPower": [
+          {
+            "ID": "310842",
+            "OrderIndex": "0",
+            "ManaCost": "265",
+            "ManaCostPerLevel": "0",
+            "ManaPerSecond": "0",
+            "PowerDisplayID": "0",
+            "AltPowerBarID": "0",
+            "PowerCostPct": "0",
+            "PowerCostMaxPct": "0",
+            "OptionalCostPct": "0",
+            "PowerPctPerSecond": "0",
+            "PowerType": "0",
+            "RequiredAuraSpellID": "0",
+            "OptionalCost": "0",
+            "SpellID": "1238300"
+          }
+        ],
+        "SpellCooldowns": [
+          {
+            "ID": "94562",
+            "DifficultyID": "0",
+            "CategoryRecoveryTime": "10000",
+            "RecoveryTime": "0",
+            "StartRecoveryTime": "1500",
+            "AuraSpellID": "0",
+            "SpellID": "1238300"
+          }
+        ],
+        "SpellLevels": [
+          {
+            "ID": "148282",
+            "DifficultyID": "0",
+            "MaxLevel": "68",
+            "MaxPassiveAuraLevel": "0",
+            "BaseLevel": "60",
+            "SpellLevel": "60",
+            "SpellID": "1238300"
+          }
+        ],
+        "SpellMisc": [
+          {
+            "ID": "792882",
+            "Attributes_0": "65536",
+            "Attributes_1": "0",
+            "Attributes_2": "256",
+            "Attributes_3": "0",
+            "Attributes_4": "0",
+            "Attributes_5": "0",
+            "Attributes_6": "33554432",
+            "Attributes_7": "0",
+            "Attributes_8": "0",
+            "Attributes_9": "0",
+            "Attributes_10": "0",
+            "Attributes_11": "0",
+            "Attributes_12": "0",
+            "Attributes_13": "0",
+            "Attributes_14": "0",
+            "Attributes_15": "8192",
+            "Attributes_16": "0",
+            "DifficultyID": "0",
+            "CastingTimeIndex": "19",
+            "DurationIndex": "0",
+            "PvPDurationIndex": "0",
+            "RangeIndex": "4",
+            "SchoolMask": "4",
+            "Speed": "20",
+            "LaunchDelay": "0",
+            "MinDuration": "0",
+            "SpellIconFileDataID": "237582",
+            "ActiveIconFileDataID": "0",
+            "ContentTuningID": "0",
+            "ShowFutureSpellPlayerConditionID": "0",
+            "SpellVisualScript": "0",
+            "ActiveSpellVisualScript": "0",
+            "SpellID": "1238300"
+          }
+        ],
+        "Spell": [
+          {
+            "ID": "1238300",
+            "NameSubtext_lang": "Rank 3",
+            "Description_lang": "You hurl molten lava at the target, dealing $s1 Fire damage. If your Flame Shock is on the target, Lava Burst deals $s2% increased damage.",
+            "AuraDescription_lang": ""
+          }
+        ],
+        "SpellName": [
+          {
+            "ID": "1238300",
+            "Name_lang": "Lava Burst"
+          }
+        ],
+        "SpellDuration": [],
+        "SpellCastTimes": [
+          {
+            "ID": "19",
+            "Base": "2500",
+            "Minimum": "2500"
+          }
+        ]
+      },
+      "status": "client-values-verified; engine behavior separately modeled"
+    },
+    "Flame Shock": {
+      "spell_id": 29228,
+      "fields": {
+        "cost": 410.0,
+        "cooldown": 6.0
+      },
+      "rows": {
+        "SpellEffect": [
+          {
+            "ID": "704945",
+            "EffectAura": "0",
+            "DifficultyID": "0",
+            "EffectIndex": "0",
+            "Effect": "2",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "0.21400000155",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "2.09999990463",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "166",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "29228"
+          },
+          {
+            "ID": "704946",
+            "EffectAura": "3",
+            "DifficultyID": "0",
+            "EffectIndex": "1",
+            "Effect": "6",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "3000",
+            "EffectBonusCoefficient": "0.10000000149",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "44",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "29228"
+          },
+          {
+            "ID": "1202515",
+            "EffectAura": "4",
+            "DifficultyID": "0",
+            "EffectIndex": "2",
+            "Effect": "6",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "0",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "0",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "29228"
+          }
+        ],
+        "SpellPower": [
+          {
+            "ID": "190740",
+            "OrderIndex": "0",
+            "ManaCost": "410",
+            "ManaCostPerLevel": "0",
+            "ManaPerSecond": "0",
+            "PowerDisplayID": "0",
+            "AltPowerBarID": "0",
+            "PowerCostPct": "0",
+            "PowerCostMaxPct": "0",
+            "OptionalCostPct": "0",
+            "PowerPctPerSecond": "0",
+            "PowerType": "0",
+            "RequiredAuraSpellID": "0",
+            "OptionalCost": "0",
+            "SpellID": "29228"
+          }
+        ],
+        "SpellCooldowns": [
+          {
+            "ID": "56094",
+            "DifficultyID": "0",
+            "CategoryRecoveryTime": "6000",
+            "RecoveryTime": "0",
+            "StartRecoveryTime": "1500",
+            "AuraSpellID": "0",
+            "SpellID": "29228"
+          }
+        ],
+        "SpellLevels": [
+          {
+            "ID": "105307",
+            "DifficultyID": "0",
+            "MaxLevel": "67",
+            "MaxPassiveAuraLevel": "0",
+            "BaseLevel": "60",
+            "SpellLevel": "60",
+            "SpellID": "29228"
+          }
+        ],
+        "SpellMisc": [
+          {
+            "ID": "335685",
+            "Attributes_0": "327680",
+            "Attributes_1": "0",
+            "Attributes_2": "0",
+            "Attributes_3": "0",
+            "Attributes_4": "0",
+            "Attributes_5": "0",
+            "Attributes_6": "0",
+            "Attributes_7": "0",
+            "Attributes_8": "512",
+            "Attributes_9": "0",
+            "Attributes_10": "0",
+            "Attributes_11": "0",
+            "Attributes_12": "0",
+            "Attributes_13": "128",
+            "Attributes_14": "0",
+            "Attributes_15": "8192",
+            "Attributes_16": "0",
+            "DifficultyID": "0",
+            "CastingTimeIndex": "1",
+            "DurationIndex": "29",
+            "PvPDurationIndex": "0",
+            "RangeIndex": "3",
+            "SchoolMask": "4",
+            "Speed": "0",
+            "LaunchDelay": "0",
+            "MinDuration": "0",
+            "SpellIconFileDataID": "135813",
+            "ActiveIconFileDataID": "0",
+            "ContentTuningID": "0",
+            "ShowFutureSpellPlayerConditionID": "0",
+            "SpellVisualScript": "0",
+            "ActiveSpellVisualScript": "0",
+            "SpellID": "29228"
+          }
+        ],
+        "Spell": [
+          {
+            "ID": "29228",
+            "NameSubtext_lang": "Rank 6",
+            "Description_lang": "Instantly sears the target with fire, causing $s1 Fire damage immediately and $o2 Fire damage over $d.",
+            "AuraDescription_lang": "$s2 Fire damage every $t2 seconds."
+          }
+        ],
+        "SpellName": [
+          {
+            "ID": "29228",
+            "Name_lang": "Flame Shock"
+          }
+        ],
+        "SpellDuration": [
+          {
+            "ID": "29",
+            "Duration": "12000",
+            "MaxDuration": "12000",
+            "DurationPerResource": "0"
+          }
+        ],
+        "SpellCastTimes": [
+          {
+            "ID": "1",
+            "Base": "0",
+            "Minimum": "0"
+          }
+        ]
+      },
+      "status": "client-values-verified; engine behavior separately modeled"
+    },
+    "Siphon Life": {
+      "spell_id": 18881,
+      "fields": {
+        "tick": 41.0,
+        "dot_coeff": 0.05,
+        "cost": 365.0
+      },
+      "rows": {
+        "SpellEffect": [
+          {
+            "ID": "696775",
+            "EffectAura": "53",
+            "DifficultyID": "0",
+            "EffectIndex": "0",
+            "Effect": "6",
+            "EffectAmplitude": "1",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "3000",
+            "EffectBonusCoefficient": "0.05000000075",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "41",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "18881"
+          }
+        ],
+        "SpellPower": [
+          {
+            "ID": "184191",
+            "OrderIndex": "0",
+            "ManaCost": "365",
+            "ManaCostPerLevel": "0",
+            "ManaPerSecond": "0",
+            "PowerDisplayID": "0",
+            "AltPowerBarID": "0",
+            "PowerCostPct": "0",
+            "PowerCostMaxPct": "0",
+            "OptionalCostPct": "0",
+            "PowerPctPerSecond": "0",
+            "PowerType": "0",
+            "RequiredAuraSpellID": "0",
+            "OptionalCost": "0",
+            "SpellID": "18881"
+          }
+        ],
+        "SpellCooldowns": [
+          {
+            "ID": "55393",
+            "DifficultyID": "0",
+            "CategoryRecoveryTime": "0",
+            "RecoveryTime": "0",
+            "StartRecoveryTime": "1500",
+            "AuraSpellID": "0",
+            "SpellID": "18881"
+          }
+        ],
+        "SpellLevels": [
+          {
+            "ID": "103271",
+            "DifficultyID": "0",
+            "MaxLevel": "68",
+            "MaxPassiveAuraLevel": "0",
+            "BaseLevel": "58",
+            "SpellLevel": "58",
+            "SpellID": "18881"
+          }
+        ],
+        "SpellMisc": [
+          {
+            "ID": "329136",
+            "Attributes_0": "65536",
+            "Attributes_1": "0",
+            "Attributes_2": "0",
+            "Attributes_3": "128",
+            "Attributes_4": "0",
+            "Attributes_5": "0",
+            "Attributes_6": "0",
+            "Attributes_7": "0",
+            "Attributes_8": "0",
+            "Attributes_9": "0",
+            "Attributes_10": "0",
+            "Attributes_11": "0",
+            "Attributes_12": "0",
+            "Attributes_13": "128",
+            "Attributes_14": "0",
+            "Attributes_15": "8192",
+            "Attributes_16": "0",
+            "DifficultyID": "0",
+            "CastingTimeIndex": "1",
+            "DurationIndex": "9",
+            "PvPDurationIndex": "0",
+            "RangeIndex": "4",
+            "SchoolMask": "32",
+            "Speed": "0",
+            "LaunchDelay": "0",
+            "MinDuration": "0",
+            "SpellIconFileDataID": "136188",
+            "ActiveIconFileDataID": "0",
+            "ContentTuningID": "0",
+            "ShowFutureSpellPlayerConditionID": "0",
+            "SpellVisualScript": "0",
+            "ActiveSpellVisualScript": "0",
+            "SpellID": "18881"
+          }
+        ],
+        "Spell": [
+          {
+            "ID": "18881",
+            "NameSubtext_lang": "Rank 4",
+            "Description_lang": "Transfers $s1 health from the target to the caster every $t1 sec.  Lasts $d.",
+            "AuraDescription_lang": "Drains $s1 health to the caster every $t1 secs."
+          }
+        ],
+        "SpellName": [
+          {
+            "ID": "18881",
+            "Name_lang": "Siphon Life"
+          }
+        ],
+        "SpellDuration": [
+          {
+            "ID": "9",
+            "Duration": "30000",
+            "MaxDuration": "30000",
+            "DurationPerResource": "0"
+          }
+        ],
+        "SpellCastTimes": [
+          {
+            "ID": "1",
+            "Base": "0",
+            "Minimum": "0"
+          }
+        ]
+      },
+      "status": "client-values-verified; engine behavior separately modeled"
+    },
+    "Drain Soul": {
+      "spell_id": 11675,
+      "fields": {
+        "tick": 84.0,
+        "cost": 290.0
+      },
+      "rows": {
+        "SpellEffect": [
+          {
+            "ID": "690014",
+            "EffectAura": "86",
+            "DifficultyID": "0",
+            "EffectIndex": "0",
+            "Effect": "6",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "0",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "6265",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "1",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "11675"
+          },
+          {
+            "ID": "690015",
+            "EffectAura": "3",
+            "DifficultyID": "0",
+            "EffectIndex": "1",
+            "Effect": "6",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "3000",
+            "EffectBonusCoefficient": "0.10000000149",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "84",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "11675"
+          }
+        ],
+        "SpellPower": [
+          {
+            "ID": "178639",
+            "OrderIndex": "0",
+            "ManaCost": "290",
+            "ManaCostPerLevel": "0",
+            "ManaPerSecond": "0",
+            "PowerDisplayID": "0",
+            "AltPowerBarID": "0",
+            "PowerCostPct": "0",
+            "PowerCostMaxPct": "0",
+            "OptionalCostPct": "0",
+            "PowerPctPerSecond": "0",
+            "PowerType": "0",
+            "RequiredAuraSpellID": "0",
+            "OptionalCost": "0",
+            "SpellID": "11675"
+          }
+        ],
+        "SpellCooldowns": [
+          {
+            "ID": "54717",
+            "DifficultyID": "0",
+            "CategoryRecoveryTime": "0",
+            "RecoveryTime": "0",
+            "StartRecoveryTime": "1500",
+            "AuraSpellID": "0",
+            "SpellID": "11675"
+          }
+        ],
+        "SpellLevels": [
+          {
+            "ID": "101253",
+            "DifficultyID": "0",
+            "MaxLevel": "0",
+            "MaxPassiveAuraLevel": "0",
+            "BaseLevel": "52",
+            "SpellLevel": "52",
+            "SpellID": "11675"
+          }
+        ],
+        "SpellMisc": [
+          {
+            "ID": "323584",
+            "Attributes_0": "65537",
+            "Attributes_1": "67256324",
+            "Attributes_2": "0",
+            "Attributes_3": "0",
+            "Attributes_4": "0",
+            "Attributes_5": "0",
+            "Attributes_6": "0",
+            "Attributes_7": "0",
+            "Attributes_8": "512",
+            "Attributes_9": "0",
+            "Attributes_10": "0",
+            "Attributes_11": "0",
+            "Attributes_12": "0",
+            "Attributes_13": "128",
+            "Attributes_14": "0",
+            "Attributes_15": "8192",
+            "Attributes_16": "0",
+            "DifficultyID": "0",
+            "CastingTimeIndex": "1",
+            "DurationIndex": "8",
+            "PvPDurationIndex": "0",
+            "RangeIndex": "4",
+            "SchoolMask": "32",
+            "Speed": "0",
+            "LaunchDelay": "0",
+            "MinDuration": "0",
+            "SpellIconFileDataID": "136163",
+            "ActiveIconFileDataID": "0",
+            "ContentTuningID": "0",
+            "ShowFutureSpellPlayerConditionID": "0",
+            "SpellVisualScript": "0",
+            "ActiveSpellVisualScript": "0",
+            "SpellID": "11675"
+          }
+        ],
+        "Spell": [
+          {
+            "ID": "11675",
+            "NameSubtext_lang": "Rank 4",
+            "Description_lang": "Drains the soul of the target, causing $o2 Shadow damage over $d. Non-trivial targets damaged by Drain Soul have a chance to grant you a Soul Shard. Non-trivial targets killed by Drain Soul will always grant you a Soul shard. Soul Shards are required for other spells.",
+            "AuraDescription_lang": "$s2 Shadow damage every $t2 seconds."
+          }
+        ],
+        "SpellName": [
+          {
+            "ID": "11675",
+            "Name_lang": "Drain Soul"
+          }
+        ],
+        "SpellDuration": [
+          {
+            "ID": "8",
+            "Duration": "15000",
+            "MaxDuration": "15000",
+            "DurationPerResource": "0"
+          }
+        ],
+        "SpellCastTimes": [
+          {
+            "ID": "1",
+            "Base": "0",
+            "Minimum": "0"
+          }
+        ]
+      },
+      "status": "client-values-verified; engine behavior separately modeled"
+    },
+    "Incinerate": {
+      "spell_id": 1293813,
+      "fields": {
+        "base": [
+          200.724999,
+          233.275001
+        ],
+        "coeff": 0.714,
+        "cost": 325.0,
+        "cast": 2.5
+      },
+      "rows": {
+        "SpellEffect": [
+          {
+            "ID": "1314814",
+            "EffectAura": "0",
+            "DifficultyID": "0",
+            "EffectIndex": "0",
+            "Effect": "2",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "0.71399998665",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "1.39999997616",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0.15000000596",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "217",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "1293813"
+          },
+          {
+            "ID": "1314815",
+            "EffectAura": "0",
+            "DifficultyID": "0",
+            "EffectIndex": "1",
+            "Effect": "3",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "0",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "25",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "1293813"
+          }
+        ],
+        "SpellPower": [
+          {
+            "ID": "313633",
+            "OrderIndex": "0",
+            "ManaCost": "325",
+            "ManaCostPerLevel": "0",
+            "ManaPerSecond": "0",
+            "PowerDisplayID": "0",
+            "AltPowerBarID": "0",
+            "PowerCostPct": "0",
+            "PowerCostMaxPct": "0",
+            "OptionalCostPct": "0",
+            "PowerPctPerSecond": "0",
+            "PowerType": "0",
+            "RequiredAuraSpellID": "0",
+            "OptionalCost": "0",
+            "SpellID": "1293813"
+          }
+        ],
+        "SpellCooldowns": [
+          {
+            "ID": "99461",
+            "DifficultyID": "0",
+            "CategoryRecoveryTime": "0",
+            "RecoveryTime": "0",
+            "StartRecoveryTime": "1500",
+            "AuraSpellID": "0",
+            "SpellID": "1293813"
+          }
+        ],
+        "SpellLevels": [
+          {
+            "ID": "152129",
+            "DifficultyID": "0",
+            "MaxLevel": "69",
+            "MaxPassiveAuraLevel": "0",
+            "BaseLevel": "60",
+            "SpellLevel": "60",
+            "SpellID": "1293813"
+          }
+        ],
+        "SpellMisc": [
+          {
+            "ID": "841237",
+            "Attributes_0": "65536",
+            "Attributes_1": "0",
+            "Attributes_2": "256",
+            "Attributes_3": "0",
+            "Attributes_4": "0",
+            "Attributes_5": "0",
+            "Attributes_6": "0",
+            "Attributes_7": "0",
+            "Attributes_8": "0",
+            "Attributes_9": "0",
+            "Attributes_10": "0",
+            "Attributes_11": "0",
+            "Attributes_12": "0",
+            "Attributes_13": "0",
+            "Attributes_14": "0",
+            "Attributes_15": "8192",
+            "Attributes_16": "0",
+            "DifficultyID": "0",
+            "CastingTimeIndex": "19",
+            "DurationIndex": "0",
+            "PvPDurationIndex": "0",
+            "RangeIndex": "4",
+            "SchoolMask": "4",
+            "Speed": "20",
+            "LaunchDelay": "0",
+            "MinDuration": "0",
+            "SpellIconFileDataID": "135789",
+            "ActiveIconFileDataID": "0",
+            "ContentTuningID": "0",
+            "ShowFutureSpellPlayerConditionID": "0",
+            "SpellVisualScript": "0",
+            "ActiveSpellVisualScript": "0",
+            "SpellID": "1293813"
+          }
+        ],
+        "Spell": [
+          {
+            "ID": "1293813",
+            "NameSubtext_lang": "Rank 3",
+            "Description_lang": "Deals $s1 Fire damage to your target and an additional $m2% damage if the target is afflicted by Immolate.",
+            "AuraDescription_lang": ""
+          }
+        ],
+        "SpellName": [
+          {
+            "ID": "1293813",
+            "Name_lang": "Incinerate"
+          }
+        ],
+        "SpellDuration": [],
+        "SpellCastTimes": [
+          {
+            "ID": "19",
+            "Base": "2500",
+            "Minimum": "2500"
+          }
+        ]
+      },
+      "status": "client-values-verified; engine behavior separately modeled"
+    },
+    "Conflagrate": {
+      "spell_id": 18932,
+      "fields": {
+        "base": [
+          251.103585,
+          312.896415
+        ],
+        "coeff": 0.429,
+        "cost": 255.0,
+        "cooldown": 10.0
+      },
+      "rows": {
+        "SpellEffect": [
+          {
+            "ID": "696822",
+            "EffectAura": "0",
+            "DifficultyID": "0",
+            "EffectIndex": "0",
+            "Effect": "2",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "0.42899999022",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "1.29999995232",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0.21912351251",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "282",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "18932"
+          }
+        ],
+        "SpellPower": [
+          {
+            "ID": "184233",
+            "OrderIndex": "0",
+            "ManaCost": "255",
+            "ManaCostPerLevel": "0",
+            "ManaPerSecond": "0",
+            "PowerDisplayID": "0",
+            "AltPowerBarID": "0",
+            "PowerCostPct": "0",
+            "PowerCostMaxPct": "0",
+            "OptionalCostPct": "0",
+            "PowerPctPerSecond": "0",
+            "PowerType": "0",
+            "RequiredAuraSpellID": "0",
+            "OptionalCost": "0",
+            "SpellID": "18932"
+          }
+        ],
+        "SpellCooldowns": [
+          {
+            "ID": "55398",
+            "DifficultyID": "0",
+            "CategoryRecoveryTime": "10000",
+            "RecoveryTime": "0",
+            "StartRecoveryTime": "1500",
+            "AuraSpellID": "0",
+            "SpellID": "18932"
+          }
+        ],
+        "SpellLevels": [
+          {
+            "ID": "103283",
+            "DifficultyID": "0",
+            "MaxLevel": "66",
+            "MaxPassiveAuraLevel": "0",
+            "BaseLevel": "60",
+            "SpellLevel": "60",
+            "SpellID": "18932"
+          }
+        ],
+        "SpellMisc": [
+          {
+            "ID": "329178",
+            "Attributes_0": "65536",
+            "Attributes_1": "131072",
+            "Attributes_2": "0",
+            "Attributes_3": "0",
+            "Attributes_4": "0",
+            "Attributes_5": "0",
+            "Attributes_6": "0",
+            "Attributes_7": "0",
+            "Attributes_8": "0",
+            "Attributes_9": "0",
+            "Attributes_10": "0",
+            "Attributes_11": "0",
+            "Attributes_12": "0",
+            "Attributes_13": "0",
+            "Attributes_14": "0",
+            "Attributes_15": "8192",
+            "Attributes_16": "0",
+            "DifficultyID": "0",
+            "CastingTimeIndex": "1",
+            "DurationIndex": "0",
+            "PvPDurationIndex": "0",
+            "RangeIndex": "4",
+            "SchoolMask": "4",
+            "Speed": "0",
+            "LaunchDelay": "0",
+            "MinDuration": "0",
+            "SpellIconFileDataID": "135807",
+            "ActiveIconFileDataID": "0",
+            "ContentTuningID": "0",
+            "ShowFutureSpellPlayerConditionID": "0",
+            "SpellVisualScript": "0",
+            "ActiveSpellVisualScript": "0",
+            "SpellID": "18932"
+          }
+        ],
+        "Spell": [
+          {
+            "ID": "18932",
+            "NameSubtext_lang": "Rank 6",
+            "Description_lang": "Ignites a target that is already afflicted by your Immolate spell, dealing $s1 Fire damage and consuming your Immolate effect.",
+            "AuraDescription_lang": ""
+          }
+        ],
+        "SpellName": [
+          {
+            "ID": "18932",
+            "Name_lang": "Conflagrate"
+          }
+        ],
+        "SpellDuration": [],
+        "SpellCastTimes": [
+          {
+            "ID": "1",
+            "Base": "0",
+            "Minimum": "0"
+          }
+        ]
+      },
+      "status": "client-values-verified; engine behavior separately modeled"
+    },
+    "Shadowburn": {
+      "spell_id": 18871,
+      "fields": {
+        "base": [
+          258.670588,
+          287.729412
+        ],
+        "coeff": 0.429,
+        "cost": 365.0,
+        "cooldown": 15.0
+      },
+      "rows": {
+        "SpellEffect": [
+          {
+            "ID": "696325",
+            "EffectAura": "86",
+            "DifficultyID": "0",
+            "EffectIndex": "0",
+            "Effect": "6",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "1",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "6265",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "1",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "18871"
+          },
+          {
+            "ID": "696326",
+            "EffectAura": "0",
+            "DifficultyID": "0",
+            "EffectIndex": "1",
+            "Effect": "2",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "0.42899999022",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "1.79999995232",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0.10924369842",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "266",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "18871"
+          }
+        ],
+        "SpellPower": [
+          {
+            "ID": "183838",
+            "OrderIndex": "0",
+            "ManaCost": "365",
+            "ManaCostPerLevel": "0",
+            "ManaPerSecond": "0",
+            "PowerDisplayID": "0",
+            "AltPowerBarID": "0",
+            "PowerCostPct": "0",
+            "PowerCostMaxPct": "0",
+            "OptionalCostPct": "0",
+            "PowerPctPerSecond": "0",
+            "PowerType": "0",
+            "RequiredAuraSpellID": "0",
+            "OptionalCost": "0",
+            "SpellID": "18871"
+          }
+        ],
+        "SpellCooldowns": [
+          {
+            "ID": "55348",
+            "DifficultyID": "0",
+            "CategoryRecoveryTime": "15000",
+            "RecoveryTime": "0",
+            "StartRecoveryTime": "1500",
+            "AuraSpellID": "0",
+            "SpellID": "18871"
+          }
+        ],
+        "SpellLevels": [
+          {
+            "ID": "103143",
+            "DifficultyID": "0",
+            "MaxLevel": "62",
+            "MaxPassiveAuraLevel": "0",
+            "BaseLevel": "56",
+            "SpellLevel": "56",
+            "SpellID": "18871"
+          }
+        ],
+        "SpellMisc": [
+          {
+            "ID": "328783",
+            "Attributes_0": "65536",
+            "Attributes_1": "0",
+            "Attributes_2": "0",
+            "Attributes_3": "0",
+            "Attributes_4": "0",
+            "Attributes_5": "0",
+            "Attributes_6": "0",
+            "Attributes_7": "0",
+            "Attributes_8": "0",
+            "Attributes_9": "0",
+            "Attributes_10": "0",
+            "Attributes_11": "0",
+            "Attributes_12": "0",
+            "Attributes_13": "128",
+            "Attributes_14": "0",
+            "Attributes_15": "8192",
+            "Attributes_16": "0",
+            "DifficultyID": "0",
+            "CastingTimeIndex": "1",
+            "DurationIndex": "31",
+            "PvPDurationIndex": "0",
+            "RangeIndex": "4",
+            "SchoolMask": "32",
+            "Speed": "0",
+            "LaunchDelay": "0",
+            "MinDuration": "0",
+            "SpellIconFileDataID": "136191",
+            "ActiveIconFileDataID": "0",
+            "ContentTuningID": "0",
+            "ShowFutureSpellPlayerConditionID": "0",
+            "SpellVisualScript": "0",
+            "ActiveSpellVisualScript": "0",
+            "SpellID": "18871"
+          }
+        ],
+        "Spell": [
+          {
+            "ID": "18871",
+            "NameSubtext_lang": "Rank 6",
+            "Description_lang": "Instantly blasts the target for $s2 Shadow damage.  If the target dies within $d of Shadowburn, and yields experience or honor, the caster gains a Soul Shard.",
+            "AuraDescription_lang": "Death will grant the Warlock a Soul Shard."
+          }
+        ],
+        "SpellName": [
+          {
+            "ID": "18871",
+            "Name_lang": "Shadowburn"
+          }
+        ],
+        "SpellDuration": [
+          {
+            "ID": "31",
+            "Duration": "8000",
+            "MaxDuration": "8000",
+            "DurationPerResource": "0"
+          }
+        ],
+        "SpellCastTimes": [
+          {
+            "ID": "1",
+            "Base": "0",
+            "Minimum": "0"
+          }
+        ]
+      },
+      "status": "client-values-verified; engine behavior separately modeled"
+    },
+    "Strider Kick": {
+      "spell_id": 1317257,
+      "fields": {
+        "cost": 0.0,
+        "cost_pct": 0.0581,
+        "cooldown": 8.0
+      },
+      "rows": {
+        "SpellEffect": [
+          {
+            "ID": "1350273",
+            "EffectAura": "0",
+            "DifficultyID": "0",
+            "EffectIndex": "0",
+            "Effect": "121",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "1",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "0",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "1317257"
+          },
+          {
+            "ID": "1350274",
+            "EffectAura": "0",
+            "DifficultyID": "0",
+            "EffectIndex": "1",
+            "Effect": "31",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "1",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "100",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "1317257"
+          }
+        ],
+        "SpellPower": [
+          {
+            "ID": "314743",
+            "OrderIndex": "0",
+            "ManaCost": "0",
+            "ManaCostPerLevel": "0",
+            "ManaPerSecond": "0",
+            "PowerDisplayID": "0",
+            "AltPowerBarID": "0",
+            "PowerCostPct": "5.80999994278",
+            "PowerCostMaxPct": "0",
+            "OptionalCostPct": "0",
+            "PowerPctPerSecond": "0",
+            "PowerType": "0",
+            "RequiredAuraSpellID": "0",
+            "OptionalCost": "0",
+            "SpellID": "1317257"
+          }
+        ],
+        "SpellCooldowns": [
+          {
+            "ID": "101528",
+            "DifficultyID": "0",
+            "CategoryRecoveryTime": "0",
+            "RecoveryTime": "8000",
+            "StartRecoveryTime": "1500",
+            "AuraSpellID": "0",
+            "SpellID": "1317257"
+          }
+        ],
+        "SpellLevels": [
+          {
+            "ID": "153679",
+            "DifficultyID": "0",
+            "MaxLevel": "0",
+            "MaxPassiveAuraLevel": "0",
+            "BaseLevel": "30",
+            "SpellLevel": "30",
+            "SpellID": "1317257"
+          }
+        ],
+        "SpellMisc": [
+          {
+            "ID": "863136",
+            "Attributes_0": "262144",
+            "Attributes_1": "512",
+            "Attributes_2": "0",
+            "Attributes_3": "1024",
+            "Attributes_4": "0",
+            "Attributes_5": "0",
+            "Attributes_6": "0",
+            "Attributes_7": "0",
+            "Attributes_8": "0",
+            "Attributes_9": "0",
+            "Attributes_10": "0",
+            "Attributes_11": "0",
+            "Attributes_12": "0",
+            "Attributes_13": "0",
+            "Attributes_14": "0",
+            "Attributes_15": "8192",
+            "Attributes_16": "0",
+            "DifficultyID": "0",
+            "CastingTimeIndex": "1",
+            "DurationIndex": "0",
+            "PvPDurationIndex": "0",
+            "RangeIndex": "2",
+            "SchoolMask": "1",
+            "Speed": "0",
+            "LaunchDelay": "0",
+            "MinDuration": "0",
+            "SpellIconFileDataID": "132198",
+            "ActiveIconFileDataID": "0",
+            "ContentTuningID": "0",
+            "ShowFutureSpellPlayerConditionID": "0",
+            "SpellVisualScript": "0",
+            "ActiveSpellVisualScript": "0",
+            "SpellID": "1317257"
+          }
+        ],
+        "Spell": [
+          {
+            "ID": "1317257",
+            "NameSubtext_lang": "Rank 1",
+            "Description_lang": "A powerful kick that deals $s2% melee weapon damage.",
+            "AuraDescription_lang": ""
+          }
+        ],
+        "SpellName": [
+          {
+            "ID": "1317257",
+            "Name_lang": "Strider Kick"
+          }
+        ],
+        "SpellDuration": [],
+        "SpellCastTimes": [
+          {
+            "ID": "1",
+            "Base": "0",
+            "Minimum": "0"
+          }
+        ]
+      },
+      "status": "client-values-verified; engine behavior separately modeled"
+    }
+  },
+  "talents": {
+    "104925": {
+      "fields": {
+        "cost_pct_all": [
+          -0.08,
+          -0.17,
+          -0.25
+        ]
+      },
+      "link": {
+        "ID": "127052",
+        "TraitNodeID": "104925",
+        "TraitNodeEntryID": "129585",
+        "_Index": "100"
+      },
+      "entry": {
+        "ID": "129585",
+        "TraitDefinitionID": "134386",
+        "MaxRanks": "3",
+        "NodeEntryType": "1",
+        "TraitSubTreeID": "0"
+      },
+      "definition": {
+        "OverrideName_lang": "",
+        "OverrideSubtext_lang": "",
+        "OverrideDescription_lang": "",
+        "ID": "134386",
+        "SpellID": "16845",
+        "OverrideIcon": "0",
+        "OverridesSpellID": "0",
+        "VisibleSpellID": "0"
+      },
+      "spell": {
+        "ID": "16845",
+        "NameSubtext_lang": "Rank 1",
+        "Description_lang": "Reduces the Mana cost of your damaging spells by $s1%.",
+        "AuraDescription_lang": ""
+      },
+      "effects": [
+        {
+          "modifier": "cost_pct_all",
+          "unit_scale": 0.01,
+          "effect_points": {
+            "ID": "23748",
+            "TraitDefinitionID": "134386",
+            "EffectIndex": "0",
+            "OperationType": "0",
+            "CurveID": "85328"
+          },
+          "curve_points": [
+            {
+              "Pos_0": "1",
+              "Pos_1": "-8",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "251448",
+              "CurveID": "85328",
+              "OrderIndex": "0"
+            },
+            {
+              "Pos_0": "2",
+              "Pos_1": "-17",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "251449",
+              "CurveID": "85328",
+              "OrderIndex": "1"
+            },
+            {
+              "Pos_0": "3",
+              "Pos_1": "-25",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "251450",
+              "CurveID": "85328",
+              "OrderIndex": "2"
+            }
+          ]
+        }
+      ]
+    },
+    "104936": {
+      "fields": {
+        "dmg_school:arcane": [
+          0.02,
+          0.04,
+          0.06,
+          0.08,
+          0.1
+        ],
+        "dmg_school:nature": [
+          0.02,
+          0.04,
+          0.06,
+          0.08,
+          0.1
+        ]
+      },
+      "link": {
+        "ID": "127063",
+        "TraitNodeID": "104936",
+        "TraitNodeEntryID": "129596",
+        "_Index": "100"
+      },
+      "entry": {
+        "ID": "129596",
+        "TraitDefinitionID": "134397",
+        "MaxRanks": "5",
+        "NodeEntryType": "1",
+        "TraitSubTreeID": "0"
+      },
+      "definition": {
+        "OverrideName_lang": "",
+        "OverrideSubtext_lang": "",
+        "OverrideDescription_lang": "",
+        "ID": "134397",
+        "SpellID": "16896",
+        "OverrideIcon": "0",
+        "OverridesSpellID": "0",
+        "VisibleSpellID": "0"
+      },
+      "spell": {
+        "ID": "16896",
+        "NameSubtext_lang": "",
+        "Description_lang": "Increases the damage done by your Arcane and Nature spells by $m1%.",
+        "AuraDescription_lang": ""
+      },
+      "effects": [
+        {
+          "modifier": "dmg_school:arcane",
+          "unit_scale": 0.01,
+          "effect_points": {
+            "ID": "23758",
+            "TraitDefinitionID": "134397",
+            "EffectIndex": "0",
+            "OperationType": "0",
+            "CurveID": "85335"
+          },
+          "curve_points": [
+            {
+              "Pos_0": "1",
+              "Pos_1": "2",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "251469",
+              "CurveID": "85335",
+              "OrderIndex": "0"
+            },
+            {
+              "Pos_0": "2",
+              "Pos_1": "4",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "251470",
+              "CurveID": "85335",
+              "OrderIndex": "1"
+            },
+            {
+              "Pos_0": "3",
+              "Pos_1": "6",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "251471",
+              "CurveID": "85335",
+              "OrderIndex": "2"
+            },
+            {
+              "Pos_0": "4",
+              "Pos_1": "8",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "251472",
+              "CurveID": "85335",
+              "OrderIndex": "3"
+            },
+            {
+              "Pos_0": "5",
+              "Pos_1": "10",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "251473",
+              "CurveID": "85335",
+              "OrderIndex": "4"
+            }
+          ]
+        },
+        {
+          "modifier": "dmg_school:nature",
+          "unit_scale": 0.01,
+          "effect_points": {
+            "ID": "23758",
+            "TraitDefinitionID": "134397",
+            "EffectIndex": "0",
+            "OperationType": "0",
+            "CurveID": "85335"
+          },
+          "curve_points": [
+            {
+              "Pos_0": "1",
+              "Pos_1": "2",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "251469",
+              "CurveID": "85335",
+              "OrderIndex": "0"
+            },
+            {
+              "Pos_0": "2",
+              "Pos_1": "4",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "251470",
+              "CurveID": "85335",
+              "OrderIndex": "1"
+            },
+            {
+              "Pos_0": "3",
+              "Pos_1": "6",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "251471",
+              "CurveID": "85335",
+              "OrderIndex": "2"
+            },
+            {
+              "Pos_0": "4",
+              "Pos_1": "8",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "251472",
+              "CurveID": "85335",
+              "OrderIndex": "3"
+            },
+            {
+              "Pos_0": "5",
+              "Pos_1": "10",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "251473",
+              "CurveID": "85335",
+              "OrderIndex": "4"
+            }
+          ]
+        }
+      ]
+    },
+    "104755": {
+      "fields": {
+        "ap_from_int": [
+          0.33,
+          0.67,
+          1.0
+        ]
+      },
+      "link": {
+        "ID": "126882",
+        "TraitNodeID": "104755",
+        "TraitNodeEntryID": "129415",
+        "_Index": "100"
+      },
+      "entry": {
+        "ID": "129415",
+        "TraitDefinitionID": "134216",
+        "MaxRanks": "3",
+        "NodeEntryType": "1",
+        "TraitSubTreeID": "0"
+      },
+      "definition": {
+        "OverrideName_lang": "",
+        "OverrideSubtext_lang": "",
+        "OverrideDescription_lang": "",
+        "ID": "134216",
+        "SpellID": "415140",
+        "OverrideIcon": "0",
+        "OverridesSpellID": "0",
+        "VisibleSpellID": "0"
+      },
+      "spell": {
+        "ID": "415140",
+        "NameSubtext_lang": "",
+        "Description_lang": "Increases your Attack Power by an amount equal to $m1% of your Intellect.",
+        "AuraDescription_lang": ""
+      },
+      "effects": [
+        {
+          "modifier": "ap_from_int",
+          "unit_scale": 0.01,
+          "effect_points": {
+            "ID": "23711",
+            "TraitDefinitionID": "134216",
+            "EffectIndex": "0",
+            "OperationType": "0",
+            "CurveID": "85272"
+          },
+          "curve_points": [
+            {
+              "Pos_0": "1",
+              "Pos_1": "33",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "251264",
+              "CurveID": "85272",
+              "OrderIndex": "0"
+            },
+            {
+              "Pos_0": "2",
+              "Pos_1": "67",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "251265",
+              "CurveID": "85272",
+              "OrderIndex": "1"
+            },
+            {
+              "Pos_0": "3",
+              "Pos_1": "100",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "251266",
+              "CurveID": "85272",
+              "OrderIndex": "2"
+            }
+          ]
+        }
+      ]
+    },
+    "104759": {
+      "fields": {
+        "flag:lightning_overload": [
+          0.03,
+          0.07,
+          0.1
+        ]
+      },
+      "link": {
+        "ID": "126886",
+        "TraitNodeID": "104759",
+        "TraitNodeEntryID": "129419",
+        "_Index": "100"
+      },
+      "entry": {
+        "ID": "129419",
+        "TraitDefinitionID": "134220",
+        "MaxRanks": "3",
+        "NodeEntryType": "1",
+        "TraitSubTreeID": "0"
+      },
+      "definition": {
+        "OverrideName_lang": "",
+        "OverrideSubtext_lang": "",
+        "OverrideDescription_lang": "",
+        "ID": "134220",
+        "SpellID": "408438",
+        "OverrideIcon": "0",
+        "OverridesSpellID": "0",
+        "VisibleSpellID": "0"
+      },
+      "spell": {
+        "ID": "408438",
+        "NameSubtext_lang": "",
+        "Description_lang": "Gives your Lightning Bolt and Chain Lightning spells a $m1% chance to cast a second, similar spell on the same target at no additional cost that causes half damage and no threat.",
+        "AuraDescription_lang": ""
+      },
+      "effects": [
+        {
+          "modifier": "flag:lightning_overload",
+          "unit_scale": 0.01,
+          "effect_points": {
+            "ID": "23701",
+            "TraitDefinitionID": "134220",
+            "EffectIndex": "0",
+            "OperationType": "0",
+            "CurveID": "85227"
+          },
+          "curve_points": [
+            {
+              "Pos_0": "1",
+              "Pos_1": "3",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "251118",
+              "CurveID": "85227",
+              "OrderIndex": "0"
+            },
+            {
+              "Pos_0": "2",
+              "Pos_1": "7",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "251119",
+              "CurveID": "85227",
+              "OrderIndex": "1"
+            },
+            {
+              "Pos_0": "3",
+              "Pos_1": "10",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "251120",
+              "CurveID": "85227",
+              "OrderIndex": "2"
+            }
+          ]
+        }
+      ]
+    },
+    "104765": {
+      "fields": {
+        "cast:Lightning Bolt": [
+          -0.17,
+          -0.33,
+          -0.5
+        ],
+        "cast:Chain Lightning": [
+          -0.17,
+          -0.33,
+          -0.5
+        ],
+        "cast:Lava Burst": [
+          -0.17,
+          -0.33,
+          -0.5
+        ]
+      },
+      "link": {
+        "ID": "126892",
+        "TraitNodeID": "104765",
+        "TraitNodeEntryID": "129425",
+        "_Index": "100"
+      },
+      "entry": {
+        "ID": "129425",
+        "TraitDefinitionID": "134226",
+        "MaxRanks": "3",
+        "NodeEntryType": "1",
+        "TraitSubTreeID": "0"
+      },
+      "definition": {
+        "OverrideName_lang": "",
+        "OverrideSubtext_lang": "",
+        "OverrideDescription_lang": "",
+        "ID": "134226",
+        "SpellID": "16578",
+        "OverrideIcon": "0",
+        "OverridesSpellID": "0",
+        "VisibleSpellID": "0"
+      },
+      "spell": {
+        "ID": "16578",
+        "NameSubtext_lang": "",
+        "Description_lang": "Reduces the cast time of your Lightning Bolt, Chain Lightning, and Lava Burst spells by ${$m1/-1000}.2 sec.",
+        "AuraDescription_lang": ""
+      },
+      "effects": [
+        {
+          "modifier": "cast:Lightning Bolt",
+          "unit_scale": 0.001,
+          "effect_points": {
+            "ID": "23702",
+            "TraitDefinitionID": "134226",
+            "EffectIndex": "0",
+            "OperationType": "0",
+            "CurveID": "85228"
+          },
+          "curve_points": [
+            {
+              "Pos_0": "1",
+              "Pos_1": "-170",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "251121",
+              "CurveID": "85228",
+              "OrderIndex": "0"
+            },
+            {
+              "Pos_0": "2",
+              "Pos_1": "-330",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "251122",
+              "CurveID": "85228",
+              "OrderIndex": "1"
+            },
+            {
+              "Pos_0": "3",
+              "Pos_1": "-500",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "251123",
+              "CurveID": "85228",
+              "OrderIndex": "2"
+            }
+          ]
+        },
+        {
+          "modifier": "cast:Chain Lightning",
+          "unit_scale": 0.001,
+          "effect_points": {
+            "ID": "23702",
+            "TraitDefinitionID": "134226",
+            "EffectIndex": "0",
+            "OperationType": "0",
+            "CurveID": "85228"
+          },
+          "curve_points": [
+            {
+              "Pos_0": "1",
+              "Pos_1": "-170",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "251121",
+              "CurveID": "85228",
+              "OrderIndex": "0"
+            },
+            {
+              "Pos_0": "2",
+              "Pos_1": "-330",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "251122",
+              "CurveID": "85228",
+              "OrderIndex": "1"
+            },
+            {
+              "Pos_0": "3",
+              "Pos_1": "-500",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "251123",
+              "CurveID": "85228",
+              "OrderIndex": "2"
+            }
+          ]
+        },
+        {
+          "modifier": "cast:Lava Burst",
+          "unit_scale": 0.001,
+          "effect_points": {
+            "ID": "23702",
+            "TraitDefinitionID": "134226",
+            "EffectIndex": "0",
+            "OperationType": "0",
+            "CurveID": "85228"
+          },
+          "curve_points": [
+            {
+              "Pos_0": "1",
+              "Pos_1": "-170",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "251121",
+              "CurveID": "85228",
+              "OrderIndex": "0"
+            },
+            {
+              "Pos_0": "2",
+              "Pos_1": "-330",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "251122",
+              "CurveID": "85228",
+              "OrderIndex": "1"
+            },
+            {
+              "Pos_0": "3",
+              "Pos_1": "-500",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "251123",
+              "CurveID": "85228",
+              "OrderIndex": "2"
+            }
+          ]
+        }
+      ]
+    },
+    "105001": {
+      "fields": {
+        "dmg_ability:Multi-Shot": [
+          0.03,
+          0.07,
+          0.1
+        ],
+        "dmg_ability:Aimed Shot": [
+          0.03,
+          0.07,
+          0.1
+        ],
+        "dmg_ability:Volley": [
+          0.03,
+          0.07,
+          0.1
+        ]
+      },
+      "link": {
+        "ID": "127132",
+        "TraitNodeID": "105001",
+        "TraitNodeEntryID": "129665",
+        "_Index": "100"
+      },
+      "entry": {
+        "ID": "129665",
+        "TraitDefinitionID": "134466",
+        "MaxRanks": "3",
+        "NodeEntryType": "1",
+        "TraitSubTreeID": "0"
+      },
+      "definition": {
+        "OverrideName_lang": "",
+        "OverrideSubtext_lang": "",
+        "OverrideDescription_lang": "",
+        "ID": "134466",
+        "SpellID": "19461",
+        "OverrideIcon": "0",
+        "OverridesSpellID": "0",
+        "VisibleSpellID": "0"
+      },
+      "spell": {
+        "ID": "19461",
+        "NameSubtext_lang": "",
+        "Description_lang": "Increases the damage done by your Multi-Shot, Aimed Shot, and Volley abilities by $s1%.",
+        "AuraDescription_lang": ""
+      },
+      "effects": [
+        {
+          "modifier": "dmg_ability:Multi-Shot",
+          "unit_scale": 0.01,
+          "effect_points": {
+            "ID": "23297",
+            "TraitDefinitionID": "134466",
+            "EffectIndex": "0",
+            "OperationType": "0",
+            "CurveID": "82803"
+          },
+          "curve_points": [
+            {
+              "Pos_0": "1",
+              "Pos_1": "3",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "240051",
+              "CurveID": "82803",
+              "OrderIndex": "0"
+            },
+            {
+              "Pos_0": "2",
+              "Pos_1": "7",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "240052",
+              "CurveID": "82803",
+              "OrderIndex": "1"
+            },
+            {
+              "Pos_0": "3",
+              "Pos_1": "10",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "240053",
+              "CurveID": "82803",
+              "OrderIndex": "2"
+            }
+          ]
+        },
+        {
+          "modifier": "dmg_ability:Aimed Shot",
+          "unit_scale": 0.01,
+          "effect_points": {
+            "ID": "23297",
+            "TraitDefinitionID": "134466",
+            "EffectIndex": "0",
+            "OperationType": "0",
+            "CurveID": "82803"
+          },
+          "curve_points": [
+            {
+              "Pos_0": "1",
+              "Pos_1": "3",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "240051",
+              "CurveID": "82803",
+              "OrderIndex": "0"
+            },
+            {
+              "Pos_0": "2",
+              "Pos_1": "7",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "240052",
+              "CurveID": "82803",
+              "OrderIndex": "1"
+            },
+            {
+              "Pos_0": "3",
+              "Pos_1": "10",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "240053",
+              "CurveID": "82803",
+              "OrderIndex": "2"
+            }
+          ]
+        },
+        {
+          "modifier": "dmg_ability:Volley",
+          "unit_scale": 0.01,
+          "effect_points": {
+            "ID": "23297",
+            "TraitDefinitionID": "134466",
+            "EffectIndex": "0",
+            "OperationType": "0",
+            "CurveID": "82803"
+          },
+          "curve_points": [
+            {
+              "Pos_0": "1",
+              "Pos_1": "3",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "240051",
+              "CurveID": "82803",
+              "OrderIndex": "0"
+            },
+            {
+              "Pos_0": "2",
+              "Pos_1": "7",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "240052",
+              "CurveID": "82803",
+              "OrderIndex": "1"
+            },
+            {
+              "Pos_0": "3",
+              "Pos_1": "10",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "240053",
+              "CurveID": "82803",
+              "OrderIndex": "2"
+            }
+          ]
+        }
+      ]
+    },
+    "105708": {
+      "fields": {
+        "dmg_ability:Eviscerate": [
+          0.07,
+          0.13,
+          0.2
+        ]
+      },
+      "link": {
+        "ID": "127904",
+        "TraitNodeID": "105708",
+        "TraitNodeEntryID": "130437",
+        "_Index": "100"
+      },
+      "entry": {
+        "ID": "130437",
+        "TraitDefinitionID": "135238",
+        "MaxRanks": "3",
+        "NodeEntryType": "1",
+        "TraitSubTreeID": "0"
+      },
+      "definition": {
+        "OverrideName_lang": "",
+        "OverrideSubtext_lang": "",
+        "OverrideDescription_lang": "",
+        "ID": "135238",
+        "SpellID": "14162",
+        "OverrideIcon": "0",
+        "OverridesSpellID": "0",
+        "VisibleSpellID": "0"
+      },
+      "spell": {
+        "ID": "14162",
+        "NameSubtext_lang": "",
+        "Description_lang": "Increases the damage done by your Eviscerate ability by $m1%.",
+        "AuraDescription_lang": ""
+      },
+      "effects": [
+        {
+          "modifier": "dmg_ability:Eviscerate",
+          "unit_scale": 0.01,
+          "effect_points": {
+            "ID": "23364",
+            "TraitDefinitionID": "135238",
+            "EffectIndex": "0",
+            "OperationType": "0",
+            "CurveID": "83054"
+          },
+          "curve_points": [
+            {
+              "Pos_0": "1",
+              "Pos_1": "7",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "240997",
+              "CurveID": "83054",
+              "OrderIndex": "0"
+            },
+            {
+              "Pos_0": "2",
+              "Pos_1": "13",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "240998",
+              "CurveID": "83054",
+              "OrderIndex": "1"
+            },
+            {
+              "Pos_0": "3",
+              "Pos_1": "20",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "240999",
+              "CurveID": "83054",
+              "OrderIndex": "2"
+            }
+          ]
+        }
+      ]
+    },
+    "105716": {
+      "fields": {
+        "crit_dmg_builder": [
+          0.04,
+          0.08,
+          0.12,
+          0.16,
+          0.2
+        ]
+      },
+      "link": {
+        "ID": "127912",
+        "TraitNodeID": "105716",
+        "TraitNodeEntryID": "130445",
+        "_Index": "100"
+      },
+      "entry": {
+        "ID": "130445",
+        "TraitDefinitionID": "135246",
+        "MaxRanks": "5",
+        "NodeEntryType": "1",
+        "TraitSubTreeID": "0"
+      },
+      "definition": {
+        "OverrideName_lang": "",
+        "OverrideSubtext_lang": "",
+        "OverrideDescription_lang": "",
+        "ID": "135246",
+        "SpellID": "14128",
+        "OverrideIcon": "0",
+        "OverridesSpellID": "0",
+        "VisibleSpellID": "0"
+      },
+      "spell": {
+        "ID": "14128",
+        "NameSubtext_lang": "",
+        "Description_lang": "Increases the critical strike damage bonus of your Sinister Strike, Gouge, Backstab, Mutilate, Ghostly Strike, and Hemorrhage abilities by $s1%.",
+        "AuraDescription_lang": ""
+      },
+      "effects": [
+        {
+          "modifier": "crit_dmg_builder",
+          "unit_scale": 0.01,
+          "effect_points": {
+            "ID": "23371",
+            "TraitDefinitionID": "135246",
+            "EffectIndex": "0",
+            "OperationType": "0",
+            "CurveID": "83046"
+          },
+          "curve_points": [
+            {
+              "Pos_0": "1",
+              "Pos_1": "4",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "240971",
+              "CurveID": "83046",
+              "OrderIndex": "0"
+            },
+            {
+              "Pos_0": "2",
+              "Pos_1": "8",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "240972",
+              "CurveID": "83046",
+              "OrderIndex": "1"
+            },
+            {
+              "Pos_0": "3",
+              "Pos_1": "12",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "240973",
+              "CurveID": "83046",
+              "OrderIndex": "2"
+            },
+            {
+              "Pos_0": "4",
+              "Pos_1": "16",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "240974",
+              "CurveID": "83046",
+              "OrderIndex": "3"
+            },
+            {
+              "Pos_0": "5",
+              "Pos_1": "20",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "240975",
+              "CurveID": "83046",
+              "OrderIndex": "4"
+            }
+          ]
+        }
+      ]
+    },
+    "105741": {
+      "fields": {
+        "cost:Sinister Strike": [
+          -3.0,
+          -5.0
+        ]
+      },
+      "link": {
+        "ID": "127937",
+        "TraitNodeID": "105741",
+        "TraitNodeEntryID": "130470",
+        "_Index": "100"
+      },
+      "entry": {
+        "ID": "130470",
+        "TraitDefinitionID": "135271",
+        "MaxRanks": "2",
+        "NodeEntryType": "1",
+        "TraitSubTreeID": "0"
+      },
+      "definition": {
+        "OverrideName_lang": "",
+        "OverrideSubtext_lang": "",
+        "OverrideDescription_lang": "",
+        "ID": "135271",
+        "SpellID": "13732",
+        "OverrideIcon": "0",
+        "OverridesSpellID": "0",
+        "VisibleSpellID": "0"
+      },
+      "spell": {
+        "ID": "13732",
+        "NameSubtext_lang": "",
+        "Description_lang": "Reduces the Energy cost of your Sinister Strike ability by $s1.",
+        "AuraDescription_lang": ""
+      },
+      "effects": [
+        {
+          "modifier": "cost:Sinister Strike",
+          "unit_scale": 1,
+          "effect_points": {
+            "ID": "23394",
+            "TraitDefinitionID": "135271",
+            "EffectIndex": "0",
+            "OperationType": "0",
+            "CurveID": "83038"
+          },
+          "curve_points": [
+            {
+              "Pos_0": "1",
+              "Pos_1": "-3",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "240942",
+              "CurveID": "83038",
+              "OrderIndex": "0"
+            },
+            {
+              "Pos_0": "2",
+              "Pos_1": "-5",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "240943",
+              "CurveID": "83038",
+              "OrderIndex": "1"
+            }
+          ]
+        }
+      ]
+    },
+    "105768": {
+      "fields": {
+        "flag:shatter": [
+          0.17,
+          0.33,
+          0.5
+        ]
+      },
+      "link": {
+        "ID": "127964",
+        "TraitNodeID": "105768",
+        "TraitNodeEntryID": "130497",
+        "_Index": "100"
+      },
+      "entry": {
+        "ID": "130497",
+        "TraitDefinitionID": "135298",
+        "MaxRanks": "3",
+        "NodeEntryType": "1",
+        "TraitSubTreeID": "0"
+      },
+      "definition": {
+        "OverrideName_lang": "",
+        "OverrideSubtext_lang": "",
+        "OverrideDescription_lang": "",
+        "ID": "135298",
+        "SpellID": "11170",
+        "OverrideIcon": "0",
+        "OverridesSpellID": "0",
+        "VisibleSpellID": "0"
+      },
+      "spell": {
+        "ID": "11170",
+        "NameSubtext_lang": "",
+        "Description_lang": "Increases the critical strike chance of all your spells against Frozen targets by $m1%.",
+        "AuraDescription_lang": ""
+      },
+      "effects": [
+        {
+          "modifier": "flag:shatter",
+          "unit_scale": 0.01,
+          "effect_points": {
+            "ID": "23423",
+            "TraitDefinitionID": "135298",
+            "EffectIndex": "0",
+            "OperationType": "0",
+            "CurveID": "83067"
+          },
+          "curve_points": [
+            {
+              "Pos_0": "1",
+              "Pos_1": "17",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "241065",
+              "CurveID": "83067",
+              "OrderIndex": "0"
+            },
+            {
+              "Pos_0": "2",
+              "Pos_1": "33",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "241066",
+              "CurveID": "83067",
+              "OrderIndex": "1"
+            },
+            {
+              "Pos_0": "3",
+              "Pos_1": "50",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "241067",
+              "CurveID": "83067",
+              "OrderIndex": "2"
+            }
+          ]
+        }
+      ]
+    },
+    "105803": {
+      "fields": {
+        "flag:spirit_while_casting": [
+          0.17,
+          0.33,
+          0.5
+        ]
+      },
+      "link": {
+        "ID": "127999",
+        "TraitNodeID": "105803",
+        "TraitNodeEntryID": "130532",
+        "_Index": "100"
+      },
+      "entry": {
+        "ID": "130532",
+        "TraitDefinitionID": "135333",
+        "MaxRanks": "3",
+        "NodeEntryType": "1",
+        "TraitSubTreeID": "0"
+      },
+      "definition": {
+        "OverrideName_lang": "",
+        "OverrideSubtext_lang": "",
+        "OverrideDescription_lang": "",
+        "ID": "135333",
+        "SpellID": "18462",
+        "OverrideIcon": "0",
+        "OverridesSpellID": "0",
+        "VisibleSpellID": "0"
+      },
+      "spell": {
+        "ID": "18462",
+        "NameSubtext_lang": "",
+        "Description_lang": "Allows $s1% of your Mana regeneration to continue while casting.",
+        "AuraDescription_lang": ""
+      },
+      "effects": [
+        {
+          "modifier": "flag:spirit_while_casting",
+          "unit_scale": 0.01,
+          "effect_points": {
+            "ID": "23457",
+            "TraitDefinitionID": "135333",
+            "EffectIndex": "0",
+            "OperationType": "0",
+            "CurveID": "83101"
+          },
+          "curve_points": [
+            {
+              "Pos_0": "1",
+              "Pos_1": "17",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "241174",
+              "CurveID": "83101",
+              "OrderIndex": "0"
+            },
+            {
+              "Pos_0": "2",
+              "Pos_1": "33",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "241175",
+              "CurveID": "83101",
+              "OrderIndex": "1"
+            },
+            {
+              "Pos_0": "3",
+              "Pos_1": "50",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "241176",
+              "CurveID": "83101",
+              "OrderIndex": "2"
+            }
+          ]
+        }
+      ]
+    },
+    "105843": {
+      "fields": {
+        "flag:spirit_while_casting": [
+          0.17,
+          0.33,
+          0.5
+        ]
+      },
+      "link": {
+        "ID": "128039",
+        "TraitNodeID": "105843",
+        "TraitNodeEntryID": "130572",
+        "_Index": "100"
+      },
+      "entry": {
+        "ID": "130572",
+        "TraitDefinitionID": "135373",
+        "MaxRanks": "3",
+        "NodeEntryType": "1",
+        "TraitSubTreeID": "0"
+      },
+      "definition": {
+        "OverrideName_lang": "",
+        "OverrideSubtext_lang": "",
+        "OverrideDescription_lang": "",
+        "ID": "135373",
+        "SpellID": "14521",
+        "OverrideIcon": "0",
+        "OverridesSpellID": "0",
+        "VisibleSpellID": "0"
+      },
+      "spell": {
+        "ID": "14521",
+        "NameSubtext_lang": "",
+        "Description_lang": "Allows $s1% of your Mana regeneration to continue while casting.",
+        "AuraDescription_lang": ""
+      },
+      "effects": [
+        {
+          "modifier": "flag:spirit_while_casting",
+          "unit_scale": 0.01,
+          "effect_points": {
+            "ID": "23483",
+            "TraitDefinitionID": "135373",
+            "EffectIndex": "0",
+            "OperationType": "0",
+            "CurveID": "83138"
+          },
+          "curve_points": [
+            {
+              "Pos_0": "1",
+              "Pos_1": "17",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "241300",
+              "CurveID": "83138",
+              "OrderIndex": "0"
+            },
+            {
+              "Pos_0": "2",
+              "Pos_1": "33",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "241301",
+              "CurveID": "83138",
+              "OrderIndex": "1"
+            },
+            {
+              "Pos_0": "3",
+              "Pos_1": "50",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "241302",
+              "CurveID": "83138",
+              "OrderIndex": "2"
+            }
+          ]
+        }
+      ]
+    },
+    "105853": {
+      "fields": {
+        "flag:spiritual_guidance": [
+          0.01,
+          0.03,
+          0.05,
+          0.06,
+          0.08
+        ]
+      },
+      "link": {
+        "ID": "128049",
+        "TraitNodeID": "105853",
+        "TraitNodeEntryID": "130582",
+        "_Index": "100"
+      },
+      "entry": {
+        "ID": "130582",
+        "TraitDefinitionID": "135383",
+        "MaxRanks": "5",
+        "NodeEntryType": "1",
+        "TraitSubTreeID": "0"
+      },
+      "definition": {
+        "OverrideName_lang": "",
+        "OverrideSubtext_lang": "",
+        "OverrideDescription_lang": "",
+        "ID": "135383",
+        "SpellID": "14901",
+        "OverrideIcon": "0",
+        "OverridesSpellID": "0",
+        "VisibleSpellID": "0"
+      },
+      "spell": {
+        "ID": "14901",
+        "NameSubtext_lang": "",
+        "Description_lang": "Increases your spell healing by up to $s2% of your total Spirit and your spell damage by up to $s1% of your total Spirit.",
+        "AuraDescription_lang": ""
+      },
+      "effects": [
+        {
+          "modifier": "flag:spiritual_guidance",
+          "unit_scale": 0.01,
+          "effect_points": {
+            "ID": "23505",
+            "TraitDefinitionID": "135383",
+            "EffectIndex": "0",
+            "OperationType": "0",
+            "CurveID": "83160"
+          },
+          "curve_points": [
+            {
+              "Pos_0": "1",
+              "Pos_1": "1",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "241372",
+              "CurveID": "83160",
+              "OrderIndex": "0"
+            },
+            {
+              "Pos_0": "2",
+              "Pos_1": "3",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "241373",
+              "CurveID": "83160",
+              "OrderIndex": "1"
+            },
+            {
+              "Pos_0": "3",
+              "Pos_1": "5",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "241374",
+              "CurveID": "83160",
+              "OrderIndex": "2"
+            },
+            {
+              "Pos_0": "4",
+              "Pos_1": "6",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "241375",
+              "CurveID": "83160",
+              "OrderIndex": "3"
+            },
+            {
+              "Pos_0": "5",
+              "Pos_1": "8",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "241376",
+              "CurveID": "83160",
+              "OrderIndex": "4"
+            }
+          ]
+        }
+      ]
+    },
+    "105877": {
+      "fields": {
+        "crit_ability:Conflagrate": [
+          8.0,
+          17.0,
+          25.0
+        ]
+      },
+      "link": {
+        "ID": "128074",
+        "TraitNodeID": "105877",
+        "TraitNodeEntryID": "130607",
+        "_Index": "100"
+      },
+      "entry": {
+        "ID": "130607",
+        "TraitDefinitionID": "135408",
+        "MaxRanks": "3",
+        "NodeEntryType": "1",
+        "TraitSubTreeID": "0"
+      },
+      "definition": {
+        "OverrideName_lang": "",
+        "OverrideSubtext_lang": "",
+        "OverrideDescription_lang": "",
+        "ID": "135408",
+        "SpellID": "412751",
+        "OverrideIcon": "0",
+        "OverridesSpellID": "0",
+        "VisibleSpellID": "0"
+      },
+      "spell": {
+        "ID": "412751",
+        "NameSubtext_lang": "",
+        "Description_lang": "Increases the critical strike chance of your Conflagrate spell by $m2%.",
+        "AuraDescription_lang": ""
+      },
+      "effects": [
+        {
+          "modifier": "crit_ability:Conflagrate",
+          "unit_scale": 1,
+          "effect_points": {
+            "ID": "23521",
+            "TraitDefinitionID": "135408",
+            "EffectIndex": "1",
+            "OperationType": "0",
+            "CurveID": "83176"
+          },
+          "curve_points": [
+            {
+              "Pos_0": "1",
+              "Pos_1": "8",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "241430",
+              "CurveID": "83176",
+              "OrderIndex": "0"
+            },
+            {
+              "Pos_0": "2",
+              "Pos_1": "17",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "241431",
+              "CurveID": "83176",
+              "OrderIndex": "1"
+            },
+            {
+              "Pos_0": "3",
+              "Pos_1": "25",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "241432",
+              "CurveID": "83176",
+              "OrderIndex": "2"
+            }
+          ]
+        }
+      ]
+    },
+    "105879": {
+      "fields": {
+        "crit_ability:Searing Pain": [
+          3.0,
+          7.0,
+          10.0
+        ],
+        "dmg_destruction": [
+          0.03,
+          0.07,
+          0.1
+        ]
+      },
+      "link": {
+        "ID": "128076",
+        "TraitNodeID": "105879",
+        "TraitNodeEntryID": "130609",
+        "_Index": "100"
+      },
+      "entry": {
+        "ID": "130609",
+        "TraitDefinitionID": "135410",
+        "MaxRanks": "3",
+        "NodeEntryType": "1",
+        "TraitSubTreeID": "0"
+      },
+      "definition": {
+        "OverrideName_lang": "",
+        "OverrideSubtext_lang": "",
+        "OverrideDescription_lang": "",
+        "ID": "135410",
+        "SpellID": "17927",
+        "OverrideIcon": "0",
+        "OverridesSpellID": "0",
+        "VisibleSpellID": "0"
+      },
+      "spell": {
+        "ID": "17927",
+        "NameSubtext_lang": "",
+        "Description_lang": "Increases the critical strike chance of your Searing Pain spell by $m1% and the damage done by all your Destruction spells by $m2%.",
+        "AuraDescription_lang": ""
+      },
+      "effects": [
+        {
+          "modifier": "crit_ability:Searing Pain",
+          "unit_scale": 1,
+          "effect_points": {
+            "ID": "23523",
+            "TraitDefinitionID": "135410",
+            "EffectIndex": "0",
+            "OperationType": "0",
+            "CurveID": "83181"
+          },
+          "curve_points": [
+            {
+              "Pos_0": "1",
+              "Pos_1": "3",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "241449",
+              "CurveID": "83181",
+              "OrderIndex": "0"
+            },
+            {
+              "Pos_0": "2",
+              "Pos_1": "7",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "241450",
+              "CurveID": "83181",
+              "OrderIndex": "1"
+            },
+            {
+              "Pos_0": "3",
+              "Pos_1": "10",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "241451",
+              "CurveID": "83181",
+              "OrderIndex": "2"
+            }
+          ]
+        },
+        {
+          "modifier": "dmg_destruction",
+          "unit_scale": 0.01,
+          "effect_points": {
+            "ID": "23524",
+            "TraitDefinitionID": "135410",
+            "EffectIndex": "1",
+            "OperationType": "0",
+            "CurveID": "83180"
+          },
+          "curve_points": [
+            {
+              "Pos_0": "1",
+              "Pos_1": "3",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "241444",
+              "CurveID": "83180",
+              "OrderIndex": "0"
+            },
+            {
+              "Pos_0": "2",
+              "Pos_1": "7",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "241445",
+              "CurveID": "83180",
+              "OrderIndex": "1"
+            },
+            {
+              "Pos_0": "3",
+              "Pos_1": "10",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "241446",
+              "CurveID": "83180",
+              "OrderIndex": "2"
+            }
+          ]
+        }
+      ]
+    },
+    "105887": {
+      "fields": {
+        "cost_pct_school:fire": [
+          -0.03,
+          -0.06,
+          -0.1
+        ],
+        "cost_pct:Shadow Bolt": [
+          -0.03,
+          -0.06,
+          -0.1
+        ],
+        "cost_pct:Shadowburn": [
+          -0.03,
+          -0.06,
+          -0.1
+        ]
+      },
+      "link": {
+        "ID": "128084",
+        "TraitNodeID": "105887",
+        "TraitNodeEntryID": "130617",
+        "_Index": "100"
+      },
+      "entry": {
+        "ID": "130617",
+        "TraitDefinitionID": "135418",
+        "MaxRanks": "3",
+        "NodeEntryType": "1",
+        "TraitSubTreeID": "0"
+      },
+      "definition": {
+        "OverrideName_lang": "",
+        "OverrideSubtext_lang": "",
+        "OverrideDescription_lang": "",
+        "ID": "135418",
+        "SpellID": "17778",
+        "OverrideIcon": "0",
+        "OverridesSpellID": "0",
+        "VisibleSpellID": "0"
+      },
+      "spell": {
+        "ID": "17778",
+        "NameSubtext_lang": "",
+        "Description_lang": "Reduces the Mana cost of your Destruction spells by $s1%.",
+        "AuraDescription_lang": ""
+      },
+      "effects": [
+        {
+          "modifier": "cost_pct_school:fire",
+          "unit_scale": 0.01,
+          "effect_points": {
+            "ID": "23531",
+            "TraitDefinitionID": "135418",
+            "EffectIndex": "0",
+            "OperationType": "0",
+            "CurveID": "83186"
+          },
+          "curve_points": [
+            {
+              "Pos_0": "1",
+              "Pos_1": "-3",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "241472",
+              "CurveID": "83186",
+              "OrderIndex": "0"
+            },
+            {
+              "Pos_0": "2",
+              "Pos_1": "-6",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "241473",
+              "CurveID": "83186",
+              "OrderIndex": "1"
+            },
+            {
+              "Pos_0": "3",
+              "Pos_1": "-10",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "241474",
+              "CurveID": "83186",
+              "OrderIndex": "2"
+            }
+          ]
+        },
+        {
+          "modifier": "cost_pct:Shadow Bolt",
+          "unit_scale": 0.01,
+          "effect_points": {
+            "ID": "23531",
+            "TraitDefinitionID": "135418",
+            "EffectIndex": "0",
+            "OperationType": "0",
+            "CurveID": "83186"
+          },
+          "curve_points": [
+            {
+              "Pos_0": "1",
+              "Pos_1": "-3",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "241472",
+              "CurveID": "83186",
+              "OrderIndex": "0"
+            },
+            {
+              "Pos_0": "2",
+              "Pos_1": "-6",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "241473",
+              "CurveID": "83186",
+              "OrderIndex": "1"
+            },
+            {
+              "Pos_0": "3",
+              "Pos_1": "-10",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "241474",
+              "CurveID": "83186",
+              "OrderIndex": "2"
+            }
+          ]
+        },
+        {
+          "modifier": "cost_pct:Shadowburn",
+          "unit_scale": 0.01,
+          "effect_points": {
+            "ID": "23531",
+            "TraitDefinitionID": "135418",
+            "EffectIndex": "0",
+            "OperationType": "0",
+            "CurveID": "83186"
+          },
+          "curve_points": [
+            {
+              "Pos_0": "1",
+              "Pos_1": "-3",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "241472",
+              "CurveID": "83186",
+              "OrderIndex": "0"
+            },
+            {
+              "Pos_0": "2",
+              "Pos_1": "-6",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "241473",
+              "CurveID": "83186",
+              "OrderIndex": "1"
+            },
+            {
+              "Pos_0": "3",
+              "Pos_1": "-10",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "241474",
+              "CurveID": "83186",
+              "OrderIndex": "2"
+            }
+          ]
+        }
+      ]
+    },
+    "105917": {
+      "fields": {
+        "crit_dmg_periodic": [
+          0.33,
+          0.67,
+          1.0
+        ]
+      },
+      "link": {
+        "ID": "128114",
+        "TraitNodeID": "105917",
+        "TraitNodeEntryID": "130647",
+        "_Index": "100"
+      },
+      "entry": {
+        "ID": "130647",
+        "TraitDefinitionID": "135448",
+        "MaxRanks": "3",
+        "NodeEntryType": "1",
+        "TraitSubTreeID": "0"
+      },
+      "definition": {
+        "OverrideName_lang": "",
+        "OverrideSubtext_lang": "",
+        "OverrideDescription_lang": "",
+        "ID": "135448",
+        "SpellID": "427712",
+        "OverrideIcon": "0",
+        "OverridesSpellID": "0",
+        "VisibleSpellID": "0"
+      },
+      "spell": {
+        "ID": "427712",
+        "NameSubtext_lang": "",
+        "Description_lang": "Increases the critical strike damage bonus of your Corruption, Bane of Agony, Bane of Doom, Drain Soul, Drain Life, Siphon Life, and Wrack spells by $m1%.",
+        "AuraDescription_lang": ""
+      },
+      "effects": [
+        {
+          "modifier": "crit_dmg_periodic",
+          "unit_scale": 0.01,
+          "effect_points": {
+            "ID": "23813",
+            "TraitDefinitionID": "135448",
+            "EffectIndex": "0",
+            "OperationType": "0",
+            "CurveID": "86666"
+          },
+          "curve_points": [
+            {
+              "Pos_0": "1",
+              "Pos_1": "33",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "255805",
+              "CurveID": "86666",
+              "OrderIndex": "0"
+            },
+            {
+              "Pos_0": "2",
+              "Pos_1": "67",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "255806",
+              "CurveID": "86666",
+              "OrderIndex": "1"
+            },
+            {
+              "Pos_0": "3",
+              "Pos_1": "100",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "255807",
+              "CurveID": "86666",
+              "OrderIndex": "2"
+            }
+          ]
+        }
+      ]
+    },
+    "105932": {
+      "fields": {
+        "cost:Execute": [
+          -3.0,
+          -5.0
+        ]
+      },
+      "link": {
+        "ID": "128129",
+        "TraitNodeID": "105932",
+        "TraitNodeEntryID": "130662",
+        "_Index": "100"
+      },
+      "entry": {
+        "ID": "130662",
+        "TraitDefinitionID": "135463",
+        "MaxRanks": "2",
+        "NodeEntryType": "1",
+        "TraitSubTreeID": "0"
+      },
+      "definition": {
+        "OverrideName_lang": "",
+        "OverrideSubtext_lang": "",
+        "OverrideDescription_lang": "",
+        "ID": "135463",
+        "SpellID": "20502",
+        "OverrideIcon": "0",
+        "OverridesSpellID": "0",
+        "VisibleSpellID": "0"
+      },
+      "spell": {
+        "ID": "20502",
+        "NameSubtext_lang": "",
+        "Description_lang": "Reduces the Rage cost of your Execute ability by $/10;s1.",
+        "AuraDescription_lang": ""
+      },
+      "effects": [
+        {
+          "modifier": "cost:Execute",
+          "unit_scale": 0.1,
+          "effect_points": {
+            "ID": "23581",
+            "TraitDefinitionID": "135463",
+            "EffectIndex": "0",
+            "OperationType": "0",
+            "CurveID": "83295"
+          },
+          "curve_points": [
+            {
+              "Pos_0": "1",
+              "Pos_1": "-30",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "241886",
+              "CurveID": "83295",
+              "OrderIndex": "0"
+            },
+            {
+              "Pos_0": "2",
+              "Pos_1": "-50",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "241887",
+              "CurveID": "83295",
+              "OrderIndex": "1"
+            }
+          ]
+        }
+      ]
+    },
+    "110870": {
+      "fields": {
+        "dmg_ability:Serpent Sting": [
+          0.06,
+          0.13,
+          0.2
+        ]
+      },
+      "link": {
+        "ID": "136306",
+        "TraitNodeID": "110870",
+        "TraitNodeEntryID": "137868",
+        "_Index": "100"
+      },
+      "entry": {
+        "ID": "137868",
+        "TraitDefinitionID": "142622",
+        "MaxRanks": "3",
+        "NodeEntryType": "1",
+        "TraitSubTreeID": "0"
+      },
+      "definition": {
+        "OverrideName_lang": "",
+        "OverrideSubtext_lang": "",
+        "OverrideDescription_lang": "",
+        "ID": "142622",
+        "SpellID": "1310661",
+        "OverrideIcon": "0",
+        "OverridesSpellID": "0",
+        "VisibleSpellID": "0"
+      },
+      "spell": {
+        "ID": "1310661",
+        "NameSubtext_lang": "",
+        "Description_lang": "Increased the damage of your Serpent Sting ability by $s1%, reduces the cooldown of your Viper Sting ability by ${$m2/-1000} sec, and increases the duration of your Scorpid Sting ability by ${$m3/1000} sec.",
+        "AuraDescription_lang": ""
+      },
+      "effects": [
+        {
+          "modifier": "dmg_ability:Serpent Sting",
+          "unit_scale": 0.01,
+          "effect_points": {
+            "ID": "24600",
+            "TraitDefinitionID": "142622",
+            "EffectIndex": "0",
+            "OperationType": "0",
+            "CurveID": "110239"
+          },
+          "curve_points": [
+            {
+              "Pos_0": "1",
+              "Pos_1": "6",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "331034",
+              "CurveID": "110239",
+              "OrderIndex": "0"
+            },
+            {
+              "Pos_0": "2",
+              "Pos_1": "13",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "331035",
+              "CurveID": "110239",
+              "OrderIndex": "1"
+            },
+            {
+              "Pos_0": "3",
+              "Pos_1": "20",
+              "PosPreSquish_0": "0",
+              "PosPreSquish_1": "0",
+              "ID": "331036",
+              "CurveID": "110239",
+              "OrderIndex": "2"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
