@@ -1,14 +1,13 @@
-[tool.ruff]
 line-length = 200
 target-version = "py310"
 
-[tool.ruff.lint]
+[lint]
 # Real-bug catchers (pyflakes) and import ordering only. This codebase
 # deliberately favors dense, multi-statement-per-line functions, so the
 # pycodestyle (E/W) rule set is not enabled — it would force a stylistic
 # rewrite rather than catch actual bugs.
 select = ["F", "I"]
 
-[tool.ruff.lint.per-file-ignores]
+[lint.per-file-ignores]
 "tests/*" = ["F401"]  # test files re-export/import fixtures that look unused to Ruff
 "forever/engine.py" = ["F405"]  # intentional `from .engine_data import *`
