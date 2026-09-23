@@ -67,6 +67,20 @@ class WagoDataTests(unittest.TestCase):
             self.assertEqual(fetch_csv('TraitDefinition', 'test', {'SpellID': 55}, p)[0]['ID'], '1')
             self.assertEqual(len(fetch_csv('TraitDefinition', 'test', {'SpellID': 55}, p)), 1)
 
+    def test_provisional_audit_corrections(self):
+        self.assertEqual(ABILITIES['Mutilate']['weapon']['flat'], 67)
+        self.assertEqual(ABILITIES['Mangle (Bear)']['weapon']['flat'], 77)
+        self.assertEqual(ABILITIES['Mangle (Bear)']['cost'], 20)
+        self.assertEqual((ABILITIES['Spearing Strike']['cost'], ABILITIES['Spearing Strike']['cooldown']), (15, 20))
+        self.assertEqual(ABILITIES['Summon Hawk']['base'], [108, 108])
+        self.assertEqual(ABILITIES['Summon Hawk']['rap_coeff'], .05)
+        self.assertEqual(ABILITIES['Volley']['coeff'], 0)
+        self.assertAlmostEqual(ABILITIES['Rain of Fire']['tick'], 221.2)
+        # Ranks trained below 60 include client level growth, like Shadowburn's.
+        self.assertEqual(ABILITIES['Scorch']['base'], [166.683465, 196.116535])
+        self.assertEqual(ABILITIES['Moonfire']['base'], [129.063415, 150.136585])
+        self.assertIn('Deadly Poison', ABILITIES['Mutilate']['provisional'])
+
     def test_evidence_retains_build_hashes_and_raw_rows(self):
         p = Path(__file__).resolve().parents[1] / 'data/wago_verified.json'
         evidence = json.loads(p.read_text(encoding='utf-8'))

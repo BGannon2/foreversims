@@ -117,6 +117,20 @@ pub struct ItemUse {
     pub school: Option<String>,
     pub duration: f64,
     pub cooldown: f64,
+    #[serde(default)]
+    pub offensive: bool,
+    #[serde(default)]
+    pub aoe: bool,
+    #[serde(default)]
+    pub stat2: Option<String>,
+    #[serde(default)]
+    pub value2: f64,
+    #[serde(default)]
+    pub abilities: Vec<String>,
+    #[serde(default)]
+    pub crit_dmg: f64,
+    #[serde(default)]
+    pub max_resource: f64,
 }
 
 /// One ability record from `engine_data.ABILITIES` (plus runtime fields set by `Config::resolve`).
@@ -251,6 +265,8 @@ pub struct Ability {
     pub crit_bonus: f64,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub direct_mult: Option<f64>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub rap_coeff: Option<f64>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub item_use: Option<ItemUse>,
 }
@@ -412,6 +428,8 @@ pub struct Tables {
     pub SET_NO_COMBAT_EFFECT: Vec<String>,
     #[serde(default)]
     pub SET_PROVISIONAL: HashMap<String, String>,
+    #[serde(default)]
+    pub ITEM_EFFECTS: HashMap<String, IndexMap<String, Vec<Value>>>,
     pub EQUIPMENT_RULES: Value,
 }
 

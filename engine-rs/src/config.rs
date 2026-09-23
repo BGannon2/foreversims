@@ -3,7 +3,7 @@
 use crate::data::{tables, Ability, ItemUse, Racial, Spec, StatMap, Tables};
 use crate::items::*;
 use indexmap::IndexMap;
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use serde_json::{json, Map, Value};
 use std::collections::{BTreeSet, HashMap, HashSet};
 
@@ -78,11 +78,15 @@ pub fn parse_cond(cond: &str) -> Result<Cond, String> {
     Err(format!("Unknown rotation condition: {cond}"))
 }
 
+fn one() -> i64 {
+    1
+}
+
 pub fn compare(op: &str, val: f64, num: f64) -> bool {
     match op { "<" => val < num, ">" => val > num, "<=" => val <= num, ">=" => val >= num, _ => val == num }
 }
 
-#[derive(Clone, Debug, Serialize)]
+#[derive(Clone, Debug, Default, Serialize, Deserialize)]
 pub struct ItemProc {
     pub name: String,
     pub trigger: String,
@@ -103,6 +107,18 @@ pub struct ItemProc {
     pub value: Option<f64>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub duration: Option<f64>,
+    #[serde(default = "one")]
+    pub count: i64,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub stacks_max: Option<i64>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub stat2: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub value2: Option<f64>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub requires_buff: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub exclusive: Option<String>,
     /// Identity of the source item (None for procs attached to non-weapon "Equip:" effects).
     #[serde(skip)]
     pub item_id: Option<i64>,
@@ -656,9 +672,54 @@ impl Config {
         let t = self.t;
         let applied = &mut self.item_effects_applied;
         let unresolved = &mut self.item_effects_unresolved;
+        let prefix = effect.split(':').next().unwrap_or("");
+        if let Some(list) = item.id.and_then(|id| t.ITEM_EFFECTS.get(&id.to_string())).and_then(|ov| ov.get(prefix).map(|l| (l, ov))) {
+            let (list, ov) = list;
+            let base = |extra: Value| -> Map<String, Value> { if let Value::Object(m) = extra { m } else { Map::new() } };
+            if prefix == "Use" {
+                for entry in list {
+                    let mut m = base(json!({"name": item.name, "cooldown": cooldown_seconds(effect), "duration": 0.0, "value": 0.0}));
+                    for (k, v) in base(entry.clone()) { m.insert(k, v); }
+                    self.item_uses.push(serde_json::from_value(Value::Object(m)).expect("ITEM_EFFECTS use entry"));
+                }
+                for entry in ov.get("procs").map(|v| v.as_slice()).unwrap_or(&[]) {
+                    let mut m = base(json!({"name": item.name, "trigger": "weapon", "icd": 0.0}));
+                    for (k, v) in base(entry.clone()) { m.insert(k, v); }
+                    self.item_procs.push(serde_json::from_value(Value::Object(m)).expect("ITEM_EFFECTS proc entry"));
+                }
+            } else {
+                for entry in list {
+                    let mut m = base(json!({"name": item.name, "trigger": "weapon", "icd": 0.0}));
+                    for (k, v) in base(entry.clone()) { m.insert(k, v); }
+                    let mut p: ItemProc = serde_json::from_value(Value::Object(m)).expect("ITEM_EFFECTS proc entry");
+                    p.item_id = item.id;
+                    p.item_index = Some(idx);
+                    self.item_procs.push(p);
+                }
+            }
+            let mut row = json!({"item": item.name, "effect": effect, "model": if list.is_empty() { "no combat effect" } else { "structured" }});
+            if let Some(note) = list.iter().find_map(|e| e.get("note").and_then(|n| n.as_str())) {
+                row["note"] = json!(note);
+            }
+            applied.push(row);
+            return;
+        }
         if effect.starts_with("Equip:") {
             if re_matches(r"^Equip: \+\d+ (?:Mana Regeneration|(?:Shadow|Fire|Frost|Arcane|Nature|Holy) Spell Damage)$", effect) {
                 return; // Normalized into catalog stats at import.
+            }
+            if let Some(g) = re_search(r"\+(\d+) [Rr]anged Attack Power|Increases ranged attack power by (\d+)", effect) {
+                if !item.has_stat("rangedAttackPower") {
+                    let v = g[1].clone().or_else(|| g[2].clone()).unwrap();
+                    add(gear_stats, "rangedAttackPower", v.parse().unwrap());
+                }
+                return;
+            }
+            if let Some(g) = re_search(r"Increases melee and ranged attack power by (\d+)", effect) {
+                if !item.has_stat("attackPower") {
+                    add(gear_stats, "attackPower", g[1].clone().unwrap().parse().unwrap());
+                }
+                return;
             }
             // "+N Attack Power" not followed by " when" / " in" (negative lookahead in the Python source).
             let re = regex_lite::Regex::new(r"(?i)\+(\d+) Attack Power").unwrap();
@@ -691,7 +752,7 @@ impl Config {
             }
             if let Some(g) = re_search(r"(\d+)% chance on melee hit to gain 1 extra attack", effect) {
                 let pct: f64 = g[1].clone().unwrap().parse().unwrap();
-                self.item_procs.push(ItemProc { name: item.name.clone(), trigger: "melee".into(), chance: Some(pct / 100.0), ppm: None, icd: 0.0, kind: "extra_attack".into(), amount: None, school: None, stat: None, value: None, duration: None, item_id: None, item_index: None });
+                self.item_procs.push(ItemProc { name: item.name.clone(), trigger: "melee".into(), chance: Some(pct / 100.0), ppm: None, icd: 0.0, kind: "extra_attack".into(), amount: None, school: None, stat: None, value: None, duration: None, count: 1, stacks_max: None, stat2: None, value2: None, requires_buff: None, exclusive: None, item_id: None, item_index: None });
                 applied.push(json!({"item": item.name, "effect": effect, "proc_model": format!("{}% per melee hit", g[1].clone().unwrap())}));
                 return;
             }
@@ -723,7 +784,7 @@ impl Config {
                     if key != "armorPenetration" {
                         let value: f64 = g[1].clone().unwrap().parse().unwrap();
                         let dur: f64 = g[2].clone().unwrap().parse().unwrap();
-                        self.item_uses.push(ItemUse { name: item.name.clone(), stat: key.into(), value: value / if key == "haste" { 100.0 } else { 1.0 }, school: None, duration: dur, cooldown: cd });
+                        self.item_uses.push(ItemUse { name: item.name.clone(), stat: key.into(), value: value / if key == "haste" { 100.0 } else { 1.0 }, duration: dur, cooldown: cd, offensive: true, ..Default::default() });
                         applied.push(json!({"item": item.name, "effect": effect, "uses": uses}));
                         return;
                     }
@@ -732,7 +793,7 @@ impl Config {
             if let Some(g) = re_search(r"Restores (\d+)(?: to (\d+))? mana", effect) {
                 let a: f64 = g[1].clone().unwrap().parse().unwrap();
                 let b: f64 = g[2].clone().map(|s| s.parse().unwrap()).unwrap_or(a);
-                self.item_uses.push(ItemUse { name: item.name.clone(), stat: "mana".into(), value: (a + b) / 2.0, school: None, duration: 0.0, cooldown: cd });
+                self.item_uses.push(ItemUse { name: item.name.clone(), stat: "mana".into(), value: (a + b) / 2.0, duration: 0.0, cooldown: cd, ..Default::default() });
                 applied.push(json!({"item": item.name, "effect": effect, "uses": uses}));
                 return;
             }
@@ -740,7 +801,7 @@ impl Config {
                 let a: f64 = g[1].clone().unwrap().parse().unwrap();
                 let b: f64 = g[2].clone().map(|s| s.parse().unwrap()).unwrap_or(a);
                 let school = g[3].clone().unwrap_or_else(|| "physical".into()).trim().to_lowercase();
-                self.item_uses.push(ItemUse { name: item.name.clone(), stat: "damage".into(), value: (a + b) / 2.0, school: Some(school), duration: 0.0, cooldown: cd });
+                self.item_uses.push(ItemUse { name: item.name.clone(), stat: "damage".into(), value: (a + b) / 2.0, school: Some(school), duration: 0.0, cooldown: cd, ..Default::default() });
                 applied.push(json!({"item": item.name, "effect": effect, "uses": uses}));
                 return;
             }
@@ -757,14 +818,14 @@ impl Config {
                 if !SPELL_SCHOOLS.contains(&school.as_str()) {
                     school = "physical".into();
                 }
-                self.item_procs.push(ItemProc { name: item.name.clone(), trigger: "weapon".into(), chance: None, ppm: Some(ppm), icd, kind: "damage".into(), amount: Some((a + b) / 2.0), school: Some(school), stat: None, value: None, duration: None, item_id: item.id, item_index: Some(idx) });
+                self.item_procs.push(ItemProc { name: item.name.clone(), trigger: "weapon".into(), chance: None, ppm: Some(ppm), icd, kind: "damage".into(), amount: Some((a + b) / 2.0), school: Some(school), stat: None, value: None, duration: None, count: 1, stacks_max: None, stat2: None, value2: None, requires_buff: None, exclusive: None, item_id: item.id, item_index: Some(idx) });
                 applied.push(json!({"item": item.name, "effect": effect, "proc_model": format!("{} PPM", fmt_g(ppm)), "internal_cooldown": icd}));
                 return;
             }
             if let Some(g) = re_search(r"attack speed by (\d+)% for (\d+) sec", effect) {
                 let v: f64 = g[1].clone().unwrap().parse().unwrap();
                 let d: f64 = g[2].clone().unwrap().parse().unwrap();
-                self.item_procs.push(ItemProc { name: item.name.clone(), trigger: "weapon".into(), chance: None, ppm: Some(ppm), icd, kind: "buff".into(), amount: None, school: None, stat: Some("haste".into()), value: Some(v / 100.0), duration: Some(d), item_id: item.id, item_index: Some(idx) });
+                self.item_procs.push(ItemProc { name: item.name.clone(), trigger: "weapon".into(), chance: None, ppm: Some(ppm), icd, kind: "buff".into(), amount: None, school: None, stat: Some("haste".into()), value: Some(v / 100.0), duration: Some(d), count: 1, stacks_max: None, stat2: None, value2: None, requires_buff: None, exclusive: None, item_id: item.id, item_index: Some(idx) });
                 applied.push(json!({"item": item.name, "effect": effect, "proc_model": format!("{} PPM", fmt_g(ppm))}));
                 return;
             }
@@ -772,7 +833,7 @@ impl Config {
                 if let Some(g) = re_search(pattern, effect) {
                     let v: f64 = g[1].clone().unwrap().parse().unwrap();
                     let d: f64 = g[2].clone().unwrap().parse().unwrap();
-                    self.item_procs.push(ItemProc { name: item.name.clone(), trigger: "weapon".into(), chance: None, ppm: Some(ppm), icd, kind: "buff".into(), amount: None, school: None, stat: Some(key.into()), value: Some(v), duration: Some(d), item_id: item.id, item_index: Some(idx) });
+                    self.item_procs.push(ItemProc { name: item.name.clone(), trigger: "weapon".into(), chance: None, ppm: Some(ppm), icd, kind: "buff".into(), amount: None, school: None, stat: Some(key.into()), value: Some(v), duration: Some(d), count: 1, stacks_max: None, stat2: None, value2: None, requires_buff: None, exclusive: None, item_id: item.id, item_index: Some(idx) });
                     applied.push(json!({"item": item.name, "effect": effect, "proc_model": format!("{} PPM", fmt_g(ppm))}));
                     return;
                 }

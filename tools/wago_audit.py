@@ -39,6 +39,48 @@ SPELLS = {
     "Conflagrate": (18932, {"base": (0, "range"), "coeff": (0, "EffectBonusCoefficient")}),
     "Shadowburn": (18871, {"base": (1, "range"), "coeff": (1, "EffectBonusCoefficient")}),
     "Strider Kick": (1317257, {}),
+    # 2026-09-23 provisional-value audit. Ranks trained below 60 pick up client level growth;
+    # trigger-spell damage rows take cost/cast/cooldown from the castable parent ("whole_spell").
+    "Moonfire": (9835, {"base": (1, "range"), "coeff": (1, "EffectBonusCoefficient"), "tick": (0, "EffectBasePointsF"), "dot_coeff": (0, "EffectBonusCoefficient"), "ticks": (0, "ticks")}),
+    "Wrath": (9912, {"base": (0, "range"), "coeff": (0, "EffectBonusCoefficient")}),
+    "Starfire": (25298, {"base": (0, "range"), "coeff": (0, "EffectBonusCoefficient")}),
+    "Scorch": (10207, {"base": (0, "range"), "coeff": (0, "EffectBonusCoefficient")}),
+    "Fire Blast": (10199, {"base": (0, "range"), "coeff": (0, "EffectBonusCoefficient")}),
+    "Fireball": (25306, {"base": (0, "range"), "coeff": (0, "EffectBonusCoefficient"), "tick": (1, "EffectBasePointsF")}),
+    "Frostbolt": (25304, {"base": (1, "range"), "coeff": (1, "EffectBonusCoefficient")}),
+    "Frostfire Bolt": (1237313, {"base": (1, "range"), "coeff": (1, "EffectBonusCoefficient"), "tick": (2, "EffectBasePointsF")}),
+    "Arcane Explosion": (10202, {"base": (0, "range"), "coeff": (0, "EffectBonusCoefficient")}),
+    "Arcane Missiles": (25346, {"tick": (0, "point"), "coeff": (0, "EffectBonusCoefficient")}, {"whole_spell": 25345}),
+    "Mind Blast": (10947, {"base": (0, "range"), "coeff": (0, "EffectBonusCoefficient")}),
+    "Earth Shock": (10414, {"base": (0, "range"), "coeff": (0, "EffectBonusCoefficient")}),
+    "Shadow Bolt": (25307, {"base": (0, "range"), "coeff": (0, "EffectBonusCoefficient")}),
+    "Searing Pain": (17923, {"base": (0, "range"), "coeff": (0, "EffectBonusCoefficient")}),
+    "Immolate": (25309, {"base": (1, "range"), "coeff": (1, "EffectBonusCoefficient"), "tick": (0, "EffectBasePointsF"), "dot_coeff": (0, "EffectBonusCoefficient")}),
+    "Corruption": (25311, {"tick": (0, "EffectBasePointsF"), "dot_coeff": (0, "EffectBonusCoefficient"), "ticks": (0, "ticks")}),
+    "Curse of Agony": (11713, {"tick": (0, "EffectBasePointsF"), "dot_coeff": (0, "EffectBonusCoefficient"), "ticks": (0, "ticks")},
+                       {"caveat": "Client name is Bane of Agony; its ramping tick distribution is modeled as an even split of the same total."}),
+    "Wrack": (1316697, {"tick": (0, "EffectBasePointsF"), "dot_coeff": (0, "EffectBonusCoefficient")}),
+    "Rain of Fire": (1282385, {"tick": (0, "point"), "coeff": (0, "EffectBonusCoefficient")}, {"whole_spell": 11678}),
+    "Volley": (1279715, {"tick": (0, "point"), "coeff": (0, "EffectBonusCoefficient")}, {"whole_spell": 14295}),
+    "Serpent Sting": (25295, {"tick": (0, "EffectBasePointsF"), "ticks": (0, "ticks")}),
+    "Arcane Shot": (14287, {"base": (0, "range")}),
+    "Aimed Shot": (20904, {"weapon.flat": (0, "EffectBasePointsF")}),
+    "Raptor Strike": (14266, {"weapon.flat": (0, "EffectBasePointsF")}),
+    "Summon Hawk": (1293527, {"base": (0, "range"), "coeff": (0, "EffectBonusCoefficient"), "rap_coeff": (3, "EffectBasePointsF", .01)},
+                    {"caveat": "The 18 sec continued assault is a summoned hawk (spell 1293248) whose damage is not client spell data; it keeps the earlier 34-damage, 9 x 2 sec placeholder."}),
+    "Mutilate": (1241586, {"weapon.flat": (0, "EffectBasePointsF")}, {"whole_spell": 1241584,
+                 "caveat": "The +20% against Poisoned targets applies while Deadly Poison is ticking; Instant Poison is not tracked as a poison state."}),
+    "Mangle (Bear)": (1238073, {"weapon.flat": (0, "EffectBasePointsF")}, {"caveat": "Threat multiplier assumed equal to Maul's."}),
+    "Spearing Strike": (1310222, {}),
+    "Rend": (11574, {"tick": (0, "EffectBasePointsF"), "ticks": (0, "ticks")}),
+    "Thunder Clap": (11581, {"base": (0, "range")}, {"caveat": "Threat multiplier (1.75x) is WoWSims-sourced, not client data."}),
+    "Demoralizing Shout": (11556, {}, {"caveat": "Flat threat per target (43.2) is WoWSims-sourced, not client data."}),
+    "Berserk": (417141, {}, {"caveat": "Only guaranteed critical strikes on combo-point generators are modeled."}),
+    "Tiger's Fury": (5217, {}),
+    "Multi-Shot": (2643, {}),
+    "Mind Flay": (18807, {"tick": (0, "EffectBasePointsF"), "coeff": (0, "EffectBonusCoefficient")}),
+    "Blizzard": (1279949, {"tick": (0, "point"), "coeff": (0, "EffectBonusCoefficient")}, {"whole_spell": 10187}),
+    "Rage of the Farseer": (425336, {}),
 }
 # Node -> model modifier -> (effect index, conversion from DB2 units).
 # Explicitly mapped, never inferred from a similarly sized numeric value.
@@ -110,37 +152,46 @@ def damage_range(effect, levels, level=60):
 
 def build_evidence(snapshot):
     spells = {}
-    for name, (sid, mappings) in SPELLS.items():
+    for name, (sid, mappings, *extra) in SPELLS.items():
+        options = extra[0] if extra else {}
         rows = snapshot.spell(sid)
         effects = {int(e["EffectIndex"]): e for e in rows["SpellEffect"] if e["DifficultyID"] == "0"}
         fields = {}
-        for field, (index, column) in mappings.items():
+        for field, (index, column, *scale) in mappings.items():
             effect = effects[index]
-            if column == "range":
+            if column in ("range", "point"):
                 value = damage_range(effect, snapshot.one("SpellLevels", "SpellID", sid))
+                if column == "point": value = round(sum(value) / 2, 6)
             elif column == "period":
                 value = float(effect["EffectAuraPeriod"]) / 1000
             elif column == "ticks":
                 value = int(float(rows["SpellDuration"][0]["Duration"]) / float(effect["EffectAuraPeriod"]))
             else:
-                value = round(float(effect[column]), 6)
+                value = round(float(effect[column]) * (scale[0] if scale else 1), 6)
             fields[field] = value
-        # These reviewed spell IDs have exactly one non-combo-point power row.
-        power = [r for r in rows["SpellPower"] if r["PowerType"] in ("0", "1")]
-        if len(power) != 1:
+        whole = snapshot.spell(options["whole_spell"]) if options.get("whole_spell") else rows
+        # Reviewed castable spells have at most one mana/rage/energy row (none: free).
+        power = [r for r in whole["SpellPower"] if r["PowerType"] in ("0", "1", "3")]
+        if len(power) > 1:
             raise ValueError(f"Ambiguous power rows for {name}")
-        fields["cost"] = float(power[0]["ManaCost"]) / (10 if power[0]["PowerType"] == "1" else 1)
-        if float(power[0]["PowerCostPct"]):
-            fields["cost_pct"] = round(float(power[0]["PowerCostPct"]) / 100, 6)
-        cast = int(rows["SpellCastTimes"][0]["Base"])
+        if power:
+            fields["cost"] = float(power[0]["ManaCost"]) / (10 if power[0]["PowerType"] == "1" else 1)
+            if float(power[0]["PowerCostPct"]):
+                fields["cost_pct"] = round(float(power[0]["PowerCostPct"]) / 100, 6)
+        cast = int(whole["SpellCastTimes"][0]["Base"])
         if cast > 0:
             fields["cast"] = cast / 1000
-        cooldown = rows["SpellCooldowns"][0]
-        recovery = max(int(cooldown["RecoveryTime"]), int(cooldown["CategoryRecoveryTime"]))
-        if recovery:
-            fields["cooldown"] = recovery / 1000
+        if whole["SpellCooldowns"]:
+            cooldown = whole["SpellCooldowns"][0]
+            recovery = max(int(cooldown["RecoveryTime"]), int(cooldown["CategoryRecoveryTime"]))
+            if recovery:
+                fields["cooldown"] = recovery / 1000
         spells[name] = {"spell_id": sid, "fields": fields, "rows": rows,
                         "status": "client-values-verified; engine behavior separately modeled"}
+        if options.get("whole_spell"):
+            spells[name].update(whole_spell_id=options["whole_spell"], whole_spell_rows=whole)
+        if options.get("caveat"):
+            spells[name]["caveat"] = options["caveat"]
     talents = {}
     for node, mappings in RANKS.items():
         link = snapshot.one("TraitNodeXTraitNodeEntry", "TraitNodeID", node)
