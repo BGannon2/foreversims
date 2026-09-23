@@ -184,7 +184,7 @@ LATER_PHASE_QUESTS = {"Rise, Thunderfury!", "The Fall of Ossirian"}
 
 
 # Armor-type requirement for the armor slots (cloaks, jewelry and trinkets are unaffected).
-ARMOR_TYPE_ONLY = {"paladin-protection": "Plate"}
+ARMOR_TYPE_ONLY = {"paladin-protection": "Plate", "warrior-protection": "Plate", "druid-feral-tank": "Leather"}
 ARMOR_SLOTS = {"head", "shoulders", "chest", "wrist", "hands", "waist", "legs", "feet"}
 
 
