@@ -6,23 +6,23 @@
    "source_label": "Forever BiS (auto-generated)",
    "gear": [
     {
-     "id": 250619,
-     "name": "Legionite Glaive",
-     "icon": null,
-     "quality": "Rare",
-     "itemLevel": 63,
+     "id": 18830,
+     "name": "Grand Marshal's Sunderer",
+     "icon": "inv_axe_10",
+     "quality": "Epic",
+     "itemLevel": 78,
      "stats": {
-      "agility": 16.0,
-      "attackPower": 54.0,
-      "meleeHit": 1.25,
-      "spellHit": 1.25
+      "stamina": 41.0,
+      "strength": 26.0,
+      "meleeCrit": 1.0,
+      "spellCrit": 1.0
      },
      "effects": [],
-     "source": "forever-1.60.1.69913",
-     "subclass": "Polearm",
-     "weaponDamageMin": 138.0,
-     "weaponDamageMax": 207.0,
-     "weaponSpeed": 3.2,
+     "source": "Vendor: Captain O'Neal",
+     "subclass": "Axe",
+     "weaponDamageMin": 236.0,
+     "weaponDamageMax": 353.0,
+     "weaponSpeed": 3.8,
      "equipSlots": [
       "main_hand"
      ],
@@ -131,21 +131,19 @@
      "gear_slot": "shoulders"
     },
     {
-     "id": 21394,
-     "name": "Drape of Unyielding Strength",
-     "icon": "inv_misc_cape_20",
+     "id": 20068,
+     "name": "Deathguard's Cloak",
+     "icon": "inv_misc_cape_02",
      "quality": "Epic",
-     "itemLevel": 67,
+     "itemLevel": 65,
      "stats": {
-      "armor": 52.0,
-      "strength": 15.0,
-      "agility": 9.0,
-      "stamina": 9.0,
-      "meleeHit": 1.25,
-      "spellHit": 1.25
+      "armor": 50.0,
+      "stamina": 11.0,
+      "agility": 5.0,
+      "attackPower": 34.0
      },
      "effects": [],
-     "source": "Quest: Drape of Unyielding Strength",
+     "source": "Vendor: Rutherford Twing",
      "subclass": "Cloth",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -153,20 +151,7 @@
      "equipSlots": [
       "back"
      ],
-     "set": {
-      "name": "Battlegear of Unyielding Strength",
-      "pieces": [
-       "Drape of Unyielding Strength",
-       "Sickle of Unyielding Strength",
-       "Signet of Unyielding Strength"
-      ],
-      "bonuses": [
-       {
-        "required": 3,
-        "description": "-2 rage cost to Intercept."
-       }
-      ]
-     },
+     "set": null,
      "slot": "Back",
      "gear_slot": "back"
     },
@@ -470,25 +455,23 @@
    "source_label": "Forever BiS (auto-generated)",
    "gear": [
     {
-     "id": 21244,
-     "name": "Blessed Qiraji Pugio",
-     "icon": "inv_weapon_shortblade_35",
+     "id": 23456,
+     "name": "Grand Marshal's Swiftblade",
+     "icon": "inv_sword_05",
      "quality": "Epic",
-     "itemLevel": 79,
+     "itemLevel": 78,
      "stats": {
       "stamina": 7.0,
       "meleeCrit": 1.0,
       "spellCrit": 1.0,
-      "meleeHit": 1.25,
-      "spellHit": 1.25,
-      "attackPower": 18.0
+      "attackPower": 28.0
      },
      "effects": [],
-     "source": "Quest",
-     "subclass": "Dagger",
-     "weaponDamageMin": 72.0,
-     "weaponDamageMax": 134.0,
-     "weaponSpeed": 1.7,
+     "source": "Vendor: Captain O'Neal",
+     "subclass": "Sword",
+     "weaponDamageMin": 86.0,
+     "weaponDamageMax": 129.0,
+     "weaponSpeed": 1.8,
      "equipSlots": [
       "main_hand",
       "off_hand"
@@ -988,22 +971,21 @@
    "source_label": "Forever BiS (auto-generated)",
    "gear": [
     {
-     "id": 21268,
-     "name": "Blessed Qiraji War Hammer",
-     "icon": "inv_mace_24",
+     "id": 21520,
+     "name": "Ravencrest's Legacy",
+     "icon": "inv_sword_49",
      "quality": "Epic",
-     "itemLevel": 79,
+     "itemLevel": 76,
      "stats": {
-      "armor": 70.0,
-      "stamina": 12.0,
-      "strength": 10.0,
-      "defense": 3.3964507090090854
+      "stamina": 14.0,
+      "strength": 13.0,
+      "agility": 9.0
      },
      "effects": [],
-     "source": "Quest: Imperial Qiraji Regalia",
-     "subclass": "Mace",
-     "weaponDamageMin": 89.0,
-     "weaponDamageMax": 166.0,
+     "source": "Quest: Treasure of the Timeless One",
+     "subclass": "Sword",
+     "weaponDamageMin": 85.0,
+     "weaponDamageMax": 157.0,
      "weaponSpeed": 2.1,
      "equipSlots": [
       "main_hand",
@@ -1890,20 +1872,20 @@
      "gear_slot": "trinket1"
     },
     {
-     "id": 19395,
-     "name": "Rejuvenating Gem",
-     "icon": "inv_misc_gem_topaz_02",
-     "quality": "Epic",
-     "itemLevel": 75,
+     "id": 11832,
+     "name": "Burst of Knowledge",
+     "icon": "inv_jewelry_amulet_07",
+     "quality": "Rare",
+     "itemLevel": 58,
      "stats": {
-      "healingPower": 66.0,
-      "mp5": 9.0
+      "spellPower": 12.0
      },
      "effects": [
-      "Equip: +9 Mana Regeneration"
+      "Use: Reduces mana cost of all spells by 100 for 10 sec. (15 Min Cooldown)",
+      "Equip: Increases damage and healing done by magical spells and effects by up to 12."
      ],
-     "source": "Zone Drop",
-     "subclass": null,
+     "source": "Boss Drop: Ambassador Flamelash",
+     "subclass": "Miscellaneous",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -1922,25 +1904,23 @@
    "source_label": "Forever BiS (auto-generated)",
    "gear": [
     {
-     "id": 21273,
-     "name": "Blessed Qiraji Acolyte Staff",
-     "icon": "inv_staff_20",
+     "id": 18867,
+     "name": "Grand Marshal's Battle Hammer",
+     "icon": "inv_hammer_03",
      "quality": "Epic",
-     "itemLevel": 79,
+     "itemLevel": 78,
      "stats": {
-      "intellect": 33.0,
-      "stamina": 32.0,
-      "meleeHit": 2.5,
-      "spellHit": 2.5,
+      "stamina": 41.0,
+      "strength": 26.0,
       "meleeCrit": 1.0,
       "spellCrit": 1.0
      },
      "effects": [],
-     "source": "Quest",
-     "subclass": "Staff",
-     "weaponDamageMin": 189.0,
-     "weaponDamageMax": 284.0,
-     "weaponSpeed": 3.0,
+     "source": "Vendor: Captain O'Neal",
+     "subclass": "Mace",
+     "weaponDamageMin": 236.0,
+     "weaponDamageMax": 353.0,
+     "weaponSpeed": 3.8,
      "equipSlots": [
       "main_hand"
      ],
@@ -2354,25 +2334,23 @@
    "source_label": "Forever BiS (auto-generated)",
    "gear": [
     {
-     "id": 21273,
-     "name": "Blessed Qiraji Acolyte Staff",
-     "icon": "inv_staff_20",
+     "id": 272601,
+     "name": "Premier High Warlord's Pulverizer",
+     "icon": "inv_hammer_10",
      "quality": "Epic",
-     "itemLevel": 79,
+     "itemLevel": 65,
      "stats": {
-      "intellect": 33.0,
-      "stamina": 32.0,
-      "meleeHit": 2.5,
-      "spellHit": 2.5,
+      "stamina": 35.0,
+      "strength": 23.0,
       "meleeCrit": 1.0,
       "spellCrit": 1.0
      },
      "effects": [],
-     "source": "Quest",
-     "subclass": "Staff",
-     "weaponDamageMin": 189.0,
-     "weaponDamageMax": 284.0,
-     "weaponSpeed": 3.0,
+     "source": "forever-1.60.1.69913",
+     "subclass": "Mace",
+     "weaponDamageMin": 187.0,
+     "weaponDamageMax": 281.0,
+     "weaponSpeed": 3.8,
      "equipSlots": [
       "main_hand"
      ],
@@ -2770,21 +2748,22 @@
    "source_label": "Forever BiS (auto-generated)",
    "gear": [
     {
-     "id": 272594,
-     "name": "Premier High Warlord's Recurve",
-     "icon": "inv_weapon_bow_08",
+     "id": 18836,
+     "name": "Grand Marshal's Repeater",
+     "icon": "inv_weapon_crossbow_04",
      "quality": "Epic",
-     "itemLevel": 65,
+     "itemLevel": 78,
      "stats": {
-      "stamina": 19.0,
-      "attackPower": 100.0
+      "stamina": 22.0
      },
-     "effects": [],
-     "source": "forever-1.60.1.69913",
-     "subclass": "Bow",
-     "weaponDamageMin": 53.0,
-     "weaponDamageMax": 80.0,
-     "weaponSpeed": 1.8,
+     "effects": [
+      "Equip: +112 Ranged Attack Power"
+     ],
+     "source": "Vendor: Captain O'Neal",
+     "subclass": "Crossbow",
+     "weaponDamageMin": 108.0,
+     "weaponDamageMax": 162.0,
+     "weaponSpeed": 2.9,
      "equipSlots": [
       "ranged"
      ],
@@ -2793,23 +2772,25 @@
      "gear_slot": "ranged"
     },
     {
-     "id": 17142,
-     "name": "Shard of the Defiler",
-     "icon": "inv_sword_01",
-     "quality": "Legendary",
-     "itemLevel": 70,
+     "id": 21244,
+     "name": "Blessed Qiraji Pugio",
+     "icon": "inv_weapon_shortblade_35",
+     "quality": "Epic",
+     "itemLevel": 79,
      "stats": {
-      "meleeCrit": 15.0,
-      "spellCrit": 15.0
+      "stamina": 7.0,
+      "meleeCrit": 1.0,
+      "spellCrit": 1.0,
+      "meleeHit": 1.25,
+      "spellHit": 1.25,
+      "attackPower": 18.0
      },
-     "effects": [
-      "Unmodeled rating: Equip: +150 Haste Rating"
-     ],
-     "source": "forever-1.60.1.69913",
+     "effects": [],
+     "source": "Quest",
      "subclass": "Dagger",
-     "weaponDamageMin": 53.0,
-     "weaponDamageMax": 61.0,
-     "weaponSpeed": 1.1,
+     "weaponDamageMin": 72.0,
+     "weaponDamageMax": 134.0,
+     "weaponSpeed": 1.7,
      "equipSlots": [
       "main_hand",
       "off_hand"
@@ -3250,21 +3231,22 @@
    "source_label": "Forever BiS (auto-generated)",
    "gear": [
     {
-     "id": 272594,
-     "name": "Premier High Warlord's Recurve",
-     "icon": "inv_weapon_bow_08",
+     "id": 18836,
+     "name": "Grand Marshal's Repeater",
+     "icon": "inv_weapon_crossbow_04",
      "quality": "Epic",
-     "itemLevel": 65,
+     "itemLevel": 78,
      "stats": {
-      "stamina": 19.0,
-      "attackPower": 100.0
+      "stamina": 22.0
      },
-     "effects": [],
-     "source": "forever-1.60.1.69913",
-     "subclass": "Bow",
-     "weaponDamageMin": 53.0,
-     "weaponDamageMax": 80.0,
-     "weaponSpeed": 1.8,
+     "effects": [
+      "Equip: +112 Ranged Attack Power"
+     ],
+     "source": "Vendor: Captain O'Neal",
+     "subclass": "Crossbow",
+     "weaponDamageMin": 108.0,
+     "weaponDamageMax": 162.0,
+     "weaponSpeed": 2.9,
      "equipSlots": [
       "ranged"
      ],
@@ -3273,23 +3255,25 @@
      "gear_slot": "ranged"
     },
     {
-     "id": 17142,
-     "name": "Shard of the Defiler",
-     "icon": "inv_sword_01",
-     "quality": "Legendary",
-     "itemLevel": 70,
+     "id": 21244,
+     "name": "Blessed Qiraji Pugio",
+     "icon": "inv_weapon_shortblade_35",
+     "quality": "Epic",
+     "itemLevel": 79,
      "stats": {
-      "meleeCrit": 15.0,
-      "spellCrit": 15.0
+      "stamina": 7.0,
+      "meleeCrit": 1.0,
+      "spellCrit": 1.0,
+      "meleeHit": 1.25,
+      "spellHit": 1.25,
+      "attackPower": 18.0
      },
-     "effects": [
-      "Unmodeled rating: Equip: +150 Haste Rating"
-     ],
-     "source": "forever-1.60.1.69913",
+     "effects": [],
+     "source": "Quest",
      "subclass": "Dagger",
-     "weaponDamageMin": 53.0,
-     "weaponDamageMax": 61.0,
-     "weaponSpeed": 1.1,
+     "weaponDamageMin": 72.0,
+     "weaponDamageMax": 134.0,
+     "weaponSpeed": 1.7,
      "equipSlots": [
       "main_hand",
       "off_hand"
@@ -4694,20 +4678,20 @@
      "gear_slot": "trinket1"
     },
     {
-     "id": 19395,
-     "name": "Rejuvenating Gem",
-     "icon": "inv_misc_gem_topaz_02",
-     "quality": "Epic",
-     "itemLevel": 75,
+     "id": 11832,
+     "name": "Burst of Knowledge",
+     "icon": "inv_jewelry_amulet_07",
+     "quality": "Rare",
+     "itemLevel": 58,
      "stats": {
-      "healingPower": 66.0,
-      "mp5": 9.0
+      "spellPower": 12.0
      },
      "effects": [
-      "Equip: +9 Mana Regeneration"
+      "Use: Reduces mana cost of all spells by 100 for 10 sec. (15 Min Cooldown)",
+      "Equip: Increases damage and healing done by magical spells and effects by up to 12."
      ],
-     "source": "Zone Drop",
-     "subclass": null,
+     "source": "Boss Drop: Ambassador Flamelash",
+     "subclass": "Miscellaneous",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -5206,20 +5190,20 @@
      "gear_slot": "trinket1"
     },
     {
-     "id": 19395,
-     "name": "Rejuvenating Gem",
-     "icon": "inv_misc_gem_topaz_02",
-     "quality": "Epic",
-     "itemLevel": 75,
+     "id": 11832,
+     "name": "Burst of Knowledge",
+     "icon": "inv_jewelry_amulet_07",
+     "quality": "Rare",
+     "itemLevel": 58,
      "stats": {
-      "healingPower": 66.0,
-      "mp5": 9.0
+      "spellPower": 12.0
      },
      "effects": [
-      "Equip: +9 Mana Regeneration"
+      "Use: Reduces mana cost of all spells by 100 for 10 sec. (15 Min Cooldown)",
+      "Equip: Increases damage and healing done by magical spells and effects by up to 12."
      ],
-     "source": "Zone Drop",
-     "subclass": null,
+     "source": "Boss Drop: Ambassador Flamelash",
+     "subclass": "Miscellaneous",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -5718,20 +5702,20 @@
      "gear_slot": "trinket1"
     },
     {
-     "id": 19395,
-     "name": "Rejuvenating Gem",
-     "icon": "inv_misc_gem_topaz_02",
-     "quality": "Epic",
-     "itemLevel": 75,
+     "id": 11832,
+     "name": "Burst of Knowledge",
+     "icon": "inv_jewelry_amulet_07",
+     "quality": "Rare",
+     "itemLevel": 58,
      "stats": {
-      "healingPower": 66.0,
-      "mp5": 9.0
+      "spellPower": 12.0
      },
      "effects": [
-      "Equip: +9 Mana Regeneration"
+      "Use: Reduces mana cost of all spells by 100 for 10 sec. (15 Min Cooldown)",
+      "Equip: Increases damage and healing done by magical spells and effects by up to 12."
      ],
-     "source": "Zone Drop",
-     "subclass": null,
+     "source": "Boss Drop: Ambassador Flamelash",
+     "subclass": "Miscellaneous",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -6205,20 +6189,20 @@
      "gear_slot": "trinket1"
     },
     {
-     "id": 19395,
-     "name": "Rejuvenating Gem",
-     "icon": "inv_misc_gem_topaz_02",
-     "quality": "Epic",
-     "itemLevel": 75,
+     "id": 11832,
+     "name": "Burst of Knowledge",
+     "icon": "inv_jewelry_amulet_07",
+     "quality": "Rare",
+     "itemLevel": 58,
      "stats": {
-      "healingPower": 66.0,
-      "mp5": 9.0
+      "spellPower": 12.0
      },
      "effects": [
-      "Equip: +9 Mana Regeneration"
+      "Use: Reduces mana cost of all spells by 100 for 10 sec. (15 Min Cooldown)",
+      "Equip: Increases damage and healing done by magical spells and effects by up to 12."
      ],
-     "source": "Zone Drop",
-     "subclass": null,
+     "source": "Boss Drop: Ambassador Flamelash",
+     "subclass": "Miscellaneous",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -6237,6 +6221,32 @@
    "source_label": "Forever BiS (auto-generated)",
    "gear": [
     {
+     "id": 18838,
+     "name": "Grand Marshal's Dirk",
+     "icon": "inv_weapon_shortblade_26",
+     "quality": "Epic",
+     "itemLevel": 78,
+     "stats": {
+      "stamina": 7.0,
+      "meleeCrit": 1.0,
+      "spellCrit": 1.0,
+      "attackPower": 28.0
+     },
+     "effects": [],
+     "source": "Vendor: Captain O'Neal",
+     "subclass": "Dagger",
+     "weaponDamageMin": 95.0,
+     "weaponDamageMax": 143.0,
+     "weaponSpeed": 2.0,
+     "equipSlots": [
+      "main_hand",
+      "off_hand"
+     ],
+     "set": null,
+     "slot": "One-Hand",
+     "gear_slot": "main_hand"
+    },
+    {
      "id": 21404,
      "name": "Dagger of Veiled Shadows",
      "icon": "inv_weapon_shortblade_27",
@@ -6254,34 +6264,6 @@
      "weaponDamageMin": 65.0,
      "weaponDamageMax": 121.0,
      "weaponSpeed": 1.8,
-     "equipSlots": [
-      "main_hand",
-      "off_hand"
-     ],
-     "set": null,
-     "slot": "One-Hand",
-     "gear_slot": "main_hand"
-    },
-    {
-     "id": 21244,
-     "name": "Blessed Qiraji Pugio",
-     "icon": "inv_weapon_shortblade_35",
-     "quality": "Epic",
-     "itemLevel": 79,
-     "stats": {
-      "stamina": 7.0,
-      "meleeCrit": 1.0,
-      "spellCrit": 1.0,
-      "meleeHit": 1.25,
-      "spellHit": 1.25,
-      "attackPower": 18.0
-     },
-     "effects": [],
-     "source": "Quest",
-     "subclass": "Dagger",
-     "weaponDamageMin": 72.0,
-     "weaponDamageMax": 134.0,
-     "weaponSpeed": 1.7,
      "equipSlots": [
       "main_hand",
       "off_hand"
@@ -6776,6 +6758,32 @@
    "source_label": "Forever BiS (auto-generated)",
    "gear": [
     {
+     "id": 12584,
+     "name": "Grand Marshal's Longsword",
+     "icon": "inv_sword_11",
+     "quality": "Epic",
+     "itemLevel": 78,
+     "stats": {
+      "stamina": 7.0,
+      "meleeCrit": 1.0,
+      "spellCrit": 1.0,
+      "attackPower": 28.0
+     },
+     "effects": [],
+     "source": "Vendor: Captain O'Neal",
+     "subclass": "Sword",
+     "weaponDamageMin": 138.0,
+     "weaponDamageMax": 207.0,
+     "weaponSpeed": 2.9,
+     "equipSlots": [
+      "main_hand",
+      "off_hand"
+     ],
+     "set": null,
+     "slot": "One-Hand",
+     "gear_slot": "main_hand"
+    },
+    {
      "id": 21404,
      "name": "Dagger of Veiled Shadows",
      "icon": "inv_weapon_shortblade_27",
@@ -6793,34 +6801,6 @@
      "weaponDamageMin": 65.0,
      "weaponDamageMax": 121.0,
      "weaponSpeed": 1.8,
-     "equipSlots": [
-      "main_hand",
-      "off_hand"
-     ],
-     "set": null,
-     "slot": "One-Hand",
-     "gear_slot": "main_hand"
-    },
-    {
-     "id": 21244,
-     "name": "Blessed Qiraji Pugio",
-     "icon": "inv_weapon_shortblade_35",
-     "quality": "Epic",
-     "itemLevel": 79,
-     "stats": {
-      "stamina": 7.0,
-      "meleeCrit": 1.0,
-      "spellCrit": 1.0,
-      "meleeHit": 1.25,
-      "spellHit": 1.25,
-      "attackPower": 18.0
-     },
-     "effects": [],
-     "source": "Quest",
-     "subclass": "Dagger",
-     "weaponDamageMin": 72.0,
-     "weaponDamageMax": 134.0,
-     "weaponSpeed": 1.7,
      "equipSlots": [
       "main_hand",
       "off_hand"
@@ -7315,6 +7295,32 @@
    "source_label": "Forever BiS (auto-generated)",
    "gear": [
     {
+     "id": 12584,
+     "name": "Grand Marshal's Longsword",
+     "icon": "inv_sword_11",
+     "quality": "Epic",
+     "itemLevel": 78,
+     "stats": {
+      "stamina": 7.0,
+      "meleeCrit": 1.0,
+      "spellCrit": 1.0,
+      "attackPower": 28.0
+     },
+     "effects": [],
+     "source": "Vendor: Captain O'Neal",
+     "subclass": "Sword",
+     "weaponDamageMin": 138.0,
+     "weaponDamageMax": 207.0,
+     "weaponSpeed": 2.9,
+     "equipSlots": [
+      "main_hand",
+      "off_hand"
+     ],
+     "set": null,
+     "slot": "One-Hand",
+     "gear_slot": "main_hand"
+    },
+    {
      "id": 21404,
      "name": "Dagger of Veiled Shadows",
      "icon": "inv_weapon_shortblade_27",
@@ -7332,34 +7338,6 @@
      "weaponDamageMin": 65.0,
      "weaponDamageMax": 121.0,
      "weaponSpeed": 1.8,
-     "equipSlots": [
-      "main_hand",
-      "off_hand"
-     ],
-     "set": null,
-     "slot": "One-Hand",
-     "gear_slot": "main_hand"
-    },
-    {
-     "id": 21244,
-     "name": "Blessed Qiraji Pugio",
-     "icon": "inv_weapon_shortblade_35",
-     "quality": "Epic",
-     "itemLevel": 79,
-     "stats": {
-      "stamina": 7.0,
-      "meleeCrit": 1.0,
-      "spellCrit": 1.0,
-      "meleeHit": 1.25,
-      "spellHit": 1.25,
-      "attackPower": 18.0
-     },
-     "effects": [],
-     "source": "Quest",
-     "subclass": "Dagger",
-     "weaponDamageMin": 72.0,
-     "weaponDamageMax": 134.0,
-     "weaponSpeed": 1.7,
      "equipSlots": [
       "main_hand",
       "off_hand"
@@ -8319,20 +8297,20 @@
      "gear_slot": "trinket1"
     },
     {
-     "id": 19395,
-     "name": "Rejuvenating Gem",
-     "icon": "inv_misc_gem_topaz_02",
-     "quality": "Epic",
-     "itemLevel": 75,
+     "id": 11832,
+     "name": "Burst of Knowledge",
+     "icon": "inv_jewelry_amulet_07",
+     "quality": "Rare",
+     "itemLevel": 58,
      "stats": {
-      "healingPower": 66.0,
-      "mp5": 9.0
+      "spellPower": 12.0
      },
      "effects": [
-      "Equip: +9 Mana Regeneration"
+      "Use: Reduces mana cost of all spells by 100 for 10 sec. (15 Min Cooldown)",
+      "Equip: Increases damage and healing done by magical spells and effects by up to 12."
      ],
-     "source": "Zone Drop",
-     "subclass": null,
+     "source": "Boss Drop: Ambassador Flamelash",
+     "subclass": "Miscellaneous",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -8351,58 +8329,29 @@
    "source_label": "Forever BiS (auto-generated)",
    "gear": [
     {
-     "id": 21244,
-     "name": "Blessed Qiraji Pugio",
-     "icon": "inv_weapon_shortblade_35",
+     "id": 18867,
+     "name": "Grand Marshal's Battle Hammer",
+     "icon": "inv_hammer_03",
      "quality": "Epic",
-     "itemLevel": 79,
+     "itemLevel": 78,
      "stats": {
-      "stamina": 7.0,
+      "stamina": 41.0,
+      "strength": 26.0,
       "meleeCrit": 1.0,
-      "spellCrit": 1.0,
-      "meleeHit": 1.25,
-      "spellHit": 1.25,
-      "attackPower": 18.0
+      "spellCrit": 1.0
      },
      "effects": [],
-     "source": "Quest",
-     "subclass": "Dagger",
-     "weaponDamageMin": 72.0,
-     "weaponDamageMax": 134.0,
-     "weaponSpeed": 1.7,
-     "equipSlots": [
-      "main_hand",
-      "off_hand"
-     ],
-     "set": null,
-     "slot": "One-Hand",
-     "gear_slot": "main_hand"
-    },
-    {
-     "id": 279261,
-     "name": "Greenhammer",
-     "icon": "inv_mace_1h_raidhyjalc60_d_01",
-     "quality": "Epic",
-     "itemLevel": 65,
-     "stats": {
-      "agility": 8.0,
-      "stamina": 12.0,
-      "meleeHit": 1.25,
-      "spellHit": 1.25
-     },
-     "effects": [],
-     "source": "forever-1.60.1.69913",
+     "source": "Vendor: Captain O'Neal",
      "subclass": "Mace",
-     "weaponDamageMin": 76.0,
-     "weaponDamageMax": 142.0,
-     "weaponSpeed": 2.3,
+     "weaponDamageMin": 236.0,
+     "weaponDamageMax": 353.0,
+     "weaponSpeed": 3.8,
      "equipSlots": [
-      "main_hand",
-      "off_hand"
+      "main_hand"
      ],
      "set": null,
-     "slot": "One-Hand",
-     "gear_slot": "off_hand"
+     "slot": "Two-Hand",
+     "gear_slot": "main_hand"
     },
     {
      "id": 19999,
@@ -8527,119 +8476,84 @@
      "gear_slot": "back"
     },
     {
-     "id": 19682,
-     "name": "Bloodvine Vest",
-     "icon": "inv_chest_cloth_07",
-     "quality": "Rare",
-     "itemLevel": 65,
+     "id": 22191,
+     "name": "Obsidian Mail Tunic",
+     "icon": "inv_chest_chain_17",
+     "quality": "Epic",
+     "itemLevel": 72,
      "stats": {
-      "armor": 92.0,
-      "intellect": 13.0,
-      "meleeHit": 2.5,
-      "spellHit": 2.5,
-      "spellPower": 27.0
+      "armor": 458.0,
+      "attackPower": 76.0,
+      "meleeCrit": 1.0,
+      "spellCrit": 1.0
      },
-     "effects": [],
+     "effects": [
+      "Equip: Spell Damage received is reduced by 10."
+     ],
      "source": "Unknown",
-     "subclass": "Cloth",
+     "subclass": "Mail",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
      "equipSlots": [
       "chest"
      ],
-     "set": {
-      "name": "Bloodvine Garb",
-      "pieces": [
-       "Requires Tailoring (300)",
-       "Bloodvine Vest",
-       "Bloodvine Leggings"
-      ],
-      "bonuses": [
-       {
-        "required": 3,
-        "description": "Improves your chance to get a critical strike with spells by 2%."
-       }
-      ]
-     },
+     "set": null,
      "slot": "Chest",
      "gear_slot": "chest"
     },
     {
-     "id": 19687,
-     "name": "Primal Batskin Bracers",
-     "icon": "inv_bracer_07",
-     "quality": "Rare",
+     "id": 19582,
+     "name": "Windtalker's Wristguards",
+     "icon": "inv_bracer_03",
+     "quality": "Epic",
      "itemLevel": 65,
      "stats": {
-      "armor": 79.0,
-      "agility": 14.0,
-      "stamina": 7.0,
-      "meleeHit": 1.25,
-      "spellHit": 1.25
+      "armor": 182.0,
+      "intellect": 8.0,
+      "spirit": 7.0,
+      "stamina": 8.0,
+      "attackPower": 38.0
      },
      "effects": [],
      "source": "Unknown",
-     "subclass": "Leather",
+     "subclass": "Mail",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
      "equipSlots": [
       "wrist"
      ],
-     "set": {
-      "name": "Primal Batskin",
-      "pieces": [
-       "Requires Leatherworking (300)",
-       "Primal Batskin Jerkin",
-       "Primal Batskin Bracers"
-      ],
-      "bonuses": [
-       {
-        "required": 3,
-        "description": "Minor increase to running and swimming speed."
-       }
-      ]
-     },
+     "set": null,
      "slot": "Wrist",
      "gear_slot": "wrist"
     },
     {
-     "id": 19686,
-     "name": "Primal Batskin Gloves",
-     "icon": "inv_gauntlets_31",
-     "quality": "Rare",
-     "itemLevel": 65,
+     "id": 19157,
+     "name": "Chromatic Gauntlets",
+     "icon": "inv_gauntlets_22",
+     "quality": "Epic",
+     "itemLevel": 70,
      "stats": {
-      "armor": 113.0,
-      "agility": 10.0,
-      "stamina": 9.0,
-      "meleeHit": 2.5,
-      "spellHit": 2.5
+      "armor": 279.0,
+      "fireResistance": 5.0,
+      "natureResistance": 5.0,
+      "frostResistance": 5.0,
+      "shadowResistance": 5.0,
+      "attackPower": 44.0,
+      "meleeCrit": 1.0,
+      "spellCrit": 1.0
      },
      "effects": [],
      "source": "Unknown",
-     "subclass": "Leather",
+     "subclass": "Mail",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
      "equipSlots": [
       "hands"
      ],
-     "set": {
-      "name": "Primal Batskin",
-      "pieces": [
-       "Requires Leatherworking (300)",
-       "Primal Batskin Jerkin",
-       "Primal Batskin Bracers"
-      ],
-      "bonuses": [
-       {
-        "required": 3,
-        "description": "Minor increase to running and swimming speed."
-       }
-      ]
-     },
+     "set": null,
      "slot": "Hands",
      "gear_slot": "hands"
     },
@@ -8697,41 +8611,31 @@
      "gear_slot": "legs"
     },
     {
-     "id": 19684,
-     "name": "Bloodvine Boots",
-     "icon": "inv_boots_cloth_02",
-     "quality": "Rare",
-     "itemLevel": 65,
+     "id": 21612,
+     "name": "Wormscale Stompers",
+     "icon": "inv_boots_chain_08",
+     "quality": "Epic",
+     "itemLevel": 81,
      "stats": {
-      "armor": 63.0,
-      "intellect": 16.0,
-      "meleeHit": 1.25,
-      "spellHit": 1.25,
-      "spellPower": 19.0
+      "armor": 352.0,
+      "agility": 26.0,
+      "stamina": 12.0,
+      "intellect": 12.0,
+      "spellPower": 15.0,
+      "mp5": 5.0
      },
-     "effects": [],
-     "source": "Unknown",
-     "subclass": "Cloth",
+     "effects": [
+      "Equip: +5 Mana Regeneration"
+     ],
+     "source": "forever-1.60.1.69913",
+     "subclass": "Mail",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
      "equipSlots": [
       "feet"
      ],
-     "set": {
-      "name": "Bloodvine Garb",
-      "pieces": [
-       "Requires Tailoring (300)",
-       "Bloodvine Vest",
-       "Bloodvine Leggings"
-      ],
-      "bonuses": [
-       {
-        "required": 3,
-        "description": "Improves your chance to get a critical strike with spells by 2%."
-       }
-      ]
-     },
+     "set": null,
      "slot": "Feet",
      "gear_slot": "feet"
     },
@@ -9344,20 +9248,20 @@
      "gear_slot": "trinket1"
     },
     {
-     "id": 19395,
-     "name": "Rejuvenating Gem",
-     "icon": "inv_misc_gem_topaz_02",
-     "quality": "Epic",
-     "itemLevel": 75,
+     "id": 11832,
+     "name": "Burst of Knowledge",
+     "icon": "inv_jewelry_amulet_07",
+     "quality": "Rare",
+     "itemLevel": 58,
      "stats": {
-      "healingPower": 66.0,
-      "mp5": 9.0
+      "spellPower": 12.0
      },
      "effects": [
-      "Equip: +9 Mana Regeneration"
+      "Use: Reduces mana cost of all spells by 100 for 10 sec. (15 Min Cooldown)",
+      "Equip: Increases damage and healing done by magical spells and effects by up to 12."
      ],
-     "source": "Zone Drop",
-     "subclass": null,
+     "source": "Boss Drop: Ambassador Flamelash",
+     "subclass": "Miscellaneous",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -9880,20 +9784,20 @@
      "gear_slot": "trinket1"
     },
     {
-     "id": 19395,
-     "name": "Rejuvenating Gem",
-     "icon": "inv_misc_gem_topaz_02",
-     "quality": "Epic",
-     "itemLevel": 75,
+     "id": 11832,
+     "name": "Burst of Knowledge",
+     "icon": "inv_jewelry_amulet_07",
+     "quality": "Rare",
+     "itemLevel": 58,
      "stats": {
-      "healingPower": 66.0,
-      "mp5": 9.0
+      "spellPower": 12.0
      },
      "effects": [
-      "Equip: +9 Mana Regeneration"
+      "Use: Reduces mana cost of all spells by 100 for 10 sec. (15 Min Cooldown)",
+      "Equip: Increases damage and healing done by magical spells and effects by up to 12."
      ],
-     "source": "Zone Drop",
-     "subclass": null,
+     "source": "Boss Drop: Ambassador Flamelash",
+     "subclass": "Miscellaneous",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -10416,20 +10320,20 @@
      "gear_slot": "trinket1"
     },
     {
-     "id": 19395,
-     "name": "Rejuvenating Gem",
-     "icon": "inv_misc_gem_topaz_02",
-     "quality": "Epic",
-     "itemLevel": 75,
+     "id": 11832,
+     "name": "Burst of Knowledge",
+     "icon": "inv_jewelry_amulet_07",
+     "quality": "Rare",
+     "itemLevel": 58,
      "stats": {
-      "healingPower": 66.0,
-      "mp5": 9.0
+      "spellPower": 12.0
      },
      "effects": [
-      "Equip: +9 Mana Regeneration"
+      "Use: Reduces mana cost of all spells by 100 for 10 sec. (15 Min Cooldown)",
+      "Equip: Increases damage and healing done by magical spells and effects by up to 12."
      ],
-     "source": "Zone Drop",
-     "subclass": null,
+     "source": "Boss Drop: Ambassador Flamelash",
+     "subclass": "Miscellaneous",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -10448,23 +10352,23 @@
    "source_label": "Forever BiS (auto-generated)",
    "gear": [
     {
-     "id": 279259,
-     "name": "Ironwood Blade",
-     "icon": "inv_sword_07",
+     "id": 23456,
+     "name": "Grand Marshal's Swiftblade",
+     "icon": "inv_sword_05",
      "quality": "Epic",
-     "itemLevel": 65,
+     "itemLevel": 78,
      "stats": {
-      "strength": 8.0,
-      "stamina": 12.0,
-      "meleeHit": 1.25,
-      "spellHit": 1.25
+      "stamina": 7.0,
+      "meleeCrit": 1.0,
+      "spellCrit": 1.0,
+      "attackPower": 28.0
      },
      "effects": [],
-     "source": "forever-1.60.1.69913",
+     "source": "Vendor: Captain O'Neal",
      "subclass": "Sword",
-     "weaponDamageMin": 80.0,
-     "weaponDamageMax": 148.0,
-     "weaponSpeed": 2.4,
+     "weaponDamageMin": 86.0,
+     "weaponDamageMax": 129.0,
+     "weaponSpeed": 1.8,
      "equipSlots": [
       "main_hand",
       "off_hand"
@@ -10917,23 +10821,23 @@
    "source_label": "Forever BiS (auto-generated)",
    "gear": [
     {
-     "id": 250619,
-     "name": "Legionite Glaive",
-     "icon": null,
-     "quality": "Rare",
-     "itemLevel": 63,
+     "id": 18830,
+     "name": "Grand Marshal's Sunderer",
+     "icon": "inv_axe_10",
+     "quality": "Epic",
+     "itemLevel": 78,
      "stats": {
-      "agility": 16.0,
-      "attackPower": 54.0,
-      "meleeHit": 1.25,
-      "spellHit": 1.25
+      "stamina": 41.0,
+      "strength": 26.0,
+      "meleeCrit": 1.0,
+      "spellCrit": 1.0
      },
      "effects": [],
-     "source": "forever-1.60.1.69913",
-     "subclass": "Polearm",
-     "weaponDamageMin": 138.0,
-     "weaponDamageMax": 207.0,
-     "weaponSpeed": 3.2,
+     "source": "Vendor: Captain O'Neal",
+     "subclass": "Axe",
+     "weaponDamageMin": 236.0,
+     "weaponDamageMax": 353.0,
+     "weaponSpeed": 3.8,
      "equipSlots": [
       "main_hand"
      ],

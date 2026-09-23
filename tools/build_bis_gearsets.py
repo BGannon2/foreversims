@@ -3,7 +3,7 @@ specs (which run on the separate Paladin engine but share this item catalog).
 
 Approach (a heuristic greedy optimizer, not a full combinatorial solver):
   1. Filter the item catalog to items the spec's class can actually equip (armor type,
-     weapon type) and that are level-60-appropriate (req level >= 55).
+     weapon type) and that are level-60-appropriate (req level >= 50).
   2. Score every item per slot with a stat-weight table for that spec's archetype
      (physical melee dps, physical tank, caster dps, ranged dps).
   3. Pick weapons (2H vs 1H+offhand vs dual-wield vs ranged+melee) by comparing total
@@ -115,12 +115,12 @@ SPEC_ARCHETYPE = {
     "warlock-affliction": CASTER_DPS, "warlock-demonology": CASTER_DPS, "warlock-destruction": CASTER_DPS,
 }
 
-DUAL_WIELD = {"warrior-fury", "rogue-assassination", "rogue-combat", "rogue-subtlety", "shaman-enhancement"}
+DUAL_WIELD = {"warrior-fury", "rogue-assassination", "rogue-combat", "rogue-subtlety"}
 TWO_HAND_PREFERRED = {"warrior-arms", "paladin-retribution"}  # compared against 1H+offhand anyway; this just breaks ties
 SHIELD_TANK = {"warrior-protection", "paladin-protection"}
 RANGED_PRIMARY = {"hunter-beast-mastery", "hunter-marksmanship", "hunter-survival"}
 
-CAN_DUAL_WIELD = {"Warrior", "Rogue", "Hunter", "Shaman"}
+CAN_DUAL_WIELD = {"Warrior", "Rogue", "Hunter"}  # the engine's equipment rules reject Shaman off-hand weapons
 
 
 def off_hand_kind(item):
@@ -190,7 +190,7 @@ def eligible(item, cls, style):
     source = item.get("source", "")
     if source.startswith("Boss Drop: ") and source[len("Boss Drop: "):] in LATER_PHASE_RAID_BOSSES:
         return False
-    if item.get("requiredLevel", 0) and item["requiredLevel"] < 55:
+    if item.get("requiredLevel", 0) and item["requiredLevel"] < 50:
         return False
     if item["quality"] not in ("Uncommon", "Rare", "Epic", "Legendary"):
         return False
@@ -216,6 +216,10 @@ def eligible(item, cls, style):
 def score(item, weights):
     stats = permanent_item_stats(item)  # on-use values (Earthstrike's 280 AP) aren't always-on
     total = 0.0
+    if item.get("weaponSpeed") and "attackPower" in weights:
+        # Weapon damage itself: 1 weapon DPS = 14 attack power (the melee/ranged AP-to-DPS rate).
+        dps = (item.get("weaponDamageMin", 0) + item.get("weaponDamageMax", 0)) / 2 / item["weaponSpeed"]
+        total += dps * 14 * weights["attackPower"]
     for key, w in weights.items():
         if key == "hitWeight":
             hv = stats.get("meleeHit", 0) + stats.get("spellHit", 0) + stats.get("rangedHit", 0)
@@ -395,6 +399,8 @@ def build_spec(spec_id, spec):
     if spec_id == "warrior-protection":
         cap_correction_pass("defense", DEFENSE_CAP, 30, base=300.0)
 
+    sim_weapon_pass(spec_id, spec, gear, by_slot, weights, taken_ids)
+
     gear_list = []
     for slot_name, item in gear.items():
         row = {k: item.get(k) for k in ("id", "name", "icon", "quality", "itemLevel", "stats", "effects",
@@ -404,6 +410,59 @@ def build_spec(spec_id, spec):
         row["gear_slot"] = slot_name
         gear_list.append(row)
     return gear_list
+
+
+TANK_SPECS = {"warrior-protection", "druid-feral-tank", "paladin-protection"}
+UI_SLOT = {"head": "Head", "neck": "Neck", "shoulders": "Shoulders", "back": "Back", "chest": "Chest", "wrist": "Wrist",
+           "hands": "Hands", "waist": "Waist", "legs": "Legs", "feet": "Feet", "finger1": "Finger 1", "finger2": "Finger 2",
+           "trinket1": "Trinket 1", "trinket2": "Trinket 2", "main_hand": "Main Hand", "off_hand": "Off Hand",
+           "ranged": "Ranged / Relic", "relic": "Ranged / Relic"}
+WEAPON_CANDIDATES = 6
+
+
+def sim_value(spec_id, spec, gear):
+    """Mean DPS (TPS for tanks) of a gear set in the engine that runs this spec."""
+    key = "tps" if spec_id in TANK_SPECS else "dps"
+    if spec["class_name"] == "Paladin":
+        from forever import gear_data, sim
+        name = spec_id.split("-", 1)[1]
+        p = sim.preset(name); p.update(iterations=150, seed=7)
+        p["enchants"] = gear_data.paladin_enchants(name)
+        p["gear"] = gear_data.empty_gear(); p["gear"].update({slot: it["id"] for slot, it in gear.items()})
+        return sim.simulate(sim.validate(p))["metrics"][key]["mean"]
+    from forever.all_specs import public_specs, simulate_spec
+    from server import default_request
+    full = next(x for x in public_specs() if x["id"] == spec_id)
+    req = default_request(full, full["races"][0], iterations=60, duration=120, seed=7)
+    req["gear_slots"] = [{"slot": UI_SLOT[slot], "id": it["id"]} for slot, it in gear.items()]
+    req["gear"] = [row["id"] for row in req["gear_slots"]]
+    return simulate_spec(req)["metrics"][key]["mean"]
+
+
+def sim_weapon_pass(spec_id, spec, gear, by_slot, weights, taken_ids):
+    """Stat weights can't see weapon speed (slow weapons win for Mortal Strike, Seal of Command,
+    Aimed Shot...), so let the sim choose among the top-scoring candidates for the main weapon."""
+    if spec["style"] == "spell":
+        return
+    slot = "ranged" if spec_id in RANGED_PRIMARY else "main_hand"
+    current = gear.get(slot)
+    if not current:
+        return
+    pool = by_slot["two_hand" if current["slot"] == "Two-Hand" else slot]
+    others = taken_ids - {current["id"]}
+    candidates = [current] + [it for it in sorted(pool, key=lambda it: score(it, weights), reverse=True)
+                              if it["id"] not in taken_ids and not limit_taken(it, others)][:WEAPON_CANDIDATES]
+    best, best_value = current, None
+    for it in candidates:
+        gear[slot] = it
+        try:
+            value = sim_value(spec_id, spec, gear)
+        except ValueError:  # the engine's equipment rules refuse this weapon for the class
+            continue
+        if best_value is None or value > best_value:
+            best, best_value = it, value
+    gear[slot] = best
+    taken_ids.discard(current["id"]); taken_ids.add(best["id"])
 
 
 def main():
