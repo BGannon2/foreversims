@@ -183,7 +183,7 @@ async function run() {
 
 // ---------------------------------------------------------------- init
 async function init() {
-  const [bootstrap, itemPayload, wsPayload] = await Promise.all([fetch("/data/spec-bootstrap.json?v=6542838").then(r => r.json()), fetch("/data/items.json?v=6542838").then(r => r.json()), fetch("/data/wowsims-import.json?v=6542838").then(r => r.json()).catch(() => null)]);
+  const [bootstrap, itemPayload, wsPayload] = await Promise.all([fetch("/data/spec-bootstrap.json?v=9198396").then(r => r.json()), fetch("/data/items.json?v=9198396").then(r => r.json()), fetch("/data/wowsims-import.json?v=9198396").then(r => r.json()).catch(() => null)]);
   wsData = wsPayload;
   ForeverSim.warm();
   data = bootstrap; catalogItems = itemPayload.items; spec = data.specs.find(x => x.id === specId);
