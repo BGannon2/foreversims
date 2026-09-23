@@ -58,6 +58,13 @@ def _load_items():
     for item in items.values():
         classify_availability(item, removed_ids)
         annotate_rating_assumptions(item)
+    restrictions_path = DATA_DIR / "item_class_restrictions.json"
+    if restrictions_path.is_file():
+        restrictions = json.loads(restrictions_path.read_text(encoding="utf-8"))
+        for iid, faction in restrictions.get("factions", {}).items():
+            if int(iid) in items: items[int(iid)]["faction"] = faction
+        for iid, twin in restrictions.get("faction_twins", {}).items():
+            if int(iid) in items: items[int(iid)]["factionTwin"] = twin
     return items
 
 

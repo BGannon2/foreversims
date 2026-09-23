@@ -252,7 +252,8 @@ function itemStatLine(item){
 
 function renderPicker(){
   const query=$("itemSearch").value.trim().toLowerCase();
-  const matches=state.items.filter(item=>item.simulationAvailability!=="excluded"&&(item.equipSlots||[]).includes(state.pickerSlot)&&(!query||`${item.name} ${item.source} ${item.subclass||""}`.toLowerCase().includes(query))).slice(0,150);
+  const faction=(state.boot.race_factions||{})[$("race").value];
+  const matches=state.items.filter(item=>item.simulationAvailability!=="excluded"&&(!item.faction||item.faction===faction)&&(item.equipSlots||[]).includes(state.pickerSlot)&&(!query||`${item.name} ${item.source} ${item.subclass||""}`.toLowerCase().includes(query))).slice(0,150);
   const list=$("itemList"); list.replaceChildren();
   matches.forEach(item=>{const row=document.createElement("button");row.type="button";row.className=`item-row quality-${item.quality}`;const icon=item.icon?`<img src="/item-icons/${item.icon}.jpg" alt="">`:item.name[0];row.innerHTML=`<span class="slot-icon">${icon}</span><span><h3>${item.name}</h3><p>${item.subclass||item.slot} · ${item.source}</p></span><span class="item-stats">${itemStatLine(item)}</span><span class="ilvl">iLvl ${item.itemLevel}</span>`;row.addEventListener("click",()=>selectItem(item));addItemTooltip(row,item);list.append(row)});
   $("itemCount").textContent=`${matches.length}${matches.length===150?"+":""} shown`;
@@ -274,7 +275,7 @@ function hydrateForm(){
   $("bossType").value=state.profile.encounter.boss_type;
   $("race").innerHTML=(state.boot.races||["Human"]).map(r=>`<option value="${r}">${r}</option>`).join("");
   $("race").value=state.profile.race||"Human";
-  const renderRacial=()=>{$("racialSummary").textContent=(state.boot.racials||{})[$("race").value]||""};renderRacial();$("race").onchange=renderRacial;
+  const renderRacial=()=>{$("racialSummary").textContent=(state.boot.racials||{})[$("race").value]||""};renderRacial();$("race").onchange=()=>{renderRacial();swapFactionGear()};
   syncCreatureAbilities();
   $("sideIterations").value=state.profile.iterations;
   $("runTitle").textContent=labelize(state.spec)+" results";
@@ -282,6 +283,14 @@ function hydrateForm(){
   buildGear();
 }
 
+// Alliance/Horde-only gear: swap to the other faction's identical twin, or clear the slot.
+function swapFactionGear(){
+  const faction=(state.boot.race_factions||{})[$("race").value],cleared=[];
+  Object.entries(state.profile.gear).forEach(([slot,id])=>{const item=state.itemsById.get(id);if(!item?.faction||item.faction===faction)return;
+    if(item.factionTwin&&state.itemsById.has(item.factionTwin))state.profile.gear[slot]=item.factionTwin;else{cleared.push(item.name);state.profile.gear[slot]=0}});
+  $("formError").textContent=cleared.length?`Removed ${faction==="Alliance"?"Horde":"Alliance"}-only gear with no ${faction} equivalent: ${cleared.join(", ")}.`:"";
+  buildGear();
+}
 function readForm(){
   const profile=clone(state.profile);
   document.querySelectorAll("[data-path]").forEach(input=>{
@@ -472,7 +481,7 @@ document.querySelectorAll(".main-tab").forEach(b=>b.addEventListener("click",()=
 document.querySelectorAll(".result-tab").forEach(b=>b.addEventListener("click",()=>{state.resultView=b.dataset.resultView;if(state.result)renderResultDetail()}));
 document.querySelectorAll("[data-panel-jump]").forEach(b=>b.addEventListener("click",()=>showPanel(b.dataset.panelJump)));
 $("runButton").addEventListener("click",run); $("resetButton").addEventListener("click",()=>{selectSpec(state.spec);$("gearVersion").textContent=`Classic Anniversary Phase 1–2 preset equipped · ${state.items.length.toLocaleString()} items`});
-$("foreverBisButton").addEventListener("click",()=>{const bis=state.boot.forever_bis?.[state.spec];if(!bis)return;Object.keys(state.profile.gear).forEach(slot=>{state.profile.gear[slot]=bis[slot]||0});$("gearVersion").textContent=`Assumed Forever BiS (auto-generated) equipped · ${state.items.length.toLocaleString()} items`;buildGear();showPanel("gear")});
+$("foreverBisButton").addEventListener("click",()=>{const bis=state.boot.forever_bis?.[state.spec];if(!bis)return;Object.keys(state.profile.gear).forEach(slot=>{state.profile.gear[slot]=bis[slot]||0});swapFactionGear();$("gearVersion").textContent=`Assumed Forever BiS (auto-generated) equipped · ${state.items.length.toLocaleString()} items`;buildGear();showPanel("gear")});
 $("pinButton").addEventListener("click",()=>{state.baseline=clone(state.result);renderResult();$("pinButton").textContent="Baseline pinned"});
 $("exportButton").addEventListener("click",exportResult);
 $("itemSearch").addEventListener("input",renderPicker);

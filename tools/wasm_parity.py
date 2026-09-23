@@ -17,7 +17,7 @@ from server import default_request  # noqa: E402
 def cases():
     for spec in public_specs():
         base = default_request(spec, iterations=3, duration=90, seed=917)
-        variants = [base, {**base, 'race': spec['races'][-1], 'targets': 3, 'boss_type': 'beast'},
+        variants = [base, default_request(spec, spec['races'][-1], iterations=3, duration=90, seed=917, targets=3, boss_type='beast'),
                     {**base, 'gear': [], 'gear_slots': [], 'enchants': [], 'buffs': [], 'consumables': [], 'talents': {}, 'pet_family': 'none'}]
         for i, request in enumerate(variants):
             yield {'name': f'{spec["id"]}/{i}', 'kind': 'spec', 'request': request, 'python': simulate_spec(request)}

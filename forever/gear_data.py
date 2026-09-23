@@ -8,7 +8,7 @@ from collections import defaultdict
 from pathlib import Path
 
 from .all_specs import ITEMS as _ALL_ITEMS
-from .profile_rules import annotate_rating_assumptions
+from .profile_rules import annotate_rating_assumptions, faction_allowed
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "data"
@@ -138,6 +138,8 @@ def apply_gear(profile):
         item = ITEMS.get(item_id)
         if not item:
             raise ValueError(f"Unknown Classic Era item id {item_id} in {slot}.")
+        if not faction_allowed(item, profile.get("race")):
+            raise ValueError(f"{item['name']} is {item['faction']}-only and can't be equipped by a {profile.get('race')}.")
         if slot not in item["equipSlots"]:
             raise ValueError(f"{item['name']} cannot be equipped in {slot}.")
         equipped.append({"slot": slot, "id": item_id, "name": item["name"], "quality": item["quality"],

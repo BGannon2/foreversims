@@ -3,7 +3,8 @@
  "profiles": {
   "warrior-arms": {
    "source": "tools/build_bis_gearsets.py (greedy stat-weight optimizer over the Forever item catalog)",
-   "source_label": "Forever BiS (auto-generated)",
+   "source_label": "Forever BiS (auto-generated, Alliance)",
+   "race": "Human",
    "gear": [
     {
      "id": 18830,
@@ -445,7 +446,8 @@
   },
   "warrior-fury": {
    "source": "tools/build_bis_gearsets.py (greedy stat-weight optimizer over the Forever item catalog)",
-   "source_label": "Forever BiS (auto-generated)",
+   "source_label": "Forever BiS (auto-generated, Alliance)",
+   "race": "Human",
    "gear": [
     {
      "id": 23456,
@@ -474,23 +476,24 @@
      "gear_slot": "main_hand"
     },
     {
-     "id": 23467,
-     "name": "High Warlord's Quickblade",
-     "icon": "inv_sword_05",
+     "id": 21242,
+     "name": "Blessed Qiraji War Axe",
+     "icon": "inv_axe_26",
      "quality": "Epic",
-     "itemLevel": 78,
+     "itemLevel": 79,
      "stats": {
-      "stamina": 7.0,
+      "intellect": 10.0,
+      "stamina": 9.0,
       "meleeCrit": 1.0,
       "spellCrit": 1.0,
-      "attackPower": 28.0
+      "attackPower": 14.0
      },
      "effects": [],
-     "source": "Vendor: Sergeant Thunderhorn",
-     "subclass": "Sword",
-     "weaponDamageMin": 86.0,
-     "weaponDamageMax": 129.0,
-     "weaponSpeed": 1.8,
+     "source": "Quest: Imperial Qiraji Armaments",
+     "subclass": "Axe",
+     "weaponDamageMin": 111.0,
+     "weaponDamageMax": 205.0,
+     "weaponSpeed": 2.6,
      "equipSlots": [
       "main_hand",
       "off_hand"
@@ -553,21 +556,22 @@
      "gear_slot": "neck"
     },
     {
-     "id": 16480,
-     "name": "Field Marshal's Plate Shoulderguards",
-     "icon": "inv_shoulder_20",
+     "id": 21330,
+     "name": "Conqueror's Spaulders",
+     "icon": "inv_shoulder_35",
      "quality": "Epic",
-     "itemLevel": 74,
+     "itemLevel": 78,
      "stats": {
-      "armor": 626.0,
-      "stamina": 23.0,
-      "strength": 18.0,
+      "armor": 659.0,
       "agility": 16.0,
+      "strength": 20.0,
+      "stamina": 21.0,
+      "defense": 1.6982253545045427,
       "meleeHit": 1.25,
       "spellHit": 1.25
      },
      "effects": [],
-     "source": "Vendor: Captain Dirgehammer",
+     "source": "Quest: Conqueror's Spaulders",
      "subclass": "Plate",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -576,27 +580,22 @@
       "shoulders"
      ],
      "set": {
-      "name": "Field Marshal's Battlegear",
+      "name": "Conqueror's Battlegear",
       "pieces": [
-       "Field Marshal's Plate Armor",
-       "Field Marshal's Plate Helm",
-       "Field Marshal's Plate Shoulderguards",
-       "Marshal's Plate Boots",
-       "Marshal's Plate Gauntlets",
-       "Marshal's Plate Legguards"
+       "Conqueror's Breastplate",
+       "Conqueror's Crown",
+       "Conqueror's Greaves",
+       "Conqueror's Legguards",
+       "Conqueror's Spaulders"
       ],
       "bonuses": [
        {
-        "required": 2,
-        "description": "+20 Stamina."
-       },
-       {
         "required": 3,
-        "description": "Reduces the cooldown of your Intercept ability by 5 sec."
+        "description": "Decreases the rage cost of all Warrior shouts by 35%."
        },
        {
-        "required": 6,
-        "description": "+40 Attack Power."
+        "required": 5,
+        "description": "Increase the Slow effect and damage of Thunder Clap by 50%."
        }
       ]
      },
@@ -670,20 +669,20 @@
      "gear_slot": "chest"
     },
     {
-     "id": 19578,
-     "name": "Berserker Bracers",
-     "icon": "inv_bracer_06",
+     "id": 19587,
+     "name": "Forest Stalker's Bracers",
+     "icon": "inv_bracer_12",
      "quality": "Epic",
      "itemLevel": 65,
      "stats": {
-      "armor": 323.0,
-      "strength": 19.0,
-      "agility": 8.0,
-      "stamina": 11.0
+      "armor": 86.0,
+      "strength": 11.0,
+      "agility": 19.0,
+      "stamina": 8.0
      },
      "effects": [],
      "source": "Unknown",
-     "subclass": "Plate",
+     "subclass": "Leather",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -695,27 +694,41 @@
      "gear_slot": "wrist"
     },
     {
-     "id": 271940,
-     "name": "Theramore Gauntlets",
-     "icon": "inv_gauntlets_29",
-     "quality": "Epic",
+     "id": 19686,
+     "name": "Primal Batskin Gloves",
+     "icon": "inv_gauntlets_31",
+     "quality": "Rare",
      "itemLevel": 65,
      "stats": {
-      "armor": 461.0,
-      "strength": 27.0,
-      "stamina": 15.0,
-      "agility": 11.0
+      "armor": 113.0,
+      "agility": 10.0,
+      "stamina": 9.0,
+      "meleeHit": 2.5,
+      "spellHit": 2.5
      },
      "effects": [],
-     "source": "forever-1.60.1.69913",
-     "subclass": "Plate",
+     "source": "Unknown",
+     "subclass": "Leather",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
      "equipSlots": [
       "hands"
      ],
-     "set": null,
+     "set": {
+      "name": "Primal Batskin",
+      "pieces": [
+       "Requires Leatherworking (300)",
+       "Primal Batskin Jerkin",
+       "Primal Batskin Bracers"
+      ],
+      "bonuses": [
+       {
+        "required": 3,
+        "description": "Minor increase to running and swimming speed."
+       }
+      ]
+     },
      "slot": "Hands",
      "gear_slot": "hands"
     },
@@ -925,7 +938,8 @@
   },
   "warrior-protection": {
    "source": "tools/build_bis_gearsets.py (greedy stat-weight optimizer over the Forever item catalog)",
-   "source_label": "Forever BiS (auto-generated)",
+   "source_label": "Forever BiS (auto-generated, Alliance)",
+   "race": "Human",
    "gear": [
     {
      "id": 21520,
@@ -953,21 +967,18 @@
      "gear_slot": "main_hand"
     },
     {
-     "id": 1168,
-     "name": "Skullflame Shield",
-     "icon": "inv_shield_01",
+     "id": 19321,
+     "name": "The Immovable Object",
+     "icon": "spell_frost_chillingarmor",
      "quality": "Epic",
-     "itemLevel": 59,
+     "itemLevel": 65,
      "stats": {
-      "armor": 2256.0,
-      "fireResistance": 10.0,
-      "shadowResistance": 10.0
+      "armor": 2468.0,
+      "stamina": 15.0,
+      "blockValue": 27.0
      },
-     "effects": [
-      "Equip: When struck in combat has a 3% chance of stealing 35 life from target enemy.",
-      "Equip: When struck in combat has a 1% chance of dealing 75 to 125 Fire damage to all targets around you."
-     ],
-     "source": "Rare Drop",
+     "effects": [],
+     "source": "Unknown",
      "subclass": "Shield",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -1008,24 +1019,21 @@
      "gear_slot": "head"
     },
     {
-     "id": 18404,
-     "name": "Onyxia Tooth Pendant",
-     "icon": "inv_jewelry_necklace_09",
-     "quality": "Epic",
-     "itemLevel": 74,
+     "id": 21809,
+     "name": "Fury of the Forgotten Swarm",
+     "icon": "inv_jewelry_necklace_14",
+     "quality": "Rare",
+     "itemLevel": 71,
      "stats": {
-      "agility": 12.0,
-      "stamina": 9.0,
-      "fireResistance": 10.0,
-      "meleeHit": 1.0,
-      "meleeCrit": 1.0
+      "strength": 8.0,
+      "meleeCrit": 1.0,
+      "spellCrit": 1.0,
+      "meleeHit": 1.25,
+      "spellHit": 1.25
      },
-     "effects": [
-      "Equip: Improves your chance to hit by 1%.",
-      "Equip: Improves your chance to get a critical strike by 1%."
-     ],
-     "source": "Quest: For All To See",
-     "subclass": "Miscellaneous",
+     "effects": [],
+     "source": "Zone Drop",
+     "subclass": null,
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -1084,17 +1092,18 @@
      "gear_slot": "shoulders"
     },
     {
-     "id": 16342,
-     "name": "Sergeant's Cape",
-     "icon": "inv_misc_cape_21",
-     "quality": "Rare",
-     "itemLevel": 63,
+     "id": 22658,
+     "name": "Glacial Cloak",
+     "icon": "inv_misc_cape_16",
+     "quality": "Epic",
+     "itemLevel": 80,
      "stats": {
-      "armor": 115.0,
-      "stamina": 17.0
+      "armor": 61.0,
+      "stamina": 18.0,
+      "frostResistance": 24.0
      },
      "effects": [],
-     "source": "Vendor: Officer Areyn",
+     "source": "Quest: Glacial Cloak",
      "subclass": "Cloth",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -1162,21 +1171,19 @@
      "gear_slot": "chest"
     },
     {
-     "id": 13400,
-     "name": "Vambraces of the Sadist",
-     "icon": "inv_bracer_17",
-     "quality": "Rare",
-     "itemLevel": 59,
+     "id": 19578,
+     "name": "Berserker Bracers",
+     "icon": "inv_bracer_06",
+     "quality": "Epic",
+     "itemLevel": 65,
      "stats": {
-      "armor": 270.0,
-      "strength": 6.0,
-      "stamina": 7.0,
-      "meleeCrit": 1.0
+      "armor": 323.0,
+      "strength": 19.0,
+      "agility": 8.0,
+      "stamina": 11.0
      },
-     "effects": [
-      "Equip: Improves your chance to get a critical strike by 1%."
-     ],
-     "source": "Boss Drop: Timmy the Cruel",
+     "effects": [],
+     "source": "Unknown",
      "subclass": "Plate",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -1241,9 +1248,9 @@
      "gear_slot": "hands"
     },
     {
-     "id": 272512,
-     "name": "Premier Legionnaire's Mortarplate Girdle",
-     "icon": "inv_belt_09",
+     "id": 272791,
+     "name": "Premier Knight-Captain's Plate Girdle",
+     "icon": "inv_belt_27",
      "quality": "Epic",
      "itemLevel": 65,
      "stats": {
@@ -1415,20 +1422,16 @@
      "gear_slot": "finger2"
     },
     {
-     "id": 11811,
-     "name": "Smoking Heart of the Mountain",
-     "icon": "inv_misc_gem_bloodstone_01",
-     "quality": "Rare",
-     "itemLevel": 55,
-     "stats": {
-      "armor": 150.0,
-      "fireResistance": 7.0,
-      "natureResistance": 7.0,
-      "frostResistance": 7.0,
-      "shadowResistance": 7.0
-     },
-     "effects": [],
-     "source": "Unknown",
+     "id": 21891,
+     "name": "Shard of the Fallen Star",
+     "icon": "inv_misc_ahnqirajtrinket_04",
+     "quality": "Epic",
+     "itemLevel": 75,
+     "stats": {},
+     "effects": [
+      "Use: Calls down a meteor, burning all enemies within the area for 400 to 442 total Fire damage. (3 Min Cooldown)"
+     ],
+     "source": "Zone Drop",
      "subclass": "Miscellaneous",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -1442,17 +1445,17 @@
      "gear_slot": "trinket1"
     },
     {
-     "id": 19951,
-     "name": "Gri'lek's Charm of Might",
-     "icon": "inv_jewelry_necklace_19",
-     "quality": "Epic",
+     "id": 272440,
+     "name": "Defender's Grip Stabilizer",
+     "icon": "ui_profession_engineering",
+     "quality": "Rare",
      "itemLevel": 65,
-     "stats": {},
-     "effects": [
-      "Use: Instantly increases your rage by 30. (3 Min Cooldown)"
-     ],
-     "source": "Unknown",
-     "subclass": "Miscellaneous",
+     "stats": {
+      "defense": 5.519232402139764
+     },
+     "effects": [],
+     "source": "forever-1.60.1.69913",
+     "subclass": null,
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -1460,30 +1463,7 @@
       "trinket1",
       "trinket2"
      ],
-     "set": {
-      "name": "Vindicator's Battlegear",
-      "pieces": [
-       "Gri'lek's Charm of Might",
-       "Rage of Mugamba",
-       "Zandalar Vindicator's Armguards",
-       "Zandalar Vindicator's Belt",
-       "Zandalar Vindicator's Breastplate"
-      ],
-      "bonuses": [
-       {
-        "required": 2,
-        "description": "Increases your chance to block attacks with a shield by 2%."
-       },
-       {
-        "required": 3,
-        "description": "Decreases the cooldown of Intimidating Shout by 15 sec."
-       },
-       {
-        "required": 5,
-        "description": "Decrease the rage cost of Whirlwind by 3."
-       }
-      ]
-     },
+     "set": null,
      "slot": "Trinket",
      "gear_slot": "trinket2"
     }
@@ -1491,7 +1471,8 @@
   },
   "druid-balance": {
    "source": "tools/build_bis_gearsets.py (greedy stat-weight optimizer over the Forever item catalog)",
-   "source_label": "Forever BiS (auto-generated)",
+   "source_label": "Forever BiS (auto-generated, Alliance)",
+   "race": "Night Elf",
    "gear": [
     {
      "id": 21273,
@@ -1602,56 +1583,28 @@
      "gear_slot": "neck"
     },
     {
-     "id": 21354,
-     "name": "Genesis Shoulderpads",
-     "icon": "inv_shoulder_03",
-     "quality": "Epic",
-     "itemLevel": 78,
+     "id": 19050,
+     "name": "Mantle of the Timbermaw",
+     "icon": "inv_shoulder_19",
+     "quality": "Rare",
+     "itemLevel": 61,
      "stats": {
-      "armor": 172.0,
-      "agility": 14.0,
-      "strength": 15.0,
+      "armor": 65.0,
       "intellect": 13.0,
-      "spirit": 6.0,
-      "stamina": 15.0,
-      "spellPower": 20.0,
-      "mp5": 3.0
+      "spellPower": 17.0,
+      "meleeCrit": 1.0,
+      "spellCrit": 1.0
      },
-     "effects": [
-      "Equip: +3 Mana Regeneration"
-     ],
-     "source": "Quest: Genesis Shoulderpads",
-     "subclass": "Leather",
+     "effects": [],
+     "source": "Unknown",
+     "subclass": "Cloth",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
      "equipSlots": [
       "shoulders"
      ],
-     "set": {
-      "name": "Genesis Raiment",
-      "pieces": [
-       "Genesis Boots",
-       "Genesis Helm",
-       "Genesis Shoulderpads",
-       "Genesis Trousers",
-       "Genesis Vest"
-      ],
-      "bonuses": [
-       {
-        "required": 3,
-        "description": "Increased Defense +15."
-       },
-       {
-        "required": 3,
-        "description": "+150 Armor."
-       },
-       {
-        "required": 5,
-        "description": "Reduces the cooldown of Rebirth by 10 minutes."
-       }
-      ]
-     },
+     "set": null,
      "slot": "Shoulder",
      "gear_slot": "shoulders"
     },
@@ -1994,7 +1947,8 @@
   },
   "druid-feral-dps": {
    "source": "tools/build_bis_gearsets.py (greedy stat-weight optimizer over the Forever item catalog)",
-   "source_label": "Forever BiS (auto-generated)",
+   "source_label": "Forever BiS (auto-generated, Alliance)",
+   "race": "Night Elf",
    "gear": [
     {
      "id": 18867,
@@ -2128,8 +2082,8 @@
      "gear_slot": "shoulders"
     },
     {
-     "id": 20068,
-     "name": "Deathguard's Cloak",
+     "id": 20073,
+     "name": "Cloak of the Honor Guard",
      "icon": "inv_misc_cape_02",
      "quality": "Epic",
      "itemLevel": 65,
@@ -2140,7 +2094,7 @@
       "attackPower": 34.0
      },
      "effects": [],
-     "source": "Vendor: Rutherford Twing",
+     "source": "Vendor: Samuel Hawke",
      "subclass": "Cloth",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -2465,12 +2419,13 @@
   },
   "druid-feral-tank": {
    "source": "tools/build_bis_gearsets.py (greedy stat-weight optimizer over the Forever item catalog)",
-   "source_label": "Forever BiS (auto-generated)",
+   "source_label": "Forever BiS (auto-generated, Alliance)",
+   "race": "Night Elf",
    "gear": [
     {
-     "id": 272601,
-     "name": "Premier High Warlord's Pulverizer",
-     "icon": "inv_hammer_10",
+     "id": 272848,
+     "name": "Premier Grand Marshal's Battle Hammer",
+     "icon": "inv_hammer_03",
      "quality": "Epic",
      "itemLevel": 65,
      "stats": {
@@ -2547,9 +2502,9 @@
      "gear_slot": "neck"
     },
     {
-     "id": 272516,
-     "name": "Premier General's Dragonhide Epaulets",
-     "icon": "inv_shoulder_07",
+     "id": 272758,
+     "name": "Premier Marshal's Beasthide Spaulders",
+     "icon": "inv_shoulder_23",
      "quality": "Epic",
      "itemLevel": 65,
      "stats": {
@@ -2674,9 +2629,9 @@
      "gear_slot": "wrist"
     },
     {
-     "id": 272520,
-     "name": "Premier Champion's Dragonhide Gloves",
-     "icon": "inv_gauntlets_25",
+     "id": 272757,
+     "name": "Premier Lieutenant Commander's Beasthide Gauntlets",
+     "icon": "inv_gauntlets_21",
      "quality": "Epic",
      "itemLevel": 65,
      "stats": {
@@ -2701,9 +2656,9 @@
      "gear_slot": "hands"
     },
     {
-     "id": 272521,
-     "name": "Premier Legionnaire's Dragonhide Belt",
-     "icon": "inv_belt_06",
+     "id": 272756,
+     "name": "Premier Knight-Captain's Beasthide Waistguard",
+     "icon": "inv_belt_23",
      "quality": "Epic",
      "itemLevel": 65,
      "stats": {
@@ -2727,8 +2682,8 @@
      "gear_slot": "waist"
     },
     {
-     "id": 22740,
-     "name": "Outrider's Leather Pants",
+     "id": 22749,
+     "name": "Sentinel's Leather Pants",
      "icon": "inv_pants_leather_12",
      "quality": "Epic",
      "itemLevel": 65,
@@ -2878,7 +2833,8 @@
   },
   "hunter-beast-mastery": {
    "source": "tools/build_bis_gearsets.py (greedy stat-weight optimizer over the Forever item catalog)",
-   "source_label": "Forever BiS (auto-generated)",
+   "source_label": "Forever BiS (auto-generated, Alliance)",
+   "race": "Human",
    "gear": [
     {
      "id": 18836,
@@ -3177,21 +3133,18 @@
      "gear_slot": "wrist"
     },
     {
-     "id": 272536,
-     "name": "Premier Champion's Chain Gloves",
+     "id": 279257,
+     "name": "Mourning Handguards",
      "icon": "inv_gauntlets_11",
      "quality": "Epic",
      "itemLevel": 65,
      "stats": {
       "armor": 260.0,
-      "agility": 10.0,
-      "stamina": 27.0,
-      "intellect": 10.0,
-      "attackPower": 18.0
+      "agility": 21.0,
+      "stamina": 18.0,
+      "intellect": 14.0
      },
-     "effects": [
-      "Equip: Increases the damage done by your Multi-Shot by 4%."
-     ],
+     "effects": [],
      "source": "forever-1.60.1.69913",
      "subclass": "Mail",
      "weaponDamageMin": null,
@@ -3435,7 +3388,8 @@
   },
   "hunter-marksmanship": {
    "source": "tools/build_bis_gearsets.py (greedy stat-weight optimizer over the Forever item catalog)",
-   "source_label": "Forever BiS (auto-generated)",
+   "source_label": "Forever BiS (auto-generated, Alliance)",
+   "race": "Human",
    "gear": [
     {
      "id": 18836,
@@ -3734,21 +3688,18 @@
      "gear_slot": "wrist"
     },
     {
-     "id": 272536,
-     "name": "Premier Champion's Chain Gloves",
+     "id": 279257,
+     "name": "Mourning Handguards",
      "icon": "inv_gauntlets_11",
      "quality": "Epic",
      "itemLevel": 65,
      "stats": {
       "armor": 260.0,
-      "agility": 10.0,
-      "stamina": 27.0,
-      "intellect": 10.0,
-      "attackPower": 18.0
+      "agility": 21.0,
+      "stamina": 18.0,
+      "intellect": 14.0
      },
-     "effects": [
-      "Equip: Increases the damage done by your Multi-Shot by 4%."
-     ],
+     "effects": [],
      "source": "forever-1.60.1.69913",
      "subclass": "Mail",
      "weaponDamageMin": null,
@@ -3987,7 +3938,8 @@
   },
   "hunter-survival": {
    "source": "tools/build_bis_gearsets.py (greedy stat-weight optimizer over the Forever item catalog)",
-   "source_label": "Forever BiS (auto-generated)",
+   "source_label": "Forever BiS (auto-generated, Alliance)",
+   "race": "Human",
    "gear": [
     {
      "id": 13040,
@@ -4141,8 +4093,8 @@
      "gear_slot": "shoulders"
     },
     {
-     "id": 20068,
-     "name": "Deathguard's Cloak",
+     "id": 20073,
+     "name": "Cloak of the Honor Guard",
      "icon": "inv_misc_cape_02",
      "quality": "Epic",
      "itemLevel": 65,
@@ -4153,7 +4105,7 @@
       "attackPower": 34.0
      },
      "effects": [],
-     "source": "Vendor: Rutherford Twing",
+     "source": "Vendor: Samuel Hawke",
      "subclass": "Cloth",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -4273,22 +4225,20 @@
      "gear_slot": "waist"
     },
     {
-     "id": 15057,
-     "name": "Stormshroud Pants",
-     "icon": "inv_pants_09",
+     "id": 15052,
+     "name": "Black Dragonscale Leggings",
+     "icon": "inv_pants_03",
      "quality": "Rare",
-     "itemLevel": 55,
+     "itemLevel": 62,
      "stats": {
-      "armor": 138.0,
-      "meleeCrit": 2.0,
-      "dodge": 1.0
+      "armor": 320.0,
+      "stamina": 8.0,
+      "fireResistance": 13.0,
+      "attackPower": 54.0
      },
-     "effects": [
-      "Equip: Improves your chance to get a critical strike by 2%.",
-      "Equip: Increases your chance to dodge an attack by 1%."
-     ],
+     "effects": [],
      "source": "Unknown",
-     "subclass": "Leather",
+     "subclass": "Mail",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -4296,25 +4246,25 @@
       "legs"
      ],
      "set": {
-      "name": "Stormshroud Armor",
+      "name": "Black Dragon Mail",
       "pieces": [
-       "Stormshroud Armor",
-       "Stormshroud Pants",
-       "Stormshroud Shoulders",
-       "Stormshroud Gloves"
+       "Black Dragonscale Boots",
+       "Black Dragonscale Breastplate",
+       "Black Dragonscale Leggings",
+       "Black Dragonscale Shoulders"
       ],
       "bonuses": [
        {
         "required": 2,
-        "description": "5% chance of dealing 15 to 25 Nature damage on a successful melee attack."
+        "description": "Improves your chance to hit by 1%."
        },
        {
         "required": 3,
-        "description": "2% chance on melee attack of restoring 30 energy."
+        "description": "Improves your chance to get a critical strike by 2%."
        },
        {
         "required": 4,
-        "description": "+14 Attack Power."
+        "description": "+10 Fire Resistance."
        }
       ]
      },
@@ -4476,7 +4426,8 @@
   },
   "mage-arcane": {
    "source": "tools/build_bis_gearsets.py (greedy stat-weight optimizer over the Forever item catalog)",
-   "source_label": "Forever BiS (auto-generated)",
+   "source_label": "Forever BiS (auto-generated, Alliance)",
+   "race": "Human",
    "gear": [
     {
      "id": 21273,
@@ -5008,7 +4959,8 @@
   },
   "mage-fire": {
    "source": "tools/build_bis_gearsets.py (greedy stat-weight optimizer over the Forever item catalog)",
-   "source_label": "Forever BiS (auto-generated)",
+   "source_label": "Forever BiS (auto-generated, Alliance)",
+   "race": "Human",
    "gear": [
     {
      "id": 21273,
@@ -5542,7 +5494,8 @@
   },
   "mage-frost": {
    "source": "tools/build_bis_gearsets.py (greedy stat-weight optimizer over the Forever item catalog)",
-   "source_label": "Forever BiS (auto-generated)",
+   "source_label": "Forever BiS (auto-generated, Alliance)",
+   "race": "Human",
    "gear": [
     {
      "id": 21273,
@@ -6074,7 +6027,8 @@
   },
   "priest-shadow": {
    "source": "tools/build_bis_gearsets.py (greedy stat-weight optimizer over the Forever item catalog)",
-   "source_label": "Forever BiS (auto-generated)",
+   "source_label": "Forever BiS (auto-generated, Alliance)",
+   "race": "Human",
    "gear": [
     {
      "id": 21273,
@@ -6583,7 +6537,8 @@
   },
   "rogue-assassination": {
    "source": "tools/build_bis_gearsets.py (greedy stat-weight optimizer over the Forever item catalog)",
-   "source_label": "Forever BiS (auto-generated)",
+   "source_label": "Forever BiS (auto-generated, Alliance)",
+   "race": "Human",
    "gear": [
     {
      "id": 18838,
@@ -7133,8 +7088,35 @@
   },
   "rogue-combat": {
    "source": "tools/build_bis_gearsets.py (greedy stat-weight optimizer over the Forever item catalog)",
-   "source_label": "Forever BiS (auto-generated)",
+   "source_label": "Forever BiS (auto-generated, Alliance)",
+   "race": "Human",
    "gear": [
+    {
+     "id": 12584,
+     "name": "Grand Marshal's Longsword",
+     "icon": "inv_sword_11",
+     "quality": "Epic",
+     "itemLevel": 78,
+     "stats": {
+      "stamina": 7.0,
+      "meleeCrit": 1.0,
+      "spellCrit": 1.0,
+      "attackPower": 28.0
+     },
+     "effects": [],
+     "source": "Vendor: Captain O'Neal",
+     "subclass": "Sword",
+     "weaponDamageMin": 138.0,
+     "weaponDamageMax": 207.0,
+     "weaponSpeed": 2.9,
+     "equipSlots": [
+      "main_hand",
+      "off_hand"
+     ],
+     "set": null,
+     "slot": "One-Hand",
+     "gear_slot": "main_hand"
+    },
     {
      "id": 23456,
      "name": "Grand Marshal's Swiftblade",
@@ -7149,32 +7131,6 @@
      },
      "effects": [],
      "source": "Vendor: Captain O'Neal",
-     "subclass": "Sword",
-     "weaponDamageMin": 86.0,
-     "weaponDamageMax": 129.0,
-     "weaponSpeed": 1.8,
-     "equipSlots": [
-      "main_hand",
-      "off_hand"
-     ],
-     "set": null,
-     "slot": "One-Hand",
-     "gear_slot": "main_hand"
-    },
-    {
-     "id": 23467,
-     "name": "High Warlord's Quickblade",
-     "icon": "inv_sword_05",
-     "quality": "Epic",
-     "itemLevel": 78,
-     "stats": {
-      "stamina": 7.0,
-      "meleeCrit": 1.0,
-      "spellCrit": 1.0,
-      "attackPower": 28.0
-     },
-     "effects": [],
-     "source": "Vendor: Sergeant Thunderhorn",
      "subclass": "Sword",
      "weaponDamageMin": 86.0,
      "weaponDamageMax": 129.0,
@@ -7656,18 +7612,17 @@
      "gear_slot": "trinket1"
     },
     {
-     "id": 11815,
-     "name": "Hand of Justice",
-     "icon": "inv_jewelry_talisman_01",
+     "id": 13965,
+     "name": "Blackhand's Breadth",
+     "icon": "inv_misc_armorkit_09",
      "quality": "Rare",
-     "itemLevel": 58,
-     "stats": {},
-     "effects": [
-      "Equip: 2% chance on melee hit to gain 1 extra attack.",
-      "Equip: +20 Attack Power."
-     ],
-     "source": "Boss Drop: Emperor Dagran Thaurissan",
-     "subclass": "Miscellaneous",
+     "itemLevel": 63,
+     "stats": {
+      "meleeCrit": 2
+     },
+     "effects": [],
+     "source": "WoWSims Classic database",
+     "subclass": null,
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -7683,8 +7638,35 @@
   },
   "rogue-subtlety": {
    "source": "tools/build_bis_gearsets.py (greedy stat-weight optimizer over the Forever item catalog)",
-   "source_label": "Forever BiS (auto-generated)",
+   "source_label": "Forever BiS (auto-generated, Alliance)",
+   "race": "Human",
    "gear": [
+    {
+     "id": 12584,
+     "name": "Grand Marshal's Longsword",
+     "icon": "inv_sword_11",
+     "quality": "Epic",
+     "itemLevel": 78,
+     "stats": {
+      "stamina": 7.0,
+      "meleeCrit": 1.0,
+      "spellCrit": 1.0,
+      "attackPower": 28.0
+     },
+     "effects": [],
+     "source": "Vendor: Captain O'Neal",
+     "subclass": "Sword",
+     "weaponDamageMin": 138.0,
+     "weaponDamageMax": 207.0,
+     "weaponSpeed": 2.9,
+     "equipSlots": [
+      "main_hand",
+      "off_hand"
+     ],
+     "set": null,
+     "slot": "One-Hand",
+     "gear_slot": "main_hand"
+    },
     {
      "id": 21244,
      "name": "Blessed Qiraji Pugio",
@@ -7705,32 +7687,6 @@
      "weaponDamageMin": 72.0,
      "weaponDamageMax": 134.0,
      "weaponSpeed": 1.7,
-     "equipSlots": [
-      "main_hand",
-      "off_hand"
-     ],
-     "set": null,
-     "slot": "One-Hand",
-     "gear_slot": "main_hand"
-    },
-    {
-     "id": 23456,
-     "name": "Grand Marshal's Swiftblade",
-     "icon": "inv_sword_05",
-     "quality": "Epic",
-     "itemLevel": 78,
-     "stats": {
-      "stamina": 7.0,
-      "meleeCrit": 1.0,
-      "spellCrit": 1.0,
-      "attackPower": 28.0
-     },
-     "effects": [],
-     "source": "Vendor: Captain O'Neal",
-     "subclass": "Sword",
-     "weaponDamageMin": 86.0,
-     "weaponDamageMax": 129.0,
-     "weaponSpeed": 1.8,
      "equipSlots": [
       "main_hand",
       "off_hand"
@@ -7788,18 +7744,23 @@
      "gear_slot": "head"
     },
     {
-     "id": 19491,
-     "name": "Amulet of the Darkmoon",
-     "icon": "inv_jewelry_necklace_14",
+     "id": 18404,
+     "name": "Onyxia Tooth Pendant",
+     "icon": "inv_jewelry_necklace_09",
      "quality": "Epic",
-     "itemLevel": 65,
+     "itemLevel": 74,
      "stats": {
-      "strength": 10.0,
-      "agility": 19.0,
-      "stamina": 10.0
+      "agility": 12.0,
+      "stamina": 9.0,
+      "fireResistance": 10.0,
+      "meleeHit": 1.0,
+      "meleeCrit": 1.0
      },
-     "effects": [],
-     "source": "Quest: 1200 Tickets - Amulet of the Darkmoon",
+     "effects": [
+      "Equip: Improves your chance to hit by 1%.",
+      "Equip: Improves your chance to get a critical strike by 1%."
+     ],
+     "source": "Quest: For All To See",
      "subclass": "Miscellaneous",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -7963,20 +7924,20 @@
      "gear_slot": "wrist"
     },
     {
-     "id": 16454,
-     "name": "Marshal's Leather Handgrips",
-     "icon": "inv_gauntlets_21",
-     "quality": "Epic",
-     "itemLevel": 71,
+     "id": 19686,
+     "name": "Primal Batskin Gloves",
+     "icon": "inv_gauntlets_31",
+     "quality": "Rare",
+     "itemLevel": 65,
      "stats": {
-      "armor": 193.0,
-      "stamina": 23.0,
-      "agility": 20.0,
-      "meleeCrit": 1.0,
-      "spellCrit": 1.0
+      "armor": 113.0,
+      "agility": 10.0,
+      "stamina": 9.0,
+      "meleeHit": 2.5,
+      "spellHit": 2.5
      },
      "effects": [],
-     "source": "Vendor: Captain Dirgehammer",
+     "source": "Unknown",
      "subclass": "Leather",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -7985,27 +7946,16 @@
       "hands"
      ],
      "set": {
-      "name": "Field Marshal's Vestments",
+      "name": "Primal Batskin",
       "pieces": [
-       "Field Marshal's Leather Chestpiece",
-       "Field Marshal's Leather Epaulets",
-       "Field Marshal's Leather Mask",
-       "Marshal's Leather Footguards",
-       "Marshal's Leather Handgrips",
-       "Marshal's Leather Leggings"
+       "Requires Leatherworking (300)",
+       "Primal Batskin Jerkin",
+       "Primal Batskin Bracers"
       ],
       "bonuses": [
        {
-        "required": 2,
-        "description": "+20 Stamina."
-       },
-       {
         "required": 3,
-        "description": "Reduces the cooldown of your Gouge ability by 1 sec."
-       },
-       {
-        "required": 6,
-        "description": "+40 Attack Power."
+        "description": "Minor increase to running and swimming speed."
        }
       ]
      },
@@ -8189,29 +8139,6 @@
      "gear_slot": "finger2"
     },
     {
-     "id": 13965,
-     "name": "Blackhand's Breadth",
-     "icon": "inv_misc_armorkit_09",
-     "quality": "Rare",
-     "itemLevel": 63,
-     "stats": {
-      "meleeCrit": 2
-     },
-     "effects": [],
-     "source": "WoWSims Classic database",
-     "subclass": null,
-     "weaponDamageMin": null,
-     "weaponDamageMax": null,
-     "weaponSpeed": null,
-     "equipSlots": [
-      "trinket1",
-      "trinket2"
-     ],
-     "set": null,
-     "slot": "Trinket",
-     "gear_slot": "trinket1"
-    },
-    {
      "id": 11815,
      "name": "Hand of Justice",
      "icon": "inv_jewelry_talisman_01",
@@ -8233,13 +8160,39 @@
      ],
      "set": null,
      "slot": "Trinket",
+     "gear_slot": "trinket1"
+    },
+    {
+     "id": 21180,
+     "name": "Earthstrike",
+     "icon": "spell_nature_abolishmagic",
+     "quality": "Epic",
+     "itemLevel": 66,
+     "stats": {
+      "attackPower": 280.0
+     },
+     "effects": [
+      "Use: Increases your melee and ranged attack power by 280. Effect lasts for 20 sec. (2 Min Cooldown)"
+     ],
+     "source": "Quest: Champion's Battlegear",
+     "subclass": "Miscellaneous",
+     "weaponDamageMin": null,
+     "weaponDamageMax": null,
+     "weaponSpeed": null,
+     "equipSlots": [
+      "trinket1",
+      "trinket2"
+     ],
+     "set": null,
+     "slot": "Trinket",
      "gear_slot": "trinket2"
     }
    ]
   },
   "shaman-elemental": {
    "source": "tools/build_bis_gearsets.py (greedy stat-weight optimizer over the Forever item catalog)",
-   "source_label": "Forever BiS (auto-generated)",
+   "source_label": "Forever BiS (auto-generated, Alliance)",
+   "race": "Dwarf",
    "gear": [
     {
      "id": 21273,
@@ -8758,12 +8711,13 @@
   },
   "shaman-enhancement": {
    "source": "tools/build_bis_gearsets.py (greedy stat-weight optimizer over the Forever item catalog)",
-   "source_label": "Forever BiS (auto-generated)",
+   "source_label": "Forever BiS (auto-generated, Alliance)",
+   "race": "Dwarf",
    "gear": [
     {
-     "id": 18830,
-     "name": "Grand Marshal's Sunderer",
-     "icon": "inv_axe_10",
+     "id": 18867,
+     "name": "Grand Marshal's Battle Hammer",
+     "icon": "inv_hammer_03",
      "quality": "Epic",
      "itemLevel": 78,
      "stats": {
@@ -8774,7 +8728,7 @@
      },
      "effects": [],
      "source": "Vendor: Captain O'Neal",
-     "subclass": "Axe",
+     "subclass": "Mace",
      "weaponDamageMin": 236.0,
      "weaponDamageMax": 353.0,
      "weaponSpeed": 3.8,
@@ -8812,21 +8766,24 @@
      "gear_slot": "head"
     },
     {
-     "id": 21809,
-     "name": "Fury of the Forgotten Swarm",
-     "icon": "inv_jewelry_necklace_14",
-     "quality": "Rare",
-     "itemLevel": 71,
+     "id": 18404,
+     "name": "Onyxia Tooth Pendant",
+     "icon": "inv_jewelry_necklace_09",
+     "quality": "Epic",
+     "itemLevel": 74,
      "stats": {
-      "strength": 8.0,
-      "meleeCrit": 1.0,
-      "spellCrit": 1.0,
-      "meleeHit": 1.25,
-      "spellHit": 1.25
+      "agility": 12.0,
+      "stamina": 9.0,
+      "fireResistance": 10.0,
+      "meleeHit": 1.0,
+      "meleeCrit": 1.0
      },
-     "effects": [],
-     "source": "Zone Drop",
-     "subclass": null,
+     "effects": [
+      "Equip: Improves your chance to hit by 1%.",
+      "Equip: Improves your chance to get a critical strike by 1%."
+     ],
+     "source": "Quest: For All To See",
+     "subclass": "Miscellaneous",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -8864,8 +8821,8 @@
      "gear_slot": "shoulders"
     },
     {
-     "id": 20068,
-     "name": "Deathguard's Cloak",
+     "id": 20073,
+     "name": "Cloak of the Honor Guard",
      "icon": "inv_misc_cape_02",
      "quality": "Epic",
      "itemLevel": 65,
@@ -8876,7 +8833,7 @@
       "attackPower": 34.0
      },
      "effects": [],
-     "source": "Vendor: Rutherford Twing",
+     "source": "Vendor: Samuel Hawke",
      "subclass": "Cloth",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -8991,8 +8948,8 @@
      "gear_slot": "waist"
     },
     {
-     "id": 22673,
-     "name": "Outrider's Chain Leggings",
+     "id": 22748,
+     "name": "Sentinel's Chain Leggings",
      "icon": "inv_pants_03",
      "quality": "Epic",
      "itemLevel": 65,
@@ -9100,17 +9057,18 @@
      "gear_slot": "finger2"
     },
     {
-     "id": 13965,
-     "name": "Blackhand's Breadth",
-     "icon": "inv_misc_armorkit_09",
+     "id": 11815,
+     "name": "Hand of Justice",
+     "icon": "inv_jewelry_talisman_01",
      "quality": "Rare",
-     "itemLevel": 63,
-     "stats": {
-      "meleeCrit": 2
-     },
-     "effects": [],
-     "source": "WoWSims Classic database",
-     "subclass": null,
+     "itemLevel": 58,
+     "stats": {},
+     "effects": [
+      "Equip: 2% chance on melee hit to gain 1 extra attack.",
+      "Equip: +20 Attack Power."
+     ],
+     "source": "Boss Drop: Emperor Dagran Thaurissan",
+     "subclass": "Miscellaneous",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -9151,7 +9109,8 @@
   },
   "warlock-affliction": {
    "source": "tools/build_bis_gearsets.py (greedy stat-weight optimizer over the Forever item catalog)",
-   "source_label": "Forever BiS (auto-generated)",
+   "source_label": "Forever BiS (auto-generated, Alliance)",
+   "race": "Human",
    "gear": [
     {
      "id": 22383,
@@ -9704,7 +9663,8 @@
   },
   "warlock-demonology": {
    "source": "tools/build_bis_gearsets.py (greedy stat-weight optimizer over the Forever item catalog)",
-   "source_label": "Forever BiS (auto-generated)",
+   "source_label": "Forever BiS (auto-generated, Alliance)",
+   "race": "Human",
    "gear": [
     {
      "id": 22383,
@@ -10257,7 +10217,8 @@
   },
   "warlock-destruction": {
    "source": "tools/build_bis_gearsets.py (greedy stat-weight optimizer over the Forever item catalog)",
-   "source_label": "Forever BiS (auto-generated)",
+   "source_label": "Forever BiS (auto-generated, Alliance)",
+   "race": "Human",
    "gear": [
     {
      "id": 22383,
@@ -10810,7 +10771,8 @@
   },
   "paladin-protection": {
    "source": "tools/build_bis_gearsets.py (greedy stat-weight optimizer over the Forever item catalog)",
-   "source_label": "Forever BiS (auto-generated)",
+   "source_label": "Forever BiS (auto-generated, Alliance)",
+   "race": "Human",
    "gear": [
     {
      "id": 23456,
@@ -10966,9 +10928,9 @@
      "gear_slot": "shoulders"
     },
     {
-     "id": 19085,
-     "name": "Frostwolf Advisor's Cloak",
-     "icon": "inv_misc_cape_16",
+     "id": 19086,
+     "name": "Stormpike Sage's Cloak",
+     "icon": "inv_misc_cape_18",
      "quality": "Rare",
      "itemLevel": 60,
      "stats": {
@@ -11057,30 +11019,55 @@
      "gear_slot": "wrist"
     },
     {
-     "id": 13255,
-     "name": "Trueaim Gauntlets",
-     "icon": "inv_gauntlets_30",
-     "quality": "Rare",
-     "itemLevel": 59,
+     "id": 16471,
+     "name": "Marshal's Lamellar Gloves",
+     "icon": "inv_gauntlets_29",
+     "quality": "Epic",
+     "itemLevel": 71,
      "stats": {
-      "armor": 218.0,
-      "meleeHit": 1.0
+      "armor": 502.0,
+      "strength": 18.0,
+      "stamina": 17.0,
+      "intellect": 16.0,
+      "meleeCrit": 1.0,
+      "spellCrit": 1.0
      },
      "effects": [
-      "Equip: Increased Bows +8.",
-      "Equip: Improves your chance to hit by 1%.",
-      "Equip: Increased Guns +8.",
-      "Equip: Increased Crossbows +8."
+      "Equip: Increases the Holy damage bonus of your Judgement of the Crusader by 20."
      ],
-     "source": "Boss Drop: Shadow Hunter Vosh'gajin",
-     "subclass": "Mail",
+     "source": "Vendor: Captain Dirgehammer",
+     "subclass": "Plate",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
      "equipSlots": [
       "hands"
      ],
-     "set": null,
+     "set": {
+      "name": "Field Marshal's Aegis",
+      "pieces": [
+       "Field Marshal's Lamellar Chestplate",
+       "Field Marshal's Lamellar Faceguard",
+       "Field Marshal's Lamellar Pauldrons",
+       "Marshal's Lamellar Boots",
+       "Marshal's Lamellar Gloves",
+       "Marshal's Lamellar Legplates"
+      ],
+      "bonuses": [
+       {
+        "required": 2,
+        "description": "+20 Stamina."
+       },
+       {
+        "required": 3,
+        "description": "Reduces the cooldown of your Hammer of Justice by 10 sec."
+       },
+       {
+        "required": 6,
+        "description": "Increases damage and healing done by magical spells and effects by up to 23."
+       }
+      ]
+     },
      "slot": "Hands",
      "gear_slot": "hands"
     },
@@ -11241,19 +11228,17 @@
      "gear_slot": "trinket1"
     },
     {
-     "id": 21180,
-     "name": "Earthstrike",
-     "icon": "spell_nature_abolishmagic",
-     "quality": "Epic",
-     "itemLevel": 66,
+     "id": 272438,
+     "name": "Weakness Analyzer",
+     "icon": "inv_misc_blizzcon09_graphicscard",
+     "quality": "Rare",
+     "itemLevel": 65,
      "stats": {
-      "attackPower": 280.0
+      "spellPower": 22.0
      },
-     "effects": [
-      "Use: Increases your melee and ranged attack power by 280. Effect lasts for 20 sec. (2 Min Cooldown)"
-     ],
-     "source": "Quest: Champion's Battlegear",
-     "subclass": "Miscellaneous",
+     "effects": [],
+     "source": "forever-1.60.1.69913",
+     "subclass": null,
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -11291,12 +11276,13 @@
   },
   "paladin-retribution": {
    "source": "tools/build_bis_gearsets.py (greedy stat-weight optimizer over the Forever item catalog)",
-   "source_label": "Forever BiS (auto-generated)",
+   "source_label": "Forever BiS (auto-generated, Alliance)",
+   "race": "Human",
    "gear": [
     {
-     "id": 18830,
-     "name": "Grand Marshal's Sunderer",
-     "icon": "inv_axe_10",
+     "id": 18876,
+     "name": "Grand Marshal's Claymore",
+     "icon": "inv_sword_39",
      "quality": "Epic",
      "itemLevel": 78,
      "stats": {
@@ -11307,7 +11293,7 @@
      },
      "effects": [],
      "source": "Vendor: Captain O'Neal",
-     "subclass": "Axe",
+     "subclass": "Sword",
      "weaponDamageMin": 236.0,
      "weaponDamageMax": 353.0,
      "weaponSpeed": 3.8,
@@ -11372,25 +11358,23 @@
      "gear_slot": "neck"
     },
     {
-     "id": 21391,
-     "name": "Avenger's Pauldrons",
-     "icon": "inv_shoulder_35",
+     "id": 16476,
+     "name": "Field Marshal's Lamellar Pauldrons",
+     "icon": "inv_shoulder_20",
      "quality": "Epic",
-     "itemLevel": 78,
+     "itemLevel": 74,
      "stats": {
-      "armor": 659.0,
-      "agility": 14.0,
-      "strength": 18.0,
-      "intellect": 13.0,
-      "spirit": 6.0,
-      "stamina": 15.0,
-      "spellPower": 14.0,
-      "mp5": 3.0
+      "armor": 626.0,
+      "stamina": 16.0,
+      "strength": 16.0,
+      "intellect": 15.0,
+      "spellPower": 19.0,
+      "mp5": 6.0
      },
      "effects": [
-      "Equip: +3 Mana Regeneration"
+      "Equip: +6 Mana Regeneration"
      ],
-     "source": "Quest: Avenger's Pauldrons",
+     "source": "Vendor: Captain Dirgehammer",
      "subclass": "Plate",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -11399,22 +11383,27 @@
       "shoulders"
      ],
      "set": {
-      "name": "Avenger's Battlegear",
+      "name": "Field Marshal's Aegis",
       "pieces": [
-       "Avenger's Breastplate",
-       "Avenger's Crown",
-       "Avenger's Greaves",
-       "Avenger's Legguards",
-       "Avenger's Pauldrons"
+       "Field Marshal's Lamellar Chestplate",
+       "Field Marshal's Lamellar Faceguard",
+       "Field Marshal's Lamellar Pauldrons",
+       "Marshal's Lamellar Boots",
+       "Marshal's Lamellar Gloves",
+       "Marshal's Lamellar Legplates"
       ],
       "bonuses": [
        {
-        "required": 3,
-        "description": "Increases the duration of your Judgements by 20%."
+        "required": 2,
+        "description": "+20 Stamina."
        },
        {
-        "required": 5,
-        "description": "Increases damage and healing done by magical spells and effects by up to 71."
+        "required": 3,
+        "description": "Reduces the cooldown of your Hammer of Justice by 10 sec."
+       },
+       {
+        "required": 6,
+        "description": "Increases damage and healing done by magical spells and effects by up to 23."
        }
       ]
      },
@@ -11422,21 +11411,19 @@
      "gear_slot": "shoulders"
     },
     {
-     "id": 16337,
-     "name": "Sergeant Major's Cape",
-     "icon": "inv_misc_cape_21",
-     "quality": "Rare",
-     "itemLevel": 60,
+     "id": 20073,
+     "name": "Cloak of the Honor Guard",
+     "icon": "inv_misc_cape_02",
+     "quality": "Epic",
+     "itemLevel": 65,
      "stats": {
-      "armor": 43.0,
-      "strength": 8.0,
-      "agility": 8.0,
-      "intellect": 8.0,
-      "stamina": 8.0,
-      "spirit": 8.0
+      "armor": 50.0,
+      "stamina": 11.0,
+      "agility": 5.0,
+      "attackPower": 34.0
      },
      "effects": [],
-     "source": "Unknown",
+     "source": "Vendor: Samuel Hawke",
      "subclass": "Cloth",
      "weaponDamageMin": null,
      "weaponDamageMax": null,

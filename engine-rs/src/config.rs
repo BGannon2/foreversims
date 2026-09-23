@@ -322,6 +322,11 @@ impl Config {
             if id != 0 && !crate::items::item_allowed(&catalog.get(id), slot, &spec.class_name, &t.EQUIPMENT_RULES) {
                 return Err(format!("Item {id} cannot be equipped in {slot} by {}.", spec.class_name));
             }
+            let item = catalog.get(id);
+            if id != 0 && !crate::items::faction_allowed(&item, &race, &t.EQUIPMENT_RULES) {
+                let faction = item.extra.get("faction").and_then(|v| v.as_str()).unwrap_or("");
+                return Err(format!("{} is {faction}-only and can't be equipped by a {race}.", item.name));
+            }
         }
         let buffs = str_set(request.get("buffs"));
         let debuffs = str_set(request.get("debuffs"));

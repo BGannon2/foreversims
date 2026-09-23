@@ -17,7 +17,7 @@ from forever import engine as engine_module
 from forever.all_specs import CLASS_RACES, public_racials, public_specs, simulate_spec
 from forever.engine_data import BUFF_GROUPS, DEFAULT_BUILDS, PALADIN_ABOUT, SET_EFFECTS, SET_NO_COMBAT_EFFECT, SET_PROVISIONAL, default_buffs, default_consumables
 from forever.gear_data import CATALOG, PHASE6_BIS
-from forever.profile_rules import enchant_preferences, equipment_rules
+from forever.profile_rules import RACE_FACTIONS, enchant_preferences, equipment_rules
 from forever.sim import ASSUMPTIONS, CONSUMABLE_DATA, DATA, TALENT_DATA, preset, simulate, validate
 
 ROOT = Path(__file__).resolve().parent
@@ -52,6 +52,13 @@ def default_request(spec, race=None, **overrides):
                "gear": [x["id"] for x in profile["gear"]], "gear_slots": [{"slot": x["slot"], "id": x["id"]} for x in profile["gear"]],
                "talents": DEFAULT_BUILDS[spec["id"]], "buffs": default_buffs(spec), "debuffs": DEBUFFS, "consumables": default_consumables(spec)}
     request.update(overrides)
+    from forever.all_specs import ITEMS as _items
+    faction = RACE_FACTIONS.get(request["race"])
+    for row in request["gear_slots"]:  # Alliance/Horde-only gear follows the race, as the UI does
+        item = _items.get(row["id"], {})
+        if item.get("faction") and item["faction"] != faction:
+            row["id"] = item.get("factionTwin", 0)
+    request["gear"] = [row["id"] for row in request["gear_slots"]]
     if 'enchants' not in overrides:
         from forever.all_specs import ENCHANTS, ITEMS
         from forever.profile_rules import default_enchants
@@ -144,7 +151,7 @@ class Handler(BaseHTTPRequestHandler):
                 "sources": DATA["sources"], "source_status": DATA["status"],
                 "assumptions": ASSUMPTIONS, "excluded": DATA["excluded"],
                 "gear_catalog": {key: CATALOG[key] for key in ("version", "source", "license", "scope")},
-                "phase6_bis": PHASE6_BIS, "forever_bis": PALADIN_FOREVER_BIS, "talent_data": TALENT_DATA, "consumable_data": CONSUMABLE_DATA,
+                "phase6_bis": PHASE6_BIS, "forever_bis": PALADIN_FOREVER_BIS, "race_factions": RACE_FACTIONS, "talent_data": TALENT_DATA, "consumable_data": CONSUMABLE_DATA,
                 "setting_data": SETTING_DATA, "races": CLASS_RACES["Paladin"], "racials": public_racials(), "defaults": DEFAULTS, "about": PALADIN_ABOUT,
                 "enchants": ENCHANT_DATA,
             })

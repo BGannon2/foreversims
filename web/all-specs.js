@@ -20,8 +20,10 @@ const slotKeys = { "Head": ["head"], "Neck": ["neck"], "Shoulders": ["shoulders"
 const classWeapons = { Warrior: ["Axe", "Bow", "Crossbow", "Dagger", "Fist Weapon", "Gun", "Mace", "Polearm", "Shield", "Staff", "Sword", "Thrown"], Druid: ["Dagger", "Mace", "Staff", "Fist Weapon", "Idol"], Hunter: ["Axe", "Bow", "Crossbow", "Dagger", "Fist Weapon", "Gun", "Polearm", "Staff", "Sword", "Thrown"], Mage: ["Dagger", "Staff", "Sword", "Wand", "Off Hand"], Priest: ["Dagger", "Mace", "Staff", "Wand", "Off Hand"], Rogue: ["Bow", "Crossbow", "Dagger", "Fist Weapon", "Gun", "Mace", "Sword", "Thrown"], Shaman: ["Axe", "Dagger", "Fist Weapon", "Mace", "Shield", "Staff", "Totem", "Off Hand"], Warlock: ["Dagger", "Staff", "Sword", "Wand", "Off Hand"] };
 const weaponKinds = ["Axe", "Bow", "Crossbow", "Dagger", "Fist Weapon", "Gun", "Mace", "Polearm", "Shield", "Staff", "Sword", "Wand", "Thrown", "Idol", "Totem", "Libram", "Off Hand"];
 function itemSubclass(it) { return it.subclass || ""; }
+const raceFaction = () => data.equipment_rules?.race_factions?.[$("race").value];
 function allowedItem(it, slot) {
   if (!it.id || !(it.equipSlots || []).some(x => (slotKeys[slot] || []).includes(x))) return false;
+  if (it.faction && it.faction !== raceFaction()) return false;
   if ((it.requiredLevel || 0) > 60 || it.simulationAvailability === "excluded") return false;
   const ai = armorOrder.indexOf(it.subclass); if (ai >= 0 && ai > armorMax[spec.class_name]) return false;
   if (it.allowedClasses && !it.allowedClasses.includes(spec.class_name)) return false;
@@ -219,7 +221,7 @@ async function init() {
   if(query.get("benchmark")==="1"){data.defaults.seed=data.defaults.benchmark_seed;$("iterations").value=data.defaults.benchmark_iterations;}
   const raceNames = spec.races || ["Human"]; $("race").innerHTML = raceNames.map(name => `<option>${name}</option>`).join("");
   const requestedRace = new URLSearchParams(location.search).get("race"); $("race").value = raceNames.includes(requestedRace) ? requestedRace : (raceNames.includes("Human") ? "Human" : raceNames[0]);
-  $("race").onchange = () => { renderRace(); renderRotation(); renderSpecCards(); }; renderRace(); renderSpecCards(); renderTankEncounter();
+  $("race").onchange = () => { renderRace(); renderRotation(); renderSpecCards(); swapFactionGear(); }; renderRace(); renderSpecCards(); renderTankEncounter();
   trees = data.talents.classes[spec.class_name.toLowerCase()]; profile.gear.forEach(x => x.enchant = defaultEnchant(x));
   $("sideSpec").textContent = `${spec.class_name}${DOT}${spec.name}`; $("talentHeading").textContent = `${spec.class_name} talents`; $("className").textContent = spec.class_name.toUpperCase(); $("specName").textContent = spec.name; $("gearSource").textContent = profile.source_label || ""; $("serverDot").className = "online";
   renderGear(); renderOptions("buffs", data.settings.raid_buffs, "buffs"); renderOptions("debuffs", data.settings.debuffs, "debuffs"); renderOptions("consumables", data.consumables.items, "consumables"); renderRotation(); renderPetSettings();
@@ -237,13 +239,28 @@ $("enchantSelect").onchange = () => { const it = profile.gear[pickerIndex], rows
 $("clearItem").onclick = () => { const slot = profile.gear[pickerIndex].slot; profile.gear[pickerIndex] = { slot, id: 0, name: "Empty", icon: "inv_misc_questionmark", quality: "Common", itemLevel: 0, stats: {}, effects: [] }; $("itemDialog").close(); renderGear(); };
 $("itemDialog").addEventListener("close", () => { hideTip(); document.body.appendChild($("tooltip")); });
 $("resetProfile").onclick = () => { profile = structuredClone(baseProfile); profile.gear.forEach(x => x.enchant = defaultEnchant(x)); autoTalents(); renderGear(); renderOptions("buffs", data.settings.raid_buffs, "buffs"); renderOptions("consumables", data.consumables.items, "consumables"); showTab("gear"); };
+// Alliance/Horde-only gear: swap to the other faction's identical twin, or clear the slot.
+function swapFactionGear() {
+  const faction = raceFaction(), cleared = [];
+  profile.gear.forEach((row, i) => {
+    if (!row.faction || row.faction === faction) return;
+    const twin = catalogItems.find(x => x.id === row.factionTwin);
+    if (twin) profile.gear[i] = { ...twin, itemSlot: twin.slot, slot: row.slot, enchant: row.enchant };
+    else { cleared.push(row.name); profile.gear[i] = { slot: row.slot, id: 0, name: "Empty", icon: "inv_misc_questionmark", quality: "Common", itemLevel: 0, stats: {}, effects: [] }; }
+  });
+  $("error").textContent = cleared.length ? `Removed ${faction === "Alliance" ? "Horde" : "Alliance"}-only gear with no ${faction} equivalent: ${cleared.join(", ")}.` : "";
+  renderGear();
+}
 $("foreverBisProfile").onclick = () => {
   const bis = data.forever_bis?.profiles?.[specId];
   if (!bis) { $("error").textContent = "No Forever BiS set is available for this spec yet."; return; }
   const hydrated = structuredClone(bis);
-  hydrated.gear = hydrated.gear.map(row => { const full = catalogItems.find(x => x.id === row.id); return full ? { ...row, ...full, slot: row.slot } : row; });
+  const uiSlot = row => Object.keys(slotKeys).find(label => slotKeys[label][0] === row.gear_slot || (row.gear_slot === "finger2" && label === "Finger 2") || (row.gear_slot === "trinket2" && label === "Trinket 2") || (row.gear_slot === "relic" && label === "Ranged / Relic")) || row.slot;
+  hydrated.gear = hydrated.gear.map(row => { const full = catalogItems.find(x => x.id === row.id), slot = uiSlot(row); return full ? { ...row, ...full, itemSlot: full.slot, slot } : { ...row, slot }; });
   profile = hydrated; profile.gear.forEach(x => x.enchant = defaultEnchant(x));
   $("gearSource").textContent = profile.source_label || "Assumed Forever BiS";
+  if (bis.race && [...$("race").options].some(o => o.value === bis.race) && $("race").value !== bis.race) { $("race").value = bis.race; renderRace(); renderRotation(); renderSpecCards(); }
+  swapFactionGear();
   renderGear(); showTab("gear");
 };
 $("exportProfile").onclick = () => { const output = { ruleset: "World of Warcraft Forever prototype", spec: spec.id, race: $("race").value, gear: Object.fromEntries(profile.gear.map(x => [x.slot, { item_id: x.id, enchant_id: x.enchant?.id || null }])), talents: points, encounter: { ...tankEncounter(), duration: +$("duration").value, boss_armor: +$("armor").value, targets: +$("targets").value, boss_type: $("bossType").value } }; const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify(output, null, 2)], { type: "application/json" })); a.download = `${spec.id}-forever-profile.json`; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000); };

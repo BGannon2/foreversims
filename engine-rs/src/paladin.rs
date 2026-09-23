@@ -276,6 +276,11 @@ pub fn apply_gear(profile: &Value, catalog: &Catalog) -> Result<(Value, Value), 
             continue;
         }
         let Some(item) = catalog.items.get(&item_id) else { return Err(format!("Unknown Classic Era item id {item_id} in {slot}.")) };
+        let race = profile["race"].as_str().unwrap_or("");
+        if !crate::items::faction_allowed(item, race, &crate::data::tables().EQUIPMENT_RULES) {
+            let faction = item.extra.get("faction").and_then(|v| v.as_str()).unwrap_or("");
+            return Err(format!("{} is {faction}-only and can't be equipped by a {race}.", item.name));
+        }
         if !item.equipSlots.iter().any(|s| s == slot) {
             return Err(format!("{} cannot be equipped in {slot}.", item.name));
         }

@@ -32,6 +32,8 @@ CLASS_WEAPONS = {
 MELEE_WEAPONS = ["Axe", "Dagger", "Fist Weapon", "Mace", "Polearm", "Staff", "Sword"]
 WEAPON_KINDS = MELEE_WEAPONS + ["Bow", "Crossbow", "Gun", "Shield", "Wand", "Thrown", "Idol", "Totem", "Libram", "Off Hand"]
 DUAL_WIELD_CLASSES = ["Warrior", "Rogue", "Hunter"]
+RACE_FACTIONS = {"Human": "Alliance", "Dwarf": "Alliance", "Night Elf": "Alliance", "Gnome": "Alliance", "Skyborne (Alliance)": "Alliance",
+                 "Orc": "Horde", "Undead": "Horde", "Tauren": "Horde", "Troll": "Horde", "Skyborne (Horde)": "Horde"}
 NON_PLAYER_ITEM_IDS = {22736: "Andonisus is an encounter-only weapon, not persistent raid equipment."}
 TEST_NAME_PATTERN = r"\b(?:UNUSED|PH|TEST|PLACEHOLDER|DEPRECATED|DEP)\b|^\d+\s+(?:Epic|Rare|Green)\s+"
 
@@ -39,7 +41,7 @@ TEST_NAME_PATTERN = r"\b(?:UNUSED|PH|TEST|PLACEHOLDER|DEPRECATED|DEP)\b|^\d+\s+(
 def equipment_rules():
     return {"slots": SLOTS, "enchant_slots": ENCHANT_SLOTS, "armor_order": ARMOR_ORDER,
             "armor_max": ARMOR_MAX, "class_weapons": CLASS_WEAPONS, "weapon_kinds": WEAPON_KINDS,
-            "melee_weapons": MELEE_WEAPONS, "dual_wield_classes": DUAL_WIELD_CLASSES}
+            "melee_weapons": MELEE_WEAPONS, "dual_wield_classes": DUAL_WIELD_CLASSES, "race_factions": RACE_FACTIONS}
 
 
 def classify_availability(item, absent_ids):
@@ -82,6 +84,11 @@ def annotate_rating_assumptions(item):
 
 def weapon_kind(item):
     return next((k for k in WEAPON_KINDS if k in str(item.get("subclass", ""))), None)
+
+
+def faction_allowed(item, race):
+    """Alliance/Horde-only gear (PvP rank titles, battleground reputation) for this race's faction."""
+    return not item.get("faction") or item["faction"] == RACE_FACTIONS.get(race, item["faction"])
 
 
 def item_allowed(item, slot, class_name):

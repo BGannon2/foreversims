@@ -312,6 +312,14 @@ pub fn enchant_compatible(slot: &str, gear: &[Item], gear_slots: &[GearSlot], ca
     candidates.iter().any(|x| matches!(weapon_type(x), Some(k) if WEAPON_TYPES.contains(&k)))
 }
 
+/// Alliance/Horde-only gear (PvP rank titles, battleground reputation) for this race's faction.
+pub fn faction_allowed(item: &Item, race: &str, rules: &Value) -> bool {
+    match (item.extra.get("faction").and_then(|v| v.as_str()), rules["race_factions"][race].as_str()) {
+        (Some(item_faction), Some(race_faction)) => item_faction == race_faction,
+        _ => true,
+    }
+}
+
 pub fn item_allowed(item: &Item, slot: &str, class: &str, rules: &Value) -> bool {
     let contains = |v: &Value, s: &str| v.as_array().is_some_and(|a| a.iter().any(|x| x.as_str() == Some(s)));
     if item.id.is_none() || item.extra.get("simulationAvailability").and_then(|v| v.as_str()) == Some("excluded") { return false; }

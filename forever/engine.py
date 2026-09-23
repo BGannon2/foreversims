@@ -12,7 +12,7 @@ import re
 import statistics
 
 from .engine_data import *  # noqa: F401,F403
-from .profile_rules import item_allowed
+from .profile_rules import faction_allowed, item_allowed
 
 EPS = 1e-7
 WEAPON_TYPES = ("Axe", "Dagger", "Fist Weapon", "Mace", "Polearm", "Staff", "Sword")
@@ -83,6 +83,8 @@ class Config:
             iid = int(row.get('id') or 0)
             if iid and not item_allowed(items.get(iid, {}), row.get('slot'), s['class_name']):
                 raise ValueError(f"Item {iid} cannot be equipped in {row.get('slot')} by {s['class_name']}.")
+            if iid and not faction_allowed(items.get(iid, {}), self.race):
+                raise ValueError(f"{items[iid]['name']} is {items[iid]['faction']}-only and can't be equipped by a {self.race}.")
         self.items, self.enchant_data, self.set_data = items, enchants, sets
         self.buffs = set(request.get("buffs", []))
         self.debuffs = set(request.get("debuffs", []))

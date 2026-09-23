@@ -42,10 +42,8 @@ sys.path.insert(0, str(ROOT))
 
 from forever.all_specs import ITEMS  # noqa: E402
 from forever.engine import permanent_item_stats  # noqa: E402
-from forever.engine_data import (
-    ITEM_EFFECTS,  # noqa: E402
-    SPEC_MAP,  # noqa: E402
-)
+from forever.engine_data import ITEM_EFFECTS, SPEC_MAP  # noqa: E402
+from forever.profile_rules import RACE_FACTIONS  # noqa: E402
 
 _RESTRICTIONS = json.loads((ROOT / "data" / "item_class_restrictions.json").read_text(encoding="utf-8"))
 CLASS_RESTRICTIONS = _RESTRICTIONS["items"]
@@ -185,12 +183,14 @@ PHASE1_ITEM_LEVEL_CEILING = 82
 LATER_PHASE_QUESTS = {"Rise, Thunderfury!", "The Fall of Ossirian"}
 
 
-def eligible(item, cls, style):
+def eligible(item, cls, style, faction=None):
     if item["id"] in REMOVED_IDS or item.get("simulationAvailability") == "excluded":
         return False
     if item.get("source", "").removeprefix("Quest: ") in LATER_PHASE_QUESTS:
         return False
     if cls not in CLASS_RESTRICTIONS.get(str(item["id"]), [cls]):
+        return False
+    if faction and item.get("faction") not in (None, faction):
         return False
     if item.get("itemLevel", 0) > PHASE1_ITEM_LEVEL_CEILING:
         return False
@@ -300,6 +300,7 @@ def pick_weapons(items_by_slot, cls, spec_id, weights, taken_ids):
 
 def build_spec(spec_id, spec):
     cls, style = spec["class_name"], spec["style"]
+    faction = RACE_FACTIONS[default_race(spec_id)]
     weights = dict(SPEC_ARCHETYPE[spec_id])
 
     by_slot = {s: [] for s in SLOTS}
@@ -307,7 +308,7 @@ def build_spec(spec_id, spec):
                      "held_off_hand": [], "finger": [], "trinket": []})
 
     for item in ITEMS.values():
-        if not eligible(item, cls, style):
+        if not eligible(item, cls, style, faction):
             continue
         for eq in item.get("equipSlots", []):
             if eq == "main_hand" and item["slot"] == "Two-Hand":
@@ -419,6 +420,14 @@ def build_spec(spec_id, spec):
     return gear_list
 
 
+def default_race(spec_id):
+    """The race each spec's set is built for (its first listed race; Paladin presets are Human)."""
+    if spec_id in PALADIN_SPECS:
+        return "Human"
+    from forever.all_specs import public_specs
+    return next(x for x in public_specs() if x["id"] == spec_id)["races"][0]
+
+
 TANK_SPECS = {"warrior-protection", "druid-feral-tank", "paladin-protection"}
 UI_SLOT = {"head": "Head", "neck": "Neck", "shoulders": "Shoulders", "back": "Back", "chest": "Chest", "wrist": "Wrist",
            "hands": "Hands", "waist": "Waist", "legs": "Legs", "feet": "Feet", "finger1": "Finger 1", "finger2": "Finger 2",
@@ -440,7 +449,7 @@ def sim_value(spec_id, spec, gear):
     from forever.all_specs import public_specs, simulate_spec
     from server import default_request
     full = next(x for x in public_specs() if x["id"] == spec_id)
-    req = default_request(full, full["races"][0], iterations=60, duration=120, seed=7)
+    req = default_request(full, default_race(spec_id), iterations=60, duration=120, seed=7)
     req["gear_slots"] = [{"slot": UI_SLOT[slot], "id": it["id"]} for slot, it in gear.items()]
     req["gear"] = [row["id"] for row in req["gear_slots"]]
     return simulate_spec(req)["metrics"][key]["mean"]
@@ -501,7 +510,8 @@ def main():
         gear = build_spec(spec_id, spec)
         profiles[spec_id] = {
             "source": "tools/build_bis_gearsets.py (greedy stat-weight optimizer over the Forever item catalog)",
-            "source_label": "Forever BiS (auto-generated)",
+            "source_label": f"Forever BiS (auto-generated, {RACE_FACTIONS[default_race(spec_id)]})",
+            "race": default_race(spec_id),
             "gear": gear,
         }
         print(f"{spec_id}: {len(gear)} slots filled", file=sys.stderr)
