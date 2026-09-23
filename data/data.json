@@ -14,127 +14,23 @@
     "consecration_rank5": "https://foreverchanges.pro/class/paladin"
   },
   "facts": {
-    "judgement": {
-      "source": "judgement",
-      "cooldown": 10,
-      "base_mana_fraction": 0.06,
-      "gcd": 0
-    },
-    "righteous_fury": {
-      "source": "righteous_fury",
-      "holy_threat_multiplier": 1.9
-    },
-    "righteousness": {
-      "source": "righteousness",
-      "cost": 200,
-      "duration": 30,
-      "gcd": 1.5,
-      "judgement_pct_sp": 0.5,
-      "proc_base": 18.8,
-      "proc_coeff": 0.1,
-      "proc_one_hand_mult": 0.85,
-      "proc_two_hand_mult": 1.2
-    },
-    "command": {
-      "source": "command",
-      "cost": 210,
-      "duration": 30,
-      "weapon_fraction": 0.7,
-      "judgement_pct_sp": 0.429
-    },
-    "fury": {
-      "source": "fury",
-      "cost": 200,
-      "duration": 30,
-      "gcd": 1.5,
-      "swing_pct_sp": 0.1,
-      "swing_base": 35.0,
-      "absorb_pct": 0.5,
-      "judgement_pct_sp": 0.45,
-      "judgement_base": 153.0,
-      "taunt_duration": 4
-    },
-    "improved_seal_of_fury_rank1": {
-      "source": "talents",
-      "base_mana": 38,
-      "per_level_pct": 0.15,
-      "max_pct": 0.45
-    },
-    "holy_shield": {
-      "source": "talents",
-      "cost": 150,
-      "cooldown": 10,
-      "duration": 10,
-      "block_bonus": 0.2,
-      "charges": 4,
-      "damage": 110,
-      "threat_multiplier": 1.2
-    },
-    "bulwark": {
-      "source": "talents",
-      "cost": 110,
-      "cooldown": 300,
-      "duration": 8,
-      "health_fraction": 1,
-      "forbearance": 60
-    },
-    "redoubt_rank1": {
-      "source": "talents",
-      "proc": 0.1,
-      "block_bonus": 0.06,
-      "duration": 10,
-      "charges": 5
-    },
-    "reckoning_rank1": {
-      "source": "talents",
-      "block_proc": 0.08,
-      "crit_proc": 0.2
-    },
-    "shield_specialization_rank1": {
-      "source": "talents",
-      "block_value_bonus": 0.1,
-      "mana_proc": 0.33,
-      "mana_fraction": 0.06,
-      "internal_cooldown": 3
-    },
-    "improved_righteous_fury_rank1": {
-      "source": "talents",
-      "damage_reduction": 0.02
-    },
-    "vengeance_rank1": {
-      "source": "talents",
-      "bonus_per_stack": 0.01,
-      "max_stacks": 5,
-      "duration": 30
-    },
-    "sanctified_judgement_rank1": {
-      "source": "talents",
-      "proc": 0.33,
-      "seal_refund_fraction": 0.2
-    },
-    "improved_judgement_rank1": {
-      "source": "talents",
-      "cooldown_reduction": 1
-    },
-    "twist_of_light": {
-      "source": "talents",
-      "echo": "Replacing a seal with a different seal grants its effect to the next melee attack."
-    },
-    "consecration": {
-      "source": "consecration_rank5",
-      "rank": 5,
-      "required_level": 60,
-      "cost": 135,
-      "cooldown": 8,
-      "duration": 8,
-      "total_damage": 16,
-      "first4_total_damage": 48,
-      "ticks": 8,
-      "gcd": 1.5
-    }
+    "judgement": {"source":"judgement", "cooldown":10, "base_mana_fraction":0.06, "gcd":0},
+    "righteous_fury": {"source":"righteous_fury", "holy_threat_multiplier":1.9},
+    "righteousness": {"source":"righteousness", "cost":200, "duration":30, "gcd":1.5, "judgement_pct_sp":0.50, "proc_base":18.80, "proc_coeff":0.1, "proc_one_hand_mult":0.85, "proc_two_hand_mult":1.2},
+    "command": {"source":"command", "cost":210, "duration":30, "weapon_fraction":0.7, "judgement_pct_sp":0.429},
+    "fury": {"source":"fury", "cost":200, "duration":30, "gcd":1.5, "swing_pct_sp":0.10, "swing_base":35, "absorb_pct":0.50, "judgement_pct_sp":0.45, "judgement_base":153, "taunt_duration":4},
+    "improved_seal_of_fury_rank1": {"source":"talents", "base_mana":38, "per_level_pct":0.15, "max_pct":0.45},
+    "holy_shield": {"source":"talents", "cost":150, "cooldown":10, "duration":10, "block_bonus":0.2, "charges":4, "damage":110, "threat_multiplier":1.2},
+    "bulwark": {"source":"talents", "cost":110, "cooldown":300, "duration":8, "health_fraction":1, "forbearance":60},
+    "redoubt_rank1": {"source":"talents", "proc":0.1, "block_bonus":0.06, "duration":10, "charges":5},
+    "reckoning_rank1": {"source":"talents", "block_proc":0.08, "crit_proc":0.2},
+    "shield_specialization_rank1": {"source":"talents", "block_value_bonus":0.1, "mana_proc":0.33, "mana_fraction":0.06, "internal_cooldown":3},
+    "improved_righteous_fury_rank1": {"source":"talents", "damage_reduction":0.02},
+    "vengeance_rank1": {"source":"talents", "bonus_per_stack":0.01, "max_stacks":5, "duration":30},
+    "sanctified_judgement_rank1": {"source":"talents", "proc":0.33, "seal_refund_fraction":0.2},
+    "improved_judgement_rank1": {"source":"talents", "cooldown_reduction":1},
+    "twist_of_light": {"source":"talents", "echo":"Replacing a seal with a different seal grants its effect to the next melee attack."},
+    "consecration": {"source":"consecration_rank5", "rank":5, "required_level":60, "cost":135, "cooldown":8, "duration":8, "total_damage":16, "first4_total_damage":48, "ticks":8, "gcd":1.5}
   },
-  "excluded": [
-    "Old comments, including Thottbot comments, even when embedded in Forever pages.",
-    "No Classic, Season of Discovery, TBC or Retail combat formulas or engines were imported. A temporary pre-TBC Classic Era item catalog is the only cross-version dataset."
-  ]
+  "excluded": ["Old comments, including Thottbot comments, even when embedded in Forever pages.", "No Classic, Season of Discovery, TBC or Retail combat formulas or engines were imported. A temporary pre-TBC Classic Era item catalog is the only cross-version dataset."]
 }
