@@ -47,6 +47,10 @@ from forever.profile_rules import RACE_FACTIONS  # noqa: E402
 
 _RESTRICTIONS = json.loads((ROOT / "data" / "item_class_restrictions.json").read_text(encoding="utf-8"))
 CLASS_RESTRICTIONS = _RESTRICTIONS["items"]
+_RAID_PATH = ROOT / "data" / "item_raid_sources.json"
+# Later-raid drops and AQ-phase+ items from the WoWSims item database (tools/fetch_item_raid_sources.py):
+# catches raid drops the catalog calls "Zone Drop" and raid quest rewards like the AQ40 sets.
+LATER_RAID_ITEMS = {int(k) for k in json.loads(_RAID_PATH.read_text(encoding="utf-8"))["items"]} if _RAID_PATH.is_file() else set()
 LIMIT_CATEGORY = {int(k): v for k, v in _RESTRICTIONS["limit_categories"].items()}
 REMOVED_IDS = set(json.loads((ROOT / "data" / "forever_removed_item_ids.json").read_text(encoding="utf-8"))) \
     if (ROOT / "data" / "forever_removed_item_ids.json").is_file() else set()
@@ -189,7 +193,7 @@ ARMOR_SLOTS = {"head", "shoulders", "chest", "wrist", "hands", "waist", "legs", 
 
 
 def eligible(item, cls, style, faction=None):
-    if item["id"] in REMOVED_IDS or item.get("simulationAvailability") == "excluded":
+    if item["id"] in REMOVED_IDS or item["id"] in LATER_RAID_ITEMS or item.get("simulationAvailability") == "excluded":
         return False
     if item.get("source", "").removeprefix("Quest: ") in LATER_PHASE_QUESTS:
         return False
@@ -511,27 +515,37 @@ def sim_pass(spec_id, spec, gear, by_slot, weights, taken_ids):
         taken_ids.discard(current["id"]); taken_ids.add(best["id"])
 
 
+def build_profile(spec_id):
+    """One spec's set; a top-level function so worker processes can run it."""
+    gear = build_spec(spec_id, {**SPEC_MAP, **PALADIN_SPECS}[spec_id])
+    return spec_id, {
+        "source": "tools/build_bis_gearsets.py (greedy stat-weight optimizer over the Forever item catalog)",
+        "source_label": f"Forever BiS (auto-generated, {RACE_FACTIONS[default_race(spec_id)]})",
+        "race": default_race(spec_id),
+        "gear": gear,
+    }
+
+
 def main():
     import argparse
+    import os
+    from concurrent.futures import ProcessPoolExecutor, as_completed
     parser = argparse.ArgumentParser(description="Build auto-generated BiS sets.")
     parser.add_argument("--specs", nargs="+", help="rebuild only these spec ids, keeping the others as they are")
+    parser.add_argument("--workers", type=int, default=os.cpu_count(), help="parallel processes (default: all cores)")
     args = parser.parse_args()
     path = ROOT / "data" / "forever_bis_all.json"
     profiles = json.loads(path.read_text(encoding="utf-8"))["profiles"] if args.specs else {}
-    for spec_id, spec in {**SPEC_MAP, **PALADIN_SPECS}.items():
-        if args.specs and spec_id not in args.specs:
-            continue
-        gear = build_spec(spec_id, spec)
-        profiles[spec_id] = {
-            "source": "tools/build_bis_gearsets.py (greedy stat-weight optimizer over the Forever item catalog)",
-            "source_label": f"Forever BiS (auto-generated, {RACE_FACTIONS[default_race(spec_id)]})",
-            "race": default_race(spec_id),
-            "gear": gear,
-        }
-        print(f"{spec_id}: {len(gear)} slots filled", file=sys.stderr)
+    todo = [sid for sid in {**SPEC_MAP, **PALADIN_SPECS} if not args.specs or sid in args.specs]
+    # Specs are independent, so each runs in its own process (sims are single-threaded).
+    with ProcessPoolExecutor(max_workers=max(1, min(args.workers, len(todo)))) as pool:
+        for future in as_completed([pool.submit(build_profile, sid) for sid in todo]):
+            spec_id, profile = future.result()
+            profiles[spec_id] = profile
+            print(f"{spec_id}: {len(profile['gear'])} slots filled", file=sys.stderr)
 
-    out = {"scope": "Forever level-60 auto-generated BiS, greedy stat-weight optimizer", "profiles": profiles}
     profiles = {sid: profiles[sid] for sid in {**SPEC_MAP, **PALADIN_SPECS} if sid in profiles}
+    out = {"scope": "Forever level-60 auto-generated BiS, greedy stat-weight optimizer", "profiles": profiles}
     path.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
     print("wrote data/forever_bis_all.json", file=sys.stderr)
 

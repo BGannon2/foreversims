@@ -24,3 +24,4 @@ Launch Web.cmd
 !.env.example
 feedback.local.jsonl
 .wrangler/
+.cache/

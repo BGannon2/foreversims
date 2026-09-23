@@ -1,0 +1,2933 @@
+{
+ "source": "https://raw.githubusercontent.com/wowsims/classic/master/assets/database/db.json",
+ "raid_zones": {
+  "2717": "Molten Core",
+  "2677": "Blackwing Lair",
+  "1977": "Zul'Gurub",
+  "3429": "Ruins of Ahn'Qiraj",
+  "3428": "Temple of Ahn'Qiraj",
+  "3456": "Naxxramas"
+ },
+ "first_excluded_phase": 5,
+ "catalog_items_in_db": 2598,
+ "items": {
+  "16795": [
+   "Molten Core"
+  ],
+  "16796": [
+   "Molten Core"
+  ],
+  "16797": [
+   "Molten Core"
+  ],
+  "16798": [
+   "Molten Core"
+  ],
+  "16799": [
+   "Molten Core"
+  ],
+  "16800": [
+   "Molten Core"
+  ],
+  "16801": [
+   "Molten Core"
+  ],
+  "16802": [
+   "Molten Core"
+  ],
+  "16803": [
+   "Molten Core"
+  ],
+  "16804": [
+   "Molten Core"
+  ],
+  "16805": [
+   "Molten Core"
+  ],
+  "16806": [
+   "Molten Core"
+  ],
+  "16807": [
+   "Molten Core"
+  ],
+  "16808": [
+   "Molten Core"
+  ],
+  "16809": [
+   "Molten Core"
+  ],
+  "16810": [
+   "Molten Core"
+  ],
+  "16811": [
+   "Molten Core"
+  ],
+  "16812": [
+   "Molten Core"
+  ],
+  "16813": [
+   "Molten Core"
+  ],
+  "16814": [
+   "Molten Core"
+  ],
+  "16815": [
+   "Molten Core"
+  ],
+  "16816": [
+   "Molten Core"
+  ],
+  "16817": [
+   "Molten Core"
+  ],
+  "16818": [
+   "Blackwing Lair"
+  ],
+  "16819": [
+   "Molten Core"
+  ],
+  "16820": [
+   "Molten Core"
+  ],
+  "16821": [
+   "Molten Core"
+  ],
+  "16822": [
+   "Molten Core"
+  ],
+  "16823": [
+   "Molten Core"
+  ],
+  "16824": [
+   "Molten Core"
+  ],
+  "16825": [
+   "Molten Core"
+  ],
+  "16826": [
+   "Molten Core"
+  ],
+  "16827": [
+   "Molten Core"
+  ],
+  "16828": [
+   "Molten Core"
+  ],
+  "16829": [
+   "Molten Core"
+  ],
+  "16830": [
+   "Molten Core"
+  ],
+  "16831": [
+   "Molten Core"
+  ],
+  "16832": [
+   "Blackwing Lair"
+  ],
+  "16833": [
+   "Molten Core"
+  ],
+  "16834": [
+   "Molten Core"
+  ],
+  "16835": [
+   "Molten Core"
+  ],
+  "16836": [
+   "Molten Core"
+  ],
+  "16837": [
+   "Molten Core"
+  ],
+  "16838": [
+   "Molten Core"
+  ],
+  "16839": [
+   "Molten Core"
+  ],
+  "16840": [
+   "Molten Core"
+  ],
+  "16841": [
+   "Molten Core"
+  ],
+  "16842": [
+   "Molten Core"
+  ],
+  "16843": [
+   "Molten Core"
+  ],
+  "16844": [
+   "Molten Core"
+  ],
+  "16845": [
+   "Molten Core"
+  ],
+  "16846": [
+   "Molten Core"
+  ],
+  "16847": [
+   "Molten Core"
+  ],
+  "16848": [
+   "Molten Core"
+  ],
+  "16849": [
+   "Molten Core"
+  ],
+  "16850": [
+   "Molten Core"
+  ],
+  "16851": [
+   "Molten Core"
+  ],
+  "16852": [
+   "Molten Core"
+  ],
+  "16853": [
+   "Molten Core"
+  ],
+  "16854": [
+   "Molten Core"
+  ],
+  "16855": [
+   "Molten Core"
+  ],
+  "16856": [
+   "Molten Core"
+  ],
+  "16857": [
+   "Molten Core"
+  ],
+  "16858": [
+   "Molten Core"
+  ],
+  "16859": [
+   "Molten Core"
+  ],
+  "16860": [
+   "Molten Core"
+  ],
+  "16861": [
+   "Molten Core"
+  ],
+  "16862": [
+   "Molten Core"
+  ],
+  "16863": [
+   "Molten Core"
+  ],
+  "16864": [
+   "Molten Core"
+  ],
+  "16865": [
+   "Molten Core"
+  ],
+  "16866": [
+   "Molten Core"
+  ],
+  "16867": [
+   "Molten Core"
+  ],
+  "16868": [
+   "Molten Core"
+  ],
+  "16897": [
+   "Blackwing Lair"
+  ],
+  "16898": [
+   "Blackwing Lair"
+  ],
+  "16899": [
+   "Blackwing Lair"
+  ],
+  "16901": [
+   "Molten Core"
+  ],
+  "16902": [
+   "Blackwing Lair"
+  ],
+  "16903": [
+   "Blackwing Lair"
+  ],
+  "16904": [
+   "Blackwing Lair"
+  ],
+  "16905": [
+   "Blackwing Lair"
+  ],
+  "16906": [
+   "Blackwing Lair"
+  ],
+  "16907": [
+   "Blackwing Lair"
+  ],
+  "16909": [
+   "Molten Core"
+  ],
+  "16910": [
+   "Blackwing Lair"
+  ],
+  "16911": [
+   "Blackwing Lair"
+  ],
+  "16912": [
+   "Blackwing Lair"
+  ],
+  "16913": [
+   "Blackwing Lair"
+  ],
+  "16915": [
+   "Molten Core"
+  ],
+  "16916": [
+   "Blackwing Lair"
+  ],
+  "16917": [
+   "Blackwing Lair"
+  ],
+  "16918": [
+   "Blackwing Lair"
+  ],
+  "16919": [
+   "Blackwing Lair"
+  ],
+  "16920": [
+   "Blackwing Lair"
+  ],
+  "16922": [
+   "Molten Core"
+  ],
+  "16923": [
+   "Blackwing Lair"
+  ],
+  "16924": [
+   "Blackwing Lair"
+  ],
+  "16925": [
+   "Blackwing Lair"
+  ],
+  "16926": [
+   "Blackwing Lair"
+  ],
+  "16927": [
+   "Blackwing Lair"
+  ],
+  "16928": [
+   "Blackwing Lair"
+  ],
+  "16930": [
+   "Molten Core"
+  ],
+  "16931": [
+   "Blackwing Lair"
+  ],
+  "16932": [
+   "Blackwing Lair"
+  ],
+  "16933": [
+   "Blackwing Lair"
+  ],
+  "16934": [
+   "Blackwing Lair"
+  ],
+  "16935": [
+   "Blackwing Lair"
+  ],
+  "16936": [
+   "Blackwing Lair"
+  ],
+  "16937": [
+   "Blackwing Lair"
+  ],
+  "16938": [
+   "Molten Core"
+  ],
+  "16940": [
+   "Blackwing Lair"
+  ],
+  "16941": [
+   "Blackwing Lair"
+  ],
+  "16942": [
+   "Blackwing Lair"
+  ],
+  "16943": [
+   "Blackwing Lair"
+  ],
+  "16944": [
+   "Blackwing Lair"
+  ],
+  "16945": [
+   "Blackwing Lair"
+  ],
+  "16946": [
+   "Molten Core"
+  ],
+  "16948": [
+   "Blackwing Lair"
+  ],
+  "16949": [
+   "Blackwing Lair"
+  ],
+  "16950": [
+   "Blackwing Lair"
+  ],
+  "16951": [
+   "Blackwing Lair"
+  ],
+  "16952": [
+   "Blackwing Lair"
+  ],
+  "16953": [
+   "Blackwing Lair"
+  ],
+  "16954": [
+   "Molten Core"
+  ],
+  "16956": [
+   "Blackwing Lair"
+  ],
+  "16957": [
+   "Blackwing Lair"
+  ],
+  "16958": [
+   "Blackwing Lair"
+  ],
+  "16959": [
+   "Blackwing Lair"
+  ],
+  "16960": [
+   "Blackwing Lair"
+  ],
+  "16961": [
+   "Blackwing Lair"
+  ],
+  "16962": [
+   "Molten Core"
+  ],
+  "16964": [
+   "Blackwing Lair"
+  ],
+  "16965": [
+   "Blackwing Lair"
+  ],
+  "16966": [
+   "Blackwing Lair"
+  ],
+  "17063": [
+   "Molten Core"
+  ],
+  "17065": [
+   "Molten Core"
+  ],
+  "17066": [
+   "Molten Core"
+  ],
+  "17069": [
+   "Molten Core"
+  ],
+  "17071": [
+   "Molten Core"
+  ],
+  "17072": [
+   "Molten Core"
+  ],
+  "17073": [
+   "Molten Core"
+  ],
+  "17074": [
+   "Molten Core"
+  ],
+  "17076": [
+   "Molten Core"
+  ],
+  "17077": [
+   "Molten Core"
+  ],
+  "17082": [
+   "Molten Core"
+  ],
+  "17102": [
+   "Molten Core"
+  ],
+  "17103": [
+   "Molten Core"
+  ],
+  "17104": [
+   "Molten Core"
+  ],
+  "17105": [
+   "Molten Core"
+  ],
+  "17106": [
+   "Molten Core"
+  ],
+  "17107": [
+   "Molten Core"
+  ],
+  "17109": [
+   "Molten Core"
+  ],
+  "17110": [
+   "Molten Core"
+  ],
+  "18203": [
+   "Molten Core"
+  ],
+  "18646": [
+   "Molten Core"
+  ],
+  "18803": [
+   "Molten Core"
+  ],
+  "18805": [
+   "Molten Core"
+  ],
+  "18806": [
+   "Molten Core"
+  ],
+  "18808": [
+   "Molten Core"
+  ],
+  "18809": [
+   "Molten Core"
+  ],
+  "18810": [
+   "Molten Core"
+  ],
+  "18811": [
+   "Molten Core"
+  ],
+  "18812": [
+   "Molten Core"
+  ],
+  "18814": [
+   "Molten Core"
+  ],
+  "18815": [
+   "Molten Core"
+  ],
+  "18816": [
+   "Molten Core"
+  ],
+  "18817": [
+   "Molten Core"
+  ],
+  "18820": [
+   "Molten Core"
+  ],
+  "18821": [
+   "Molten Core"
+  ],
+  "18822": [
+   "Molten Core"
+  ],
+  "18823": [
+   "Molten Core"
+  ],
+  "18824": [
+   "Molten Core"
+  ],
+  "18829": [
+   "Molten Core"
+  ],
+  "18832": [
+   "Molten Core"
+  ],
+  "18842": [
+   "Molten Core"
+  ],
+  "18861": [
+   "Molten Core"
+  ],
+  "18870": [
+   "Molten Core"
+  ],
+  "18872": [
+   "Molten Core"
+  ],
+  "18875": [
+   "Molten Core"
+  ],
+  "18878": [
+   "Molten Core"
+  ],
+  "18879": [
+   "Molten Core"
+  ],
+  "19136": [
+   "Molten Core"
+  ],
+  "19137": [
+   "Molten Core"
+  ],
+  "19138": [
+   "Molten Core"
+  ],
+  "19139": [
+   "Molten Core"
+  ],
+  "19140": [
+   "Molten Core"
+  ],
+  "19142": [
+   "Molten Core"
+  ],
+  "19143": [
+   "Molten Core"
+  ],
+  "19144": [
+   "Molten Core"
+  ],
+  "19145": [
+   "Molten Core"
+  ],
+  "19146": [
+   "Molten Core"
+  ],
+  "19147": [
+   "Molten Core"
+  ],
+  "19334": [
+   "Blackwing Lair"
+  ],
+  "19335": [
+   "Blackwing Lair"
+  ],
+  "19336": [
+   "Blackwing Lair"
+  ],
+  "19337": [
+   "Blackwing Lair"
+  ],
+  "19339": [
+   "Blackwing Lair"
+  ],
+  "19340": [
+   "Blackwing Lair"
+  ],
+  "19341": [
+   "Blackwing Lair"
+  ],
+  "19342": [
+   "Blackwing Lair"
+  ],
+  "19343": [
+   "Blackwing Lair"
+  ],
+  "19344": [
+   "Blackwing Lair"
+  ],
+  "19345": [
+   "Blackwing Lair"
+  ],
+  "19346": [
+   "Blackwing Lair"
+  ],
+  "19347": [
+   "Blackwing Lair"
+  ],
+  "19348": [
+   "Blackwing Lair"
+  ],
+  "19349": [
+   "Blackwing Lair"
+  ],
+  "19350": [
+   "Blackwing Lair"
+  ],
+  "19351": [
+   "Blackwing Lair"
+  ],
+  "19352": [
+   "Blackwing Lair"
+  ],
+  "19353": [
+   "Blackwing Lair"
+  ],
+  "19354": [
+   "Blackwing Lair"
+  ],
+  "19355": [
+   "Blackwing Lair"
+  ],
+  "19356": [
+   "Blackwing Lair"
+  ],
+  "19357": [
+   "Blackwing Lair"
+  ],
+  "19358": [
+   "Blackwing Lair"
+  ],
+  "19360": [
+   "Blackwing Lair"
+  ],
+  "19361": [
+   "Blackwing Lair"
+  ],
+  "19362": [
+   "Blackwing Lair"
+  ],
+  "19363": [
+   "Blackwing Lair"
+  ],
+  "19364": [
+   "Blackwing Lair"
+  ],
+  "19365": [
+   "Blackwing Lair"
+  ],
+  "19367": [
+   "Blackwing Lair"
+  ],
+  "19368": [
+   "Blackwing Lair"
+  ],
+  "19369": [
+   "Blackwing Lair"
+  ],
+  "19370": [
+   "Blackwing Lair"
+  ],
+  "19371": [
+   "Blackwing Lair"
+  ],
+  "19372": [
+   "Blackwing Lair"
+  ],
+  "19373": [
+   "Blackwing Lair"
+  ],
+  "19374": [
+   "Blackwing Lair"
+  ],
+  "19375": [
+   "Blackwing Lair"
+  ],
+  "19376": [
+   "Blackwing Lair"
+  ],
+  "19377": [
+   "Blackwing Lair"
+  ],
+  "19378": [
+   "Blackwing Lair"
+  ],
+  "19379": [
+   "Blackwing Lair"
+  ],
+  "19380": [
+   "Blackwing Lair"
+  ],
+  "19381": [
+   "Blackwing Lair"
+  ],
+  "19382": [
+   "Blackwing Lair"
+  ],
+  "19385": [
+   "Blackwing Lair"
+  ],
+  "19386": [
+   "Blackwing Lair"
+  ],
+  "19387": [
+   "Blackwing Lair"
+  ],
+  "19388": [
+   "Blackwing Lair"
+  ],
+  "19389": [
+   "Blackwing Lair"
+  ],
+  "19390": [
+   "Blackwing Lair"
+  ],
+  "19391": [
+   "Blackwing Lair"
+  ],
+  "19392": [
+   "Blackwing Lair"
+  ],
+  "19393": [
+   "Blackwing Lair"
+  ],
+  "19394": [
+   "Blackwing Lair"
+  ],
+  "19395": [
+   "Blackwing Lair"
+  ],
+  "19396": [
+   "Blackwing Lair"
+  ],
+  "19397": [
+   "Blackwing Lair"
+  ],
+  "19398": [
+   "Blackwing Lair"
+  ],
+  "19399": [
+   "Blackwing Lair"
+  ],
+  "19400": [
+   "Blackwing Lair"
+  ],
+  "19401": [
+   "Blackwing Lair"
+  ],
+  "19402": [
+   "Blackwing Lair"
+  ],
+  "19403": [
+   "Blackwing Lair"
+  ],
+  "19405": [
+   "Blackwing Lair"
+  ],
+  "19406": [
+   "Blackwing Lair"
+  ],
+  "19407": [
+   "Blackwing Lair"
+  ],
+  "19430": [
+   "Blackwing Lair"
+  ],
+  "19431": [
+   "Blackwing Lair"
+  ],
+  "19432": [
+   "Blackwing Lair"
+  ],
+  "19433": [
+   "Blackwing Lair"
+  ],
+  "19434": [
+   "Blackwing Lair"
+  ],
+  "19435": [
+   "Blackwing Lair"
+  ],
+  "19436": [
+   "Blackwing Lair"
+  ],
+  "19437": [
+   "Blackwing Lair"
+  ],
+  "19438": [
+   "Blackwing Lair"
+  ],
+  "19439": [
+   "Blackwing Lair"
+  ],
+  "19852": [
+   "Zul'Gurub"
+  ],
+  "19853": [
+   "Zul'Gurub"
+  ],
+  "19854": [
+   "Zul'Gurub"
+  ],
+  "19855": [
+   "Zul'Gurub"
+  ],
+  "19856": [
+   "Zul'Gurub"
+  ],
+  "19857": [
+   "Zul'Gurub"
+  ],
+  "19859": [
+   "Zul'Gurub"
+  ],
+  "19861": [
+   "Zul'Gurub"
+  ],
+  "19862": [
+   "Zul'Gurub"
+  ],
+  "19863": [
+   "Zul'Gurub"
+  ],
+  "19864": [
+   "Zul'Gurub"
+  ],
+  "19865": [
+   "Zul'Gurub"
+  ],
+  "19866": [
+   "Zul'Gurub"
+  ],
+  "19867": [
+   "Zul'Gurub"
+  ],
+  "19869": [
+   "Zul'Gurub"
+  ],
+  "19870": [
+   "Zul'Gurub"
+  ],
+  "19871": [
+   "Zul'Gurub"
+  ],
+  "19873": [
+   "Zul'Gurub"
+  ],
+  "19874": [
+   "Zul'Gurub"
+  ],
+  "19875": [
+   "Zul'Gurub"
+  ],
+  "19876": [
+   "Zul'Gurub"
+  ],
+  "19877": [
+   "Zul'Gurub"
+  ],
+  "19878": [
+   "Zul'Gurub"
+  ],
+  "19884": [
+   "Zul'Gurub"
+  ],
+  "19885": [
+   "Zul'Gurub"
+  ],
+  "19886": [
+   "Zul'Gurub"
+  ],
+  "19887": [
+   "Zul'Gurub"
+  ],
+  "19888": [
+   "Zul'Gurub"
+  ],
+  "19889": [
+   "Zul'Gurub"
+  ],
+  "19890": [
+   "Zul'Gurub"
+  ],
+  "19891": [
+   "Zul'Gurub"
+  ],
+  "19892": [
+   "Zul'Gurub"
+  ],
+  "19893": [
+   "Zul'Gurub"
+  ],
+  "19894": [
+   "Zul'Gurub"
+  ],
+  "19895": [
+   "Zul'Gurub"
+  ],
+  "19896": [
+   "Zul'Gurub"
+  ],
+  "19897": [
+   "Zul'Gurub"
+  ],
+  "19898": [
+   "Zul'Gurub"
+  ],
+  "19899": [
+   "Zul'Gurub"
+  ],
+  "19900": [
+   "Zul'Gurub"
+  ],
+  "19901": [
+   "Zul'Gurub"
+  ],
+  "19903": [
+   "Zul'Gurub"
+  ],
+  "19904": [
+   "Zul'Gurub"
+  ],
+  "19905": [
+   "Zul'Gurub"
+  ],
+  "19906": [
+   "Zul'Gurub"
+  ],
+  "19907": [
+   "Zul'Gurub"
+  ],
+  "19908": [
+   "Zul'Gurub"
+  ],
+  "19909": [
+   "Zul'Gurub"
+  ],
+  "19910": [
+   "Zul'Gurub"
+  ],
+  "19912": [
+   "Zul'Gurub"
+  ],
+  "19913": [
+   "Zul'Gurub"
+  ],
+  "19915": [
+   "Zul'Gurub"
+  ],
+  "19918": [
+   "Zul'Gurub"
+  ],
+  "19919": [
+   "Zul'Gurub"
+  ],
+  "19920": [
+   "Zul'Gurub"
+  ],
+  "19921": [
+   "Zul'Gurub"
+  ],
+  "19922": [
+   "Zul'Gurub"
+  ],
+  "19923": [
+   "Zul'Gurub"
+  ],
+  "19925": [
+   "Zul'Gurub"
+  ],
+  "19927": [
+   "Zul'Gurub"
+  ],
+  "19928": [
+   "Zul'Gurub"
+  ],
+  "19929": [
+   "Zul'Gurub"
+  ],
+  "19930": [
+   "Zul'Gurub"
+  ],
+  "19944": [
+   "Zul'Gurub"
+  ],
+  "19945": [
+   "Zul'Gurub"
+  ],
+  "19946": [
+   "Zul'Gurub"
+  ],
+  "19947": [
+   "Zul'Gurub"
+  ],
+  "19961": [
+   "Zul'Gurub"
+  ],
+  "19962": [
+   "Zul'Gurub"
+  ],
+  "19963": [
+   "Zul'Gurub"
+  ],
+  "19964": [
+   "Zul'Gurub"
+  ],
+  "19965": [
+   "Zul'Gurub"
+  ],
+  "19967": [
+   "Zul'Gurub"
+  ],
+  "19968": [
+   "Zul'Gurub"
+  ],
+  "19993": [
+   "Zul'Gurub"
+  ],
+  "20032": [
+   "Zul'Gurub"
+  ],
+  "20038": [
+   "Zul'Gurub"
+  ],
+  "20257": [
+   "Zul'Gurub"
+  ],
+  "20258": [
+   "Zul'Gurub"
+  ],
+  "20259": [
+   "Zul'Gurub"
+  ],
+  "20260": [
+   "Zul'Gurub"
+  ],
+  "20261": [
+   "Zul'Gurub"
+  ],
+  "20262": [
+   "Zul'Gurub"
+  ],
+  "20263": [
+   "Zul'Gurub"
+  ],
+  "20264": [
+   "Zul'Gurub"
+  ],
+  "20265": [
+   "Zul'Gurub"
+  ],
+  "20266": [
+   "Zul'Gurub"
+  ],
+  "20654": [
+   "phase 5"
+  ],
+  "20657": [
+   "phase 5"
+  ],
+  "20660": [
+   "phase 5"
+  ],
+  "20663": [
+   "phase 5"
+  ],
+  "20665": [
+   "phase 5"
+  ],
+  "20666": [
+   "phase 5"
+  ],
+  "20668": [
+   "phase 5"
+  ],
+  "20669": [
+   "phase 5"
+  ],
+  "20671": [
+   "phase 5"
+  ],
+  "20672": [
+   "phase 5"
+  ],
+  "20674": [
+   "phase 5"
+  ],
+  "20675": [
+   "phase 5"
+  ],
+  "20680": [
+   "phase 5"
+  ],
+  "20681": [
+   "phase 5"
+  ],
+  "20682": [
+   "phase 5"
+  ],
+  "20683": [
+   "phase 5"
+  ],
+  "20684": [
+   "phase 5"
+  ],
+  "20685": [
+   "phase 5"
+  ],
+  "20686": [
+   "phase 5"
+  ],
+  "20687": [
+   "phase 5"
+  ],
+  "20688": [
+   "phase 5"
+  ],
+  "20689": [
+   "phase 5"
+  ],
+  "20690": [
+   "phase 5"
+  ],
+  "20691": [
+   "phase 5"
+  ],
+  "21126": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21128": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21134": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21180": [
+   "phase 5"
+  ],
+  "21188": [
+   "phase 5"
+  ],
+  "21196": [
+   "phase 5"
+  ],
+  "21197": [
+   "phase 5"
+  ],
+  "21198": [
+   "phase 5"
+  ],
+  "21199": [
+   "phase 5"
+  ],
+  "21200": [
+   "phase 5"
+  ],
+  "21201": [
+   "phase 5"
+  ],
+  "21202": [
+   "phase 5"
+  ],
+  "21203": [
+   "phase 5"
+  ],
+  "21204": [
+   "phase 5"
+  ],
+  "21205": [
+   "phase 5"
+  ],
+  "21206": [
+   "phase 5"
+  ],
+  "21207": [
+   "phase 5"
+  ],
+  "21208": [
+   "phase 5"
+  ],
+  "21209": [
+   "phase 5"
+  ],
+  "21210": [
+   "phase 5"
+  ],
+  "21242": [
+   "phase 5"
+  ],
+  "21244": [
+   "phase 5"
+  ],
+  "21268": [
+   "phase 5"
+  ],
+  "21269": [
+   "phase 5"
+  ],
+  "21272": [
+   "phase 5"
+  ],
+  "21273": [
+   "phase 5"
+  ],
+  "21275": [
+   "phase 5"
+  ],
+  "21329": [
+   "phase 5"
+  ],
+  "21330": [
+   "phase 5"
+  ],
+  "21331": [
+   "phase 5"
+  ],
+  "21332": [
+   "phase 5"
+  ],
+  "21333": [
+   "phase 5"
+  ],
+  "21334": [
+   "phase 5"
+  ],
+  "21335": [
+   "phase 5"
+  ],
+  "21336": [
+   "phase 5"
+  ],
+  "21337": [
+   "phase 5"
+  ],
+  "21338": [
+   "phase 5"
+  ],
+  "21343": [
+   "phase 5"
+  ],
+  "21344": [
+   "phase 5"
+  ],
+  "21345": [
+   "phase 5"
+  ],
+  "21346": [
+   "phase 5"
+  ],
+  "21347": [
+   "phase 5"
+  ],
+  "21348": [
+   "phase 5"
+  ],
+  "21349": [
+   "phase 5"
+  ],
+  "21350": [
+   "phase 5"
+  ],
+  "21351": [
+   "phase 5"
+  ],
+  "21352": [
+   "phase 5"
+  ],
+  "21353": [
+   "phase 5"
+  ],
+  "21354": [
+   "phase 5"
+  ],
+  "21355": [
+   "phase 5"
+  ],
+  "21356": [
+   "phase 5"
+  ],
+  "21357": [
+   "phase 5"
+  ],
+  "21359": [
+   "phase 5"
+  ],
+  "21360": [
+   "phase 5"
+  ],
+  "21361": [
+   "phase 5"
+  ],
+  "21362": [
+   "phase 5"
+  ],
+  "21364": [
+   "phase 5"
+  ],
+  "21365": [
+   "phase 5"
+  ],
+  "21366": [
+   "phase 5"
+  ],
+  "21367": [
+   "phase 5"
+  ],
+  "21368": [
+   "phase 5"
+  ],
+  "21370": [
+   "phase 5"
+  ],
+  "21372": [
+   "phase 5"
+  ],
+  "21373": [
+   "phase 5"
+  ],
+  "21374": [
+   "phase 5"
+  ],
+  "21375": [
+   "phase 5"
+  ],
+  "21376": [
+   "phase 5"
+  ],
+  "21387": [
+   "phase 5"
+  ],
+  "21388": [
+   "phase 5"
+  ],
+  "21389": [
+   "phase 5"
+  ],
+  "21390": [
+   "phase 5"
+  ],
+  "21391": [
+   "phase 5"
+  ],
+  "21392": [
+   "phase 5"
+  ],
+  "21393": [
+   "phase 5"
+  ],
+  "21394": [
+   "phase 5"
+  ],
+  "21395": [
+   "phase 5"
+  ],
+  "21396": [
+   "phase 5"
+  ],
+  "21397": [
+   "phase 5"
+  ],
+  "21398": [
+   "phase 5"
+  ],
+  "21399": [
+   "phase 5"
+  ],
+  "21400": [
+   "phase 5"
+  ],
+  "21401": [
+   "phase 5"
+  ],
+  "21402": [
+   "phase 5"
+  ],
+  "21403": [
+   "phase 5"
+  ],
+  "21404": [
+   "phase 5"
+  ],
+  "21405": [
+   "phase 5"
+  ],
+  "21406": [
+   "phase 5"
+  ],
+  "21407": [
+   "phase 5"
+  ],
+  "21408": [
+   "phase 5"
+  ],
+  "21409": [
+   "phase 5"
+  ],
+  "21410": [
+   "phase 5"
+  ],
+  "21411": [
+   "phase 5"
+  ],
+  "21412": [
+   "phase 5"
+  ],
+  "21413": [
+   "phase 5"
+  ],
+  "21414": [
+   "phase 5"
+  ],
+  "21415": [
+   "phase 5"
+  ],
+  "21416": [
+   "phase 5"
+  ],
+  "21417": [
+   "phase 5"
+  ],
+  "21418": [
+   "phase 5"
+  ],
+  "21452": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21453": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21454": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21455": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21456": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21457": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21458": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21459": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21460": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21461": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21462": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21463": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21464": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21466": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21467": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21468": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21469": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21470": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21471": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21472": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21473": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21474": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21475": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21476": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21477": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21478": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21479": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21480": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21481": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21482": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21483": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21484": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21485": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21486": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21487": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21488": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21489": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21490": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21491": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21492": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21493": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21494": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21495": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21496": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21497": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21498": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21499": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21500": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21501": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21502": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21503": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21504": [
+   "phase 5"
+  ],
+  "21505": [
+   "phase 5"
+  ],
+  "21506": [
+   "phase 5"
+  ],
+  "21507": [
+   "phase 5"
+  ],
+  "21520": [
+   "phase 5"
+  ],
+  "21521": [
+   "phase 5"
+  ],
+  "21522": [
+   "phase 5"
+  ],
+  "21523": [
+   "phase 5"
+  ],
+  "21529": [
+   "phase 5"
+  ],
+  "21530": [
+   "phase 5"
+  ],
+  "21531": [
+   "phase 5"
+  ],
+  "21532": [
+   "phase 5"
+  ],
+  "21579": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21581": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21582": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21583": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21585": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21586": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21596": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21597": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21598": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21599": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21600": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21601": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21602": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21603": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21604": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21605": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21606": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21607": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21608": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21609": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21610": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21611": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21615": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21616": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21617": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21618": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21619": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21620": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21621": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21622": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21623": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21624": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21625": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21626": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21627": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21635": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21639": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21645": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21647": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21648": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21650": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21651": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21652": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21663": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21664": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21665": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21666": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21667": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21668": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21669": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21670": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21671": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21672": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21673": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21674": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21675": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21676": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21677": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21678": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21679": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21680": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21681": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21682": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21683": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21684": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21685": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21686": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21687": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21688": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21689": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21690": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21691": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21692": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21693": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21694": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21695": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21696": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21697": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21698": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21699": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21700": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21701": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21702": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21703": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21704": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21705": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21706": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21707": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21708": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21709": [
+   "phase 5"
+  ],
+  "21710": [
+   "phase 5"
+  ],
+  "21712": [
+   "phase 5"
+  ],
+  "21715": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21800": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21801": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21802": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21803": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21804": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21805": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21806": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21809": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21810": [
+   "Ruins of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21814": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21836": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21837": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21838": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21839": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21856": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21888": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21889": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21890": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "21891": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "22191": [
+   "phase 5"
+  ],
+  "22195": [
+   "phase 5"
+  ],
+  "22345": [
+   "phase 5"
+  ],
+  "22395": [
+   "phase 5"
+  ],
+  "22396": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "22399": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "22402": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "22416": [
+   "phase 6"
+  ],
+  "22417": [
+   "phase 6"
+  ],
+  "22418": [
+   "phase 6"
+  ],
+  "22419": [
+   "phase 6"
+  ],
+  "22420": [
+   "phase 6"
+  ],
+  "22421": [
+   "phase 6"
+  ],
+  "22422": [
+   "phase 6"
+  ],
+  "22423": [
+   "phase 6"
+  ],
+  "22424": [
+   "phase 6"
+  ],
+  "22425": [
+   "phase 6"
+  ],
+  "22426": [
+   "phase 6"
+  ],
+  "22427": [
+   "phase 6"
+  ],
+  "22428": [
+   "phase 6"
+  ],
+  "22429": [
+   "phase 6"
+  ],
+  "22430": [
+   "phase 6"
+  ],
+  "22431": [
+   "phase 6"
+  ],
+  "22436": [
+   "phase 6"
+  ],
+  "22437": [
+   "phase 6"
+  ],
+  "22438": [
+   "phase 6"
+  ],
+  "22439": [
+   "phase 6"
+  ],
+  "22440": [
+   "phase 6"
+  ],
+  "22441": [
+   "phase 6"
+  ],
+  "22442": [
+   "phase 6"
+  ],
+  "22443": [
+   "phase 6"
+  ],
+  "22464": [
+   "phase 6"
+  ],
+  "22465": [
+   "phase 6"
+  ],
+  "22466": [
+   "phase 6"
+  ],
+  "22467": [
+   "phase 6"
+  ],
+  "22468": [
+   "phase 6"
+  ],
+  "22469": [
+   "phase 6"
+  ],
+  "22470": [
+   "phase 6"
+  ],
+  "22471": [
+   "phase 6"
+  ],
+  "22476": [
+   "phase 6"
+  ],
+  "22477": [
+   "phase 6"
+  ],
+  "22478": [
+   "phase 6"
+  ],
+  "22479": [
+   "phase 6"
+  ],
+  "22480": [
+   "phase 6"
+  ],
+  "22481": [
+   "phase 6"
+  ],
+  "22482": [
+   "phase 6"
+  ],
+  "22483": [
+   "phase 6"
+  ],
+  "22488": [
+   "phase 6"
+  ],
+  "22489": [
+   "phase 6"
+  ],
+  "22490": [
+   "phase 6"
+  ],
+  "22491": [
+   "phase 6"
+  ],
+  "22492": [
+   "phase 6"
+  ],
+  "22493": [
+   "phase 6"
+  ],
+  "22494": [
+   "phase 6"
+  ],
+  "22495": [
+   "phase 6"
+  ],
+  "22496": [
+   "phase 6"
+  ],
+  "22497": [
+   "phase 6"
+  ],
+  "22498": [
+   "phase 6"
+  ],
+  "22499": [
+   "phase 6"
+  ],
+  "22500": [
+   "phase 6"
+  ],
+  "22501": [
+   "phase 6"
+  ],
+  "22502": [
+   "phase 6"
+  ],
+  "22503": [
+   "phase 6"
+  ],
+  "22504": [
+   "phase 6"
+  ],
+  "22505": [
+   "phase 6"
+  ],
+  "22506": [
+   "phase 6"
+  ],
+  "22507": [
+   "phase 6"
+  ],
+  "22508": [
+   "phase 6"
+  ],
+  "22509": [
+   "phase 6"
+  ],
+  "22510": [
+   "phase 6"
+  ],
+  "22511": [
+   "phase 6"
+  ],
+  "22512": [
+   "phase 6"
+  ],
+  "22513": [
+   "phase 6"
+  ],
+  "22514": [
+   "phase 6"
+  ],
+  "22515": [
+   "phase 6"
+  ],
+  "22516": [
+   "phase 6"
+  ],
+  "22517": [
+   "phase 6"
+  ],
+  "22518": [
+   "phase 6"
+  ],
+  "22519": [
+   "phase 6"
+  ],
+  "22589": [
+   "phase 6"
+  ],
+  "22630": [
+   "phase 6"
+  ],
+  "22631": [
+   "phase 6"
+  ],
+  "22632": [
+   "phase 6"
+  ],
+  "22652": [
+   "phase 6"
+  ],
+  "22654": [
+   "phase 6"
+  ],
+  "22655": [
+   "phase 6"
+  ],
+  "22658": [
+   "phase 6"
+  ],
+  "22661": [
+   "phase 6"
+  ],
+  "22662": [
+   "phase 6"
+  ],
+  "22663": [
+   "phase 6"
+  ],
+  "22664": [
+   "phase 6"
+  ],
+  "22665": [
+   "phase 6"
+  ],
+  "22666": [
+   "phase 6"
+  ],
+  "22669": [
+   "phase 6"
+  ],
+  "22670": [
+   "phase 6"
+  ],
+  "22671": [
+   "phase 6"
+  ],
+  "22691": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22711": [
+   "Zul'Gurub"
+  ],
+  "22712": [
+   "Zul'Gurub"
+  ],
+  "22713": [
+   "Zul'Gurub"
+  ],
+  "22714": [
+   "Zul'Gurub"
+  ],
+  "22715": [
+   "Zul'Gurub"
+  ],
+  "22716": [
+   "Zul'Gurub"
+  ],
+  "22718": [
+   "Zul'Gurub"
+  ],
+  "22720": [
+   "Zul'Gurub"
+  ],
+  "22721": [
+   "Zul'Gurub"
+  ],
+  "22722": [
+   "Zul'Gurub"
+  ],
+  "22730": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "22731": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "22732": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "22798": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22799": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22800": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22801": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22802": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22803": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22804": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22806": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22807": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22808": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22809": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22810": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22811": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22812": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22813": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22815": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22816": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22818": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22819": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22820": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22821": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22935": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22936": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22937": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22938": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22939": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22940": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22941": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22942": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22943": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22947": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22954": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22960": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22961": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22981": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22983": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22988": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "22994": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23000": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23001": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23004": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23005": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23006": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23009": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23014": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23017": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23018": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23019": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23020": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23021": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23023": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23025": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23027": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23028": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23029": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23030": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23031": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23032": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23033": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23035": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23036": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23037": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23038": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23039": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23040": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23041": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23042": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23043": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23044": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23045": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23046": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23047": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23048": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23049": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23050": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23053": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23054": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23056": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23057": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23059": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23060": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23061": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23062": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23063": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23064": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23065": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23066": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23067": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23068": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23069": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23070": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23071": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23073": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23075": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23199": [
+   "phase 5"
+  ],
+  "23200": [
+   "phase 5"
+  ],
+  "23219": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23220": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23221": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23226": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23237": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23238": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23242": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23557": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "23558": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "23570": [
+   "Temple of Ahn'Qiraj",
+   "phase 5"
+  ],
+  "23577": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23663": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23664": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23665": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23666": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23667": [
+   "Naxxramas",
+   "phase 6"
+  ],
+  "23668": [
+   "Naxxramas",
+   "phase 6"
+  ]
+ }
+}
