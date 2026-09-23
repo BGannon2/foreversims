@@ -493,6 +493,12 @@ impl PaladinTables {
     pub fn fact(&self, group: &str, key: &str) -> f64 {
         self.facts.get(group).and_then(|g| g.get(key)).and_then(|v| v.as_f64()).unwrap_or_else(|| panic!("missing fact {group}.{key}"))
     }
+
+    /// Mirrors Python's `F[group].get(key, default)` for facts that only exist on some groups
+    /// (e.g. `judgement_base`, which is sourced for Seal of Fury but not the other two seals).
+    pub fn fact_or(&self, group: &str, key: &str, default: f64) -> f64 {
+        self.facts.get(group).and_then(|g| g.get(key)).and_then(|v| v.as_f64()).unwrap_or(default)
+    }
 }
 
 static PALADIN: OnceLock<PaladinTables> = OnceLock::new();

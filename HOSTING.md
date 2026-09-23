@@ -60,6 +60,32 @@ Direct `wrangler deploy` remains a low-level command and does not announce anyth
 The GitHub **Announce an existing release** workflow is manual recovery only; supply the
 notes file for an already deployed release. It uses the repository webhook secret.
 
+## Cloudflare Workers Builds (Settings > Build in the dashboard)
+
+The repo is connected to Cloudflare's own push-triggered build system, separate from GitHub
+Actions CI and from the manual `npm run release` deploy path above. As configured:
+
+- **Build command**: `node tools/stamp_version.js` (stamps version/cache-busting, same script the
+  manual release path runs).
+- **Production branch** `main` runs the **Deploy command**, `npx wrangler deploy` — this promotes
+  straight to `foreversims.com`. Any push to `main` deploys to production automatically through
+  this path, in addition to whatever's deployed manually via `npm run release`.
+- Any other branch (PRs included) runs the **Version command**, `npx wrangler versions upload` —
+  creates a distinct Worker Version with its own preview URL, without shifting production
+  traffic. It still binds to the *same* D1 database as production, though (Workers Builds' Version
+  command doesn't isolate data the way the separate `wrangler preview` beta command does) — a PR
+  build's feedback-form testing would write real rows into the live feedback table.
+
+There's also a `previews` block in `wrangler.jsonc` pointing the `DB` binding at a separate
+`foreversims-feedback-preview` database, but that's only consulted by the standalone `wrangler
+preview` command (an open-beta CLI feature), not by what Workers Builds actually runs here. Don't
+set `preview_database_id` on the `d1_databases` entry to try to extend this to `deploy`/`versions
+upload` — confirmed by testing that a *real* `wrangler deploy` silently prefers
+`preview_database_id` over `database_id` when both are present, which pointed a live production
+deploy at the preview database instead of the real one until caught and reverted. If isolating
+Version-command builds' data is ever needed, it requires a proper named Wrangler environment
+(`env.preview` with its own bindings), not this field.
+
 ## Discord release announcements
 
 `#releases` in the community Discord is an Announcement channel where `@everyone` has `Send

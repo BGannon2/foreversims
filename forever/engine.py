@@ -1361,8 +1361,11 @@ class Iteration:
             self.touch_of_the_grave()
             return
         if a.get("no_damage"):
-            self.row(name).hits += 1; th = flat_threat * (1 + c.mod(f"threat_ability:{name}")) * self.threat_multiplier(); self.row(name).threat += th; self.threat += th
+            self.row(name).hits += 1
+            th = flat_threat * (c.targets if name == "Demoralizing Shout" else 1) * (1 + c.mod(f"threat_ability:{name}")) * self.threat_multiplier()
+            self.row(name).threat += th; self.threat += th
             if name == "Sunder Armor": self.add_debuff("Sunder Armor", 30, stacks_max=5)
+            if name == "Demoralizing Shout": self.add_debuff("Demoralizing Shout", 45)
             self.record(name, "hit", 0); return
         # ---- weapon-based melee
         if a.get("weapon") or a.get("ap_mult") or a.get("execute_formula") or a.get("finisher") in {"eviscerate", "ferocious_bite"} or (school == "physical" and self.s["style"] != "ranged" and (a.get("base") or a.get("flat"))):
@@ -1405,7 +1408,7 @@ class Iteration:
             fb = sum(b.get("flat_damage_bonus", 0) for b in self.buffs.values() if b["until"] > self.t)
             base += fb + c.mod(f"flat_ability:{name}")
             if self.next_crit: self.next_crit = False
-            dmg = self.deal(name, base, "physical", "melee", threat_mult=threat_mult, flat_threat=flat_threat, outcome=out, mult=m * a["mult"] * (min(c.targets, 4) if name == "Whirlwind" else min(c.targets, 3) if name == "Swipe" else 1))
+            dmg = self.deal(name, base, "physical", "melee", threat_mult=threat_mult, flat_threat=flat_threat, outcome=out, mult=m * a["mult"] * (min(c.targets, 4) if name in ("Whirlwind", "Thunder Clap") else min(c.targets, 3) if name == "Swipe" else 1))
             if self.eureka > 0: self.eureka -= 1
             if a.get("cp"):
                 gained = a["cp"] + (1 if out == "crit" and rng.random() < c.flag("seal_fate") else 0) + (1 if out == "crit" and c.flag("primal_fury") and self.s["form"] == "cat" else 0)

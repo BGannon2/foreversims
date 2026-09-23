@@ -365,7 +365,7 @@ class Fight:
             amt=F['righteousness']['proc_base']*hand_mult*self.c['weapon_speed']*seal_bonus
             self.deal('Seal of Righteousness'+suffix,amt,holy=True,spell_coefficient=F['righteousness']['proc_coeff']*seal_bonus)
         elif seal=='fury':
-            dealt=self.deal('Seal of Fury'+suffix,0,holy=True,spell_coefficient=F['fury']['swing_pct_sp']*seal_bonus,return_amount=True)
+            dealt=self.deal('Seal of Fury'+suffix,F['fury']['swing_base']*seal_bonus,holy=True,spell_coefficient=F['fury']['swing_pct_sp']*seal_bonus,return_amount=True)
             if dealt and self.c.get('block_chance',0)>0:
                 self.absorb+=dealt*F['fury']['absorb_pct']
                 self.absorb_until=max(self.absorb_until,self.time+F['fury']['duration'])
@@ -416,8 +416,9 @@ class Fight:
             cost=F['judgement']['base_mana_fraction']*self.c['base_mana']
             if self.spend('Judgement',cost):
                 seal=self.seal; f=F[seal]
-                coeff=f['judgement_pct_sp']*(1+0.05*self.rank(105334))
-                self.deal('Judgement of '+seal.title(),0,holy=True,can_crit=True,hit=self.c['spell_hit_chance'],spell_coefficient=coeff)
+                seal_bonus=1+0.05*self.rank(105334)
+                coeff=f['judgement_pct_sp']*seal_bonus
+                self.deal('Judgement of '+seal.title(),f.get('judgement_base',0.0)*seal_bonus,holy=True,can_crit=True,hit=self.c['spell_hit_chance'],spell_coefficient=coeff)
                 if self.set_flags.get('judgement_bonus_damage'): self.deal('Judgement Armor bonus',self.rng.uniform(60,66),holy=True,hit=1)
                 if self.set_flags.get('eternal_justice_mana') and self.rng.random()<0.20: self.gain_mana(100)
                 # Judgement does not consume the active seal in Forever (classicwow.gg guide).
@@ -571,7 +572,11 @@ class Fight:
                 # Forever's Consecration deals a base amount to every enemy in the area, plus a
                 # larger bonus to the first 4 enemies who entered it (foreverchanges.pro, build
                 # 1.60.1.69913: 16 dmg/8s base, +32 dmg/8s bonus for up to 4 targets = 48 total).
-                aoe=self.e.get('targets',1); c5=F['consecration']; first4=min(aoe,4)
+                # The base hits are capped at 8 -- the classic ground-effect AoE combat-log/packet
+                # limit from this engine era (not something wago.tools' DB2 tables encode; no
+                # SpellTargetRestrictions row exists on Consecration's own spell id, only the
+                # separate unrelated "first 4 get bonus damage" restriction above).
+                aoe=min(self.e.get('targets',1),8); c5=F['consecration']; first4=min(aoe,4)
                 per_tick=(c5['total_damage']*aoe+(c5['first4_total_damage']-c5['total_damage'])*first4)/c5['ticks']
                 self.deal('Consecration',per_tick,holy=True,hit=1,spell_coefficient=.33/c5['ticks']*aoe)
             elif kind=='mana': self.mana_tick(); self.schedule(t+2.0,'mana')

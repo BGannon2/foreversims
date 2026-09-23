@@ -1096,7 +1096,8 @@ impl<'a> Fight<'a> {
             }
             Seal::Fury => {
                 let coeff = self.f("fury", "swing_pct_sp") * seal_bonus;
-                let dealt = self.deal_inner(&format!("Seal of Fury{suffix}"), 0.0, true, false, 1.0, 1.0, false, None, coeff);
+                let base = self.f("fury", "swing_base") * seal_bonus;
+                let dealt = self.deal_inner(&format!("Seal of Fury{suffix}"), base, true, false, 1.0, 1.0, false, None, coeff);
                 if let Some(dealt) = dealt {
                     if dealt != 0.0 && self.c.block_chance > 0.0 {
                         self.absorb += dealt * self.f("fury", "absorb_pct");
@@ -1187,8 +1188,10 @@ impl<'a> Fight<'a> {
             let cost = self.f("judgement", "base_mana_fraction") * self.c.base_mana;
             if self.spend("Judgement", cost) {
                 let seal = self.seal.unwrap();
-                let coeff = self.f(seal.key(), "judgement_pct_sp") * (1.0 + 0.05 * self.rank("105334"));
-                self.deal(&format!("Judgement of {}", title(seal.key())), 0.0, true, true, self.c.spell_hit_chance, 1.0, false, None, coeff);
+                let seal_bonus = 1.0 + 0.05 * self.rank("105334");
+                let coeff = self.f(seal.key(), "judgement_pct_sp") * seal_bonus;
+                let base = self.pt.fact_or(seal.key(), "judgement_base", 0.0) * seal_bonus;
+                self.deal(&format!("Judgement of {}", title(seal.key())), base, true, true, self.c.spell_hit_chance, 1.0, false, None, coeff);
                 if self.judgement_bonus_damage {
                     let bonus = self.rng.uniform(60.0, 66.0);
                     self.deal("Judgement Armor bonus", bonus, true, false, 1.0, 1.0, false, None, 0.0);
@@ -1454,7 +1457,7 @@ impl<'a> Fight<'a> {
                 Kind::Swing => self.swing(false, 0.0, "Melee"),
                 Kind::Consecration => {
                     let ticks = self.f("consecration", "ticks");
-                    let aoe = self.e.targets;
+                    let aoe = self.e.targets.min(8.0);
                     let base_total = self.f("consecration", "total_damage");
                     let first4_total = self.f("consecration", "first4_total_damage");
                     let first4 = aoe.min(4.0);

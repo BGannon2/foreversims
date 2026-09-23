@@ -28,7 +28,7 @@ function authorized(request, env) {
   if (!env.SITE_PASSWORD) return false;
   const header = request.headers.get("Authorization") || "";
   if (!header.startsWith("Basic ")) return false;
-  let user = "", pass = "";
+  let user, pass;
   try {
     const decoded = atob(header.slice(6));
     const i = decoded.indexOf(":");
@@ -87,7 +87,7 @@ async function submitFeedback(request, env) {
   const result = await env.DB.prepare("INSERT INTO feedback (category, message, contact, page, spec, version, user_agent, ip_hash) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)")
     .bind(category, message, contact || null, page || null, spec || null, version || null, userAgent || null, ipHash).run();
   const id = result.meta?.last_row_id;
-  let issueUrl = null;
+  let issueUrl;
   if (env.GITHUB_TOKEN && env.GITHUB_REPO) {
     issueUrl = await createIssue(env, { id, category, message, page, spec, version });
     if (issueUrl) await env.DB.prepare("UPDATE feedback SET issue_url = ?1 WHERE id = ?2").bind(issueUrl, id).run();

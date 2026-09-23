@@ -1669,13 +1669,17 @@ impl<'a> Iteration<'a> {
         let (threat_mult, flat_threat) = (a.threat_mult(), a.flat_threat);
         if a.no_damage {
             let th_mult = self.threat_multiplier(None);
+            let targets_mult = if name == "Demoralizing Shout" { c.targets as f64 } else { 1.0 };
             let r = self.row(name);
             r.hits += 1.0;
-            let th = flat_threat * (1.0 + c.mod_(&format!("threat_ability:{name}"))) * th_mult;
+            let th = flat_threat * targets_mult * (1.0 + c.mod_(&format!("threat_ability:{name}"))) * th_mult;
             r.threat += th;
             self.threat += th;
             if name == "Sunder Armor" {
                 self.add_debuff("Sunder Armor", 30.0, Some(5));
+            }
+            if name == "Demoralizing Shout" {
+                self.add_debuff("Demoralizing Shout", 45.0, None);
             }
             self.record(name, "hit", 0.0);
             return;
@@ -1756,7 +1760,7 @@ impl<'a> Iteration<'a> {
             if self.next_crit {
                 self.next_crit = false;
             }
-            let targets = if name == "Whirlwind" { c.targets.min(4) as f64 } else if name == "Swipe" { c.targets.min(3) as f64 } else { 1.0 };
+            let targets = if name == "Whirlwind" || name == "Thunder Clap" { c.targets.min(4) as f64 } else if name == "Swipe" { c.targets.min(3) as f64 } else { 1.0 };
             let dmg = self.deal(name, base, "physical", "melee", false, false, threat_mult, flat_threat, out, m * a.mult * targets);
             if self.eureka > 0 {
                 self.eureka -= 1;
