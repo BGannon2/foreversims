@@ -175,6 +175,15 @@ pub fn permanent_item_stats(item: &Item) -> StatMap {
             }
         }
     }
+    // The catalog importer copies some on-use values into permanent stats (Earthstrike's 280 AP).
+    let uses = item.id.and_then(|id| crate::data::tables().ITEM_EFFECTS.get(&id.to_string())).and_then(|ov| ov.get("Use"));
+    for use_ in uses.into_iter().flatten() {
+        for key in ["stat", "stat2"] {
+            if let Some(k) = use_.get(key).and_then(|v| v.as_str()) {
+                stats.shift_remove(k);
+            }
+        }
+    }
     stats
 }
 

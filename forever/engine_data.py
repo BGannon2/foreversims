@@ -643,6 +643,81 @@ ITEM_PROC_PPM = {12798: 1.0, 17076: 2.0, 17075: 0.6, 17112: 1.0, 19019: 6.0}
 
 WEAPON_CRIT_TYPES = ("Sword", "Mace", "Axe")
 
+# Structured overrides for item effects whose tooltip text the generic regexes in
+# engine.Config._item_effect either miss or misread, keyed by item id then effect prefix
+# ("Use" / "Chance on hit").  An empty list means "no effect in this fight model" (defensive,
+# cosmetic, summons, out-of-combat).  Values: WoWSims Classic sim/common/item_effects.go and
+# sim/<class>/items.go (PPMs, durations, shared offensive-trinket lockout) with the numbers
+# cross-checked against Forever's own tooltips; cooldowns are the Forever tooltip's.
+# Use keys: stat (buff stat, or mana/damage/rage/energy/reset), value, duration, offensive (shares
+# the offensive-trinket lockout for `duration`), aoe (damage hits every target), stat2/value2,
+# school/abilities (crit filters), crit_dmg, max_resource (only use at/below this).
+# Proc keys: kind (extra_attack/buff), ppm, count, stat/value/duration, stacks_max, requires_buff.
+_NO_EFFECT = []
+BUFF_USE_KEYS = ("stat", "value", "stat2", "value2", "school", "abilities", "crit_dmg")
+_OFF = {"offensive": True}
+_DESTRUCTION = ["Shadow Bolt", "Immolate", "Conflagrate", "Shadowburn", "Searing Pain", "Soul Fire", "Hellfire", "Rain of Fire", "Incinerate"]
+ITEM_EFFECTS = {
+    # Offensive on-use trinkets / gear
+    21180: {"Use": [{"stat": "attackPower", "value": 280, "duration": 20, **_OFF}]},                     # Earthstrike
+    23570: {"Use": [{"stat": "attackPower", "value": 357.5, "duration": 20, **_OFF,                       # Jom Gabbar
+                     "note": "+65 AP immediately and every 2 sec (10 stacks); modeled as the 5.5-stack average."}]},
+    21473: {"Use": [{"stat": "spellPower", "value": 50, "duration": 30, **_OFF,                            # Eye of Moam
+                     "note": "The -100 target resistance half is not modeled (boss resistances are not simulated)."}]},
+    22268: {"Use": [{"stat": "spellPower", "value": 100, "duration": 15, **_OFF}]},                       # Draconic Infused Emblem
+    19947: {"Use": [{"stat": "spellHit", "value": 10, "duration": 15, "stat2": "meleeHit", "value2": 10, **_OFF}]},  # Nat Pagle's Broken Reel
+    19339: {"Use": [{"stat": "spellHaste", "value": 0.33, "duration": 20, **_OFF}]},                      # Mind Quickening Gem
+    19959: {"Use": [{"stat": "spellCrit", "value": 5, "crit_dmg": 0.5, "school": "arcane", "duration": 20, **_OFF}]},  # Hazza'rah's Charm of Magic
+    19957: {"Use": [{"stat": "spellCrit", "value": 10, "abilities": _DESTRUCTION, "duration": 20, **_OFF}]},          # Hazza'rah's Charm of Destruction
+    19344: {"Use": [{"stat": "damageMultMagic", "value": 0.20, "stat2": "costMult", "value2": 0.20, "duration": 20, **_OFF}]},          # Natural Alignment Crystal
+    19337: {"Use": [{"stat": "petDamage", "value": 1.0, "duration": 30, **_OFF}]},                        # The Black Book
+    19342: {"Use": [{"stat": "poisonChance", "value": 0.30, "duration": 20, **_OFF}]},                    # Venomous Totem
+    19951: {"Use": [{"stat": "rage", "value": 30, "max_resource": 70}]},                                   # Gri'lek's Charm of Might
+    19954: {"Use": [{"stat": "energy", "value": 60, "max_resource": 40}]},                                 # Renataki's Charm of Trickery
+    19953: {"Use": [{"stat": "reset", "abilities": ["Aimed Shot", "Multi-Shot", "Arcane Shot", "Volley"]}]},  # Renataki's Charm of Beasts
+    21670: {"Use": [{"stat": "window", "duration": 30, **_OFF}],                                           # Badge of the Swarmguard
+            "procs": [{"kind": "buff", "trigger": "melee", "ppm": 10.0, "requires_buff": "Item - Badge of the Swarmguard",
+                       "name": "Insight of the Qiraji", "stat": "armorIgnore", "value": 200, "stacks_max": 6, "duration": 30}]},
+    11832: {"Use": [{"stat": "costFlat", "value": -100, "duration": 10}]},                                # Burst of Knowledge
+    # Damage on-use (tooltip averages)
+    21891: {"Use": [{"stat": "damage", "value": 421, "school": "fire", "aoe": True}]},                   # Shard of the Fallen Star
+    13515: {"Use": [{"stat": "damage", "value": 200, "school": "nature", "aoe": True}]},                 # Ramstein's Lightning Bolts
+    13213: {"Use": [{"stat": "damage", "value": 200, "school": "nature"}]},                              # Smolderweb's Eye (10 x 20 over 20 s)
+    19336: {"Use": [{"stat": "damage", "value": 200, "school": "arcane", "aoe": True}]},                 # Arcane Infused Gem (next Arcane Shot detonates)
+    8348: {"Use": [{"stat": "damage", "value": 371, "school": "fire"}]},                                 # Helm of Fire (331 + 40 over 8 s)
+    14134: {"Use": [{"stat": "damage", "value": 75, "school": "fire", "aoe": True}]},                    # Cloak of Fire (3 x 25)
+    # Mana on-use: totals, not a single tick
+    11819: {"Use": [{"stat": "mana", "value": 300}]},                                                    # Second Wind (30/sec for 10 sec)
+    19930: {"Use": [{"stat": "mana", "value": 360}]},                                                    # Mar'li's Eye (60 per 5 sec for 30 sec)
+    11808: {"Use": [{"stat": "mana", "value": 750}]},                                                    # Circle of Flame (75 health -> mana x10)
+    # Weapon procs the generic parser can't read
+    11684: {"Chance on hit": [{"kind": "extra_attack", "ppm": 0.8, "count": 2}]},                        # Ironfoe
+    12590: {"Chance on hit": [{"kind": "buff", "ppm": 1.0, "stat": "meleeCrit", "value": 100, "stat2": "meleeHit", "value2": 100, "duration": 3}]},  # Felstriker
+    17076: {"Chance on hit": [{"kind": "buff", "ppm": 2.0, "stat": "armorIgnore", "value": 700, "stacks_max": 3, "duration": 10}]},  # Bonereaver's Edge
+    13204: {"Chance on hit": [{"kind": "buff", "ppm": 2.0, "name": "Puncture Armor", "stat": "armorIgnore", "value": 200, "stacks_max": 3, "duration": 30, "exclusive": "faerie_fire"}]},  # Bashguuder
+    13286: {"Chance on hit": [{"kind": "buff", "ppm": 2.0, "name": "Puncture Armor", "stat": "armorIgnore", "value": 200, "stacks_max": 3, "duration": 30, "exclusive": "faerie_fire"}]},  # Rivenspike
+    11607: {"Chance on hit": [{"kind": "buff", "ppm": 1.0, "stat": "armorIgnore", "value": 300, "duration": 20,  # Dark Iron Sunderer
+                               "note": "Not in WoWSims; 1 PPM assumed like other uncatalogued Classic weapon procs."}]},
+    # Life-steal procs deal shadow damage (the heal is ignored); PPMs from WoWSims where catalogued, else 1 PPM.
+    17074: {"Use": _NO_EFFECT, "Chance on hit": [{"kind": "damage", "ppm": 2.2, "amount": 140, "school": "shadow"}]},   # Shadowstrike
+    11920: {"Chance on hit": [{"kind": "damage", "ppm": 1.0, "amount": 45, "school": "shadow"}]},                        # Wraith Scythe
+    19852: {"Chance on hit": [{"kind": "damage", "ppm": 1.0, "amount": 51, "school": "shadow"}]},                        # Ancient Hakkari Manslayer
+    21856: {"Chance on hit": [{"kind": "damage", "ppm": 1.0, "amount": 152, "school": "shadow"}]},                       # Neretzek, The Blood Drinker
+    22691: {"Chance on hit": [{"kind": "damage", "ppm": 1.0, "amount": 200, "school": "shadow"}]},                       # Corrupted Ashbringer
+    13408: {"Chance on hit": [{"kind": "damage", "ppm": 1.0, "amount": 120, "school": "shadow"}]},                       # Soul Breaker (12 every 3 sec for 30 sec)
+    12621: {"Chance on hit": [{"kind": "damage", "ppm": 1.0, "amount": 50, "school": "shadow"}]},                        # Demonfork (10 every 5 sec for 25 sec)
+    # Stuns, heals, shields, summons, dispels and target-debuffs with no damage effect on a boss
+    **{i: {"Chance on hit": _NO_EFFECT} for i in (6660, 7960, 9477, 10847, 11608, 12528, 12592, 12769, 12781, 13198, 13218, 13401, 13953, 14024, 17943, 18348)},
+    11086: {"Use": _NO_EFFECT, "Chance on hit": _NO_EFFECT},                                             # Jang'thraze (shield / combine)
+    # No effect in this fight model
+    **{i: {"Use": _NO_EFFECT} for i in (
+        4696, 13164, 833, 1315, 1973, 7734, 8367, 12532, 13143, 13353, 13379, 13382, 13937, 16022, 17067, 17074,
+        17744, 18634, 18638, 18639, 19340, 19341, 19343, 19345, 19952, 19955, 19956, 19958, 20636, 21115, 21117, 21488,
+        21579, 21625, 21647, 21685, 23042, 23558) if i != 17074},
+}
+# 19343 Scrolls of Blinding Light / 19952 Gri'lek's Charm of Valor are Paladin trinkets handled by the Paladin engine.
+# 16022 Arcanite Dragonling / 21579 Vanquished Tentacle / 13382 Cannonball Runner are pets not modeled here.
+
 # Set bonuses with combat effects beyond flat stats, keyed "Set Name|pieces".  Values come from
 # WoWSims Classic (sim/*/item_sets*.go, sim/common/item_sets/*.go) unless listed in SET_PROVISIONAL.
 # Flat-stat bonuses are parsed from their text by engine.SET_PATTERNS.  Keys understood by the
@@ -687,6 +762,7 @@ SET_EFFECTS = {
     # Druid
     "Haruspex's Garb|5": {"crit_ability:Starfire": 3}, "Stormrage Raiment|3": {"flag:spirit_while_casting": 0.15}, "Green Dragon Mail|3": {"flag:spirit_while_casting": 0.15},
     "Wildheart Raiment|6": {"flag:wildheart_proc": 0.02},
+    "The Elements|6": {"flag:furious_storm": 0.04},
     # Shared
     "Battlegear of Undead Slaying|3": {"creature_dmg:undead": 0.02}, "Garb of the Undead Slayer|3": {"creature_dmg:undead": 0.02},
     "Regalia of Undead Cleansing|3": {"creature_dmg:undead": 0.02}, "Undead Slayer's Armor|3": {"creature_dmg:undead": 0.02},
@@ -737,4 +813,5 @@ for _name, _record in _wago["spells"].items():
         f"Reviewed client fields ({', '.join(_record['fields'])}) from Wago build {_wago['build']}, "
         f"spell {_record['spell_id']}; raw rows and field mappings retained in data/wago_verified.json. "
         "Other behavior remains modeled, including proc rules, threat, secondary effects and availability."
+        + (f" {_record['caveat']}" if _record.get("caveat") else "")
     )

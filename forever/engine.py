@@ -272,9 +272,33 @@ class Config:
         stats = item.get("stats", {})
         def add(key, value):
             gear_stats[key] = gear_stats.get(key, 0) + value
+        override = ITEM_EFFECTS.get(item.get("id"), {})
+        prefix = effect.split(":", 1)[0]
+        if prefix in override:
+            if prefix == "Use":
+                for use in override["Use"]:
+                    self.item_uses.append({"name": item["name"], "cooldown": use.get("cooldown", _cooldown_seconds(effect)), "duration": 0, "value": 0, **use})
+                for proc in override.get("procs", []):
+                    self.item_procs.append({"name": proc.get("name", item["name"]), "trigger": proc.get("trigger", "weapon"), "icd": 0, **proc})
+            else:
+                for proc in override[prefix]:
+                    self.item_procs.append({"name": proc.get("name", item["name"]), "trigger": "weapon", "icd": 0, "item": item, **proc})
+            row = {"item": item["name"], "effect": effect, "model": "structured" if override[prefix] else "no combat effect"}
+            notes = [e["note"] for e in override[prefix] if e.get("note")]
+            if notes: row["note"] = notes[0]
+            applied.append(row)
+            return
         if effect.startswith("Equip:"):
             if _re(r'^Equip: \+\d+ (?:Mana Regeneration|(?:Shadow|Fire|Frost|Arcane|Nature|Holy) Spell Damage)$', effect):
                 return  # Normalized into catalog stats at import.
+            m = _re(r"\+(\d+) [Rr]anged Attack Power|Increases ranged attack power by (\d+)", effect)
+            if m:
+                if "rangedAttackPower" not in stats: add("rangedAttackPower", float(m.group(1) or m.group(2)))
+                return
+            m = _re(r"Increases melee and ranged attack power by (\d+)", effect)
+            if m:
+                if "attackPower" not in stats: add("attackPower", float(m.group(1)))
+                return
             m = _re(r"\+(\d+) Attack Power(?! (?:when|in))", effect)
             if m:
                 if "attackPower" not in stats: add("attackPower", float(m.group(1)))
@@ -301,7 +325,7 @@ class Config:
             for key, pattern in (("spellPower", r"damage and healing.*?up to (\d+) for (\d+) sec"), ("attackPower", r"Attack Power by (\d+) for (\d+) sec"), ("haste", r"attack speed by (\d+)% for (\d+) sec"), ("armorPenetration", r"armor penetration.*?for (\d+) sec.*?by (\d+).*?up to (\d+) times")):
                 m = _re(pattern, effect)
                 if m and key != "armorPenetration":
-                    self.item_uses.append({"name": item["name"], "stat": key, "value": float(m.group(1)) / (100 if key == "haste" else 1), "duration": float(m.group(2)), "cooldown": cd}); applied.append({"item": item["name"], "effect": effect, "uses": max(1, math.ceil(self.duration / cd))}); return
+                    self.item_uses.append({"name": item["name"], "stat": key, "value": float(m.group(1)) / (100 if key == "haste" else 1), "duration": float(m.group(2)), "cooldown": cd, "offensive": True}); applied.append({"item": item["name"], "effect": effect, "uses": max(1, math.ceil(self.duration / cd))}); return
             m = _re(r"Restores (\d+)(?: to (\d+))? mana", effect)
             if m: self.item_uses.append({"name": item["name"], "stat": "mana", "value": (float(m.group(1)) + float(m.group(2) or m.group(1))) / 2, "duration": 0, "cooldown": cd}); applied.append({"item": item["name"], "effect": effect, "uses": max(1, math.ceil(self.duration / cd))}); return
             m = _re(r"(?:causes|deals) (\d+)(?: to (\d+))? (\w+ )?damage", effect)
@@ -435,6 +459,9 @@ def permanent_item_stats(item):
         if _re(r"Attack Power by \d+ for \d+ sec", effect): stats.pop("attackPower", None)
         if _re(r"attack speed by \d+% for \d+ sec", effect):
             for k in ("meleeHaste", "rangedHaste", "spellHaste"): stats.pop(k, None)
+    # The catalog importer copies some on-use values into permanent stats (Earthstrike's 280 AP).
+    for use in ITEM_EFFECTS.get(item.get("id"), {}).get("Use", []):
+        for key in (use.get("stat"), use.get("stat2")): stats.pop(key, None)
     return stats
 
 
@@ -596,6 +623,21 @@ class Iteration:
 
     def uptime_track(self, name): pass
 
+    def buff_stat(self, key, school=None, ability=None, exclusive=False):
+        total = 0.0
+        for b in self.buffs.values():
+            if b["until"] <= self.t or bool(b.get("exclusive")) != exclusive: continue
+            if b.get("school") and b["school"] != school: continue
+            if b.get("abilities") and ability not in b["abilities"]: continue
+            n = b["stacks"] if b.get("stacks_max") else 1
+            if b.get("stat") == key: total += b["value"] * n
+            if b.get("stat2") == key: total += b["value2"] * n
+        return total
+
+    def buff_crit_dmg(self, school, ability):
+        return sum(b["crit_dmg"] for b in self.buffs.values() if b.get("crit_dmg") and b["until"] > self.t
+                   and (not b.get("school") or b["school"] == school) and (not b.get("abilities") or ability in b["abilities"]))
+
     def haste(self, kind):
         h = 1.0
         if "bloodlust" in self.c.buffs and self.t < 40: h *= 1.30
@@ -616,6 +658,7 @@ class Iteration:
             for name in ("Berserking", "Rage of the Farseer", "Nature's Grace"):
                 b = self.buffs.get(name)
                 if b and b["until"] > self.t: h *= 1 + b.get("haste", 0)
+            h *= 1 + self.buff_stat("spellHaste")
         return h
 
     def attack_delay(self, speed, kind):
@@ -654,11 +697,12 @@ class Iteration:
             if self.combustion is not None and school == "fire": crit += 10 * self.combustion["stacks"]
             if school == "frost" and self.debuff_active("Winter's Chill"): crit += 2 * self.debuffs["Winter's Chill"]["stacks"]
             if ability == "Ice Lance" and c.flag("shatter") and self.buff_active("Fingers of Frost"): crit += c.flag("shatter") * 100
+            crit += self.buff_stat("spellCrit", school, ability)
             crit -= 2.1
         elif kind == "ranged":
             crit = self.st["rangedCrit"] - 4.8
         else:
-            crit = self.st["meleeCrit"] - 4.8
+            crit = self.st["meleeCrit"] - 4.8 + self.buff_stat("meleeCrit")
         if c.flag("weaponmaster") and weapon_type(c.mh) in {"Axe", "Polearm"}: crit += c.flag("weaponmaster") * 100
         if c.flag("moonkin"): crit += c.flag("moonkin") * 100
         if ability == "Shadow Word: Death" and c.flag("early_demise") and self.t >= self.execute_at: crit += c.flag("early_demise")
@@ -675,6 +719,7 @@ class Iteration:
             bonus = 0.5 + c.mod(f"crit_dmg_school:{school}") * 0.5 / 0.5 * 0.5 if False else 0.5
             bonus += c.mod(f"crit_dmg_school:{school}") * 0.5
             if c.flag("shadowform") and school == "shadow": bonus += 0.5
+            bonus += self.buff_crit_dmg(school, ability) * 0.5
             if c.mod("crit_dmg_destruction") and ability in {"Shadow Bolt", "Immolate", "Conflagrate", "Shadowburn", "Searing Pain"}: bonus += c.mod("crit_dmg_destruction") * 0.5
             return 1 + bonus
         bonus = 1.0
@@ -716,6 +761,7 @@ class Iteration:
         if white and c.dual_wield: miss += 0.19
         if hand_item is c.oh and c.spec["class_name"] == "Warrior": hit_pct += c.mod("dw_hit") / 100
         if ability and not white: hit_pct += c.mod(f"hit_ability:{ability}") / 100
+        hit_pct += self.buff_stat("meleeHit") / 100
         miss = max(0.0, miss - max(0.0, hit_pct - suppression))
         dodge = 0.0 if no_dodge else max(0.0, 0.05 + delta * 0.001 - c.flag("expertise") * 0.02)
         front = self.s["role"] == "tank"
@@ -787,6 +833,7 @@ class Iteration:
             if b["until"] <= self.t: continue
             if b.get("damage_mult"): m *= 1 + b["damage_mult"]
             if b.get("damage_mult_school") and b["damage_mult_school"][0] == school: m *= 1 + b["damage_mult_school"][1]
+        if school != "physical": m *= 1 + self.buff_stat("damageMultMagic")
         if self.sacrificed and school == self.sacrificed[0]: m *= 1 + self.sacrificed[1]
         if c.flag("master_demonologist") and c.pet and not self.sacrificed:
             fam = c.pet["family"]
@@ -816,6 +863,8 @@ class Iteration:
         c = self.c
         armor = c.armor_after_debuffs()
         if self.debuff_active("Spider's Kiss"): armor = max(0.0, armor - 100)
+        exclusive = max(0.0, self.buff_stat("armorIgnore", exclusive=True) - (DEBUFF_ARMOR["faerie_fire"] if "faerie_fire" in c.debuffs else 0))
+        armor = max(0.0, armor - self.buff_stat("armorIgnore") - exclusive)
         pen = c.flag("armor_pen_pct")
         if c.flag("weaponmaster") and weapon_type(c.mh) in {"Mace", "Staff"}: pen += c.flag("weaponmaster") * 3  # 1%/rank crit (axe/polearm) implies 3%/rank armor ignore (mace/staff) per Forever tooltip
         if c.flag("hack_and_slash") and weapon_type(c.mh) == "Mace": pen += 0.15
@@ -919,6 +968,7 @@ class Iteration:
             item = proc.get("item")
             if proc["trigger"] == "weapon" and item is not None and item is not hand_item: continue
             if proc["trigger"] == "melee" and is_extra: continue
+            if proc.get("requires_buff") and not self.buff_active(proc["requires_buff"]): continue
             key = proc["name"]
             if proc.get("icd") and self.item_icd.get(key, -1e9) + proc["icd"] > self.t: continue
             chance = proc["chance"] if "chance" in proc else proc["ppm"] * speed / 60
@@ -930,9 +980,10 @@ class Iteration:
                 self.row(f"Item - {key}").casts += 1
                 self.deal(f"Item - {key}", proc["amount"], school, "spell" if school != "physical" else "melee", outcome=out, mult=m)
             elif proc["kind"] == "buff":
-                self.add_buff(f"Item - {key}", proc["duration"], stat=proc["stat"], value=proc["value"])
+                duration = min(proc["duration"], self.buffs[proc["requires_buff"]]["until"] - self.t) if proc.get("requires_buff") else proc["duration"]
+                self.add_buff(f"Item - {key}", duration, stat=proc["stat"], value=proc["value"], **{k: proc[k] for k in ("stat2", "value2", "stacks_max", "exclusive") if k in proc})
             elif proc["kind"] == "extra_attack" and not is_extra:
-                self.extra_attack("Melee (Extra Attack)", c.mh)
+                for _ in range(proc.get("count", 1)): self.extra_attack("Melee (Extra Attack)", c.mh)
         # Talent extra attacks
         if not is_extra:
             wm = c.flag("weaponmaster"); hs = c.flag("hack_and_slash")
@@ -950,7 +1001,7 @@ class Iteration:
         if self.s["class_name"] == "Rogue":
             mh_poison = "deadly" if self.s["id"] == "rogue-assassination" else "instant"
             poison = mh_poison if hand_item is c.mh else "instant"
-            chance = POISONS[poison]["chance"] + c.flag("poison_chance") + (0.10 if self.buff_active("Venom") else 0.0)
+            chance = POISONS[poison]["chance"] + c.flag("poison_chance") + (0.10 if self.buff_active("Venom") else 0.0) + self.buff_stat("poisonChance")
             if rng.random() < chance:
                 if poison == "instant":
                     out, m = self.spell_outcome("Instant Poison", "nature", can_crit=True)
@@ -1070,6 +1121,8 @@ class Iteration:
                 if proc["trigger"] == "weapon" and proc.get("item") is c.ranged and self.rng.random() < proc.get("ppm", 1) * float(c.ranged.get("weaponSpeed", 2.8)) / 60:
                     self.row(f"Item - {proc['name']}").casts += 1
                     self.deal(f"Item - {proc['name']}", proc.get("amount", 0), proc.get("school", "physical"), "spell", outcome="hit")
+                elif proc["trigger"] == "melee" and proc.get("requires_buff") and self.buff_active(proc["requires_buff"]) and self.rng.random() < proc["ppm"] * float(c.ranged.get("weaponSpeed", 2.8)) / 60:
+                    self.add_buff(f"Item - {proc['name']}", min(proc["duration"], self.buffs[proc["requires_buff"]]["until"] - self.t), stat=proc["stat"], value=proc["value"], stacks_max=proc["stacks_max"])
 
     def on_ranged_damage(self, out):
         """Set procs that trigger on landed ranged damage."""
@@ -1155,6 +1208,7 @@ class Iteration:
         if name in {"Hemorrhage", "Backstab"}:
             b = self.buffs.get("Thousand Cuts")
             if b and b["until"] > self.t: cost = max(0.0, cost - 3 * b["stacks"])
+        if self.s["resource"] == "Mana" and cost > 0: cost = max(0.0, cost * (1 + self.buff_stat("costMult")) + self.buff_stat("costFlat"))
         return cost
 
     def choose(self):
@@ -1189,14 +1243,24 @@ class Iteration:
                 cond = dict(c.rotation)[name]
                 if not self.check(cond, name): continue
             if a.get("kind") == "item_use":
-                use = a["use"]
-                if use["stat"] == "mana" and self.max_mana - self.mana < use["value"]: continue
-                if use["stat"] == "damage":
-                    out, m = self.spell_outcome(name, use["school"], can_crit=False); self.row(name).casts += 1
-                    self.deal(name, use["value"], use["school"], "spell", outcome=out, mult=m)
-                elif use["stat"] == "mana": self.gain_mana(use["value"]); self.row(name).casts += 1
+                use = a["use"]; stat = use["stat"]
+                if use.get("offensive") and self.cooldowns.get("shared:offensive_trinket", 0) > self.t + EPS: continue
+                if stat == "mana" and self.max_mana - self.mana < use["value"]: continue
+                if stat == "rage" and (self.s["resource"] != "Rage" or self.rage > use["max_resource"]): continue
+                if stat == "energy" and (self.s["resource"] != "Energy" or self.energy > use["max_resource"]): continue
+                if stat == "reset" and not any(self.cooldowns.get(n, 0) > self.t + 2 for n in use["abilities"]): continue
+                if stat == "damage":
+                    out, m = self.spell_outcome(name, use["school"], can_crit=False)
+                    self.deal(name, use["value"], use["school"], "spell", outcome=out, mult=m * (c.targets if use.get("aoe") else 1))
+                elif stat == "mana": self.gain_mana(use["value"])
+                elif stat == "rage": self.gain_rage(use["value"])
+                elif stat == "energy": self.gain_energy(use["value"])
+                elif stat == "reset":
+                    for n in use["abilities"]: self.cooldowns.pop(n, None)
                 else:
-                    self.add_buff(name, use["duration"], stat=use["stat"], value=use["value"]); self.row(name).casts += 1
+                    self.add_buff(name, use["duration"], **{k: use[k] for k in BUFF_USE_KEYS if k in use})
+                self.row(name).casts += 1
+                if use.get("offensive"): self.cooldowns["shared:offensive_trinket"] = self.t + use["duration"]
                 self.cooldowns[name] = self.t + a["cooldown"]; self.record(name, "activated", 0); continue
             if a.get("mana"):
                 if self.max_mana - self.mana < 1500: continue
@@ -1348,7 +1412,7 @@ class Iteration:
                 out, m = self.melee_outcome(hand_item, False, name)
                 if out in {"miss", "dodge", "parry"}:
                     self.deal(name, 0, "physical", "melee", outcome=out); continue
-                base = self.weapon_damage(hand_item, normalized=True) * 0.75 + 13
+                base = self.weapon_damage(hand_item, normalized=True) * a["weapon"]["mult"] + a["weapon"]["flat"]
                 if poisoned: base *= 1.20
                 dmg = self.deal(name, base, "physical", "melee", outcome=out, mult=m * a["mult"])
                 if dmg:
@@ -1463,7 +1527,7 @@ class Iteration:
             out, m = self.spell_outcome(name, school, can_crit) if not a.get("always_hit") else ("hit", 1.0)
             if out == "miss":
                 self.deal(name, 0, school, "spell", outcome="miss"); return
-            base = rng.uniform(*a["base"]) + sp * a.get("coeff", 0)
+            base = rng.uniform(*a["base"]) + sp * a.get("coeff", 0) + (self.ap(ranged=True) * a["rap_coeff"] if a.get("rap_coeff") else 0)
             base *= a.get("direct_mult", 1.0)
             if name == "Chain Lightning": bounce = 0.7 + c.mod("chain_lightning_bounce"); base *= 1 + bounce * (c.targets > 1) + bounce * bounce * (c.targets > 2)
             if name == "Conflagrate" and self.dots.get("Immolate") and rng.random() >= min(1.0, c.flag("shadow_and_flame") * 10): self.dots["Immolate"]["remaining"] = 0
@@ -1530,6 +1594,7 @@ class Iteration:
             if o2 != "miss": self.row(name + " (Overload)").casts += 1; self.deal(name + " (Overload)", (self.rng.uniform(*a["base"]) + self.sp(school) * a.get("coeff", 0)) * 0.5, school, "spell", threat_mult=0.0, outcome=o2, mult=m2 * a["mult"])
         if c.flag("stormcaller") and name in {"Lightning Bolt", "Chain Lightning", "Earth Shock", "Flame Shock"} and out in {"hit", "crit"} and self.rng.random() < c.flag("stormcaller"):
             self.add_buff("Stormcaller's Garb", 8, stat="naturePower", value=50)
+        if c.flag("furious_storm") and self.rng.random() < c.flag("furious_storm"): self.add_buff("The Furious Storm", 10, stat="spellPower", value=95)
         if c.flag("shadow_and_flame"):
             if name == "Conflagrate": self.add_debuff("Shadow and Flame (shadow)", 20)
             if name == "Shadowburn": self.add_debuff("Shadow and Flame (fire)", 20)
@@ -1651,7 +1716,7 @@ class Iteration:
             if c.flag("soul_link"): m *= 1 + c.flag("soul_link")
             if c.flag("master_demonologist") and c.pet["family"] == "succubus": m *= 1 + c.flag("master_demonologist")
         creature = c.racial.get("creature_damage", {}).get(c.boss_type, 0) if c.racial_enabled else 0
-        return m * (1 + creature)
+        return m * (1 + creature) * (1 + self.buff_stat("petDamage"))
 
     def pet_attack(self, name, base, school, crit_chance, ability=False):
         rng = self.rng
