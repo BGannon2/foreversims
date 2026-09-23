@@ -572,7 +572,11 @@ class Fight:
                 # Forever's Consecration deals a base amount to every enemy in the area, plus a
                 # larger bonus to the first 4 enemies who entered it (foreverchanges.pro, build
                 # 1.60.1.69913: 16 dmg/8s base, +32 dmg/8s bonus for up to 4 targets = 48 total).
-                aoe=self.e.get('targets',1); c5=F['consecration']; first4=min(aoe,4)
+                # The base hits are capped at 8 -- the classic ground-effect AoE combat-log/packet
+                # limit from this engine era (not something wago.tools' DB2 tables encode; no
+                # SpellTargetRestrictions row exists on Consecration's own spell id, only the
+                # separate unrelated "first 4 get bonus damage" restriction above).
+                aoe=min(self.e.get('targets',1),8); c5=F['consecration']; first4=min(aoe,4)
                 per_tick=(c5['total_damage']*aoe+(c5['first4_total_damage']-c5['total_damage'])*first4)/c5['ticks']
                 self.deal('Consecration',per_tick,holy=True,hit=1,spell_coefficient=.33/c5['ticks']*aoe)
             elif kind=='mana': self.mana_tick(); self.schedule(t+2.0,'mana')

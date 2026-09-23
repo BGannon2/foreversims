@@ -1747,7 +1747,7 @@ impl<'a> Iteration<'a> {
             if self.next_crit {
                 self.next_crit = false;
             }
-            let targets = if name == "Whirlwind" { c.targets.min(4) as f64 } else if name == "Swipe" { c.targets.min(3) as f64 } else { 1.0 };
+            let targets = if name == "Whirlwind" || name == "Thunder Clap" { c.targets.min(4) as f64 } else if name == "Swipe" { c.targets.min(3) as f64 } else { 1.0 };
             let dmg = self.deal(name, base, "physical", "melee", false, false, threat_mult, flat_threat, out, m * a.mult * targets);
             if self.eureka > 0 {
                 self.eureka -= 1;

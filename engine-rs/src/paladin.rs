@@ -1457,7 +1457,7 @@ impl<'a> Fight<'a> {
                 Kind::Swing => self.swing(false, 0.0, "Melee"),
                 Kind::Consecration => {
                     let ticks = self.f("consecration", "ticks");
-                    let aoe = self.e.targets;
+                    let aoe = self.e.targets.min(8.0);
                     let base_total = self.f("consecration", "total_damage");
                     let first4_total = self.f("consecration", "first4_total_damage");
                     let first4 = aoe.min(4.0);
