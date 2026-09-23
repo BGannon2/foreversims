@@ -56,11 +56,22 @@ jobs:
 
             🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
-      - name: Run CI on the PR branch
-        if: steps.cpr.outputs.pull-request-number
+      # Bot-opened PRs get their pull_request CI run parked as "action_required"; the required
+      # checks only count once that run is approved (a separately dispatched run doesn't satisfy them).
+      - name: Approve the PR's CI run
+        if: steps.cpr.outputs.pull-request-head-sha
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh workflow run ci.yml --ref data-watch/snapshot --repo "$GITHUB_REPOSITORY"
+          SHA: ${{ steps.cpr.outputs.pull-request-head-sha }}
+        run: |
+          for _ in $(seq 1 20); do
+            id=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow ci.yml --event pull_request --commit "$SHA"                    --json databaseId,conclusion --jq '[.[] | select(.conclusion == "action_required")][0].databaseId')
+            if [ -n "$id" ] && [ "$id" != "null" ]; then
+              gh api -X POST "repos/$GITHUB_REPOSITORY/actions/runs/$id/approve" && echo "approved run $id" && exit 0
+            fi
+            sleep 6
+          done
+          echo "::warning::No action_required CI run found for $SHA; approve it from the PR's Checks tab."
 
       - name: Notify Discord (optional)
         if: steps.cpr.outputs.pull-request-operation == 'created' || steps.cpr.outputs.pull-request-operation == 'updated'

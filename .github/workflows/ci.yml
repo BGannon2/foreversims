@@ -5,8 +5,6 @@ on:
     branches: [main, dev]
   pull_request:
     branches: [main, dev]
-  # PRs opened by the data-watch bot use GITHUB_TOKEN, which never fires pull_request;
-  # the watcher dispatches this workflow on its branch instead so required checks report.
   workflow_dispatch: {}
 
 jobs:
