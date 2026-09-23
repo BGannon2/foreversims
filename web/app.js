@@ -400,7 +400,7 @@ function exportResult(){
 async function init(){
   buildFields();
   try{
-    const [response,itemResponse,wsResponse]=await Promise.all([fetch("/data/bootstrap.json?v=15e9d32"),fetch("/data/items.json?v=15e9d32"),fetch("/data/wowsims-import.json?v=15e9d32").catch(()=>null)]); if(!response.ok||!itemResponse.ok) throw new Error("Simulator data unavailable."); ForeverSim.warm(); state.wsData=wsResponse&&wsResponse.ok?await wsResponse.json():null; state.boot=await response.json(); const catalog=await itemResponse.json(); state.items=catalog.items; state.itemsById=new Map(state.items.map(item=>[item.id,item]));
+    const [response,itemResponse,wsResponse]=await Promise.all([fetch("/data/bootstrap.json?v=b5f1f8b"),fetch("/data/items.json?v=b5f1f8b"),fetch("/data/wowsims-import.json?v=b5f1f8b").catch(()=>null)]); if(!response.ok||!itemResponse.ok) throw new Error("Simulator data unavailable."); ForeverSim.warm(); state.wsData=wsResponse&&wsResponse.ok?await wsResponse.json():null; state.boot=await response.json(); const catalog=await itemResponse.json(); state.items=catalog.items; state.itemsById=new Map(state.items.map(item=>[item.id,item]));
     $("serverDot").classList.add("online"); $("serverText").textContent="Browser engine ready";
     $("gearVersion").textContent=`Classic Anniversary Phase 1–2 preset equipped · ${state.items.length.toLocaleString()} items`;
     const sources=$("sources"); Object.entries(state.boot.sources).forEach(([name,url])=>{ const p=document.createElement("p"); const a=document.createElement("a"); a.href=url; a.target="_blank"; a.rel="noopener noreferrer"; a.textContent=labelize(name); p.append(a); sources.append(p); });

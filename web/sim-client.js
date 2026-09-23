@@ -2,7 +2,7 @@
 // engine.  Iterations are split across workers with the same per-iteration
 // seeds the Python reference uses, so results are identical to a serial run.
 (function () {
-  const VERSION = "15e9d32";
+  const VERSION = "b5f1f8b";
   class SimPool {
     constructor() {
       this.size = Math.max(1, Math.min(8, navigator.hardwareConcurrency || 4));
