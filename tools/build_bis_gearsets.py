@@ -42,8 +42,10 @@ sys.path.insert(0, str(ROOT))
 
 from forever.all_specs import ITEMS  # noqa: E402
 from forever.engine import permanent_item_stats  # noqa: E402
-from forever.engine_data import ITEM_EFFECTS  # noqa: E402
-from forever.engine_data import SPEC_MAP  # noqa: E402
+from forever.engine_data import (
+    ITEM_EFFECTS,  # noqa: E402
+    SPEC_MAP,  # noqa: E402
+)
 
 _RESTRICTIONS = json.loads((ROOT / "data" / "item_class_restrictions.json").read_text(encoding="utf-8"))
 CLASS_RESTRICTIONS = _RESTRICTIONS["items"]
