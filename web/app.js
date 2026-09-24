@@ -394,9 +394,14 @@ function signed(v){return (v>=0?"+":"")+fmt(v,1)}
 
 async function run(){
   try{
-    $("formError").textContent=""; state.profile=readForm(); $("runButton").disabled=true; $("runButton").textContent="Simulating…"; $("progressBar").classList.add("running");
+    $("formError").textContent=""; state.profile=readForm();
+    // A fresh seed each run unless locked; the seed field shows the one used.
+    if(!$("lockSeed").checked){state.profile.seed=Math.floor(Math.random()*2147483647);$("f-seed").value=state.profile.seed;}
+    $("runButton").disabled=true; $("runButton").textContent="Simulating…"; $("progressBar").classList.add("running");
     const data=await ForeverSim.simulate("paladin",state.profile,state.profile.iterations,(done,total)=>{$("progressBar").style.width=`${Math.round(100*done/total)}%`;});
     if(data.error) throw new Error(data.error); state.result=data; renderResult(); showPanel("results");
+    $("runStamp").textContent=`Last run ${new Date().toLocaleTimeString()} · seed ${state.profile.seed}`;
+    const cards=$("metricCards");cards.classList.remove("run-flash");void cards.offsetWidth;cards.classList.add("run-flash");
   }catch(error){ $("formError").textContent=error.message; }
   finally{ $("runButton").disabled=false; $("runButton").textContent="Run simulation"; $("progressBar").classList.remove("running"); $("progressBar").style.width="0"; }
 }
@@ -409,7 +414,7 @@ function exportResult(){
 async function init(){
   buildFields();
   try{
-    const [response,itemResponse,wsResponse]=await Promise.all([fetch("/data/bootstrap.json?v=033e6a2"),fetch("/data/items.json?v=033e6a2"),fetch("/data/wowsims-import.json?v=033e6a2").catch(()=>null)]); if(!response.ok||!itemResponse.ok) throw new Error("Simulator data unavailable."); ForeverSim.warm(); state.wsData=wsResponse&&wsResponse.ok?await wsResponse.json():null; state.boot=await response.json(); const catalog=await itemResponse.json(); state.items=catalog.items; state.itemsById=new Map(state.items.map(item=>[item.id,item]));
+    const [response,itemResponse,wsResponse]=await Promise.all([fetch("/data/bootstrap.json?v=9f96ba8"),fetch("/data/items.json?v=9f96ba8"),fetch("/data/wowsims-import.json?v=9f96ba8").catch(()=>null)]); if(!response.ok||!itemResponse.ok) throw new Error("Simulator data unavailable."); ForeverSim.warm(); state.wsData=wsResponse&&wsResponse.ok?await wsResponse.json():null; state.boot=await response.json(); const catalog=await itemResponse.json(); state.items=catalog.items; state.itemsById=new Map(state.items.map(item=>[item.id,item]));
     $("serverDot").classList.add("online"); $("serverText").textContent="Browser engine ready";
     $("gearVersion").textContent=`Classic Anniversary Phase 1–2 preset equipped · ${state.items.length.toLocaleString()} items`;
     const sources=$("sources"); Object.entries(state.boot.sources).forEach(([name,url])=>{ const p=document.createElement("p"); const a=document.createElement("a"); a.href=url; a.target="_blank"; a.rel="noopener noreferrer"; a.textContent=labelize(name); p.append(a); sources.append(p); });
@@ -421,7 +426,7 @@ async function init(){
     const requested=new URLSearchParams(location.search).get("spec");
     selectSpec(requested==="retribution"?"retribution":"protection");
     const query=new URLSearchParams(location.search);state.profile.encounter.targets=Math.max(1,Math.min(10,Number(query.get("targets"))||1));
-    if(query.get("benchmark")==="1"){state.profile.seed=state.boot.defaults.benchmark_seed;state.profile.iterations=state.boot.defaults.benchmark_iterations;}hydrateForm();
+    if(query.get("benchmark")==="1"){state.profile.seed=state.boot.defaults.benchmark_seed;state.profile.iterations=state.boot.defaults.benchmark_iterations;$("lockSeed").checked=true;}hydrateForm();
     const requestedRace=new URLSearchParams(location.search).get("race"); if(requestedRace&&(state.boot.races||[]).includes(requestedRace)){state.profile.race=requestedRace;$("race").value=requestedRace;$("race").dispatchEvent(new Event("change"));}
   }catch(error){ $("serverText").textContent="Server connection failed"; $("formError").textContent=error.message; }
 }

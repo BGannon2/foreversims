@@ -173,11 +173,14 @@ function renderConfiguration(x) {
 }
 
 // ---------------------------------------------------------------- run
+let lastSeed = null;
 async function run() {
   try {
+    // A fresh seed each run unless locked (then the last run's seed is reused).
+    const seed = $("lockSeed").checked ? (lastSeed ?? data.defaults.seed) : Math.floor(Math.random() * 2147483647);
     $("error").textContent = ""; $("progress").className = "running";
     const chosen = kind => [...document.querySelectorAll(`[data-kind=${kind}]:checked`)].map(x => x.dataset.key);
-    const payload = { ...tankEncounter(), spec: spec.id, duration: +$("duration").value, duration_variance: +$("durationVariance").value, iterations: +$("iterations").value, seed: data.defaults.seed, race: $("race").value, gear: profile.gear.map(x => x.id), gear_slots: profile.gear.map(x => ({ slot: x.slot, id: x.id })), enchants: profile.gear.filter(x => x.enchant).map(x => ({ slot: enchantSlot(x.slot), id: x.enchant.id })), talents: points, armor: +$("armor").value, targets: +$("targets").value, boss_type: $("bossType").value, buffs: chosen("buffs"), debuffs: chosen("debuffs"), consumables: chosen("consumables"), racial_enabled: !!document.querySelector("[data-racial]:checked"), rotation_enabled: [...document.querySelectorAll("[data-rotation]:checked")].map(x => x.dataset.rotation), pet_family: $("petFamily")?.value || "cat", pet_attack_speed: +($("petAttackSpeed")?.value || 2), pet_uptime: +($("petUptime")?.value || 100) / 100, pet_abilities: [...document.querySelectorAll("[data-pet-ability]:checked")].map(x => x.dataset.petAbility) };
+    const payload = { ...tankEncounter(), spec: spec.id, duration: +$("duration").value, duration_variance: +$("durationVariance").value, iterations: +$("iterations").value, seed, race: $("race").value, gear: profile.gear.map(x => x.id), gear_slots: profile.gear.map(x => ({ slot: x.slot, id: x.id })), enchants: profile.gear.filter(x => x.enchant).map(x => ({ slot: enchantSlot(x.slot), id: x.enchant.id })), talents: points, armor: +$("armor").value, targets: +$("targets").value, boss_type: $("bossType").value, buffs: chosen("buffs"), debuffs: chosen("debuffs"), consumables: chosen("consumables"), racial_enabled: !!document.querySelector("[data-racial]:checked"), rotation_enabled: [...document.querySelectorAll("[data-rotation]:checked")].map(x => x.dataset.rotation), pet_family: $("petFamily")?.value || "cat", pet_attack_speed: +($("petAttackSpeed")?.value || 2), pet_uptime: +($("petUptime")?.value || 100) / 100, pet_abilities: [...document.querySelectorAll("[data-pet-ability]:checked")].map(x => x.dataset.petAbility) };
     const bar = $("progress"); bar.style.width = "0%";
     const x = await ForeverSim.simulate("spec", payload, payload.iterations, (done, total) => { bar.style.width = `${Math.round(100 * done / total)}%`; });
     if (x.error) throw new Error(x.error);
@@ -188,6 +191,9 @@ async function run() {
     renderResultView("damage"); renderConfiguration(x);
     $("resultLabel").textContent = `${payload.iterations.toLocaleString()} iterations${DOT}${payload.duration}s Patchwerk${DOT}${x.configuration.race}${DOT}${payload.boss_type === "none" ? "unspecified creature type" : payload.boss_type}`;
     showTab("results");
+    lastSeed = seed;
+    $("runStamp").textContent = `Last run ${new Date().toLocaleTimeString()}${DOT}seed ${seed}`;
+    const cards = $("metrics"); cards.classList.remove("run-flash"); void cards.offsetWidth; cards.classList.add("run-flash");
   } catch (e) { $("error").textContent = e.message; } finally { $("progress").className = ""; $("progress").style.width = ""; }
 }
 
@@ -207,7 +213,7 @@ function renderTankEncounter() {
 
 // ---------------------------------------------------------------- init
 async function init() {
-  const [bootstrap, itemPayload, wsPayload] = await Promise.all([fetch("/data/spec-bootstrap.json?v=033e6a2").then(r => r.json()), fetch("/data/items.json?v=033e6a2").then(r => r.json()), fetch("/data/wowsims-import.json?v=033e6a2").then(r => r.json()).catch(() => null)]);
+  const [bootstrap, itemPayload, wsPayload] = await Promise.all([fetch("/data/spec-bootstrap.json?v=9f96ba8").then(r => r.json()), fetch("/data/items.json?v=9f96ba8").then(r => r.json()), fetch("/data/wowsims-import.json?v=9f96ba8").then(r => r.json()).catch(() => null)]);
   wsData = wsPayload;
   ForeverSim.warm();
   data = bootstrap; catalogItems = itemPayload.items; spec = data.specs.find(x => x.id === specId);
@@ -218,7 +224,7 @@ async function init() {
   $("duration").value = data.defaults.duration; $("iterations").value = data.defaults.iterations; $("quickFight").textContent = `${data.defaults.duration}s`; $("armor").value = data.defaults.armor;
   const query = new URLSearchParams(location.search);
   $("targets").value = Math.max(1,Math.min(10,Number(query.get("targets"))||data.defaults.targets));
-  if(query.get("benchmark")==="1"){data.defaults.seed=data.defaults.benchmark_seed;$("iterations").value=data.defaults.benchmark_iterations;}
+  if(query.get("benchmark")==="1"){data.defaults.seed=data.defaults.benchmark_seed;$("iterations").value=data.defaults.benchmark_iterations;$("lockSeed").checked=true;}
   const raceNames = spec.races || ["Human"]; $("race").innerHTML = raceNames.map(name => `<option>${name}</option>`).join("");
   const requestedRace = new URLSearchParams(location.search).get("race"); $("race").value = raceNames.includes(requestedRace) ? requestedRace : (raceNames.includes("Human") ? "Human" : raceNames[0]);
   $("race").onchange = () => { renderRace(); renderRotation(); renderSpecCards(); swapFactionGear(); }; renderRace(); renderSpecCards(); renderTankEncounter();
