@@ -2,7 +2,7 @@ const fmt=(v,d=1)=>Number(v).toLocaleString(undefined,{maximumFractionDigits:d,m
 const classKey=n=>n.toLowerCase().replaceAll(' ','-');
 async function init(){
   const mode=document.body.dataset.mode; // "dps" or "tank"
-  const payload=await fetch('/data/benchmarks.json?v=033e6a2').then(r=>r.json());
+  const payload=await fetch('/data/benchmarks.json?v=8fe71e8').then(r=>r.json());
   const targetCounts=payload.target_counts||[1];
   const state={targets:targetCounts[0],metric:'dps'};
   document.getElementById('assumptions').textContent=`${payload.duration}s ${payload.encounter} · ${payload.iterations} iterations · every race per spec · no world buffs`;
