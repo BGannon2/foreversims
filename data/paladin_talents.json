@@ -10,22 +10,6 @@
       "name": "Holy",
       "talents": [
         {
-          "id": 105328,
-          "row": 0,
-          "col": 0,
-          "icon": "classicon_paladin",
-          "name": "Improved Holy Strike",
-          "ranks": [
-            null,
-            null
-          ],
-          "requires": [],
-          "descriptions": {
-            "1": "Reduces the cooldown of your Holy Strike ability by 1 sec.",
-            "2": "Reduces the cooldown of your Holy Strike ability by 2 sec."
-          }
-        },
-        {
           "id": 105639,
           "row": 0,
           "col": 1,
@@ -843,22 +827,6 @@
           "requires": [],
           "descriptions": {
             "1": "Increases the damage of your Holy Strike ability by 10% and causes it to refresh all Judgement effects on the target."
-          }
-        },
-        {
-          "id": 110883,
-          "row": 3,
-          "col": 3,
-          "icon": "spell_holy_crusade",
-          "name": "Crusade",
-          "ranks": [
-            null,
-            null
-          ],
-          "requires": [],
-          "descriptions": {
-            "1": "Increases all damage dealt by 1%. Increased by an additional 1% against Demon and Undead targets.",
-            "2": "Increases all damage dealt by 2%. Increased by an additional 2% against Demon and Undead targets."
           }
         },
         {

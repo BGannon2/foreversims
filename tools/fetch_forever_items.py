@@ -194,7 +194,8 @@ def download(build):
     for name in ("new", "changed", "missing"):
         url = f"https://foreverchanges.pro/items/{name}.json"
         print(f"downloading {url}", file=sys.stderr)
-        with urllib.request.urlopen(url, timeout=60) as resp:
+        # The site rejects urllib's default "Python-urllib" agent with 403.
+        with urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"}), timeout=60) as resp:
             (CACHE / f"{name}.json").write_bytes(resp.read())
 
 

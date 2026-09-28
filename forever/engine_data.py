@@ -317,7 +317,7 @@ ABILITIES = {
     "Earth Shock": {"kind": "direct", "school": "nature", "cost": 450, "cooldown": 6, "shared_cd": "shock", "base": (293, 309), "coeff": 0.386, "forever": True, "provisional": "Rank 7 value confirmed via foreverchanges.pro (build 1.60.1.69913)."},
     "Stormstrike": {"kind": "direct", "school": "physical", "cost": 320, "cooldown": 8, "weapon": {"hand": "main"}, "apply_debuff": ("Stormstrike", 12, {"nature": 0.20}), "forever": True},
     "Elemental Mastery": {"kind": "buff", "cooldown": 180, "next_crit": True, "off_gcd": True},
-    "Rage of the Farseer": {"kind": "buff", "cooldown": 180, "duration": 25, "melee_haste": 0.30, "spell_haste": 0.30, "off_gcd": True, "forever": True, "provisional": "cooldown not published; 3 min assumed"},
+    "Rage of the Farseer": {"kind": "buff", "cooldown": 180, "duration": 25, "melee_haste": 0.30, "off_gcd": True, "forever": True, "provisional": "cooldown not published; 3 min assumed"},
     # ---- Warlock -------------------------------------------------------------
     "Shadow Bolt": {"kind": "direct", "school": "shadow", "cost": 380, "cast": 3.0, "base": (253, 283), "coeff": 0.857, "forever": True, "provisional": "Rank 10 value confirmed via foreverchanges.pro (build 1.60.1.69913)."},
     "Rain of Fire": {"kind": "channel", "school": "fire", "cost": 1185, "cast": 8.0, "tick": 220, "ticks": 4, "coeff": 0.083, "aoe": True, "forever": True,

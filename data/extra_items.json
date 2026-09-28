@@ -21254,8 +21254,7 @@
    "subclass": "Staff",
    "stats": {
     "stamina": 36.0,
-    "intellect": 20.0,
-    "spirit": 15.0
+    "intellect": 20.0
    },
    "weaponDamageMin": 148.0,
    "weaponDamageMax": 222.0,
@@ -21283,16 +21282,19 @@
      "format": ""
     },
     {
-     "label": "+15 Spirit",
+     "label": "Requires Level 60",
      "format": ""
     },
     {
-     "label": "Requires Level 60",
+     "label": "+Spell Penetration (build 70009; amount not derived, not modeled)",
      "format": ""
     }
    ],
    "source": "forever-1.60.1.69913",
-   "wowhead": "https://foreverchanges.pro/items"
+   "wowhead": "https://foreverchanges.pro/items",
+   "modelNotes": [
+    "Build 1.60.1.70009 replaced +15 Spirit with Spell Penetration (not modeled: boss resistances are not simulated)."
+   ]
   },
   {
    "id": 272604,
@@ -31702,8 +31704,7 @@
    "subclass": "Staff",
    "stats": {
     "stamina": 36.0,
-    "intellect": 20.0,
-    "spirit": 15.0
+    "intellect": 20.0
    },
    "weaponDamageMin": 148.0,
    "weaponDamageMax": 222.0,
@@ -31731,16 +31732,19 @@
      "format": ""
     },
     {
-     "label": "+15 Spirit",
+     "label": "Requires Level 60",
      "format": ""
     },
     {
-     "label": "Requires Level 60",
+     "label": "+Spell Penetration (build 70009; amount not derived, not modeled)",
      "format": ""
     }
    ],
    "source": "forever-1.60.1.69913",
-   "wowhead": "https://foreverchanges.pro/items"
+   "wowhead": "https://foreverchanges.pro/items",
+   "modelNotes": [
+    "Build 1.60.1.70009 replaced +15 Spirit with Spell Penetration (not modeled: boss resistances are not simulated)."
+   ]
   },
   {
    "id": 272851,

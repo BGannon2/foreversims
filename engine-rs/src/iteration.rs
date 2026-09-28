@@ -414,7 +414,7 @@ impl<'a> Iteration<'a> {
                 }
             }
         } else {
-            for name in ["Berserking", "Rage of the Farseer", "Nature's Grace"] {
+            for name in ["Berserking", "Nature's Grace"] {
                 if let Some(b) = self.buffs.get(name) {
                     if b.until > self.t {
                         h *= 1.0 + b.haste;

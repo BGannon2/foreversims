@@ -1,102 +1,102 @@
 {
-  "build": "1.60.1.69913",
+  "build": "1.60.1.70009",
   "product": "wow_classic_beta",
   "tables": [
     {
       "table": "CurvePoint",
-      "sha256": "6b6f53aaa7e27d29706a3411d651594eb7cfe05b3ec21360c7ec19d0c226ee04",
-      "bytes": 911767,
-      "url": "https://wago.tools/db2/CurvePoint/csv?build=1.60.1.69913"
+      "sha256": "8d978f3138d81b1eb8c6b7b23346073ab744faa3151659582310043ebe9cb379",
+      "bytes": 944973,
+      "url": "https://wago.tools/db2/CurvePoint/csv?build=1.60.1.70009"
     },
     {
       "table": "Spell",
-      "sha256": "7c9acd23c5bc839cc2c66009b8ac3911f7091f795d1f9412254fe42730606007",
-      "bytes": 2187777,
-      "url": "https://wago.tools/db2/Spell/csv?build=1.60.1.69913"
+      "sha256": "291e588d209182febd2f5f8554d13373aa8dc0262b33f325ac4fbe78e2791f93",
+      "bytes": 2185543,
+      "url": "https://wago.tools/db2/Spell/csv?build=1.60.1.70009"
     },
     {
       "table": "SpellCastTimes",
       "sha256": "f94e1e3a3495d11af875fd7b007124fdd660a19ba626bc1de00a609da81f25d8",
       "bytes": 982,
-      "url": "https://wago.tools/db2/SpellCastTimes/csv?build=1.60.1.69913"
+      "url": "https://wago.tools/db2/SpellCastTimes/csv?build=1.60.1.70009"
     },
     {
       "table": "SpellCooldowns",
-      "sha256": "988c4ce99d5652a89eba379a4844aa12489b5c89a75205b45d565dcec5121b0c",
-      "bytes": 117570,
-      "url": "https://wago.tools/db2/SpellCooldowns/csv?build=1.60.1.69913"
+      "sha256": "7235776e0c0a42d27a0dffa8c93317fec6c6a0df59890489793a56c3af9a0ac8",
+      "bytes": 117535,
+      "url": "https://wago.tools/db2/SpellCooldowns/csv?build=1.60.1.70009"
     },
     {
       "table": "SpellDuration",
       "sha256": "8a2d2a82c96d2a3dfa20883093cf9a1071abc8b26f9681da3500324e9560b31c",
       "bytes": 2505,
-      "url": "https://wago.tools/db2/SpellDuration/csv?build=1.60.1.69913"
+      "url": "https://wago.tools/db2/SpellDuration/csv?build=1.60.1.70009"
     },
     {
       "table": "SpellEffect",
-      "sha256": "f08c0780f920f41f84b6d6d13ada78db59a4c5ae8ca369c8bee3ab7642af41c1",
-      "bytes": 3828322,
-      "url": "https://wago.tools/db2/SpellEffect/csv?build=1.60.1.69913"
+      "sha256": "fdecddfd93a3c27b48d7bbbebc8cc733a502fa8d58de623646550f9a5cffeb00",
+      "bytes": 3820700,
+      "url": "https://wago.tools/db2/SpellEffect/csv?build=1.60.1.70009"
     },
     {
       "table": "SpellLevels",
-      "sha256": "552b476ddbe494b9f87c26a488c83da7ae4dc0d757d38dcddff0772d4b720286",
-      "bytes": 309211,
-      "url": "https://wago.tools/db2/SpellLevels/csv?build=1.60.1.69913"
+      "sha256": "9eb3c7b6431e6f74395aa920033eb456d0ef7f70d75ca47c09c1ad62c2ca76bc",
+      "bytes": 309714,
+      "url": "https://wago.tools/db2/SpellLevels/csv?build=1.60.1.70009"
     },
     {
       "table": "SpellMisc",
-      "sha256": "f6ed1f30f53e311b231b4ae007f8ca5f605e1ad6c960a70f3fce871fb87583bd",
-      "bytes": 3005647,
-      "url": "https://wago.tools/db2/SpellMisc/csv?build=1.60.1.69913"
+      "sha256": "6e4c26027a38b519c2a61cbaf94b557d06cbf61b94c94377504957774ed7e145",
+      "bytes": 3000382,
+      "url": "https://wago.tools/db2/SpellMisc/csv?build=1.60.1.70009"
     },
     {
       "table": "SpellName",
-      "sha256": "ede393ee7dd2d8a7e9bacbf4f14a32a88ded7f67ba08b33d564e931a352773ab",
-      "bytes": 833945,
-      "url": "https://wago.tools/db2/SpellName/csv?build=1.60.1.69913"
+      "sha256": "b9a0d125fd47e02c13790504e2f10c4e67a3e5d5c4a91295bd96514ba36610a6",
+      "bytes": 832295,
+      "url": "https://wago.tools/db2/SpellName/csv?build=1.60.1.70009"
     },
     {
       "table": "SpellPower",
-      "sha256": "02f4ef844b849fe94f0c4b49fb7e21a178213c90d44afa7d1665cb8b62a32380",
-      "bytes": 138308,
-      "url": "https://wago.tools/db2/SpellPower/csv?build=1.60.1.69913"
+      "sha256": "562e0192887fcf03e2df44e683bd1aa3baba5ae8c3ff7b1c084d3faa74e86ba0",
+      "bytes": 138354,
+      "url": "https://wago.tools/db2/SpellPower/csv?build=1.60.1.70009"
     },
     {
       "table": "TraitDefinition",
-      "sha256": "41ef26487af21af2082cf1174ad3a3c56e5003f8700d904c861f800bf87b2575",
-      "bytes": 14955,
-      "url": "https://wago.tools/db2/TraitDefinition/csv?build=1.60.1.69913"
+      "sha256": "afa7acf4bc91143377a660dd20613bc7a6488f1adf4bf5aad9ec0ac61bef22c7",
+      "bytes": 14907,
+      "url": "https://wago.tools/db2/TraitDefinition/csv?build=1.60.1.70009"
     },
     {
       "table": "TraitDefinitionEffectPoints",
-      "sha256": "64105c2e36b1f4381ba4584d7924aacec9dd1fdfbdaac0089034f90fbb97e147",
-      "bytes": 14890,
-      "url": "https://wago.tools/db2/TraitDefinitionEffectPoints/csv?build=1.60.1.69913"
+      "sha256": "dd2af33a2530afcba9e3d27e8bac50c7f4f5f312aa88d1da352daa3e9e1289f5",
+      "bytes": 14818,
+      "url": "https://wago.tools/db2/TraitDefinitionEffectPoints/csv?build=1.60.1.70009"
     },
     {
       "table": "TraitNode",
-      "sha256": "bf782192555e1a3618b3bc36d5c3344cbb7040630af1619534ae63e6e004479c",
-      "bytes": 15776,
-      "url": "https://wago.tools/db2/TraitNode/csv?build=1.60.1.69913"
+      "sha256": "d3553ec219c1f82eb1b1c933ca5ecf0c66fb11d857699060f46d03550c87efed",
+      "bytes": 15719,
+      "url": "https://wago.tools/db2/TraitNode/csv?build=1.60.1.70009"
     },
     {
       "table": "TraitNodeEntry",
-      "sha256": "2072534b68d4de57509f96eb2476aec373be07a3b4d8ffebfc80093f71605518",
-      "bytes": 13174,
-      "url": "https://wago.tools/db2/TraitNodeEntry/csv?build=1.60.1.69913"
+      "sha256": "4f13a6dc76af27ab26b39492e47105b49f5fb471e31c61f7fa3ef655871f4b50",
+      "bytes": 13154,
+      "url": "https://wago.tools/db2/TraitNodeEntry/csv?build=1.60.1.70009"
     },
     {
       "table": "TraitNodeXTraitNodeEntry",
-      "sha256": "3d34473f8b5bf24b5599ab314e6fa4156f39a850682a74294e58c8b0eb65c1b0",
-      "bytes": 14096,
-      "url": "https://wago.tools/db2/TraitNodeXTraitNodeEntry/csv?build=1.60.1.69913"
+      "sha256": "b54ec6d8f2a6c4985ca0da8e40e91c0c0e81084fd883055bef801e08c3eeb83e",
+      "bytes": 14046,
+      "url": "https://wago.tools/db2/TraitNodeXTraitNodeEntry/csv?build=1.60.1.70009"
     },
     {
       "table": "TraitTree",
       "sha256": "6f63def42b6b42b7524e36aef48f7afd9a399b6968b5a979e8c3f349f163f3a6",
       "bytes": 533,
-      "url": "https://wago.tools/db2/TraitTree/csv?build=1.60.1.69913"
+      "url": "https://wago.tools/db2/TraitTree/csv?build=1.60.1.70009"
     }
   ],
   "interpretation": "Explicit reviewed IDs only. Client tables do not prove server proc rules, target eligibility, or spell availability. Remaining abilities are not certified by this snapshot.",
@@ -4023,6 +4023,45 @@
             "ImplicitTarget_0": "6",
             "ImplicitTarget_1": "0",
             "SpellID": "1317257"
+          },
+          {
+            "ID": "1357611",
+            "EffectAura": "31",
+            "DifficultyID": "0",
+            "EffectIndex": "2",
+            "Effect": "6",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "1",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "30",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "1",
+            "ImplicitTarget_1": "0",
+            "SpellID": "1317257"
           }
         ],
         "SpellPower": [
@@ -4077,7 +4116,7 @@
             "Attributes_5": "0",
             "Attributes_6": "0",
             "Attributes_7": "0",
-            "Attributes_8": "0",
+            "Attributes_8": "4096",
             "Attributes_9": "0",
             "Attributes_10": "0",
             "Attributes_11": "0",
@@ -4088,7 +4127,7 @@
             "Attributes_16": "0",
             "DifficultyID": "0",
             "CastingTimeIndex": "1",
-            "DurationIndex": "0",
+            "DurationIndex": "27",
             "PvPDurationIndex": "0",
             "RangeIndex": "2",
             "SchoolMask": "1",
@@ -4108,8 +4147,8 @@
           {
             "ID": "1317257",
             "NameSubtext_lang": "Rank 1",
-            "Description_lang": "A powerful kick that deals $s2% melee weapon damage.",
-            "AuraDescription_lang": ""
+            "Description_lang": "A powerful kick that deals $s2% melee weapon damage and increases movement speed by $s3% for $d.",
+            "AuraDescription_lang": "Movement speed increased by $w3%."
           }
         ],
         "SpellName": [
@@ -4118,7 +4157,14 @@
             "Name_lang": "Strider Kick"
           }
         ],
-        "SpellDuration": [],
+        "SpellDuration": [
+          {
+            "ID": "27",
+            "Duration": "3000",
+            "MaxDuration": "3000",
+            "DurationPerResource": "0"
+          }
+        ],
         "SpellCastTimes": [
           {
             "ID": "1",
@@ -4338,8 +4384,8 @@
       "spell_id": 9912,
       "fields": {
         "base": [
-          61.784,
-          68.616
+          91.904,
+          102.096
         ],
         "coeff": 0.571,
         "cost": 120.0,
@@ -4363,7 +4409,7 @@
             "EffectMechanic": "0",
             "EffectPointsPerResource": "0",
             "EffectPos_facing": "0",
-            "EffectRealPointsPerLevel": "0.69999998808",
+            "EffectRealPointsPerLevel": "1",
             "EffectTriggerSpell": "0",
             "BonusCoefficientFromAP": "0",
             "PvpMultiplier": "1",
@@ -4371,7 +4417,7 @@
             "Variance": "0.11200000346",
             "ResourceCoefficient": "0",
             "GroupSizeBasePointsCoefficient": "1",
-            "EffectBasePointsF": "61",
+            "EffectBasePointsF": "91",
             "ScalingClass": "0",
             "Node__Field_12_0_0_63534_001": "0",
             "EffectMiscValue_0": "0",
@@ -5835,7 +5881,7 @@
             "ID": "333893",
             "Attributes_0": "65536",
             "Attributes_1": "0",
-            "Attributes_2": "4194304",
+            "Attributes_2": "4194308",
             "Attributes_3": "512",
             "Attributes_4": "0",
             "Attributes_5": "0",
@@ -9719,7 +9765,7 @@
             "Speed": "0",
             "LaunchDelay": "0",
             "MinDuration": "0",
-            "SpellIconFileDataID": "132135",
+            "SpellIconFileDataID": "132278",
             "ActiveIconFileDataID": "0",
             "ContentTuningID": "0",
             "ShowFutureSpellPlayerConditionID": "0",
@@ -9732,14 +9778,14 @@
           {
             "ID": "1238073",
             "NameSubtext_lang": "Rank 4",
-            "Description_lang": "Mangle the target for $s2% normal damage plus $s1.",
+            "Description_lang": "Bite the target for $s2% normal damage plus $s1.",
             "AuraDescription_lang": ""
           }
         ],
         "SpellName": [
           {
             "ID": "1238073",
-            "Name_lang": "Mangle"
+            "Name_lang": "Primal Bite"
           }
         ],
         "SpellDuration": [],
@@ -10735,8 +10781,8 @@
           {
             "ID": "417141",
             "NameSubtext_lang": "",
-            "Description_lang": "$?a5487|a9634|a3025[|CFFFFFFFFReuires Cat Form, Bear Form, Dire Bear Form|R][|CFFFF2020Requires Cat Form, Bear Form, Dire Bear Form|R]Causes your Mangle ability to strike up to $s3 targets, removes its cooldown, and increases the critical strike chance of your Combo Point-generating abilities by $s1%. Clears and grants immunity to Fear effects for the duration. Lasts $d.",
-            "AuraDescription_lang": "Combo Point generating abilities gain $s1% increased critical strike chance.Mangle hits up to $w3 targets and has no cooldown.Immune to Fear effects."
+            "Description_lang": "$?a5487|a9634|a3025[|CFFFFFFFFReuires Cat Form, Bear Form, Dire Bear Form|R][|CFFFF2020Requires Cat Form, Bear Form, Dire Bear Form|R]Causes your Primal Bite ability to strike up to $s3 targets, removes its cooldown, and increases the critical strike chance of your Combo Point-generating abilities by $s1%. Clears and grants immunity to Fear effects for the duration. Lasts $d.",
+            "AuraDescription_lang": "Combo Point generating abilities gain $s1% increased critical strike chance.Primal Bite hits up to $w3 targets and has no cooldown.Immune to Fear effects."
           }
         ],
         "SpellName": [
@@ -11036,7 +11082,7 @@
         "Spell": [
           {
             "ID": "2643",
-            "NameSubtext_lang": "Rank 1",
+            "NameSubtext_lang": "",
             "Description_lang": "Fires several missiles, hitting $x1 targets. Multi-Shot shares its cooldown with Aimed Shot.",
             "AuraDescription_lang": ""
           }
@@ -11696,45 +11742,6 @@
             "ImplicitTarget_0": "1",
             "ImplicitTarget_1": "0",
             "SpellID": "425336"
-          },
-          {
-            "ID": "1354097",
-            "EffectAura": "65",
-            "DifficultyID": "0",
-            "EffectIndex": "2",
-            "Effect": "6",
-            "EffectAmplitude": "0",
-            "EffectAttributes": "0",
-            "EffectAuraPeriod": "0",
-            "EffectBonusCoefficient": "0",
-            "EffectChainAmplitude": "1",
-            "EffectChainTargets": "0",
-            "EffectItemType": "0",
-            "EffectMechanic": "0",
-            "EffectPointsPerResource": "0",
-            "EffectPos_facing": "0",
-            "EffectRealPointsPerLevel": "0",
-            "EffectTriggerSpell": "0",
-            "BonusCoefficientFromAP": "0",
-            "PvpMultiplier": "1",
-            "Coefficient": "0",
-            "Variance": "0",
-            "ResourceCoefficient": "0",
-            "GroupSizeBasePointsCoefficient": "1",
-            "EffectBasePointsF": "30",
-            "ScalingClass": "0",
-            "Node__Field_12_0_0_63534_001": "0",
-            "EffectMiscValue_0": "0",
-            "EffectMiscValue_1": "0",
-            "EffectRadiusIndex_0": "0",
-            "EffectRadiusIndex_1": "0",
-            "EffectSpellClassMask_0": "0",
-            "EffectSpellClassMask_1": "0",
-            "EffectSpellClassMask_2": "0",
-            "EffectSpellClassMask_3": "0",
-            "ImplicitTarget_0": "1",
-            "ImplicitTarget_1": "0",
-            "SpellID": "425336"
           }
         ],
         "SpellPower": [],
@@ -11802,8 +11809,8 @@
           {
             "ID": "425336",
             "NameSubtext_lang": "",
-            "Description_lang": "Increases your melee attack speed and spell casting speed by $s1% for $d.",
-            "AuraDescription_lang": "Melee attack speed and spell casting speed increased by $s1%."
+            "Description_lang": "Increases your attack speed by $s1% for $d.",
+            "AuraDescription_lang": "Attack speed increased by $s1%."
           }
         ],
         "SpellName": [

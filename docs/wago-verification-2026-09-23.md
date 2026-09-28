@@ -106,3 +106,21 @@ armor type, item level, stats and effects (kept only when the pairing is one-to-
   with several identical candidates (Silk / Dreadweave / Satin belts), and duplicate catalog
   entries (two "Lieutenant Commander's Lamellar Headguard" ids).
 - Faction tags for rank gear are name-based; a client or vendor source would replace them.
+
+## Build 1.60.1.70009 (2026-09-28)
+
+Client data is now pinned to 70009 (`tools/wago_audit.py`, `tools/build_item_class_restrictions.py`).
+Of the 58 reviewed spells and 19 talent curves only Wrath changed (base 61 -> 91, per-level growth
+0.7 -> 1: 61.8-68.6 -> 91.9-102.1 at level 60). Other changes that reach the engines:
+
+- Rage of the Farseer dropped its spell-haste aura; it is attack speed only.
+- Two-Handed Weapon Specialization is 2/4/6% (was 3/6/9%).
+- Crusade and Improved Holy Strike left the Paladin talent tree. Retribution's default build
+  re-spends those 4 points by a pairwise sim search: Champion of the Light 3, Reverence 1.
+- Premier Grand Marshal's Stave / Premier High Warlord's War Staff: +15 Spirit became Spell
+  Penetration (not modeled). Black Dragonscale Boots left the Black Dragon Mail set.
+  Tempestria's Frozen Necklace and Frigid Ring were removed from the client.
+
+A full `tools/fetch_forever_items.py` re-import from foreverchanges.pro was NOT applied: it
+rewrote armor on hundreds of items by fixed amounts and cut stats on others, which the client's
+ItemSparse table doesn't show. Needs investigating before the catalog is refreshed that way.

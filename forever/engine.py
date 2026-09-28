@@ -657,7 +657,7 @@ class Iteration:
                 b = self.buffs.get(name)
                 if b and b["until"] > self.t: h *= 1 + b.get("haste", 0)
         else:
-            for name in ("Berserking", "Rage of the Farseer", "Nature's Grace"):
+            for name in ("Berserking", "Nature's Grace"):  # Rage of the Farseer is attack speed only since build 70009
                 b = self.buffs.get(name)
                 if b and b["until"] > self.t: h *= 1 + b.get("haste", 0)
             h *= 1 + self.buff_stat("spellHaste")
@@ -1971,5 +1971,5 @@ def simulate(request, items, enchants, sets):
         "buff_procs_per_min": buff_procs_per_min,
         "log": results[0]["log"],
         "model_status": "Event-driven level-60 model: sourced base damage, coefficients, cast times, Classic attack tables (miss, dodge, parry, glancing, block, crit suppression), resource ticks, combo points, DoTs, procs, timed cooldowns, pets and racials. No calibration multiplier. Provisional values are listed under configuration.notes.",
-        "source": "https://wago.tools (reviewed client fields and talent curves, build 1.60.1.69913; data/wago_verified.json) + https://www.wowhead.com/forever/ (roster, racials, calculator) + WoWSims Classic (baseline mechanics). Unverified behavior remains provisional.",
+        "source": "https://wago.tools (reviewed client fields and talent curves, build 1.60.1.70009; data/wago_verified.json) + https://www.wowhead.com/forever/ (roster, racials, calculator) + WoWSims Classic (baseline mechanics). Unverified behavior remains provisional.",
     }

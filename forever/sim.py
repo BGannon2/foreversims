@@ -41,9 +41,12 @@ PROTECTION_BUILD = {
 }
 RETRIBUTION_BUILD = {
     '105707': 5, '105706': 5, '105705': 2, '105703': 5, '105701': 3,
-    '105696': 1, '105700': 1, '110883': 2, '105697': 3, '105693': 3, '105692': 1,
-    '105328': 2, '105639': 5, '105332': 3, '105333': 3, '105335': 2,
+    '105696': 1, '105700': 1, '105697': 3, '105693': 3, '105692': 1,
+    '105639': 5, '105332': 3, '105333': 3, '105335': 2,
     '105334': 3, '105331': 2,
+    # Build 70009 removed Crusade and Improved Holy Strike; the sim chose their 4 points
+    # (pairwise search over legal placements, 1500 iterations): Champion of the Light 3, Reverence 1.
+    '110882': 3, '110871': 1,
 }
 
 def talent_build(spec):
@@ -75,7 +78,7 @@ ASSUMPTIONS = [
     'Equal-time order: player decision, player swing, enemy swings, healing. Events at fight end are excluded.',
     'A fresh fight starts at full health/mana, no active seal, and Righteous Fury pre-applied for Protection.',
     'The talent calculator enforces the sourced Forever ranks, prerequisites, five-points-per-tier rule and 51-point cap.',
-    'Precision, Conviction, Deflection, Improved Seals, Crusade, and one/two-handed weapon specializations use their sourced Forever rank text.',
+    'Precision, Conviction, Deflection, Improved Seals, and one/two-handed weapon specializations use their sourced Forever rank text.',
     'Sourced Forever set bonuses are applied at their equipped-piece thresholds. Unresolved proc/control effects remain labeled informational.',
     'Consecration Rank 5 uses its Forever level-60 tooltip (foreverchanges.pro, build 1.60.1.69913): 135 mana, 8 sec cooldown, 16 Holy damage over 8 sec to enemies in the area, plus an additional 32 over 8 sec (48 total) to the first 4 enemies who enter it.',
     "Holy Strike is Rank 8's confirmed value from wago.tools DB2 (build 1.60.1.69913, spell 10333): 20 mana, 12 sec cooldown, an instant direct-cast attack (not a next-swing modifier as previously modeled) dealing 40% weapon damage plus 81-105 Holy damage with a 0.429 spell-power-style coefficient on the Holy component.",
@@ -262,7 +265,7 @@ class Fight:
         self.casts[effect['name']]+=1; self.record(effect['name']+' activated')
 
     def rank(self, talent_id):
-        return self.tal[str(talent_id)]
+        return self.tal.get(str(talent_id), 0)  # talents removed from the client tree count as unranked
 
     def schedule(self,time,kind):
         priority={'decision':0,'swing':1,'consecration':2,'enemy':3,'heal':4,'mana':5}[kind]
@@ -334,9 +337,6 @@ class Fight:
             holy_bonus=self.item_stat('spell_power')+(140 if self.p['debuffs']['judgement_of_the_crusader'] else 0)
             amount+=holy_bonus*spell_coefficient
         amount*=1 + self.vengeance*F['vengeance_rank1']['bonus_per_stack']*self.rank(105693)
-        crusade_rank=self.rank(110883)
-        creature_crusade=crusade_rank if self.e['boss_type'] in {'demon','undead'} else 0
-        amount*=1+0.01*(crusade_rank+creature_crusade)
         amount*=1+self.racial.get('creature_damage',{}).get(self.e['boss_type'],0)
         if physical is None: physical=not holy
         if physical and self.p['debuffs']['gift_of_arthas'] and self.p['consumables']['gift_of_arthas']: amount+=8
@@ -374,7 +374,7 @@ class Fight:
         weapon=self.rng.uniform(self.c['weapon_min'],self.c['weapon_max'])
         if self.m['use_classic_era_conversions']:
             weapon += (self.item_stat('attack_power')+bonus_ap)/14*self.c['weapon_speed']
-        if self.c.get('weapon_hands')=='Two-Hand': weapon*=1+(0,0.03,0.06,0.09)[self.rank(105697)]
+        if self.c.get('weapon_hands')=='Two-Hand': weapon*=1+(0,0.02,0.04,0.06)[self.rank(105697)]  # 2/4/6% since build 70009
         elif self.c.get('weapon_hands') in ('One-Hand','Main Hand'): weapon*=1+(0,0.03,0.07,0.10)[self.rank(105629)]
         landed=self.deal('Windfury Attack' if bonus_ap else extra_name if extra else 'Melee',weapon,can_crit=True,hit=self.c['hit_chance'])
         if landed and not extra and self.p['raid_buffs'].get('windfury_totem') and self.rng.random()<0.20:

@@ -1046,9 +1046,6 @@ impl<'a> Fight<'a> {
             amount += holy_bonus * spell_coefficient;
         }
         amount *= 1.0 + self.vengeance as f64 * self.f("vengeance_rank1", "bonus_per_stack") * self.rank("105693");
-        let crusade_rank = self.rank("110883");
-        let creature_crusade = if self.e.boss_type == "demon" || self.e.boss_type == "undead" { crusade_rank } else { 0.0 };
-        amount *= 1.0 + 0.01 * (crusade_rank + creature_crusade);
         amount *= 1.0 + self.racial.creature_damage.get(&self.e.boss_type).copied().unwrap_or(0.0);
         let physical = physical.unwrap_or(!holy);
         if physical && self.debuffs.get("gift_of_arthas").copied().unwrap_or(false) && self.consumables.get("gift_of_arthas").copied().unwrap_or(false) {
@@ -1119,7 +1116,7 @@ impl<'a> Fight<'a> {
             weapon += (self.item_stat("attack_power") + bonus_ap) / 14.0 * self.c.weapon_speed;
         }
         match self.c.weapon_hands.as_deref() {
-            Some("Two-Hand") => weapon *= 1.0 + [0.0, 0.03, 0.06, 0.09][self.rank("105697") as usize],
+            Some("Two-Hand") => weapon *= 1.0 + [0.0, 0.02, 0.04, 0.06][self.rank("105697") as usize],
             Some("One-Hand") | Some("Main Hand") => weapon *= 1.0 + [0.0, 0.03, 0.07, 0.10][self.rank("105629") as usize],
             _ => {}
         }

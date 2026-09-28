@@ -10703,23 +10703,20 @@
      "gear_slot": "neck"
     },
     {
-     "id": 16476,
-     "name": "Field Marshal's Lamellar Pauldrons",
-     "icon": "inv_shoulder_20",
+     "id": 20058,
+     "name": "Highlander's Lamellar Spaulders",
+     "icon": "inv_shoulder_01",
      "quality": "Epic",
-     "itemLevel": 74,
+     "itemLevel": 65,
      "stats": {
-      "armor": 626.0,
-      "stamina": 16.0,
-      "strength": 16.0,
-      "intellect": 15.0,
-      "spellPower": 19.0,
-      "mp5": 6.0
+      "armor": 553.0,
+      "strength": 18.0,
+      "stamina": 15.0,
+      "agility": 17.0,
+      "intellect": 10.0
      },
-     "effects": [
-      "Equip: +6 Mana Regeneration"
-     ],
-     "source": "Vendor: Captain Dirgehammer",
+     "effects": [],
+     "source": "Vendor: Samuel Hawke",
      "subclass": "Plate",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -10728,27 +10725,20 @@
       "shoulders"
      ],
      "set": {
-      "name": "Field Marshal's Aegis",
+      "name": "The Highlander's Resolve",
       "pieces": [
-       "Field Marshal's Lamellar Chestplate",
-       "Field Marshal's Lamellar Faceguard",
-       "Field Marshal's Lamellar Pauldrons",
-       "Marshal's Lamellar Boots",
-       "Marshal's Lamellar Gloves",
-       "Marshal's Lamellar Legplates"
+       "Highlander's Lamellar Girdle",
+       "Highlander's Lamellar Greaves",
+       "Highlander's Lamellar Spaulders"
       ],
       "bonuses": [
        {
         "required": 2,
-        "description": "+20 Stamina."
+        "description": "+5 Stamina."
        },
        {
         "required": 3,
-        "description": "Reduces the cooldown of your Hammer of Justice by 10 sec."
-       },
-       {
-        "required": 6,
-        "description": "Increases damage and healing done by magical spells and effects by up to 23."
+        "description": "Improves your chance to get a critical strike by 1%."
        }
       ]
      },
@@ -10756,19 +10746,21 @@
      "gear_slot": "shoulders"
     },
     {
-     "id": 20073,
-     "name": "Cloak of the Honor Guard",
-     "icon": "inv_misc_cape_02",
-     "quality": "Epic",
-     "itemLevel": 65,
+     "id": 16337,
+     "name": "Sergeant Major's Cape",
+     "icon": "inv_misc_cape_21",
+     "quality": "Rare",
+     "itemLevel": 60,
      "stats": {
-      "armor": 50.0,
-      "stamina": 11.0,
-      "agility": 5.0,
-      "attackPower": 34.0
+      "armor": 43.0,
+      "strength": 8.0,
+      "agility": 8.0,
+      "intellect": 8.0,
+      "stamina": 8.0,
+      "spirit": 8.0
      },
      "effects": [],
-     "source": "Vendor: Samuel Hawke",
+     "source": "Unknown",
      "subclass": "Cloth",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -11072,17 +11064,18 @@
      "gear_slot": "finger2"
     },
     {
-     "id": 13965,
-     "name": "Blackhand's Breadth",
-     "icon": "inv_misc_armorkit_09",
+     "id": 11815,
+     "name": "Hand of Justice",
+     "icon": "inv_jewelry_talisman_01",
      "quality": "Rare",
-     "itemLevel": 63,
-     "stats": {
-      "meleeCrit": 2
-     },
-     "effects": [],
-     "source": "WoWSims Classic database",
-     "subclass": null,
+     "itemLevel": 58,
+     "stats": {},
+     "effects": [
+      "Equip: 2% chance on melee hit to gain 1 extra attack.",
+      "Equip: +20 Attack Power."
+     ],
+     "source": "Boss Drop: Emperor Dagran Thaurissan",
+     "subclass": "Miscellaneous",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -11095,16 +11088,16 @@
      "gear_slot": "trinket1"
     },
     {
-     "id": 272438,
-     "name": "Weakness Analyzer",
-     "icon": "inv_misc_blizzcon09_graphicscard",
+     "id": 13965,
+     "name": "Blackhand's Breadth",
+     "icon": "inv_misc_armorkit_09",
      "quality": "Rare",
-     "itemLevel": 65,
+     "itemLevel": 63,
      "stats": {
-      "spellPower": 22.0
+      "meleeCrit": 2
      },
      "effects": [],
-     "source": "forever-1.60.1.69913",
+     "source": "WoWSims Classic database",
      "subclass": null,
      "weaponDamageMin": null,
      "weaponDamageMax": null,

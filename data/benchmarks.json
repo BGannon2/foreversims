@@ -1970,10 +1970,10 @@
       "role": "dps",
       "targets": 1,
       "url": "/all-specs.html?spec=druid-balance&race=Night%20Elf&targets=1&benchmark=1",
-      "dps": 466.95598626790945,
-      "tps": 466.95598626790945,
+      "dps": 472.5626501339837,
+      "tps": 472.5626501339837,
       "dtps": 0.0,
-      "total_damage": 56034.718352149146
+      "total_damage": 56707.518016078044
     },
     {
       "id": "druid-balance",
@@ -1983,10 +1983,10 @@
       "role": "dps",
       "targets": 2,
       "url": "/all-specs.html?spec=druid-balance&race=Night%20Elf&targets=2&benchmark=1",
-      "dps": 487.00265865585425,
-      "tps": 487.00265865585425,
+      "dps": 493.7678877758323,
+      "tps": 493.7678877758323,
       "dtps": 0.0,
-      "total_damage": 58440.31903870254
+      "total_damage": 59252.1465330999
     },
     {
       "id": "druid-balance",
@@ -1996,10 +1996,10 @@
       "role": "dps",
       "targets": 3,
       "url": "/all-specs.html?spec=druid-balance&race=Night%20Elf&targets=3&benchmark=1",
-      "dps": 502.84291496164144,
-      "tps": 502.84291496164144,
+      "dps": 510.7110648831338,
+      "tps": 510.7110648831338,
       "dtps": 0.0,
-      "total_damage": 60341.14979539699
+      "total_damage": 61285.32778597608
     },
     {
       "id": "druid-balance",
@@ -2009,10 +2009,10 @@
       "role": "dps",
       "targets": 4,
       "url": "/all-specs.html?spec=druid-balance&race=Night%20Elf&targets=4&benchmark=1",
-      "dps": 514.0927084351035,
-      "tps": 514.0927084351035,
+      "dps": 522.794452818277,
+      "tps": 522.794452818277,
       "dtps": 0.0,
-      "total_damage": 61691.12501221235
+      "total_damage": 62735.33433819318
     },
     {
       "id": "druid-balance",
@@ -2022,10 +2022,10 @@
       "role": "dps",
       "targets": 5,
       "url": "/all-specs.html?spec=druid-balance&race=Night%20Elf&targets=5&benchmark=1",
-      "dps": 521.5586648447847,
-      "tps": 521.5586648447847,
+      "dps": 531.024309484868,
+      "tps": 531.024309484868,
       "dtps": 0.0,
-      "total_damage": 62587.03978137419
+      "total_damage": 63722.91713818419
     },
     {
       "id": "druid-balance",
@@ -2035,10 +2035,10 @@
       "role": "dps",
       "targets": 1,
       "url": "/all-specs.html?spec=druid-balance&race=Tauren&targets=1&benchmark=1",
-      "dps": 458.7802046147246,
-      "tps": 458.7802046147246,
+      "dps": 464.4477675825697,
+      "tps": 464.4477675825697,
       "dtps": 0.0,
-      "total_damage": 55053.624553766924
+      "total_damage": 55733.73210990833
     },
     {
       "id": "druid-balance",
@@ -2048,10 +2048,10 @@
       "role": "dps",
       "targets": 2,
       "url": "/all-specs.html?spec=druid-balance&race=Tauren&targets=2&benchmark=1",
-      "dps": 479.15532428265686,
-      "tps": 479.15532428265686,
+      "dps": 486.05174566076437,
+      "tps": 486.05174566076437,
       "dtps": 0.0,
-      "total_damage": 57498.638913918745
+      "total_damage": 58326.20947929165
     },
     {
       "id": "druid-balance",
@@ -2061,10 +2061,10 @@
       "role": "dps",
       "targets": 3,
       "url": "/all-specs.html?spec=druid-balance&race=Tauren&targets=3&benchmark=1",
-      "dps": 494.2007422653916,
-      "tps": 494.2007422653916,
+      "dps": 502.20983887415866,
+      "tps": 502.20983887415866,
       "dtps": 0.0,
-      "total_damage": 59304.08907184688
+      "total_damage": 60265.18066489893
     },
     {
       "id": "druid-balance",
@@ -2074,10 +2074,10 @@
       "role": "dps",
       "targets": 4,
       "url": "/all-specs.html?spec=druid-balance&race=Tauren&targets=4&benchmark=1",
-      "dps": 507.4338980316206,
-      "tps": 507.4338980316206,
+      "dps": 516.3403270843186,
+      "tps": 516.3403270843186,
       "dtps": 0.0,
-      "total_damage": 60892.06776379439
+      "total_damage": 61960.83925011816
     },
     {
       "id": "druid-balance",
@@ -2087,10 +2087,10 @@
       "role": "dps",
       "targets": 5,
       "url": "/all-specs.html?spec=druid-balance&race=Tauren&targets=5&benchmark=1",
-      "dps": 511.58294429767807,
-      "tps": 511.58294429767807,
+      "dps": 521.165570489482,
+      "tps": 521.165570489482,
       "dtps": 0.0,
-      "total_damage": 61389.95331572125
+      "total_damage": 62539.86845873772
     },
     {
       "id": "druid-balance",
@@ -2100,10 +2100,10 @@
       "role": "dps",
       "targets": 1,
       "url": "/all-specs.html?spec=druid-balance&race=Skyborne%20%28Alliance%29&targets=1&benchmark=1",
-      "dps": 456.26473013122575,
-      "tps": 456.26473013122575,
+      "dps": 461.7820306105873,
+      "tps": 461.7820306105873,
       "dtps": 0.0,
-      "total_damage": 54751.76761574706
+      "total_damage": 55413.84367327045
     },
     {
       "id": "druid-balance",
@@ -2113,10 +2113,10 @@
       "role": "dps",
       "targets": 2,
       "url": "/all-specs.html?spec=druid-balance&race=Skyborne%20%28Alliance%29&targets=2&benchmark=1",
-      "dps": 477.46155824602204,
-      "tps": 477.46155824602204,
+      "dps": 484.2014182674326,
+      "tps": 484.2014182674326,
       "dtps": 0.0,
-      "total_damage": 57295.38698952265
+      "total_damage": 58104.170192091915
     },
     {
       "id": "druid-balance",
@@ -2126,10 +2126,10 @@
       "role": "dps",
       "targets": 3,
       "url": "/all-specs.html?spec=druid-balance&race=Skyborne%20%28Alliance%29&targets=3&benchmark=1",
-      "dps": 494.2086643245897,
-      "tps": 494.2086643245897,
+      "dps": 502.1812926495875,
+      "tps": 502.1812926495875,
       "dtps": 0.0,
-      "total_damage": 59305.03971895082
+      "total_damage": 60261.75511795056
     },
     {
       "id": "druid-balance",
@@ -2139,10 +2139,10 @@
       "role": "dps",
       "targets": 4,
       "url": "/all-specs.html?spec=druid-balance&race=Skyborne%20%28Alliance%29&targets=4&benchmark=1",
-      "dps": 504.38561352674355,
-      "tps": 504.38561352674355,
+      "dps": 513.1715230624598,
+      "tps": 513.1715230624598,
       "dtps": 0.0,
-      "total_damage": 60526.273623209265
+      "total_damage": 61580.58276749521
     },
     {
       "id": "druid-balance",
@@ -2152,10 +2152,10 @@
       "role": "dps",
       "targets": 5,
       "url": "/all-specs.html?spec=druid-balance&race=Skyborne%20%28Alliance%29&targets=5&benchmark=1",
-      "dps": 511.2456665797777,
-      "tps": 511.2456665797777,
+      "dps": 520.7797629031855,
+      "tps": 520.7797629031855,
       "dtps": 0.0,
-      "total_damage": 61349.47998957336
+      "total_damage": 62493.57154838231
     },
     {
       "id": "druid-balance",
@@ -2165,10 +2165,10 @@
       "role": "dps",
       "targets": 1,
       "url": "/all-specs.html?spec=druid-balance&race=Skyborne%20%28Horde%29&targets=1&benchmark=1",
-      "dps": 456.26473013122575,
-      "tps": 456.26473013122575,
+      "dps": 461.7820306105873,
+      "tps": 461.7820306105873,
       "dtps": 0.0,
-      "total_damage": 54751.76761574706
+      "total_damage": 55413.84367327045
     },
     {
       "id": "druid-balance",
@@ -2178,10 +2178,10 @@
       "role": "dps",
       "targets": 2,
       "url": "/all-specs.html?spec=druid-balance&race=Skyborne%20%28Horde%29&targets=2&benchmark=1",
-      "dps": 477.46155824602204,
-      "tps": 477.46155824602204,
+      "dps": 484.2014182674326,
+      "tps": 484.2014182674326,
       "dtps": 0.0,
-      "total_damage": 57295.38698952265
+      "total_damage": 58104.170192091915
     },
     {
       "id": "druid-balance",
@@ -2191,10 +2191,10 @@
       "role": "dps",
       "targets": 3,
       "url": "/all-specs.html?spec=druid-balance&race=Skyborne%20%28Horde%29&targets=3&benchmark=1",
-      "dps": 494.2086643245897,
-      "tps": 494.2086643245897,
+      "dps": 502.1812926495875,
+      "tps": 502.1812926495875,
       "dtps": 0.0,
-      "total_damage": 59305.03971895082
+      "total_damage": 60261.75511795056
     },
     {
       "id": "druid-balance",
@@ -2204,10 +2204,10 @@
       "role": "dps",
       "targets": 4,
       "url": "/all-specs.html?spec=druid-balance&race=Skyborne%20%28Horde%29&targets=4&benchmark=1",
-      "dps": 504.38561352674355,
-      "tps": 504.38561352674355,
+      "dps": 513.1715230624598,
+      "tps": 513.1715230624598,
       "dtps": 0.0,
-      "total_damage": 60526.273623209265
+      "total_damage": 61580.58276749521
     },
     {
       "id": "druid-balance",
@@ -2217,10 +2217,10 @@
       "role": "dps",
       "targets": 5,
       "url": "/all-specs.html?spec=druid-balance&race=Skyborne%20%28Horde%29&targets=5&benchmark=1",
-      "dps": 511.2456665797777,
-      "tps": 511.2456665797777,
+      "dps": 520.7797629031855,
+      "tps": 520.7797629031855,
       "dtps": 0.0,
-      "total_damage": 61349.47998957336
+      "total_damage": 62493.57154838231
     },
     {
       "id": "druid-feral-dps",
@@ -9445,10 +9445,10 @@
       "role": "dps",
       "targets": 1,
       "url": "/paladin.html?spec=retribution&race=Human&targets=1&benchmark=1",
-      "dps": 641.8491769738075,
-      "tps": 641.849176973808,
+      "dps": 644.9523512320967,
+      "tps": 644.9523512320965,
       "dtps": 0.0,
-      "total_damage": 77021.9012368569
+      "total_damage": 77394.2821478516
     },
     {
       "id": "paladin-retribution",
@@ -9458,10 +9458,10 @@
       "role": "dps",
       "targets": 2,
       "url": "/paladin.html?spec=retribution&race=Human&targets=2&benchmark=1",
-      "dps": 654.3742999006826,
-      "tps": 654.3742999006828,
+      "dps": 662.8377780493718,
+      "tps": 662.8377780493717,
       "dtps": 0.0,
-      "total_damage": 78524.91598808189
+      "total_damage": 79540.5333659246
     },
     {
       "id": "paladin-retribution",
@@ -9471,10 +9471,10 @@
       "role": "dps",
       "targets": 3,
       "url": "/paladin.html?spec=retribution&race=Human&targets=3&benchmark=1",
-      "dps": 666.8994228275574,
-      "tps": 666.8994228275579,
+      "dps": 680.7232048666467,
+      "tps": 680.7232048666467,
       "dtps": 0.0,
-      "total_damage": 80027.93073930689
+      "total_damage": 81686.78458399759
     },
     {
       "id": "paladin-retribution",
@@ -9484,10 +9484,10 @@
       "role": "dps",
       "targets": 4,
       "url": "/paladin.html?spec=retribution&race=Human&targets=4&benchmark=1",
-      "dps": 679.4245457544325,
-      "tps": 679.4245457544326,
+      "dps": 698.6086316839218,
+      "tps": 698.6086316839219,
       "dtps": 0.0,
-      "total_damage": 81530.9454905319
+      "total_damage": 83833.03580207059
     },
     {
       "id": "paladin-retribution",
@@ -9497,10 +9497,10 @@
       "role": "dps",
       "targets": 5,
       "url": "/paladin.html?spec=retribution&race=Human&targets=5&benchmark=1",
-      "dps": 688.4840056146409,
-      "tps": 688.48400561464,
+      "dps": 713.0474318345301,
+      "tps": 713.04743183453,
       "dtps": 0.0,
-      "total_damage": 82618.0806737569
+      "total_damage": 85565.69182014359
     },
     {
       "id": "paladin-retribution",
@@ -9510,10 +9510,10 @@
       "role": "dps",
       "targets": 1,
       "url": "/paladin.html?spec=retribution&race=Dwarf&targets=1&benchmark=1",
-      "dps": 630.9304217600665,
-      "tps": 630.9304217600668,
+      "dps": 635.0966124134625,
+      "tps": 635.0966124134636,
       "dtps": 0.0,
-      "total_damage": 75711.65061120797
+      "total_damage": 76211.59348961548
     },
     {
       "id": "paladin-retribution",
@@ -9523,10 +9523,10 @@
       "role": "dps",
       "targets": 2,
       "url": "/paladin.html?spec=retribution&race=Dwarf&targets=2&benchmark=1",
-      "dps": 643.401818274754,
-      "tps": 643.4018182747542,
+      "dps": 652.8550275716083,
+      "tps": 652.8550275716079,
       "dtps": 0.0,
-      "total_damage": 77208.21819297047
+      "total_damage": 78342.60330859298
     },
     {
       "id": "paladin-retribution",
@@ -9536,10 +9536,10 @@
       "role": "dps",
       "targets": 3,
       "url": "/paladin.html?spec=retribution&race=Dwarf&targets=3&benchmark=1",
-      "dps": 655.8732147894414,
-      "tps": 655.8732147894417,
+      "dps": 670.6134427297542,
+      "tps": 670.6134427297541,
       "dtps": 0.0,
-      "total_damage": 78704.78577473297
+      "total_damage": 80473.6131275705
     },
     {
       "id": "paladin-retribution",
@@ -9549,10 +9549,10 @@
       "role": "dps",
       "targets": 4,
       "url": "/paladin.html?spec=retribution&race=Dwarf&targets=4&benchmark=1",
-      "dps": 668.344611304129,
-      "tps": 668.3446113041291,
+      "dps": 688.3718578879,
+      "tps": 688.3718578879005,
       "dtps": 0.0,
-      "total_damage": 80201.35335649547
+      "total_damage": 82604.62294654798
     },
     {
       "id": "paladin-retribution",
@@ -9562,10 +9562,10 @@
       "role": "dps",
       "targets": 5,
       "url": "/paladin.html?spec=retribution&race=Dwarf&targets=5&benchmark=1",
-      "dps": 677.3652106854831,
-      "tps": 677.3652106854822,
+      "dps": 702.7001741571568,
+      "tps": 702.7001741571571,
       "dtps": 0.0,
-      "total_damage": 81283.82528225798
+      "total_damage": 84324.02089885881
     },
     {
       "id": "paladin-retribution",
@@ -9575,10 +9575,10 @@
       "role": "dps",
       "targets": 1,
       "url": "/paladin.html?spec=retribution&race=Undead&targets=1&benchmark=1",
-      "dps": 643.2805516779132,
-      "tps": 643.2805516779135,
+      "dps": 646.2071264615624,
+      "tps": 646.2071264615618,
       "dtps": 0.0,
-      "total_damage": 77193.66620134957
+      "total_damage": 77544.85517538748
     },
     {
       "id": "paladin-retribution",
@@ -9588,10 +9588,10 @@
       "role": "dps",
       "targets": 2,
       "url": "/paladin.html?spec=retribution&race=Undead&targets=2&benchmark=1",
-      "dps": 655.6896981344756,
-      "tps": 655.6896981344759,
+      "dps": 663.8481846315187,
+      "tps": 663.8481846315192,
       "dtps": 0.0,
-      "total_damage": 78682.76377613707
+      "total_damage": 79661.78215578223
     },
     {
       "id": "paladin-retribution",
@@ -9601,10 +9601,10 @@
       "role": "dps",
       "targets": 3,
       "url": "/paladin.html?spec=retribution&race=Undead&targets=3&benchmark=1",
-      "dps": 668.0988445910381,
-      "tps": 668.0988445910385,
+      "dps": 681.4892428014749,
+      "tps": 681.4892428014745,
       "dtps": 0.0,
-      "total_damage": 80171.86135092456
+      "total_damage": 81778.70913617699
     },
     {
       "id": "paladin-retribution",
@@ -9614,10 +9614,10 @@
       "role": "dps",
       "targets": 4,
       "url": "/paladin.html?spec=retribution&race=Undead&targets=4&benchmark=1",
-      "dps": 680.5079910476006,
-      "tps": 680.5079910476009,
+      "dps": 699.1303009714312,
+      "tps": 699.1303009714304,
       "dtps": 0.0,
-      "total_damage": 81660.95892571207
+      "total_damage": 83895.63611657172
     },
     {
       "id": "paladin-retribution",
@@ -9627,10 +9627,10 @@
       "role": "dps",
       "targets": 5,
       "url": "/paladin.html?spec=retribution&race=Undead&targets=5&benchmark=1",
-      "dps": 689.4835647708298,
-      "tps": 689.4835647708289,
+      "dps": 713.3559958080541,
+      "tps": 713.3559958080552,
       "dtps": 0.0,
-      "total_damage": 82738.02777249957
+      "total_damage": 85602.71949696647
     }
   ],
   "race_source": "https://www.wowhead.com/forever/guide/new-race-class-combinations"

@@ -31,7 +31,7 @@ class ServerTests(unittest.TestCase):
         self.assertEqual(status, 200)
         self.assertEqual(set(data["presets"]), {"protection", "retribution"})
         self.assertEqual(set(data["phase6_bis"]), {"protection", "retribution"})
-        self.assertEqual(sum(len(tree["talents"]) for tree in data["talent_data"]["trees"]), 52)
+        self.assertEqual(sum(len(tree["talents"]) for tree in data["talent_data"]["trees"]), 50)
         allowed_prefixes = ("https://www.wowhead.com/forever/", "https://wago.tools/", "https://foreverchanges.pro/")
         self.assertTrue(all(url.startswith(allowed_prefixes) for url in data["sources"].values()))
 

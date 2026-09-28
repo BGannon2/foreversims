@@ -35,7 +35,9 @@ class SimulationTests(unittest.TestCase):
         neutral=self.basic('retribution');neutral['duration']=60;neutral['iterations']=10
         neutral['rotation']['use_exorcism']=False;neutral['rotation']['use_holy_wrath']=False
         undead=copy.deepcopy(neutral);undead['encounter']['boss_type']='undead'
-        self.assertGreater(simulate(undead)['metrics']['dps']['mean'],simulate(neutral)['metrics']['dps']['mean'])
+        # Crusade (the undead/demon damage talent) left the client tree in build 70009, so only
+        # Exorcism and Holy Wrath react to the creature type now.
+        self.assertEqual(simulate(undead)['metrics']['dps']['mean'],simulate(neutral)['metrics']['dps']['mean'])
         enabled=copy.deepcopy(undead);enabled['rotation']['use_exorcism']=True;enabled['rotation']['use_holy_wrath']=True
         result=simulate(enabled)
         self.assertGreater(result['ability_dps']['Exorcism'],0)
@@ -154,8 +156,6 @@ class SimulationTests(unittest.TestCase):
         p['talents']['105334']=3; improved=Fight(p,0); improved.seal_proc('righteousness',100)
         expected=F['righteousness']['proc_base']*F['righteousness']['proc_one_hand_mult']*improved.c['weapon_speed']*1.15
         self.assertAlmostEqual(improved.damage['Seal of Righteousness'],expected)
-        p['talents']['110883']=2; crusade=Fight(p,0); crusade.deal('Test',100,holy=True)
-        self.assertAlmostEqual(crusade.damage['Test'],102)
 
     def test_consecration_rank_five_cost_ticks_and_damage(self):
         p=self.basic('retribution'); p['duration']=9; p['iterations']=1
@@ -308,7 +308,7 @@ class SimulationTests(unittest.TestCase):
                 with self.assertRaises(ValueError): validate(p)
 
     def test_forever_talent_dataset_and_build_limits(self):
-        self.assertEqual(sum(len(tree['talents']) for tree in TALENT_DATA['trees']), 52)
+        self.assertEqual(sum(len(tree['talents']) for tree in TALENT_DATA['trees']), 50)
         self.assertEqual({tree['name'] for tree in TALENT_DATA['trees']}, {'Holy','Protection','Retribution'})
         self.assertTrue(all(url.startswith('https://www.wowhead.com/forever/')
                             for url in [TALENT_DATA['source']]))
@@ -327,8 +327,9 @@ class SimulationTests(unittest.TestCase):
         for talent_id in ('105626','105634','110874','105627','105628','105705','105701'):
             self.assertEqual(prot[talent_id],len(TALENTS[talent_id]['ranks']))
         ret=preset('retribution')['talents']
-        for talent_id in ('105705','105701','105696','105693','105692','105697','110883'):
+        for talent_id in ('105705','105701','105696','105693','105692','105697','110882'):
             self.assertEqual(ret[talent_id],len(TALENTS[talent_id]['ranks']))
+        self.assertEqual(ret['110871'],1)  # Reverence: the sim's pick for the last point
 
     def test_one_iteration_has_no_false_precision(self):
         p=self.basic(); p['iterations']=1

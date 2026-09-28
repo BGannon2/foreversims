@@ -1,5 +1,5 @@
 {
- "source": "https://wago.tools/db2/ItemSparse/csv?build=1.60.1.69913",
+ "source": "https://wago.tools/db2/ItemSparse/csv?build=1.60.1.70009",
  "field": "ItemSparse.AllowableClass",
  "tooltip_fallback": 162,
  "items": {

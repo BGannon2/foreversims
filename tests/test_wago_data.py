@@ -81,10 +81,15 @@ class WagoDataTests(unittest.TestCase):
         self.assertEqual(ABILITIES['Moonfire']['base'], [129.063415, 150.136585])
         self.assertIn('Deadly Poison', ABILITIES['Mutilate']['provisional'])
 
+    def test_build_70009_changes(self):
+        self.assertEqual(ABILITIES['Wrath']['base'], [91.904, 102.096])  # base 61 -> 91
+        self.assertNotIn('spell_haste', ABILITIES['Rage of the Farseer'])  # attack speed only now
+        self.assertEqual(ABILITIES['Rage of the Farseer']['melee_haste'], .30)
+
     def test_evidence_retains_build_hashes_and_raw_rows(self):
         p = Path(__file__).resolve().parents[1] / 'data/wago_verified.json'
         evidence = json.loads(p.read_text(encoding='utf-8'))
-        self.assertEqual(evidence['build'], '1.60.1.69913')
+        self.assertEqual(evidence['build'], '1.60.1.70009')
         for table in evidence['tables']:
             self.assertEqual(len(table['sha256']), 64)
         for spell in evidence['spells'].values():
