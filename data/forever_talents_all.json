@@ -4118,7 +4118,7 @@
           },
           {
             "id": 104766,
-            "row": 2,
+            "row": 5,
             "col": 2,
             "icon": "spell_fire_volcano",
             "name": "Elemental Fury",
@@ -4129,7 +4129,12 @@
               null,
               null
             ],
-            "requires": [],
+            "requires": [
+              {
+                "id": 104762,
+                "qty": 1
+              }
+            ],
             "descriptions": {
               "1": "Increases the critical strike damage bonus of your Searing and Magma Totems and your Fire, Frost, and Nature spells by 20%.",
               "2": "Increases the critical strike damage bonus of your Searing and Magma Totems and your Fire, Frost, and Nature spells by 40%.",
@@ -4183,8 +4188,8 @@
             ],
             "requires": [
               {
-                "id": 104766,
-                "qty": 5
+                "id": 104765,
+                "qty": 3
               }
             ],
             "descriptions": {
@@ -4241,7 +4246,7 @@
           },
           {
             "id": 104765,
-            "row": 5,
+            "row": 2,
             "col": 2,
             "icon": "spell_lightning_lightningbolt01",
             "name": "Elemental Alacrity",
@@ -4250,12 +4255,7 @@
               null,
               null
             ],
-            "requires": [
-              {
-                "id": 104762,
-                "qty": 1
-              }
-            ],
+            "requires": [],
             "descriptions": {
               "1": "Reduces the cast time of your Lightning Bolt, Chain Lightning, and Lava Burst spells by 0.17 sec.",
               "2": "Reduces the cast time of your Lightning Bolt, Chain Lightning, and Lava Burst spells by 0.33 sec.",

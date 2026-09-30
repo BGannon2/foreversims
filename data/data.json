@@ -6,6 +6,7 @@
     "talents": "https://www.wowhead.com/forever/talent-calc/paladin",
     "judgement": "https://www.wowhead.com/forever/spell=20271/judgement",
     "righteous_fury": "https://www.wowhead.com/forever/spell=25780/righteous-fury",
+    "thorns": "https://www.wowhead.com/forever/spell=9910/thorns",
     "righteousness": "https://www.wowhead.com/forever/spell=20293/seal-of-righteousness",
     "command": "https://www.wowhead.com/forever/spell=20920/seal-of-command",
     "fury": "https://www.wowhead.com/forever/spell=20423/seal-of-fury",
@@ -15,7 +16,8 @@
   },
   "facts": {
     "judgement": {"source":"judgement", "cooldown":10, "base_mana_fraction":0.06, "gcd":0},
-    "righteous_fury": {"source":"righteous_fury", "holy_threat_multiplier":1.9},
+    "righteous_fury": {"source":"righteous_fury", "holy_threat_multiplier":1.6},
+    "thorns": {"source":"thorns", "damage":22},
     "righteousness": {"source":"righteousness", "cost":200, "duration":30, "gcd":1.5, "judgement_pct_sp":0.50, "judgement_base":170, "proc_base":18.80, "proc_coeff":0.1, "proc_one_hand_mult":0.85, "proc_two_hand_mult":1.2},
     "command": {"source":"command", "cost":210, "duration":30, "weapon_fraction":0.7, "judgement_pct_sp":0.429, "judgement_base":356},
     "fury": {"source":"fury", "cost":200, "duration":30, "gcd":1.5, "swing_pct_sp":0.10, "swing_base":35, "absorb_pct":0.50, "judgement_pct_sp":0.45, "judgement_base":153, "taunt_duration":4},
@@ -26,10 +28,10 @@
     "reckoning_rank1": {"source":"talents", "block_proc":0.08, "crit_proc":0.2},
     "shield_specialization_rank1": {"source":"talents", "block_value_bonus":0.1, "mana_proc":0.33, "mana_fraction":0.06, "internal_cooldown":3},
     "improved_righteous_fury_rank1": {"source":"talents", "damage_reduction":0.02},
-    "vengeance_rank1": {"source":"talents", "bonus_per_stack":0.01, "max_stacks":5, "duration":30},
+    "vengeance_rank1": {"source":"talents", "bonus_per_stack":0.01, "max_stacks":3, "duration":30},
     "sanctified_judgement_rank1": {"source":"talents", "proc":0.33, "seal_refund_fraction":0.2},
     "improved_judgement_rank1": {"source":"talents", "cooldown_reduction":1},
-    "twist_of_light": {"source":"talents", "echo":"Replacing a seal with a different seal grants its effect to the next melee attack."},
+    "twist_of_light": {"source":"talents", "echo":"Replacing a seal with a different seal grants its effect to the next melee attack.", "seal_cost_reduction":0.20},
     "consecration": {"source":"consecration_rank5", "rank":5, "required_level":60, "cost":135, "cooldown":8, "duration":8, "total_damage":16, "first4_total_damage":48, "ticks":8, "gcd":1.5}
   },
   "excluded": ["Old comments, including Thottbot comments, even when embedded in Forever pages.", "No Classic, Season of Discovery, TBC or Retail combat formulas or engines were imported. A temporary pre-TBC Classic Era item catalog is the only cross-version dataset."]

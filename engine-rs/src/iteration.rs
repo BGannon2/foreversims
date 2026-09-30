@@ -201,6 +201,7 @@ pub struct Iteration<'a> {
     pub incoming_hits: Vec<(f64, f64)>,
     pub flurry: i64,
     pub eureka: i64,
+    pub eureka_until: f64,
     pub dodged_recently: f64,
     pub avoided_recently: f64,
     pub combustion: Option<(i64, i64)>,
@@ -246,7 +247,7 @@ impl<'a> Iteration<'a> {
             next_mh: 0.0, next_oh: if !c.oh.is_empty() { c.oh.speed_or(2.0) / 2.0 } else { 0.0 }, next_ranged: 0.0, queued_swing: None,
             last_cast_time: -10.0, next_mana_tick: 2.0, next_energy_tick: 2.0, next_rage_tick: 3.0, next_boss: c.incoming["enemy_swing"], next_heal: c.incoming["heal_interval"],
             healed: 0.0, overheal: 0.0, peak_3s_damage: 0.0, incoming_hits: vec![],
-            flurry: 0, eureka: 0, dodged_recently: -10.0, avoided_recently: -10.0, combustion: None, clearcast: false, next_instant: false, next_crit: false, eclipse: 0,
+            flurry: 0, eureka: 0, eureka_until: 0.0, dodged_recently: -10.0, avoided_recently: -10.0, combustion: None, clearcast: false, next_instant: false, next_crit: false, eclipse: 0,
             busy_until: 0.0, starved: 0.0, first_oom: None, pet_state: None, enrage_until: 0.0, sacrificed: None, racial_next: 0.0, item_icd: IndexMap::new(), windfury_lock: 0.0,
             cur_school: String::new(), cur_cost: 0.0, blocked_by_resource: false, taken_by: IndexMap::new(), pet_threat: 0.0,
             wrath_discount: false, next_parry: false,
@@ -786,7 +787,7 @@ impl<'a> Iteration<'a> {
         if c.flag("quietus") != 0.0 && ["Sinister Strike", "Hemorrhage"].contains(&ability) && self.t >= self.duration * 0.65 {
             m *= 1.0 + c.flag("quietus");
         }
-        if self.eureka > 0 && !white && kind != "pet" && !periodic {
+        if self.eureka > 0 && self.t < self.eureka_until && !white && kind != "pet" && !periodic {
             m *= 1.10;
         }
         if c.flag("lone_wolf") != 0.0 && (c.pet.is_none() || self.pet_state.as_ref().is_some_and(|p| self.t >= p.active_until)) {
@@ -823,7 +824,8 @@ impl<'a> Iteration<'a> {
             self.record(name, outcome.as_str(), 0.0);
             return 0.0;
         }
-        let mut dmg = amount * mult * self.multiplier(name, school, kind, periodic, white);
+        // Forever: Ignite ticks carry the crit's already-modified damage and no longer re-apply % modifiers.
+        let mut dmg = amount * mult * if name == "Ignite" { 1.0 } else { self.multiplier(name, school, kind, periodic, white) };
         if school == "physical" && !(periodic && (self.dots.get(name).is_some_and(|d| d.bleed) || self.c.t.ABILITIES.get(name).is_some_and(|a| a.bleed))) {
             dmg *= self.armor_mult();
         }
@@ -1358,6 +1360,9 @@ impl<'a> Iteration<'a> {
         if self.c.spec.resource == "Mana" && cost > 0.0 {
             cost = (cost * (1.0 + self.buff_stat("costMult", None, None, false)) + self.buff_stat("costFlat", None, None, false)).max(0.0);
         }
+        if self.c.spec.resource == "Energy" && self.eureka > 0 && self.t < self.eureka_until {
+            cost *= 1.0 - self.c.racial.active.as_ref().map_or(0.0, |r| r.energy_cost);
+        }
         cost
     }
 
@@ -1401,6 +1406,7 @@ impl<'a> Iteration<'a> {
                         self.add_buff(&r.name, r.duration, Buff { ap_pct: r.ap_pct, sp_pct: r.sp_pct, ..Default::default() });
                     } else if r.charges != 0 {
                         self.eureka = r.charges;
+                        self.eureka_until = self.t + if r.duration != 0.0 { r.duration } else { 15.0 };
                     }
                     self.record(&r.name, "activated", 0.0);
                 }
@@ -2049,7 +2055,7 @@ impl<'a> Iteration<'a> {
             }
         }
         if c.flag("hot_streak") != 0.0 && ["Fireball", "Fire Blast", "Scorch"].contains(&name) && out == Outcome::Crit {
-            self.add_buff("Hot Streak", 15.0, Buff { stacks_max: Some(3), ..Default::default() });
+            self.add_buff("Hot Streak", 20.0, Buff { stacks_max: Some(3), ..Default::default() });
         }
         if c.flag("fingers_of_frost") != 0.0 && name == "Frostbolt" && matches!(out, Outcome::Hit | Outcome::Crit) && self.rng.random() < 0.15 {
             self.add_buff("Fingers of Frost", 15.0, Buff { stacks_max: Some(2), ..Default::default() });
@@ -2257,6 +2263,9 @@ impl<'a> Iteration<'a> {
         self.incoming_hits.retain(|(t, _)| self.t - t < 3.0);
         self.incoming_hits.push((self.t, amount));
         self.peak_3s_damage = self.peak_3s_damage.max(self.incoming_hits.iter().map(|(_, a)| a).sum());
+        if c.buffs.contains("thorns") && c.spec.role == "tank" {
+            self.deal("Thorns", c.t.THORNS.damage, "nature", "spell", false, false, 1.0, 0.0, Outcome::Hit, 1.0);
+        }
         let conversion = c.t.RAGE_CONVERSION_60;
         self.rage = self.max_rage.min(self.rage + amount * 2.5 / conversion);
         if c.flag("enrage") != 0.0 && self.rng.random() < c.flag("enrage") * 3.0 {

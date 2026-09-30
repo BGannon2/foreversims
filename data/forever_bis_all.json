@@ -10272,19 +10272,24 @@
      "gear_slot": "head"
     },
     {
-     "id": 19426,
-     "name": "Orb of the Darkmoon",
-     "icon": "inv_jewelry_necklace_16",
+     "id": 18404,
+     "name": "Onyxia Tooth Pendant",
+     "icon": "inv_jewelry_necklace_09",
      "quality": "Epic",
-     "itemLevel": 65,
+     "itemLevel": 74,
      "stats": {
-      "stamina": 11.0,
-      "spirit": 8.0,
-      "spellPower": 22.0
+      "agility": 12.0,
+      "stamina": 9.0,
+      "fireResistance": 10.0,
+      "meleeHit": 1.0,
+      "meleeCrit": 1.0
      },
-     "effects": [],
-     "source": "Quest: 1200 Tickets - Orb of the Darkmoon",
-     "subclass": null,
+     "effects": [
+      "Equip: Improves your chance to hit by 1%.",
+      "Equip: Improves your chance to get a critical strike by 1%."
+     ],
+     "source": "Quest: For All To See",
+     "subclass": "Miscellaneous",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -10439,19 +10444,23 @@
      "gear_slot": "wrist"
     },
     {
-     "id": 271940,
-     "name": "Theramore Gauntlets",
+     "id": 16471,
+     "name": "Marshal's Lamellar Gloves",
      "icon": "inv_gauntlets_29",
      "quality": "Epic",
-     "itemLevel": 65,
+     "itemLevel": 71,
      "stats": {
-      "armor": 461.0,
-      "strength": 27.0,
-      "stamina": 15.0,
-      "agility": 11.0
+      "armor": 502.0,
+      "strength": 18.0,
+      "stamina": 17.0,
+      "intellect": 16.0,
+      "meleeCrit": 1.0,
+      "spellCrit": 1.0
      },
-     "effects": [],
-     "source": "forever-1.60.1.69913",
+     "effects": [
+      "Equip: Increases the Holy damage bonus of your Judgement of the Crusader by 20."
+     ],
+     "source": "Vendor: Captain Dirgehammer",
      "subclass": "Plate",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -10459,7 +10468,31 @@
      "equipSlots": [
       "hands"
      ],
-     "set": null,
+     "set": {
+      "name": "Field Marshal's Aegis",
+      "pieces": [
+       "Field Marshal's Lamellar Chestplate",
+       "Field Marshal's Lamellar Faceguard",
+       "Field Marshal's Lamellar Pauldrons",
+       "Marshal's Lamellar Boots",
+       "Marshal's Lamellar Gloves",
+       "Marshal's Lamellar Legplates"
+      ],
+      "bonuses": [
+       {
+        "required": 2,
+        "description": "+20 Stamina."
+       },
+       {
+        "required": 3,
+        "description": "Reduces the cooldown of your Hammer of Justice by 10 sec."
+       },
+       {
+        "required": 6,
+        "description": "Increases damage and healing done by magical spells and effects by up to 23."
+       }
+      ]
+     },
      "slot": "Hands",
      "gear_slot": "hands"
     },
@@ -10605,18 +10638,17 @@
      "gear_slot": "finger2"
     },
     {
-     "id": 11815,
-     "name": "Hand of Justice",
-     "icon": "inv_jewelry_talisman_01",
+     "id": 13965,
+     "name": "Blackhand's Breadth",
+     "icon": "inv_misc_armorkit_09",
      "quality": "Rare",
-     "itemLevel": 58,
-     "stats": {},
-     "effects": [
-      "Equip: 2% chance on melee hit to gain 1 extra attack.",
-      "Equip: +20 Attack Power."
-     ],
-     "source": "Boss Drop: Emperor Dagran Thaurissan",
-     "subclass": "Miscellaneous",
+     "itemLevel": 63,
+     "stats": {
+      "meleeCrit": 2
+     },
+     "effects": [],
+     "source": "WoWSims Classic database",
+     "subclass": null,
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -10762,20 +10794,23 @@
      "gear_slot": "neck"
     },
     {
-     "id": 20058,
-     "name": "Highlander's Lamellar Spaulders",
-     "icon": "inv_shoulder_01",
+     "id": 16476,
+     "name": "Field Marshal's Lamellar Pauldrons",
+     "icon": "inv_shoulder_20",
      "quality": "Epic",
-     "itemLevel": 65,
+     "itemLevel": 74,
      "stats": {
-      "armor": 553.0,
-      "strength": 18.0,
-      "stamina": 15.0,
-      "agility": 17.0,
-      "intellect": 10.0
+      "armor": 626.0,
+      "stamina": 16.0,
+      "strength": 16.0,
+      "intellect": 15.0,
+      "spellPower": 19.0,
+      "mp5": 6.0
      },
-     "effects": [],
-     "source": "Vendor: Samuel Hawke",
+     "effects": [
+      "Equip: +6 Mana Regeneration"
+     ],
+     "source": "Vendor: Captain Dirgehammer",
      "subclass": "Plate",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -10784,20 +10819,27 @@
       "shoulders"
      ],
      "set": {
-      "name": "The Highlander's Resolve",
+      "name": "Field Marshal's Aegis",
       "pieces": [
-       "Highlander's Lamellar Girdle",
-       "Highlander's Lamellar Greaves",
-       "Highlander's Lamellar Spaulders"
+       "Field Marshal's Lamellar Chestplate",
+       "Field Marshal's Lamellar Faceguard",
+       "Field Marshal's Lamellar Pauldrons",
+       "Marshal's Lamellar Boots",
+       "Marshal's Lamellar Gloves",
+       "Marshal's Lamellar Legplates"
       ],
       "bonuses": [
        {
         "required": 2,
-        "description": "+5 Stamina."
+        "description": "+20 Stamina."
        },
        {
         "required": 3,
-        "description": "Improves your chance to get a critical strike by 1%."
+        "description": "Reduces the cooldown of your Hammer of Justice by 10 sec."
+       },
+       {
+        "required": 6,
+        "description": "Increases damage and healing done by magical spells and effects by up to 23."
        }
       ]
      },
@@ -10887,20 +10929,20 @@
      "gear_slot": "chest"
     },
     {
-     "id": 19587,
-     "name": "Forest Stalker's Bracers",
-     "icon": "inv_bracer_12",
+     "id": 19578,
+     "name": "Berserker Bracers",
+     "icon": "inv_bracer_06",
      "quality": "Epic",
      "itemLevel": 65,
      "stats": {
-      "armor": 86.0,
-      "strength": 11.0,
-      "agility": 19.0,
-      "stamina": 8.0
+      "armor": 323.0,
+      "strength": 19.0,
+      "agility": 8.0,
+      "stamina": 11.0
      },
      "effects": [],
      "source": "Unknown",
-     "subclass": "Leather",
+     "subclass": "Plate",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -11017,23 +11059,20 @@
      "gear_slot": "legs"
     },
     {
-     "id": 16472,
-     "name": "Marshal's Lamellar Boots",
+     "id": 272781,
+     "name": "Premier Knight-Champion's Chevalier Boots",
      "icon": "inv_boots_plate_09",
      "quality": "Epic",
-     "itemLevel": 71,
+     "itemLevel": 65,
      "stats": {
-      "armor": 552.0,
-      "stamina": 16.0,
-      "strength": 15.0,
-      "intellect": 15.0,
-      "spellPower": 18.0,
-      "mp5": 6.0
+      "armor": 507.0,
+      "stamina": 26.0,
+      "strength": 12.0,
+      "intellect": 8.0,
+      "spellPower": 14.0
      },
-     "effects": [
-      "Equip: +6 Mana Regeneration"
-     ],
-     "source": "Vendor: Captain Dirgehammer",
+     "effects": [],
+     "source": "forever-1.60.1.69913",
      "subclass": "Plate",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -11041,31 +11080,7 @@
      "equipSlots": [
       "feet"
      ],
-     "set": {
-      "name": "Field Marshal's Aegis",
-      "pieces": [
-       "Field Marshal's Lamellar Chestplate",
-       "Field Marshal's Lamellar Faceguard",
-       "Field Marshal's Lamellar Pauldrons",
-       "Marshal's Lamellar Boots",
-       "Marshal's Lamellar Gloves",
-       "Marshal's Lamellar Legplates"
-      ],
-      "bonuses": [
-       {
-        "required": 2,
-        "description": "+20 Stamina."
-       },
-       {
-        "required": 3,
-        "description": "Reduces the cooldown of your Hammer of Justice by 10 sec."
-       },
-       {
-        "required": 6,
-        "description": "Increases damage and healing done by magical spells and effects by up to 23."
-       }
-      ]
-     },
+     "set": null,
      "slot": "Feet",
      "gear_slot": "feet"
     },
@@ -11123,18 +11138,17 @@
      "gear_slot": "finger2"
     },
     {
-     "id": 11815,
-     "name": "Hand of Justice",
-     "icon": "inv_jewelry_talisman_01",
+     "id": 13965,
+     "name": "Blackhand's Breadth",
+     "icon": "inv_misc_armorkit_09",
      "quality": "Rare",
-     "itemLevel": 58,
-     "stats": {},
-     "effects": [
-      "Equip: 2% chance on melee hit to gain 1 extra attack.",
-      "Equip: +20 Attack Power."
-     ],
-     "source": "Boss Drop: Emperor Dagran Thaurissan",
-     "subclass": "Miscellaneous",
+     "itemLevel": 63,
+     "stats": {
+      "meleeCrit": 2
+     },
+     "effects": [],
+     "source": "WoWSims Classic database",
+     "subclass": null,
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -11147,16 +11161,16 @@
      "gear_slot": "trinket1"
     },
     {
-     "id": 13965,
-     "name": "Blackhand's Breadth",
-     "icon": "inv_misc_armorkit_09",
+     "id": 272438,
+     "name": "Weakness Analyzer",
+     "icon": "inv_misc_blizzcon09_graphicscard",
      "quality": "Rare",
-     "itemLevel": 63,
+     "itemLevel": 65,
      "stats": {
-      "meleeCrit": 2
+      "spellPower": 22.0
      },
      "effects": [],
-     "source": "WoWSims Classic database",
+     "source": "forever-1.60.1.69913",
      "subclass": null,
      "weaponDamageMin": null,
      "weaponDamageMax": null,

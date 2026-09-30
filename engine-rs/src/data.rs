@@ -52,6 +52,8 @@ pub struct RacialActive {
     pub cooldown: f64,
     #[serde(default)]
     pub provisional_cooldown: bool,
+    #[serde(default)]
+    pub energy_cost: f64,
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug, Default)]
@@ -371,6 +373,12 @@ pub struct Poison {
     pub max_stacks: i64,
 }
 
+#[derive(Deserialize, Serialize, Clone, Debug, Default)]
+pub struct Thorns {
+    #[serde(default)]
+    pub damage: f64,
+}
+
 #[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct Windfury {
     pub chance: f64,
@@ -402,6 +410,8 @@ pub struct Tables {
     pub BUFF_STATS: IndexMap<String, StatMap>,
     pub BUFF_GROUPS: IndexMap<String, Vec<String>>,
     pub WINDFURY_TOTEM: Windfury,
+    #[serde(default)]
+    pub THORNS: Thorns,
     pub DEBUFF_ARMOR: IndexMap<String, f64>,
     pub CONSUME_STATS: IndexMap<String, StatMap>,
     pub SPEC_MAP: IndexMap<String, Spec>,

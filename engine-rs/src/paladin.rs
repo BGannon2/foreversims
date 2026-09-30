@@ -57,7 +57,7 @@ pub fn preset(spec: &str) -> Result<Value, String> {
             "arcane_intellect": true, "battle_shout": true, "blessing_of_might": true,
             "devotion_aura": true, "blessing_of_kings": true, "blessing_of_wisdom": true,
             "strength_of_earth": true, "windfury_totem": true, "grace_of_air": false,
-            "mana_spring": true, "leader_of_the_pack": true, "moonkin_aura": false, "trueshot_aura": true},
+            "mana_spring": true, "leader_of_the_pack": true, "moonkin_aura": false, "trueshot_aura": true, "thorns": true},
         "consumables": {"flask_of_the_titans": prot, "elixir_of_the_mongoose": true,
             "elixir_of_superior_defense": prot, "elixir_of_fortitude": prot,
             "greater_stoneshield_potion": prot, "smoked_desert_dumplings": true,
@@ -70,8 +70,8 @@ pub fn preset(spec: &str) -> Result<Value, String> {
             "demoralizing_shout": true, "thunder_clap": true,
             "insect_swarm": true, "scorpid_sting": true},
         "model": {"command_proc_chance": 0.25, "righteousness_damage": 50.0,
-            "holy_strike_cost": 20.0, "holy_strike_cooldown": 12.0, "holy_strike_weapon_pct": 0.40,
-            "holy_strike_holy_min": 81.0, "holy_strike_holy_max": 105.0, "holy_strike_coeff": 0.429,
+            "holy_strike_cost": 20.0, "holy_strike_cooldown": 10.0, "holy_strike_weapon_pct": 0.50,
+            "holy_strike_holy_min": 93.0, "holy_strike_holy_max": 93.0, "holy_strike_coeff": 0.429,
             "hammer_of_wrath_cost": 425.0, "hammer_of_wrath_cooldown": 6.0, "hammer_of_wrath_min": 474.0, "hammer_of_wrath_max": 522.0, "hammer_of_wrath_coeff": 0.429,
             "melee_crit_multiplier": 2.0, "spell_crit_multiplier": 1.5,
             "base_threat_per_damage": 1.0, "holy_threat_per_damage": 1.0,
@@ -947,6 +947,7 @@ impl<'a> Fight<'a> {
 
     fn spend(&mut self, name: &str, amount: f64) -> bool {
         let amount = if name.starts_with("Seal") { (amount - self.c.seal_cost_reduction).max(0.0) } else { amount };
+        let amount = if name.starts_with("Seal") && self.rank("105692") != 0.0 { amount * (1.0 - self.f("twist_of_light", "seal_cost_reduction")) } else { amount };
         let discounted = name.starts_with("Seal") || ["Judgement", "Holy Shield", "Holy Strike", "Templar's Bulwark", "Consecration"].contains(&name);
         let amount = amount * if discounted { 1.0 - 0.02 * self.rank("105706") } else { 1.0 };
         if self.mana + 1e-9 < amount {
@@ -1045,9 +1046,11 @@ impl<'a> Fight<'a> {
             let holy_bonus = self.item_stat("spell_power") + if self.debuffs.get("judgement_of_the_crusader").copied().unwrap_or(false) { 140.0 } else { 0.0 };
             amount += holy_bonus * spell_coefficient;
         }
-        amount *= 1.0 + self.vengeance as f64 * self.f("vengeance_rank1", "bonus_per_stack") * self.rank("105693");
-        amount *= 1.0 + self.racial.creature_damage.get(&self.e.boss_type).copied().unwrap_or(0.0);
         let physical = physical.unwrap_or(!holy);
+        if holy || physical {
+            amount *= 1.0 + self.vengeance as f64 * self.f("vengeance_rank1", "bonus_per_stack") * self.rank("105693");
+        }
+        amount *= 1.0 + self.racial.creature_damage.get(&self.e.boss_type).copied().unwrap_or(0.0);
         if physical && self.debuffs.get("gift_of_arthas").copied().unwrap_or(false) && self.consumables.get("gift_of_arthas").copied().unwrap_or(false) {
             amount += 8.0;
         }
@@ -1255,7 +1258,7 @@ impl<'a> Fight<'a> {
             if !acted && self.rot.use_holy_strike && self.time >= self.cd("holy_strike")
                 && self.spend("Holy Strike", self.m.holy_strike_cost) {
                     let iron = self.rank("110879");
-                    let arbiter = if self.rank("105700") != 0.0 { 1.1 } else { 1.0 };
+                    let arbiter = if self.rank("105700") != 0.0 { 1.2 } else { 1.0 };
                     let mut weapon = self.rng.uniform(self.c.weapon_min, self.c.weapon_max);
                     if self.m.use_classic_era_conversions { weapon += self.item_stat("attack_power") / 14.0 * if self.c.normalized_speed > 0.0 { self.c.normalized_speed } else { 2.4 }; }
                     let amount = (weapon * self.m.holy_strike_weapon_pct + self.rng.uniform(self.m.holy_strike_holy_min, self.m.holy_strike_holy_max)) * arbiter;
@@ -1400,6 +1403,11 @@ impl<'a> Fight<'a> {
         self.peak_three_seconds = self.peak_three_seconds.max(self.window_sum);
         let label = format!("Enemy {}", if blocked { "block" } else if critical { "crit" } else if crushing { "crush" } else { "hit" });
         self.record(&label, amount);
+        // A raid druid's Thorns hits the attacker on every landed swing (Nature: no Vengeance/RF bonus).
+        if self.raid_buffs.get("thorns").copied().unwrap_or(false) {
+            let dmg = self.f("thorns", "damage");
+            self.deal("Thorns", dmg, false, false, 1.0, 1.0, false, Some(false), 0.0);
+        }
         if self.health <= 0.0 {
             self.alive = false;
             self.life = self.time;

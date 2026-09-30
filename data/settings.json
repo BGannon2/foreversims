@@ -143,6 +143,15 @@
       "description": "Requested scenario: 30% melee, ranged and casting haste from the pull. A 40-second duration is assumed, pending confirmed Forever spell data.",
       "icon": "spell_nature_bloodlust",
       "wowhead": "https://www.wowhead.com/forever/spell=2825/bloodlust"
+    },
+    {
+      "key": "thorns",
+      "name": "Thorns",
+      "source": "Druid",
+      "spell_id": 9910,
+      "description": "Rank 6: attackers take 22 Nature damage each time their melee attack lands on the target. Only tanks are attacked in this model, so it adds damage and threat for tanks only. Forever scales it with the druid's spell power; that coefficient is unpublished and not modeled.",
+      "icon": "spell_nature_thorns",
+      "wowhead": "https://www.wowhead.com/forever/spell=9910/thorns"
     }
   ],
   "debuffs": [

@@ -113,7 +113,7 @@ class AccuracyRegressions(unittest.TestCase):
         a = Fight(copy.deepcopy(p), 0); a.decision()
         p['character']['attack_power'] = 1400
         b = Fight(p, 0); b.decision()
-        self.assertAlmostEqual(b.damage['Holy Strike'] - a.damage['Holy Strike'], 1400 / 14 * 3.3 * .4)
+        self.assertAlmostEqual(b.damage['Holy Strike'] - a.damage['Holy Strike'], 1400 / 14 * 3.3 * .5)
 
     def test_paladin_seal_rank_scales_nonzero_spell_power(self):
         import copy

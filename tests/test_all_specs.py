@@ -120,6 +120,8 @@ class StatTests(unittest.TestCase):
                 if key == 'bloodlust':
                     self.assertAlmostEqual(engine.Iteration(full, 1, False).haste('spell') / engine.Iteration(reduced, 1, False).haste('spell'), 1.30)
                     continue
+                if key == 'thorns':  # a fight effect (damage to attackers), covered by ForeverBlueNoteTests
+                    continue
                 self.assertTrue(reduced.stats != full.stats or reduced.windfury_totem != full.windfury_totem, f"{sid}: {key} is inert")
 
     def test_item_effects_are_parsed(self):
@@ -383,3 +385,32 @@ class ForeverRageTests(unittest.TestCase):
         self.assertEqual(it.rage, 0)
         it.rage = 0; it.white_rage(oh, 500.0)
         self.assertAlmostEqual(it.rage, float(oh["weaponSpeed"]) * rate * R["off_hand_factor"] * (1 + it.c.flag("dw_rage")))
+
+class ForeverBlueNoteTests(unittest.TestCase):
+    """Changes from the Forever development notes (September 24) confirmed in client build 70124."""
+
+    def test_thorns_hits_attackers_on_landed_boss_swings(self):
+        from forever.engine_data import THORNS
+        it = iteration("druid-feral-tank"); it.run()
+        row = it.rows["Thorns"]
+        self.assertGreater(row.hits, 0)
+        self.assertAlmostEqual(row.damage / row.hits, THORNS["damage"] * it.multiplier("Thorns", "nature", "spell", False, False))
+        off = iteration("druid-feral-tank", buffs=[b for b in spec("druid-feral-tank")["default_buffs"] if b != "thorns"]); off.run()
+        self.assertNotIn("Thorns", off.rows)
+        dps = iteration("warrior-fury"); dps.run()
+        self.assertNotIn("Thorns", dps.rows)  # only tanks are attacked
+
+    def test_ignite_ticks_do_not_reapply_damage_modifiers(self):
+        it = iteration("mage-fire")
+        it.dots["Ignite"] = {"next": 0, "remaining": 2, "tick": 100.0, "tick_len": 2, "school": "fire", "kind": "dot", "no_sp": True}
+        it.dot_tick("Ignite", it.dots["Ignite"])
+        self.assertAlmostEqual(it.rows["Ignite"].damage, 100.0)
+
+    def test_eureka_discounts_energy_for_fifteen_seconds(self):
+        it = iteration("rogue-combat", race="Gnome")
+        name = next(n for n, a in it.c.actions.items() if a.get("cost", 0) > 0)
+        base = it.cost(name)
+        it.eureka, it.eureka_until = 3, it.t + 15
+        self.assertAlmostEqual(it.cost(name), base * 0.9)
+        it.t += 15
+        self.assertAlmostEqual(it.cost(name), base)

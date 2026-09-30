@@ -13,7 +13,7 @@
     ]},
     { title: "Racials", items: [
       "New active: Elune's Light (Night Elf) — grants a burst of critical strike chance.",
-      "New active: Eureka! (Gnome) — your next few spells or abilities deal bonus damage.",
+      "New active: Eureka! (Gnome) — for 15 sec, your next few damaging abilities deal 10% more damage and cost 10% less Energy.",
       "New passive: Touch of the Grave (Undead) — a chance on spells and attacks to drain health from the target.",
       "Blood Fury (Orc) now also boosts spell power, in addition to attack power.",
       "Endurance (Tauren) now also grants bonus hit chance, in addition to bonus health.",
@@ -24,7 +24,7 @@
       "Lightforge Armor and Soulforge Armor (Paladin dungeon sets): set bonuses reworked, including new proc and resource-return effects.",
     ]},
     { title: "Paladin — Protection", items: [
-      "Righteous Fury grants +90% Holy threat (Classic Righteous Fury is a smaller bonus).",
+      "Righteous Fury grants +60% Holy threat, the same as Classic (reduced from +90% earlier in the beta).",
       "New seal: Seal of Fury. Melee swings deal bonus Holy damage, and while a shield is equipped each landed swing also grants a small self-absorb shield.",
       "Judgement of Fury is also a taunt.",
       "Judging no longer consumes your active seal, unlike Classic.",

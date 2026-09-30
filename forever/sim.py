@@ -70,7 +70,9 @@ ASSUMPTIONS = [
     'Seal procs do not crit or roll a second hit check. Judgements may crit with the supplied spell multiplier.',
     'Judgement does not consume the active seal (classicwow.gg Protection guide: "Judging does not consume your seal"); seal casts use 1.5 s GCD. Non-seal defensive GCDs also use 1.5 s provisionally.',
     'Twisting stores one echo, consumed on the next melee attempt even if it misses. No echo stacking or expiration.',
-    'Vengeance refreshes all stacks together; only modeled direct attack and Judgement crits trigger it.',
+    'Vengeance stacks up to 3 times (Forever development notes, September 24) and refreshes all stacks together; only modeled direct attack and Judgement crits trigger it, and it boosts only Physical and Holy damage.',
+    'Righteous Fury adds +60% Holy threat (client spell 25780, build 70124; was +90%). Twist of Light also reduces Seal mana costs by 20% (client spell 1310735), which makes twisting cheaper.',
+    "Thorns (raid buff, rank 6) deals 22 Nature damage to the boss on every landed swing. Forever scales it with the druid's spell power; the coefficient is unpublished, so only the base damage is modeled.",
     'Reckoning grants an immediate extra swing, can trigger seals, and does not reset the normal swing timer.',
     'Mana regenerates in two-second ticks: mp5 always, Spirit (Spirit/5 + 15 per tick) only outside the five-second rule or at the Reverence talent fraction while casting. Major Mana Potion and Demonic Rune are used on cooldown when the deficit allows.',
     'Healing is a fixed pulse on a configurable timer; no healer mana, aggro, reaction time or spell model.',
@@ -81,13 +83,13 @@ ASSUMPTIONS = [
     'Precision, Conviction, Deflection, Improved Seals, and one/two-handed weapon specializations use their sourced Forever rank text.',
     'Sourced Forever set bonuses are applied at their equipped-piece thresholds. Unresolved proc/control effects remain labeled informational.',
     'Consecration Rank 5 uses its Forever level-60 tooltip (foreverchanges.pro, build 1.60.1.69913): 135 mana, 8 sec cooldown, 16 Holy damage over 8 sec to enemies in the area, plus an additional 32 over 8 sec (48 total) to the first 4 enemies who enter it.',
-    "Holy Strike is Rank 8's confirmed value from wago.tools DB2 (build 1.60.1.69913, spell 10333): 20 mana, 12 sec cooldown, an instant direct-cast attack (not a next-swing modifier as previously modeled) dealing 40% weapon damage plus 81-105 Holy damage with a 0.429 spell-power-style coefficient on the Holy component.",
+    "Holy Strike is Rank 8's confirmed value from wago.tools DB2 (build 1.60.1.70124, spell 10333): 20 mana, 10 sec cooldown, an instant direct-cast attack dealing 50% weapon damage plus a flat 93 Holy damage with a 0.429 spell-power coefficient on the Holy component.",
     'Seal of Fury (rank 7, level 58) is sourced from its Wowhead Forever tooltip: 200 mana/30 sec, melee swings deal +10% spell power Holy damage, and while a shield is equipped each landed swing also grants a self-absorb shield worth 50% of that Holy damage. Judging while Seal of Fury is active deals 45% spell power Holy damage and taunts for 4 sec; the taunt has no separate effect in this single-tank model, where incoming attacks already always target the tank. Protection uses Seal of Fury exclusively (no twisting) in place of the earlier Righteousness/Command placeholder.',
     "Improved Seal of Fury (single rank) restores 38 mana, +15% per level the attacker is above the Paladin up to 45%, when an incoming attack fully consumes the remaining absorb pool. The pool is shared with Templar's Bulwark's much larger shield in this model; a Bulwark shield being the one fully drained would also trigger this refund, a modeling simplification.",
     "Seal of Righteousness (rank 8, level 60) is sourced from its Wowhead Forever tooltip: 200 mana/30 sec, swings deal (24 to 83) Holy damage scaling with weapon speed and hand type, and Judgement deals (50% of Spell Power) Holy damage. The swing formula matches WoWSims Classic's underlying rank-8 model (18.8 base value, x0.85 one-hand / x1.2 two-hand, x weapon speed, +10% spell power coefficient), which reproduces the tooltip's stated range exactly.",
     "Seal of Command (rank 5, level 60) is sourced from its Wowhead Forever tooltip: 210 mana/30 sec (previously modeled at the wrong 65 mana talent-rank cost), swings deal 70% weapon damage on a 25% proc chance, and Judgement deals (42.9% of Spell Power) Holy damage (previously a flat, unsourced 68-73 range).",
     "Improved Seals (105334) is sourced from its Wowhead Forever tooltip as a flat +5%/+10%/+15% bonus to both Seal and Judgement damage; it is now applied uniformly to all three seals' swing procs and Judgements via the same multiplier, rather than only to the flat-roll Righteousness/Command Judgement formulas that preceded this fix.",
-    'Sacred Arbiter (105700) is sourced from its Forever talent-calculator tooltip: +10% Holy Strike damage, applied here. Its "refreshes all Judgement effects on the target" clause is a no-op in this model, since Judgement applies no persistent/refreshable debuff.',
+    'Sacred Arbiter (105700) is sourced from its Forever talent-calculator tooltip: +20% Holy Strike damage (client spell 1311087, build 70009+), applied here. Its "refreshes all Judgement effects on the target" clause is a no-op in this model, since Judgement applies no persistent/refreshable debuff.',
     "Hammer of Wrath was entirely missing from this model until a Mobalytics.gg class-overview audit flagged it. Rank 3 (max) is sourced from wago.tools DB2 (build 1.60.1.69913, spell 24239): 425 mana, 6 sec cooldown, 474-522 Holy damage, 0.429 spell-power coefficient. Only usable on targets at or below 20% health; since this is a fixed-duration single-target model with no tracked boss health, that's approximated as the same last-20%-of-fight execute window Warrior's Execute uses. Enabled for Holy and Retribution by default (not Protection, which doesn't prioritize burst nukes)."
 ]
 
@@ -123,7 +125,7 @@ def preset(spec='protection'):
             'arcane_intellect':True, 'battle_shout':True, 'blessing_of_might':True,
             'devotion_aura':True, 'blessing_of_kings':True, 'blessing_of_wisdom':True,
             'strength_of_earth':True, 'windfury_totem':True, 'grace_of_air':False,
-            'mana_spring':True, 'leader_of_the_pack':True, 'moonkin_aura':False, 'trueshot_aura':True},
+            'mana_spring':True, 'leader_of_the_pack':True, 'moonkin_aura':False, 'trueshot_aura':True, 'thorns':True},
         'consumables': {'flask_of_the_titans':prot, 'elixir_of_the_mongoose':True,
             'elixir_of_superior_defense':prot, 'elixir_of_fortitude':prot,
             'greater_stoneshield_potion':prot, 'smoked_desert_dumplings':True,
@@ -136,8 +138,8 @@ def preset(spec='protection'):
             'demoralizing_shout':True, 'thunder_clap':True,
             'insect_swarm':True, 'scorpid_sting':True},
         'model': {'command_proc_chance':0.25, 'righteousness_damage':50.0,
-            'holy_strike_cost':20.0, 'holy_strike_cooldown':12.0, 'holy_strike_weapon_pct':0.40,
-            'holy_strike_holy_min':81.0, 'holy_strike_holy_max':105.0, 'holy_strike_coeff':0.429,
+            'holy_strike_cost':20.0, 'holy_strike_cooldown':10.0, 'holy_strike_weapon_pct':0.50,
+            'holy_strike_holy_min':93.0, 'holy_strike_holy_max':93.0, 'holy_strike_coeff':0.429,
             'hammer_of_wrath_cost':425.0, 'hammer_of_wrath_cooldown':6.0, 'hammer_of_wrath_min':474.0, 'hammer_of_wrath_max':522.0, 'hammer_of_wrath_coeff':0.429,
             'melee_crit_multiplier':2.0, 'spell_crit_multiplier':1.5,
             'base_threat_per_damage':1.0, 'holy_threat_per_damage':1.0,
@@ -282,6 +284,7 @@ class Fight:
 
     def spend(self,name,amount):
         if name.startswith('Seal'): amount=max(0,amount-self.c.get('seal_cost_reduction',0))
+        if name.startswith('Seal') and self.rank(105692): amount*=1-F['twist_of_light']['seal_cost_reduction']
         amount*=1-0.02*self.rank(105706) if name.startswith('Seal') or name in ('Judgement','Holy Shield','Holy Strike',"Templar's Bulwark",'Consecration') else 1
         if self.mana+1e-9 < amount:
             if self.oom is None: self.oom=self.time
@@ -336,9 +339,9 @@ class Fight:
         if holy and spell_coefficient:
             holy_bonus=self.item_stat('spell_power')+(140 if self.p['debuffs']['judgement_of_the_crusader'] else 0)
             amount+=holy_bonus*spell_coefficient
-        amount*=1 + self.vengeance*F['vengeance_rank1']['bonus_per_stack']*self.rank(105693)
-        amount*=1+self.racial.get('creature_damage',{}).get(self.e['boss_type'],0)
         if physical is None: physical=not holy
+        if holy or physical: amount*=1 + self.vengeance*F['vengeance_rank1']['bonus_per_stack']*self.rank(105693)
+        amount*=1+self.racial.get('creature_damage',{}).get(self.e['boss_type'],0)
         if physical and self.p['debuffs']['gift_of_arthas'] and self.p['consumables']['gift_of_arthas']: amount+=8
         if physical: amount*=1-self.e['target_physical_mitigation']
         if critical: amount*=self.m['melee_crit_multiplier' if melee_crit or not holy else 'spell_crit_multiplier']
@@ -453,7 +456,7 @@ class Fight:
                     self.cd['exorcism']=self.time+15*purifying_cd;acted=True
             if not acted and self.rot['use_holy_strike'] and self.time>=self.cd['holy_strike']:
                 if self.spend('Holy Strike',self.m['holy_strike_cost']):
-                    iron=self.rank(110879); arbiter=1.1 if self.rank(105700) else 1.0
+                    iron=self.rank(110879); arbiter=1.2 if self.rank(105700) else 1.0
                     weapon=self.rng.uniform(self.c['weapon_min'],self.c['weapon_max'])
                     if self.m['use_classic_era_conversions']: weapon+=self.item_stat('attack_power')/14*self.c.get('normalized_speed',2.4)
                     amount=(weapon*self.m['holy_strike_weapon_pct']+self.rng.uniform(self.m['holy_strike_holy_min'],self.m['holy_strike_holy_max']))*arbiter
@@ -537,6 +540,8 @@ class Fight:
             self.window_sum-=self.damage_window.popleft()[1]
         self.peak_three_seconds=max(self.peak_three_seconds,self.window_sum)
         self.record('Enemy '+('block' if blocked else 'crit' if critical else 'crush' if crushing else 'hit'),amount)
+        # A raid druid's Thorns hits the attacker on every landed swing (Nature: no Vengeance/RF bonus).
+        if self.p['raid_buffs'].get('thorns'): self.deal('Thorns',F['thorns']['damage'],physical=False)
         if self.health<=0:
             self.alive=False; self.life=self.time; self.record('Death'); return
         if damaging and self.rank(105626) and self.rng.random()<F['redoubt_rank1']['proc']:

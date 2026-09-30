@@ -87,7 +87,7 @@ RACIALS = {
     "Human": {"spirit_pct": 0.05, "weapon_crit": {"Sword": 2.0}, "summary": "The Human Spirit: +5% Spirit. Sword Specialization: +2% spell and ability critical chance while a sword is equipped."},
     "Dwarf": {"weapon_crit": {"Mace": 1.0}, "creature_damage": {"beast": 0.05}, "active": {"name": "Stoneform", "duration": 8, "cooldown": 180}, "summary": "Stoneform: 10% reduced Physical damage taken for 8 sec, 3 min cooldown. Mace Specialization: +1% critical chance with a mace equipped. Big Game Hunter: +5% damage to Beasts."},
     "Night Elf": {"dodge": 1.0, "active": {"name": "Elune's Light", "crit": 10.0, "duration": 15, "cooldown": 120, "provisional_cooldown": True}, "summary": "Elune's Light: +10% critical chance for 15 sec (cooldown unpublished; 2 min assumed). Quickness: +1% dodge."},
-    "Gnome": {"active": {"name": "Eureka!", "charges": 3, "damage": 0.10, "cooldown": 120, "provisional_cooldown": True}, "summary": "Eureka!: next 3 spells or abilities deal +10% damage (cost reduction and cooldown unpublished; 2 min assumed)."},
+    "Gnome": {"active": {"name": "Eureka!", "charges": 3, "damage": 0.10, "energy_cost": 0.10, "duration": 15, "cooldown": 120, "provisional_cooldown": True}, "summary": "Eureka!: for 15 sec, next 3 damaging abilities deal +10% damage and cost 10% less Energy (client spell 1259812; cooldown unpublished, 2 min assumed)."},
     "Orc": {"weapon_crit": {"Axe": 1.0, "provisional": True}, "active": {"name": "Blood Fury", "ap_pct": 0.10, "sp_pct": 0.10, "duration": 15, "cooldown": 120}, "summary": "Blood Fury: +10% Attack Power and Spell Power for 15 sec, 2 min cooldown. Axe Specialization: critical chance with axes (amount unpublished; 1% assumed)."},
     "Undead": {"touch_of_the_grave": {"chance": 0.05, "health_fraction": 0.05}, "summary": "Touch of the Grave: 5% chance on spells and attacks to drain health for up to 5% of maximum health."},
     "Tauren": {"hit": 1.0, "health_pct": 0.05, "summary": "Endurance: +1% hit chance and +5% maximum health."},
@@ -105,8 +105,12 @@ BUFF_STATS = {
     "arcane_intellect": {"intellect": 31}, "battle_shout": {"attackPower": 290}, "blessing_of_might": {"attackPower": 222}, "devotion_aura": {"armor": 735},
     "blessing_of_wisdom": {"mp5": 33}, "strength_of_earth": {"strength": 77}, "grace_of_air": {"agility": 77}, "mana_spring": {"mp5": 15},
     "leader_of_the_pack": {"meleeCrit": 3, "rangedCrit": 3}, "moonkin_aura": {"spellCrit": 3}, "trueshot_aura": {"rangedAttackPower": 100},
-    "blessing_of_kings": {}, "windfury_totem": {},
+    "blessing_of_kings": {}, "windfury_totem": {}, "thorns": {},
 }
+# Thorns rank 6 (client spell 9910, build 70124: 22 Nature damage per landed melee hit on the target).
+# Forever notes say it now scales with the caster's spell power; the coefficient is unpublished,
+# so only the base damage is modeled. Only tanks are hit in this model.
+THORNS = {"damage": 22.0, "spell_id": 9910}
 BUFF_GROUPS = {"air_totem": ["grace_of_air", "windfury_totem"], "crit_aura": ["leader_of_the_pack", "moonkin_aura"]}
 WINDFURY_TOTEM = {"chance": 0.20, "ap": 315}
 
@@ -458,7 +462,7 @@ SPEC_ABOUT = {
 PALADIN_ABOUT = {
     "protection": {
         "dps": "A threat rotation first: Templar's Bulwark as an emergency cooldown, Holy Shield upkeep, Exorcism/Holy Wrath against Undead or Demons, Consecration (its damage and threat both scale with the encounter's target count), Seal of Fury's melee swing proc plus Judgement.",
-        "tps": "Righteous Fury adds +90% Holy threat, and that Holy-school bonus plus Judgement of Fury's guaranteed taunt is the whole threat model - there's no blanket stance-style multiplier the way the shared engine's Warrior/Druid tanks get. This produces a real, currently-unexplained gap versus their TPS at equal DPS, read as intentional (see CHANGELOG.md) but not confirmed by an explicit source."},
+        "tps": "Righteous Fury adds +60% Holy threat, and that Holy-school bonus plus Judgement of Fury's guaranteed taunt is the whole threat model - there's no blanket stance-style multiplier the way the shared engine's Warrior/Druid tanks get. This produces a real, currently-unexplained gap versus their TPS at equal DPS, read as intentional (see CHANGELOG.md) but not confirmed by an explicit source."},
     "retribution": {
         "dps": "Twists Seal of Righteousness and Seal of Command (both scale with weapon speed/spell power now, not flat rolls), Judgement, Consecration, Exorcism/Holy Wrath against Undead or Demons, Holy Strike when talented.",
         "tps": "No Righteous Fury bonus (Protection-only); since Holy damage is already the threat baseline everywhere in this model, Retribution's TPS sits closer to a 1:1 ratio with its DPS than most shared-engine DPS specs, just without the tank multiplier."},

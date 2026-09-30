@@ -65,7 +65,7 @@ class SimulationTests(unittest.TestCase):
 
     def test_every_settings_toggle_is_connected_to_the_model(self):
         p=preset('protection'); base,_=apply_gear(p)
-        fight_only={'bloodlust','gift_of_arthas','windfury_totem','grace_of_air','moonkin_aura','trueshot_aura','major_mana_potion','demonic_rune','goblin_sapper_charge','dragonbreath_chili'}
+        fight_only={'bloodlust','thorns','gift_of_arthas','windfury_totem','grace_of_air','moonkin_aura','trueshot_aura','major_mana_potion','demonic_rune','goblin_sapper_charge','dragonbreath_chili'}
         for group in ('raid_buffs','consumables'):
             for key in p[group]:
                 if key in fight_only or not p[group][key]: continue
@@ -189,7 +189,7 @@ class SimulationTests(unittest.TestCase):
         self.assertEqual(f.hs_charges,0)
         self.assertEqual(f.hits['Holy Shield'],4)
         self.assertEqual(f.damage['Holy Shield'],440)
-        self.assertAlmostEqual(f.threat,440*1.5*1.9*1.2)
+        self.assertAlmostEqual(f.threat,440*1.5*1.6*1.2)
 
     def test_classic_attack_power_adds_normalized_weapon_damage(self):
         p=self.basic(); p['gear']={k:0 for k in p['gear']}
@@ -276,9 +276,25 @@ class SimulationTests(unittest.TestCase):
         p['talents']['110883']=0
         f=Fight(p,0)
         for _ in range(9): f.deal('Test melee',100,can_crit=True)
-        self.assertEqual(f.vengeance,5)
+        self.assertEqual(f.vengeance,3)
         f.time=30; f.deal('After expiration',100,can_crit=False)
         self.assertEqual(f.vengeance,0); self.assertAlmostEqual(f.damage['After expiration'],70)
+
+    def test_twist_of_light_reduces_seal_cost(self):
+        p=self.basic('retribution'); f=Fight(p,0); f.mana=1000
+        f.spend('Seal of Command',100)
+        self.assertAlmostEqual(1000-f.mana,100*0.8*(1-0.02*f.rank(105706)))
+        p['talents']['105692']=0; g=Fight(p,0); g.mana=1000
+        g.spend('Seal of Command',100)
+        self.assertAlmostEqual(1000-g.mana,100*(1-0.02*g.rank(105706)))
+
+    def test_thorns_damages_attackers_without_vengeance(self):
+        p=self.basic(); p['raid_buffs']['thorns']=True
+        r=simulate(p)
+        self.assertIn('Thorns',r['ability_dps'])
+        f=Fight(p,0); f.vengeance=3; f.vengeance_until=99
+        f.deal('Thorns',22,physical=False)
+        self.assertAlmostEqual(f.damage['Thorns'],22)
 
     def test_mana_proc_internal_cooldown(self):
         p=self.basic(); p['character'].update(avoidance=0,block_chance=1)

@@ -550,7 +550,7 @@ class Iteration:
         self.last_cast_time = -10.0; self.next_mana_tick = 2.0; self.next_energy_tick = 2.0; self.next_rage_tick = 3.0
         self.next_boss = c.incoming['enemy_swing']; self.next_heal = c.incoming['heal_interval']
         self.healed = 0.0; self.overheal = 0.0; self.peak_3s_damage = 0.0; self.incoming_hits = []
-        self.flurry = 0; self.eureka = 0; self.dodged_recently = -10.0; self.avoided_recently = -10.0
+        self.flurry = 0; self.eureka = 0; self.eureka_until = 0.0; self.dodged_recently = -10.0; self.avoided_recently = -10.0
         self.combustion = None; self.clearcast = False; self.next_instant = False; self.next_crit = False; self.eclipse = 0
         self.busy_until = 0.0; self.starved = 0.0; self.first_oom = None
         self.pet_state = None
@@ -857,7 +857,7 @@ class Iteration:
             if stacks: m *= 1 + 0.10 * stacks
         if c.flag("rend_and_tear") and kind == "melee" and not white and any(self.dots.get(d) and self.dots[d]["remaining"] > 0 and ABILITIES.get(d, {}).get("bleed") for d in self.dots): m *= 1 + c.flag("rend_and_tear")
         if c.flag("quietus") and ability in {"Sinister Strike", "Hemorrhage"} and self.t >= self.duration * 0.65: m *= 1 + c.flag("quietus")
-        if self.eureka > 0 and not white and kind != "pet" and not periodic: m *= 1.10
+        if self.eureka > 0 and self.t < self.eureka_until and not white and kind != "pet" and not periodic: m *= 1.10
         if c.flag("lone_wolf") and (c.pet is None or c.pet["uptime"] <= 0 or (self.pet_state and self.t >= self.pet_state["active_until"])): m *= 1 + c.flag("lone_wolf")
         return m
 
@@ -881,7 +881,8 @@ class Iteration:
             else: r.dodges += 1
             self.record(name, outcome, 0.0)
             return 0.0
-        dmg = amount * mult * self.multiplier(name, school, kind, periodic, white)
+        # Forever: Ignite ticks carry the crit's already-modified damage and no longer re-apply % modifiers.
+        dmg = amount * mult * (1.0 if name == "Ignite" else self.multiplier(name, school, kind, periodic, white))
         if school == "physical" and not (periodic and (self.dots.get(name, {}).get("bleed") or ABILITIES.get(name, {}).get("bleed"))): dmg *= self.armor_mult(name)
         if outcome == "glance": r.glances += 1
         if outcome == "crit": r.crits += 1
@@ -1218,6 +1219,7 @@ class Iteration:
             b = self.buffs.get("Thousand Cuts")
             if b and b["until"] > self.t: cost = max(0.0, cost - 3 * b["stacks"])
         if self.s["resource"] == "Mana" and cost > 0: cost = max(0.0, cost * (1 + self.buff_stat("costMult")) + self.buff_stat("costFlat"))
+        if self.s["resource"] == "Energy" and self.eureka > 0 and self.t < self.eureka_until: cost *= 1 - self.c.racial["active"].get("energy_cost", 0)
         return cost
 
     def choose(self):
@@ -1242,7 +1244,7 @@ class Iteration:
             elif r.get("crit"): self.add_buff(r["name"], r["duration"])
             elif r.get("haste"): self.add_buff(r["name"], r["duration"], haste=r["haste"])
             elif r.get("ap_pct"): self.add_buff(r["name"], r["duration"], ap_pct=r["ap_pct"], sp_pct=r["sp_pct"])
-            elif r.get("charges"): self.eureka = r["charges"]
+            elif r.get("charges"): self.eureka = r["charges"]; self.eureka_until = self.t + r.get("duration", 15)
             self.record(r["name"], "activated", 0)
         for name, a in c.actions.items():
             if not a.get("off_gcd") and a.get("kind") not in {"item_use"}: continue
@@ -1589,7 +1591,7 @@ class Iteration:
             chance = 0.40 if name == "Arcane Blast" else 0.20
             if self.rng.random() < chance: self.add_buff("Missile Barrage", 20)
         if c.flag("hot_streak") and name in {"Fireball", "Fire Blast", "Scorch", "Frostfire Bolt"} and out == "crit":
-            self.add_buff("Hot Streak", 15, stacks_max=3)
+            self.add_buff("Hot Streak", 20, stacks_max=3)
         if c.flag("fingers_of_frost") and name == "Frostbolt" and out in {"hit", "crit"} and self.rng.random() < 0.15:
             self.add_buff("Fingers of Frost", 15, stacks_max=2)
         if c.flag("shadow_weaving") and school == "shadow": self.add_debuff("Shadow Weaving", 15, stacks_max=5)
@@ -1690,6 +1692,7 @@ class Iteration:
         self.incoming_hits = [(t, a) for t, a in self.incoming_hits if self.t - t < 3.0]
         self.incoming_hits.append((self.t, amount))
         self.peak_3s_damage = max(self.peak_3s_damage, sum(a for _, a in self.incoming_hits))
+        if "thorns" in c.buffs and self.s["role"] == "tank": self.deal("Thorns", THORNS["damage"], "nature", "spell")
         self.gain_rage(amount * 2.5 / RAGE_CONVERSION_60, source="damage")
         if c.flag("enrage") and rng.random() < c.flag("enrage") * 3: self.enrage_until = self.t + 12
         if c.flag("might_rage") and rng.random() < c.flag("might_rage"): self.gain_rage(1)
