@@ -909,11 +909,18 @@ class Iteration:
             threat = (self.rage - before) * 5
             self.threat += threat; self.row("Rage gains").threat += threat
 
-    def white_rage(self, hand_item, damage):
-        if self.s["resource"] == "Rage":
+    def white_rage(self, hand_item, damage, avoided=False):
+        if self.s["resource"] != "Rage": return
+        c = self.c
+        if self.s["class_name"] == "Warrior":
+            if avoided: return  # Forever: misses, dodges and parries give no rage
+            speed = float(hand_item.get("weaponSpeed", 2.0)) if hand_item else 2.0
+            gained = speed * WARRIOR_RAGE_PER_SPEED["two_hand" if c.two_hand else "one_hand"]
+            if hand_item is c.oh: gained *= WARRIOR_RAGE_PER_SPEED["off_hand_factor"]
+        else:
             gained = damage * 7.5 / RAGE_CONVERSION_60
-            if hand_item is self.c.oh: gained *= 1 + self.c.flag("dw_rage")
-            self.gain_rage(gained, source="damage")
+        if hand_item is c.oh: gained *= 1 + c.flag("dw_rage")
+        self.gain_rage(gained, source="damage")
 
     def gain_energy(self, amount):
         self.energy = min(self.max_energy, self.energy + amount)
@@ -1055,7 +1062,7 @@ class Iteration:
         self.row(name).casts += 1
         raw = self.weapon_damage(item, bonus_ap=bonus_ap) if out != "miss" else 0
         if out in {"dodge", "parry"}:
-            self.white_rage(item, raw * self.multiplier(name, "physical", "melee", white=True) * self.armor_mult(name))
+            self.white_rage(item, raw * self.multiplier(name, "physical", "melee", white=True) * self.armor_mult(name), avoided=True)
         dmg = self.deal(name, raw, "physical", "melee", white=True, outcome=out, mult=m)
         if dmg:
             self.on_weapon_hit(item, True, name, dmg)
@@ -1102,7 +1109,7 @@ class Iteration:
             dmg = self.weapon_damage(item)
             if hand == "off": dmg *= 0.5 * (1 + c.flag("dw_damage"))
         if out in {"dodge", "parry"}:
-            self.white_rage(item, dmg * self.multiplier(name, "physical", "melee", white=True) * self.armor_mult(name))
+            self.white_rage(item, dmg * self.multiplier(name, "physical", "melee", white=True) * self.armor_mult(name), avoided=True)
         dmg = self.deal(name, dmg, "physical", "melee", white=True, outcome=out, mult=m)
         if dmg:
             self.on_weapon_hit(item, True, name, dmg)

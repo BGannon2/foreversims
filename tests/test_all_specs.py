@@ -196,16 +196,20 @@ class AttackTableTests(unittest.TestCase):
 
 class ResourceTests(unittest.TestCase):
     def test_rage_from_damage_uses_classic_conversion(self):
-        it = iteration("warrior-arms", talents={})
+        # Bear rage still uses the Classic damage conversion; Warrior rage is speed-normalized.
+        it = iteration("druid-feral-tank", talents={})
         it.rage = 0; it.on_weapon_hit(it.c.mh, True, "Melee (Main-Hand)", 230.6)
         self.assertAlmostEqual(it.rage, 7.5, places=6)
-        it.rage = 0; it.on_weapon_hit(it.c.mh, False, "Mortal Strike", 500)
-        self.assertEqual(it.rage, 0)  # specials generate no rage
+        war = iteration("warrior-arms", talents={})
+        war.rage = 0; war.on_weapon_hit(war.c.mh, True, "Melee (Main-Hand)", 230.6)
+        self.assertAlmostEqual(war.rage, float(war.c.mh["weaponSpeed"]) * (4.5 if war.c.two_hand else 3.46), places=6)
+        war.rage = 0; war.on_weapon_hit(war.c.mh, False, "Mortal Strike", 500)
+        self.assertEqual(war.rage, 0)  # specials generate no rage
 
     def test_off_hand_rage_and_damage_talent(self):
         it = iteration("warrior-fury")  # Dual Wield Specialization 5/5: +100% off-hand rage
         it.rage = 0; it.c.mods["flag:unbridled_wrath"] = 0; it.on_weapon_hit(it.c.oh, True, "Melee (Off-Hand)", 230.6)
-        self.assertAlmostEqual(it.rage, 15.0, places=6)
+        self.assertAlmostEqual(it.rage, float(it.c.oh["weaponSpeed"]) * 3.46 * 0.5 * 2, places=6)  # half rate, doubled by the talent
 
     def test_energy_ticks_and_combo_points(self):
         r = simulate_spec(default_request(spec("rogue-combat"), iterations=3, duration=60, buffs=[], consumables=[]))
@@ -358,3 +362,24 @@ class SetBonusTests(unittest.TestCase):
         it = iteration("rogue-subtlety", seed=3)
         res = it.run()
         self.assertIn("Shadowcraft Energize", res["rows"])
+
+
+class ForeverRageTests(unittest.TestCase):
+    """Forever normalizes Warrior auto-attack rage to weapon speed (not damage or crits)."""
+
+    def test_warrior_swing_rage_is_speed_times_rate(self):
+        from forever.all_specs import ENCHANTS, FOREVER_SETS, ITEMS
+        from forever.engine import Config, Iteration
+        from forever.engine_data import WARRIOR_RAGE_PER_SPEED as R
+        from server import default_request
+        spec = next(s for s in public_specs() if s["id"] == "warrior-fury")
+        it = Iteration(Config(default_request(spec, "Human"), ITEMS, ENCHANTS, FOREVER_SETS), 1, False)
+        mh, oh = it.c.mh, it.c.oh
+        rate = R["two_hand" if it.c.two_hand else "one_hand"]
+        for damage in (1.0, 5000.0):  # damage (and so crits) doesn't change it
+            it.rage = 0; it.white_rage(mh, damage)
+            self.assertAlmostEqual(it.rage, float(mh["weaponSpeed"]) * rate)
+        it.rage = 0; it.white_rage(mh, 500.0, avoided=True)
+        self.assertEqual(it.rage, 0)
+        it.rage = 0; it.white_rage(oh, 500.0)
+        self.assertAlmostEqual(it.rage, float(oh["weaponSpeed"]) * rate * R["off_hand_factor"] * (1 + it.c.flag("dw_rage")))

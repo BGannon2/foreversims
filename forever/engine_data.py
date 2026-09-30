@@ -70,6 +70,11 @@ DODGE_PER_AGI = {"Warrior": .0500, "Paladin": .0506, "Hunter": .0378, "Rogue": .
 # Classic level-60 mana regeneration per 2-second tick outside the five-second rule.
 SPIRIT_REGEN = {"Mage": (0.25, 12.5), "Priest": (0.25, 12.5), "Warlock": (0.2, 15), "Druid": (0.2, 15), "Shaman": (0.2, 15), "Paladin": (0.2, 15), "Hunter": (0.2, 15)}
 
+# Forever normalizes Warrior auto-attack rage: per landed swing, base weapon speed x a fixed
+# rate (one-hand 3.46, two-hand 4.5 rage per second of speed; off hand half). Damage and crits
+# don't matter and misses/dodges/parries give none (Forever beta logs: github.com/magey/forever-warrior
+# issue 3; developer statement that you "don't get extra rage when you do more damage/crit").
+WARRIOR_RAGE_PER_SPEED = {"one_hand": 3.46, "two_hand": 4.5, "off_hand_factor": 0.5}
 RAGE_CONVERSION_60 = 0.0091107836 * 60 * 60 + 3.225598133 * 60 + 4.2652911  # 230.6
 LEVEL, TARGET_LEVEL = 60, 63
 TARGET_DEFENSE = TARGET_LEVEL * 5

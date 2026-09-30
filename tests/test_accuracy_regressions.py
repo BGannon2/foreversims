@@ -181,10 +181,10 @@ class AccuracyRegressions(unittest.TestCase):
         it.rage = 0
         before = it.threat
         it.white_rage(it.c.mh, 100)
-        self.assertAlmostEqual(it.rage, 750 / RAGE_CONVERSION_60)
+        self.assertAlmostEqual(it.rage, float(it.c.mh["weaponSpeed"]) * 3.46)  # Forever: speed-normalized
         self.assertEqual(it.threat, before)
         it.gain_rage(10)
-        self.assertEqual(it.threat - before, 50)
+        self.assertAlmostEqual(it.threat - before, 50)
 
     def test_bleeds_ignore_armor(self):
         it = iteration('rogue-combat', debuffs=[], armor=10000)

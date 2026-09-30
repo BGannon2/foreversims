@@ -265,21 +265,22 @@
      "gear_slot": "waist"
     },
     {
-     "id": 22385,
-     "name": "Titanic Leggings",
+     "id": 16479,
+     "name": "Marshal's Plate Legguards",
      "icon": "inv_pants_04",
      "quality": "Epic",
-     "itemLevel": 60,
+     "itemLevel": 71,
      "stats": {
-      "armor": 598.0,
-      "strength": 30.0,
-      "meleeHit": 2.5,
-      "spellHit": 2.5,
-      "meleeCrit": 1.0,
-      "spellCrit": 1.0
+      "armor": 743.0,
+      "stamina": 28.0,
+      "strength": 20.0,
+      "meleeCrit": 2.0,
+      "spellCrit": 2.0,
+      "meleeHit": 1.25,
+      "spellHit": 1.25
      },
      "effects": [],
-     "source": "Unknown",
+     "source": "Vendor: Captain Dirgehammer",
      "subclass": "Plate",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -287,7 +288,31 @@
      "equipSlots": [
       "legs"
      ],
-     "set": null,
+     "set": {
+      "name": "Field Marshal's Battlegear",
+      "pieces": [
+       "Field Marshal's Plate Armor",
+       "Field Marshal's Plate Helm",
+       "Field Marshal's Plate Shoulderguards",
+       "Marshal's Plate Boots",
+       "Marshal's Plate Gauntlets",
+       "Marshal's Plate Legguards"
+      ],
+      "bonuses": [
+       {
+        "required": 2,
+        "description": "+20 Stamina."
+       },
+       {
+        "required": 3,
+        "description": "Reduces the cooldown of your Intercept ability by 5 sec."
+       },
+       {
+        "required": 6,
+        "description": "+40 Attack Power."
+       }
+      ]
+     },
      "slot": "Legs",
      "gear_slot": "legs"
     },
@@ -448,9 +473,9 @@
    "race": "Human",
    "gear": [
     {
-     "id": 23456,
-     "name": "Grand Marshal's Swiftblade",
-     "icon": "inv_sword_05",
+     "id": 12584,
+     "name": "Grand Marshal's Longsword",
+     "icon": "inv_sword_11",
      "quality": "Epic",
      "itemLevel": 78,
      "stats": {
@@ -462,9 +487,9 @@
      "effects": [],
      "source": "Vendor: Captain O'Neal",
      "subclass": "Sword",
-     "weaponDamageMin": 86.0,
-     "weaponDamageMax": 129.0,
-     "weaponSpeed": 1.8,
+     "weaponDamageMin": 138.0,
+     "weaponDamageMax": 207.0,
+     "weaponSpeed": 2.9,
      "equipSlots": [
       "main_hand",
       "off_hand"
@@ -527,18 +552,23 @@
      "gear_slot": "head"
     },
     {
-     "id": 19491,
-     "name": "Amulet of the Darkmoon",
-     "icon": "inv_jewelry_necklace_14",
+     "id": 18404,
+     "name": "Onyxia Tooth Pendant",
+     "icon": "inv_jewelry_necklace_09",
      "quality": "Epic",
-     "itemLevel": 65,
+     "itemLevel": 74,
      "stats": {
-      "strength": 10.0,
-      "agility": 19.0,
-      "stamina": 10.0
+      "agility": 12.0,
+      "stamina": 9.0,
+      "fireResistance": 10.0,
+      "meleeHit": 1.0,
+      "meleeCrit": 1.0
      },
-     "effects": [],
-     "source": "Quest: 1200 Tickets - Amulet of the Darkmoon",
+     "effects": [
+      "Equip: Improves your chance to hit by 1%.",
+      "Equip: Improves your chance to get a critical strike by 1%."
+     ],
+     "source": "Quest: For All To See",
      "subclass": "Miscellaneous",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -627,46 +657,75 @@
      "gear_slot": "back"
     },
     {
-     "id": 252484,
-     "name": "Timbermaw Tunic",
-     "icon": null,
+     "id": 11726,
+     "name": "Savage Gladiator Chain",
+     "icon": "inv_chest_chain_15",
      "quality": "Epic",
-     "itemLevel": 61,
+     "itemLevel": 57,
      "stats": {
-      "armor": 187.0,
-      "agility": 18.0,
-      "strength": 33.0,
-      "meleeCrit": 1.0,
-      "spellCrit": 1.0
+      "armor": 369.0,
+      "strength": 13.0,
+      "agility": 14.0,
+      "stamina": 13.0,
+      "meleeCrit": 2.0
      },
-     "effects": [],
-     "source": "forever-1.60.1.69913",
-     "subclass": "Leather",
+     "effects": [
+      "Equip: Improves your chance to get a critical strike by 2%."
+     ],
+     "source": "Boss Drop: Gorosh the Dervish",
+     "subclass": "Mail",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
      "equipSlots": [
       "chest"
      ],
-     "set": null,
+     "set": {
+      "name": "The Gladiator",
+      "pieces": [
+       "Savage Gladiator Helm",
+       "Savage Gladiator Chain",
+       "Savage Gladiator Leggings",
+       "Savage Gladiator Greaves",
+       "Savage Gladiator Grips"
+      ],
+      "bonuses": [
+       {
+        "required": 2,
+        "description": "+20 Armor."
+       },
+       {
+        "required": 3,
+        "description": "Increased Defense +2."
+       },
+       {
+        "required": 4,
+        "description": "+10 Attack Power."
+       },
+       {
+        "required": 5,
+        "description": "Improves your chance to get a critical strike by 1%."
+       }
+      ]
+     },
      "slot": "Chest",
      "gear_slot": "chest"
     },
     {
-     "id": 19578,
-     "name": "Berserker Bracers",
-     "icon": "inv_bracer_06",
+     "id": 19587,
+     "name": "Forest Stalker's Bracers",
+     "icon": "inv_bracer_12",
      "quality": "Epic",
      "itemLevel": 65,
      "stats": {
-      "armor": 323.0,
-      "strength": 19.0,
-      "agility": 8.0,
-      "stamina": 11.0
+      "armor": 86.0,
+      "strength": 11.0,
+      "agility": 19.0,
+      "stamina": 8.0
      },
      "effects": [],
      "source": "Unknown",
-     "subclass": "Plate",
+     "subclass": "Leather",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -678,20 +737,19 @@
      "gear_slot": "wrist"
     },
     {
-     "id": 15063,
-     "name": "Devilsaur Gauntlets",
-     "icon": "inv_gauntlets_26",
+     "id": 19686,
+     "name": "Primal Batskin Gloves",
+     "icon": "inv_gauntlets_31",
      "quality": "Rare",
-     "itemLevel": 58,
+     "itemLevel": 65,
      "stats": {
-      "armor": 103.0,
+      "armor": 113.0,
+      "agility": 10.0,
       "stamina": 9.0,
-      "meleeCrit": 1.0
+      "meleeHit": 2.5,
+      "spellHit": 2.5
      },
-     "effects": [
-      "Equip: +28 Attack Power.",
-      "Equip: Improves your chance to get a critical strike by 1%."
-     ],
+     "effects": [],
      "source": "Unknown",
      "subclass": "Leather",
      "weaponDamageMin": null,
@@ -701,15 +759,16 @@
       "hands"
      ],
      "set": {
-      "name": "Devilsaur Armor",
+      "name": "Primal Batskin",
       "pieces": [
-       "Devilsaur Leggings",
-       "Devilsaur Gauntlets"
+       "Requires Leatherworking (300)",
+       "Primal Batskin Jerkin",
+       "Primal Batskin Bracers"
       ],
       "bonuses": [
        {
-        "required": 2,
-        "description": "Improves your chance to hit by 2%."
+        "required": 3,
+        "description": "Minor increase to running and swimming speed."
        }
       ]
      },
@@ -874,29 +933,6 @@
      "gear_slot": "finger2"
     },
     {
-     "id": 13965,
-     "name": "Blackhand's Breadth",
-     "icon": "inv_misc_armorkit_09",
-     "quality": "Rare",
-     "itemLevel": 63,
-     "stats": {
-      "meleeCrit": 2
-     },
-     "effects": [],
-     "source": "WoWSims Classic database",
-     "subclass": null,
-     "weaponDamageMin": null,
-     "weaponDamageMax": null,
-     "weaponSpeed": null,
-     "equipSlots": [
-      "trinket1",
-      "trinket2"
-     ],
-     "set": null,
-     "slot": "Trinket",
-     "gear_slot": "trinket1"
-    },
-    {
      "id": 11815,
      "name": "Hand of Justice",
      "icon": "inv_jewelry_talisman_01",
@@ -918,6 +954,29 @@
      ],
      "set": null,
      "slot": "Trinket",
+     "gear_slot": "trinket1"
+    },
+    {
+     "id": 13965,
+     "name": "Blackhand's Breadth",
+     "icon": "inv_misc_armorkit_09",
+     "quality": "Rare",
+     "itemLevel": 63,
+     "stats": {
+      "meleeCrit": 2
+     },
+     "effects": [],
+     "source": "WoWSims Classic database",
+     "subclass": null,
+     "weaponDamageMin": null,
+     "weaponDamageMax": null,
+     "weaponSpeed": null,
+     "equipSlots": [
+      "trinket1",
+      "trinket2"
+     ],
+     "set": null,
+     "slot": "Trinket",
      "gear_slot": "trinket2"
     }
    ]
@@ -928,46 +987,44 @@
    "race": "Human",
    "gear": [
     {
-     "id": 22383,
-     "name": "Sageblade",
-     "icon": "inv_sword_51",
+     "id": 279259,
+     "name": "Ironwood Blade",
+     "icon": "inv_sword_07",
      "quality": "Epic",
-     "itemLevel": 64,
+     "itemLevel": 65,
      "stats": {
-      "stamina": 14.0,
-      "intellect": 6.0,
+      "strength": 8.0,
+      "stamina": 12.0,
       "meleeHit": 1.25,
       "spellHit": 1.25
      },
      "effects": [],
-     "source": "Unknown",
+     "source": "forever-1.60.1.69913",
      "subclass": "Sword",
-     "weaponDamageMin": 59.0,
-     "weaponDamageMax": 109.0,
-     "weaponSpeed": 1.8,
+     "weaponDamageMin": 80.0,
+     "weaponDamageMax": 148.0,
+     "weaponSpeed": 2.4,
      "equipSlots": [
-      "main_hand"
+      "main_hand",
+      "off_hand"
      ],
      "set": null,
-     "slot": "Main Hand",
+     "slot": "One-Hand",
      "gear_slot": "main_hand"
     },
     {
-     "id": 1168,
-     "name": "Skullflame Shield",
-     "icon": "inv_shield_01",
+     "id": 19321,
+     "name": "The Immovable Object",
+     "icon": "spell_frost_chillingarmor",
      "quality": "Epic",
-     "itemLevel": 59,
+     "itemLevel": 65,
      "stats": {
-      "armor": 2256.0,
-      "fireResistance": 10.0,
-      "shadowResistance": 10.0
+      "armor": 2468.0,
+      "stamina": 15.0,
+      "blockValue": 27.0
      },
-     "effects": [
-      "Equip: When struck in combat has a 3% chance of stealing 35 life from target enemy.",
-      "Equip: When struck in combat has a 1% chance of dealing 75 to 125 Fire damage to all targets around you."
-     ],
-     "source": "Rare Drop",
+     "effects": [],
+     "source": "Unknown",
      "subclass": "Shield",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -1112,16 +1169,19 @@
      "gear_slot": "shoulders"
     },
     {
-     "id": 18413,
-     "name": "Cloak of Warding",
-     "icon": "inv_misc_cape_06",
+     "id": 14134,
+     "name": "Cloak of Fire",
+     "icon": "inv_misc_cape_18",
      "quality": "Rare",
-     "itemLevel": 62,
+     "itemLevel": 55,
      "stats": {
-      "armor": 214.0,
-      "defense": 2.1227816931306784
+      "armor": 39.0,
+      "stamina": 7.0,
+      "fireResistance": 6.0
      },
-     "effects": [],
+     "effects": [
+      "Use: Deals 25 Fire damage every 5 sec to all nearby enemies for 15 sec. (2 Min Cooldown)"
+     ],
      "source": "Unknown",
      "subclass": "Cloth",
      "weaponDamageMin": null,
@@ -1135,21 +1195,20 @@
      "gear_slot": "back"
     },
     {
-     "id": 16477,
-     "name": "Field Marshal's Plate Armor",
+     "id": 272786,
+     "name": "Premier Field Marshal's Plate Armor",
      "icon": "inv_chest_plate03",
      "quality": "Epic",
-     "itemLevel": 74,
+     "itemLevel": 65,
      "stats": {
-      "armor": 875.0,
-      "stamina": 33.0,
-      "strength": 16.0,
-      "agility": 14.0,
+      "armor": 738.0,
+      "stamina": 34.0,
+      "strength": 21.0,
       "meleeCrit": 1.0,
       "spellCrit": 1.0
      },
      "effects": [],
-     "source": "Vendor: Captain Dirgehammer",
+     "source": "forever-1.60.1.69913",
      "subclass": "Plate",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -1157,50 +1216,24 @@
      "equipSlots": [
       "chest"
      ],
-     "set": {
-      "name": "Field Marshal's Battlegear",
-      "pieces": [
-       "Field Marshal's Plate Armor",
-       "Field Marshal's Plate Helm",
-       "Field Marshal's Plate Shoulderguards",
-       "Marshal's Plate Boots",
-       "Marshal's Plate Gauntlets",
-       "Marshal's Plate Legguards"
-      ],
-      "bonuses": [
-       {
-        "required": 2,
-        "description": "+20 Stamina."
-       },
-       {
-        "required": 3,
-        "description": "Reduces the cooldown of your Intercept ability by 5 sec."
-       },
-       {
-        "required": 6,
-        "description": "+40 Attack Power."
-       }
-      ]
-     },
+     "set": null,
      "slot": "Chest",
      "gear_slot": "chest"
     },
     {
-     "id": 13400,
-     "name": "Vambraces of the Sadist",
-     "icon": "inv_bracer_17",
-     "quality": "Rare",
-     "itemLevel": 59,
+     "id": 19578,
+     "name": "Berserker Bracers",
+     "icon": "inv_bracer_06",
+     "quality": "Epic",
+     "itemLevel": 65,
      "stats": {
-      "armor": 270.0,
-      "strength": 6.0,
-      "stamina": 7.0,
-      "meleeCrit": 1.0
+      "armor": 323.0,
+      "strength": 19.0,
+      "agility": 8.0,
+      "stamina": 11.0
      },
-     "effects": [
-      "Equip: Improves your chance to get a critical strike by 1%."
-     ],
-     "source": "Boss Drop: Timmy the Cruel",
+     "effects": [],
+     "source": "Unknown",
      "subclass": "Plate",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -1288,19 +1321,21 @@
      "gear_slot": "legs"
     },
     {
-     "id": 272510,
-     "name": "Premier Centurion's Mortarplate Boots",
-     "icon": "inv_boots_plate_04",
+     "id": 16483,
+     "name": "Marshal's Plate Boots",
+     "icon": "inv_boots_plate_09",
      "quality": "Epic",
-     "itemLevel": 65,
+     "itemLevel": 71,
      "stats": {
-      "armor": 507.0,
-      "stamina": 28.0,
-      "strength": 13.0,
-      "agility": 11.0
+      "armor": 592.0,
+      "stamina": 24.0,
+      "strength": 18.0,
+      "agility": 12.0,
+      "meleeHit": 1.25,
+      "spellHit": 1.25
      },
      "effects": [],
-     "source": "forever-1.60.1.69913",
+     "source": "Vendor: Captain Dirgehammer",
      "subclass": "Plate",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -1308,7 +1343,31 @@
      "equipSlots": [
       "feet"
      ],
-     "set": null,
+     "set": {
+      "name": "Field Marshal's Battlegear",
+      "pieces": [
+       "Field Marshal's Plate Armor",
+       "Field Marshal's Plate Helm",
+       "Field Marshal's Plate Shoulderguards",
+       "Marshal's Plate Boots",
+       "Marshal's Plate Gauntlets",
+       "Marshal's Plate Legguards"
+      ],
+      "bonuses": [
+       {
+        "required": 2,
+        "description": "+20 Stamina."
+       },
+       {
+        "required": 3,
+        "description": "Reduces the cooldown of your Intercept ability by 5 sec."
+       },
+       {
+        "required": 6,
+        "description": "+40 Attack Power."
+       }
+      ]
+     },
      "slot": "Feet",
      "gear_slot": "feet"
     },

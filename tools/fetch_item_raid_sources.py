@@ -25,6 +25,8 @@ DB_URL = "https://raw.githubusercontent.com/wowsims/classic/master/assets/databa
 RAID_ZONES = {2717: "Molten Core", 2677: "Blackwing Lair", 1977: "Zul'Gurub", 3429: "Ruins of Ahn'Qiraj",
               3428: "Temple of Ahn'Qiraj", 3456: "Naxxramas"}
 FIRST_EXCLUDED_PHASE = 5  # WoWSims phases: 1 MC/Onyxia, 2 Dire Maul, 3 BWL, 4 ZG, 5 Ahn'Qiraj, 6 Naxxramas
+# Zul'Gurub Edge of Madness charms: the WoWSims database lists no source for them.
+MANUAL = {iid: ["Zul'Gurub"] for iid in (19951, 19952, 19953, 19954, 19955, 19956, 19957, 19958, 19959)}
 
 
 def reasons(entry):
@@ -46,6 +48,7 @@ def main():
             text = r.read().decode("utf-8")
     db = {entry["id"]: entry for entry in json.loads(text)["items"]}
     result = {str(iid): why for iid in sorted(ITEMS) if iid in db and (why := reasons(db[iid]))}
+    result.update({str(iid): why for iid, why in MANUAL.items() if iid in ITEMS})
     payload = {"source": DB_URL, "raid_zones": {str(k): v for k, v in RAID_ZONES.items()},
                "first_excluded_phase": FIRST_EXCLUDED_PHASE, "catalog_items_in_db": sum(i in db for i in ITEMS),
                "items": result}

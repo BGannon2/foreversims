@@ -864,12 +864,26 @@ impl<'a> Iteration<'a> {
         self.row("Rage gains").threat += threat;
     }
 
-    fn white_rage(&mut self, hand: Hand, damage: f64) {
-        if self.c.spec.resource == "Rage" {
-            let mut gained = damage * 7.5 / self.c.t.RAGE_CONVERSION_60;
-            if hand == Hand::Off { gained *= 1.0 + self.c.flag("dw_rage"); }
-            self.rage = self.max_rage.min(self.rage + gained);
+    fn white_rage(&mut self, hand: Hand, damage: f64, avoided: bool) {
+        let c = self.c;
+        if c.spec.resource != "Rage" {
+            return;
         }
+        let mut gained = if c.spec.class_name == "Warrior" {
+            // Forever: per landed swing, base weapon speed x a fixed rate; misses/dodges/parries give none.
+            if avoided {
+                return;
+            }
+            let item = if hand == Hand::Off { &c.oh } else { &c.mh };
+            let rate = if c.two_hand { 4.5 } else { 3.46 };
+            item.speed_or(2.0) * rate * if hand == Hand::Off { 0.5 } else { 1.0 }
+        } else {
+            damage * 7.5 / c.t.RAGE_CONVERSION_60
+        };
+        if hand == Hand::Off {
+            gained *= 1.0 + c.flag("dw_rage");
+        }
+        self.rage = self.max_rage.min(self.rage + gained);
     }
 
     fn gain_energy(&mut self, amount: f64) {
@@ -922,7 +936,7 @@ impl<'a> Iteration<'a> {
         let is_extra = ability_name == "Melee (Extra Attack)" || ability_name == "Windfury Attack";
         if c.spec.resource == "Rage" {
             if white {
-                self.white_rage(hand, damage);
+                self.white_rage(hand, damage, false);
             }
             if c.flag("unbridled_wrath") != 0.0 && self.rng.random() < c.flag("unbridled_wrath") {
                 self.gain_rage(if c.two_hand { 2.0 } else { 1.0 });
@@ -1114,7 +1128,7 @@ impl<'a> Iteration<'a> {
         let item = self.c.hand_item(hand).unwrap().clone();
         let raw = if out != Outcome::Miss { self.weapon_damage(&item, false, false, bonus_ap) } else { 0.0 };
         if matches!(out, Outcome::Dodge | Outcome::Parry) {
-            self.white_rage(hand, raw * self.multiplier(name, "physical", "melee", false, true) * self.armor_mult());
+            self.white_rage(hand, raw * self.multiplier(name, "physical", "melee", false, true) * self.armor_mult(), true);
         }
         let dmg = self.deal(name, raw, "physical", "melee", true, false, 1.0, 0.0, out, m);
         if dmg != 0.0 {
@@ -1185,7 +1199,7 @@ impl<'a> Iteration<'a> {
             }
         }
         if matches!(out, Outcome::Dodge | Outcome::Parry) {
-            self.white_rage(hand, dmg * self.multiplier(name, "physical", "melee", false, true) * self.armor_mult());
+            self.white_rage(hand, dmg * self.multiplier(name, "physical", "melee", false, true) * self.armor_mult(), true);
         }
         dmg = self.deal(name, dmg, "physical", "melee", true, false, 1.0, 0.0, out, m);
         if dmg != 0.0 {
