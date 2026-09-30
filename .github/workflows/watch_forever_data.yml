@@ -24,37 +24,82 @@ jobs:
       - name: Run data watch
         id: watch
         run: python tools/data_watch.py
-      - name: Open a PR if something moved
+      # A new client build: diff it against the pinned one and, if any table the sim reads
+      # changed, re-pin the client data and regenerate everything that depends on it.
+      - name: Compare the new client build
+        id: refresh
+        if: steps.watch.outputs.changed == 'true'
+        continue-on-error: true
+        env:
+          NEW_BUILD: ${{ steps.watch.outputs.wago_build }}
+        run: python tools/build_update_report.py "$NEW_BUILD" --apply --out "$RUNNER_TEMP/report.md"
+
+      - uses: dtolnay/rust-toolchain@stable
+        if: steps.refresh.outputs.client_changed == 'true'
+        with:
+          targets: wasm32-unknown-unknown
+      - uses: taiki-e/install-action@v2
+        if: steps.refresh.outputs.client_changed == 'true'
+        with:
+          tool: wasm-bindgen-cli@0.2.128
+      - uses: actions/setup-node@v7
+        if: steps.refresh.outputs.client_changed == 'true'
+        with:
+          node-version: "22"
+
+      - name: Regenerate engine, BiS sets and benchmarks
+        id: regen
+        if: steps.refresh.outputs.client_changed == 'true'
+        continue-on-error: true
+        run: |
+          bash tools/build_engine.sh
+          python tools/wasm_parity.py
+          python tools/build_bis_gearsets.py
+          python tools/generate_benchmarks.py
+          python tools/export_static_data.py
+          python -m unittest discover -s tests -t .
+
+      - name: Write the PR description
+        if: steps.watch.outputs.changed == 'true'
+        env:
+          NEW_BUILD: ${{ steps.watch.outputs.wago_build }}
+          CLIENT_CHANGED: ${{ steps.refresh.outputs.client_changed }}
+          REGEN: ${{ steps.regen.outcome }}
+        run: |
+          {
+            echo "\`tools/data_watch.py\` saw the Forever sources move (wago.tools build and/or foreverchanges.pro counts; see \`data/.watch_state.json\`)."
+            echo
+            if [ "$CLIENT_CHANGED" = "true" ]; then
+              echo "Client tables the sim reads changed in **$NEW_BUILD**, so this PR re-pins the client data and regenerates the engine, BiS sets and benchmarks."
+              if [ "$REGEN" = "success" ]; then
+                echo "Regeneration, browser parity and the test suite passed."
+              else
+                echo "**Regeneration or the tests failed** — see the workflow run. Something below needs a code change before merging."
+              fi
+            elif [ -n "$NEW_BUILD" ]; then
+              echo "No table the sim reads changed in **$NEW_BUILD**; the client data stays pinned and nothing needs regenerating."
+            fi
+            echo
+            if [ -f "$RUNNER_TEMP/report.md" ]; then cat "$RUNNER_TEMP/report.md"; fi
+            echo
+            echo "foreverchanges.pro item/talent counts are not diffed here; if only those moved, check the catalog by hand."
+            echo
+            echo "🤖 Generated with [Claude Code](https://claude.com/claude-code)"
+          } > "$RUNNER_TEMP/pr-body.md"
+
+      - name: Open or update the PR
         id: cpr
         if: steps.watch.outputs.changed == 'true'
         uses: peter-evans/create-pull-request@v7
         with:
-          commit-message: "data: Forever source snapshot changed"
+          commit-message: "data: Forever client build ${{ steps.watch.outputs.wago_build }}"
           branch: data-watch/snapshot
           delete-branch: true
-          title: "data-change: Forever source snapshot changed"
+          title: "Forever client build ${{ steps.watch.outputs.wago_build }}"
           labels: data-change
           assignees: BGannon2
           reviewers: BGannon2
-          body: |
-            `tools/data_watch.py` found that wago.tools' newest `wow_classic_beta` build and/or
-            foreverchanges.pro's banner build tag or item/talent counts moved since the last
-            recorded snapshot (`data/.watch_state.json`, updated by this PR).
-
-            This does **not** mean anything in the sim is wrong yet -- it means new data is
-            available to check. Before merging:
-
-            - [ ] Compare the old vs. new `data/.watch_state.json` values in this diff.
-            - [ ] If the wago.tools build changed, re-run `tools/fetch_forever_items.py` and
-                  spot-check any abilities sourced from `SpellEffect`/`TraitDefinitionEffectPoints`
-                  with `tools/spell_curve.py <spell_id>` against the new build.
-            - [ ] If foreverchanges.pro's item/talent counts changed independently of the build
-                  number, it re-parsed something -- check `docs`/`forever_talents_all.json`
-                  provenance for staleness.
-            - [ ] Re-run the full pipeline (`export_static_data.py`, `build_engine.sh`,
-                  `generate_benchmarks.py`) only after confirming what actually needs updating.
-
-            🤖 Generated with [Claude Code](https://claude.com/claude-code)
+          body-path: ${{ runner.temp }}/pr-body.md
 
       # Bot-opened PRs get their pull_request CI run parked as "action_required"; the required
       # checks only count once that run is approved (a separately dispatched run doesn't satisfy them).

@@ -108,6 +108,7 @@ def main():
         if gh_out:
             with open(gh_out, "a", encoding="utf-8") as f:
                 f.write("changed=true\n")
+                f.write(f"wago_build={new['wago_build']}\n")
     else:
         print("No drift: wago.tools build and foreverchanges.pro snapshot both match the last known state.")
         gh_out = os.environ.get("GITHUB_OUTPUT")

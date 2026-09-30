@@ -89,7 +89,8 @@ class WagoDataTests(unittest.TestCase):
     def test_evidence_retains_build_hashes_and_raw_rows(self):
         p = Path(__file__).resolve().parents[1] / 'data/wago_verified.json'
         evidence = json.loads(p.read_text(encoding='utf-8'))
-        self.assertEqual(evidence['build'], '1.60.1.70009')
+        from tools.wago_audit import BUILD
+        self.assertEqual(evidence['build'], BUILD)
         for table in evidence['tables']:
             self.assertEqual(len(table['sha256']), 64)
         for spell in evidence['spells'].values():
