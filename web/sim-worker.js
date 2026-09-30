@@ -1,9 +1,9 @@
 // Simulation worker: loads the Rust/WebAssembly engine once, then runs iteration
 // ranges on request.  Several workers run in parallel (see sim-client.js).
-import init, { set_catalog, run_spec_iterations, finalize_spec, run_paladin_iterations, finalize_paladin, engine_version } from "./engine/forever_engine.js?v=72afbf3";
+import init, { set_catalog, run_spec_iterations, finalize_spec, run_paladin_iterations, finalize_paladin, engine_version } from "./engine/forever_engine.js?v=f31d6cd";
 
-const ENGINE_WASM = "/engine/forever_engine_bg.wasm?v=72afbf3";
-const CATALOG_FILES = ["/data/items.json?v=72afbf3", "/data/engine-items-extra.json?v=72afbf3", "/data/enchants.json?v=72afbf3", "/data/forever-sets.json?v=72afbf3"];
+const ENGINE_WASM = "/engine/forever_engine_bg.wasm?v=f31d6cd";
+const CATALOG_FILES = ["/data/items.json?v=f31d6cd", "/data/engine-items-extra.json?v=f31d6cd", "/data/enchants.json?v=f31d6cd", "/data/forever-sets.json?v=f31d6cd"];
 let ready = null;
 
 async function load() {
