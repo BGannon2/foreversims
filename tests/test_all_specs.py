@@ -447,3 +447,10 @@ class ForeverBlueNoteTests(unittest.TestCase):
         d = it.dots["Lacerate"]
         self.assertEqual(d["stacks"], 5); self.assertEqual(d["remaining"], 5)
 
+
+    def test_poisons_use_forever_client_values(self):
+        from forever.engine_data import POISONS
+        self.assertAlmostEqual((POISONS["instant"]["min"] + POISONS["instant"]["max"]) / 2, 88)  # client 11337
+        self.assertEqual(POISONS["instant"]["chance"], 0.20)
+        self.assertEqual(POISONS["deadly"]["tick"], 23)  # client 25349
+        self.assertEqual((POISONS["deadly"]["chance"], POISONS["deadly"]["max_stacks"]), (0.30, 5))

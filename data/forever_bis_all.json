@@ -7363,6 +7363,32 @@
    "race": "Human",
    "gear": [
     {
+     "id": 12584,
+     "name": "Grand Marshal's Longsword",
+     "icon": "inv_sword_11",
+     "quality": "Epic",
+     "itemLevel": 78,
+     "stats": {
+      "stamina": 7.0,
+      "meleeCrit": 1.0,
+      "spellCrit": 1.0,
+      "attackPower": 28.0
+     },
+     "effects": [],
+     "source": "Vendor: Captain O'Neal",
+     "subclass": "Sword",
+     "weaponDamageMin": 138.0,
+     "weaponDamageMax": 207.0,
+     "weaponSpeed": 2.9,
+     "equipSlots": [
+      "main_hand",
+      "off_hand"
+     ],
+     "set": null,
+     "slot": "One-Hand",
+     "gear_slot": "main_hand"
+    },
+    {
      "id": 18838,
      "name": "Grand Marshal's Dirk",
      "icon": "inv_weapon_shortblade_26",
@@ -7386,49 +7412,25 @@
      ],
      "set": null,
      "slot": "One-Hand",
-     "gear_slot": "main_hand"
-    },
-    {
-     "id": 23456,
-     "name": "Grand Marshal's Swiftblade",
-     "icon": "inv_sword_05",
-     "quality": "Epic",
-     "itemLevel": 78,
-     "stats": {
-      "stamina": 7.0,
-      "meleeCrit": 1.0,
-      "spellCrit": 1.0,
-      "attackPower": 28.0
-     },
-     "effects": [],
-     "source": "Vendor: Captain O'Neal",
-     "subclass": "Sword",
-     "weaponDamageMin": 86.0,
-     "weaponDamageMax": 129.0,
-     "weaponSpeed": 1.8,
-     "equipSlots": [
-      "main_hand",
-      "off_hand"
-     ],
-     "set": null,
-     "slot": "One-Hand",
      "gear_slot": "off_hand"
     },
     {
-     "id": 279253,
-     "name": "Outlaw's Collar",
-     "icon": "inv_misc_bandana_03",
+     "id": 16455,
+     "name": "Field Marshal's Leather Mask",
+     "icon": "inv_helmet_41",
      "quality": "Epic",
-     "itemLevel": 65,
+     "itemLevel": 74,
      "stats": {
-      "armor": 160.0,
+      "armor": 229.0,
       "stamina": 31.0,
-      "agility": 21.0,
-      "meleeCrit": 1.5,
-      "spellCrit": 1.5
+      "agility": 27.0,
+      "meleeCrit": 1.0,
+      "spellCrit": 1.0,
+      "meleeHit": 1.25,
+      "spellHit": 1.25
      },
      "effects": [],
-     "source": "forever-1.60.1.69913",
+     "source": "Vendor: Captain Dirgehammer",
      "subclass": "Leather",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -7436,7 +7438,31 @@
      "equipSlots": [
       "head"
      ],
-     "set": null,
+     "set": {
+      "name": "Field Marshal's Vestments",
+      "pieces": [
+       "Field Marshal's Leather Chestpiece",
+       "Field Marshal's Leather Epaulets",
+       "Field Marshal's Leather Mask",
+       "Marshal's Leather Footguards",
+       "Marshal's Leather Handgrips",
+       "Marshal's Leather Leggings"
+      ],
+      "bonuses": [
+       {
+        "required": 2,
+        "description": "+20 Stamina."
+       },
+       {
+        "required": 3,
+        "description": "Reduces the cooldown of your Gouge ability by 1 sec."
+       },
+       {
+        "required": 6,
+        "description": "+40 Attack Power."
+       }
+      ]
+     },
      "slot": "Head",
      "gear_slot": "head"
     },
@@ -7470,20 +7496,20 @@
      "gear_slot": "neck"
     },
     {
-     "id": 16457,
-     "name": "Field Marshal's Leather Epaulets",
-     "icon": "inv_shoulder_23",
+     "id": 271955,
+     "name": "Theramore Pauldrons",
+     "icon": "inv_shoulder_06",
      "quality": "Epic",
-     "itemLevel": 74,
+     "itemLevel": 65,
      "stats": {
-      "armor": 215.0,
-      "stamina": 27.0,
-      "agility": 21.0,
-      "meleeHit": 1.25,
-      "spellHit": 1.25
+      "armor": 148.0,
+      "agility": 27.0,
+      "stamina": 12.0,
+      "meleeCrit": 1.0,
+      "spellCrit": 1.0
      },
      "effects": [],
-     "source": "Vendor: Captain Dirgehammer",
+     "source": "forever-1.60.1.69913",
      "subclass": "Leather",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -7491,31 +7517,7 @@
      "equipSlots": [
       "shoulders"
      ],
-     "set": {
-      "name": "Field Marshal's Vestments",
-      "pieces": [
-       "Field Marshal's Leather Chestpiece",
-       "Field Marshal's Leather Epaulets",
-       "Field Marshal's Leather Mask",
-       "Marshal's Leather Footguards",
-       "Marshal's Leather Handgrips",
-       "Marshal's Leather Leggings"
-      ],
-      "bonuses": [
-       {
-        "required": 2,
-        "description": "+20 Stamina."
-       },
-       {
-        "required": 3,
-        "description": "Reduces the cooldown of your Gouge ability by 1 sec."
-       },
-       {
-        "required": 6,
-        "description": "+40 Attack Power."
-       }
-      ]
-     },
+     "set": null,
      "slot": "Shoulder",
      "gear_slot": "shoulders"
     },
@@ -7611,20 +7613,20 @@
      "gear_slot": "wrist"
     },
     {
-     "id": 19686,
-     "name": "Primal Batskin Gloves",
-     "icon": "inv_gauntlets_31",
-     "quality": "Rare",
-     "itemLevel": 65,
+     "id": 16454,
+     "name": "Marshal's Leather Handgrips",
+     "icon": "inv_gauntlets_21",
+     "quality": "Epic",
+     "itemLevel": 71,
      "stats": {
-      "armor": 113.0,
-      "agility": 10.0,
-      "stamina": 9.0,
-      "meleeHit": 2.5,
-      "spellHit": 2.5
+      "armor": 193.0,
+      "stamina": 23.0,
+      "agility": 20.0,
+      "meleeCrit": 1.0,
+      "spellCrit": 1.0
      },
      "effects": [],
-     "source": "Unknown",
+     "source": "Vendor: Captain Dirgehammer",
      "subclass": "Leather",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -7633,16 +7635,27 @@
       "hands"
      ],
      "set": {
-      "name": "Primal Batskin",
+      "name": "Field Marshal's Vestments",
       "pieces": [
-       "Requires Leatherworking (300)",
-       "Primal Batskin Jerkin",
-       "Primal Batskin Bracers"
+       "Field Marshal's Leather Chestpiece",
+       "Field Marshal's Leather Epaulets",
+       "Field Marshal's Leather Mask",
+       "Marshal's Leather Footguards",
+       "Marshal's Leather Handgrips",
+       "Marshal's Leather Leggings"
       ],
       "bonuses": [
        {
+        "required": 2,
+        "description": "+20 Stamina."
+       },
+       {
         "required": 3,
-        "description": "Minor increase to running and swimming speed."
+        "description": "Reduces the cooldown of your Gouge ability by 1 sec."
+       },
+       {
+        "required": 6,
+        "description": "+40 Attack Power."
        }
       ]
      },

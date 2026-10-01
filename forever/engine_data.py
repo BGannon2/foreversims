@@ -648,8 +648,10 @@ WARLOCK_PETS = {
     "felhunter": {"speed": 2.0, "melee": (24, 40), "spell": None, "mana": 653 + 15 * 49, "intellect": 49, "spirit": 97, "strength": 74, "stamina": 148},
     "voidwalker": {"speed": 2.0, "melee": (31, 46), "spell": None, "utility": "Torment", "mana": 1066, "intellect": 49, "spirit": 97, "strength": 74, "stamina": 148},
 }
-# Rogue poisons (WoWSims level-60 values): Instant Poison VI 112-148, 20% chance; Deadly Poison V 27/tick per stack, 30% chance.
-POISONS = {"instant": {"chance": 0.20, "min": 112, "max": 148}, "deadly": {"chance": 0.30, "tick": 27, "ticks": 4, "tick_len": 3, "max_stacks": 5}}
+# Rogue poisons, Forever client build 70124. Instant Poison VI: proc 11337 deals 88 Nature damage with
+# Variance 0.277 (read as +/-13.85%, so 76-100), 20% chance (SpellAuraOptions 11340). Deadly Poison V:
+# 25349 ticks 23 every 3 sec for 12 sec, up to 5 stacks, 30% chance (SpellAuraOptions 25351/25349).
+POISONS = {"instant": {"chance": 0.20, "min": 75.81, "max": 100.19}, "deadly": {"chance": 0.30, "tick": 23, "ticks": 4, "tick_len": 3, "max_stacks": 5}}
 WINDFURY = {"chance": 0.20, "extra_attacks": 2, "ap": 333}
 ITEM_PROC_PPM = {12798: 1.0, 17076: 2.0, 17075: 0.6, 17112: 1.0, 19019: 6.0}
 
