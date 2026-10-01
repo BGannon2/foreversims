@@ -213,7 +213,7 @@ function renderTankEncounter() {
 
 // ---------------------------------------------------------------- init
 async function init() {
-  const [bootstrap, itemPayload, wsPayload] = await Promise.all([fetch("/data/spec-bootstrap.json?v=1d09f9c").then(r => r.json()), fetch("/data/items.json?v=1d09f9c").then(r => r.json()), fetch("/data/wowsims-import.json?v=1d09f9c").then(r => r.json()).catch(() => null)]);
+  const [bootstrap, itemPayload, wsPayload] = await Promise.all([fetch("/data/spec-bootstrap.json?v=e7a4b63").then(r => r.json()), fetch("/data/items.json?v=e7a4b63").then(r => r.json()), fetch("/data/wowsims-import.json?v=e7a4b63").then(r => r.json()).catch(() => null)]);
   wsData = wsPayload;
   ForeverSim.warm();
   data = bootstrap; catalogItems = itemPayload.items; spec = data.specs.find(x => x.id === specId);
