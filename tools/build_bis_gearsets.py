@@ -451,20 +451,20 @@ UI_SLOT = {"head": "Head", "neck": "Neck", "shoulders": "Shoulders", "back": "Ba
 SCORE_CANDIDATES = 4
 
 
-def sim_value(spec_id, spec, gear):
+def sim_value(spec_id, spec, gear, iterations=None, seed=7):
     """Mean DPS (TPS for tanks) of a gear set in the engine that runs this spec."""
     key = "tps" if spec_id in TANK_SPECS else "dps"
     if spec["class_name"] == "Paladin":
         from forever import gear_data, sim
         name = spec_id.split("-", 1)[1]
-        p = sim.preset(name); p.update(iterations=150, seed=7)
+        p = sim.preset(name); p.update(iterations=iterations or 150, seed=seed)
         p["enchants"] = gear_data.paladin_enchants(name)
         p["gear"] = gear_data.empty_gear(); p["gear"].update({slot: it["id"] for slot, it in gear.items()})
         return sim.simulate(sim.validate(p))["metrics"][key]["mean"]
     from forever.all_specs import public_specs, simulate_spec
     from server import default_request
     full = next(x for x in public_specs() if x["id"] == spec_id)
-    req = default_request(full, default_race(spec_id), iterations=60, duration=120, seed=7)
+    req = default_request(full, default_race(spec_id), iterations=iterations or 60, duration=120, seed=seed)
     req["gear_slots"] = [{"slot": UI_SLOT[slot], "id": it["id"]} for slot, it in gear.items()]
     req["gear"] = [row["id"] for row in req["gear_slots"]]
     return simulate_spec(req)["metrics"][key]["mean"]
@@ -499,7 +499,9 @@ def sim_pass(spec_id, spec, gear, by_slot, weights, taken_ids):
             else "finger" if slot.startswith("finger") else slot
         pool = [it for it in by_slot.get(pool_key, [])
                 if slot != "off_hand" or off_hand_kind(it) == off_hand_kind(current)]
-        if slot == "main_hand":  # weigh one-handers (+ the current off hand) against two-handers
+        if slot == "off_hand" and spec_id in SHIELD_TANK:  # shield tanks always keep a shield
+            pool = [it for it in pool if "Shield" in (it["slot"], it.get("subclass"))]
+        if slot == "main_hand" and spec_id not in SHIELD_TANK:  # weigh one-handers (+ off hand) against two-handers
             pool = by_slot.get("main_hand", []) + by_slot.get("two_hand", [])
         others = taken_ids - {current["id"]}
         free = [it for it in pool if it["id"] not in taken_ids and not limit_taken(it, others)]
@@ -509,30 +511,52 @@ def sim_pass(spec_id, spec, gear, by_slot, weights, taken_ids):
         ranked = sorted(free, key=lambda it: score(it, weights), reverse=True)[:SCORE_CANDIDATES]
         candidates = [current] + [it for it in {it["id"]: it for it in ranked + effects}.values()]
         best, best_value = current, None
-        off = gear.get("off_hand") if slot == "main_hand" else None
         for it in candidates:
             gear[slot] = it
-            if slot == "main_hand":  # a two-hander leaves no room for the off hand
-                if it["slot"] == "Two-Hand": gear.pop("off_hand", None)
-                elif off: gear["off_hand"] = off
+            # A two-hander leaves no room for the off hand; drop it from a copy so the gear
+            # order (and with it the sim's random sequence) stays the same for everything else.
+            trial = {k: v for k, v in gear.items() if not (k == "off_hand" and it["slot"] == "Two-Hand")}
             try:
-                value = sim_value(spec_id, spec, gear)
+                value = sim_value(spec_id, spec, trial)
             except ValueError:  # the engine's equipment rules refuse this item for the class
                 continue
             if best_value is None or value > best_value:
                 best, best_value = it, value
         gear[slot] = best
-        if slot == "main_hand":
-            if best["slot"] == "Two-Hand":
-                gear.pop("off_hand", None)
-                if off: taken_ids.discard(off["id"])
-            elif off: gear["off_hand"] = off
+        if best["slot"] == "Two-Hand" and "off_hand" in gear:
+            taken_ids.discard(gear.pop("off_hand")["id"])
         taken_ids.discard(current["id"]); taken_ids.add(best["id"])
 
 
-def build_profile(spec_id):
+CONFIRM_ITERATIONS = 1500
+
+
+def keep_better(spec_id, spec, gear, previous):
+    """The optimizer's 60-iteration comparisons are noisy, so a rebuild can land on a slightly worse
+    set. Re-check the new set against the previously saved one at high iterations (a separate seed)
+    and keep whichever is better. A previous set the class rules or engine now reject is dropped."""
+    if not previous:
+        return gear
+    cls, style = spec["class_name"], spec["style"]
+    faction = RACE_FACTIONS[default_race(spec_id)]
+    as_dict = lambda rows: {row["gear_slot"]: ITEMS[row["id"]] for row in rows}
+    try:
+        old = as_dict(previous["gear"])
+        if not all(eligible(it, cls, style, faction) for it in old.values()):
+            return gear
+        old_value = sim_value(spec_id, spec, old, CONFIRM_ITERATIONS, seed=1234)
+    except (KeyError, ValueError):
+        return gear
+    new_value = sim_value(spec_id, spec, as_dict(gear), CONFIRM_ITERATIONS, seed=1234)
+    print(f"{spec_id}: rebuilt {new_value:.1f} vs previous {old_value:.1f}"
+          f" -> keeping the {'rebuilt' if new_value >= old_value else 'previous'} set", file=sys.stderr)
+    return gear if new_value >= old_value else previous["gear"]
+
+
+def build_profile(spec_id, previous=None):
     """One spec's set; a top-level function so worker processes can run it."""
-    gear = build_spec(spec_id, {**SPEC_MAP, **PALADIN_SPECS}[spec_id])
+    spec = {**SPEC_MAP, **PALADIN_SPECS}[spec_id]
+    gear = keep_better(spec_id, spec, build_spec(spec_id, spec), previous)
     return spec_id, {
         "source": "tools/build_bis_gearsets.py (greedy stat-weight optimizer over the Forever item catalog)",
         "source_label": f"Forever BiS (auto-generated, {RACE_FACTIONS[default_race(spec_id)]})",
@@ -550,11 +574,12 @@ def main():
     parser.add_argument("--workers", type=int, default=os.cpu_count(), help="parallel processes (default: all cores)")
     args = parser.parse_args()
     path = ROOT / "data" / "forever_bis_all.json"
-    profiles = json.loads(path.read_text(encoding="utf-8"))["profiles"] if args.specs else {}
+    saved = json.loads(path.read_text(encoding="utf-8"))["profiles"] if path.is_file() else {}
+    profiles = dict(saved) if args.specs else {}
     todo = [sid for sid in {**SPEC_MAP, **PALADIN_SPECS} if not args.specs or sid in args.specs]
     # Specs are independent, so each runs in its own process (sims are single-threaded).
     with ProcessPoolExecutor(max_workers=max(1, min(args.workers, len(todo)))) as pool:
-        for future in as_completed([pool.submit(build_profile, sid) for sid in todo]):
+        for future in as_completed([pool.submit(build_profile, sid, saved.get(sid)) for sid in todo]):
             spec_id, profile = future.result()
             profiles[spec_id] = profile
             print(f"{spec_id}: {len(profile['gear'])} slots filled", file=sys.stderr)
