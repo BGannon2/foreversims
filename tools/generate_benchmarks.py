@@ -20,25 +20,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 import server
-
-
-def spec_tags():
-    """Every benchmarked spec id -> the tags that select it."""
-    tags = {}
-    for spec in server.public_specs():
-        tags[spec["id"]] = {spec["id"], spec["class_name"].lower(), spec["role"], spec["style"]}
-    tags["paladin-protection"] = {"paladin-protection", "paladin", "tank", "melee"}
-    tags["paladin-retribution"] = {"paladin-retribution", "paladin", "dps", "melee"}
-    return tags
-
-
-def select(only):
-    tags = spec_tags()
-    wanted = {t.lower() for t in only}
-    unknown = wanted - set().union(*tags.values())
-    if unknown:
-        sys.exit(f"Unknown tag(s): {', '.join(sorted(unknown))}. Use a spec id, class, role (tank/dps) or style (melee/ranged/spell).")
-    return {sid for sid, t in tags.items() if t & wanted}
+from spec_tags import select
 
 
 # Windows' multiprocessing "spawn" start method re-imports this file as a fresh module in each

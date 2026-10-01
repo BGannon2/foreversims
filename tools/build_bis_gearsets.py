@@ -570,13 +570,16 @@ def main():
     import os
     from concurrent.futures import ProcessPoolExecutor, as_completed
     parser = argparse.ArgumentParser(description="Build auto-generated BiS sets.")
-    parser.add_argument("--specs", nargs="+", help="rebuild only these spec ids, keeping the others as they are")
+    parser.add_argument("--specs", nargs="+", metavar="TAG",
+                        help="rebuild only specs matching these tags (spec id, class, role or style), keeping the others as they are")
     parser.add_argument("--workers", type=int, default=os.cpu_count(), help="parallel processes (default: all cores)")
     args = parser.parse_args()
     path = ROOT / "data" / "forever_bis_all.json"
     saved = json.loads(path.read_text(encoding="utf-8"))["profiles"] if path.is_file() else {}
     profiles = dict(saved) if args.specs else {}
-    todo = [sid for sid in {**SPEC_MAP, **PALADIN_SPECS} if not args.specs or sid in args.specs]
+    from spec_tags import select
+    wanted = select(args.specs) if args.specs else None
+    todo = [sid for sid in {**SPEC_MAP, **PALADIN_SPECS} if wanted is None or sid in wanted]
     # Specs are independent, so each runs in its own process (sims are single-threaded).
     with ProcessPoolExecutor(max_workers=max(1, min(args.workers, len(todo)))) as pool:
         for future in as_completed([pool.submit(build_profile, sid, saved.get(sid)) for sid in todo]):
