@@ -386,6 +386,19 @@ class ForeverRageTests(unittest.TestCase):
         it.rage = 0; it.white_rage(oh, 500.0)
         self.assertAlmostEqual(it.rage, float(oh["weaponSpeed"]) * rate * R["off_hand_factor"] * (1 + it.c.flag("dw_rage")))
 
+    def test_warrior_crit_rage_and_armor_independent_taken_rage(self):
+        from forever.engine_data import WARRIOR_RAGE_PER_SPEED as R
+        it = iteration("warrior-protection")
+        mh = it.c.mh; base = float(mh["weaponSpeed"]) * R["two_hand" if it.c.two_hand else "one_hand"]
+        it.white_crit = True; it.rage = 0; it.white_rage(mh, 100.0)
+        self.assertAlmostEqual(it.rage, base * 1.75)
+        gains = []
+        for armor in (0, 12000):
+            t = iteration("warrior-protection"); t.st["armor"] = armor; t.st["dodge"] = t.st["parry"] = t.st["block"] = 0; t.st["defense"] = 300
+            t.c.incoming["enemy_damage_min"] = t.c.incoming["enemy_damage_max"] = 1000
+            t.rng.random = lambda: 0.99; t.taken_by = {}; t.rage = 0; t.boss_swing(); gains.append(t.rage)
+        self.assertGreater(gains[0], 0); self.assertAlmostEqual(gains[0], gains[1])
+
 class ForeverBlueNoteTests(unittest.TestCase):
     """Changes from the Forever development notes (September 24) confirmed in client build 70124."""
 

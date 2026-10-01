@@ -550,7 +550,7 @@ class Iteration:
         self.last_cast_time = -10.0; self.next_mana_tick = 2.0; self.next_energy_tick = 2.0; self.next_rage_tick = 3.0
         self.next_boss = c.incoming['enemy_swing']; self.next_heal = c.incoming['heal_interval']
         self.healed = 0.0; self.overheal = 0.0; self.peak_3s_damage = 0.0; self.incoming_hits = []
-        self.flurry = 0; self.eureka = 0; self.eureka_until = 0.0; self.dodged_recently = -10.0; self.avoided_recently = -10.0
+        self.flurry = 0; self.white_crit = False; self.eureka = 0; self.eureka_until = 0.0; self.dodged_recently = -10.0; self.avoided_recently = -10.0
         self.combustion = None; self.clearcast = False; self.next_instant = False; self.next_crit = False; self.eclipse = 0
         self.busy_until = 0.0; self.starved = 0.0; self.first_oom = None
         self.pet_state = None
@@ -918,6 +918,7 @@ class Iteration:
             speed = float(hand_item.get("weaponSpeed", 2.0)) if hand_item else 2.0
             gained = speed * WARRIOR_RAGE_PER_SPEED["two_hand" if c.two_hand else "one_hand"]
             if hand_item is c.oh: gained *= WARRIOR_RAGE_PER_SPEED["off_hand_factor"]
+            if self.white_crit: gained *= WARRIOR_RAGE_PER_SPEED["crit_factor"]  # Forever class deep dive (Sep 30)
         else:
             gained = damage * 7.5 / RAGE_CONVERSION_60
         if hand_item is c.oh: gained *= 1 + c.flag("dw_rage")
@@ -1065,6 +1066,7 @@ class Iteration:
         if out in {"dodge", "parry"}:
             self.white_rage(item, raw * self.multiplier(name, "physical", "melee", white=True) * self.armor_mult(name), avoided=True)
         dmg = self.deal(name, raw, "physical", "melee", white=True, outcome=out, mult=m)
+        self.white_crit = out == "crit"
         if dmg:
             self.on_weapon_hit(item, True, name, dmg)
             if out == "crit": self.on_crit(name, dmg, item)
@@ -1112,6 +1114,7 @@ class Iteration:
         if out in {"dodge", "parry"}:
             self.white_rage(item, dmg * self.multiplier(name, "physical", "melee", white=True) * self.armor_mult(name), avoided=True)
         dmg = self.deal(name, dmg, "physical", "melee", white=True, outcome=out, mult=m)
+        self.white_crit = out == "crit"
         if dmg:
             self.on_weapon_hit(item, True, name, dmg)
             if out == "crit": self.on_crit(name, dmg, item)
@@ -1678,13 +1681,18 @@ class Iteration:
             self.row("Boss melee").misses += 1; self.record("Boss melee", outcome, 0); return
         armor = self.st.get("armor", 0)
         mult = {"crit": 2.0, "crush": 1.5}.get(outcome, 1.0)
-        amount = raw * mult * (1 - min(0.75, armor / (armor + 400 + 85 * TARGET_LEVEL)))
+        armor_factor = 1 - min(0.75, armor / (armor + 400 + 85 * TARGET_LEVEL))
+        amount = raw * mult * armor_factor
         amount *= STANCE_MODS.get(self.s["stance"] or self.s["form"], {}).get("taken", 1.0)
         if "demoralizing_shout" in c.debuffs: amount *= 0.90
+        # Forever Warriors: rage from damage taken ignores armor (always as if 50% reduced) and absorbs.
+        rage_scale = WARRIOR_RAGE_PER_SPEED["taken_armor_factor"] / armor_factor if self.s["class_name"] == "Warrior" else 1.0
         if outcome == "block":
             self.avoided_recently = self.t
             bv = self.st.get("blockValue", 0) + self.st["strength"] / 20
+            rage_basis = max(0.0, amount * rage_scale - bv)
             amount = max(0.0, amount - bv)
+            rage_scale = rage_basis / amount if amount > 0 else 0.0
             if c.flag("shield_spec_rage") and rng.random() < min(1.0, c.flag("shield_spec_rage")): self.gain_rage(5)
             if c.flag("wrath_parry") and rng.random() < c.flag("wrath_parry"): self.next_parry = True
         if self.buff_active("Stoneform"): amount *= 0.90
@@ -1693,7 +1701,7 @@ class Iteration:
         self.incoming_hits.append((self.t, amount))
         self.peak_3s_damage = max(self.peak_3s_damage, sum(a for _, a in self.incoming_hits))
         if "thorns" in c.buffs and self.s["role"] == "tank": self.deal("Thorns", THORNS["damage"], "nature", "spell")
-        self.gain_rage(amount * 2.5 / RAGE_CONVERSION_60, source="damage")
+        self.gain_rage(amount * rage_scale * 2.5 / RAGE_CONVERSION_60, source="damage")
         if c.flag("enrage") and rng.random() < c.flag("enrage") * 3: self.enrage_until = self.t + 12
         if c.flag("might_rage") and rng.random() < c.flag("might_rage"): self.gain_rage(1)
         if c.flag("wildheart_proc") and rng.random() < c.flag("wildheart_proc"):

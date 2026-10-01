@@ -74,7 +74,7 @@ SPIRIT_REGEN = {"Mage": (0.25, 12.5), "Priest": (0.25, 12.5), "Warlock": (0.2, 1
 # rate (one-hand 3.46, two-hand 4.5 rage per second of speed; off hand half). Damage and crits
 # don't matter and misses/dodges/parries give none (Forever beta logs: github.com/magey/forever-warrior
 # issue 3; developer statement that you "don't get extra rage when you do more damage/crit").
-WARRIOR_RAGE_PER_SPEED = {"one_hand": 3.46, "two_hand": 4.5, "off_hand_factor": 0.5}
+WARRIOR_RAGE_PER_SPEED = {"one_hand": 3.46, "two_hand": 4.5, "off_hand_factor": 0.5, "crit_factor": 1.75, "taken_armor_factor": 0.5}
 RAGE_CONVERSION_60 = 0.0091107836 * 60 * 60 + 3.225598133 * 60 + 4.2652911  # 230.6
 LEVEL, TARGET_LEVEL = 60, 63
 TARGET_DEFENSE = TARGET_LEVEL * 5

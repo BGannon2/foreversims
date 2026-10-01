@@ -201,6 +201,7 @@ pub struct Iteration<'a> {
     pub incoming_hits: Vec<(f64, f64)>,
     pub flurry: i64,
     pub eureka: i64,
+    pub white_crit: bool,
     pub eureka_until: f64,
     pub dodged_recently: f64,
     pub avoided_recently: f64,
@@ -247,7 +248,7 @@ impl<'a> Iteration<'a> {
             next_mh: 0.0, next_oh: if !c.oh.is_empty() { c.oh.speed_or(2.0) / 2.0 } else { 0.0 }, next_ranged: 0.0, queued_swing: None,
             last_cast_time: -10.0, next_mana_tick: 2.0, next_energy_tick: 2.0, next_rage_tick: 3.0, next_boss: c.incoming["enemy_swing"], next_heal: c.incoming["heal_interval"],
             healed: 0.0, overheal: 0.0, peak_3s_damage: 0.0, incoming_hits: vec![],
-            flurry: 0, eureka: 0, eureka_until: 0.0, dodged_recently: -10.0, avoided_recently: -10.0, combustion: None, clearcast: false, next_instant: false, next_crit: false, eclipse: 0,
+            flurry: 0, white_crit: false, eureka: 0, eureka_until: 0.0, dodged_recently: -10.0, avoided_recently: -10.0, combustion: None, clearcast: false, next_instant: false, next_crit: false, eclipse: 0,
             busy_until: 0.0, starved: 0.0, first_oom: None, pet_state: None, enrage_until: 0.0, sacrificed: None, racial_next: 0.0, item_icd: IndexMap::new(), windfury_lock: 0.0,
             cur_school: String::new(), cur_cost: 0.0, blocked_by_resource: false, taken_by: IndexMap::new(), pet_threat: 0.0,
             wrath_discount: false, next_parry: false,
@@ -878,7 +879,8 @@ impl<'a> Iteration<'a> {
             }
             let item = if hand == Hand::Off { &c.oh } else { &c.mh };
             let rate = if c.two_hand { 4.5 } else { 3.46 };
-            item.speed_or(2.0) * rate * if hand == Hand::Off { 0.5 } else { 1.0 }
+            // Forever class deep dive (Sep 30): crits give 75% more rage.
+            item.speed_or(2.0) * rate * if hand == Hand::Off { 0.5 } else { 1.0 } * if self.white_crit { 1.75 } else { 1.0 }
         } else {
             damage * 7.5 / c.t.RAGE_CONVERSION_60
         };
@@ -1133,6 +1135,7 @@ impl<'a> Iteration<'a> {
             self.white_rage(hand, raw * self.multiplier(name, "physical", "melee", false, true) * self.armor_mult(), true);
         }
         let dmg = self.deal(name, raw, "physical", "melee", true, false, 1.0, 0.0, out, m);
+        self.white_crit = out == Outcome::Crit;
         if dmg != 0.0 {
             self.on_weapon_hit(hand, true, name, dmg);
             if out == Outcome::Crit {
@@ -1204,6 +1207,7 @@ impl<'a> Iteration<'a> {
             self.white_rage(hand, dmg * self.multiplier(name, "physical", "melee", false, true) * self.armor_mult(), true);
         }
         dmg = self.deal(name, dmg, "physical", "melee", true, false, 1.0, 0.0, out, m);
+        self.white_crit = out == Outcome::Crit;
         if dmg != 0.0 {
             self.on_weapon_hit(hand, true, name, dmg);
             if out == Outcome::Crit {
@@ -2241,15 +2245,20 @@ impl<'a> Iteration<'a> {
         let armor = self.st("armor");
         let mult = match outcome { Outcome::Crit => 2.0, Outcome::Crush => 1.5, _ => 1.0 };
         let tl = c.t.TARGET_LEVEL;
-        let mut amount = raw * mult * (1.0 - (armor / (armor + 400.0 + 85.0 * tl)).min(0.75));
+        let armor_factor = 1.0 - (armor / (armor + 400.0 + 85.0 * tl)).min(0.75);
+        let mut amount = raw * mult * armor_factor;
         amount *= c.t.stance_mod(&c.spec.stance_or_form()).taken;
         if c.debuffs.contains("demoralizing_shout") {
             amount *= 0.90;
         }
+        // Forever Warriors: rage from damage taken ignores armor (always as if 50% reduced) and absorbs.
+        let mut rage_scale = if c.spec.class_name == "Warrior" { 0.5 / armor_factor } else { 1.0 };
         if outcome == Outcome::Block {
             self.avoided_recently = self.t;
             let bv = self.st("blockValue") + self.st("strength") / 20.0;
+            let rage_basis = (amount * rage_scale - bv).max(0.0);
             amount = (amount - bv).max(0.0);
+            rage_scale = if amount > 0.0 { rage_basis / amount } else { 0.0 };
             if c.flag("shield_spec_rage") != 0.0 && self.rng.random() < c.flag("shield_spec_rage").min(1.0) {
                 self.gain_rage(5.0);
             }
@@ -2267,7 +2276,7 @@ impl<'a> Iteration<'a> {
             self.deal("Thorns", c.t.THORNS.damage, "nature", "spell", false, false, 1.0, 0.0, Outcome::Hit, 1.0);
         }
         let conversion = c.t.RAGE_CONVERSION_60;
-        self.rage = self.max_rage.min(self.rage + amount * 2.5 / conversion);
+        self.rage = self.max_rage.min(self.rage + amount * rage_scale * 2.5 / conversion);
         if c.flag("enrage") != 0.0 && self.rng.random() < c.flag("enrage") * 3.0 {
             self.enrage_until = self.t + 12.0;
         }
