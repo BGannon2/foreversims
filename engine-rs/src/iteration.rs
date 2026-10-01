@@ -1289,6 +1289,7 @@ impl<'a> Iteration<'a> {
             Cond::Keyed(kind, key, op, num) => {
                 let val = match kind.as_str() {
                     "dot" => self.dots.get(key).filter(|d| d.remaining > 0).map_or(0.0, |d| d.remaining as f64 * d.tick_len),
+                    "dotstacks" => self.dots.get(key).filter(|d| d.remaining > 0).map_or(0.0, |d| d.stacks as f64),
                     "debuff" => self.debuffs.get(key).map_or(0.0, |b| (b.until - self.t).max(0.0)),
                     "cd" => (self.cooldowns.get(key).copied().unwrap_or(0.0) - self.t).max(0.0),
                     "buff" => self.buffs.get(key).map_or(0.0, |b| (b.until - self.t).max(0.0)),
@@ -1861,6 +1862,9 @@ impl<'a> Iteration<'a> {
                         mult = dm;
                     }
                 }
+                if name == "Lacerate" {
+                    mult *= self.dots.get("Lacerate").filter(|d| d.remaining > 0).map_or(0.0, |d| d.stacks as f64);
+                }
                 base = self.weapon_damage(&item, w.normalized, false, 0.0) * mult + w.flat.unwrap_or(0.0);
                 if w.hand == "both" && !c.oh.is_empty() {
                     base += self.weapon_damage(&c.oh, w.normalized, false, 0.0) * mult + w.flat.unwrap_or(0.0);
@@ -1909,6 +1913,12 @@ impl<'a> Iteration<'a> {
                     let tick = dmg * 0.40 / 7.0 * self.periodic_crit_mult("Lacerating Strikes", "physical", true, 0.0);
                     self.dots.insert("Lacerating Strikes".into(), Dot { next: self.t + 3.0, remaining: 7, tick, tick_len: 3.0, school: "physical".into(), bleed: true, stacks: 1 });
                 }
+            }
+            if name == "Lacerate" {
+                let prev = self.dots.get("Lacerate").filter(|d| d.remaining > 0).map(|d| (d.next, d.stacks));
+                let tick = a.tick * a.mult * self.periodic_crit_mult(name, "physical", true, 0.0);
+                let (next, stacks) = match prev { Some((n, s)) => (n, (s + 1).min(5)), None => (self.t + a.tick_len, 1) };
+                self.dots.insert("Lacerate".into(), Dot { next, remaining: a.ticks, tick, tick_len: a.tick_len, school: "physical".into(), bleed: true, stacks });
             }
             if dmg != 0.0 {
                 if a.weapon.is_some() {

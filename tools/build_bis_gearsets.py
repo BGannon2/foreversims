@@ -78,6 +78,8 @@ WEAPON_ALLOWED = {
     "Druid": {"Dagger", "Fist Weapon", "Mace", "Staff"},
     "Paladin": {"Axe", "Mace", "Polearm", "Sword"},
 }
+# Two-handed weapon types each class can wield (Rogues none; casters only staves).
+TWO_HAND_ALLOWED = {"Rogue": set(), "Priest": {"Staff"}, "Mage": {"Staff"}, "Warlock": {"Staff"}}
 
 # Melee weight archetypes. Every weight is per 1 point of the stat (except hit/crit/
 # haste/dodge which are per 1%). Hit and defense are handled specially (cap-aware).
@@ -218,6 +220,8 @@ def eligible(item, cls, style, faction=None):
         if slot == "Held In Off-hand" or sub == "Off Hand" or sub is None:
             return True  # off-hand held items (tomes, etc.), not true weapons
         if sub not in WEAPON_ALLOWED.get(cls, set()):
+            return False
+        if slot == "Two-Hand" and cls in TWO_HAND_ALLOWED and sub not in TWO_HAND_ALLOWED[cls]:
             return False
         if slot == "Ranged" and sub not in {"Bow", "Gun", "Crossbow", "Thrown", "Wand"}:
             return False
@@ -495,6 +499,8 @@ def sim_pass(spec_id, spec, gear, by_slot, weights, taken_ids):
             else "finger" if slot.startswith("finger") else slot
         pool = [it for it in by_slot.get(pool_key, [])
                 if slot != "off_hand" or off_hand_kind(it) == off_hand_kind(current)]
+        if slot == "main_hand":  # weigh one-handers (+ the current off hand) against two-handers
+            pool = by_slot.get("main_hand", []) + by_slot.get("two_hand", [])
         others = taken_ids - {current["id"]}
         free = [it for it in pool if it["id"] not in taken_ids and not limit_taken(it, others)]
         effects = [it for it in free if has_effect(it)]
@@ -503,8 +509,12 @@ def sim_pass(spec_id, spec, gear, by_slot, weights, taken_ids):
         ranked = sorted(free, key=lambda it: score(it, weights), reverse=True)[:SCORE_CANDIDATES]
         candidates = [current] + [it for it in {it["id"]: it for it in ranked + effects}.values()]
         best, best_value = current, None
+        off = gear.get("off_hand") if slot == "main_hand" else None
         for it in candidates:
             gear[slot] = it
+            if slot == "main_hand":  # a two-hander leaves no room for the off hand
+                if it["slot"] == "Two-Hand": gear.pop("off_hand", None)
+                elif off: gear["off_hand"] = off
             try:
                 value = sim_value(spec_id, spec, gear)
             except ValueError:  # the engine's equipment rules refuse this item for the class
@@ -512,6 +522,11 @@ def sim_pass(spec_id, spec, gear, by_slot, weights, taken_ids):
             if best_value is None or value > best_value:
                 best, best_value = it, value
         gear[slot] = best
+        if slot == "main_hand":
+            if best["slot"] == "Two-Hand":
+                gear.pop("off_hand", None)
+                if off: taken_ids.discard(off["id"])
+            elif off: gear["off_hand"] = off
         taken_ids.discard(current["id"]); taken_ids.add(best["id"])
 
 

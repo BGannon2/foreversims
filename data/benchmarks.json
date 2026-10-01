@@ -2230,10 +2230,10 @@
       "role": "dps",
       "targets": 1,
       "url": "/all-specs.html?spec=druid-feral-dps&race=Night%20Elf&targets=1&benchmark=1",
-      "dps": 436.742230825409,
-      "tps": 310.08698388604034,
+      "dps": 439.9086472989678,
+      "tps": 312.3351395822672,
       "dtps": 0.0,
-      "total_damage": 52409.067699049054
+      "total_damage": 52789.03767587615
     },
     {
       "id": "druid-feral-dps",
@@ -2243,10 +2243,10 @@
       "role": "dps",
       "targets": 2,
       "url": "/all-specs.html?spec=druid-feral-dps&race=Night%20Elf&targets=2&benchmark=1",
-      "dps": 436.742230825409,
-      "tps": 310.08698388604034,
+      "dps": 439.9086472989678,
+      "tps": 312.3351395822672,
       "dtps": 0.0,
-      "total_damage": 52409.067699049054
+      "total_damage": 52789.03767587615
     },
     {
       "id": "druid-feral-dps",
@@ -2256,10 +2256,10 @@
       "role": "dps",
       "targets": 3,
       "url": "/all-specs.html?spec=druid-feral-dps&race=Night%20Elf&targets=3&benchmark=1",
-      "dps": 436.742230825409,
-      "tps": 310.08698388604034,
+      "dps": 439.9086472989678,
+      "tps": 312.3351395822672,
       "dtps": 0.0,
-      "total_damage": 52409.067699049054
+      "total_damage": 52789.03767587615
     },
     {
       "id": "druid-feral-dps",
@@ -2269,10 +2269,10 @@
       "role": "dps",
       "targets": 4,
       "url": "/all-specs.html?spec=druid-feral-dps&race=Night%20Elf&targets=4&benchmark=1",
-      "dps": 436.742230825409,
-      "tps": 310.08698388604034,
+      "dps": 439.9086472989678,
+      "tps": 312.3351395822672,
       "dtps": 0.0,
-      "total_damage": 52409.067699049054
+      "total_damage": 52789.03767587615
     },
     {
       "id": "druid-feral-dps",
@@ -2282,10 +2282,10 @@
       "role": "dps",
       "targets": 5,
       "url": "/all-specs.html?spec=druid-feral-dps&race=Night%20Elf&targets=5&benchmark=1",
-      "dps": 436.742230825409,
-      "tps": 310.08698388604034,
+      "dps": 439.9086472989678,
+      "tps": 312.3351395822672,
       "dtps": 0.0,
-      "total_damage": 52409.067699049054
+      "total_damage": 52789.03767587615
     },
     {
       "id": "druid-feral-dps",
@@ -2295,10 +2295,10 @@
       "role": "dps",
       "targets": 1,
       "url": "/all-specs.html?spec=druid-feral-dps&race=Tauren&targets=1&benchmark=1",
-      "dps": 431.0873780522978,
-      "tps": 306.07203841713147,
+      "dps": 435.2880362898155,
+      "tps": 309.054505765769,
       "dtps": 0.0,
-      "total_damage": 51730.48536627571
+      "total_damage": 52234.564354777845
     },
     {
       "id": "druid-feral-dps",
@@ -2308,10 +2308,10 @@
       "role": "dps",
       "targets": 2,
       "url": "/all-specs.html?spec=druid-feral-dps&race=Tauren&targets=2&benchmark=1",
-      "dps": 431.0873780522978,
-      "tps": 306.07203841713147,
+      "dps": 435.2880362898155,
+      "tps": 309.054505765769,
       "dtps": 0.0,
-      "total_damage": 51730.48536627571
+      "total_damage": 52234.564354777845
     },
     {
       "id": "druid-feral-dps",
@@ -2321,10 +2321,10 @@
       "role": "dps",
       "targets": 3,
       "url": "/all-specs.html?spec=druid-feral-dps&race=Tauren&targets=3&benchmark=1",
-      "dps": 431.0873780522978,
-      "tps": 306.07203841713147,
+      "dps": 435.2880362898155,
+      "tps": 309.054505765769,
       "dtps": 0.0,
-      "total_damage": 51730.48536627571
+      "total_damage": 52234.564354777845
     },
     {
       "id": "druid-feral-dps",
@@ -2334,10 +2334,10 @@
       "role": "dps",
       "targets": 4,
       "url": "/all-specs.html?spec=druid-feral-dps&race=Tauren&targets=4&benchmark=1",
-      "dps": 431.0873780522978,
-      "tps": 306.07203841713147,
+      "dps": 435.2880362898155,
+      "tps": 309.054505765769,
       "dtps": 0.0,
-      "total_damage": 51730.48536627571
+      "total_damage": 52234.564354777845
     },
     {
       "id": "druid-feral-dps",
@@ -2347,10 +2347,10 @@
       "role": "dps",
       "targets": 5,
       "url": "/all-specs.html?spec=druid-feral-dps&race=Tauren&targets=5&benchmark=1",
-      "dps": 431.0873780522978,
-      "tps": 306.07203841713147,
+      "dps": 435.2880362898155,
+      "tps": 309.054505765769,
       "dtps": 0.0,
-      "total_damage": 51730.48536627571
+      "total_damage": 52234.564354777845
     },
     {
       "id": "druid-feral-dps",
@@ -2360,10 +2360,10 @@
       "role": "dps",
       "targets": 1,
       "url": "/all-specs.html?spec=druid-feral-dps&race=Skyborne%20%28Alliance%29&targets=1&benchmark=1",
-      "dps": 430.94716768248605,
-      "tps": 305.972489054565,
+      "dps": 437.05044777910535,
+      "tps": 310.305817923165,
       "dtps": 0.0,
-      "total_damage": 51713.6601218983
+      "total_damage": 52446.05373349268
     },
     {
       "id": "druid-feral-dps",
@@ -2373,10 +2373,10 @@
       "role": "dps",
       "targets": 2,
       "url": "/all-specs.html?spec=druid-feral-dps&race=Skyborne%20%28Alliance%29&targets=2&benchmark=1",
-      "dps": 430.94716768248605,
-      "tps": 305.972489054565,
+      "dps": 437.05044777910535,
+      "tps": 310.305817923165,
       "dtps": 0.0,
-      "total_damage": 51713.6601218983
+      "total_damage": 52446.05373349268
     },
     {
       "id": "druid-feral-dps",
@@ -2386,10 +2386,10 @@
       "role": "dps",
       "targets": 3,
       "url": "/all-specs.html?spec=druid-feral-dps&race=Skyborne%20%28Alliance%29&targets=3&benchmark=1",
-      "dps": 430.94716768248605,
-      "tps": 305.972489054565,
+      "dps": 437.05044777910535,
+      "tps": 310.305817923165,
       "dtps": 0.0,
-      "total_damage": 51713.6601218983
+      "total_damage": 52446.05373349268
     },
     {
       "id": "druid-feral-dps",
@@ -2399,10 +2399,10 @@
       "role": "dps",
       "targets": 4,
       "url": "/all-specs.html?spec=druid-feral-dps&race=Skyborne%20%28Alliance%29&targets=4&benchmark=1",
-      "dps": 430.94716768248605,
-      "tps": 305.972489054565,
+      "dps": 437.05044777910535,
+      "tps": 310.305817923165,
       "dtps": 0.0,
-      "total_damage": 51713.6601218983
+      "total_damage": 52446.05373349268
     },
     {
       "id": "druid-feral-dps",
@@ -2412,10 +2412,10 @@
       "role": "dps",
       "targets": 5,
       "url": "/all-specs.html?spec=druid-feral-dps&race=Skyborne%20%28Alliance%29&targets=5&benchmark=1",
-      "dps": 430.94716768248605,
-      "tps": 305.972489054565,
+      "dps": 437.05044777910535,
+      "tps": 310.305817923165,
       "dtps": 0.0,
-      "total_damage": 51713.6601218983
+      "total_damage": 52446.05373349268
     },
     {
       "id": "druid-feral-dps",
@@ -2425,10 +2425,10 @@
       "role": "dps",
       "targets": 1,
       "url": "/all-specs.html?spec=druid-feral-dps&race=Skyborne%20%28Horde%29&targets=1&benchmark=1",
-      "dps": 430.94716768248605,
-      "tps": 305.972489054565,
+      "dps": 437.05044777910535,
+      "tps": 310.305817923165,
       "dtps": 0.0,
-      "total_damage": 51713.6601218983
+      "total_damage": 52446.05373349268
     },
     {
       "id": "druid-feral-dps",
@@ -2438,10 +2438,10 @@
       "role": "dps",
       "targets": 2,
       "url": "/all-specs.html?spec=druid-feral-dps&race=Skyborne%20%28Horde%29&targets=2&benchmark=1",
-      "dps": 430.94716768248605,
-      "tps": 305.972489054565,
+      "dps": 437.05044777910535,
+      "tps": 310.305817923165,
       "dtps": 0.0,
-      "total_damage": 51713.6601218983
+      "total_damage": 52446.05373349268
     },
     {
       "id": "druid-feral-dps",
@@ -2451,10 +2451,10 @@
       "role": "dps",
       "targets": 3,
       "url": "/all-specs.html?spec=druid-feral-dps&race=Skyborne%20%28Horde%29&targets=3&benchmark=1",
-      "dps": 430.94716768248605,
-      "tps": 305.972489054565,
+      "dps": 437.05044777910535,
+      "tps": 310.305817923165,
       "dtps": 0.0,
-      "total_damage": 51713.6601218983
+      "total_damage": 52446.05373349268
     },
     {
       "id": "druid-feral-dps",
@@ -2464,10 +2464,10 @@
       "role": "dps",
       "targets": 4,
       "url": "/all-specs.html?spec=druid-feral-dps&race=Skyborne%20%28Horde%29&targets=4&benchmark=1",
-      "dps": 430.94716768248605,
-      "tps": 305.972489054565,
+      "dps": 437.05044777910535,
+      "tps": 310.305817923165,
       "dtps": 0.0,
-      "total_damage": 51713.6601218983
+      "total_damage": 52446.05373349268
     },
     {
       "id": "druid-feral-dps",
@@ -2477,10 +2477,10 @@
       "role": "dps",
       "targets": 5,
       "url": "/all-specs.html?spec=druid-feral-dps&race=Skyborne%20%28Horde%29&targets=5&benchmark=1",
-      "dps": 430.94716768248605,
-      "tps": 305.972489054565,
+      "dps": 437.05044777910535,
+      "tps": 310.305817923165,
       "dtps": 0.0,
-      "total_damage": 51713.6601218983
+      "total_damage": 52446.05373349268
     },
     {
       "id": "druid-feral-tank",
@@ -2490,10 +2490,10 @@
       "role": "tank",
       "targets": 1,
       "url": "/all-specs.html?spec=druid-feral-tank&race=Night%20Elf&targets=1&benchmark=1",
-      "dps": 428.031473962206,
-      "tps": 1042.67500845421,
-      "dtps": 260.8590764345057,
-      "total_damage": 51363.77687546472
+      "dps": 461.13285557342556,
+      "tps": 1044.8018328076716,
+      "dtps": 273.97381937201214,
+      "total_damage": 55335.94266881102
     },
     {
       "id": "druid-feral-tank",
@@ -2503,10 +2503,10 @@
       "role": "tank",
       "targets": 2,
       "url": "/all-specs.html?spec=druid-feral-tank&race=Night%20Elf&targets=2&benchmark=1",
-      "dps": 434.40981948044526,
-      "tps": 1061.172210457104,
-      "dtps": 260.8590764345057,
-      "total_damage": 52129.17833765343
+      "dps": 470.71254162170817,
+      "tps": 1072.5829223476915,
+      "dtps": 273.97381937201214,
+      "total_damage": 56485.50499460494
     },
     {
       "id": "druid-feral-tank",
@@ -2516,10 +2516,10 @@
       "role": "tank",
       "targets": 3,
       "url": "/all-specs.html?spec=druid-feral-tank&race=Night%20Elf&targets=3&benchmark=1",
-      "dps": 440.7881649986846,
-      "tps": 1079.6694124599978,
-      "dtps": 260.8590764345057,
-      "total_damage": 52894.57979984214
+      "dps": 480.2922276699909,
+      "tps": 1100.364011887711,
+      "dtps": 273.97381937201214,
+      "total_damage": 57635.06732039886
     },
     {
       "id": "druid-feral-tank",
@@ -2529,10 +2529,10 @@
       "role": "tank",
       "targets": 4,
       "url": "/all-specs.html?spec=druid-feral-tank&race=Night%20Elf&targets=4&benchmark=1",
-      "dps": 440.7881649986846,
-      "tps": 1079.6694124599978,
-      "dtps": 260.8590764345057,
-      "total_damage": 52894.57979984214
+      "dps": 480.2922276699909,
+      "tps": 1100.364011887711,
+      "dtps": 273.97381937201214,
+      "total_damage": 57635.06732039886
     },
     {
       "id": "druid-feral-tank",
@@ -2542,10 +2542,10 @@
       "role": "tank",
       "targets": 5,
       "url": "/all-specs.html?spec=druid-feral-tank&race=Night%20Elf&targets=5&benchmark=1",
-      "dps": 440.7881649986846,
-      "tps": 1079.6694124599978,
-      "dtps": 260.8590764345057,
-      "total_damage": 52894.57979984214
+      "dps": 480.2922276699909,
+      "tps": 1100.364011887711,
+      "dtps": 273.97381937201214,
+      "total_damage": 57635.06732039886
     },
     {
       "id": "druid-feral-tank",
@@ -2555,10 +2555,10 @@
       "role": "tank",
       "targets": 1,
       "url": "/all-specs.html?spec=druid-feral-tank&race=Tauren&targets=1&benchmark=1",
-      "dps": 420.9366664451272,
-      "tps": 1023.2314520030038,
-      "dtps": 266.2664236432168,
-      "total_damage": 50512.39997341527
+      "dps": 459.2447177024923,
+      "tps": 1037.4754020685423,
+      "dtps": 280.11955004598036,
+      "total_damage": 55109.36612429906
     },
     {
       "id": "druid-feral-tank",
@@ -2568,10 +2568,10 @@
       "role": "tank",
       "targets": 2,
       "url": "/all-specs.html?spec=druid-feral-tank&race=Tauren&targets=2&benchmark=1",
-      "dps": 427.1130269660319,
-      "tps": 1041.1428975136275,
-      "dtps": 266.2664236432168,
-      "total_damage": 51253.56323592383
+      "dps": 469.16692650227895,
+      "tps": 1066.249807587924,
+      "dtps": 280.11955004598036,
+      "total_damage": 56300.031180273465
     },
     {
       "id": "druid-feral-tank",
@@ -2581,10 +2581,10 @@
       "role": "tank",
       "targets": 3,
       "url": "/all-specs.html?spec=druid-feral-tank&race=Tauren&targets=3&benchmark=1",
-      "dps": 433.2893874869367,
-      "tps": 1059.0543430242512,
-      "dtps": 266.2664236432168,
-      "total_damage": 51994.7264984324
+      "dps": 479.0891353020658,
+      "tps": 1095.0242131073055,
+      "dtps": 280.11955004598036,
+      "total_damage": 57490.69623624787
     },
     {
       "id": "druid-feral-tank",
@@ -2594,10 +2594,10 @@
       "role": "tank",
       "targets": 4,
       "url": "/all-specs.html?spec=druid-feral-tank&race=Tauren&targets=4&benchmark=1",
-      "dps": 433.2893874869367,
-      "tps": 1059.0543430242512,
-      "dtps": 266.2664236432168,
-      "total_damage": 51994.7264984324
+      "dps": 479.0891353020658,
+      "tps": 1095.0242131073055,
+      "dtps": 280.11955004598036,
+      "total_damage": 57490.69623624787
     },
     {
       "id": "druid-feral-tank",
@@ -2607,10 +2607,10 @@
       "role": "tank",
       "targets": 5,
       "url": "/all-specs.html?spec=druid-feral-tank&race=Tauren&targets=5&benchmark=1",
-      "dps": 433.2893874869367,
-      "tps": 1059.0543430242512,
-      "dtps": 266.2664236432168,
-      "total_damage": 51994.7264984324
+      "dps": 479.0891353020658,
+      "tps": 1095.0242131073055,
+      "dtps": 280.11955004598036,
+      "total_damage": 57490.69623624787
     },
     {
       "id": "druid-feral-tank",
@@ -2620,10 +2620,10 @@
       "role": "tank",
       "targets": 1,
       "url": "/all-specs.html?spec=druid-feral-tank&race=Skyborne%20%28Alliance%29&targets=1&benchmark=1",
-      "dps": 420.84638936116977,
-      "tps": 1023.2780434917868,
-      "dtps": 265.49976792602087,
-      "total_damage": 50501.56672334041
+      "dps": 458.2936455488183,
+      "tps": 1034.7734002969507,
+      "dtps": 276.01586413964174,
+      "total_damage": 54995.23746585823
     },
     {
       "id": "druid-feral-tank",
@@ -2633,10 +2633,10 @@
       "role": "tank",
       "targets": 2,
       "url": "/all-specs.html?spec=druid-feral-tank&race=Skyborne%20%28Alliance%29&targets=2&benchmark=1",
-      "dps": 427.04951897810673,
-      "tps": 1041.267119380904,
-      "dtps": 265.49976792602087,
-      "total_damage": 51245.94227737285
+      "dps": 468.27365126049284,
+      "tps": 1063.715416860807,
+      "dtps": 276.01586413964174,
+      "total_damage": 56192.83815125919
     },
     {
       "id": "druid-feral-tank",
@@ -2646,10 +2646,10 @@
       "role": "tank",
       "targets": 3,
       "url": "/all-specs.html?spec=druid-feral-tank&race=Skyborne%20%28Alliance%29&targets=3&benchmark=1",
-      "dps": 433.25264859504375,
-      "tps": 1059.2561952700214,
-      "dtps": 265.49976792602087,
-      "total_damage": 51990.317831405286
+      "dps": 478.25365697216756,
+      "tps": 1092.6574334246634,
+      "dtps": 276.01586413964174,
+      "total_damage": 57390.43883666015
     },
     {
       "id": "druid-feral-tank",
@@ -2659,10 +2659,10 @@
       "role": "tank",
       "targets": 4,
       "url": "/all-specs.html?spec=druid-feral-tank&race=Skyborne%20%28Alliance%29&targets=4&benchmark=1",
-      "dps": 433.25264859504375,
-      "tps": 1059.2561952700214,
-      "dtps": 265.49976792602087,
-      "total_damage": 51990.317831405286
+      "dps": 478.25365697216756,
+      "tps": 1092.6574334246634,
+      "dtps": 276.01586413964174,
+      "total_damage": 57390.43883666015
     },
     {
       "id": "druid-feral-tank",
@@ -2672,10 +2672,10 @@
       "role": "tank",
       "targets": 5,
       "url": "/all-specs.html?spec=druid-feral-tank&race=Skyborne%20%28Alliance%29&targets=5&benchmark=1",
-      "dps": 433.25264859504375,
-      "tps": 1059.2561952700214,
-      "dtps": 265.49976792602087,
-      "total_damage": 51990.317831405286
+      "dps": 478.25365697216756,
+      "tps": 1092.6574334246634,
+      "dtps": 276.01586413964174,
+      "total_damage": 57390.43883666015
     },
     {
       "id": "druid-feral-tank",
@@ -2685,10 +2685,10 @@
       "role": "tank",
       "targets": 1,
       "url": "/all-specs.html?spec=druid-feral-tank&race=Skyborne%20%28Horde%29&targets=1&benchmark=1",
-      "dps": 420.84638936116977,
-      "tps": 1023.2780434917868,
-      "dtps": 265.49976792602087,
-      "total_damage": 50501.56672334041
+      "dps": 458.2936455488183,
+      "tps": 1034.7734002969507,
+      "dtps": 276.01586413964174,
+      "total_damage": 54995.23746585823
     },
     {
       "id": "druid-feral-tank",
@@ -2698,10 +2698,10 @@
       "role": "tank",
       "targets": 2,
       "url": "/all-specs.html?spec=druid-feral-tank&race=Skyborne%20%28Horde%29&targets=2&benchmark=1",
-      "dps": 427.04951897810673,
-      "tps": 1041.267119380904,
-      "dtps": 265.49976792602087,
-      "total_damage": 51245.94227737285
+      "dps": 468.27365126049284,
+      "tps": 1063.715416860807,
+      "dtps": 276.01586413964174,
+      "total_damage": 56192.83815125919
     },
     {
       "id": "druid-feral-tank",
@@ -2711,10 +2711,10 @@
       "role": "tank",
       "targets": 3,
       "url": "/all-specs.html?spec=druid-feral-tank&race=Skyborne%20%28Horde%29&targets=3&benchmark=1",
-      "dps": 433.25264859504375,
-      "tps": 1059.2561952700214,
-      "dtps": 265.49976792602087,
-      "total_damage": 51990.317831405286
+      "dps": 478.25365697216756,
+      "tps": 1092.6574334246634,
+      "dtps": 276.01586413964174,
+      "total_damage": 57390.43883666015
     },
     {
       "id": "druid-feral-tank",
@@ -2724,10 +2724,10 @@
       "role": "tank",
       "targets": 4,
       "url": "/all-specs.html?spec=druid-feral-tank&race=Skyborne%20%28Horde%29&targets=4&benchmark=1",
-      "dps": 433.25264859504375,
-      "tps": 1059.2561952700214,
-      "dtps": 265.49976792602087,
-      "total_damage": 51990.317831405286
+      "dps": 478.25365697216756,
+      "tps": 1092.6574334246634,
+      "dtps": 276.01586413964174,
+      "total_damage": 57390.43883666015
     },
     {
       "id": "druid-feral-tank",
@@ -2737,10 +2737,10 @@
       "role": "tank",
       "targets": 5,
       "url": "/all-specs.html?spec=druid-feral-tank&race=Skyborne%20%28Horde%29&targets=5&benchmark=1",
-      "dps": 433.25264859504375,
-      "tps": 1059.2561952700214,
-      "dtps": 265.49976792602087,
-      "total_damage": 51990.317831405286
+      "dps": 478.25365697216756,
+      "tps": 1092.6574334246634,
+      "dtps": 276.01586413964174,
+      "total_damage": 57390.43883666015
     },
     {
       "id": "hunter-beast-mastery",

@@ -74,6 +74,7 @@ SPIRIT_REGEN = {"Mage": (0.25, 12.5), "Priest": (0.25, 12.5), "Warlock": (0.2, 1
 # rate (one-hand 3.46, two-hand 4.5 rage per second of speed; off hand half). Damage and crits
 # don't matter and misses/dodges/parries give none (Forever beta logs: github.com/magey/forever-warrior
 # issue 3; developer statement that you "don't get extra rage when you do more damage/crit").
+FORM_ATTACK_SPEED = {"cat": 1.0, "bear": 2.5}
 WARRIOR_RAGE_PER_SPEED = {"one_hand": 3.46, "two_hand": 4.5, "off_hand_factor": 0.5, "crit_factor": 1.75, "taken_armor_factor": 0.5}
 RAGE_CONVERSION_60 = 0.0091107836 * 60 * 60 + 3.225598133 * 60 + 4.2652911  # 230.6
 LEVEL, TARGET_LEVEL = 60, 63
@@ -122,14 +123,14 @@ def default_buffs(spec):
     that are mechanically impossible to have simultaneously: each entry in BUFF_GROUPS is a
     single raid slot only one spell can occupy at a time (one Air Totem, one 3%-crit aura), so
     we pick whichever member of the group actually benefits this spec's style/class. Windfury
-    Totem only procs off melee weapon swings, so it goes to melee specs only -- Druids never get
-    it since it doesn't function while shapeshifted, and ranged/spell specs get Grace of Air
+    Totem only procs off melee weapon swings, so it goes to melee specs only (Forever lets it
+    work in Cat/Bear form, so Feral Druids get it too), and ranged/spell specs get Grace of Air
     (agility) instead, same as the crit aura pick (Leader of the Pack for melee/ranged physical
     crit, Moonkin Aura for spell crit)."""
     non_exclusive = sorted(set(BUFF_STATS) - {b for group in BUFF_GROUPS.values() for b in group})
     if spec["style"] == "spell":
         picks = ["moonkin_aura", "grace_of_air"]
-    elif spec["style"] == "melee" and spec["class_name"] != "Druid":
+    elif spec["style"] == "melee":
         picks = ["leader_of_the_pack", "windfury_totem"]
     else:
         picks = ["leader_of_the_pack", "grace_of_air"]
@@ -148,7 +149,7 @@ CONSUME_STATS = {
 }
 # Consumables that only make sense for a subset of specs.
 CONSUME_SCOPE = {
-    "elemental_sharpening_stone": lambda spec: spec["style"] == "melee" and spec.get("form") is None,
+    "elemental_sharpening_stone": lambda spec: spec["style"] == "melee" and spec.get("form") in {None, "cat", "bear"},
     "mighty_rage_potion": lambda spec: spec["resource"] == "Rage" and spec["class_name"] == "Warrior",
     "thistle_tea": lambda spec: spec["class_name"] == "Rogue",
     "major_mana_potion": lambda spec: spec["resource"] == "Mana",
@@ -235,7 +236,7 @@ ABILITIES = {
     "Death Wish": {"kind": "buff", "cooldown": 180, "cost": 10, "duration": 30, "damage_mult_school": ("physical", 0.20), "forever": True},
     # ---- Druid ---------------------------------------------------------------
     "Shred": {"kind": "direct", "school": "physical", "cost": 60, "gcd": 1.0, "weapon": {"hand": "form", "mult": 1.55, "flat": 80}, "cp": 1},
-    "Claw": {"kind": "direct", "school": "physical", "cost": 45, "gcd": 1.0, "weapon": {"hand": "form", "mult": 1.10, "flat": 27}, "cp": 1},
+    "Claw": {"kind": "direct", "school": "physical", "cost": 45, "gcd": 1.0, "weapon": {"hand": "form", "mult": 1.10, "flat": 115}, "cp": 1},  # rank 5 (client 9850, build 70124)
     "Ferocious Bite": {"kind": "direct", "school": "physical", "cost": 35, "gcd": 1.0, "finisher": "ferocious_bite"},
     "Rip": {"kind": "dot", "school": "physical", "cost": 30, "gcd": 1.0, "finisher": "rip", "ticks": 6, "tick_len": 2, "bleed": True},
     "Tiger's Fury": {"kind": "buff", "cost": 0, "gcd": 1.0, "cooldown": 30, "duration": 6, "damage_mult_school": ("physical", 0.15), "forever": True,
@@ -244,8 +245,10 @@ ABILITIES = {
     "Swipe": {"kind": "direct", "school": "physical", "cost": 20, "base": (83, 83), "threat_mult": 2.0},
     "Mangle": {"kind": "direct", "school": "physical", "cost": 45, "gcd": 1.0, "cooldown": 6, "weapon": {"hand": "form", "flat": 26}, "cp": 1, "forever": True,
                "provisional": "Damage (100% weapon plus 26) is the sourced Forever talent tooltip; Wowhead's own guide flags Forever talent data as still incomplete, and real TBC-era Mangle also applies a bleed-vulnerability debuff and a higher weapon-damage percent not captured in this tooltip. Cooldown (6 sec) is not published and uses real Mangle's known Classic-era-adjacent value as a placeholder."},
-    "Mangle (Bear)": {"kind": "direct", "school": "physical", "cost": 15, "gcd": 1.0, "cooldown": 6, "weapon": {"hand": "form", "flat": 26}, "threat_mult": 1.75, "forever": True,
-                       "provisional": "Damage (100% weapon plus 26) is the sourced Forever talent tooltip. Cooldown (6 sec) and its Rage cost are not published; cost mirrors Maul's, cooldown uses real Mangle's known value as a placeholder. Threat multiplier assumed equal to Maul's, not separately sourced."},
+    "Primal Bite": {"kind": "direct", "school": "physical", "cost": 20, "gcd": 1.5, "cooldown": 6, "weapon": {"hand": "form", "flat": 77}, "threat_mult": 1.75, "forever": True,
+                    "provisional": "Rank 4 (client spell 1238073, build 70124): 20 Rage, 6 sec cooldown, 100% weapon damage plus 77. Replaces Mangle (Bear) per the Forever Hunter & Druid deep dive. Its 'very high threat' has no published value; Maul's x1.75 threat multiplier is assumed."},
+    "Lacerate": {"kind": "direct", "school": "physical", "cost": 15, "gcd": 1.5, "weapon": {"hand": "form", "mult": 0.10}, "threat_mult": 1.75, "tick": 15, "ticks": 5, "tick_len": 3, "bleed": True, "forever": True,
+                 "provisional": "Rank 3 (client spell 1235827, build 70124, level 58): 15 Rage, bleeds for 15 every 3 sec for 15 sec per stack, up to 5 stacks, and each hit deals 10% weapon damage per existing stack. Its 'high threat' has no published value; Maul's x1.75 threat multiplier is assumed."},
     "Berserk": {"kind": "buff", "cost": 0, "gcd": 0, "cooldown": 180, "duration": 15, "forever": True,
                 "provisional": "Duration (15 sec) is the sourced Forever talent tooltip; cooldown is not published (3 min assumed, matching this project's convention for other undocumented Forever cooldowns). Only the single-target-relevant effect (guaranteed critical strikes on combo-point generators) is modeled; the 3-target Mangle cleave, Mangle's cooldown removal, and the Fear-immunity clause have no effect in this single-target model."},
     "Moonfire": {"kind": "direct_dot", "school": "arcane", "cost": 375, "base": (124, 146), "coeff": 0.15, "tick": 60, "ticks": 4, "tick_len": 3, "dot_coeff": 0.13, "spreadable": True, "forever": True,
@@ -365,8 +368,8 @@ ROTATIONS = {
     "warrior-fury": [("Bloodrage", "rage<60"), ("Death Wish", "true"), ("Execute", "execute"), ("Rend", "dot_missing and not execute"), ("Bloodthirst", "true"), ("Whirlwind", "true"), ("Hamstring", "rage>=60 and not execute and cd:Bloodthirst>1.5 and cd:Whirlwind>1.5"), ("Heroic Strike", "rage>=40 and not execute")],
     "warrior-protection": [("Bloodrage", "rage<60"), ("Shield Slam", "true"), ("Revenge", "true"), ("Thunder Clap", "targets>=3"), ("Demoralizing Shout", "targets>=3 and debuff:Demoralizing Shout<5"), ("Sunder Armor", "stacks:Sunder Armor<5 or rage>=40"), ("Execute", "execute"), ("Cleave", "targets>=2 and rage>=20"), ("Heroic Strike", "rage>=30")],
     "druid-balance": [("Moonfire", "dot_missing"), ("Insect Swarm", "dot_missing"), ("Starfire", "true"), ("Wrath", "true")],
-    "druid-feral-dps": [("Berserk", "true"), ("Tiger's Fury", "buff_missing and energy>=60"), ("Ferocious Bite", "cp>=5 and dot:Rip>4"), ("Rip", "cp>=5 and dot_missing"), ("Mangle", "true"), ("Shred", "true"), ("Claw", "no_shred")],
-    "druid-feral-tank": [("Berserk", "true"), ("Mangle (Bear)", "true"), ("Swipe", "rage>=45"), ("Maul", "rage>=20")],
+    "druid-feral-dps": [("Berserk", "true"), ("Tiger's Fury", "buff_missing and energy>=60"), ("Ferocious Bite", "cp>=5 and dot:Rip>4"), ("Rip", "cp>=5 and dot_missing"), ("Shred", "true"), ("Claw", "no_shred")],
+    "druid-feral-tank": [("Berserk", "true"), ("Primal Bite", "true"), ("Lacerate", "dotstacks:Lacerate<5 or dot:Lacerate<6"), ("Swipe", "rage>=45"), ("Maul", "rage>=20")],
     "hunter-beast-mastery": [("Volley", "targets>=3"), ("Bestial Wrath", "true"), ("Rapid Fire", "true"), ("Serpent Sting", "dot_missing"), ("Summon Hawk", "dot_missing"), ("Multi-Shot", "true"), ("Arcane Shot", "mana>=1500")],
     "hunter-marksmanship": [("Volley", "targets>=3"), ("Rapid Fire", "true"), ("Serpent Sting", "dot_missing"), ("Aimed Shot", "true"), ("Multi-Shot", "true"), ("Arcane Shot", "mana>=1500")],
     "hunter-survival": [("Mongoose Bite", "true"), ("Strider Kick", "true"), ("Raptor Strike", "true")],
@@ -408,8 +411,8 @@ SPEC_ABOUT = {
         "dps": "Priority: Berserk on cooldown, Tiger's Fury to bank Energy (and, with King of the Jungle, extra Energy directly), Ferocious Bite at 5 combo points with a healthy Rip up, Rip to apply the bleed, Mangle as the primary builder ahead of Shred, Claw as a fallback when Shred is unusable.",
         "tps": "Cat Form carries the largest threat penalty modeled (×0.71), so Feral DPS's TPS trails its DPS more than any other melee spec."},
     "druid-feral-tank": {
-        "dps": "A threat rotation: Berserk on cooldown, Mangle (Bear) as the primary attack, Swipe and Maul as rage allows.",
-        "tps": "Bear Form carries the largest threat bonus modeled (×1.45); combined with Mangle, Feral Tank leads both the DPS and TPS side of the tank comparison at every target count."},
+        "dps": "A threat rotation: Berserk on cooldown, Primal Bite on cooldown, Lacerate to build and keep 5 bleed stacks, Swipe and Maul as rage allows.",
+        "tps": "Bear Form carries the largest threat bonus modeled (×1.45); combined with Primal Bite, Feral Tank leads both the DPS and TPS side of the tank comparison at every target count."},
     "hunter-beast-mastery": {
         "dps": "Priority: Volley once 3+ targets are up, Bestial Wrath, Rapid Fire, Serpent Sting upkeep, Summon Hawk upkeep, Multi-Shot, Arcane Shot as a mana-gated filler. Pet damage (Claw/Bite) adds on top via its own attack timer.",
         "tps": "No stance or class threat modifier applies; pet damage generates its own threat independently, unscaled by any Hunter-specific multiplier."},
@@ -494,9 +497,9 @@ TALENT_EFFECTS = {
     "104927": {"spell_crit": 2, "melee_crit": 2}, "104929": {"spell_hit": 2, "hit": 2}, "104930": {"flag:insect_swarm": 1}, "104932": {"crit_dmg_school:arcane": 0.20, "crit_dmg_school:nature": 0.20},
     "104933": {"cast:Starfire": -0.1}, "104934": {"flag:natures_grace": 1}, "104936": {"dmg_school:arcane": 0.01, "dmg_school:nature": 0.01}, "104937": {"flag:moonkin": 0.03}, "104935": {"flag:eclipse": 1},
     # Druid Feral
-    "104938": {"cost:Maul": -1, "cost:Swipe": -1, "cost:Claw": -1, "cost:Mangle": -1, "cost:Mangle (Bear)": -1}, "104939": {"stat_pct:intellect": 0.02, "flag:hotw_cat_str": 0.02, "flag:hotw_bear_sta": 0.04},
+    "104938": {"cost:Maul": -1, "cost:Swipe": -1, "cost:Claw": -1, "cost:Mangle": -1, "cost:Primal Bite": -1}, "104939": {"stat_pct:intellect": 0.02, "flag:hotw_cat_str": 0.02, "flag:hotw_bear_sta": 0.04},
     "104940": {"dmg_ability:Swipe": 0.10}, "104943": {"dodge": 2}, "104948": {"dmg_ability:Claw": 0.05, "dmg_ability:Shred": 0.05, "dmg_ability:Maul": 0.05, "dmg_ability:Swipe": 0.05},
-    "104946": {"melee_crit": 3}, "104945": {"cost:Shred": -6}, "104952": {"flag:predatory_strikes": 30}, "104947": {"flag:primal_fury": 1},
+    "104946": {"melee_crit": 3}, "104945": {"cost:Shred": -6, "cost:Lacerate": -1}, "104952": {"flag:predatory_strikes": 30}, "104947": {"flag:primal_fury": 1},
     "104950": {"crit_dmg_school:physical_ability": 0.10}, "104953": {"flag:rend_and_tear": 0.02}, "104954": {"dodge": 1}, "104942": {"flag:thick_hide": 1},
     "104949": {"flag:mangle": 1}, "104951": {"flag:king_of_the_jungle": 20}, "104956": {"flag:berserk": 1},
     # Hunter BM
@@ -565,7 +568,7 @@ TALENT_GATED = {"Mortal Strike": "mortal_strike", "Spearing Strike": "spearing_s
                 "Shadowburn": "shadowburn", "Demonic Sacrifice": "demonic_sacrifice",
                 "Arcane Blast": "arcane_blast", "Pyroblast": "pyroblast", "Ice Lance": "ice_lance", "Summon Hawk": "summon_hawk",
                 "Mutilate": "mutilate", "Venom": "venom", "Lava Burst": "lava_burst", "Incinerate": "incinerate",
-                "Mangle": "mangle", "Mangle (Bear)": "mangle", "Berserk": "berserk"}
+                "Mangle": "mangle", "Primal Bite": "mangle", "Berserk": "berserk"}
 
 # Default 51-point builds (validated against tier/prerequisite rules in tests).
 DEFAULT_BUILDS = {

@@ -9607,7 +9607,7 @@
       },
       "caveat": "The +20% against Poisoned targets applies while Deadly Poison is ticking; Instant Poison is not tracked as a poison state."
     },
-    "Mangle (Bear)": {
+    "Primal Bite": {
       "spell_id": 1238073,
       "fields": {
         "weapon.flat": 77.0,
@@ -9798,7 +9798,437 @@
         ]
       },
       "status": "client-values-verified; engine behavior separately modeled",
-      "caveat": "Threat multiplier assumed equal to Maul's."
+      "caveat": "Replaces Mangle (Bear); threat multiplier assumed equal to Maul's."
+    },
+    "Claw": {
+      "spell_id": 9850,
+      "fields": {
+        "weapon.flat": 115.0,
+        "cost": 45.0
+      },
+      "rows": {
+        "SpellEffect": [
+          {
+            "ID": "687218",
+            "EffectAura": "0",
+            "DifficultyID": "0",
+            "EffectIndex": "0",
+            "Effect": "58",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "1",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "115",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "9850"
+          },
+          {
+            "ID": "687219",
+            "EffectAura": "0",
+            "DifficultyID": "0",
+            "EffectIndex": "1",
+            "Effect": "31",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "0",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "110",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "9850"
+          },
+          {
+            "ID": "1338559",
+            "EffectAura": "0",
+            "DifficultyID": "0",
+            "EffectIndex": "2",
+            "Effect": "30",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "0",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "1",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "4",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "1",
+            "ImplicitTarget_1": "0",
+            "SpellID": "9850"
+          }
+        ],
+        "SpellPower": [
+          {
+            "ID": "176346",
+            "OrderIndex": "0",
+            "ManaCost": "45",
+            "ManaCostPerLevel": "0",
+            "ManaPerSecond": "0",
+            "PowerDisplayID": "0",
+            "AltPowerBarID": "0",
+            "PowerCostPct": "0",
+            "PowerCostMaxPct": "0",
+            "OptionalCostPct": "0",
+            "PowerPctPerSecond": "0",
+            "PowerType": "3",
+            "RequiredAuraSpellID": "0",
+            "OptionalCost": "0",
+            "SpellID": "9850"
+          }
+        ],
+        "SpellCooldowns": [
+          {
+            "ID": "54216",
+            "DifficultyID": "0",
+            "CategoryRecoveryTime": "0",
+            "RecoveryTime": "0",
+            "StartRecoveryTime": "1000",
+            "AuraSpellID": "0",
+            "SpellID": "9850"
+          }
+        ],
+        "SpellLevels": [
+          {
+            "ID": "100129",
+            "DifficultyID": "0",
+            "MaxLevel": "0",
+            "MaxPassiveAuraLevel": "0",
+            "BaseLevel": "58",
+            "SpellLevel": "58",
+            "SpellID": "9850"
+          }
+        ],
+        "SpellMisc": [
+          {
+            "ID": "321291",
+            "Attributes_0": "262160",
+            "Attributes_1": "201327104",
+            "Attributes_2": "0",
+            "Attributes_3": "0",
+            "Attributes_4": "0",
+            "Attributes_5": "0",
+            "Attributes_6": "0",
+            "Attributes_7": "0",
+            "Attributes_8": "0",
+            "Attributes_9": "0",
+            "Attributes_10": "0",
+            "Attributes_11": "0",
+            "Attributes_12": "0",
+            "Attributes_13": "0",
+            "Attributes_14": "0",
+            "Attributes_15": "8192",
+            "Attributes_16": "0",
+            "DifficultyID": "0",
+            "CastingTimeIndex": "1",
+            "DurationIndex": "0",
+            "PvPDurationIndex": "0",
+            "RangeIndex": "2",
+            "SchoolMask": "1",
+            "Speed": "0",
+            "LaunchDelay": "0",
+            "MinDuration": "0",
+            "SpellIconFileDataID": "132140",
+            "ActiveIconFileDataID": "0",
+            "ContentTuningID": "0",
+            "ShowFutureSpellPlayerConditionID": "0",
+            "SpellVisualScript": "0",
+            "ActiveSpellVisualScript": "0",
+            "SpellID": "9850"
+          }
+        ],
+        "Spell": [
+          {
+            "ID": "9850",
+            "NameSubtext_lang": "Rank 5",
+            "Description_lang": "Claw the enemy for $s2% normal damage plus $s1. Awards $s3 combo $lpoint:points;.",
+            "AuraDescription_lang": ""
+          }
+        ],
+        "SpellName": [
+          {
+            "ID": "9850",
+            "Name_lang": "Claw"
+          }
+        ],
+        "SpellDuration": [],
+        "SpellCastTimes": [
+          {
+            "ID": "1",
+            "Base": "0",
+            "Minimum": "0"
+          }
+        ]
+      },
+      "status": "client-values-verified; engine behavior separately modeled"
+    },
+    "Lacerate": {
+      "spell_id": 1235827,
+      "fields": {
+        "tick": 15.0,
+        "ticks": 5,
+        "cost": 15.0
+      },
+      "rows": {
+        "SpellEffect": [
+          {
+            "ID": "1231461",
+            "EffectAura": "3",
+            "DifficultyID": "0",
+            "EffectIndex": "0",
+            "Effect": "6",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "3000",
+            "EffectBonusCoefficient": "0",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "15",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "1235827"
+          },
+          {
+            "ID": "1231462",
+            "EffectAura": "0",
+            "DifficultyID": "0",
+            "EffectIndex": "1",
+            "Effect": "3",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "0",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "10",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "1235827"
+          }
+        ],
+        "SpellPower": [
+          {
+            "ID": "310636",
+            "OrderIndex": "0",
+            "ManaCost": "150",
+            "ManaCostPerLevel": "0",
+            "ManaPerSecond": "0",
+            "PowerDisplayID": "0",
+            "AltPowerBarID": "0",
+            "PowerCostPct": "0",
+            "PowerCostMaxPct": "0",
+            "OptionalCostPct": "0",
+            "PowerPctPerSecond": "0",
+            "PowerType": "1",
+            "RequiredAuraSpellID": "0",
+            "OptionalCost": "0",
+            "SpellID": "1235827"
+          }
+        ],
+        "SpellCooldowns": [
+          {
+            "ID": "94375",
+            "DifficultyID": "0",
+            "CategoryRecoveryTime": "0",
+            "RecoveryTime": "0",
+            "StartRecoveryTime": "1500",
+            "AuraSpellID": "0",
+            "SpellID": "1235827"
+          }
+        ],
+        "SpellLevels": [
+          {
+            "ID": "148081",
+            "DifficultyID": "0",
+            "MaxLevel": "0",
+            "MaxPassiveAuraLevel": "0",
+            "BaseLevel": "58",
+            "SpellLevel": "58",
+            "SpellID": "1235827"
+          }
+        ],
+        "SpellMisc": [
+          {
+            "ID": "790386",
+            "Attributes_0": "262160",
+            "Attributes_1": "134218240",
+            "Attributes_2": "256",
+            "Attributes_3": "128",
+            "Attributes_4": "0",
+            "Attributes_5": "0",
+            "Attributes_6": "0",
+            "Attributes_7": "0",
+            "Attributes_8": "4608",
+            "Attributes_9": "0",
+            "Attributes_10": "0",
+            "Attributes_11": "0",
+            "Attributes_12": "0",
+            "Attributes_13": "128",
+            "Attributes_14": "0",
+            "Attributes_15": "8192",
+            "Attributes_16": "0",
+            "DifficultyID": "0",
+            "CastingTimeIndex": "1",
+            "DurationIndex": "8",
+            "PvPDurationIndex": "0",
+            "RangeIndex": "2",
+            "SchoolMask": "1",
+            "Speed": "0",
+            "LaunchDelay": "0",
+            "MinDuration": "0",
+            "SpellIconFileDataID": "132131",
+            "ActiveIconFileDataID": "0",
+            "ContentTuningID": "0",
+            "ShowFutureSpellPlayerConditionID": "0",
+            "SpellVisualScript": "0",
+            "ActiveSpellVisualScript": "0",
+            "SpellID": "1235827"
+          }
+        ],
+        "Spell": [
+          {
+            "ID": "1235827",
+            "NameSubtext_lang": "Rank 3",
+            "Description_lang": "Lacerates the enemy target, making them bleed for $o1 damage over $d plus $s2% weapon damage per existing application of Lacerate on the target. Causes a high amount of threat. This effect stacks up to $u times on the same target.",
+            "AuraDescription_lang": "$w1 damage every $t sec."
+          }
+        ],
+        "SpellName": [
+          {
+            "ID": "1235827",
+            "Name_lang": "Lacerate"
+          }
+        ],
+        "SpellDuration": [
+          {
+            "ID": "8",
+            "Duration": "15000",
+            "MaxDuration": "15000",
+            "DurationPerResource": "0"
+          }
+        ],
+        "SpellCastTimes": [
+          {
+            "ID": "1",
+            "Base": "0",
+            "Minimum": "0"
+          }
+        ]
+      },
+      "status": "client-values-verified; engine behavior separately modeled",
+      "caveat": "Stack cap (5) is from the Forever deep dive; threat multiplier assumed equal to Maul's."
     },
     "Spearing Strike": {
       "spell_id": 1310222,

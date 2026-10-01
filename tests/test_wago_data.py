@@ -69,8 +69,8 @@ class WagoDataTests(unittest.TestCase):
 
     def test_provisional_audit_corrections(self):
         self.assertEqual(ABILITIES['Mutilate']['weapon']['flat'], 67)
-        self.assertEqual(ABILITIES['Mangle (Bear)']['weapon']['flat'], 77)
-        self.assertEqual(ABILITIES['Mangle (Bear)']['cost'], 20)
+        self.assertEqual(ABILITIES['Primal Bite']['weapon']['flat'], 77)
+        self.assertEqual(ABILITIES['Primal Bite']['cost'], 20)
         self.assertEqual((ABILITIES['Spearing Strike']['cost'], ABILITIES['Spearing Strike']['cooldown']), (15, 20))
         self.assertEqual(ABILITIES['Summon Hawk']['base'], [108, 108])
         self.assertEqual(ABILITIES['Summon Hawk']['rap_coeff'], .05)

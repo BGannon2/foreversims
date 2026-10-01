@@ -5252,11 +5252,11 @@
             ],
             "requires": [],
             "descriptions": {
-              "1": "Reduces the cost of your Maul, Mangle, Swipe, Claw, and Rake abilities by 1 Rage or Energy.",
-              "2": "Reduces the cost of your Maul, Mangle, Swipe, Claw, and Rake abilities by 2 Rage or Energy.",
-              "3": "Reduces the cost of your Maul, Mangle, Swipe, Claw, and Rake abilities by 3 Rage or Energy.",
-              "4": "Reduces the cost of your Maul, Mangle, Swipe, Claw, and Rake abilities by 4 Rage or Energy.",
-              "5": "Reduces the cost of your Maul, Mangle, Swipe, Claw, and Rake abilities by 5 Rage or Energy."
+              "1": "Reduces the cost of your Maul, Primal Bite, Swipe, Claw, and Rake abilities by 1 Rage or Energy.",
+              "2": "Reduces the cost of your Maul, Primal Bite, Swipe, Claw, and Rake abilities by 2 Rage or Energy.",
+              "3": "Reduces the cost of your Maul, Primal Bite, Swipe, Claw, and Rake abilities by 3 Rage or Energy.",
+              "4": "Reduces the cost of your Maul, Primal Bite, Swipe, Claw, and Rake abilities by 4 Rage or Energy.",
+              "5": "Reduces the cost of your Maul, Primal Bite, Swipe, Claw, and Rake abilities by 5 Rage or Energy."
             }
           },
           {
@@ -5418,7 +5418,7 @@
             "row": 3,
             "col": 1,
             "icon": "ability_druid_mangle2",
-            "name": "Mangle",
+            "name": "Primal Bite",
             "ranks": [
               null
             ],
@@ -5429,7 +5429,7 @@
               }
             ],
             "descriptions": {
-              "1": "Mangle the target for 100% normal damage plus 26."
+              "1": "Bite the target for 100% normal damage plus 77 (Bear Form or Dire Bear Form, 20 Rage, 6 sec cooldown). Generates very high threat."
             }
           },
           {
@@ -5584,7 +5584,7 @@
               }
             ],
             "descriptions": {
-              "1": "Causes your Mangle ability to strike up to 3 targets, removes its cooldown, and increases the critical strike chance of your Combo Point-generating abilities by 100%. Clears and grants immunity to Fear effects for the duration. Lasts 15 sec."
+              "1": "Causes your Primal Bite ability to strike up to 3 targets, removes its cooldown, and increases the critical strike chance of your Combo Point-generating abilities by 100%. Clears and grants immunity to Fear effects for the duration. Lasts 15 sec."
             }
           }
         ]

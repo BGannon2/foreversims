@@ -157,10 +157,16 @@ class Config:
         if self.two_hand and oh.get("weaponDamageMin"):
             oh = {}
         self.mh, self.oh, self.ranged = mh, (oh if oh.get("weaponDamageMin") and weapon_type(oh) in WEAPON_TYPES else {}), rw
-        if s["form"] == "cat":
-            self.mh = {"name": "Cat Form", "weaponDamageMin": 43.84, "weaponDamageMax": 65.76, "weaponSpeed": 1.0, "subclass": "Form"}; self.oh = {}
-        elif s["form"] == "bear":
-            self.mh = {"name": "Dire Bear Form", "weaponDamageMin": 109, "weaponDamageMax": 165, "weaponSpeed": 2.5, "subclass": "Form"}; self.oh = {}
+        if s["form"] in {"cat", "bear"}:
+            # Forever: form attacks deal the equipped weapon's DPS at a fixed 1.0 s (Cat) / 2.5 s (Bear)
+            # speed, and the weapon's enchants and procs stay active (Hunter & Druid deep dive).
+            fs = FORM_ATTACK_SPEED[s["form"]]
+            if mh.get("name") != "Unarmed":
+                k = fs / float(mh.get("weaponSpeed", 2.0))
+                self.mh = {**mh, "weaponDamageMin": float(mh["weaponDamageMin"]) * k, "weaponDamageMax": float(mh["weaponDamageMax"]) * k, "weaponSpeed": fs}
+            else:
+                self.mh = {"name": "Unarmed", "weaponDamageMin": 1 * fs / 2.0, "weaponDamageMax": 2 * fs / 2.0, "weaponSpeed": fs, "subclass": "Fist Weapon"}
+            self.oh = {}
         if s["style"] == "ranged" and not rw.get("weaponDamageMin"):
             rw = {"name": "No ranged weapon", "weaponDamageMin": 1, "weaponDamageMax": 2, "weaponSpeed": 2.8, "subclass": "Bow"}
             self.ranged = rw
@@ -231,16 +237,19 @@ class Config:
         if "blessing_of_kings" in self.buffs:
             for stat in ("strength", "agility", "stamina", "intellect", "spirit"): st[stat] = st.get(stat, 0) * 1.10
         if self.race == "Human" and self.racial_enabled: st["spirit"] *= 1.05
-        self.windfury_totem = "windfury_totem" in self.buffs and s["style"] == "melee" and s["form"] is None and s["class_name"] != "Shaman"
+        self.windfury_totem = "windfury_totem" in self.buffs and s["style"] == "melee" and s["form"] in {None, "cat", "bear"} and s["class_name"] != "Shaman"
         # Talent percentage stats
         for stat in ("strength", "agility", "stamina", "intellect", "spirit", "armor", "mana"):
             pct = self.mod(f"stat_pct:{stat}")
             if pct: st[stat] = st.get(stat, 0) * (1 + pct)
         if s["form"] == "cat": st["strength"] *= 1 + self.flag("hotw_cat_str")
         if s["form"] == "bear": st["stamina"] *= (1 + self.flag("hotw_bear_sta")) * 1.25
+        # Thick Hide (client 16929, Forever deep dive): per rank 1 base armor per level plus 2/3 armor per
+        # point of Defense above 5x level, added before the form's armor multiplier (forms only).
+        if self.flag("thick_hide") and s["form"] in {"bear", "cat", "moonkin"}:
+            st["armor"] = st.get("armor", 0) + self.flag("thick_hide") * (LEVEL + 2 / 3 * (st.get("defense", 0) + self.mod("defense")))
         if s["form"] == "bear": st["armor"] = st.get("armor", 0) * 4.6
         if s["form"] == "moonkin": st["armor"] = st.get("armor", 0) * 4.6
-        if self.flag("thick_hide"): st["armor"] = st.get("armor", 0) + 3 * LEVEL * (self.flag("thick_hide") / 3)
         if self.racial.get("health_pct"): st["health_pct"] = self.racial["health_pct"]
         # Derived
         st["attackPower"] = st.get("attackPower", 0) + st["strength"] * AP_PER_STRENGTH[cls] + st["agility"] * AP_PER_AGILITY[cls] + st["intellect"] * self.mod("ap_from_int") + self.flag("predatory_strikes")
@@ -1174,11 +1183,13 @@ class Iteration:
         if m:
             val = {"rage": self.rage, "energy": self.energy, "mana": self.mana, "cp": self.cp}[m.group(1)]
             return {"<": val < float(m.group(3)), ">": val > float(m.group(3)), "<=": val <= float(m.group(3)), ">=": val >= float(m.group(3)), "==": val == float(m.group(3))}[m.group(2)]
-        m = re.match(r"(dot|debuff|cd|buffstacks|buff|stacks):(.+?)\s*(<=|>=|<|>|==)\s*(\d+)", cond)
+        m = re.match(r"(dotstacks|dot|debuff|cd|buffstacks|buff|stacks):(.+?)\s*(<=|>=|<|>|==)\s*(\d+)", cond)
         if m:
             kind, key, op, num = m.groups(); num = float(num)
             if kind == "dot":
                 d = self.dots.get(key); val = (d["remaining"] * d["tick_len"]) if d and d["remaining"] > 0 else 0.0
+            elif kind == "dotstacks":
+                d = self.dots.get(key); val = d.get("stacks", 1) if d and d["remaining"] > 0 else 0
             elif kind == "debuff":
                 b = self.debuffs.get(key); val = max(0.0, b["until"] - self.t) if b else 0.0
             elif kind == "cd":
@@ -1479,6 +1490,8 @@ class Iteration:
             else:
                 w = a["weapon"]; mult = w.get("mult", 1.0)
                 if w.get("dagger_mult") and weapon_type(item) == "Dagger": mult = w["dagger_mult"]
+                if name == "Lacerate":
+                    d = self.dots.get("Lacerate"); mult *= d["stacks"] if d and d["remaining"] > 0 else 0
                 base = self.weapon_damage(item, normalized=w.get("normalized", False)) * mult + w.get("flat", 0)
                 if w.get("hand") == "both" and c.oh:
                     base += self.weapon_damage(c.oh, normalized=w.get("normalized", False)) * mult + w.get("flat", 0)
@@ -1500,6 +1513,11 @@ class Iteration:
                 if dmg and c.flag("lacerating_strikes"):
                     tick = dmg * 0.40 / 7 * self.periodic_crit_mult("Lacerating Strikes", "physical", bleed=True)
                     self.dots["Lacerating Strikes"] = {"next": self.t + 3, "remaining": 7, "tick": tick, "tick_len": 3, "school": "physical", "kind": "dot", "bleed": True}
+            if name == "Lacerate":
+                d = self.dots.get("Lacerate"); active = bool(d and d["remaining"] > 0)
+                tick = a["tick"] * a["mult"] * self.periodic_crit_mult(name, "physical", bleed=True)
+                self.dots["Lacerate"] = {"next": d["next"] if active else self.t + a["tick_len"], "remaining": a["ticks"], "tick": tick, "tick_len": a["tick_len"], "school": "physical", "kind": "dot", "bleed": True,
+                                         "stacks": min(5, d["stacks"] + 1) if active else 1}
             if dmg:
                 self.on_weapon_hit(item, False, name, dmg) if a.get("weapon") else None
                 if out == "crit": self.on_crit(name, dmg, item if a.get("weapon") else None)

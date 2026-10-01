@@ -94,7 +94,7 @@ def _run_bench_tasks(tasks, parallel=True):
         return list(pool.map(_bench_task, tasks, chunksize=1))
 
 
-def build_benchmarks(iterations=None, target_counts=TARGET_COUNTS, parallel=True):
+def build_benchmarks(iterations=None, target_counts=TARGET_COUNTS, parallel=True, only=None):
     """Every race per spec, at every target count in target_counts (1 = the original
     single-target Patchwerk snapshot). One unified dataset backs both the DPS and Tank
     comparison pages; each row carries a "targets" field the pages filter on. Abilities with
@@ -102,13 +102,16 @@ def build_benchmarks(iterations=None, target_counts=TARGET_COUNTS, parallel=True
     target count above 1."""
     iterations = iterations or DEFAULTS["benchmark_iterations"]
     tasks, meta = [], []
+    keep = (lambda sid: True) if only is None else (lambda sid: sid in only)
     for spec in public_specs():
+        if not keep(spec["id"]): continue
         for race in CLASS_RACES[spec["class_name"]]:
             for targets in target_counts:
                 tasks.append(("spec", default_request(spec, race, iterations=iterations, seed=DEFAULTS["benchmark_seed"], targets=targets)))
                 meta.append({"id": spec["id"], "race": race, "class_name": spec["class_name"], "name": spec["name"], "role": spec["role"], "targets": targets,
                              "url": f"/all-specs.html?spec={spec['id']}&race={quote(race)}&targets={targets}&benchmark=1"})
     for spec_id in ("protection", "retribution"):
+        if not keep(f"paladin-{spec_id}"): continue
         for race in CLASS_RACES["Paladin"]:
             for targets in target_counts:
                 profile = preset(spec_id); profile["race"] = race; profile["iterations"] = iterations; profile["seed"] = DEFAULTS["benchmark_seed"]

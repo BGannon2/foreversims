@@ -79,7 +79,7 @@ class RosterAndDataTests(unittest.TestCase):
         with self.assertRaises(ValueError): simulate_spec({"spec": "warrior-fury", "race": "Blood Elf", "duration": 10, "iterations": 1})
 
     def test_consumable_scope_excludes_irrelevant_items(self):
-        self.assertNotIn("elemental_sharpening_stone", spec("druid-feral-dps")["default_consumables"])
+        self.assertIn("elemental_sharpening_stone", spec("druid-feral-dps")["default_consumables"])  # Forever: weapon effects work in form
         self.assertNotIn("mighty_rage_potion", spec("rogue-combat")["default_consumables"])
         self.assertNotIn("thistle_tea", spec("warrior-fury")["default_consumables"])
         self.assertIn("elixir_of_shadow_power", spec("warlock-affliction")["default_consumables"])
@@ -427,3 +427,23 @@ class ForeverBlueNoteTests(unittest.TestCase):
         self.assertAlmostEqual(it.cost(name), base * 0.9)
         it.t += 15
         self.assertAlmostEqual(it.cost(name), base)
+
+    def test_form_attacks_use_equipped_weapon_dps(self):
+        from forever.engine_data import FORM_ATTACK_SPEED
+        for sid, form in (("druid-feral-dps", "cat"), ("druid-feral-tank", "bear")):
+            c = config(sid)
+            real = next(i for i in c.gear if i.get("name") == c.mh["name"])
+            dps = (float(real["weaponDamageMin"]) + float(real["weaponDamageMax"])) / 2 / float(real["weaponSpeed"])
+            self.assertEqual(c.mh["weaponSpeed"], FORM_ATTACK_SPEED[form])
+            self.assertAlmostEqual((c.mh["weaponDamageMin"] + c.mh["weaponDamageMax"]) / 2 / c.mh["weaponSpeed"], dps)
+            self.assertTrue(c.windfury_totem)
+
+    def test_lacerate_stacks_to_five_and_refreshes(self):
+        it = iteration("druid-feral-tank")
+        it.c.mh["weaponDamageMin"] = it.c.mh["weaponDamageMax"] = 100.0
+        it.melee_outcome = lambda *a, **k: ("hit", 1.0)
+        for _ in range(7):
+            it.rage = 100; it.cur_cost = 15; it.resolve("Lacerate")
+        d = it.dots["Lacerate"]
+        self.assertEqual(d["stacks"], 5); self.assertEqual(d["remaining"], 5)
+

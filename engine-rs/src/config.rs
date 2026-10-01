@@ -71,7 +71,7 @@ pub fn parse_cond(cond: &str) -> Result<Cond, String> {
     if let Some(c) = re.captures(cond) {
         return Ok(Cond::Resource(c[1].to_string(), parse_cmp(&c[2]).unwrap().to_string(), c[3].parse().unwrap()));
     }
-    let re = regex_lite::Regex::new(r"^(dot|debuff|cd|buffstacks|buff|stacks):(.+?)\s*(<=|>=|<|>|==)\s*(\d+)").unwrap();
+    let re = regex_lite::Regex::new(r"^(dotstacks|dot|debuff|cd|buffstacks|buff|stacks):(.+?)\s*(<=|>=|<|>|==)\s*(\d+)").unwrap();
     if let Some(c) = re.captures(cond) {
         return Ok(Cond::Keyed(c[1].to_string(), c[2].to_string(), parse_cmp(&c[3]).unwrap().to_string(), c[4].parse().unwrap()));
     }
@@ -459,11 +459,20 @@ impl Config {
         self.mh = mh;
         self.oh = if oh.has_weapon_damage() && matches!(weapon_type(&oh), Some(k) if WEAPON_TYPES.contains(&k)) { oh } else { Item::default() };
         self.ranged = rw.clone();
-        if self.spec.form_is("cat") {
-            self.mh = Item::synthetic("Cat Form", 43.84, 65.76, 1.0, "Form");
-            self.oh = Item::default();
-        } else if self.spec.form_is("bear") {
-            self.mh = Item::synthetic("Dire Bear Form", 109.0, 165.0, 2.5, "Form");
+        if self.spec.form_is("cat") || self.spec.form_is("bear") {
+            // Forever: form attacks deal the equipped weapon's DPS at a fixed 1.0 s (Cat) / 2.5 s (Bear)
+            // speed, and the weapon's enchants and procs stay active (Hunter & Druid deep dive).
+            let fs = if self.spec.form_is("cat") { 1.0 } else { 2.5 };
+            if self.mh.name != "Unarmed" {
+                let k = fs / self.mh.speed_or(2.0);
+                let mut m = self.mh.clone();
+                m.weaponDamageMin = Some(self.mh.weaponDamageMin.unwrap_or(0.0) * k);
+                m.weaponDamageMax = Some(self.mh.weaponDamageMax.unwrap_or(0.0) * k);
+                m.weaponSpeed = Some(fs);
+                self.mh = m;
+            } else {
+                self.mh = Item::synthetic("Unarmed", fs / 2.0, 2.0 * fs / 2.0, fs, "Fist Weapon");
+            }
             self.oh = Item::default();
         }
         if self.spec.style == "ranged" && !rw.has_weapon_damage() {
@@ -603,7 +612,7 @@ impl Config {
             }
         }
         if self.race == "Human" && self.racial_enabled { st["spirit"] *= 1.05; }
-        self.windfury_totem = self.buffs.contains("windfury_totem") && self.spec.style == "melee" && self.spec.form.is_none() && cls != "Shaman";
+        self.windfury_totem = self.buffs.contains("windfury_totem") && self.spec.style == "melee" && (self.spec.form.is_none() || self.spec.form_is("cat") || self.spec.form_is("bear")) && cls != "Shaman";
         for stat in ["strength", "agility", "stamina", "intellect", "spirit", "armor", "mana"] {
             let pct = self.mod_(&format!("stat_pct:{stat}"));
             if pct != 0.0 {
@@ -614,6 +623,13 @@ impl Config {
         if self.spec.form_is("cat") {
             st["strength"] *= 1.0 + self.flag("hotw_cat_str");
         }
+        // Thick Hide (client 16929, Forever deep dive): per rank 1 base armor per level plus 2/3 armor per
+        // point of Defense above 5x level, added before the form's armor multiplier (forms only).
+        if self.flag("thick_hide") != 0.0 && (self.spec.form_is("bear") || self.spec.form_is("cat") || self.spec.form_is("moonkin")) {
+            let def = st.get("defense").copied().unwrap_or(0.0) + self.mod_("defense");
+            let v = st.get("armor").copied().unwrap_or(0.0) + self.flag("thick_hide") * (t.LEVEL + 2.0 / 3.0 * def);
+            st.insert("armor".into(), v);
+        }
         if self.spec.form_is("bear") {
             st["stamina"] *= (1.0 + self.flag("hotw_bear_sta")) * 1.25;
             let v = st.get("armor").copied().unwrap_or(0.0) * 4.6;
@@ -621,10 +637,6 @@ impl Config {
         }
         if self.spec.form_is("moonkin") {
             let v = st.get("armor").copied().unwrap_or(0.0) * 4.6;
-            st.insert("armor".into(), v);
-        }
-        if self.flag("thick_hide") != 0.0 {
-            let v = st.get("armor").copied().unwrap_or(0.0) + 3.0 * t.LEVEL * (self.flag("thick_hide") / 3.0);
             st.insert("armor".into(), v);
         }
         if self.racial.health_pct != 0.0 {
