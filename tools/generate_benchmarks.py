@@ -19,9 +19,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-import server
 from spec_tags import select
 
+import server
 
 # Windows' multiprocessing "spawn" start method re-imports this file as a fresh module in each
 # worker process; without this guard, that re-import would re-run the whole script (including

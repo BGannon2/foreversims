@@ -232,6 +232,10 @@ pub struct Ability {
     pub spell_haste: Option<f64>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub energy_regen_mult: Option<f64>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub energy_gain: Option<f64>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub base_mana_cost_pct: Option<f64>,
     #[serde(default, skip_serializing_if = "is_false")]
     pub next_crit: bool,
     #[serde(default, skip_serializing_if = "Option::is_none")]

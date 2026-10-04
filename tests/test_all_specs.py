@@ -209,9 +209,11 @@ class ResourceTests(unittest.TestCase):
         self.assertEqual(war.rage, 0)  # specials generate no rage
 
     def test_off_hand_rage_and_damage_talent(self):
-        it = iteration("warrior-fury")  # Dual Wield Specialization 5/5: +100% off-hand rage
+        # Dual Wield Specialization lost its off-hand rage bonus in client build 70170+; it keeps damage and hit.
+        it = iteration("warrior-fury")
         it.rage = 0; it.c.mods["flag:unbridled_wrath"] = 0; it.on_weapon_hit(it.c.oh, True, "Melee (Off-Hand)", 230.6)
-        self.assertAlmostEqual(it.rage, float(it.c.oh["weaponSpeed"]) * 3.46 * 0.5 * 2, places=6)  # half rate, doubled by the talent
+        self.assertAlmostEqual(it.rage, float(it.c.oh["weaponSpeed"]) * 3.46 * 0.5, places=6)  # off hand earns half rate
+        self.assertAlmostEqual(it.c.flag("dw_damage"), 0.25)
 
     def test_energy_ticks_and_combo_points(self):
         r = simulate_spec(default_request(spec("rogue-combat"), iterations=3, duration=60, buffs=[], consumables=[]))
@@ -251,7 +253,7 @@ class MechanicTests(unittest.TestCase):
     def test_heroic_strike_replaces_swing_and_gives_no_rage(self):
         r = simulate_spec(default_request(spec("warrior-fury"), iterations=3, duration=120))
         st = r["ability_stats"]
-        self.assertGreater(st["Heroic Strike"]["casts"], 20)
+        self.assertGreater(st["Heroic Strike"]["casts"], 10)
         self.assertGreater(st["Melee (Off-Hand)"]["casts"], 40)
         self.assertLess(st["Melee (Main-Hand)"]["casts"] + st["Heroic Strike"]["casts"], 120 / 2.8 * 1.5 + 5)
 
@@ -454,3 +456,16 @@ class ForeverBlueNoteTests(unittest.TestCase):
         self.assertEqual(POISONS["instant"]["chance"], 0.20)
         self.assertEqual(POISONS["deadly"]["tick"], 23)  # client 25349
         self.assertEqual((POISONS["deadly"]["chance"], POISONS["deadly"]["max_stacks"]), (0.30, 5))
+
+    def test_shifting_power_turns_mana_into_energy(self):
+        from forever.engine_data import CLASS_BASE
+        it = iteration("druid-feral-dps")
+        a = it.c.actions["Shifting Power"]
+        self.assertEqual(a["cooldown"], 16 - 4 * 2)  # Improved Shifting Power 2/2
+        cost = CLASS_BASE["Druid"]["mana"] * 0.55
+        it.energy, it.mana = 20, cost + 1
+        self.assertTrue(it.ready("Shifting Power"))
+        it.activate_buff("Shifting Power", a)
+        self.assertAlmostEqual(it.energy, 60); self.assertAlmostEqual(it.mana, 1)
+        self.assertFalse(it.ready("Shifting Power"))  # not enough Mana left
+

@@ -936,6 +936,13 @@ class Iteration:
     def gain_energy(self, amount):
         self.energy = min(self.max_energy, self.energy + amount)
 
+    def base_mana_cost(self, a):
+        return CLASS_BASE[self.s["class_name"]]["mana"] * a["base_mana_cost_pct"]
+
+    def tracks_mana(self):
+        """Mana users, plus Cat Form Druids (Shifting Power spends Mana while in form)."""
+        return self.s["resource"] == "Mana" or (self.s["form"] == "cat" and "Shifting Power" in self.c.actions)
+
     def gain_mana(self, amount):
         self.mana = min(self.max_mana, self.mana + amount)
 
@@ -1206,6 +1213,7 @@ class Iteration:
     def ready(self, name, ignore_resource=False):
         a = self.c.actions[name]
         if self.cooldowns.get(name, 0) > self.t + EPS: return False
+        if a.get("base_mana_cost_pct") and self.mana + EPS < self.base_mana_cost(a): return False
         if a.get("shared_cd") and self.cooldowns.get("shared:" + a["shared_cd"], 0) > self.t + EPS: return False
         if a.get("execute") and self.t < self.execute_at: return False
         if a.get("requires") == "dodge" and self.t - self.dodged_recently > 5: return False
@@ -1333,8 +1341,10 @@ class Iteration:
             if a.get("energy_regen_mult"): kw["energy_regen_mult"] = a["energy_regen_mult"]
             if a.get("pet_damage_mult"): kw["pet_damage_mult"] = a["pet_damage_mult"]
             if a.get("flat_damage_bonus"): kw["flat_damage_bonus"] = a["flat_damage_bonus"]
-            self.add_buff(name, a["duration"] + c.mod(f"duration:{name}"), **kw)
+            if a["duration"] > 0 or not a.get("energy_gain"): self.add_buff(name, a["duration"] + c.mod(f"duration:{name}"), **kw)
         if name == "Tiger's Fury" and c.flag("king_of_the_jungle"): self.gain_energy(c.flag("king_of_the_jungle"))
+        if a.get("energy_gain"):  # Shifting Power: Mana into Energy
+            self.mana -= self.base_mana_cost(a); self.last_cast_time = self.t; self.gain_energy(a["energy_gain"])
         if a.get("combustion"): self.combustion = {"stacks": 0, "crits": 0}
         if a.get("instant_next"): self.next_instant = True
         if a.get("next_crit"): self.next_crit = True
@@ -1888,7 +1898,7 @@ class Iteration:
                 if d["remaining"] > 0: cands.append(d["next"])
             for d in self.dots_extra:
                 if d["remaining"] > 0: cands.append(d["next"])
-            if s["resource"] == "Mana": cands.append(self.next_mana_tick)
+            if self.tracks_mana(): cands.append(self.next_mana_tick)
             if s["resource"] == "Energy": cands.append(self.next_energy_tick)
             if s["resource"] == "Rage":
                 if c.flag("anger_management"): cands.append(self.next_rage_tick)
@@ -1916,7 +1926,7 @@ class Iteration:
                     self.next_oh = t + self.attack_delay(float(c.oh["weaponSpeed"]), "melee")
             if s["style"] == "ranged" and t + EPS >= self.next_ranged and (self.cast is None or not c.actions[self.cast["name"]].get("ranged_cast")):
                 self.auto_shot(); self.next_ranged = t + self.attack_delay(float(c.ranged["weaponSpeed"]), "ranged")
-            if s["resource"] == "Mana" and t + EPS >= self.next_mana_tick:
+            if self.tracks_mana() and t + EPS >= self.next_mana_tick:
                 self.next_mana_tick += 2.0
                 mp5 = self.st.get("mp5", 0)
                 regen = mp5 / 5 * 2

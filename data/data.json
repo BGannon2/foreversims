@@ -24,7 +24,7 @@
     "improved_seal_of_fury_rank1": {"source":"talents", "base_mana":38, "per_level_pct":0.15, "max_pct":0.45},
     "holy_shield": {"source":"talents", "cost":150, "cooldown":10, "duration":10, "block_bonus":0.2, "charges":4, "damage":110, "threat_multiplier":1.2},
     "bulwark": {"source":"talents", "cost":110, "cooldown":300, "duration":8, "health_fraction":1, "forbearance":60},
-    "redoubt_rank1": {"source":"talents", "proc":0.1, "block_bonus":0.06, "duration":10, "charges":5},
+    "redoubt_rank1": {"source":"talents", "proc":0.1, "block_bonus":0.04, "duration":10, "charges":5},
     "reckoning_rank1": {"source":"talents", "block_proc":0.08, "crit_proc":0.2},
     "shield_specialization_rank1": {"source":"talents", "block_value_bonus":0.1, "mana_proc":0.33, "mana_fraction":0.06, "internal_cooldown":3},
     "improved_righteous_fury_rank1": {"source":"talents", "damage_reduction":0.02},

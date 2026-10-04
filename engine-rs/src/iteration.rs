@@ -894,6 +894,15 @@ impl<'a> Iteration<'a> {
         self.energy = self.max_energy.min(self.energy + amount);
     }
 
+    fn base_mana_cost(&self, pct: f64) -> f64 {
+        self.c.t.CLASS_BASE[&self.c.spec.class_name]["mana"] * pct
+    }
+
+    /// Mana users, plus Cat Form Druids (Shifting Power spends Mana while in form).
+    fn tracks_mana(&self) -> bool {
+        self.c.spec.resource == "Mana" || (self.c.spec.form_is("cat") && self.c.actions.contains_key("Shifting Power"))
+    }
+
     fn gain_mana(&mut self, amount: f64) {
         self.mana = self.max_mana.min(self.mana + amount);
     }
@@ -1307,6 +1316,11 @@ impl<'a> Iteration<'a> {
         if self.cooldowns.get(name).copied().unwrap_or(0.0) > self.t + EPS {
             return false;
         }
+        if let Some(pct) = a.base_mana_cost_pct {
+            if self.mana + EPS < self.base_mana_cost(pct) {
+                return false;
+            }
+        }
         if let Some(s) = &a.shared_cd {
             if self.cooldowns.get(&format!("shared:{s}")).copied().unwrap_or(0.0) > self.t + EPS {
                 return false;
@@ -1582,10 +1596,18 @@ impl<'a> Iteration<'a> {
             if let Some(v) = a.energy_regen_mult { kw.energy_regen_mult = v; }
             if let Some(v) = a.pet_damage_mult { kw.pet_damage_mult = v; }
             if let Some(v) = a.flat_damage_bonus { kw.flat_damage_bonus = v; }
-            self.add_buff(name, dur + c.mod_(&format!("duration:{name}")), kw);
+            if dur > 0.0 || a.energy_gain.is_none() {
+                self.add_buff(name, dur + c.mod_(&format!("duration:{name}")), kw);
+            }
         }
         if name == "Tiger's Fury" && c.flag("king_of_the_jungle") != 0.0 {
             self.gain_energy(c.flag("king_of_the_jungle"));
+        }
+        if let (Some(gain), Some(pct)) = (a.energy_gain, a.base_mana_cost_pct) {
+            // Shifting Power: Mana into Energy
+            self.mana -= self.base_mana_cost(pct);
+            self.last_cast_time = self.t;
+            self.gain_energy(gain);
         }
         if a.combustion {
             self.combustion = Some((0, 0));
@@ -2600,6 +2622,9 @@ impl<'a> Iteration<'a> {
                     cands.push(d.next);
                 }
             }
+            if s.resource != "Mana" && self.tracks_mana() {
+                cands.push(self.next_mana_tick);
+            }
             match s.resource.as_str() {
                 "Mana" => cands.push(self.next_mana_tick),
                 "Energy" => cands.push(self.next_energy_tick),
@@ -2671,7 +2696,7 @@ impl<'a> Iteration<'a> {
                 self.auto_shot();
                 self.next_ranged = t + self.attack_delay(c.ranged.speed_or(2.8), "ranged");
             }
-            if s.resource == "Mana" && t + EPS >= self.next_mana_tick {
+            if self.tracks_mana() && t + EPS >= self.next_mana_tick {
                 self.next_mana_tick += 2.0;
                 let mp5 = self.st("mp5");
                 let mut regen = mp5 / 5.0 * 2.0;

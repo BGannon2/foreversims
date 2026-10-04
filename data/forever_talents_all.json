@@ -538,7 +538,7 @@
             "row": 3,
             "col": 2,
             "icon": "ability_mage_hotstreak",
-            "name": "Hot Streak",
+            "name": "Heating Up",
             "ranks": [
               null
             ],
@@ -549,7 +549,7 @@
               }
             ],
             "descriptions": {
-              "1": "Your non-periodic critical strikes with Fireball, Frostfire Bolt, Fire Blast, and Scorch grant Hot Streak for 15 sec. Hot Streak reduces the cast time of Pyroblast by 25%, stacking up to 3 times."
+              "1": "Non-periodic critical strikes with Fireball, Frostfire Bolt, Fire Blast, and Scorch reduce the cast time of your next Pyroblast cast within X by X%, stacking up to X times."
             }
           },
           {
@@ -1947,7 +1947,7 @@
             "row": 4,
             "col": 3,
             "icon": "inv_shield_04",
-            "name": "Vitality",
+            "name": "Bastion",
             "ranks": [
               null,
               null,
@@ -1957,11 +1957,11 @@
             ],
             "requires": [],
             "descriptions": {
-              "1": "Increases your Stamina and Strength by 2%.",
-              "2": "Increases your Stamina and Strength by 4%.",
-              "3": "Increases your Stamina and Strength by 6%.",
-              "4": "Increases your Stamina and Strength by 8%.",
-              "5": "Increases your Stamina and Strength by 10%."
+              "1": "Increases all damage you deal by X% while a shield is equipped.",
+              "2": "Increases all damage you deal by X% while a shield is equipped.",
+              "3": "Increases all damage you deal by X% while a shield is equipped.",
+              "4": "Increases all damage you deal by X% while a shield is equipped.",
+              "5": "Increases all damage you deal by X% while a shield is equipped."
             }
           },
           {
@@ -2509,13 +2509,13 @@
             "row": 3,
             "col": 1,
             "icon": "inv_sword_35",
-            "name": "Restless Blades",
+            "name": "Flawless Execution",
             "ranks": [
               null
             ],
             "requires": [],
             "descriptions": {
-              "1": "Your damaging finishing moves reduce the remaining cooldown of your Adrenaline Rush, Blade Flurry, Evasion, Sprint, and Vanish abilities by 2 sec per combo point."
+              "1": "Reduces the Energy cost of your Eviscerate ability by X."
             }
           },
           {
@@ -4117,30 +4117,21 @@
             }
           },
           {
-            "id": 104766,
-            "row": 5,
+            "id": 104765,
+            "row": 2,
             "col": 2,
-            "icon": "spell_fire_volcano",
-            "name": "Elemental Fury",
+            "icon": "spell_lightning_lightningbolt01",
+            "name": "Elemental Alacrity",
             "ranks": [
-              null,
-              null,
               null,
               null,
               null
             ],
-            "requires": [
-              {
-                "id": 104762,
-                "qty": 1
-              }
-            ],
+            "requires": [],
             "descriptions": {
-              "1": "Increases the critical strike damage bonus of your Searing and Magma Totems and your Fire, Frost, and Nature spells by 20%.",
-              "2": "Increases the critical strike damage bonus of your Searing and Magma Totems and your Fire, Frost, and Nature spells by 40%.",
-              "3": "Increases the critical strike damage bonus of your Searing and Magma Totems and your Fire, Frost, and Nature spells by 60%.",
-              "4": "Increases the critical strike damage bonus of your Searing and Magma Totems and your Fire, Frost, and Nature spells by 80%.",
-              "5": "Increases the critical strike damage bonus of your Searing and Magma Totems and your Fire, Frost, and Nature spells by 100%."
+              "1": "Reduces the cast time of your Lightning Bolt, Chain Lightning, and Lava Burst spells by 0.17 sec.",
+              "2": "Reduces the cast time of your Lightning Bolt, Chain Lightning, and Lava Burst spells by 0.33 sec.",
+              "3": "Reduces the cast time of your Lightning Bolt, Chain Lightning, and Lava Burst spells by 0.5 sec."
             }
           },
           {
@@ -4245,21 +4236,30 @@
             }
           },
           {
-            "id": 104765,
-            "row": 2,
+            "id": 104766,
+            "row": 5,
             "col": 2,
-            "icon": "spell_lightning_lightningbolt01",
-            "name": "Elemental Alacrity",
+            "icon": "spell_fire_volcano",
+            "name": "Elemental Fury",
             "ranks": [
+              null,
+              null,
               null,
               null,
               null
             ],
-            "requires": [],
+            "requires": [
+              {
+                "id": 104762,
+                "qty": 1
+              }
+            ],
             "descriptions": {
-              "1": "Reduces the cast time of your Lightning Bolt, Chain Lightning, and Lava Burst spells by 0.17 sec.",
-              "2": "Reduces the cast time of your Lightning Bolt, Chain Lightning, and Lava Burst spells by 0.33 sec.",
-              "3": "Reduces the cast time of your Lightning Bolt, Chain Lightning, and Lava Burst spells by 0.5 sec."
+              "1": "Increases the critical strike damage bonus of your Searing and Magma Totems and your Fire, Frost, and Nature spells by 20%.",
+              "2": "Increases the critical strike damage bonus of your Searing and Magma Totems and your Fire, Frost, and Nature spells by 40%.",
+              "3": "Increases the critical strike damage bonus of your Searing and Magma Totems and your Fire, Frost, and Nature spells by 60%.",
+              "4": "Increases the critical strike damage bonus of your Searing and Magma Totems and your Fire, Frost, and Nature spells by 80%.",
+              "5": "Increases the critical strike damage bonus of your Searing and Magma Totems and your Fire, Frost, and Nature spells by 100%."
             }
           },
           {
@@ -4655,7 +4655,7 @@
             "row": 0,
             "col": 2,
             "icon": "spell_nature_moonglow",
-            "name": "Tidal Mastery",
+            "name": "Totemic Focus",
             "ranks": [
               null,
               null,
@@ -4665,11 +4665,11 @@
             ],
             "requires": [],
             "descriptions": {
-              "1": "Increases the critical effect chance of your healing spells by 1%.",
-              "2": "Increases the critical effect chance of your healing spells by 2%.",
-              "3": "Increases the critical effect chance of your healing spells by 3%.",
-              "4": "Increases the critical effect chance of your healing spells by 4%.",
-              "5": "Increases the critical effect chance of your healing spells by 5%."
+              "1": "Reduces the Mana cost of your totems and any spells that summon or move them by X%.",
+              "2": "Reduces the Mana cost of your totems and any spells that summon or move them by X%.",
+              "3": "Reduces the Mana cost of your totems and any spells that summon or move them by X%.",
+              "4": "Reduces the Mana cost of your totems and any spells that summon or move them by X%.",
+              "5": "Reduces the Mana cost of your totems and any spells that summon or move them by X%."
             }
           },
           {
@@ -4801,7 +4801,7 @@
             "row": 3,
             "col": 0,
             "icon": "spell_nature_tranquility",
-            "name": "Totemic Focus",
+            "name": "Tidal Mastery",
             "ranks": [
               null,
               null,
@@ -4811,11 +4811,11 @@
             ],
             "requires": [],
             "descriptions": {
-              "1": "Reduces the Mana cost of your totems and any spells that summon or move them by 5%.",
-              "2": "Reduces the Mana cost of your totems and any spells that summon or move them by 10%.",
-              "3": "Reduces the Mana cost of your totems and any spells that summon or move them by 15%.",
-              "4": "Reduces the Mana cost of your totems and any spells that summon or move them by 20%.",
-              "5": "Reduces the Mana cost of your totems and any spells that summon or move them by 25%."
+              "1": "Increases the critical effect chance of your healing spells by X%.",
+              "2": "Increases the critical effect chance of your healing spells by X%.",
+              "3": "Increases the critical effect chance of your healing spells by X%.",
+              "4": "Increases the critical effect chance of your healing spells by X%.",
+              "5": "Increases the critical effect chance of your healing spells by X%."
             }
           },
           {
@@ -5350,6 +5350,24 @@
             }
           },
           {
+            "id": 104945,
+            "row": 2,
+            "col": 0,
+            "icon": "spell_shadow_vampiricaura",
+            "name": "Shredding Attacks",
+            "ranks": [
+              null,
+              null,
+              null
+            ],
+            "requires": [],
+            "descriptions": {
+              "1": "Reduces the Energy cost of your Shred ability by 6 and reduces the Rage cost of your Lacerate ability by 1.",
+              "2": "Reduces the Energy cost of your Shred ability by 12 and reduces the Rage cost of your Lacerate ability by 2.",
+              "3": "Reduces the Energy cost of your Shred ability by 18 and reduces the Rage cost of your Lacerate ability by 3."
+            }
+          },
+          {
             "id": 104948,
             "row": 2,
             "col": 1,
@@ -5396,21 +5414,22 @@
             }
           },
           {
-            "id": 104945,
+            "id": 104951,
             "row": 3,
             "col": 0,
-            "icon": "spell_shadow_vampiricaura",
-            "name": "Shredding Attacks",
+            "icon": "ability_druid_kingofthejungle",
+            "name": "Shifting Power",
             "ranks": [
-              null,
-              null,
               null
             ],
-            "requires": [],
+            "requires": [
+              {
+                "id": 104945,
+                "qty": 3
+              }
+            ],
             "descriptions": {
-              "1": "Reduces the Energy cost of your Shred ability by 6 and reduces the Rage cost of your Lacerate ability by 1.",
-              "2": "Reduces the Energy cost of your Shred ability by 12 and reduces the Rage cost of your Lacerate ability by 2.",
-              "3": "Reduces the Energy cost of your Shred ability by 18 and reduces the Rage cost of your Lacerate ability by 3."
+              "1": "Instantly convert X Mana into X Energy. Shifting Power's cost is reduced by effects that reduce the cost of Shapeshifting."
             }
           },
           {
@@ -5455,7 +5474,7 @@
             "row": 3,
             "col": 3,
             "icon": "ability_racial_cannibalize",
-            "name": "Primal Fury",
+            "name": "Blood Frenzy",
             "ranks": [
               null,
               null
@@ -5467,24 +5486,29 @@
               }
             ],
             "descriptions": {
-              "1": "Gives you a 50% chance to gain an additional 5 Rage any time you get a critical strike while in Bear Form or Dire Bear Form. In addition, your non-periodic critical strikes from Cat Form abilities that generate Combo Points have a 50% chance to add an additional Combo Point.",
-              "2": "Gives you a 100% chance to gain an additional 5 Rage any time you get a critical strike while in Bear Form or Dire Bear Form. In addition, your non-periodic critical strikes from Cat Form abilities that generate Combo Points have a 100% chance to add an additional Combo Point."
+              "1": "Gives you a X% chance to gain an additional $/10;16959s1 Rage any time you get a critical strike while in Bear Form or Dire Bear Form. In addition, your non-periodic critical strikes from Cat Form abilities that generate Combo Points have a X% chance to add an additional Combo Point.",
+              "2": "Gives you a X% chance to gain an additional $/10;16959s1 Rage any time you get a critical strike while in Bear Form or Dire Bear Form. In addition, your non-periodic critical strikes from Cat Form abilities that generate Combo Points have a X% chance to add an additional Combo Point."
             }
           },
           {
-            "id": 104950,
+            "id": 113563,
             "row": 4,
             "col": 0,
-            "icon": "ability_druid_predatoryinstincts",
-            "name": "Predatory Instincts",
+            "icon": "inv_misc_questionmark",
+            "name": "Improved Shifting Power",
             "ranks": [
               null,
               null
             ],
-            "requires": [],
+            "requires": [
+              {
+                "id": 104951,
+                "qty": 1
+              }
+            ],
             "descriptions": {
-              "1": "Increases the critical strike damage bonus of your melee abilities by 10%.",
-              "2": "Increases the critical strike damage bonus of your melee abilities by 20%."
+              "1": "Reduces the cooldown of your Shifting Power spell by X sec.",
+              "2": "Reduces the cooldown of your Shifting Power spell by X sec."
             }
           },
           {
@@ -5502,21 +5526,19 @@
             }
           },
           {
-            "id": 104951,
+            "id": 104950,
             "row": 4,
             "col": 3,
-            "icon": "ability_druid_kingofthejungle",
-            "name": "King of the Jungle",
+            "icon": "ability_druid_predatoryinstincts",
+            "name": "Predatory Instincts",
             "ranks": [
-              null,
               null,
               null
             ],
             "requires": [],
             "descriptions": {
-              "1": "Tiger's Fury now instantly grants you 20 Energy.",
-              "2": "Tiger's Fury now instantly grants you 40 Energy.",
-              "3": "Tiger's Fury now instantly grants you 60 Energy."
+              "1": "Increases the critical strike damage bonus of your melee abilities by 10%.",
+              "2": "Increases the critical strike damage bonus of your melee abilities by 20%."
             }
           },
           {
@@ -5999,15 +6021,15 @@
             "row": 1,
             "col": 1,
             "icon": "inv_elemental_primal_shadow",
-            "name": "Soul Harvesting",
+            "name": "Soul Harvest",
             "ranks": [
               null,
               null
             ],
             "requires": [],
             "descriptions": {
-              "1": "You gain Soul Harvest for 10 sec if a victim is killed while afflicted with your Drain Soul. Soul Harvest allows your Mana to regenerate at 50% of normal speed while you are casting spells, and grants a 50% increase to your Mana regeneration.",
-              "2": "You gain Soul Harvest for 10 sec if a victim is killed while afflicted with your Drain Soul. Soul Harvest allows your Mana to regenerate at 100% of normal speed while you are casting spells, and grants a 100% increase to your Mana regeneration."
+              "1": "Killing a non-trivial target afflicted by your Drain Soul increases your Mana regeneration by X% for X and allows X% of normal Mana regeneration to continue while casting.",
+              "2": "Killing a non-trivial target afflicted by your Drain Soul increases your Mana regeneration by X% for X and allows X% of normal Mana regeneration to continue while casting."
             }
           },
           {
@@ -6210,7 +6232,7 @@
             "row": 6,
             "col": 1,
             "icon": "ability_deathknight_hemorrhagicfever",
-            "name": "Drain Hope",
+            "name": "Wrack",
             "ranks": [
               null
             ],
@@ -6221,7 +6243,7 @@
               }
             ],
             "descriptions": {
-              "1": "Drains all hope from the target, dealing 52 Shadow damage every 1 sec and increasing all other Shadow damage over time you deal to that target by 10%. Lasts 6 sec."
+              "1": "Tears the target apart from within, inflicting X Shadow damage every X sec and increasing the damage they take from your other Shadow damage over time effects by X% for X."
             }
           }
         ]
@@ -7414,28 +7436,6 @@
               "3": "Increases the critical strike damage bonus on all ranged abilities by 18%.",
               "4": "Increases the critical strike damage bonus on all ranged abilities by 24%.",
               "5": "Increases the critical strike damage bonus on all ranged abilities by 30%."
-            }
-          },
-          {
-            "id": 105003,
-            "row": 3,
-            "col": 3,
-            "icon": "ability_hunter_quickshot",
-            "name": "Improved Serpent Sting",
-            "ranks": [
-              null,
-              null,
-              null,
-              null,
-              null
-            ],
-            "requires": [],
-            "descriptions": {
-              "1": "Increases the damage done by your Serpent Sting by 10%.",
-              "2": "Increases the damage done by your Serpent Sting by 10%.",
-              "3": "Increases the damage done by your Serpent Sting by 10%.",
-              "4": "Increases the damage done by your Serpent Sting by 10%.",
-              "5": "Increases the damage done by your Serpent Sting by 10%."
             }
           },
           {

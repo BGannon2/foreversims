@@ -437,7 +437,7 @@ pub fn apply_gear(profile: &Value, catalog: &Catalog) -> Result<(Value, Value), 
         set_f(ch, "crit_chance", obj_f(ch, "crit_chance") + obj_f(ch, "agility") * 0.0506 / 100.0);
         set_f(ch, "spell_crit_chance", obj_f(ch, "spell_crit_chance") + obj_f(ch, "intellect") * 0.0167 / 100.0);
         set_f(ch, "avoidance", obj_f(ch, "avoidance") + obj_f(ch, "agility") * 0.0506 / 100.0);
-        set_f(ch, "spell_power", obj_f(ch, "spell_power") + obj_f(ch, "intellect") * (1.0 / 3.0) * t882);
+        set_f(ch, "spell_power", obj_f(ch, "spell_power") + obj_f(ch, "intellect") * 0.20 * t882);
         let racial = t.RACIALS.get(&race).cloned().unwrap_or_default();
         set_f(ch, "health", obj_f(ch, "health") * (1.0 + racial.health_pct));
         let kinds: Vec<String> = ["main_hand", "off_hand"].iter().filter_map(|slot| gear.get(*slot).and_then(|v| v.as_i64())).filter_map(|id| catalog.items.get(&id)).filter_map(|i| i.subclass.clone()).collect();
