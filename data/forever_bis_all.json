@@ -3618,19 +3618,23 @@
      "gear_slot": "wrist"
     },
     {
-     "id": 279257,
-     "name": "Mourning Handguards",
-     "icon": "inv_gauntlets_11",
+     "id": 16463,
+     "name": "Marshal's Chain Grips",
+     "icon": "inv_gauntlets_10",
      "quality": "Epic",
-     "itemLevel": 65,
+     "itemLevel": 71,
      "stats": {
-      "armor": 260.0,
+      "armor": 323.0,
+      "stamina": 20.0,
       "agility": 21.0,
-      "stamina": 18.0,
-      "intellect": 14.0
+      "intellect": 4.0,
+      "meleeCrit": 1.0,
+      "spellCrit": 1.0
      },
-     "effects": [],
-     "source": "forever-1.60.1.69913",
+     "effects": [
+      "Equip: Increases the damage done by your Multi-Shot by 4%."
+     ],
+     "source": "Vendor: Captain Dirgehammer",
      "subclass": "Mail",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -3638,7 +3642,31 @@
      "equipSlots": [
       "hands"
      ],
-     "set": null,
+     "set": {
+      "name": "Field Marshal's Pursuit",
+      "pieces": [
+       "Field Marshal's Chain Breastplate",
+       "Field Marshal's Chain Helm",
+       "Field Marshal's Chain Spaulders",
+       "Marshal's Chain Boots",
+       "Marshal's Chain Grips",
+       "Marshal's Chain Legguards"
+      ],
+      "bonuses": [
+       {
+        "required": 2,
+        "description": "+20 Stamina."
+       },
+       {
+        "required": 3,
+        "description": "Reduces the cooldown of your Concussive Shot by 1 sec."
+       },
+       {
+        "required": 6,
+        "description": "+20 Agility."
+       }
+      ]
+     },
      "slot": "Hands",
      "gear_slot": "hands"
     },
@@ -10864,21 +10892,19 @@
      "gear_slot": "shoulders"
     },
     {
-     "id": 16337,
-     "name": "Sergeant Major's Cape",
-     "icon": "inv_misc_cape_21",
-     "quality": "Rare",
-     "itemLevel": 60,
+     "id": 20073,
+     "name": "Cloak of the Honor Guard",
+     "icon": "inv_misc_cape_02",
+     "quality": "Epic",
+     "itemLevel": 65,
      "stats": {
-      "armor": 43.0,
-      "strength": 8.0,
-      "agility": 8.0,
-      "intellect": 8.0,
-      "stamina": 8.0,
-      "spirit": 8.0
+      "armor": 50.0,
+      "stamina": 11.0,
+      "agility": 5.0,
+      "attackPower": 34.0
      },
      "effects": [],
-     "source": "Unknown",
+     "source": "Vendor: Samuel Hawke",
      "subclass": "Cloth",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -10891,57 +10917,28 @@
      "gear_slot": "back"
     },
     {
-     "id": 16473,
-     "name": "Field Marshal's Lamellar Chestplate",
-     "icon": "inv_chest_plate03",
+     "id": 252484,
+     "name": "Timbermaw Tunic",
+     "icon": null,
      "quality": "Epic",
-     "itemLevel": 74,
+     "itemLevel": 61,
      "stats": {
-      "armor": 835.0,
-      "stamina": 21.0,
-      "strength": 21.0,
-      "intellect": 20.0,
+      "armor": 187.0,
+      "agility": 18.0,
+      "strength": 33.0,
       "meleeCrit": 1.0,
-      "spellCrit": 1.0,
-      "spellPower": 25.0,
-      "mp5": 5.0
+      "spellCrit": 1.0
      },
-     "effects": [
-      "Equip: +5 Mana Regeneration"
-     ],
-     "source": "Vendor: Captain Dirgehammer",
-     "subclass": "Plate",
+     "effects": [],
+     "source": "forever-1.60.1.69913",
+     "subclass": "Leather",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
      "equipSlots": [
       "chest"
      ],
-     "set": {
-      "name": "Field Marshal's Aegis",
-      "pieces": [
-       "Field Marshal's Lamellar Chestplate",
-       "Field Marshal's Lamellar Faceguard",
-       "Field Marshal's Lamellar Pauldrons",
-       "Marshal's Lamellar Boots",
-       "Marshal's Lamellar Gloves",
-       "Marshal's Lamellar Legplates"
-      ],
-      "bonuses": [
-       {
-        "required": 2,
-        "description": "+20 Stamina."
-       },
-       {
-        "required": 3,
-        "description": "Reduces the cooldown of your Hammer of Justice by 10 sec."
-       },
-       {
-        "required": 6,
-        "description": "Increases damage and healing done by magical spells and effects by up to 23."
-       }
-      ]
-     },
+     "set": null,
      "slot": "Chest",
      "gear_slot": "chest"
     },
@@ -11076,17 +11073,16 @@
      "gear_slot": "legs"
     },
     {
-     "id": 272781,
-     "name": "Premier Knight-Champion's Chevalier Boots",
-     "icon": "inv_boots_plate_09",
+     "id": 279263,
+     "name": "Depleted Thorium Sabatons",
+     "icon": "inv_boots_plate_02",
      "quality": "Epic",
      "itemLevel": 65,
      "stats": {
       "armor": 507.0,
-      "stamina": 26.0,
-      "strength": 12.0,
-      "intellect": 8.0,
-      "spellPower": 14.0
+      "strength": 14.0,
+      "stamina": 21.0,
+      "spellPower": 21.0
      },
      "effects": [],
      "source": "forever-1.60.1.69913",
