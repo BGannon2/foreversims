@@ -1,5 +1,5 @@
 {
- "source": "https://wago.tools/db2/ItemSparse/csv?build=1.60.1.70009",
+ "source": "https://wago.tools/db2/ItemSparse/csv?build=1.60.1.70205",
  "field": "ItemSparse.AllowableClass",
  "tooltip_fallback": 162,
  "items": {
@@ -3506,8 +3506,7 @@
   "276538": 708,
   "276539": 708,
   "276540": 708,
-  "276541": 708,
-  "279261": 712
+  "276541": 708
  },
  "factions": {
   "12584": "Alliance",
