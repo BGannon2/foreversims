@@ -3,7 +3,7 @@
 #   1. export data tables + API snapshots (web/data, engine-rs/data)
 #   2. compile the Rust engine to WebAssembly and generate the JS bindings (web/engine)
 #   3. build the native CLI used by tools/parity_check.py
-# Requires: python 3, rustup with the wasm32-unknown-unknown target, wasm-bindgen-cli 0.2.128.
+# Requires: python 3, rustup with the wasm32-unknown-unknown target, wasm-bindgen-cli 0.2.129.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 export PATH="$HOME/.cargo/bin:$PATH"

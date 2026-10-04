@@ -41,7 +41,7 @@ jobs:
       - uses: taiki-e/install-action@v2
         if: steps.refresh.outputs.client_changed == 'true'
         with:
-          tool: wasm-bindgen-cli@0.2.128
+          tool: wasm-bindgen-cli@0.2.129
       - uses: actions/setup-node@v7
         if: steps.refresh.outputs.client_changed == 'true'
         with:
@@ -90,7 +90,7 @@ jobs:
       - name: Open or update the PR
         id: cpr
         if: steps.watch.outputs.changed == 'true'
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           commit-message: "data: Forever client build ${{ steps.watch.outputs.wago_build }}"
           branch: data-watch/snapshot
