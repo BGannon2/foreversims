@@ -1,102 +1,102 @@
 {
-  "build": "1.60.1.70205",
+  "build": "1.60.1.70338",
   "product": "wow_classic_beta",
   "tables": [
     {
       "table": "CurvePoint",
-      "sha256": "3ae6bb0f8cc80ce48cfecc7a2b938afa1e7af2fd018ae2c02c05d3e2e7cc2a1b",
-      "bytes": 950782,
-      "url": "https://wago.tools/db2/CurvePoint/csv?build=1.60.1.70205"
+      "sha256": "b32aedd7442bc7e3499c6b122773837336345127abacc6095365ac30f7809324",
+      "bytes": 961177,
+      "url": "https://wago.tools/db2/CurvePoint/csv?build=1.60.1.70338"
     },
     {
       "table": "Spell",
-      "sha256": "24ac370c86e0cad3036e775691630c0161aa89c56a1b33d4193bf07ab20b8354",
-      "bytes": 2187269,
-      "url": "https://wago.tools/db2/Spell/csv?build=1.60.1.70205"
+      "sha256": "0ed6a4fac5ee0eb4b8929db34aa97f24d4ef395b0ec080b890fcb86ac5041e68",
+      "bytes": 2198316,
+      "url": "https://wago.tools/db2/Spell/csv?build=1.60.1.70338"
     },
     {
       "table": "SpellCastTimes",
       "sha256": "f94e1e3a3495d11af875fd7b007124fdd660a19ba626bc1de00a609da81f25d8",
       "bytes": 982,
-      "url": "https://wago.tools/db2/SpellCastTimes/csv?build=1.60.1.70205"
+      "url": "https://wago.tools/db2/SpellCastTimes/csv?build=1.60.1.70338"
     },
     {
       "table": "SpellCooldowns",
-      "sha256": "2c37507e14443801e7eb6223aecf57fc24efeaddca64b506c46d1b4205e2ec80",
-      "bytes": 117561,
-      "url": "https://wago.tools/db2/SpellCooldowns/csv?build=1.60.1.70205"
+      "sha256": "fced5fe8f6eda573c4b25a90d23809a22b954300d30cc3ccfdd6cfa0fee4dea3",
+      "bytes": 117725,
+      "url": "https://wago.tools/db2/SpellCooldowns/csv?build=1.60.1.70338"
     },
     {
       "table": "SpellDuration",
       "sha256": "d9fa937198af50078566e65ca449f555baccd35e1d25d00090b52c709b3f74c5",
       "bytes": 2516,
-      "url": "https://wago.tools/db2/SpellDuration/csv?build=1.60.1.70205"
+      "url": "https://wago.tools/db2/SpellDuration/csv?build=1.60.1.70338"
     },
     {
       "table": "SpellEffect",
-      "sha256": "4df9522a8c8ae84ff3454642b5d2925124974b700ece2d13053ad90405a02416",
-      "bytes": 3824663,
-      "url": "https://wago.tools/db2/SpellEffect/csv?build=1.60.1.70205"
+      "sha256": "7d14075e4444dbd364be9943ad9b90872275da2b1c1f63f39b5cf3da9b5e3f80",
+      "bytes": 3839211,
+      "url": "https://wago.tools/db2/SpellEffect/csv?build=1.60.1.70338"
     },
     {
       "table": "SpellLevels",
-      "sha256": "da19f8391c5c6f72fe858d4e35e91ba82d335a53c06530cad6477d28a81cb721",
-      "bytes": 309805,
-      "url": "https://wago.tools/db2/SpellLevels/csv?build=1.60.1.70205"
+      "sha256": "1c73c66b290df58a86ffc854838353a7b9c85d400c65a1843345bc826afe12aa",
+      "bytes": 311872,
+      "url": "https://wago.tools/db2/SpellLevels/csv?build=1.60.1.70338"
     },
     {
       "table": "SpellMisc",
-      "sha256": "f49b251f2f15b06f10f575edeb3eeab917a0d152088e10eaed2efee9dd6ddca8",
-      "bytes": 3003218,
-      "url": "https://wago.tools/db2/SpellMisc/csv?build=1.60.1.70205"
+      "sha256": "f5899d87d339d3765495c06b84de930ac2d6601fbc4c59ab4be475046a658843",
+      "bytes": 3015723,
+      "url": "https://wago.tools/db2/SpellMisc/csv?build=1.60.1.70338"
     },
     {
       "table": "SpellName",
-      "sha256": "b0afb64d7d256bdb5be7ba5fdc594ca7e93959579d0a1259faff454de7c47d21",
-      "bytes": 832901,
-      "url": "https://wago.tools/db2/SpellName/csv?build=1.60.1.70205"
+      "sha256": "679a769bcfa443eba64e707efd395da41c752729eaa8af46aed9eb8316c5f864",
+      "bytes": 835757,
+      "url": "https://wago.tools/db2/SpellName/csv?build=1.60.1.70338"
     },
     {
       "table": "SpellPower",
-      "sha256": "a3ede72c9ce9a5d5981bc9ca01e34b0e94ae66f2f6708c3fdd7ab6191e08487a",
-      "bytes": 138354,
-      "url": "https://wago.tools/db2/SpellPower/csv?build=1.60.1.70205"
+      "sha256": "982f03129583b2ddfa7dd97316b8df588944b23019208ad0a2e58b0bb9451b74",
+      "bytes": 138607,
+      "url": "https://wago.tools/db2/SpellPower/csv?build=1.60.1.70338"
     },
     {
       "table": "TraitDefinition",
-      "sha256": "c1f174daca9869e30308f7b197d2dd384810ae1a7c11e60003a1d5e732c58e90",
-      "bytes": 14956,
-      "url": "https://wago.tools/db2/TraitDefinition/csv?build=1.60.1.70205"
+      "sha256": "23f19d05c5d1c97ccb1ca537ea3d577588204cfc573ea8e9ade9e02d6a68c817",
+      "bytes": 15004,
+      "url": "https://wago.tools/db2/TraitDefinition/csv?build=1.60.1.70338"
     },
     {
       "table": "TraitDefinitionEffectPoints",
-      "sha256": "ed91dca07dfb01b1785d748198573aa98de8e249c808c9866f17d8e03b7b50c8",
-      "bytes": 14916,
-      "url": "https://wago.tools/db2/TraitDefinitionEffectPoints/csv?build=1.60.1.70205"
+      "sha256": "8cd2e0422a2ddba275b950e9b8de11d5032a38c35d5edcba33f94102de901d2d",
+      "bytes": 14989,
+      "url": "https://wago.tools/db2/TraitDefinitionEffectPoints/csv?build=1.60.1.70338"
     },
     {
       "table": "TraitNode",
-      "sha256": "d7fe3ae75eb66a57deeb617a0386b98bf4e94f18ef214c1966e372f67bcda578",
-      "bytes": 15748,
-      "url": "https://wago.tools/db2/TraitNode/csv?build=1.60.1.70205"
+      "sha256": "263f9df958e09d54cecd80170e1129a20c85bdd4c03cb430f56aea48f43414d3",
+      "bytes": 15718,
+      "url": "https://wago.tools/db2/TraitNode/csv?build=1.60.1.70338"
     },
     {
       "table": "TraitNodeEntry",
-      "sha256": "1e735d373aac6364f0775f97212348fa9454e7bce9368f6a9855872e84a9db4a",
-      "bytes": 13194,
-      "url": "https://wago.tools/db2/TraitNodeEntry/csv?build=1.60.1.70205"
+      "sha256": "7908703ec9ed154bbcb8ff49d380b0954557902032f5c724fca1907bc3d697e7",
+      "bytes": 13234,
+      "url": "https://wago.tools/db2/TraitNodeEntry/csv?build=1.60.1.70338"
     },
     {
       "table": "TraitNodeXTraitNodeEntry",
-      "sha256": "16709d05384c943737d12deeb4f2d9880018027b88e752f07a5c97f8e4340a91",
-      "bytes": 14071,
-      "url": "https://wago.tools/db2/TraitNodeXTraitNodeEntry/csv?build=1.60.1.70205"
+      "sha256": "b0994f62801bd36d3af34c3ae1d9f7b3df32ffecb59f088c97ea78322723e963",
+      "bytes": 14046,
+      "url": "https://wago.tools/db2/TraitNodeXTraitNodeEntry/csv?build=1.60.1.70338"
     },
     {
       "table": "TraitTree",
       "sha256": "6f63def42b6b42b7524e36aef48f7afd9a399b6968b5a979e8c3f349f163f3a6",
       "bytes": 533,
-      "url": "https://wago.tools/db2/TraitTree/csv?build=1.60.1.70205"
+      "url": "https://wago.tools/db2/TraitTree/csv?build=1.60.1.70338"
     }
   ],
   "interpretation": "Explicit reviewed IDs only. Client tables do not prove server proc rules, target eligibility, or spell availability. Remaining abilities are not certified by this snapshot.",
@@ -372,7 +372,7 @@
             "Variance": "0",
             "ResourceCoefficient": "0",
             "GroupSizeBasePointsCoefficient": "1",
-            "EffectBasePointsF": "35",
+            "EffectBasePointsF": "45",
             "ScalingClass": "0",
             "Node__Field_12_0_0_63534_001": "0",
             "EffectMiscValue_0": "0",
@@ -10439,7 +10439,7 @@
           {
             "ID": "1310222",
             "NameSubtext_lang": "",
-            "Description_lang": "A brutal attack that deals $s2% weapon damage, plus an additional ${$s2*$s3}% weapon damage against Giants, Dragonkin, and mounted targets.",
+            "Description_lang": "A brutal attack that deals $s2% weapon damage. Deals an additional ${$s2*$s3}% weapon damage against Giants, Dragonkin, and mounted targets. Mounted targets are dismounted.",
             "AuraDescription_lang": ""
           }
         ],
@@ -10855,6 +10855,45 @@
             "ResourceCoefficient": "0",
             "GroupSizeBasePointsCoefficient": "1",
             "EffectBasePointsF": "-196",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "13",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "22",
+            "ImplicitTarget_1": "15",
+            "SpellID": "11556"
+          },
+          {
+            "ID": "1361987",
+            "EffectAura": "0",
+            "DifficultyID": "0",
+            "EffectIndex": "1",
+            "Effect": "63",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "0",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0.80000001192",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "43",
             "ScalingClass": "0",
             "Node__Field_12_0_0_63534_001": "0",
             "EffectMiscValue_0": "0",

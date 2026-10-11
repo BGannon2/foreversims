@@ -1,5 +1,5 @@
 {
- "source": "https://wago.tools/db2/ItemSparse/csv?build=1.60.1.70205",
+ "source": "https://wago.tools/db2/ItemSparse/csv?build=1.60.1.70338",
  "field": "ItemSparse.AllowableClass",
  "tooltip_fallback": 162,
  "items": {
@@ -3457,6 +3457,18 @@
   ],
   "275437": [
    "Priest"
+  ],
+  "276538": [
+   "Shaman"
+  ],
+  "276539": [
+   "Shaman"
+  ],
+  "276540": [
+   "Shaman"
+  ],
+  "276541": [
+   "Shaman"
   ],
   "279270": [
    "Shaman",
