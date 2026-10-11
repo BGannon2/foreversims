@@ -23,7 +23,7 @@ sys.path.insert(0, str(ROOT))
 
 from forever.all_specs import ITEMS  # noqa: E402
 
-BUILD = "1.60.1.70205"
+BUILD = "1.60.1.70338"
 URL = f"https://wago.tools/db2/ItemSparse/csv?build={BUILD}"
 CLASS_BITS = {1: "Warrior", 2: "Paladin", 4: "Hunter", 8: "Rogue", 16: "Priest", 64: "Shaman", 128: "Mage", 256: "Warlock", 1024: "Druid"}
 ALL = sum(CLASS_BITS)

@@ -14,7 +14,7 @@ import hashlib
 import json
 from pathlib import Path
 
-BUILD = "1.60.1.70205"
+BUILD = "1.60.1.70338"
 # spell ID, explicit mappings of model field -> (DB2 table, effect index, column).
 # Whole-spell timing/cost imports are separately opted into below.
 SPELLS = {
