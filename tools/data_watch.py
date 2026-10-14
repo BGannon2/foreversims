@@ -1,27 +1,18 @@
-"""Check whether our upstream data sources have moved since the last known-good snapshot.
+"""Check whether the Forever client builds we follow have moved.
 
-Watches two things, the same two a parallel Forever conversion project
-(github.com/ElliotWood/Forever) watches on a 6-hour schedule:
+Two wago.tools products are watched (https://wago.tools/api/builds):
 
-1. The newest wow_classic_beta build on wago.tools (https://wago.tools/api/builds) -- a new
-   build means the DB2 tables (abilities, talents, items) may have changed.
-2. foreverchanges.pro's banner build tag and item counts ("5,340 new items and 4,292 changed")
-   -- a secondary freshness signal, not independent verification of client values; if it moves without wago.tools' build
-   number moving, foreverchanges.pro re-parsed something (or Wowhead's Forever data changed
-   under it), which is worth knowing even without a new client build.
+1. **Live** (`wowf`): the client players actually run. The sim is pinned to it (BUILD in
+   tools/wago_audit.py). A newer live build sets `live_changed=true`, and the workflow opens a
+   re-pin PR that refreshes the client data and regenerates the engine, BiS sets and benchmarks.
+2. **Beta** (`wow_classic_beta`): upcoming changes. Never applied to the sim; the workflow
+   publishes a report-only "Forever beta preview" issue diffing the beta build against live.
 
-This script only detects and records drift -- it deliberately does NOT re-run the fetch/build
-pipeline itself, since every one of those tools (fetch_forever_items.py, generate_benchmarks.py,
-build_engine.sh) needs a human to review what changed before regenerating data across the whole
-site. Run standalone to check locally:
+foreverchanges.pro's banner build tag and item counts are recorded too, as a secondary
+freshness signal for the beta. Results go to data/.watch_state.json and, under GitHub Actions,
+to $GITHUB_OUTPUT (live_changed, live_build, beta_build). Run standalone to check locally:
 
     python tools/data_watch.py
-
-Exits 0 with "no drift" if the snapshot in data/.watch_state.json still matches; exits 0 and
-prints a summary (plus, under GitHub Actions, sets `changed=true` in $GITHUB_OUTPUT) if it
-doesn't. The GitHub Actions workflow (.github/workflows/watch_forever_data.yml) runs this on a
-schedule and opens a pull request with the updated snapshot when something moved, so a human
-sees a PR instead of having to remember to check.
 """
 from __future__ import annotations
 
@@ -43,15 +34,27 @@ def fetch(url: str) -> str:
         return r.read().decode("utf-8")
 
 
-def latest_wago_build() -> str:
-    """Newest wow_classic_beta version string, e.g. "1.60.1.69913"."""
+LIVE_PRODUCT = "wowf"
+BETA_PRODUCT = "wow_classic_beta"
+
+
+def latest_builds() -> dict:
+    """Newest Forever (1.60.x) version per watched product, e.g. {"live": "1.60.1.70245", ...}."""
     builds = json.loads(fetch("https://wago.tools/api/builds"))
-    entries = builds.get("wow_classic_beta", [])
-    if not entries:
-        raise RuntimeError("no wow_classic_beta entries in wago.tools/api/builds")
-    # created_at isn't guaranteed sorted (README notes this); pick the max by created_at.
-    newest = max(entries, key=lambda e: e["created_at"])
-    return newest["version"]
+    out = {}
+    for key, product in (("live", LIVE_PRODUCT), ("beta", BETA_PRODUCT)):
+        # The beta product also carries other Classic branches; keep Forever's 1.60 line only.
+        entries = [e for e in builds.get(product, []) if str(e.get("version", "")).startswith("1.60.")]
+        if not entries:
+            raise RuntimeError(f"no Forever {product} entries in wago.tools/api/builds")
+        # created_at isn't guaranteed sorted; pick the max by created_at.
+        out[key] = max(entries, key=lambda e: e["created_at"])["version"]
+    return out
+
+
+def pinned_build() -> str:
+    m = re.search(r'^BUILD = "([\d.]+)"', (ROOT / "tools" / "wago_audit.py").read_text(encoding="utf-8"), re.M)
+    return m.group(1)
 
 
 def foreverchanges_snapshot() -> dict:
@@ -77,44 +80,24 @@ def load_state() -> dict:
 
 def main():
     old = load_state()
-    new = {
-        "wago_build": latest_wago_build(),
-        "foreverchanges": foreverchanges_snapshot(),
-    }
-
-    changed_fields = []
-    if old.get("wago_build") != new["wago_build"]:
-        changed_fields.append(f"wago.tools build: {old.get('wago_build')!r} -> {new['wago_build']!r}")
-    for key in ("build", "new_items", "changed_items", "talents_changed"):
-        old_v = (old.get("foreverchanges") or {}).get(key)
-        new_v = new["foreverchanges"].get(key)
-        if old_v != new_v:
-            changed_fields.append(f"foreverchanges.pro {key}: {old_v!r} -> {new_v!r}")
-
+    builds = latest_builds()
+    new = {"live_build": builds["live"], "beta_build": builds["beta"], "foreverchanges": foreverchanges_snapshot()}
+    pinned = pinned_build()
     STATE_FILE.write_text(json.dumps(new, indent=2) + "\n", encoding="utf-8")
 
-    if not old:
-        print("No prior snapshot (first run) -- wrote data/.watch_state.json, nothing to compare against yet.")
-        return
-
-    if changed_fields:
-        print("Data source drift detected:")
-        for line in changed_fields:
-            print(f"  - {line}")
-        print("\nThis does NOT mean anything is broken -- it means a human should look at what")
-        print("moved and decide whether tools/fetch_forever_items.py, the ability sourcing in")
-        print("forever/engine_data.py, or data/forever_talents_all.json need a refresh.")
-        gh_out = os.environ.get("GITHUB_OUTPUT")
-        if gh_out:
-            with open(gh_out, "a", encoding="utf-8") as f:
-                f.write("changed=true\n")
-                f.write(f"wago_build={new['wago_build']}\n")
-    else:
-        print("No drift: wago.tools build and foreverchanges.pro snapshot both match the last known state.")
-        gh_out = os.environ.get("GITHUB_OUTPUT")
-        if gh_out:
-            with open(gh_out, "a", encoding="utf-8") as f:
-                f.write("changed=false\n")
+    live_changed = builds["live"] != pinned
+    print(f"Live ({LIVE_PRODUCT}): {builds['live']} (sim pinned to {pinned}){' -> re-pin needed' if live_changed else ''}")
+    print(f"Beta ({BETA_PRODUCT}): {builds['beta']}{' (unchanged)' if old.get('beta_build') == builds['beta'] else ''}")
+    for key in ("build", "new_items", "changed_items", "talents_changed"):
+        old_v, new_v = (old.get("foreverchanges") or {}).get(key), new["foreverchanges"].get(key)
+        if old and old_v != new_v:
+            print(f"foreverchanges.pro {key}: {old_v!r} -> {new_v!r}")
+    gh_out = os.environ.get("GITHUB_OUTPUT")
+    if gh_out:
+        with open(gh_out, "a", encoding="utf-8") as f:
+            f.write(f"live_changed={'true' if live_changed else 'false'}\n")
+            f.write(f"live_build={builds['live']}\n")
+            f.write(f"beta_build={builds['beta']}\n")
 
 
 if __name__ == "__main__":

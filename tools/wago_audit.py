@@ -14,7 +14,7 @@ import hashlib
 import json
 from pathlib import Path
 
-BUILD = "1.60.1.70205"
+BUILD = "1.60.1.70245"
 # spell ID, explicit mappings of model field -> (DB2 table, effect index, column).
 # Whole-spell timing/cost imports are separately opted into below.
 SPELLS = {
@@ -212,7 +212,7 @@ def build_evidence(snapshot):
             evidence.append({"modifier": key, "unit_scale": scale, "effect_points": p, "curve_points": curve})
         talents[node] = {"fields": fields, "link": link, "entry": entry, "definition": definition,
                          "spell": snapshot.one("Spell", "ID", definition["SpellID"]), "effects": evidence}
-    return {"build": BUILD, "product": "wow_classic_beta", "tables": snapshot.manifest,
+    return {"build": BUILD, "product": "wowf", "tables": snapshot.manifest,
             "interpretation": "Explicit reviewed IDs only. Client tables do not prove server proc rules, target eligibility, or spell availability. Remaining abilities are not certified by this snapshot.",
             "spells": spells, "talents": talents}
 

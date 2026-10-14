@@ -8,11 +8,12 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  issues: write
   actions: write
 
 jobs:
   watch:
-    name: Check wago.tools build + foreverchanges.pro snapshot
+    name: Check the live and beta Forever client builds
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -24,14 +25,15 @@ jobs:
       - name: Run data watch
         id: watch
         run: python tools/data_watch.py
-      # A new client build: diff it against the pinned one and, if any table the sim reads
-      # changed, re-pin the client data and regenerate everything that depends on it.
-      - name: Compare the new client build
+      # The sim follows the live client (wago.tools product "wowf"). A new live build: diff it
+      # against the pinned one and, if any table the sim reads changed, re-pin the client data and
+      # regenerate everything that depends on it. Beta builds are only previewed (last step).
+      - name: Compare the new live client build
         id: refresh
-        if: steps.watch.outputs.changed == 'true'
+        if: steps.watch.outputs.live_changed == 'true'
         continue-on-error: true
         env:
-          NEW_BUILD: ${{ steps.watch.outputs.wago_build }}
+          NEW_BUILD: ${{ steps.watch.outputs.live_build }}
         run: python tools/build_update_report.py "$NEW_BUILD" --apply --out "$RUNNER_TEMP/report.md"
 
       - uses: dtolnay/rust-toolchain@stable
@@ -60,14 +62,14 @@ jobs:
           python -m unittest discover -s tests -t .
 
       - name: Write the PR description
-        if: steps.watch.outputs.changed == 'true'
+        if: steps.watch.outputs.live_changed == 'true'
         env:
-          NEW_BUILD: ${{ steps.watch.outputs.wago_build }}
+          NEW_BUILD: ${{ steps.watch.outputs.live_build }}
           CLIENT_CHANGED: ${{ steps.refresh.outputs.client_changed }}
           REGEN: ${{ steps.regen.outcome }}
         run: |
           {
-            echo "\`tools/data_watch.py\` saw the Forever sources move (wago.tools build and/or foreverchanges.pro counts; see \`data/.watch_state.json\`)."
+            echo "\`tools/data_watch.py\` saw a new **live** Forever client build (wago.tools product \`wowf\`)."
             echo
             if [ "$CLIENT_CHANGED" = "true" ]; then
               echo "Client tables the sim reads changed in **$NEW_BUILD**, so this PR re-pins the client data and regenerates the engine, BiS sets and benchmarks."
@@ -82,20 +84,18 @@ jobs:
             echo
             if [ -f "$RUNNER_TEMP/report.md" ]; then cat "$RUNNER_TEMP/report.md"; fi
             echo
-            echo "foreverchanges.pro item/talent counts are not diffed here; if only those moved, check the catalog by hand."
-            echo
             echo "🤖 Generated with [Claude Code](https://claude.com/claude-code)"
           } > "$RUNNER_TEMP/pr-body.md"
 
       - name: Open or update the PR
         id: cpr
-        if: steps.watch.outputs.changed == 'true'
+        if: steps.watch.outputs.live_changed == 'true'
         uses: peter-evans/create-pull-request@v8
         with:
-          commit-message: "data: Forever client build ${{ steps.watch.outputs.wago_build }}"
+          commit-message: "data: Forever live client build ${{ steps.watch.outputs.live_build }}"
           branch: data-watch/snapshot
           delete-branch: true
-          title: "Forever client build ${{ steps.watch.outputs.wago_build }}"
+          title: "Forever live client build ${{ steps.watch.outputs.live_build }}"
           labels: data-change
           assignees: BGannon2
           reviewers: BGannon2
@@ -127,3 +127,30 @@ jobs:
         run: |
           [ -z "$WEBHOOK" ] && { echo "DATA_WATCH_WEBHOOK_URL not set; skipping"; exit 0; }
           jq -n --arg c "Forever data-watch PR $OP: $PR_URL" '{content:$c}' | curl -fsS -H 'Content-Type: application/json' -d @- "$WEBHOOK"
+
+      # Beta builds are never applied. Once per new beta build, publish a report-only issue diffing
+      # it against the pinned live build (and close the previous preview), so upcoming changes are
+      # visible ahead of time. Runs last so nothing it touches ends up in the re-pin PR.
+      - name: Publish the beta preview
+        if: always() && steps.watch.outputs.beta_build != '' && steps.watch.outputs.beta_build != steps.watch.outputs.live_build
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BETA: ${{ steps.watch.outputs.beta_build }}
+        run: |
+          title="Forever beta preview: $BETA"
+          if gh issue list --repo "$GITHUB_REPOSITORY" --label beta-preview --state all --limit 50 --json title --jq '.[].title' | grep -qxF "$title"; then
+            echo "Preview for $BETA already published"; exit 0
+          fi
+          python tools/build_update_report.py "$BETA" --out "$RUNNER_TEMP/beta.md"
+          {
+            echo "Beta build **$BETA** compared with the live client the sim is pinned to. **Nothing here is applied to the sim**; these changes land in a live re-pin PR when (and if) they ship."
+            echo
+            cat "$RUNNER_TEMP/beta.md"
+            echo
+            echo "🤖 Generated with [Claude Code](https://claude.com/claude-code)"
+          } > "$RUNNER_TEMP/beta-issue.md"
+          gh label create beta-preview --repo "$GITHUB_REPOSITORY" --color C5DEF5 --description "Report-only diff of a Forever beta build vs live" --force
+          for old in $(gh issue list --repo "$GITHUB_REPOSITORY" --label beta-preview --state open --json number --jq '.[].number'); do
+            gh issue close "$old" --repo "$GITHUB_REPOSITORY" --comment "Superseded by the preview for $BETA."
+          done
+          gh issue create --repo "$GITHUB_REPOSITORY" --title "$title" --label beta-preview --body-file "$RUNNER_TEMP/beta-issue.md"
