@@ -108,6 +108,8 @@ pub struct Weapon {
     pub flat: Option<f64>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub dagger_mult: Option<f64>,
+    #[serde(default)]
+    pub oh_penalty: bool,
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug, Default)]
