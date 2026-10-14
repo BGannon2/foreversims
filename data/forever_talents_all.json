@@ -1199,7 +1199,12 @@
               null,
               null
             ],
-            "requires": [],
+            "requires": [
+              {
+                "id": 105950,
+                "qty": 3
+              }
+            ],
             "descriptions": {
               "1": "Increases the critical strike damage bonus of your abilities by 10%.",
               "2": "Increases the critical strike damage bonus of your abilities by 20%."
@@ -1372,7 +1377,7 @@
             "row": 1,
             "col": 1,
             "icon": "spell_magic_magearmor",
-            "name": "Iron Will",
+            "name": "Lingering Rage",
             "ranks": [
               null,
               null,
@@ -1382,11 +1387,11 @@
             ],
             "requires": [],
             "descriptions": {
-              "1": "Reduces the duration of Stun and Fear effects inflicted on you by 3%.",
-              "2": "Reduces the duration of Stun and Fear effects inflicted on you by 6%.",
-              "3": "Reduces the duration of Stun and Fear effects inflicted on you by 9%.",
-              "4": "Reduces the duration of Stun and Fear effects inflicted on you by 12%.",
-              "5": "Reduces the duration of Stun and Fear effects inflicted on you by 15%."
+              "1": "Increases the time before your Rage begins to decay after leaving combat by X sec.",
+              "2": "Increases the time before your Rage begins to decay after leaving combat by X sec.",
+              "3": "Increases the time before your Rage begins to decay after leaving combat by X sec.",
+              "4": "Increases the time before your Rage begins to decay after leaving combat by X sec.",
+              "5": "Increases the time before your Rage begins to decay after leaving combat by X sec."
             }
           },
           {
@@ -1412,11 +1417,11 @@
             }
           },
           {
-            "id": 105936,
+            "id": 105953,
             "row": 2,
             "col": 0,
-            "icon": "ability_warrior_cleave",
-            "name": "Improved Cleave",
+            "icon": "ability_warrior_intensifyrage",
+            "name": "Furious Precision",
             "ranks": [
               null,
               null,
@@ -1424,9 +1429,9 @@
             ],
             "requires": [],
             "descriptions": {
-              "1": "Reduces the Rage cost of your Cleave ability by 1.",
-              "2": "Reduces the Rage cost of your Cleave ability by 2.",
-              "3": "Reduces the Rage cost of your Cleave ability by 3."
+              "1": "Increases your chance to hit with off-hand attacks by X%.",
+              "2": "Increases your chance to hit with off-hand attacks by X%.",
+              "3": "Increases your chance to hit with off-hand attacks by X%."
             }
           },
           {
@@ -1459,24 +1464,6 @@
               "1": "Regenerates 1% of your total Health over 6 sec after being the victim of a critical strike, dealing damage with Bloodthirst, or suffering more than 20% of your maximum Health from a single attack.",
               "2": "Regenerates 2% of your total Health over 6 sec after being the victim of a critical strike, dealing damage with Bloodthirst, or suffering more than 20% of your maximum Health from a single attack.",
               "3": "Regenerates 3% of your total Health over 6 sec after being the victim of a critical strike, dealing damage with Bloodthirst, or suffering more than 20% of your maximum Health from a single attack."
-            }
-          },
-          {
-            "id": 105953,
-            "row": 2,
-            "col": 3,
-            "icon": "ability_warrior_intensifyrage",
-            "name": "Boundless Rage",
-            "ranks": [
-              null,
-              null,
-              null
-            ],
-            "requires": [],
-            "descriptions": {
-              "1": "Increases your maximum Rage by 10.",
-              "2": "Increases your maximum Rage by 20.",
-              "3": "Increases your maximum Rage by 30."
             }
           },
           {
@@ -1554,21 +1541,19 @@
             }
           },
           {
-            "id": 105929,
+            "id": 105978,
             "row": 4,
             "col": 0,
-            "icon": "ability_marksmanship",
-            "name": "Precision",
+            "icon": "spell_nature_ancestralguardian",
+            "name": "Improved Berserker Rage",
             "ranks": [
-              null,
               null,
               null
             ],
             "requires": [],
             "descriptions": {
-              "1": "Increases your chance to hit with all abilities and attacks by 1%.",
-              "2": "Increases your chance to hit with all abilities and attacks by 2%.",
-              "3": "Increases your chance to hit with all abilities and attacks by 3%."
+              "1": "Your Berserker Rage ability will instantly generate 5 Rage and has a 50% chance to remove all movement impairing effects when activated.",
+              "2": "Your Berserker Rage ability will instantly generate 10 Rage and has a 100% chance to remove all movement impairing effects when activated."
             }
           },
           {
@@ -1602,25 +1587,9 @@
             }
           },
           {
-            "id": 105978,
-            "row": 5,
-            "col": 0,
-            "icon": "spell_nature_ancestralguardian",
-            "name": "Improved Berserker Rage",
-            "ranks": [
-              null,
-              null
-            ],
-            "requires": [],
-            "descriptions": {
-              "1": "Your Berserker Rage ability will instantly generate 5 Rage and has a 50% chance to remove all movement impairing effects when activated.",
-              "2": "Your Berserker Rage ability will instantly generate 10 Rage and has a 100% chance to remove all movement impairing effects when activated."
-            }
-          },
-          {
             "id": 105928,
             "row": 5,
-            "col": 2,
+            "col": 1,
             "icon": "ability_ghoulfrenzy",
             "name": "Flurry",
             "ranks": [
@@ -1632,8 +1601,8 @@
             ],
             "requires": [
               {
-                "id": 105931,
-                "qty": 5
+                "id": 105927,
+                "qty": 1
               }
             ],
             "descriptions": {
@@ -1645,6 +1614,27 @@
             }
           },
           {
+            "id": 113569,
+            "row": 5,
+            "col": 2,
+            "icon": "inv_misc_questionmark",
+            "name": "Gore Drinker",
+            "ranks": [
+              null,
+              null
+            ],
+            "requires": [
+              {
+                "id": 105931,
+                "qty": 5
+              }
+            ],
+            "descriptions": {
+              "1": "Your Enrage, Berserker Rage, Bloodrage, Death Wish, and Bloodthirst abilities cause your next X melee attacks to restore X.1% of your maximum Health.",
+              "2": "Your Enrage, Berserker Rage, Bloodrage, Death Wish, and Bloodthirst abilities cause your next X melee attacks to restore X.1% of your maximum Health."
+            }
+          },
+          {
             "id": 105930,
             "row": 6,
             "col": 1,
@@ -1653,14 +1643,9 @@
             "ranks": [
               null
             ],
-            "requires": [
-              {
-                "id": 105927,
-                "qty": 1
-              }
-            ],
+            "requires": [],
             "descriptions": {
-              "1": "Instantly attack the target causing damage equal to 35% of your Attack Power plus 30 and increasing your movement speed by 10% for 10 sec."
+              "1": "Instantly attack the target causing damage equal to 45% of your Attack Power plus 30 and increasing your movement speed by 10% for 10 sec."
             }
           }
         ]
@@ -1670,6 +1655,22 @@
         "name": "Protection",
         "role": 0,
         "talents": [
+          {
+            "id": 105974,
+            "row": 0,
+            "col": 0,
+            "icon": "ability_racial_bloodrage",
+            "name": "Improved Bloodrage",
+            "ranks": [
+              null,
+              null
+            ],
+            "requires": [],
+            "descriptions": {
+              "1": "Increases all the Rage generated by your Bloodrage ability by 25%.",
+              "2": "Increases all the Rage generated by your Bloodrage ability by 50%."
+            }
+          },
           {
             "id": 105976,
             "row": 0,
@@ -1693,9 +1694,31 @@
             }
           },
           {
-            "id": 105975,
+            "id": 113570,
             "row": 0,
             "col": 2,
+            "icon": "inv_misc_questionmark",
+            "name": "Iron Will",
+            "ranks": [
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "requires": [],
+            "descriptions": {
+              "1": "Reduces the duration of Stun and Fear effects inflicted on you by X%.",
+              "2": "Reduces the duration of Stun and Fear effects inflicted on you by X%.",
+              "3": "Reduces the duration of Stun and Fear effects inflicted on you by X%.",
+              "4": "Reduces the duration of Stun and Fear effects inflicted on you by X%.",
+              "5": "Reduces the duration of Stun and Fear effects inflicted on you by X%."
+            }
+          },
+          {
+            "id": 105975,
+            "row": 1,
+            "col": 0,
             "icon": "spell_nature_mirrorimage",
             "name": "Anticipation",
             "ranks": [
@@ -1715,41 +1738,21 @@
             }
           },
           {
-            "id": 105974,
-            "row": 1,
-            "col": 0,
-            "icon": "ability_racial_bloodrage",
-            "name": "Improved Bloodrage",
-            "ranks": [
-              null,
-              null
-            ],
-            "requires": [],
-            "descriptions": {
-              "1": "Increases all the Rage generated by your Bloodrage ability by 25%.",
-              "2": "Increases all the Rage generated by your Bloodrage ability by 50%."
-            }
-          },
-          {
-            "id": 105973,
+            "id": 105969,
             "row": 1,
             "col": 2,
-            "icon": "spell_holy_devotion",
-            "name": "Toughness",
+            "icon": "ability_warrior_revenge",
+            "name": "Improved Revenge",
             "ranks": [
-              null,
-              null,
               null,
               null,
               null
             ],
             "requires": [],
             "descriptions": {
-              "1": "Increases your Armor value from items by 2%.",
-              "2": "Increases your Armor value from items by 4%.",
-              "3": "Increases your Armor value from items by 6%.",
-              "4": "Increases your Armor value from items by 8%.",
-              "5": "Increases your Armor value from items by 10%."
+              "1": "Increases damage dealt by your Revenge ability by 20%.",
+              "2": "Increases damage dealt by your Revenge ability by 40%.",
+              "3": "Increases damage dealt by your Revenge ability by 60%."
             }
           },
           {
@@ -1779,12 +1782,7 @@
             "ranks": [
               null
             ],
-            "requires": [
-              {
-                "id": 105974,
-                "qty": 2
-              }
-            ],
+            "requires": [],
             "descriptions": {
               "1": "When activated, this ability temporarily grants you 30% of your maximum health for 20 sec. After the effect expires, the health is lost."
             }
@@ -1811,11 +1809,11 @@
             }
           },
           {
-            "id": 105969,
+            "id": 105967,
             "row": 2,
             "col": 2,
-            "icon": "ability_warrior_revenge",
-            "name": "Improved Revenge",
+            "icon": "ability_warrior_disarm",
+            "name": "Improved Disarm",
             "ranks": [
               null,
               null,
@@ -1823,9 +1821,9 @@
             ],
             "requires": [],
             "descriptions": {
-              "1": "Increases damage dealt by your Revenge ability by 20%.",
-              "2": "Increases damage dealt by your Revenge ability by 40%.",
-              "3": "Increases damage dealt by your Revenge ability by 60%."
+              "1": "Reduces the cooldown of your Disarm ability by 7 secs.",
+              "2": "Reduces the cooldown of your Disarm ability by 13 secs.",
+              "3": "Reduces the cooldown of your Disarm ability by 20 secs."
             }
           },
           {
@@ -1865,27 +1863,9 @@
             }
           },
           {
-            "id": 105967,
-            "row": 3,
-            "col": 1,
-            "icon": "ability_warrior_disarm",
-            "name": "Improved Disarm",
-            "ranks": [
-              null,
-              null,
-              null
-            ],
-            "requires": [],
-            "descriptions": {
-              "1": "Reduces the cooldown of your Disarm ability by 7 secs.",
-              "2": "Reduces the cooldown of your Disarm ability by 13 secs.",
-              "3": "Reduces the cooldown of your Disarm ability by 20 secs."
-            }
-          },
-          {
             "id": 105966,
             "row": 3,
-            "col": 2,
+            "col": 1,
             "icon": "ability_warrior_shieldcharge",
             "name": "Vanguard",
             "ranks": [
@@ -1894,6 +1874,22 @@
             "requires": [],
             "descriptions": {
               "1": "Your Charge ability is now usable while in Defensive Stance."
+            }
+          },
+          {
+            "id": 105963,
+            "row": 3,
+            "col": 2,
+            "icon": "ability_warrior_shieldbash",
+            "name": "Improved Shield Bash",
+            "ranks": [
+              null,
+              null
+            ],
+            "requires": [],
+            "descriptions": {
+              "1": "Gives your Shield Bash ability a 50% chance to Silence the target for 3 sec.",
+              "2": "Gives your Shield Bash ability a 100% chance to Silence the target for 3 sec."
             }
           },
           {
@@ -1927,25 +1923,27 @@
             }
           },
           {
-            "id": 105963,
+            "id": 105961,
             "row": 4,
             "col": 2,
-            "icon": "ability_warrior_shieldbash",
-            "name": "Improved Shield Bash",
+            "icon": "ability_warrior_focusedrage",
+            "name": "Focused Rage",
             "ranks": [
+              null,
               null,
               null
             ],
             "requires": [],
             "descriptions": {
-              "1": "Gives your Shield Bash ability a 50% chance to Silence the target for 3 sec.",
-              "2": "Gives your Shield Bash ability a 100% chance to Silence the target for 3 sec."
+              "1": "Reduces the Rage cost of your offensive abilities by 1.",
+              "2": "Reduces the Rage cost of your offensive abilities by 2.",
+              "3": "Reduces the Rage cost of your offensive abilities by 3."
             }
           },
           {
             "id": 105962,
-            "row": 4,
-            "col": 3,
+            "row": 5,
+            "col": 2,
             "icon": "inv_shield_04",
             "name": "Bastion",
             "ranks": [
@@ -1962,24 +1960,6 @@
               "3": "Increases all damage you deal by X% while a shield is equipped.",
               "4": "Increases all damage you deal by X% while a shield is equipped.",
               "5": "Increases all damage you deal by X% while a shield is equipped."
-            }
-          },
-          {
-            "id": 105961,
-            "row": 5,
-            "col": 2,
-            "icon": "ability_warrior_focusedrage",
-            "name": "Focused Rage",
-            "ranks": [
-              null,
-              null,
-              null
-            ],
-            "requires": [],
-            "descriptions": {
-              "1": "Reduces the Rage cost of your offensive abilities by 1.",
-              "2": "Reduces the Rage cost of your offensive abilities by 2.",
-              "3": "Reduces the Rage cost of your offensive abilities by 3."
             }
           },
           {
@@ -5530,15 +5510,15 @@
             "row": 4,
             "col": 3,
             "icon": "ability_druid_predatoryinstincts",
-            "name": "Predatory Instincts",
+            "name": "Natural Instinct",
             "ranks": [
               null,
               null
             ],
             "requires": [],
             "descriptions": {
-              "1": "Increases the critical strike damage bonus of your melee abilities by 10%.",
-              "2": "Increases the critical strike damage bonus of your melee abilities by 20%."
+              "1": "Increases the critical strike damage bonus of your melee abilities by X% and increases your spell healing by X% of your Intellect.",
+              "2": "Increases the critical strike damage bonus of your melee abilities by X% and increases your spell healing by X% of your Intellect."
             }
           },
           {

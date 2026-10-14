@@ -29,9 +29,8 @@ class AccuracyRegressions(unittest.TestCase):
         opts = dict(talents={}, buffs=[], consumables=[], enchants=[])
         base = config('warrior-protection', **opts)
         for rank in range(1, 6):
-            c = config('warrior-protection', **{**opts, 'talents': {'105975': rank, '105973': rank}})
+            c = config('warrior-protection', **{**opts, 'talents': {'105975': rank}})  # Toughness was removed in build 70374
             self.assertAlmostEqual(c.stats['defense'] - base.stats['defense'], 4 * rank)
-            self.assertAlmostEqual(c.stats['armor'], base.stats['armor'] * (1 + .02 * rank))
         for rank in range(1, 4):
             c = config('warrior-protection', **{**opts, 'talents': {'105969': rank}})
             self.assertAlmostEqual(c.actions['Revenge']['mult'], 1 + .20 * rank)

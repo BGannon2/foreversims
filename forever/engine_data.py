@@ -75,7 +75,7 @@ SPIRIT_REGEN = {"Mage": (0.25, 12.5), "Priest": (0.25, 12.5), "Warlock": (0.2, 1
 # don't matter and misses/dodges/parries give none (Forever beta logs: github.com/magey/forever-warrior
 # issue 3; developer statement that you "don't get extra rage when you do more damage/crit").
 FORM_ATTACK_SPEED = {"cat": 1.0, "bear": 2.5}
-WARRIOR_RAGE_PER_SPEED = {"one_hand": 3.46, "two_hand": 4.5, "off_hand_factor": 0.5, "crit_factor": 1.75, "taken_armor_factor": 0.5}
+WARRIOR_RAGE_PER_SPEED = {"one_hand": 3.46, "two_hand": 4.5, "off_hand_factor": 0.5, "crit_factor": 2.0, "taken_armor_factor": 0.5}
 RAGE_CONVERSION_60 = 0.0091107836 * 60 * 60 + 3.225598133 * 60 + 4.2652911  # 230.6
 LEVEL, TARGET_LEVEL = 60, 63
 TARGET_DEFENSE = TARGET_LEVEL * 5
@@ -217,7 +217,7 @@ ABILITIES = {
     "Cleave": {"kind": "swing", "school": "physical", "cost": 20, "weapon": {"hand": "main", "flat": 50}, "flat_threat": 100},
     "Mortal Strike": {"kind": "direct", "school": "physical", "cost": 30, "cooldown": 6, "weapon": {"hand": "main", "normalized": True, "flat": 85}, "forever": True},
     "Overpower": {"kind": "direct", "school": "physical", "cost": 5, "cooldown": 5, "weapon": {"hand": "main", "normalized": True, "flat": 35}, "requires": "dodge", "no_dodge": True, "threat_mult": 0.75},
-    "Whirlwind": {"kind": "direct", "school": "physical", "cost": 25, "cooldown": 10, "weapon": {"hand": "main", "normalized": True}, "threat_mult": 1.25},
+    "Whirlwind": {"kind": "direct", "school": "physical", "cost": 25, "cooldown": 10, "weapon": {"hand": "both", "normalized": True, "oh_penalty": True}, "threat_mult": 1.25},  # both weapons baseline (client 1680, build 70374)
     "Rend": {"kind": "dot", "school": "physical", "cost": 10, "tick": 21, "ticks": 7, "tick_len": 3, "dot_coeff": 0.0, "bleed": True, "forever": True,
               "provisional": "Rank 7 (max rank) confirmed via wago.tools DB2 (build 1.60.1.69913, spell 11574): 10 Rage, no cooldown beyond the GCD, 21 damage/tick over 7 ticks (21s). Real Classic Rend also adds a weapon-damage-based bonus to the initial tick that this flat-DoT model doesn't capture; treated as a flat bleed like this project's other DoTs. Confirmed missing from this sim entirely until a Mobalytics.gg guide audit flagged it as a core Arms/Fury rotation ability."},
     "Spearing Strike": {"kind": "direct", "school": "physical", "cost": 20, "cooldown": 6, "weapon": {"hand": "main", "normalized": True, "mult": 0.40}, "creature_mult": {"giant": 3.0, "dragonkin": 3.0}, "forever": True,
@@ -486,12 +486,11 @@ TALENT_EFFECTS = {
     "105948": {"flag:two_hand_spec": 0.01}, "105951": {"flag:anger_management": 1}, "105949": {"flag:spearing_strike": 1},
     "105944": {"flag:weaponmaster": 0.01}, "105941": {"flag:mortal_strike": 1}, "105952": {"crit_ability:Overpower": 25},
     # Warrior Fury
-    "105939": {"melee_crit": 1}, "105937": {"flag:unbridled_wrath": 0.12}, "105933": {"flag:dw_damage": 0.05, "dw_hit": 2},
-    "105931": {"flag:enrage": 0.02}, "105932": {"cost:Execute": -2.5}, "105929": {"hit": 1}, "105927": {"flag:death_wish": 1}, "105928": {"flag:flurry": 0.05}, "105930": {"flag:bloodthirst": 1},
-    "105953": {"flag:max_rage": 10},
+    "105939": {"melee_crit": 1}, "105937": {"flag:unbridled_wrath": 0.12}, "105933": {"flag:dw_damage": 0.05, "flag:dw_rage": 0.10}, "105953": {"dw_hit": 10 / 3}, "105977": {"cost:Whirlwind": -3, "cost:Cleave": -3},
+    "105931": {"flag:enrage": 0.02}, "105932": {"cost:Execute": -2.5}, "105927": {"flag:death_wish": 1}, "105928": {"flag:flurry": 0.05}, "105930": {"flag:bloodthirst": 1},
     # Warrior Protection
     "105976": {"block": 1, "flag:shield_spec_rage": 0.20},
-    "105975": {"defense": 4}, "105973": {"item_armor_pct": 0.02}, "105969": {"dmg_ability:Revenge": 0.20},
+    "105975": {"defense": 4}, "105969": {"dmg_ability:Revenge": 0.20},
     "110856": {"flag:defiance": 0.05}, "105968": {"cost:Sunder Armor": -1}, "105962": {"stat_pct:strength": 0.02, "stat_pct:stamina": 0.02}, "105961": {"flag:focused_rage": 1},
     "105959": {"flag:shield_slam": 1}, "105974": {"flag:improved_bloodrage": 0.25}, "105971": {"flag:master_of_defense": 0.50},  # guide: 50%/rank chance on dodge OR parry for a flat 5 rage
     # Druid Balance
@@ -577,9 +576,9 @@ DEFAULT_BUILDS = {
     "warrior-arms": {"105958": 3, "105956": 3, "105957": 1, "105954": 5, "105952": 2, "105951": 1, "105950": 3, "105949": 1, "105948": 3, "105947": 2, "105944": 5, "105945": 1, "105941": 1,
                      "105939": 5, "105938": 5, "105937": 5, "105933": 5},
     "warrior-fury": {"105958": 3, "105956": 3, "105954": 5, "105951": 1, "105950": 3, "105947": 1,
-                     "105939": 5, "105938": 5, "105937": 5, "105933": 5, "105931": 5, "105929": 3, "105927": 1, "105928": 5, "105930": 1},
-    "warrior-protection": {"105976": 5, "105975": 5, "105974": 2, "105973": 5, "105971": 2, "105969": 3, "110856": 3, "105968": 3, "105965": 1, "105962": 5, "105961": 3, "105959": 1,
-                           "105958": 3, "105956": 3, "105954": 5, "105951": 1, "105950": 1},
+                     "105939": 5, "105938": 5, "105937": 5, "105933": 5, "105931": 5, "105927": 1, "105928": 5, "105930": 1, "105953": 3},
+    "warrior-protection": {"105976": 5, "105975": 5, "105974": 2, "105971": 2, "105969": 3, "110856": 3, "105968": 3, "105965": 1, "105962": 5, "105961": 3, "105959": 1,
+                           "105958": 3, "105956": 3, "105954": 5, "105951": 1, "105950": 3, "105947": 2, "105970": 1},
     "druid-balance": {"104923": 5, "104924": 5, "104925": 3, "104931": 2, "104927": 2, "104929": 2, "104930": 1, "104932": 5, "104933": 5, "104934": 1, "104935": 3, "104936": 5, "104937": 1,
                       "104939": 5, "104938": 5, "104942": 1},
     # Mangle (row3) + King of the Jungle (row4, maxed) + Berserk (row6) added; Heart of the Wild

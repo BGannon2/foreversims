@@ -927,7 +927,7 @@ class Iteration:
             speed = float(hand_item.get("weaponSpeed", 2.0)) if hand_item else 2.0
             gained = speed * WARRIOR_RAGE_PER_SPEED["two_hand" if c.two_hand else "one_hand"]
             if hand_item is c.oh: gained *= WARRIOR_RAGE_PER_SPEED["off_hand_factor"]
-            if self.white_crit: gained *= WARRIOR_RAGE_PER_SPEED["crit_factor"]  # Forever class deep dive (Sep 30)
+            if self.white_crit: gained *= WARRIOR_RAGE_PER_SPEED["crit_factor"]  # Forever: +100% rage on crits (build 70374 notes)
         else:
             gained = damage * 7.5 / RAGE_CONVERSION_60
         if hand_item is c.oh: gained *= 1 + c.flag("dw_rage")
@@ -977,7 +977,7 @@ class Iteration:
         if self.s["resource"] == "Rage":
             if white:
                 self.white_rage(hand_item, damage)
-            if c.flag("unbridled_wrath") and rng.random() < c.flag("unbridled_wrath"): self.gain_rage(2 if c.two_hand else 1)
+            if c.flag("unbridled_wrath") and rng.random() < c.flag("unbridled_wrath"): self.gain_rage(1)  # 1 Rage for every weapon type since build 70374
             if c.flag("primal_fury") and self.s["form"] == "bear" and ability_name and "crit" in ability_name: pass
         # Weapon enchants / item procs
         hand_slot = "off_hand" if hand_item is c.oh else "main_hand"
@@ -1504,7 +1504,8 @@ class Iteration:
                     d = self.dots.get("Lacerate"); mult *= d["stacks"] if d and d["remaining"] > 0 else 0
                 base = self.weapon_damage(item, normalized=w.get("normalized", False)) * mult + w.get("flat", 0)
                 if w.get("hand") == "both" and c.oh:
-                    base += self.weapon_damage(c.oh, normalized=w.get("normalized", False)) * mult + w.get("flat", 0)
+                    oh = self.weapon_damage(c.oh, normalized=w.get("normalized", False)) * mult + w.get("flat", 0)
+                    base += oh * (0.5 * (1 + c.flag("dw_damage")) if w.get("oh_penalty") else 1)
                 if a.get("creature_mult") and c.boss_type in a["creature_mult"]: base *= a["creature_mult"][c.boss_type]
             fb = sum(b.get("flat_damage_bonus", 0) for b in self.buffs.values() if b["until"] > self.t)
             base += fb + c.mod(f"flat_ability:{name}")
