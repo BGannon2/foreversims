@@ -25,15 +25,15 @@ jobs:
       - name: Run data watch
         id: watch
         run: python tools/data_watch.py
-      # The sim follows the live client (wago.tools product "wowf"). A new live build: diff it
+      # The sim follows the client chosen by PIN in tools/data_watch.py. A new build of it: diff it
       # against the pinned one and, if any table the sim reads changed, re-pin the client data and
       # regenerate everything that depends on it. Beta builds are only previewed (last step).
       - name: Compare the new live client build
         id: refresh
-        if: steps.watch.outputs.live_changed == 'true'
+        if: steps.watch.outputs.pin_changed == 'true'
         continue-on-error: true
         env:
-          NEW_BUILD: ${{ steps.watch.outputs.live_build }}
+          NEW_BUILD: ${{ steps.watch.outputs.pin_build }}
         run: python tools/build_update_report.py "$NEW_BUILD" --apply --out "$RUNNER_TEMP/report.md"
 
       - uses: dtolnay/rust-toolchain@stable
@@ -62,14 +62,15 @@ jobs:
           python -m unittest discover -s tests -t .
 
       - name: Write the PR description
-        if: steps.watch.outputs.live_changed == 'true'
+        if: steps.watch.outputs.pin_changed == 'true'
         env:
-          NEW_BUILD: ${{ steps.watch.outputs.live_build }}
+          NEW_BUILD: ${{ steps.watch.outputs.pin_build }}
+          PIN_LABEL: ${{ steps.watch.outputs.pin_label }}
           CLIENT_CHANGED: ${{ steps.refresh.outputs.client_changed }}
           REGEN: ${{ steps.regen.outcome }}
         run: |
           {
-            echo "\`tools/data_watch.py\` saw a new **live** Forever client build (wago.tools product \`wowf\`)."
+            echo "\`tools/data_watch.py\` saw a new Forever client build on the pinned (**$PIN_LABEL**) branch."
             echo
             if [ "$CLIENT_CHANGED" = "true" ]; then
               echo "Client tables the sim reads changed in **$NEW_BUILD**, so this PR re-pins the client data and regenerates the engine, BiS sets and benchmarks."
@@ -89,13 +90,13 @@ jobs:
 
       - name: Open or update the PR
         id: cpr
-        if: steps.watch.outputs.live_changed == 'true'
+        if: steps.watch.outputs.pin_changed == 'true'
         uses: peter-evans/create-pull-request@v8
         with:
-          commit-message: "data: Forever live client build ${{ steps.watch.outputs.live_build }}"
+          commit-message: "data: Forever ${{ steps.watch.outputs.pin_label }} client build ${{ steps.watch.outputs.pin_build }}"
           branch: data-watch/snapshot
           delete-branch: true
-          title: "Forever live client build ${{ steps.watch.outputs.live_build }}"
+          title: "Forever ${{ steps.watch.outputs.pin_label }} client build ${{ steps.watch.outputs.pin_build }}"
           labels: data-change
           assignees: BGannon2
           reviewers: BGannon2
@@ -128,14 +129,14 @@ jobs:
           [ -z "$WEBHOOK" ] && { echo "DATA_WATCH_WEBHOOK_URL not set; skipping"; exit 0; }
           jq -n --arg c "Forever data-watch PR $OP: $PR_URL" '{content:$c}' | curl -fsS -H 'Content-Type: application/json' -d @- "$WEBHOOK"
 
-      # Beta builds are never applied. Once per new beta build, publish a report-only issue diffing
+      # Only while pinned to live: beta builds are never applied. Once per new beta build, publish a report-only issue diffing
       # it against the pinned live build (and close the previous preview), so upcoming changes are
       # visible ahead of time. Runs last so nothing it touches ends up in the re-pin PR.
       - name: Publish the beta preview
-        if: always() && steps.watch.outputs.beta_build != '' && steps.watch.outputs.beta_build != steps.watch.outputs.live_build
+        if: always() && steps.watch.outputs.preview_build != ''
         env:
           GH_TOKEN: ${{ github.token }}
-          BETA: ${{ steps.watch.outputs.beta_build }}
+          BETA: ${{ steps.watch.outputs.preview_build }}
         run: |
           title="Forever beta preview: $BETA"
           if gh issue list --repo "$GITHUB_REPOSITORY" --label beta-preview --state all --limit 50 --json title --jq '.[].title' | grep -qxF "$title"; then

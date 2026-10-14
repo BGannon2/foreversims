@@ -476,8 +476,9 @@ class ForeverBlueNoteTests(unittest.TestCase):
         self.assertEqual(ABILITIES["Whirlwind"]["weapon"]["hand"], "both")
         rb = config("warrior-fury", talents={**fury.talents, "105977": 1})
         self.assertEqual(rb.actions["Whirlwind"]["cost"], fury.actions["Whirlwind"]["cost"] - 3)  # Raging Blows
-        it = iteration("warrior-fury"); it.c.oh["weaponDamageMin"] = it.c.oh["weaponDamageMax"] = 100.0
-        it.c.mh["weaponDamageMin"] = it.c.mh["weaponDamageMax"] = 100.0
+        it = iteration("warrior-fury")  # copies: c.mh/c.oh are the shared catalog items for non-form specs
+        it.c.mh = {**it.c.mh, "weaponDamageMin": 100.0, "weaponDamageMax": 100.0}
+        it.c.oh = {**it.c.oh, "weaponDamageMin": 100.0, "weaponDamageMax": 100.0}
         it.melee_outcome = lambda *a, **k: ("hit", 1.0); it.ap = lambda *a, **k: 0.0
         it.rage = 100; it.cur_cost = 25; it.resolve("Whirlwind")
         self.assertAlmostEqual(it.rows["Whirlwind"].damage / it.multiplier("Whirlwind", "physical", "melee", False, False) / it.armor_mult("Whirlwind"),

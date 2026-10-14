@@ -2,15 +2,17 @@
 
 Two wago.tools products are watched (https://wago.tools/api/builds):
 
-1. **Live** (`wowf`): the client players actually run. The sim is pinned to it (BUILD in
-   tools/wago_audit.py). A newer live build sets `live_changed=true`, and the workflow opens a
-   re-pin PR that refreshes the client data and regenerates the engine, BiS sets and benchmarks.
-2. **Beta** (`wow_classic_beta`): upcoming changes. Never applied to the sim; the workflow
-   publishes a report-only "Forever beta preview" issue diffing the beta build against live.
+1. **Live** (`wowf`): the client players actually run.
+2. **Beta** (`wow_classic_beta`): upcoming changes.
+
+PIN chooses which one the sim follows (BUILD in tools/wago_audit.py). A newer build of the pinned
+product sets `pin_changed=true`, and the workflow opens a re-pin PR that refreshes the client data
+and regenerates the engine, BiS sets and benchmarks. While pinned to live, each new beta build also
+gets a report-only "Forever beta preview" issue diffing it against live (`preview_build`).
 
 foreverchanges.pro's banner build tag and item counts are recorded too, as a secondary
 freshness signal for the beta. Results go to data/.watch_state.json and, under GitHub Actions,
-to $GITHUB_OUTPUT (live_changed, live_build, beta_build). Run standalone to check locally:
+to $GITHUB_OUTPUT (pin_changed, pin_build, pin_label, preview_build). Run standalone to check locally:
 
     python tools/data_watch.py
 """
@@ -36,6 +38,7 @@ def fetch(url: str) -> str:
 
 LIVE_PRODUCT = "wowf"
 BETA_PRODUCT = "wow_classic_beta"
+PIN = "beta"  # "live" or "beta": which client the sim follows
 
 
 def latest_builds() -> dict:
@@ -85,9 +88,11 @@ def main():
     pinned = pinned_build()
     STATE_FILE.write_text(json.dumps(new, indent=2) + "\n", encoding="utf-8")
 
-    live_changed = builds["live"] != pinned
-    print(f"Live ({LIVE_PRODUCT}): {builds['live']} (sim pinned to {pinned}){' -> re-pin needed' if live_changed else ''}")
-    print(f"Beta ({BETA_PRODUCT}): {builds['beta']}{' (unchanged)' if old.get('beta_build') == builds['beta'] else ''}")
+    target = builds[PIN]
+    pin_changed = target != pinned
+    preview = builds["beta"] if PIN == "live" and builds["beta"] != target else ""
+    print(f"Sim follows the {PIN} client, pinned to {pinned}{f' -> re-pin to {target}' if pin_changed else ''}")
+    print(f"Live ({LIVE_PRODUCT}): {builds['live']}   Beta ({BETA_PRODUCT}): {builds['beta']}")
     for key in ("build", "new_items", "changed_items", "talents_changed"):
         old_v, new_v = (old.get("foreverchanges") or {}).get(key), new["foreverchanges"].get(key)
         if old and old_v != new_v:
@@ -95,9 +100,10 @@ def main():
     gh_out = os.environ.get("GITHUB_OUTPUT")
     if gh_out:
         with open(gh_out, "a", encoding="utf-8") as f:
-            f.write(f"live_changed={'true' if live_changed else 'false'}\n")
-            f.write(f"live_build={builds['live']}\n")
-            f.write(f"beta_build={builds['beta']}\n")
+            f.write(f"pin_changed={'true' if pin_changed else 'false'}\n")
+            f.write(f"pin_build={target}\n")
+            f.write(f"pin_label={PIN}\n")
+            f.write(f"preview_build={preview}\n")
 
 
 if __name__ == "__main__":

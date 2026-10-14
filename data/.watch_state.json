@@ -1,5 +1,6 @@
 {
-  "wago_build": "1.60.1.70374",
+  "live_build": "1.60.1.70245",
+  "beta_build": "1.60.1.70374",
   "foreverchanges": {
     "build": "1.60.1.70338",
     "new_items": "5,571",
