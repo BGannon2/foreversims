@@ -32,20 +32,21 @@
      "gear_slot": "main_hand"
     },
     {
-     "id": 16478,
-     "name": "Field Marshal's Plate Helm",
-     "icon": "inv_helmet_05",
+     "id": 12640,
+     "name": "Lionheart Helm",
+     "icon": "inv_helmet_36",
      "quality": "Epic",
-     "itemLevel": 74,
+     "itemLevel": 61,
      "stats": {
-      "armor": 719.0,
-      "stamina": 34.0,
-      "strength": 28.0,
-      "meleeCrit": 1.0,
-      "spellCrit": 1.0
+      "armor": 565.0,
+      "strength": 18.0,
+      "meleeCrit": 2.0,
+      "spellCrit": 2.0,
+      "meleeHit": 2.5,
+      "spellHit": 2.5
      },
      "effects": [],
-     "source": "Vendor: Captain Dirgehammer",
+     "source": "Unknown",
      "subclass": "Plate",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -53,31 +54,7 @@
      "equipSlots": [
       "head"
      ],
-     "set": {
-      "name": "Field Marshal's Battlegear",
-      "pieces": [
-       "Field Marshal's Plate Armor",
-       "Field Marshal's Plate Helm",
-       "Field Marshal's Plate Shoulderguards",
-       "Marshal's Plate Boots",
-       "Marshal's Plate Gauntlets",
-       "Marshal's Plate Legguards"
-      ],
-      "bonuses": [
-       {
-        "required": 2,
-        "description": "+20 Stamina."
-       },
-       {
-        "required": 3,
-        "description": "Reduces the cooldown of your Intercept ability by 5 sec."
-       },
-       {
-        "required": 6,
-        "description": "+40 Attack Power."
-       }
-      ]
-     },
+     "set": null,
      "slot": "Head",
      "gear_slot": "head"
     },
@@ -162,19 +139,20 @@
      "gear_slot": "shoulders"
     },
     {
-     "id": 20073,
-     "name": "Cloak of the Honor Guard",
-     "icon": "inv_misc_cape_02",
-     "quality": "Epic",
-     "itemLevel": 65,
+     "id": 14134,
+     "name": "Cloak of Fire",
+     "icon": "inv_misc_cape_18",
+     "quality": "Rare",
+     "itemLevel": 55,
      "stats": {
-      "armor": 50.0,
-      "stamina": 11.0,
-      "agility": 5.0,
-      "attackPower": 34.0
+      "armor": 39.0,
+      "stamina": 7.0,
+      "fireResistance": 6.0
      },
-     "effects": [],
-     "source": "Vendor: Samuel Hawke",
+     "effects": [
+      "Use: Deals 25 Fire damage every 5 sec to all nearby enemies for 15 sec. (2 Min Cooldown)"
+     ],
+     "source": "Unknown",
      "subclass": "Cloth",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -187,28 +165,57 @@
      "gear_slot": "back"
     },
     {
-     "id": 252484,
-     "name": "Timbermaw Tunic",
-     "icon": null,
+     "id": 11726,
+     "name": "Savage Gladiator Chain",
+     "icon": "inv_chest_chain_15",
      "quality": "Epic",
-     "itemLevel": 61,
+     "itemLevel": 57,
      "stats": {
-      "armor": 187.0,
-      "agility": 18.0,
-      "strength": 33.0,
-      "meleeCrit": 1.0,
-      "spellCrit": 1.0
+      "armor": 369.0,
+      "strength": 13.0,
+      "agility": 14.0,
+      "stamina": 13.0,
+      "meleeCrit": 2.0
      },
-     "effects": [],
-     "source": "forever-1.60.1.69913",
-     "subclass": "Leather",
+     "effects": [
+      "Equip: Improves your chance to get a critical strike by 2%."
+     ],
+     "source": "Boss Drop: Gorosh the Dervish",
+     "subclass": "Mail",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
      "equipSlots": [
       "chest"
      ],
-     "set": null,
+     "set": {
+      "name": "The Gladiator",
+      "pieces": [
+       "Savage Gladiator Helm",
+       "Savage Gladiator Chain",
+       "Savage Gladiator Leggings",
+       "Savage Gladiator Greaves",
+       "Savage Gladiator Grips"
+      ],
+      "bonuses": [
+       {
+        "required": 2,
+        "description": "+20 Armor."
+       },
+       {
+        "required": 3,
+        "description": "Increased Defense +2."
+       },
+       {
+        "required": 4,
+        "description": "+10 Attack Power."
+       },
+       {
+        "required": 5,
+        "description": "Improves your chance to get a critical strike by 1%."
+       }
+      ]
+     },
      "slot": "Chest",
      "gear_slot": "chest"
     },
