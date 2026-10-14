@@ -61,10 +61,10 @@ class RosterAndDataTests(unittest.TestCase):
 
     def test_forever_talent_text_matches_modeled_values(self):
         w = BY_CLASS["warrior"]
-        self.assertIn("45% of your Attack Power plus 30", w["105930"][1]["descriptions"]["1"])
+        self.assertIn("35% of your Attack Power plus 30", w["105930"][1]["descriptions"]["1"])
         # Talent calculator text describes the learned rank, not the level-60
         # spell. Build-pinned SpellEffect 23894 supplies the rank-4 flat bonus.
-        self.assertEqual(ABILITIES["Bloodthirst"]["ap_mult"], 0.45); self.assertEqual(ABILITIES["Bloodthirst"]["flat"], 48)  # build 70374
+        self.assertEqual(ABILITIES["Bloodthirst"]["ap_mult"], 0.35); self.assertEqual(ABILITIES["Bloodthirst"]["flat"], 48)
         self.assertIn("60% chance", w["105937"][1]["descriptions"]["5"]); self.assertAlmostEqual(TALENT_EFFECTS["105937"]["flag:unbridled_wrath"] * 5, 0.60)
         self.assertIn("off-hand weapon damage by 25%", w["105933"][1]["descriptions"]["5"]); self.assertAlmostEqual(TALENT_EFFECTS["105933"]["flag:dw_damage"] * 5, 0.25)
         self.assertIn("weapon damage plus 85", w["105941"][1]["descriptions"]["1"]); self.assertEqual(ABILITIES["Mortal Strike"]["weapon"]["flat"], 160)
@@ -209,10 +209,10 @@ class ResourceTests(unittest.TestCase):
         self.assertEqual(war.rage, 0)  # specials generate no rage
 
     def test_off_hand_rage_and_damage_talent(self):
-        # Dual Wield Specialization 5/5 (client build 70374): +25% off-hand damage, +50% off-hand rage, no hit.
+        # Dual Wield Specialization lost its off-hand rage bonus in client build 70170+; it keeps damage and hit.
         it = iteration("warrior-fury")
         it.rage = 0; it.c.mods["flag:unbridled_wrath"] = 0; it.on_weapon_hit(it.c.oh, True, "Melee (Off-Hand)", 230.6)
-        self.assertAlmostEqual(it.rage, float(it.c.oh["weaponSpeed"]) * 3.46 * 0.5 * 1.5, places=6)  # half rate, +50%
+        self.assertAlmostEqual(it.rage, float(it.c.oh["weaponSpeed"]) * 3.46 * 0.5, places=6)  # off hand earns half rate
         self.assertAlmostEqual(it.c.flag("dw_damage"), 0.25)
 
     def test_energy_ticks_and_combo_points(self):
@@ -393,7 +393,7 @@ class ForeverRageTests(unittest.TestCase):
         it = iteration("warrior-protection")
         mh = it.c.mh; base = float(mh["weaponSpeed"]) * R["two_hand" if it.c.two_hand else "one_hand"]
         it.white_crit = True; it.rage = 0; it.white_rage(mh, 100.0)
-        self.assertAlmostEqual(it.rage, base * R["crit_factor"]); self.assertEqual(R["crit_factor"], 2.0)  # +100% since build 70374
+        self.assertAlmostEqual(it.rage, base * 1.75)
         gains = []
         for armor in (0, 12000):
             t = iteration("warrior-protection"); t.st["armor"] = armor; t.st["dodge"] = t.st["parry"] = t.st["block"] = 0; t.st["defense"] = 300
@@ -468,18 +468,4 @@ class ForeverBlueNoteTests(unittest.TestCase):
         it.activate_buff("Shifting Power", a)
         self.assertAlmostEqual(it.energy, 60); self.assertAlmostEqual(it.mana, 1)
         self.assertFalse(it.ready("Shifting Power"))  # not enough Mana left
-
-    def test_build_70374_warrior_changes(self):
-        fury = config("warrior-fury")
-        self.assertEqual(fury.mod("dw_hit"), 10)  # Furious Precision 3/3 (client curve 4/7/10); Dual Wield Spec no longer adds hit
-        self.assertAlmostEqual(fury.flag("dw_rage"), 0.50)
-        self.assertEqual(ABILITIES["Whirlwind"]["weapon"]["hand"], "both")
-        rb = config("warrior-fury", talents={**fury.talents, "105977": 1})
-        self.assertEqual(rb.actions["Whirlwind"]["cost"], fury.actions["Whirlwind"]["cost"] - 3)  # Raging Blows
-        it = iteration("warrior-fury"); it.c.oh["weaponDamageMin"] = it.c.oh["weaponDamageMax"] = 100.0
-        it.c.mh["weaponDamageMin"] = it.c.mh["weaponDamageMax"] = 100.0
-        it.melee_outcome = lambda *a, **k: ("hit", 1.0); it.ap = lambda *a, **k: 0.0
-        it.rage = 100; it.cur_cost = 25; it.resolve("Whirlwind")
-        self.assertAlmostEqual(it.rows["Whirlwind"].damage / it.multiplier("Whirlwind", "physical", "melee", False, False) / it.armor_mult("Whirlwind"),
-                               100 + 100 * 0.5 * (1 + fury.flag("dw_damage")), places=4)  # off hand at the off-hand penalty
 

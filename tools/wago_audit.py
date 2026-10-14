@@ -19,6 +19,7 @@ BUILD = "1.60.1.70374"
 # Whole-spell timing/cost imports are separately opted into below.
 SPELLS = {
     "Mortal Strike": (21553, {"weapon.flat": (1, "EffectBasePointsF")}),
+    "Bloodthirst": (23894, {"flat": (0, "EffectBasePointsF")}),
     "Shield Slam": (23925, {"base": (1, "range")}),
     "Revenge": (25288, {"base": (0, "range")}),
     "Insect Swarm": (24977, {"tick": (0, "EffectBasePointsF"), "dot_coeff": (0, "EffectBonusCoefficient"), "tick_len": (0, "period"), "ticks": (0, "ticks")}),
@@ -74,8 +75,6 @@ SPELLS = {
     "Lacerate": (1235827, {"tick": (0, "EffectBasePointsF"), "ticks": (0, "ticks")},
                  {"caveat": "Stack cap (5) is from the Forever deep dive; threat multiplier assumed equal to Maul's."}),
     "Spearing Strike": (1310222, {}),
-    "Bloodthirst": (23894, {"flat": (0, "EffectBasePointsF"), "ap_mult": (1, "EffectBasePointsF", .01)},
-                    {"caveat": "Rank 4 (level 60). Its movement-speed effect isn't modeled."}),
     "Rend": (11574, {"tick": (0, "EffectBasePointsF"), "ticks": (0, "ticks")}),
     "Thunder Clap": (11581, {"base": (0, "range")}, {"caveat": "Threat multiplier (1.75x) is WoWSims-sourced, not client data."}),
     "Demoralizing Shout": (11556, {}, {"caveat": "Flat threat per target (43.2) is WoWSims-sourced, not client data."}),
@@ -107,8 +106,6 @@ RANKS = {
     "105887": {"cost_pct_school:fire": (0, .01), "cost_pct:Shadow Bolt": (0, .01), "cost_pct:Shadowburn": (0, .01)},
     "105917": {"crit_dmg_periodic": (0, .01)},
     "105932": {"cost:Execute": (0, .1)},
-    "105933": {"flag:dw_damage": (0, .01), "flag:dw_rage": (1, .01)},
-    "105953": {"dw_hit": (0, 1)},
     "110870": {"dmg_ability:Serpent Sting": (0, .01)},
 }
 

@@ -879,8 +879,8 @@ impl<'a> Iteration<'a> {
             }
             let item = if hand == Hand::Off { &c.oh } else { &c.mh };
             let rate = if c.two_hand { 4.5 } else { 3.46 };
-            // Forever: crits give 100% more rage (development notes, build 70374; was 75%).
-            item.speed_or(2.0) * rate * if hand == Hand::Off { 0.5 } else { 1.0 } * if self.white_crit { 2.0 } else { 1.0 }
+            // Forever class deep dive (Sep 30): crits give 75% more rage.
+            item.speed_or(2.0) * rate * if hand == Hand::Off { 0.5 } else { 1.0 } * if self.white_crit { 1.75 } else { 1.0 }
         } else {
             damage * 7.5 / c.t.RAGE_CONVERSION_60
         };
@@ -952,7 +952,7 @@ impl<'a> Iteration<'a> {
                 self.white_rage(hand, damage, false);
             }
             if c.flag("unbridled_wrath") != 0.0 && self.rng.random() < c.flag("unbridled_wrath") {
-                self.gain_rage(1.0); // 1 Rage for every weapon type since build 70374
+                self.gain_rage(if c.two_hand { 2.0 } else { 1.0 });
             }
         }
         let hand_slot = if hand == Hand::Off { "off_hand" } else { "main_hand" };
@@ -1889,8 +1889,7 @@ impl<'a> Iteration<'a> {
                 }
                 base = self.weapon_damage(&item, w.normalized, false, 0.0) * mult + w.flat.unwrap_or(0.0);
                 if w.hand == "both" && !c.oh.is_empty() {
-                    let oh = self.weapon_damage(&c.oh, w.normalized, false, 0.0) * mult + w.flat.unwrap_or(0.0);
-                    base += oh * if w.oh_penalty { 0.5 * (1.0 + c.flag("dw_damage")) } else { 1.0 };
+                    base += self.weapon_damage(&c.oh, w.normalized, false, 0.0) * mult + w.flat.unwrap_or(0.0);
                 }
                 if let Some(cm) = &a.creature_mult {
                     if let Some(v) = cm.get(&c.boss_type) {
