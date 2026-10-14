@@ -1,9 +1,9 @@
 {
-  "wago_build": "1.60.1.70374",
+  "wago_build": "1.60.1.70205",
   "foreverchanges": {
-    "build": "1.60.1.70338",
-    "new_items": "5,571",
-    "changed_items": "4,507",
-    "talents_changed": "753"
+    "build": "1.60.1.70205",
+    "new_items": "5,477",
+    "changed_items": "4,415",
+    "talents_changed": "756"
   }
 }
