@@ -677,7 +677,7 @@ impl Config {
         let v = g(&st, "mana") + st["intellect"] * 15.0;
         st.insert("mana".into(), v);
         let equipped_kinds: HashSet<&str> = self.gear.iter().filter_map(weapon_type).collect();
-        self.racial_crit = self.racial.weapon_crit.iter().filter(|(k, _)| k.as_str() != "provisional" && equipped_kinds.contains(k.as_str())).map(|(_, v)| v.as_f64().unwrap_or(0.0)).sum();
+        self.racial_crit = self.racial.weapon_crit.iter().filter(|(k, _)| k.as_str() != "provisional" && (k.as_str() == "all" || equipped_kinds.contains(k.as_str()))).map(|(_, v)| v.as_f64().unwrap_or(0.0)).sum();
         st["meleeCrit"] += self.racial_crit;
         st["rangedCrit"] += self.racial_crit;
         st["spellCrit"] += self.racial_crit;

@@ -201,6 +201,7 @@ pub struct Iteration<'a> {
     pub incoming_hits: Vec<(f64, f64)>,
     pub flurry: i64,
     pub eureka: i64,
+    pub tog_ready: f64,
     pub white_crit: bool,
     pub eureka_until: f64,
     pub dodged_recently: f64,
@@ -248,7 +249,7 @@ impl<'a> Iteration<'a> {
             next_mh: 0.0, next_oh: if !c.oh.is_empty() { c.oh.speed_or(2.0) / 2.0 } else { 0.0 }, next_ranged: 0.0, queued_swing: None,
             last_cast_time: -10.0, next_mana_tick: 2.0, next_energy_tick: 2.0, next_rage_tick: 3.0, next_boss: c.incoming["enemy_swing"], next_heal: c.incoming["heal_interval"],
             healed: 0.0, overheal: 0.0, peak_3s_damage: 0.0, incoming_hits: vec![],
-            flurry: 0, white_crit: false, eureka: 0, eureka_until: 0.0, dodged_recently: -10.0, avoided_recently: -10.0, combustion: None, clearcast: false, next_instant: false, next_crit: false, eclipse: 0,
+            flurry: 0, white_crit: false, tog_ready: 0.0, eureka: 0, eureka_until: 0.0, dodged_recently: -10.0, avoided_recently: -10.0, combustion: None, clearcast: false, next_instant: false, next_crit: false, eclipse: 0,
             busy_until: 0.0, starved: 0.0, first_oom: None, pet_state: None, enrage_until: 0.0, sacrificed: None, racial_next: 0.0, item_icd: IndexMap::new(), windfury_lock: 0.0,
             cur_school: String::new(), cur_cost: 0.0, blocked_by_resource: false, taken_by: IndexMap::new(), pet_threat: 0.0,
             wrath_discount: false, next_parry: false,
@@ -463,6 +464,11 @@ impl<'a> Iteration<'a> {
 
     fn sp(&self, school: &str) -> f64 {
         let mut base = self.st("spellPower") + self.st(&format!("{school}Power"));
+        if self.c.flag("arcane_blast") != 0.0 {
+            // each Arcane Blast stack: +15% of Intellect as spell damage
+            let stacks = self.buffs.get("Arcane Blast").filter(|b| b.until > self.t).map_or(0, |b| b.stacks);
+            base += 0.15 * self.st("intellect") * stacks as f64;
+        }
         let school_power = format!("{school}Power");
         for b in self.buffs.values() {
             if b.until > self.t {
@@ -538,7 +544,7 @@ impl<'a> Iteration<'a> {
             if c.mod_("crit_dmg_destruction") != 0.0 && ["Shadow Bolt", "Immolate", "Conflagrate", "Shadowburn", "Searing Pain"].contains(&ability) {
                 bonus += c.mod_("crit_dmg_destruction") * 0.5;
             }
-            return 1.0 + bonus;
+            return (1.0 + bonus) * self.racial_crit_damage();
         }
         let mut bonus = 1.0;
         let white = ["Melee (Main-Hand)", "Melee (Off-Hand)", "Auto Shot", "Melee (Extra Attack)", "Windfury Attack"].contains(&ability);
@@ -552,7 +558,12 @@ impl<'a> Iteration<'a> {
                 bonus += c.mod_("crit_dmg_builder");
             }
         }
-        1.0 + bonus
+        (1.0 + bonus) * self.racial_crit_damage()
+    }
+
+    /// Dwarf Earth Fury / Tauren Endurance: +2% critical damage (Oct 15 development notes).
+    fn racial_crit_damage(&self) -> f64 {
+        1.0 + if self.c.racial_enabled { self.c.racial.crit_damage } else { 0.0 }
     }
 
     /// Forever lets periodic damage (spell DoTs and bleeds) roll crits, unlike Classic. Sourced
@@ -770,17 +781,16 @@ impl<'a> Iteration<'a> {
         if ability == "Rupture" && self.debuff_active("Hemorrhage") {
             m *= 1.15;
         }
+        if c.flag("fire_power") != 0.0 && school == "fire" {
+            let effects = ["Ignite", "Fireball", "Pyroblast"].iter().filter(|d| self.dots.get(**d).is_some_and(|x| x.remaining > 0)).count()
+                + self.debuff_active("Improved Scorch") as usize;
+            m *= 1.0 + c.flag("fire_power") * effects.min(4) as f64;
+        }
         if ability == "Lava Burst" && self.dots.get("Flame Shock").is_some_and(|d| d.remaining > 0) {
             m *= 1.20;
         }
         if ability == "Incinerate" && self.dots.get("Immolate").is_some_and(|d| d.remaining > 0) {
             m *= 1.25;
-        }
-        if c.flag("arcane_blast") != 0.0 && ability != "Arcane Blast" {
-            let stacks = self.buffs.get("Arcane Blast").filter(|b| b.until > self.t).map_or(0, |b| b.stacks);
-            if stacks > 0 {
-                m *= 1.0 + 0.10 * stacks as f64;
-            }
         }
         if c.flag("rend_and_tear") != 0.0 && kind == "melee" && !white && self.dots.iter().any(|(d, dot)| dot.remaining > 0 && c.t.ABILITIES.get(d).is_some_and(|a| a.bleed)) {
             m *= 1.0 + c.flag("rend_and_tear");
@@ -1158,7 +1168,12 @@ impl<'a> Iteration<'a> {
         let c = self.c;
         if c.race == "Undead" && c.racial_enabled {
             let tg = c.racial.touch_of_the_grave.clone().unwrap_or_default();
-            if self.rng.random() < tg.chance {
+            if self.t < self.tog_ready {
+                return;
+            }
+            let chance = if c.spec.style == "spell" { tg.caster_chance } else { tg.chance };
+            if self.rng.random() < chance {
+                self.tog_ready = self.t + tg.icd;
                 self.row("Touch of the Grave").casts += 1.0;
                 let amt = self.health_max * tg.health_fraction;
                 self.deal("Touch of the Grave", amt, "shadow", "spell", false, false, 1.0, 0.0, Outcome::Hit, 1.0);
@@ -1682,6 +1697,9 @@ impl<'a> Iteration<'a> {
             cast = (cast - 0.5).max(0.0);
             self.eclipse -= 1;
         }
+        if (name == "Lightning Bolt" || name == "Lava Burst") && self.buff_active("Elemental Mastery") {
+            cast = (cast - 0.5).max(0.0);
+        }
         if name == "Pyroblast" {
             let stacks = self.buffs.get("Hot Streak").filter(|b| b.until > self.t).map_or(0, |b| b.stacks);
             if stacks > 0 {
@@ -1707,7 +1725,8 @@ impl<'a> Iteration<'a> {
         if c.spec.resource == "Rage" && cost > 0.0 && c.flag("wrath_rage_proc") != 0.0 && self.rng.random() < c.flag("wrath_rage_proc") {
             self.wrath_discount = true;
         }
-        self.cooldowns.insert(name.to_string(), self.t + a.cooldown);
+        let cd = if name == "Chain Lightning" && self.buff_active("Elemental Mastery") { 0.0 } else { a.cooldown };
+        self.cooldowns.insert(name.to_string(), self.t + cd);
         if let Some(s) = &a.shared_cd {
             self.cooldowns.insert(format!("shared:{s}"), self.t + a.cooldown);
         }
@@ -1997,7 +2016,12 @@ impl<'a> Iteration<'a> {
         if kind == "direct" || kind == "direct_dot" {
             let can_crit = !a.no_crit;
             if name == "Arcane Blast" && c.flag("arcane_blast") != 0.0 {
-                self.add_buff("Arcane Blast", 8.0, Buff { stacks_max: Some(4), ..Default::default() });
+                // 15 sec from the first stack; later stacks don't refresh it
+                let t = self.t;
+                match self.buffs.get_mut("Arcane Blast").filter(|b| b.until > t) {
+                    Some(b) => b.stacks = (b.stacks + 1).min(4),
+                    None => self.add_buff("Arcane Blast", 15.0, Buff { stacks_max: Some(4), ..Default::default() }),
+                }
             }
             let (out, m) = if !a.always_hit { self.spell_outcome(name, &school, can_crit) } else { (Outcome::Hit, 1.0) };
             if out == Outcome::Miss {
@@ -2005,7 +2029,7 @@ impl<'a> Iteration<'a> {
                 return;
             }
             let (lo, hi) = a.base.unwrap_or((0.0, 0.0));
-            let mut base = self.rng.uniform(lo, hi) + sp * a.coeff + a.rap_coeff.map_or(0.0, |k| self.ap(true) * k);
+            let mut base = self.rng.uniform(lo, hi) + (sp + self.max_mana * a.sp_from_max_mana.unwrap_or(0.0)) * a.coeff + a.rap_coeff.map_or(0.0, |k| self.ap(true) * k);
             base *= a.direct_mult.unwrap_or(1.0);
             if name == "Chain Lightning" {
                 let bounce = 0.7 + c.mod_("chain_lightning_bounce");
@@ -2022,7 +2046,7 @@ impl<'a> Iteration<'a> {
             let mut fof_used = false;
             if name == "Ice Lance"
                 && self.buffs.get("Fingers of Frost").is_some_and(|b| b.until > self.t && b.stacks > 0) {
-                    base *= 4.0;
+                    base *= 3.0; // +200% vs frozen targets (build 70425)
                     fof_used = true;
                 }
             if self.next_crit {
@@ -2082,16 +2106,23 @@ impl<'a> Iteration<'a> {
 
     fn after_spell_hit(&mut self, name: &str, school: &str, out: Outcome, dmg: f64, a: &Ability) {
         let c = self.c;
-        if c.flag("arcane_blast") != 0.0 && name != "Arcane Blast" {
-            self.buffs.shift_remove("Arcane Blast");
-        }
-        if c.flag("missile_barrage") != 0.0 && ["Arcane Blast", "Fireball", "Frostbolt"].contains(&name) && matches!(out, Outcome::Hit | Outcome::Crit) {
-            let chance = if name == "Arcane Blast" { 0.40 } else { 0.20 };
+        if c.flag("missile_barrage") != 0.0 && ["Arcane Blast", "Arcane Wrath", "Fireball", "Frostbolt", "Frostfire Bolt"].contains(&name) && matches!(out, Outcome::Hit | Outcome::Crit) {
+            let chance = if name == "Arcane Blast" { 0.20 } else { 0.10 } * c.flag("missile_barrage");
             if self.rng.random() < chance {
-                self.add_buff("Missile Barrage", 20.0, Buff::default());
+                self.add_buff("Missile Barrage", 15.0, Buff::default());
+            }
+        }
+        if c.flag("missile_barrage") != 0.0 && name == "Arcane Missiles" && matches!(out, Outcome::Hit | Outcome::Crit) {
+            // each Missile: 5% per rank
+            if self.rng.random() < 0.05 * c.flag("missile_barrage") {
+                self.add_buff("Missile Barrage", 15.0, Buff::default());
             }
         }
         if c.flag("hot_streak") != 0.0 && ["Fireball", "Fire Blast", "Scorch"].contains(&name) && out == Outcome::Crit {
+            self.add_buff("Hot Streak", 20.0, Buff { stacks_max: Some(3), ..Default::default() });
+        }
+        if c.flag("hot_streak") != 0.0 && name == "Fire Blast" && matches!(out, Outcome::Hit | Outcome::Crit) {
+            // Heating Up: Fire Blast always adds a stack (plus the crit one above)
             self.add_buff("Hot Streak", 20.0, Buff { stacks_max: Some(3), ..Default::default() });
         }
         if c.flag("fingers_of_frost") != 0.0 && name == "Frostbolt" && matches!(out, Outcome::Hit | Outcome::Crit) && self.rng.random() < 0.15 {

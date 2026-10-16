@@ -71,6 +71,21 @@
             }
           },
           {
+            "id": 105802,
+            "row": 0,
+            "col": 3,
+            "icon": "ability_mage_missilebarrage",
+            "name": "Missile Barrage",
+            "ranks": [
+              null,
+              null
+            ],
+            "requires": [],
+            "descriptions": {
+              "1": "Gives your Arcane Blast spell a 40% chance, and your Fireball, Frostbolt, and Frostfire Bolt spells a 20% chance to reduce the channeled duration of your next Arcane Missiles spell by 50%, reduce the Mana cost by 100%, and missiles will fire every 0.5 sec."
+            }
+          },
+          {
             "id": 105812,
             "row": 1,
             "col": 0,
@@ -244,17 +259,22 @@
             }
           },
           {
-            "id": 105802,
+            "id": 113627,
             "row": 3,
             "col": 3,
-            "icon": "ability_mage_missilebarrage",
-            "name": "Missile Barrage",
+            "icon": "inv_misc_questionmark",
+            "name": "Arcane Wrath",
             "ranks": [
               null
             ],
-            "requires": [],
+            "requires": [
+              {
+                "id": 105806,
+                "qty": 1
+              }
+            ],
             "descriptions": {
-              "1": "Gives your Arcane Blast spell a 40% chance, and your Fireball, Frostbolt, and Frostfire Bolt spells a 20% chance to reduce the channeled duration of your next Arcane Missiles spell by 50%, reduce the Mana cost by 100%, and missiles will fire every 0.5 sec."
+              "1": "Launches a projectile of pure Arcane energy at the enemy target, causing X Arcane damage. This spell gains additional Spell Damage equal to X% of your maximum Mana."
             }
           },
           {
@@ -342,15 +362,15 @@
             "row": 0,
             "col": 0,
             "icon": "spell_fire_lavaspawn",
-            "name": "Wake of Fire",
+            "name": "Improved Fire Blast",
             "ranks": [
               null,
               null
             ],
             "requires": [],
             "descriptions": {
-              "1": "Reduces the cooldown of your Fire Blast spell by 1 sec. Killing a non-trivial target increases the critical strike chance of your next Fire Blast cast within 20 sec by 25%.",
-              "2": "Reduces the cooldown of your Fire Blast spell by 2 sec. Killing a non-trivial target increases the critical strike chance of your next Fire Blast cast within 20 sec by 50%."
+              "1": "Reduces the cooldown of your Fire Blast spell by X sec and increases its range by X yards.",
+              "2": "Reduces the cooldown of your Fire Blast spell by X sec and increases its range by X yards."
             }
           },
           {
@@ -579,6 +599,8 @@
             "ranks": [
               null,
               null,
+              null,
+              null,
               null
             ],
             "requires": [],
@@ -611,17 +633,13 @@
             "ranks": [
               null,
               null,
-              null,
-              null,
               null
             ],
             "requires": [],
             "descriptions": {
               "1": "Increases the damage done by your Fire spells by 2%.",
               "2": "Increases the damage done by your Fire spells by 4%.",
-              "3": "Increases the damage done by your Fire spells by 6%.",
-              "4": "Increases the damage done by your Fire spells by 8%.",
-              "5": "Increases the damage done by your Fire spells by 10%."
+              "3": "Increases the damage done by your Fire spells by 6%."
             }
           },
           {
@@ -636,7 +654,7 @@
             "requires": [
               {
                 "id": 105784,
-                "qty": 3
+                "qty": 5
               }
             ],
             "descriptions": {
@@ -3064,21 +3082,25 @@
             }
           },
           {
-            "id": 105846,
+            "id": 105837,
             "row": 1,
             "col": 2,
-            "icon": "spell_holy_powerwordshield",
-            "name": "Improved Power Word: Shield",
+            "icon": "spell_nature_enchantarmor",
+            "name": "Mental Strength",
             "ranks": [
+              null,
+              null,
               null,
               null,
               null
             ],
             "requires": [],
             "descriptions": {
-              "1": "Increases the damage absorbed by your Power Word: Shield by 7%.",
-              "2": "Increases the damage absorbed by your Power Word: Shield by 14%.",
-              "3": "Increases the damage absorbed by your Power Word: Shield by 20%."
+              "1": "Increases your total Intellect by 3%.",
+              "2": "Increases your total Intellect by 6%.",
+              "3": "Increases your total Intellect by 9%.",
+              "4": "Increases your total Intellect by 12%.",
+              "5": "Increases your total Intellect by 15%."
             }
           },
           {
@@ -3130,6 +3152,24 @@
             }
           },
           {
+            "id": 105846,
+            "row": 2,
+            "col": 2,
+            "icon": "spell_holy_powerwordshield",
+            "name": "Improved Power Word: Shield",
+            "ranks": [
+              null,
+              null,
+              null
+            ],
+            "requires": [],
+            "descriptions": {
+              "1": "Increases the damage absorbed by your Power Word: Shield by 7%.",
+              "2": "Increases the damage absorbed by your Power Word: Shield by 14%.",
+              "3": "Increases the damage absorbed by your Power Word: Shield by 20%."
+            }
+          },
+          {
             "id": 105843,
             "row": 2,
             "col": 3,
@@ -3166,25 +3206,19 @@
             }
           },
           {
-            "id": 105837,
+            "id": 105838,
             "row": 3,
             "col": 1,
-            "icon": "spell_nature_enchantarmor",
-            "name": "Mental Strength",
+            "icon": "spell_shadow_manaburn",
+            "name": "Improved Mana Burn",
             "ranks": [
-              null,
-              null,
-              null,
               null,
               null
             ],
             "requires": [],
             "descriptions": {
-              "1": "Increases your total Intellect by 3%.",
-              "2": "Increases your total Intellect by 6%.",
-              "3": "Increases your total Intellect by 9%.",
-              "4": "Increases your total Intellect by 12%.",
-              "5": "Increases your total Intellect by 15%."
+              "1": "Reduces the casting time of your Mana Burn spell by 0.5 sec.",
+              "2": "Reduces the casting time of your Mana Burn spell by 1 sec."
             }
           },
           {
@@ -3204,22 +3238,6 @@
             ],
             "descriptions": {
               "1": "Reduces the cooldown on your Power Word: Shield spell by 4 sec and reduces its mana cost by 15%."
-            }
-          },
-          {
-            "id": 105838,
-            "row": 3,
-            "col": 3,
-            "icon": "spell_shadow_manaburn",
-            "name": "Improved Mana Burn",
-            "ranks": [
-              null,
-              null
-            ],
-            "requires": [],
-            "descriptions": {
-              "1": "Reduces the casting time of your Mana Burn spell by 0.5 sec.",
-              "2": "Reduces the casting time of your Mana Burn spell by 1 sec."
             }
           },
           {
@@ -3695,17 +3713,21 @@
             "row": 1,
             "col": 0,
             "icon": "spell_shadow_shadowward",
-            "name": "Shadow Affinity",
+            "name": "Improved Mind Blast",
             "ranks": [
+              null,
+              null,
               null,
               null,
               null
             ],
             "requires": [],
             "descriptions": {
-              "1": "Reduces the threat generated by your Shadow spells by 10%.",
-              "2": "Reduces the threat generated by your Shadow spells by 20%.",
-              "3": "Reduces the threat generated by your Shadow spells by 30%."
+              "1": "Reduces the cooldown of your Mind Blast spell by $/1000;S1 sec.",
+              "2": "Reduces the cooldown of your Mind Blast spell by $/1000;S1 sec.",
+              "3": "Reduces the cooldown of your Mind Blast spell by $/1000;S1 sec.",
+              "4": "Reduces the cooldown of your Mind Blast spell by $/1000;S1 sec.",
+              "5": "Reduces the cooldown of your Mind Blast spell by $/1000;S1 sec."
             }
           },
           {
@@ -3738,28 +3760,6 @@
             "descriptions": {
               "1": "Increases the range of your offensive Shadow spells by 10%.",
               "2": "Increases the range of your offensive Shadow spells by 20%."
-            }
-          },
-          {
-            "id": 105827,
-            "row": 2,
-            "col": 0,
-            "icon": "spell_shadow_unholyfrenzy",
-            "name": "Improved Mind Blast",
-            "ranks": [
-              null,
-              null,
-              null,
-              null,
-              null
-            ],
-            "requires": [],
-            "descriptions": {
-              "1": "Reduces the cooldown of your Mind Blast spell by 0.5 sec.",
-              "2": "Reduces the cooldown of your Mind Blast spell by 1 sec.",
-              "3": "Reduces the cooldown of your Mind Blast spell by 1.5 sec.",
-              "4": "Reduces the cooldown of your Mind Blast spell by 2 sec.",
-              "5": "Reduces the cooldown of your Mind Blast spell by 2.5 sec."
             }
           },
           {
@@ -3823,15 +3823,21 @@
             "row": 3,
             "col": 0,
             "icon": "spell_magic_lesserinvisibilty",
-            "name": "Improved Fade",
+            "name": "Dark Inspiration",
             "ranks": [
+              null,
+              null,
+              null,
               null,
               null
             ],
             "requires": [],
             "descriptions": {
-              "1": "Decreases the cooldown of your Fade ability by 3 sec.",
-              "2": "Decreases the cooldown of your Fade ability by 6 sec."
+              "1": "Your Mind Blast and fully channeled Mind Flay causes Dark Inspiration, increasing yours and your party's Spirit by X% for X.",
+              "2": "Your Mind Blast and fully channeled Mind Flay causes Dark Inspiration, increasing yours and your party's Spirit by X% for X.",
+              "3": "Your Mind Blast and fully channeled Mind Flay causes Dark Inspiration, increasing yours and your party's Spirit by X% for X.",
+              "4": "Your Mind Blast and fully channeled Mind Flay causes Dark Inspiration, increasing yours and your party's Spirit by X% for X.",
+              "5": "Your Mind Blast and fully channeled Mind Flay causes Dark Inspiration, increasing yours and your party's Spirit by X% for X."
             }
           },
           {
@@ -4007,11 +4013,11 @@
             }
           },
           {
-            "id": 104771,
+            "id": 104769,
             "row": 1,
             "col": 0,
-            "icon": "spell_nature_spiritarmor",
-            "name": "Elemental Warding",
+            "icon": "spell_fire_elementaldevastation",
+            "name": "Elemental Devastation",
             "ranks": [
               null,
               null,
@@ -4019,9 +4025,9 @@
             ],
             "requires": [],
             "descriptions": {
-              "1": "Reduces damage taken from Fire, Frost, and Nature effects by 3%.",
-              "2": "Reduces damage taken from Fire, Frost, and Nature effects by 7%.",
-              "3": "Reduces damage taken from Fire, Frost, and Nature effects by 10%."
+              "1": "Your offensive spell critical strikes will increase your chance to get a critical strike with melee attacks by 3% for 10 sec.",
+              "2": "Your offensive spell critical strikes will increase your chance to get a critical strike with melee attacks by 6% for 10 sec.",
+              "3": "Your offensive spell critical strikes will increase your chance to get a critical strike with melee attacks by 9% for 10 sec."
             }
           },
           {
@@ -4047,9 +4053,27 @@
             }
           },
           {
-            "id": 104770,
+            "id": 104771,
             "row": 1,
             "col": 2,
+            "icon": "spell_nature_spiritarmor",
+            "name": "Elemental Alacrity",
+            "ranks": [
+              null,
+              null,
+              null
+            ],
+            "requires": [],
+            "descriptions": {
+              "1": "Reduces the cast time of your Lightning Bolt, Chain Lightning, and Lava Burst spells by X.2 sec.",
+              "2": "Reduces the cast time of your Lightning Bolt, Chain Lightning, and Lava Burst spells by X.2 sec.",
+              "3": "Reduces the cast time of your Lightning Bolt, Chain Lightning, and Lava Burst spells by X.2 sec."
+            }
+          },
+          {
+            "id": 104770,
+            "row": 1,
+            "col": 3,
             "icon": "spell_fire_immolation",
             "name": "Call of Flame",
             "ranks": [
@@ -4065,27 +4089,9 @@
             }
           },
           {
-            "id": 104769,
-            "row": 1,
-            "col": 3,
-            "icon": "spell_fire_elementaldevastation",
-            "name": "Elemental Devastation",
-            "ranks": [
-              null,
-              null,
-              null
-            ],
-            "requires": [],
-            "descriptions": {
-              "1": "Your offensive spell critical strikes will increase your chance to get a critical strike with melee attacks by 3% for 10 sec.",
-              "2": "Your offensive spell critical strikes will increase your chance to get a critical strike with melee attacks by 6% for 10 sec.",
-              "3": "Your offensive spell critical strikes will increase your chance to get a critical strike with melee attacks by 9% for 10 sec."
-            }
-          },
-          {
             "id": 104768,
             "row": 2,
-            "col": 1,
+            "col": 0,
             "icon": "spell_shadow_manaburn",
             "name": "Elemental Focus",
             "ranks": [
@@ -4099,9 +4105,9 @@
           {
             "id": 104765,
             "row": 2,
-            "col": 2,
+            "col": 1,
             "icon": "spell_lightning_lightningbolt01",
-            "name": "Elemental Alacrity",
+            "name": "Elemental Warding",
             "ranks": [
               null,
               null,
@@ -4109,9 +4115,9 @@
             ],
             "requires": [],
             "descriptions": {
-              "1": "Reduces the cast time of your Lightning Bolt, Chain Lightning, and Lava Burst spells by 0.17 sec.",
-              "2": "Reduces the cast time of your Lightning Bolt, Chain Lightning, and Lava Burst spells by 0.33 sec.",
-              "3": "Reduces the cast time of your Lightning Bolt, Chain Lightning, and Lava Burst spells by 0.5 sec."
+              "1": "Reduces damage taken from Fire, Frost, and Nature effects by X%.",
+              "2": "Reduces damage taken from Fire, Frost, and Nature effects by X%.",
+              "3": "Reduces damage taken from Fire, Frost, and Nature effects by X%."
             }
           },
           {
@@ -4119,15 +4125,15 @@
             "row": 3,
             "col": 0,
             "icon": "spell_fire_sealoffire",
-            "name": "Improved Fire Nova",
+            "name": "Trial by Fire",
             "ranks": [
               null,
               null
             ],
             "requires": [],
             "descriptions": {
-              "1": "Increases the damage done by your Fire Nova spell by 10% and reduces its cooldown by 2 sec.",
-              "2": "Increases the damage done by your Fire Nova spell by 20% and reduces its cooldown by 4 sec."
+              "1": "Increases the damage done by your Fire Nova spell by X% and reduces its cooldown by X sec, and increases the duration of your Magma Totem by X sec.",
+              "2": "Increases the damage done by your Fire Nova spell by X% and reduces its cooldown by X sec, and increases the duration of your Magma Totem by X sec."
             }
           },
           {
@@ -4151,20 +4157,15 @@
           {
             "id": 104762,
             "row": 3,
-            "col": 2,
+            "col": 3,
             "icon": "spell_nature_callstorm",
-            "name": "Call of Thunder",
+            "name": "Earthbound",
             "ranks": [
               null
             ],
-            "requires": [
-              {
-                "id": 104765,
-                "qty": 3
-              }
-            ],
+            "requires": [],
             "descriptions": {
-              "1": "Increases the critical strike chance of your Lightning Bolt and Chain Lightning spells by 3%."
+              "1": "Your Earthbind Totem Immobilizes nearby targets for X when cast."
             }
           },
           {
@@ -4184,9 +4185,23 @@
             }
           },
           {
-            "id": 104759,
+            "id": 104760,
             "row": 4,
             "col": 1,
+            "icon": "spell_nature_stranglevines",
+            "name": "Lava Burst",
+            "ranks": [
+              null
+            ],
+            "requires": [],
+            "descriptions": {
+              "1": "You hurl molten lava at the target, dealing X Fire damage. If your Flame Shock is on the target, Lava Burst deals X% increased damage."
+            }
+          },
+          {
+            "id": 104759,
+            "row": 4,
+            "col": 2,
             "icon": "spell_nature_lightningoverload",
             "name": "Lightning Overload",
             "ranks": [
@@ -4194,25 +4209,16 @@
               null,
               null
             ],
-            "requires": [],
+            "requires": [
+              {
+                "id": 104771,
+                "qty": 3
+              }
+            ],
             "descriptions": {
               "1": "Gives your Lightning Bolt and Chain Lightning spells a 3% chance to cast a second, similar spell on the same target at no additional cost that causes half damage and no threat.",
               "2": "Gives your Lightning Bolt and Chain Lightning spells a 7% chance to cast a second, similar spell on the same target at no additional cost that causes half damage and no threat.",
               "3": "Gives your Lightning Bolt and Chain Lightning spells a 10% chance to cast a second, similar spell on the same target at no additional cost that causes half damage and no threat."
-            }
-          },
-          {
-            "id": 104760,
-            "row": 4,
-            "col": 3,
-            "icon": "spell_nature_stranglevines",
-            "name": "Earthbound",
-            "ranks": [
-              null
-            ],
-            "requires": [],
-            "descriptions": {
-              "1": "Your Earthbind Totem Immobilizes nearby targets for 5 sec when cast."
             }
           },
           {
@@ -4230,8 +4236,8 @@
             ],
             "requires": [
               {
-                "id": 104762,
-                "qty": 1
+                "id": 104759,
+                "qty": 3
               }
             ],
             "descriptions": {
@@ -4247,18 +4253,18 @@
             "row": 6,
             "col": 1,
             "icon": "spell_shaman_lavaburst",
-            "name": "Lava Burst",
+            "name": "Elemental Mastery",
             "ranks": [
               null
             ],
             "requires": [
               {
-                "id": 104759,
-                "qty": 3
+                "id": 104760,
+                "qty": 1
               }
             ],
             "descriptions": {
-              "1": "You hurl molten lava at the target, dealing 158 to 187 Fire damage. If your Flame Shock is on the target, Lava Burst deals 20% increased damage."
+              "1": "Gain mastery over Fire and Lightning, reducing the cast time of Lightning Bolt and Lava Burst by X.1 sec, and removing the cooldown from Chain Lightning. Lasts X."
             }
           }
         ]
@@ -4635,7 +4641,7 @@
             "row": 0,
             "col": 2,
             "icon": "spell_nature_moonglow",
-            "name": "Totemic Focus",
+            "name": "Tidal Focus",
             "ranks": [
               null,
               null,
@@ -4645,11 +4651,11 @@
             ],
             "requires": [],
             "descriptions": {
-              "1": "Reduces the Mana cost of your totems and any spells that summon or move them by X%.",
-              "2": "Reduces the Mana cost of your totems and any spells that summon or move them by X%.",
-              "3": "Reduces the Mana cost of your totems and any spells that summon or move them by X%.",
-              "4": "Reduces the Mana cost of your totems and any spells that summon or move them by X%.",
-              "5": "Reduces the Mana cost of your totems and any spells that summon or move them by X%."
+              "1": "Reduces the Mana cost of your healing spells by X% and improves your chance to hit by X%.",
+              "2": "Reduces the Mana cost of your healing spells by X% and improves your chance to hit by X%.",
+              "3": "Reduces the Mana cost of your healing spells by X% and improves your chance to hit by X%.",
+              "4": "Reduces the Mana cost of your healing spells by X% and improves your chance to hit by X%.",
+              "5": "Reduces the Mana cost of your healing spells by X% and improves your chance to hit by X%."
             }
           },
           {
@@ -4693,7 +4699,7 @@
             "row": 1,
             "col": 2,
             "icon": "spell_frost_manarecharge",
-            "name": "Tidal Focus",
+            "name": "Totemic Focus",
             "ranks": [
               null,
               null,
@@ -4703,11 +4709,11 @@
             ],
             "requires": [],
             "descriptions": {
-              "1": "Reduces the Mana cost of your healing spells by 1% and increases your chance to hit with all spells and attacks by 1%.",
-              "2": "Reduces the Mana cost of your healing spells by 2% and increases your chance to hit with all spells and attacks by 2%.",
-              "3": "Reduces the Mana cost of your healing spells by 3% and increases your chance to hit with all spells and attacks by 3%.",
-              "4": "Reduces the Mana cost of your healing spells by 4% and increases your chance to hit with all spells and attacks by 4%.",
-              "5": "Reduces the Mana cost of your healing spells by 5% and increases your chance to hit with all spells and attacks by 5%."
+              "1": "Reduces the Mana cost of your totems and any spells that summon or move them by X%.",
+              "2": "Reduces the Mana cost of your totems and any spells that summon or move them by X%.",
+              "3": "Reduces the Mana cost of your totems and any spells that summon or move them by X%.",
+              "4": "Reduces the Mana cost of your totems and any spells that summon or move them by X%.",
+              "5": "Reduces the Mana cost of your totems and any spells that summon or move them by X%."
             }
           },
           {
@@ -5979,21 +5985,15 @@
             "row": 1,
             "col": 0,
             "icon": "spell_shadow_curseofachimonde",
-            "name": "Malediction",
+            "name": "Grim Reach",
             "ranks": [
-              null,
-              null,
-              null,
               null,
               null
             ],
             "requires": [],
             "descriptions": {
-              "1": "Increases all periodic damage done by your Warlock spells by 1%.",
-              "2": "Increases all periodic damage done by your Warlock spells by 2%.",
-              "3": "Increases all periodic damage done by your Warlock spells by 3%.",
-              "4": "Increases all periodic damage done by your Warlock spells by 4%.",
-              "5": "Increases all periodic damage done by your Warlock spells by 5%."
+              "1": "Increases the range of your Affliction spells by X%.",
+              "2": "Increases the range of your Affliction spells by X%."
             }
           },
           {

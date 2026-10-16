@@ -14,7 +14,7 @@ import hashlib
 import json
 from pathlib import Path
 
-BUILD = "1.60.1.70374"
+BUILD = "1.60.1.70425"
 # spell ID, explicit mappings of model field -> (DB2 table, effect index, column).
 # Whole-spell timing/cost imports are separately opted into below.
 SPELLS = {
@@ -30,7 +30,7 @@ SPELLS = {
     "Devouring Plague": (19280, {"tick": (0, "EffectBasePointsF"), "dot_coeff": (0, "EffectBonusCoefficient")}),
     "Lightning Bolt": (15208, {"coeff": (0, "EffectBonusCoefficient")}),
     "Chain Lightning": (10605, {"coeff": (0, "EffectBonusCoefficient")}),
-    "Lava Burst": (1238300, {"base": (0, "range"), "coeff": (0, "EffectBonusCoefficient")}),
+    "Lava Burst": (1326047, {"base": (0, "range"), "coeff": (0, "EffectBonusCoefficient")}),
     "Flame Shock": (29228, {}),
     "Siphon Life": (18881, {"tick": (0, "EffectBasePointsF"), "dot_coeff": (0, "EffectBonusCoefficient")}),
     "Drain Soul": (11675, {"tick": (1, "EffectBasePointsF")}),
@@ -93,7 +93,7 @@ RANKS = {
     "104936": {"dmg_school:arcane": (0, .01), "dmg_school:nature": (0, .01)},
     "104755": {"ap_from_int": (0, .01)},
     "104759": {"flag:lightning_overload": (0, .01)},
-    "104765": {"cast:Lightning Bolt": (0, .001), "cast:Chain Lightning": (0, .001), "cast:Lava Burst": (0, .001)},
+    "104771": {"cast:Lightning Bolt": (0, .001), "cast:Chain Lightning": (0, .001), "cast:Lava Burst": (0, .001)},  # Elemental Alacrity (node 104765 before build 70425)
     "105001": {"dmg_ability:Multi-Shot": (0, .01), "dmg_ability:Aimed Shot": (0, .01), "dmg_ability:Volley": (0, .01)},
     "105708": {"dmg_ability:Eviscerate": (0, .01)},
     "105716": {"crit_dmg_builder": (0, .01)},

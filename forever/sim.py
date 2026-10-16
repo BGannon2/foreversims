@@ -73,7 +73,7 @@ ASSUMPTIONS = [
     'Vengeance stacks up to 3 times (Forever development notes, September 24) and refreshes all stacks together; only modeled direct attack and Judgement crits trigger it, and it boosts only Physical and Holy damage.',
     'Righteous Fury adds +60% Holy threat (client spell 25780, build 70124; was +90%). Twist of Light also reduces Seal mana costs by 20% (client spell 1310735), which makes twisting cheaper.',
     "Thorns (raid buff, rank 6) deals 22 Nature damage to the boss on every landed swing. Forever scales it with the druid's spell power; the coefficient is unpublished, so only the base damage is modeled.",
-    'Reckoning grants an immediate extra swing, can trigger seals, and does not reset the normal swing timer.',
+    'Reckoning banks a charge per proc (up to 4); the next auto attack releases one extra attack per charge, which can trigger seals and does not reset the swing timer.',
     'Mana regenerates in two-second ticks: mp5 always, Spirit (Spirit/5 + 15 per tick) only outside the five-second rule or at the Reverence talent fraction while casting. Major Mana Potion and Demonic Rune are used on cooldown when the deficit allows.',
     'Healing is a fixed pulse on a configurable timer; no healer mana, aggro, reaction time or spell model.',
     'Enemy attacks stay on the tank regardless of threat. Damage uses one base threat per damage by default. Holy base threat is editable; the separate WoWSims Classic audit uses 1.5, which is not treated as a Forever fact.',
@@ -116,16 +116,14 @@ def preset(spec='protection'):
             'target_physical_mitigation':0.3, 'heal_amount':2500.0,
             'heal_interval':2.0, 'incoming_enabled':prot},
         # Assume a full 40-man raid bringing every class: every raid buff is on by default,
-        # including ones that are a no-op for a melee Paladin (Trueshot Aura). The only ones
-        # left False are the losing half of a mutually-exclusive raid slot -- grace_of_air and
-        # windfury_totem can't both be the raid's Air Totem, and moonkin_aura/leader_of_the_pack
-        # can't both be the raid's 3%-crit aura -- so we keep the picks that actually matter for
-        # a melee/physical spec (matches the shared engine's default_buffs() logic).
+        # including ones that are a no-op for a melee Paladin (Trueshot Aura, Moonkin Aura). Since
+        # the Oct 15 development notes no raid buffs are mutually exclusive (matches the shared
+        # engine's default_buffs()).
         'raid_buffs': {'bloodlust':True, 'power_word_fortitude':True, 'mark_of_the_wild':True,
             'arcane_intellect':True, 'battle_shout':True, 'blessing_of_might':True,
             'devotion_aura':True, 'blessing_of_kings':True, 'blessing_of_wisdom':True,
-            'strength_of_earth':True, 'windfury_totem':True, 'grace_of_air':False,
-            'mana_spring':True, 'leader_of_the_pack':True, 'moonkin_aura':False, 'trueshot_aura':True, 'thorns':True},
+            'strength_of_earth':True, 'windfury_totem':True, 'grace_of_air':True,
+            'mana_spring':True, 'leader_of_the_pack':True, 'moonkin_aura':True, 'trueshot_aura':True, 'thorns':True},
         'consumables': {'flask_of_the_titans':prot, 'elixir_of_the_mongoose':True,
             'elixir_of_superior_defense':prot, 'elixir_of_fortitude':prot,
             'greater_stoneshield_potion':prot, 'smoked_desert_dumplings':True,
@@ -232,7 +230,7 @@ class Fight:
         self.queue=[]; self.serial=0; self.gcd=0.0; self.cd=defaultdict(float)
         self.seal=None; self.seal_until=0.0; self.echo=None
         self.iron_until=0.0; self.execute_at=self.p['duration']*0.8
-        self.hs_until=0.0; self.hs_charges=0; self.red_until=0.0; self.red_charges=0
+        self.hs_until=0.0; self.hs_charges=0; self.red_until=0.0; self.red_charges=0; self.reck_charges=0; self.tog_ready=0.0
         self.absorb=0.0; self.absorb_until=0.0; self.forbearance=0.0
         self.vengeance=0; self.vengeance_until=0.0; self.mana_icd=0.0
         self.damage=defaultdict(float); self.threat_by_source=defaultdict(float); self.taken_by_source=defaultdict(float); self.hits=defaultdict(int); self.casts=defaultdict(int)
@@ -307,7 +305,8 @@ class Fight:
 
     def touch_of_the_grave(self):
         tg=self.racial.get('touch_of_the_grave')
-        if tg and self.rng.random()<tg['chance']:
+        if tg and self.time>=self.tog_ready and self.rng.random()<tg['chance']:
+            self.tog_ready=self.time+tg.get('icd',0)
             self.deal('Touch of the Grave',self.c['health']*tg['health_fraction'],holy=True,physical=False,hit=1)
 
     def deal(self,name,amount,holy=False,can_crit=False,hit=1.0,extra_threat=1.0,melee_crit=False,physical=None,spell_coefficient=0.0,return_amount=False):
@@ -344,7 +343,7 @@ class Fight:
         amount*=1+self.racial.get('creature_damage',{}).get(self.e['boss_type'],0)
         if physical and self.p['debuffs']['gift_of_arthas'] and self.p['consumables']['gift_of_arthas']: amount+=8
         if physical: amount*=1-self.e['target_physical_mitigation']
-        if critical: amount*=self.m['melee_crit_multiplier' if melee_crit or not holy else 'spell_crit_multiplier']
+        if critical: amount*=self.m['melee_crit_multiplier' if melee_crit or not holy else 'spell_crit_multiplier']*(1+self.racial.get('crit_damage',0))
         amount*=glance
         self.damage[name]+=amount; self.hits[name]+=1
         base_threat=self.m['holy_threat_per_damage'] if holy else self.m['base_threat_per_damage']
@@ -398,7 +397,10 @@ class Fight:
             if self.time < self.seal_until: self.seal_proc(self.seal,weapon)
             if self.echo: self.seal_proc(self.echo,weapon,True)
         self.echo=None
-        if not extra: self.schedule(self.time+self.swing_delay(),'swing')
+        if not extra:
+            charges,self.reck_charges=self.reck_charges,0
+            for _ in range(charges): self.swing(extra=True)
+            self.schedule(self.time+self.swing_delay(),'swing')
 
     def cast_seal(self,seal):
         if not self.spend('Seal of '+seal.title(),F[seal]['cost']): return False
@@ -549,7 +551,7 @@ class Fight:
         reck=F['reckoning_rank1']
         reck_rank=self.rank(105627)
         if reck_rank and ((blocked and self.rng.random()<min(1,reck['block_proc']*reck_rank)) or (critical and self.rng.random()<min(1,reck['crit_proc']*reck_rank))):
-            self.swing(extra=True)
+            self.reck_charges=min(4,self.reck_charges+1)  # banked; released on the next auto attack
 
     def run(self):
         if self.prot:
@@ -583,7 +585,7 @@ class Fight:
                 # separate unrelated "first 4 get bonus damage" restriction above).
                 aoe=min(self.e.get('targets',1),8); c5=F['consecration']; first4=min(aoe,4)
                 per_tick=(c5['total_damage']*aoe+(c5['first4_total_damage']-c5['total_damage'])*first4)/c5['ticks']
-                self.deal('Consecration',per_tick,holy=True,hit=1,spell_coefficient=.33/c5['ticks']*aoe)
+                self.deal('Consecration',per_tick,holy=True,hit=1,spell_coefficient=c5['tick_coeff']*aoe)
             elif kind=='mana': self.mana_tick(); self.schedule(t+2.0,'mana')
             elif kind=='enemy': self.enemy()
             else:

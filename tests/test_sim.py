@@ -49,7 +49,7 @@ class SimulationTests(unittest.TestCase):
         p=preset('protection')
         core=('power_word_fortitude','mark_of_the_wild','arcane_intellect','battle_shout','blessing_of_might','devotion_aura','blessing_of_kings','blessing_of_wisdom','strength_of_earth','mana_spring','leader_of_the_pack')
         self.assertTrue(all(p['raid_buffs'][k] for k in core))
-        self.assertFalse(p['raid_buffs']['grace_of_air']); self.assertTrue(preset('retribution')['raid_buffs']['windfury_totem'])
+        self.assertTrue(p['raid_buffs']['grace_of_air']); self.assertTrue(preset('retribution')['raid_buffs']['windfury_totem'])  # no longer exclusive (Oct 15 notes)
         self.assertTrue(all(v for k,v in p['consumables'].items() if k!='major_mana_potion'))
         self.assertTrue(all(p['debuffs'].values()))
         forbidden=('rallying','zandalar','songflower','dire_maul','sayge')
@@ -189,7 +189,7 @@ class SimulationTests(unittest.TestCase):
         self.assertEqual(f.hs_charges,0)
         self.assertEqual(f.hits['Holy Shield'],4)
         self.assertEqual(f.damage['Holy Shield'],440)
-        self.assertAlmostEqual(f.threat,440*1.5*1.6*1.2)
+        self.assertAlmostEqual(f.threat,440*1.5*1.9*1.2)  # Righteous Fury back to +90% (build 70425)
 
     def test_classic_attack_power_adds_normalized_weapon_damage(self):
         p=self.basic(); p['gear']={k:0 for k in p['gear']}
@@ -304,7 +304,7 @@ class SimulationTests(unittest.TestCase):
             def random(self): return 0
             def uniform(self,a,b): return a
         f.rng=ZeroRandom(); f.enemy(); first=f.mana; f.time=1; f.enemy()
-        self.assertEqual(first,p['character']['mana']*.06); self.assertEqual(f.mana,first)
+        self.assertEqual(first,p['character']['mana']*.04); self.assertEqual(f.mana,first)  # 4% since build 70425
         f.time=3; f.enemy(); self.assertEqual(f.mana,first*2)
 
     def test_more_healing_does_not_resurrect(self):

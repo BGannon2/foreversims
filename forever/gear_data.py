@@ -224,11 +224,11 @@ def apply_gear(profile):
         ch["crit_chance"] += ch["agility"] * 0.0506 / 100
         ch["spell_crit_chance"] += ch["intellect"] * 0.0167 / 100
         ch["avoidance"] += ch["agility"] * 0.0506 / 100
-        ch["spell_power"] += ch["intellect"] * 0.20 * talents.get("110882", 0)  # Champion of the Light: 20/40/60% (client 1311084, build 70205)
+        ch["spell_power"] += ch["intellect"] * 0.10 * talents.get("110882", 0)  # Champion of the Light: 10/20/30% (Oct 15 notes, build 70425)
         ch["health"] *= 1 + RACIALS.get(race, {}).get("health_pct", 0)
         kinds = {weapon_kind for weapon_kind in (ITEMS.get(effective["gear"][slot], {}).get("subclass") for slot in ("main_hand", "off_hand")) if weapon_kind}
         for kind, bonus in RACIALS.get(race, {}).get("weapon_crit", {}).items():
-            if kind != "provisional" and any(kind in k for k in kinds):
+            if kind != "provisional" and (kind == "all" or any(kind in k for k in kinds)):
                 ch["crit_chance"] += bonus / 100; ch["spell_crit_chance"] += bonus / 100
         # Level-63 boss: 4.8% melee crit suppression and 2.1% spell crit suppression (WoWSims Classic attack table).
         ch["crit_chance"] = max(0.0, ch["crit_chance"] - 0.048)

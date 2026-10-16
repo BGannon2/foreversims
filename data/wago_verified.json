@@ -1,114 +1,120 @@
 {
-  "build": "1.60.1.70374",
+  "build": "1.60.1.70425",
   "product": "wow_classic_beta",
   "tables": [
     {
       "table": "CurvePoint",
-      "sha256": "b32aedd7442bc7e3499c6b122773837336345127abacc6095365ac30f7809324",
-      "bytes": 961177,
-      "url": "https://wago.tools/db2/CurvePoint/csv?build=1.60.1.70374"
+      "sha256": "b638d21288d5240d518b1abd2f21e5ca1154601ff3088dabab0910d7f9263b5c",
+      "bytes": 1028664,
+      "url": "https://wago.tools/db2/CurvePoint/csv?build=1.60.1.70425"
     },
     {
       "table": "ItemSparse",
-      "sha256": "c4910b0ca68f886b3745be0a54cba4e1400240c618f99af05cd569a4da72c861",
-      "bytes": 5330692,
-      "url": "https://wago.tools/db2/ItemSparse/csv?build=1.60.1.70374"
+      "sha256": "99e6d1df9055591cb39b42d3c352728591ee60ea99a32428136d7121eef436bc",
+      "bytes": 5326325,
+      "url": "https://wago.tools/db2/ItemSparse/csv?build=1.60.1.70425"
     },
     {
       "table": "Spell",
-      "sha256": "0ed6a4fac5ee0eb4b8929db34aa97f24d4ef395b0ec080b890fcb86ac5041e68",
-      "bytes": 2198316,
-      "url": "https://wago.tools/db2/Spell/csv?build=1.60.1.70374"
+      "sha256": "0deeeb6d70041cc0acf7f3519bd1f1140912903be04d9f6cebfea178417c2520",
+      "bytes": 2208209,
+      "url": "https://wago.tools/db2/Spell/csv?build=1.60.1.70425"
+    },
+    {
+      "table": "SpellAuraOptions",
+      "sha256": "c1a48460bf0ebb6188a47c5808bc067df39fa923e511938bee09b55815b82989",
+      "bytes": 402360,
+      "url": "https://wago.tools/db2/SpellAuraOptions/csv?build=1.60.1.70425"
     },
     {
       "table": "SpellCastTimes",
       "sha256": "f94e1e3a3495d11af875fd7b007124fdd660a19ba626bc1de00a609da81f25d8",
       "bytes": 982,
-      "url": "https://wago.tools/db2/SpellCastTimes/csv?build=1.60.1.70374"
+      "url": "https://wago.tools/db2/SpellCastTimes/csv?build=1.60.1.70425"
     },
     {
       "table": "SpellCooldowns",
-      "sha256": "fced5fe8f6eda573c4b25a90d23809a22b954300d30cc3ccfdd6cfa0fee4dea3",
-      "bytes": 117725,
-      "url": "https://wago.tools/db2/SpellCooldowns/csv?build=1.60.1.70374"
+      "sha256": "32819710744a3b8b6f41436b8e999e667cc459742af5da790da8e82ae828ca76",
+      "bytes": 119117,
+      "url": "https://wago.tools/db2/SpellCooldowns/csv?build=1.60.1.70425"
     },
     {
       "table": "SpellDuration",
-      "sha256": "d9fa937198af50078566e65ca449f555baccd35e1d25d00090b52c709b3f74c5",
-      "bytes": 2516,
-      "url": "https://wago.tools/db2/SpellDuration/csv?build=1.60.1.70374"
+      "sha256": "46ba17d896e4373814e4b61864aa9f3104ec2671ed9e1d7219f2499643813c5d",
+      "bytes": 2515,
+      "url": "https://wago.tools/db2/SpellDuration/csv?build=1.60.1.70425"
     },
     {
       "table": "SpellEffect",
-      "sha256": "7d14075e4444dbd364be9943ad9b90872275da2b1c1f63f39b5cf3da9b5e3f80",
-      "bytes": 3839211,
-      "url": "https://wago.tools/db2/SpellEffect/csv?build=1.60.1.70374"
+      "sha256": "d60b11da7422296f2c918af16a72e2fc03dce367f0b4c0a213356a33cbc7632c",
+      "bytes": 3851407,
+      "url": "https://wago.tools/db2/SpellEffect/csv?build=1.60.1.70425"
     },
     {
       "table": "SpellLevels",
-      "sha256": "1c73c66b290df58a86ffc854838353a7b9c85d400c65a1843345bc826afe12aa",
-      "bytes": 311872,
-      "url": "https://wago.tools/db2/SpellLevels/csv?build=1.60.1.70374"
+      "sha256": "cb378d6c2d4bd020295d294777bfeaecdc4274d99f2c8c5c092b420b435e465c",
+      "bytes": 312682,
+      "url": "https://wago.tools/db2/SpellLevels/csv?build=1.60.1.70425"
     },
     {
       "table": "SpellMisc",
-      "sha256": "f5899d87d339d3765495c06b84de930ac2d6601fbc4c59ab4be475046a658843",
-      "bytes": 3015723,
-      "url": "https://wago.tools/db2/SpellMisc/csv?build=1.60.1.70374"
+      "sha256": "80acf9664ff641e36ad7327774118a6782a99f2625ef9b5633aac8235b6ca8b3",
+      "bytes": 3026755,
+      "url": "https://wago.tools/db2/SpellMisc/csv?build=1.60.1.70425"
     },
     {
       "table": "SpellName",
-      "sha256": "679a769bcfa443eba64e707efd395da41c752729eaa8af46aed9eb8316c5f864",
-      "bytes": 835757,
-      "url": "https://wago.tools/db2/SpellName/csv?build=1.60.1.70374"
+      "sha256": "2eaea379c49908494e90799e6c96d9e59b7ca6fd38e73ce14111e6e72d9b1231",
+      "bytes": 837548,
+      "url": "https://wago.tools/db2/SpellName/csv?build=1.60.1.70425"
     },
     {
       "table": "SpellPower",
-      "sha256": "982f03129583b2ddfa7dd97316b8df588944b23019208ad0a2e58b0bb9451b74",
-      "bytes": 138607,
-      "url": "https://wago.tools/db2/SpellPower/csv?build=1.60.1.70374"
+      "sha256": "961cb9e302b17b54623880f3aa0888dd9c0e861975d15538b0e49859da81a677",
+      "bytes": 139618,
+      "url": "https://wago.tools/db2/SpellPower/csv?build=1.60.1.70425"
     },
     {
       "table": "TraitDefinition",
-      "sha256": "23f19d05c5d1c97ccb1ca537ea3d577588204cfc573ea8e9ade9e02d6a68c817",
-      "bytes": 15004,
-      "url": "https://wago.tools/db2/TraitDefinition/csv?build=1.60.1.70374"
+      "sha256": "72a94874e399a6e64691599e1ac7db0c1568f648d8fa84a3b4962aa54fdf6aa3",
+      "bytes": 15028,
+      "url": "https://wago.tools/db2/TraitDefinition/csv?build=1.60.1.70425"
     },
     {
       "table": "TraitDefinitionEffectPoints",
-      "sha256": "8cd2e0422a2ddba275b950e9b8de11d5032a38c35d5edcba33f94102de901d2d",
-      "bytes": 14989,
-      "url": "https://wago.tools/db2/TraitDefinitionEffectPoints/csv?build=1.60.1.70374"
+      "sha256": "4f4822d6bdc074f51429326a81403fd62b078fa90f8a7a6b969cadd26ee2b768",
+      "bytes": 14992,
+      "url": "https://wago.tools/db2/TraitDefinitionEffectPoints/csv?build=1.60.1.70425"
     },
     {
       "table": "TraitEdge",
-      "sha256": "bf3086595d7d2321f2f330d85057a028c2ba9bcfe28527ebdc314007da315d82",
-      "bytes": 2503,
-      "url": "https://wago.tools/db2/TraitEdge/csv?build=1.60.1.70374"
+      "sha256": "70aed081f8de56b26ecf98c59a0016eb632a72c99a58a7610580f3f7c3fd42be",
+      "bytes": 2528,
+      "url": "https://wago.tools/db2/TraitEdge/csv?build=1.60.1.70425"
     },
     {
       "table": "TraitNode",
-      "sha256": "263f9df958e09d54cecd80170e1129a20c85bdd4c03cb430f56aea48f43414d3",
-      "bytes": 15718,
-      "url": "https://wago.tools/db2/TraitNode/csv?build=1.60.1.70374"
+      "sha256": "91cfe5c15581a798e694c71f50fcad6f8e16a3a009b3ceca281d1f075d9426e3",
+      "bytes": 15715,
+      "url": "https://wago.tools/db2/TraitNode/csv?build=1.60.1.70425"
     },
     {
       "table": "TraitNodeEntry",
-      "sha256": "7908703ec9ed154bbcb8ff49d380b0954557902032f5c724fca1907bc3d697e7",
+      "sha256": "7df2f5497532ae57dbfe0c0d0efd94a04db52aee2c3bfadefc11dd0af4ccb264",
       "bytes": 13234,
-      "url": "https://wago.tools/db2/TraitNodeEntry/csv?build=1.60.1.70374"
+      "url": "https://wago.tools/db2/TraitNodeEntry/csv?build=1.60.1.70425"
     },
     {
       "table": "TraitNodeXTraitNodeEntry",
-      "sha256": "b0994f62801bd36d3af34c3ae1d9f7b3df32ffecb59f088c97ea78322723e963",
+      "sha256": "03a24b38fcf86b7b4409ec0460567529b8b67a8f6e36bea80f257b2d401619c3",
       "bytes": 14046,
-      "url": "https://wago.tools/db2/TraitNodeXTraitNodeEntry/csv?build=1.60.1.70374"
+      "url": "https://wago.tools/db2/TraitNodeXTraitNodeEntry/csv?build=1.60.1.70425"
     },
     {
       "table": "TraitTree",
       "sha256": "6f63def42b6b42b7524e36aef48f7afd9a399b6968b5a979e8c3f349f163f3a6",
       "bytes": 533,
-      "url": "https://wago.tools/db2/TraitTree/csv?build=1.60.1.70374"
+      "url": "https://wago.tools/db2/TraitTree/csv?build=1.60.1.70425"
     }
   ],
   "interpretation": "Explicit reviewed IDs only. Client tables do not prove server proc rules, target eligibility, or spell availability. Remaining abilities are not certified by this snapshot.",
@@ -800,7 +806,7 @@
             "Attributes_0": "65536",
             "Attributes_1": "0",
             "Attributes_2": "524288",
-            "Attributes_3": "128",
+            "Attributes_3": "0",
             "Attributes_4": "536870912",
             "Attributes_5": "0",
             "Attributes_6": "8388608",
@@ -868,13 +874,13 @@
       "spell_id": 1239700,
       "fields": {
         "base": [
-          364.24898,
-          423.75102
+          218.179592,
+          253.820408
         ],
-        "coeff": 0.714,
+        "coeff": 0.429,
         "cost": 0.0,
         "cost_pct": 0.15,
-        "cast": 2.5
+        "cast": 1.5
       },
       "rows": {
         "SpellEffect": [
@@ -887,14 +893,14 @@
             "EffectAmplitude": "0",
             "EffectAttributes": "0",
             "EffectAuraPeriod": "0",
-            "EffectBonusCoefficient": "0.71399998665",
+            "EffectBonusCoefficient": "0.42899999022",
             "EffectChainAmplitude": "1",
             "EffectChainTargets": "0",
             "EffectItemType": "0",
             "EffectMechanic": "0",
             "EffectPointsPerResource": "0",
             "EffectPos_facing": "0",
-            "EffectRealPointsPerLevel": "2.59999990463",
+            "EffectRealPointsPerLevel": "1.60000002384",
             "EffectTriggerSpell": "0",
             "BonusCoefficientFromAP": "0",
             "PvpMultiplier": "1",
@@ -902,7 +908,7 @@
             "Variance": "0.15102040768",
             "ResourceCoefficient": "0",
             "GroupSizeBasePointsCoefficient": "1",
-            "EffectBasePointsF": "394",
+            "EffectBasePointsF": "236",
             "ScalingClass": "0",
             "Node__Field_12_0_0_63534_001": "0",
             "EffectMiscValue_0": "0",
@@ -980,7 +986,7 @@
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
-            "CastingTimeIndex": "19",
+            "CastingTimeIndex": "16",
             "DurationIndex": "0",
             "PvPDurationIndex": "0",
             "RangeIndex": "4",
@@ -1001,7 +1007,7 @@
           {
             "ID": "1239700",
             "NameSubtext_lang": "Rank 5",
-            "Description_lang": "Blasts the target with energy, dealing $s1 Arcane damage. Each time you cast Arcane Blast, the damage of all your other spells is increased by $400573s1% and the mana cost of Arcane Blast is increased by $400573s2%. Effect stacks up to $400573u times and lasts $400573d or until any other damage spell is cast.",
+            "Description_lang": "Blasts the target with energy, dealing $s1 Arcane damage. Each time you cast Arcane Blast, you gain $400573s1% of your Intellect as Spell Damage and the mana cost of Arcane Blast is increased by $400573s2%. Effect stacks up to $400573u times and lasts $400573d from time of initial application.",
             "AuraDescription_lang": ""
           }
         ],
@@ -1014,9 +1020,9 @@
         "SpellDuration": [],
         "SpellCastTimes": [
           {
-            "ID": "19",
-            "Base": "2500",
-            "Minimum": "2500"
+            "ID": "16",
+            "Base": "1500",
+            "Minimum": "1500"
           }
         ]
       },
@@ -1302,7 +1308,7 @@
             "Variance": "0",
             "ResourceCoefficient": "0",
             "GroupSizeBasePointsCoefficient": "1",
-            "EffectBasePointsF": "300",
+            "EffectBasePointsF": "200",
             "ScalingClass": "0",
             "Node__Field_12_0_0_63534_001": "0",
             "EffectMiscValue_0": "0",
@@ -1669,7 +1675,7 @@
         ],
         "coeff": 0.429,
         "cost": 340.0,
-        "cooldown": 15.0
+        "cooldown": 18.0
       },
       "rows": {
         "SpellEffect": [
@@ -1814,7 +1820,7 @@
           {
             "ID": "100966",
             "DifficultyID": "0",
-            "CategoryRecoveryTime": "15000",
+            "CategoryRecoveryTime": "18000",
             "RecoveryTime": "0",
             "StartRecoveryTime": "1500",
             "AuraSpellID": "0",
@@ -1901,7 +1907,7 @@
         "tick": 106.0,
         "dot_coeff": 0.1,
         "cost": 985.0,
-        "cooldown": 60.0
+        "cooldown": 24.0
       },
       "rows": {
         "SpellEffect": [
@@ -1968,7 +1974,7 @@
           {
             "ID": "55344",
             "DifficultyID": "0",
-            "CategoryRecoveryTime": "60000",
+            "CategoryRecoveryTime": "24000",
             "RecoveryTime": "0",
             "StartRecoveryTime": "1500",
             "AuraSpellID": "0",
@@ -2213,7 +2219,7 @@
       "spell_id": 10605,
       "fields": {
         "coeff": 0.571,
-        "cost": 485.0,
+        "cost": 315.0,
         "cast": 2.0,
         "cooldown": 6.0
       },
@@ -2263,7 +2269,7 @@
           {
             "ID": "177727",
             "OrderIndex": "0",
-            "ManaCost": "485",
+            "ManaCost": "315",
             "ManaCostPerLevel": "0",
             "ManaPerSecond": "0",
             "PowerDisplayID": "0",
@@ -2364,7 +2370,7 @@
       "status": "client-values-verified; engine behavior separately modeled"
     },
     "Lava Burst": {
-      "spell_id": 1238300,
+      "spell_id": 1326047,
       "fields": {
         "base": [
           192.141526,
@@ -2378,7 +2384,7 @@
       "rows": {
         "SpellEffect": [
           {
-            "ID": "1235457",
+            "ID": "1363744",
             "EffectAura": "0",
             "DifficultyID": "0",
             "EffectIndex": "0",
@@ -2414,10 +2420,10 @@
             "EffectSpellClassMask_3": "0",
             "ImplicitTarget_0": "6",
             "ImplicitTarget_1": "0",
-            "SpellID": "1238300"
+            "SpellID": "1326047"
           },
           {
-            "ID": "1340790",
+            "ID": "1363745",
             "EffectAura": "0",
             "DifficultyID": "0",
             "EffectIndex": "1",
@@ -2453,12 +2459,12 @@
             "EffectSpellClassMask_3": "0",
             "ImplicitTarget_0": "6",
             "ImplicitTarget_1": "0",
-            "SpellID": "1238300"
+            "SpellID": "1326047"
           }
         ],
         "SpellPower": [
           {
-            "ID": "310842",
+            "ID": "315062",
             "OrderIndex": "0",
             "ManaCost": "265",
             "ManaCostPerLevel": "0",
@@ -2472,34 +2478,34 @@
             "PowerType": "0",
             "RequiredAuraSpellID": "0",
             "OptionalCost": "0",
-            "SpellID": "1238300"
+            "SpellID": "1326047"
           }
         ],
         "SpellCooldowns": [
           {
-            "ID": "94562",
+            "ID": "102211",
             "DifficultyID": "0",
             "CategoryRecoveryTime": "10000",
             "RecoveryTime": "0",
             "StartRecoveryTime": "1500",
             "AuraSpellID": "0",
-            "SpellID": "1238300"
+            "SpellID": "1326047"
           }
         ],
         "SpellLevels": [
           {
-            "ID": "148282",
+            "ID": "154097",
             "DifficultyID": "0",
             "MaxLevel": "68",
             "MaxPassiveAuraLevel": "0",
             "BaseLevel": "60",
             "SpellLevel": "60",
-            "SpellID": "1238300"
+            "SpellID": "1326047"
           }
         ],
         "SpellMisc": [
           {
-            "ID": "792882",
+            "ID": "871573",
             "Attributes_0": "65536",
             "Attributes_1": "0",
             "Attributes_2": "256",
@@ -2532,20 +2538,20 @@
             "ShowFutureSpellPlayerConditionID": "0",
             "SpellVisualScript": "0",
             "ActiveSpellVisualScript": "0",
-            "SpellID": "1238300"
+            "SpellID": "1326047"
           }
         ],
         "Spell": [
           {
-            "ID": "1238300",
-            "NameSubtext_lang": "Rank 3",
+            "ID": "1326047",
+            "NameSubtext_lang": "Rank 4",
             "Description_lang": "You hurl molten lava at the target, dealing $s1 Fire damage. If your Flame Shock is on the target, Lava Burst deals $s2% increased damage.",
             "AuraDescription_lang": ""
           }
         ],
         "SpellName": [
           {
-            "ID": "1238300",
+            "ID": "1326047",
             "Name_lang": "Lava Burst"
           }
         ],
@@ -2898,7 +2904,7 @@
             "Attributes_5": "0",
             "Attributes_6": "0",
             "Attributes_7": "0",
-            "Attributes_8": "0",
+            "Attributes_8": "512",
             "Attributes_9": "0",
             "Attributes_10": "0",
             "Attributes_11": "0",
@@ -3885,7 +3891,7 @@
             "Attributes_0": "262144",
             "Attributes_1": "512",
             "Attributes_2": "0",
-            "Attributes_3": "1024",
+            "Attributes_3": "0",
             "Attributes_4": "0",
             "Attributes_5": "0",
             "Attributes_6": "0",
@@ -3920,7 +3926,7 @@
         "Spell": [
           {
             "ID": "1317257",
-            "NameSubtext_lang": "Rank 1",
+            "NameSubtext_lang": "",
             "Description_lang": "A powerful kick that deals $s2% melee weapon damage and increases movement speed by $s3% for $d.",
             "AuraDescription_lang": "Movement speed increased by $w3%."
           }
@@ -5128,7 +5134,7 @@
             "Attributes_3": "0",
             "Attributes_4": "0",
             "Attributes_5": "0",
-            "Attributes_6": "0",
+            "Attributes_6": "2097152",
             "Attributes_7": "0",
             "Attributes_8": "4096",
             "Attributes_9": "0",
@@ -5371,7 +5377,7 @@
             "Attributes_3": "0",
             "Attributes_4": "0",
             "Attributes_5": "0",
-            "Attributes_6": "0",
+            "Attributes_6": "2097152",
             "Attributes_7": "0",
             "Attributes_8": "4608",
             "Attributes_9": "0",
@@ -6204,7 +6210,7 @@
             "Attributes_3": "0",
             "Attributes_4": "0",
             "Attributes_5": "0",
-            "Attributes_6": "0",
+            "Attributes_6": "2097152",
             "Attributes_7": "0",
             "Attributes_8": "0",
             "Attributes_9": "0",
@@ -8482,7 +8488,7 @@
             "Attributes_13": "0",
             "Attributes_14": "0",
             "Attributes_15": "8192",
-            "Attributes_16": "0",
+            "Attributes_16": "128",
             "DifficultyID": "0",
             "CastingTimeIndex": "5",
             "DurationIndex": "0",
@@ -9942,7 +9948,7 @@
             "Attributes_3": "128",
             "Attributes_4": "0",
             "Attributes_5": "0",
-            "Attributes_6": "0",
+            "Attributes_6": "2097152",
             "Attributes_7": "0",
             "Attributes_8": "4608",
             "Attributes_9": "0",
@@ -10573,7 +10579,7 @@
             "Attributes_3": "1024",
             "Attributes_4": "0",
             "Attributes_5": "0",
-            "Attributes_6": "8388608",
+            "Attributes_6": "10485760",
             "Attributes_7": "0",
             "Attributes_8": "4608",
             "Attributes_9": "0",
@@ -10973,7 +10979,7 @@
             "Attributes_3": "0",
             "Attributes_4": "0",
             "Attributes_5": "0",
-            "Attributes_6": "0",
+            "Attributes_6": "8388608",
             "Attributes_7": "0",
             "Attributes_8": "4096",
             "Attributes_9": "0",
@@ -11438,7 +11444,6 @@
       "fields": {
         "cost": 0.0,
         "cost_pct": 0.139,
-        "cast": 0.5,
         "cooldown": 6.0
       },
       "rows": {
@@ -11545,7 +11550,7 @@
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
-            "CastingTimeIndex": "3",
+            "CastingTimeIndex": "1",
             "DurationIndex": "0",
             "PvPDurationIndex": "0",
             "RangeIndex": "114",
@@ -11579,9 +11584,9 @@
         "SpellDuration": [],
         "SpellCastTimes": [
           {
-            "ID": "3",
-            "Base": "500",
-            "Minimum": "500"
+            "ID": "1",
+            "Base": "0",
+            "Minimum": "0"
           }
         ]
       },
@@ -11725,7 +11730,7 @@
             "Attributes_3": "0",
             "Attributes_4": "0",
             "Attributes_5": "0",
-            "Attributes_6": "0",
+            "Attributes_6": "2097152",
             "Attributes_7": "0",
             "Attributes_8": "4608",
             "Attributes_9": "0",
@@ -12727,7 +12732,7 @@
         }
       ]
     },
-    "104765": {
+    "104771": {
       "fields": {
         "cast:Lightning Bolt": [
           -0.17,
@@ -12746,14 +12751,14 @@
         ]
       },
       "link": {
-        "ID": "126892",
-        "TraitNodeID": "104765",
-        "TraitNodeEntryID": "129425",
+        "ID": "126898",
+        "TraitNodeID": "104771",
+        "TraitNodeEntryID": "129431",
         "_Index": "100"
       },
       "entry": {
-        "ID": "129425",
-        "TraitDefinitionID": "134226",
+        "ID": "129431",
+        "TraitDefinitionID": "134232",
         "MaxRanks": "3",
         "NodeEntryType": "1",
         "TraitSubTreeID": "0"
@@ -12762,7 +12767,7 @@
         "OverrideName_lang": "",
         "OverrideSubtext_lang": "",
         "OverrideDescription_lang": "",
-        "ID": "134226",
+        "ID": "134232",
         "SpellID": "16578",
         "OverrideIcon": "0",
         "OverridesSpellID": "0",
@@ -12779,11 +12784,11 @@
           "modifier": "cast:Lightning Bolt",
           "unit_scale": 0.001,
           "effect_points": {
-            "ID": "23702",
-            "TraitDefinitionID": "134226",
+            "ID": "23690",
+            "TraitDefinitionID": "134232",
             "EffectIndex": "0",
             "OperationType": "0",
-            "CurveID": "85228"
+            "CurveID": "85216"
           },
           "curve_points": [
             {
@@ -12791,8 +12796,8 @@
               "Pos_1": "-170",
               "PosPreSquish_0": "0",
               "PosPreSquish_1": "0",
-              "ID": "251121",
-              "CurveID": "85228",
+              "ID": "251085",
+              "CurveID": "85216",
               "OrderIndex": "0"
             },
             {
@@ -12800,8 +12805,8 @@
               "Pos_1": "-330",
               "PosPreSquish_0": "0",
               "PosPreSquish_1": "0",
-              "ID": "251122",
-              "CurveID": "85228",
+              "ID": "251086",
+              "CurveID": "85216",
               "OrderIndex": "1"
             },
             {
@@ -12809,8 +12814,8 @@
               "Pos_1": "-500",
               "PosPreSquish_0": "0",
               "PosPreSquish_1": "0",
-              "ID": "251123",
-              "CurveID": "85228",
+              "ID": "251087",
+              "CurveID": "85216",
               "OrderIndex": "2"
             }
           ]
@@ -12819,11 +12824,11 @@
           "modifier": "cast:Chain Lightning",
           "unit_scale": 0.001,
           "effect_points": {
-            "ID": "23702",
-            "TraitDefinitionID": "134226",
+            "ID": "23690",
+            "TraitDefinitionID": "134232",
             "EffectIndex": "0",
             "OperationType": "0",
-            "CurveID": "85228"
+            "CurveID": "85216"
           },
           "curve_points": [
             {
@@ -12831,8 +12836,8 @@
               "Pos_1": "-170",
               "PosPreSquish_0": "0",
               "PosPreSquish_1": "0",
-              "ID": "251121",
-              "CurveID": "85228",
+              "ID": "251085",
+              "CurveID": "85216",
               "OrderIndex": "0"
             },
             {
@@ -12840,8 +12845,8 @@
               "Pos_1": "-330",
               "PosPreSquish_0": "0",
               "PosPreSquish_1": "0",
-              "ID": "251122",
-              "CurveID": "85228",
+              "ID": "251086",
+              "CurveID": "85216",
               "OrderIndex": "1"
             },
             {
@@ -12849,8 +12854,8 @@
               "Pos_1": "-500",
               "PosPreSquish_0": "0",
               "PosPreSquish_1": "0",
-              "ID": "251123",
-              "CurveID": "85228",
+              "ID": "251087",
+              "CurveID": "85216",
               "OrderIndex": "2"
             }
           ]
@@ -12859,11 +12864,11 @@
           "modifier": "cast:Lava Burst",
           "unit_scale": 0.001,
           "effect_points": {
-            "ID": "23702",
-            "TraitDefinitionID": "134226",
+            "ID": "23690",
+            "TraitDefinitionID": "134232",
             "EffectIndex": "0",
             "OperationType": "0",
-            "CurveID": "85228"
+            "CurveID": "85216"
           },
           "curve_points": [
             {
@@ -12871,8 +12876,8 @@
               "Pos_1": "-170",
               "PosPreSquish_0": "0",
               "PosPreSquish_1": "0",
-              "ID": "251121",
-              "CurveID": "85228",
+              "ID": "251085",
+              "CurveID": "85216",
               "OrderIndex": "0"
             },
             {
@@ -12880,8 +12885,8 @@
               "Pos_1": "-330",
               "PosPreSquish_0": "0",
               "PosPreSquish_1": "0",
-              "ID": "251122",
-              "CurveID": "85228",
+              "ID": "251086",
+              "CurveID": "85216",
               "OrderIndex": "1"
             },
             {
@@ -12889,8 +12894,8 @@
               "Pos_1": "-500",
               "PosPreSquish_0": "0",
               "PosPreSquish_1": "0",
-              "ID": "251123",
-              "CurveID": "85228",
+              "ID": "251087",
+              "CurveID": "85216",
               "OrderIndex": "2"
             }
           ]

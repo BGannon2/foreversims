@@ -237,14 +237,5 @@
       "wowhead": "https://www.wowhead.com/classic/spell=14277"
     }
   ],
-  "raid_buff_groups": {
-    "air_totem": [
-      "grace_of_air",
-      "windfury_totem"
-    ],
-    "crit_aura": [
-      "leader_of_the_pack",
-      "moonkin_aura"
-    ]
-  }
+  "raid_buff_groups": {}
 }

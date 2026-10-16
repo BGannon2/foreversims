@@ -273,7 +273,7 @@ class Config:
             pass
         crit_spec = self.racial.get("weapon_crit", {})
         equipped_kinds = {weapon_type(x) for x in self.gear if weapon_type(x)}
-        self.racial_crit = sum(v for k, v in crit_spec.items() if k != "provisional" and k in equipped_kinds)
+        self.racial_crit = sum(v for k, v in crit_spec.items() if k != "provisional" and (k == "all" or k in equipped_kinds))
         st["meleeCrit"] += self.racial_crit; st["rangedCrit"] += self.racial_crit; st["spellCrit"] += self.racial_crit
         self.stats = st
         self.item_effects = {"applied": applied, "unresolved": unresolved}
@@ -559,7 +559,7 @@ class Iteration:
         self.last_cast_time = -10.0; self.next_mana_tick = 2.0; self.next_energy_tick = 2.0; self.next_rage_tick = 3.0
         self.next_boss = c.incoming['enemy_swing']; self.next_heal = c.incoming['heal_interval']
         self.healed = 0.0; self.overheal = 0.0; self.peak_3s_damage = 0.0; self.incoming_hits = []
-        self.flurry = 0; self.white_crit = False; self.eureka = 0; self.eureka_until = 0.0; self.dodged_recently = -10.0; self.avoided_recently = -10.0
+        self.flurry = 0; self.white_crit = False; self.tog_ready = 0.0; self.eureka = 0; self.eureka_until = 0.0; self.dodged_recently = -10.0; self.avoided_recently = -10.0
         self.combustion = None; self.clearcast = False; self.next_instant = False; self.next_crit = False; self.eclipse = 0
         self.busy_until = 0.0; self.starved = 0.0; self.first_oom = None
         self.pet_state = None
@@ -695,6 +695,9 @@ class Iteration:
 
     def sp(self, school):
         base = self.st["spellPower"] + self.st.get(f"{school}Power", 0)
+        if self.c.flag("arcane_blast"):  # each Arcane Blast stack: +15% of Intellect as spell damage
+            b = self.buffs.get("Arcane Blast")
+            if b and b["until"] > self.t: base += 0.15 * self.st["intellect"] * b["stacks"]
         for b in self.buffs.values():
             if b["until"] > self.t:
                 if b.get("stat") == "spellPower" or b.get("stat") == f"{school}Power": base += b["value"]
@@ -732,14 +735,18 @@ class Iteration:
             if c.flag("shadowform") and school == "shadow": bonus += 0.5
             bonus += self.buff_crit_dmg(school, ability) * 0.5
             if c.mod("crit_dmg_destruction") and ability in {"Shadow Bolt", "Immolate", "Conflagrate", "Shadowburn", "Searing Pain"}: bonus += c.mod("crit_dmg_destruction") * 0.5
-            return 1 + bonus
+            return (1 + bonus) * self.racial_crit_damage()
         bonus = 1.0
         white = ability in {"Melee (Main-Hand)", "Melee (Off-Hand)", "Auto Shot", "Melee (Extra Attack)", "Windfury Attack"}
         if not white:
             if kind == "ranged": bonus += c.mod("crit_dmg_school:ranged")
             else: bonus += c.mod("crit_dmg_school:physical_ability")
             if ability in {"Sinister Strike", "Backstab", "Hemorrhage"}: bonus += c.mod("crit_dmg_builder")
-        return 1 + bonus
+        return (1 + bonus) * self.racial_crit_damage()
+
+    def racial_crit_damage(self):
+        """Dwarf Earth Fury / Tauren Endurance: +2% critical damage (Oct 15 development notes)."""
+        return 1 + self.c.racial.get("crit_damage", 0) * self.c.racial_enabled
 
     def periodic_crit_mult(self, ability, school, bleed=False, extra_bonus=0.0):
         """Forever lets periodic damage (spell DoTs and bleeds) roll crits, unlike Classic.
@@ -858,12 +865,11 @@ class Iteration:
         if school == "shadow" and self.debuff_active("Shadow and Flame (shadow)"): m *= 1.10
         if school == "fire" and self.debuff_active("Shadow and Flame (fire)"): m *= 1.10
         if ability == "Rupture" and self.debuff_active("Hemorrhage"): m *= 1.15
+        if c.flag("fire_power") and school == "fire":
+            effects = sum(1 for d in ("Ignite", "Fireball", "Pyroblast") if self.dots.get(d) and self.dots[d]["remaining"] > 0) + self.debuff_active("Improved Scorch")
+            m *= 1 + c.flag("fire_power") * min(4, effects)
         if ability == "Lava Burst" and self.dots.get("Flame Shock") and self.dots["Flame Shock"]["remaining"] > 0: m *= 1.20
         if ability == "Incinerate" and self.dots.get("Immolate") and self.dots["Immolate"]["remaining"] > 0: m *= 1.25
-        if c.flag("arcane_blast") and ability != "Arcane Blast":
-            b = self.buffs.get("Arcane Blast")
-            stacks = b["stacks"] if b and b["until"] > self.t else 0
-            if stacks: m *= 1 + 0.10 * stacks
         if c.flag("rend_and_tear") and kind == "melee" and not white and any(self.dots.get(d) and self.dots[d]["remaining"] > 0 and ABILITIES.get(d, {}).get("bleed") for d in self.dots): m *= 1 + c.flag("rend_and_tear")
         if c.flag("quietus") and ability in {"Sinister Strike", "Hemorrhage"} and self.t >= self.duration * 0.65: m *= 1 + c.flag("quietus")
         if self.eureka > 0 and self.t < self.eureka_until and not white and kind != "pet" and not periodic: m *= 1.10
@@ -1090,7 +1096,11 @@ class Iteration:
 
     def touch_of_the_grave(self):
         c = self.c
-        if c.race == "Undead" and c.racial_enabled and self.rng.random() < c.racial["touch_of_the_grave"]["chance"]:
+        tg = c.racial.get("touch_of_the_grave") if c.race == "Undead" and c.racial_enabled else None
+        if not tg or self.t < self.tog_ready: return
+        chance = tg["caster_chance"] if self.s["style"] == "spell" else tg["chance"]
+        if self.rng.random() < chance:
+            self.tog_ready = self.t + tg.get("icd", 0)
             self.row("Touch of the Grave").casts += 1
             self.deal("Touch of the Grave", self.health_max * c.racial["touch_of_the_grave"]["health_fraction"], "shadow", "spell", outcome="hit")
 
@@ -1379,6 +1389,7 @@ class Iteration:
         cast = a.get("cast", 0) / self.haste("ranged" if a.get("ranged_cast") else "spell")
         if self.next_instant and cast > 0: cast = 0; self.next_instant = False
         if name == "Starfire" and self.eclipse > 0: cast = max(0, cast - 0.5); self.eclipse -= 1
+        if name in {"Lightning Bolt", "Lava Burst"} and self.buff_active("Elemental Mastery"): cast = max(0, cast - 0.5)
         if name == "Pyroblast":
             b = self.buffs.get("Hot Streak")
             stacks = b["stacks"] if b and b["until"] > self.t else 0
@@ -1398,7 +1409,7 @@ class Iteration:
             self.buffs.pop("Missile Barrage", None)
         self.spend(cost); self.cur_cost = cost
         if self.s["resource"] == "Rage" and cost > 0 and c.flag("wrath_rage_proc") and self.rng.random() < c.flag("wrath_rage_proc"): self.wrath_discount = True
-        self.cooldowns[name] = self.t + a.get("cooldown", 0)
+        self.cooldowns[name] = self.t + (0 if name == "Chain Lightning" and self.buff_active("Elemental Mastery") else a.get("cooldown", 0))
         if a.get("shared_cd"): self.cooldowns["shared:" + a["shared_cd"]] = self.t + a.get("cooldown", 0)
         self.gcd_until = self.t + max(1.0, gcd / (self.haste("spell") if self.s["style"] == "spell" else 1.0)) if gcd == GCD else self.t + gcd
         if cast > 0:
@@ -1566,11 +1577,14 @@ class Iteration:
         sp = self.sp(school)
         if kind in {"direct", "direct_dot"}:
             can_crit = not a.get("no_crit")
-            if name == "Arcane Blast" and c.flag("arcane_blast"): self.add_buff("Arcane Blast", 8, stacks_max=4)
+            if name == "Arcane Blast" and c.flag("arcane_blast"):  # 15 sec from the first stack; later stacks don't refresh it
+                b = self.buffs.get("Arcane Blast")
+                if b and b["until"] > self.t: b["stacks"] = min(4, b["stacks"] + 1)
+                else: self.add_buff("Arcane Blast", 15, stacks_max=4)
             out, m = self.spell_outcome(name, school, can_crit) if not a.get("always_hit") else ("hit", 1.0)
             if out == "miss":
                 self.deal(name, 0, school, "spell", outcome="miss"); return
-            base = rng.uniform(*a["base"]) + sp * a.get("coeff", 0) + (self.ap(ranged=True) * a["rap_coeff"] if a.get("rap_coeff") else 0)
+            base = rng.uniform(*a["base"]) + (sp + self.max_mana * a.get("sp_from_max_mana", 0)) * a.get("coeff", 0) + (self.ap(ranged=True) * a["rap_coeff"] if a.get("rap_coeff") else 0)
             base *= a.get("direct_mult", 1.0)
             if name == "Chain Lightning": bounce = 0.7 + c.mod("chain_lightning_bounce"); base *= 1 + bounce * (c.targets > 1) + bounce * bounce * (c.targets > 2)
             if name == "Conflagrate" and self.dots.get("Immolate") and rng.random() >= min(1.0, c.flag("shadow_and_flame") * 10): self.dots["Immolate"]["remaining"] = 0
@@ -1578,7 +1592,7 @@ class Iteration:
             if name == "Ice Lance":
                 b = self.buffs.get("Fingers of Frost")
                 if b and b["until"] > self.t and b["stacks"] > 0:
-                    base *= 4.0
+                    base *= 3.0  # +200% vs frozen targets (build 70425)
                     fof_used = True
             if self.next_crit: self.next_crit = False
             dmg = self.deal(name, base, school, "spell", threat_mult=threat_mult, flat_threat=flat_threat, outcome=out, mult=m * a["mult"] * (c.targets if a.get("aoe") else 1))
@@ -1618,11 +1632,15 @@ class Iteration:
 
     def after_spell_hit(self, name, school, out, dmg, a):
         c = self.c
-        if c.flag("arcane_blast") and name != "Arcane Blast": self.buffs.pop("Arcane Blast", None)
-        if c.flag("missile_barrage") and name in {"Arcane Blast", "Fireball", "Frostbolt", "Frostfire Bolt"} and out in {"hit", "crit"}:
-            chance = 0.40 if name == "Arcane Blast" else 0.20
-            if self.rng.random() < chance: self.add_buff("Missile Barrage", 20)
+        if c.flag("missile_barrage") and name in {"Arcane Blast", "Arcane Wrath", "Fireball", "Frostbolt", "Frostfire Bolt"} and out in {"hit", "crit"}:
+            chance = (0.20 if name == "Arcane Blast" else 0.10) * c.flag("missile_barrage")
+            if self.rng.random() < chance: self.add_buff("Missile Barrage", 15)
+        if c.flag("missile_barrage") and name == "Arcane Missiles" and out in {"hit", "crit"}:  # each Missile: 5% per rank
+            chance = 0.05 * c.flag("missile_barrage")
+            if self.rng.random() < chance: self.add_buff("Missile Barrage", 15)
         if c.flag("hot_streak") and name in {"Fireball", "Fire Blast", "Scorch", "Frostfire Bolt"} and out == "crit":
+            self.add_buff("Hot Streak", 20, stacks_max=3)
+        if c.flag("hot_streak") and name == "Fire Blast" and out in {"hit", "crit"}:
             self.add_buff("Hot Streak", 20, stacks_max=3)
         if c.flag("fingers_of_frost") and name == "Frostbolt" and out in {"hit", "crit"} and self.rng.random() < 0.15:
             self.add_buff("Fingers of Frost", 15, stacks_max=2)

@@ -59,6 +59,10 @@ pub struct RacialActive {
 #[derive(Deserialize, Serialize, Clone, Debug, Default)]
 pub struct TouchOfTheGrave {
     pub chance: f64,
+    #[serde(default)]
+    pub caster_chance: f64,
+    #[serde(default)]
+    pub icd: f64,
     pub health_fraction: f64,
 }
 
@@ -82,6 +86,8 @@ pub struct Racial {
     pub active: Option<RacialActive>,
     #[serde(default)]
     pub touch_of_the_grave: Option<TouchOfTheGrave>,
+    #[serde(default)]
+    pub crit_damage: f64,
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug, Default)]
@@ -236,6 +242,8 @@ pub struct Ability {
     pub energy_regen_mult: Option<f64>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub energy_gain: Option<f64>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub sp_from_max_mana: Option<f64>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub base_mana_cost_pct: Option<f64>,
     #[serde(default, skip_serializing_if = "is_false")]

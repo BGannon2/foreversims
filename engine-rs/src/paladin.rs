@@ -56,8 +56,8 @@ pub fn preset(spec: &str) -> Result<Value, String> {
         "raid_buffs": {"bloodlust": true, "power_word_fortitude": true, "mark_of_the_wild": true,
             "arcane_intellect": true, "battle_shout": true, "blessing_of_might": true,
             "devotion_aura": true, "blessing_of_kings": true, "blessing_of_wisdom": true,
-            "strength_of_earth": true, "windfury_totem": true, "grace_of_air": false,
-            "mana_spring": true, "leader_of_the_pack": true, "moonkin_aura": false, "trueshot_aura": true, "thorns": true},
+            "strength_of_earth": true, "windfury_totem": true, "grace_of_air": true,
+            "mana_spring": true, "leader_of_the_pack": true, "moonkin_aura": true, "trueshot_aura": true, "thorns": true},
         "consumables": {"flask_of_the_titans": prot, "elixir_of_the_mongoose": true,
             "elixir_of_superior_defense": prot, "elixir_of_fortitude": prot,
             "greater_stoneshield_potion": prot, "smoked_desert_dumplings": true,
@@ -437,12 +437,12 @@ pub fn apply_gear(profile: &Value, catalog: &Catalog) -> Result<(Value, Value), 
         set_f(ch, "crit_chance", obj_f(ch, "crit_chance") + obj_f(ch, "agility") * 0.0506 / 100.0);
         set_f(ch, "spell_crit_chance", obj_f(ch, "spell_crit_chance") + obj_f(ch, "intellect") * 0.0167 / 100.0);
         set_f(ch, "avoidance", obj_f(ch, "avoidance") + obj_f(ch, "agility") * 0.0506 / 100.0);
-        set_f(ch, "spell_power", obj_f(ch, "spell_power") + obj_f(ch, "intellect") * 0.20 * t882);
+        set_f(ch, "spell_power", obj_f(ch, "spell_power") + obj_f(ch, "intellect") * 0.10 * t882);
         let racial = t.RACIALS.get(&race).cloned().unwrap_or_default();
         set_f(ch, "health", obj_f(ch, "health") * (1.0 + racial.health_pct));
         let kinds: Vec<String> = ["main_hand", "off_hand"].iter().filter_map(|slot| gear.get(*slot).and_then(|v| v.as_i64())).filter_map(|id| catalog.items.get(&id)).filter_map(|i| i.subclass.clone()).collect();
         for (kind, bonus) in &racial.weapon_crit {
-            if kind != "provisional" && kinds.iter().any(|k| k.contains(kind.as_str())) {
+            if kind != "provisional" && (kind == "all" || kinds.iter().any(|k| k.contains(kind.as_str()))) {
                 let b = bonus.as_f64().unwrap_or(0.0);
                 set_f(ch, "crit_chance", obj_f(ch, "crit_chance") + b / 100.0);
                 set_f(ch, "spell_crit_chance", obj_f(ch, "spell_crit_chance") + b / 100.0);
@@ -761,6 +761,8 @@ pub struct Fight<'a> {
     hs_charges: i64,
     red_until: f64,
     red_charges: i64,
+    reck_charges: i64,
+    tog_ready: f64,
     absorb: f64,
     absorb_until: f64,
     forbearance: f64,
@@ -846,6 +848,8 @@ impl<'a> Fight<'a> {
             hs_charges: 0,
             red_until: 0.0,
             red_charges: 0,
+            reck_charges: 0,
+            tog_ready: 0.0,
             absorb: 0.0,
             absorb_until: 0.0,
             forbearance: 0.0,
@@ -991,7 +995,8 @@ impl<'a> Fight<'a> {
 
     fn touch_of_the_grave(&mut self) {
         if let Some(tg) = self.racial.touch_of_the_grave.clone() {
-            if self.rng.random() < tg.chance {
+            if self.time >= self.tog_ready && self.rng.random() < tg.chance {
+                self.tog_ready = self.time + tg.icd;
                 let amt = self.c.health * tg.health_fraction;
                 self.deal("Touch of the Grave", amt, true, false, 1.0, 1.0, false, Some(false), 0.0);
             }
@@ -1058,7 +1063,7 @@ impl<'a> Fight<'a> {
             amount *= 1.0 - self.e.target_physical_mitigation;
         }
         if critical {
-            amount *= if melee_crit || !holy { self.m.melee_crit_multiplier } else { self.m.spell_crit_multiplier };
+            amount *= if melee_crit || !holy { self.m.melee_crit_multiplier } else { self.m.spell_crit_multiplier } * (1.0 + self.racial.crit_damage);
         }
         amount *= glance;
         *self.damage.entry(name.to_string()).or_insert(0.0) += amount;
@@ -1157,6 +1162,10 @@ impl<'a> Fight<'a> {
         }
         self.echo = None;
         if !extra {
+            let charges = std::mem::take(&mut self.reck_charges);
+            for _ in 0..charges {
+                self.swing(true, 0.0, "Reckoning");
+            }
             let next = self.time + self.swing_delay();
             self.schedule(next, Kind::Swing);
         }
@@ -1423,7 +1432,7 @@ impl<'a> Fight<'a> {
             let block_hit = blocked && self.rng.random() < (self.f("reckoning_rank1", "block_proc") * reck_rank).min(1.0);
             let crit_hit = !block_hit && critical && self.rng.random() < (self.f("reckoning_rank1", "crit_proc") * reck_rank).min(1.0);
             if block_hit || crit_hit {
-                self.swing(true, 0.0, "Reckoning");
+                self.reck_charges = (self.reck_charges + 1).min(4); // banked; released on the next auto attack
             }
         }
     }
@@ -1472,7 +1481,8 @@ impl<'a> Fight<'a> {
                     let first4_total = self.f("consecration", "first4_total_damage");
                     let first4 = aoe.min(4.0);
                     let amt = (base_total * aoe + (first4_total - base_total) * first4) / ticks;
-                    self.deal("Consecration", amt, true, false, 1.0, 1.0, false, None, 0.33 / ticks * aoe);
+                    let tick_coeff = self.f("consecration", "tick_coeff");
+                    self.deal("Consecration", amt, true, false, 1.0, 1.0, false, None, tick_coeff * aoe);
                 }
                 Kind::Mana => {
                     self.mana_tick();
