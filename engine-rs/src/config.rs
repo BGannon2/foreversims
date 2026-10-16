@@ -412,6 +412,11 @@ impl Config {
         Ok(())
     }
 
+    /// Sum of a school-keyed modifier over the school's parts (Frostfire: Frost + Fire).
+    pub fn mod_school(&self, prefix: &str, school: &str) -> f64 {
+        crate::items::parts(school).iter().map(|x| self.mod_(&format!("{prefix}:{x}"))).sum()
+    }
+
     pub fn mod_(&self, key: &str) -> f64 {
         self.mods.get(key).copied().unwrap_or(0.0)
     }
@@ -935,7 +940,7 @@ impl Config {
             // Base mana excludes Intellect, gear, buffs and percentage talents.
             base_cost = self.t.CLASS_BASE[&self.spec.class_name]["mana"] * a.cost_pct;
         }
-        a.cost = ((base_cost + self.mod_(&format!("cost:{name}"))) * (1.0 + self.mod_(&format!("cost_pct:{name}")) + self.mod_("cost_pct_all") + self.mod_(&format!("cost_pct_school:{school}")))).max(0.0);
+        a.cost = ((base_cost + self.mod_(&format!("cost:{name}"))) * (1.0 + self.mod_(&format!("cost_pct:{name}")) + self.mod_("cost_pct_all") + crate::items::parts(&school).iter().map(|x| self.mod_(&format!("cost_pct_school:{x}"))).sum::<f64>())).max(0.0);
         if self.spec.resource == "Rage" && a.cost != 0.0 && self.flag("focused_rage") != 0.0 && name != "Heroic Strike" {
             a.cost = (a.cost - 3.0).max(0.0);
         }

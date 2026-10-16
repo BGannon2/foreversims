@@ -403,7 +403,7 @@ def build_spec(spec_id, spec):
 
     if cls == "Paladin":
         # Librams carry effects only, which stat weights can't rank; keep the preset's sourced pick.
-        relic_id = json.loads((ROOT / "data" / "phase6_bis.json").read_text(encoding="utf-8"))[spec_id.split("-", 1)[1]]["gear"].get("relic")
+        relic_id = json.loads((ROOT / "data" / "phase6_bis.json").read_text(encoding="utf-8"))[spec_id.split("/")[0].split("-", 1)[1]]["gear"].get("relic")
         if relic_id in ITEMS:
             gear["relic"] = ITEMS[relic_id]
 

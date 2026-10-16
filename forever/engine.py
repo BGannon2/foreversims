@@ -17,7 +17,13 @@ from .profile_rules import faction_allowed, item_allowed
 EPS = 1e-7
 WEAPON_TYPES = ("Axe", "Dagger", "Fist Weapon", "Mace", "Polearm", "Staff", "Sword")
 RANGED_TYPES = ("Bow", "Gun", "Crossbow")
-SPELL_SCHOOLS = {"fire", "frost", "arcane", "nature", "shadow", "holy"}
+SPELL_SCHOOLS = {"fire", "frost", "arcane", "nature", "shadow", "holy", "frostfire"}
+
+
+def parts(school):
+    """Frostfire counts as both Frost and Fire for every school-keyed effect."""
+    return ("frost", "fire") if school == "frostfire" else (school,)
+
 
 
 def _re(pattern, text):
@@ -406,7 +412,7 @@ class Config:
         if a.get("cost_pct") and self.spec["resource"] == "Mana":
             # Base mana is the class/level pool, before Intellect, gear and percentage talents.
             base_cost = CLASS_BASE[self.spec["class_name"]]["mana"] * a["cost_pct"]
-        a["cost"] = max(0.0, (base_cost + self.mod(f"cost:{name}")) * (1 + self.mod(f"cost_pct:{name}") + self.mod("cost_pct_all") + self.mod(f"cost_pct_school:{a.get('school')}")))
+        a["cost"] = max(0.0, (base_cost + self.mod(f"cost:{name}")) * (1 + self.mod(f"cost_pct:{name}") + self.mod("cost_pct_all") + sum(self.mod(f"cost_pct_school:{x}") for x in parts(a.get('school')))))
         if self.spec["resource"] == "Rage" and a.get("cost") and self.flag("focused_rage") and name not in {"Heroic Strike"}: a["cost"] = max(0, a["cost"] - 3)
         if self.flag("shadowform") and a.get("school") == "shadow": a["cost"] *= 0.5
         a["cast"] = max(0.0, a.get("cast", 0) + self.mod(f"cast:{name}"))
@@ -650,7 +656,7 @@ class Iteration:
         total = 0.0
         for b in self.buffs.values():
             if b["until"] <= self.t or bool(b.get("exclusive")) != exclusive: continue
-            if b.get("school") and b["school"] != school: continue
+            if b.get("school") and b["school"] not in parts(school): continue
             if b.get("abilities") and ability not in b["abilities"]: continue
             n = b["stacks"] if b.get("stacks_max") else 1
             if b.get("stat") == key: total += b["value"] * n
@@ -659,7 +665,7 @@ class Iteration:
 
     def buff_crit_dmg(self, school, ability):
         return sum(b["crit_dmg"] for b in self.buffs.values() if b.get("crit_dmg") and b["until"] > self.t
-                   and (not b.get("school") or b["school"] == school) and (not b.get("abilities") or ability in b["abilities"]))
+                   and (not b.get("school") or b["school"] in parts(school)) and (not b.get("abilities") or ability in b["abilities"]))
 
     def haste(self, kind):
         h = 1.0
@@ -706,22 +712,22 @@ class Iteration:
         return base
 
     def sp(self, school):
-        base = self.st["spellPower"] + self.st.get(f"{school}Power", 0)
+        base = self.st["spellPower"] + max(self.st.get(f"{x}Power", 0) for x in parts(school))
         if self.c.flag("arcane_blast"):  # each Arcane Blast stack: +15% of Intellect as spell damage
             b = self.buffs.get("Arcane Blast")
             if b and b["until"] > self.t: base += 0.15 * self.st["intellect"] * b["stacks"]
         for b in self.buffs.values():
             if b["until"] > self.t:
-                if b.get("stat") == "spellPower" or b.get("stat") == f"{school}Power": base += b["value"]
+                if b.get("stat") == "spellPower" or b.get("stat") in {f"{x}Power" for x in parts(school)}: base += b["value"]
                 if b.get("sp_pct"): base *= 1 + b["sp_pct"]
         return base
 
     def crit_chance(self, kind, ability=None, school=None):
         c = self.c
         if kind == "spell":
-            crit = self.st["spellCrit"] + c.mod(f"crit_school:{school}")
-            if self.combustion is not None and school == "fire": crit += 10 * self.combustion["stacks"]
-            if school == "frost" and self.debuff_active("Winter's Chill"): crit += 2 * self.debuffs["Winter's Chill"]["stacks"]
+            crit = self.st["spellCrit"] + sum(c.mod(f"crit_school:{x}") for x in parts(school))
+            if self.combustion is not None and "fire" in parts(school): crit += 10 * self.combustion["stacks"]
+            if "frost" in parts(school) and self.debuff_active("Winter's Chill"): crit += 2 * self.debuffs["Winter's Chill"]["stacks"]
             if ability == "Ice Lance" and c.flag("shatter") and self.buff_active("Fingers of Frost"): crit += c.flag("shatter") * 100
             crit += self.buff_stat("spellCrit", school, ability)
             crit -= 2.1
@@ -743,7 +749,7 @@ class Iteration:
         c = self.c
         if kind == "spell":
             bonus = 0.5 + c.mod(f"crit_dmg_school:{school}") * 0.5 / 0.5 * 0.5 if False else 0.5
-            bonus += c.mod(f"crit_dmg_school:{school}") * 0.5
+            bonus += sum(c.mod(f"crit_dmg_school:{x}") for x in parts(school)) * 0.5
             if c.flag("shadowform") and school == "shadow": bonus += 0.5
             bonus += self.buff_crit_dmg(school, ability) * 0.5
             if c.mod("crit_dmg_destruction") and ability in {"Shadow Bolt", "Immolate", "Conflagrate", "Shadowburn", "Searing Pain"}: bonus += c.mod("crit_dmg_destruction") * 0.5
@@ -830,7 +836,7 @@ class Iteration:
 
     def spell_outcome(self, ability, school, can_crit=True):
         c = self.c; rng = self.rng
-        hit = min(0.99, 0.83 + (self.st["spellHit"] + c.mod(f"spell_hit_school:{school}") + sum(b["value"] for b in self.buffs.values() if b.get("stat") == "spellHit" and b["until"] > self.t)) / 100)
+        hit = min(0.99, 0.83 + (self.st["spellHit"] + sum(c.mod(f"spell_hit_school:{x}") for x in parts(school)) + sum(b["value"] for b in self.buffs.values() if b.get("stat") == "spellHit" and b["until"] > self.t)) / 100)
         roll = rng.random()
         if roll >= hit:
             if c.flag("enigma_hit"): self.add_buff("Enigma Vestments", 20, stat="spellHit", value=c.flag("enigma_hit"))
@@ -844,7 +850,7 @@ class Iteration:
     def multiplier(self, ability, school, kind, periodic=False, white=False):
         c = self.c; m = 1.0
         m *= 1 + c.mod("dmg_all")
-        if school in SPELL_SCHOOLS: m *= 1 + c.mod(f"dmg_school:{school}")
+        if school in SPELL_SCHOOLS: m *= 1 + sum(c.mod(f"dmg_school:{x}") for x in parts(school))
         if kind == "ranged": m *= 1 + c.mod("dmg_school:ranged")
         if kind in {"melee", "pet"} or school == "physical":
             m *= 1 + c.mod("dmg_school:physical")
@@ -862,7 +868,7 @@ class Iteration:
         for name, b in self.buffs.items():
             if b["until"] <= self.t: continue
             if b.get("damage_mult"): m *= 1 + b["damage_mult"]
-            if b.get("damage_mult_school") and b["damage_mult_school"][0] == school: m *= 1 + b["damage_mult_school"][1]
+            if b.get("damage_mult_school") and b["damage_mult_school"][0] in parts(school): m *= 1 + b["damage_mult_school"][1]
         if school != "physical": m *= 1 + self.buff_stat("damageMultMagic")
         if self.sacrificed and school == self.sacrificed[0]: m *= 1 + self.sacrificed[1]
         if c.flag("master_demonologist") and c.pet and not self.sacrificed:
@@ -872,12 +878,12 @@ class Iteration:
         if c.flag("shadowform") and school == "shadow": m *= 1.10
         if school == "shadow" and self.debuff_active("Shadow Weaving"): m *= 1 + 0.02 * self.debuffs["Shadow Weaving"]["stacks"]
         if school == "shadow" and self.debuff_active("Improved Shadow Bolt"): m *= 1.20
-        if school == "fire" and self.debuff_active("Improved Scorch"): m *= 1 + 0.03 * self.debuffs["Improved Scorch"]["stacks"]
+        if "fire" in parts(school) and self.debuff_active("Improved Scorch"): m *= 1 + 0.03 * self.debuffs["Improved Scorch"]["stacks"]
         if school == "nature" and self.debuff_active("Stormstrike"): m *= 1.20
         if school == "shadow" and self.debuff_active("Shadow and Flame (shadow)"): m *= 1.10
-        if school == "fire" and self.debuff_active("Shadow and Flame (fire)"): m *= 1.10
+        if "fire" in parts(school) and self.debuff_active("Shadow and Flame (fire)"): m *= 1.10
         if ability == "Rupture" and self.debuff_active("Hemorrhage"): m *= 1.15
-        if c.flag("fire_power") and school == "fire":
+        if c.flag("fire_power") and "fire" in parts(school):
             effects = sum(1 for d in ("Ignite", "Fireball", "Pyroblast") if self.dots.get(d) and self.dots[d]["remaining"] > 0) + self.debuff_active("Improved Scorch")
             m *= 1 + c.flag("fire_power") * min(4, effects)
         if ability == "Lava Burst" and self.dots.get("Flame Shock") and self.dots["Flame Shock"]["remaining"] > 0: m *= 1.20
@@ -924,7 +930,7 @@ class Iteration:
         m = STANCE_MODS.get(self.s["stance"] or self.s["form"], {}).get("threat", 1.0) * CLASS_THREAT.get(self.s["class_name"], 1.0)
         if self.s["stance"] == "defensive": m *= 1 + c.flag("defiance")
         m *= 1 + c.mod("threat_mult")
-        if school: m *= 1 + c.mod(f"threat_school:{school}")
+        if school: m *= 1 + sum(c.mod(f"threat_school:{x}") for x in parts(school))
         m *= 1 - c.threat_reduction
         return m
 
@@ -1080,12 +1086,12 @@ class Iteration:
                 self.dots["Deep Wounds"] = {"next": self.t + 3, "remaining": 4, "tick": tick, "tick_len": 3, "school": "physical", "kind": "dot", "bleed": True}
             if c.flag("primal_fury") and self.s["form"] == "bear": self.gain_rage(5)
         if kind == "spell":
-            if c.flag("ignite") and self.cur_school == "fire":
+            if c.flag("ignite") and "fire" in parts(self.cur_school):
                 amount = damage * c.flag("ignite")
                 d = self.dots.get("Ignite")
                 if d and d["remaining"] > 0: d["tick"] += amount / 2; d["remaining"] = 2; d["next"] = self.t + 2
                 else: self.dots["Ignite"] = {"next": self.t + 2, "remaining": 2, "tick": amount / 2, "tick_len": 2, "school": "fire", "kind": "dot", "no_sp": True}
-            if self.combustion is not None and self.cur_school == "fire":
+            if self.combustion is not None and "fire" in parts(self.cur_school):
                 self.combustion["crits"] += 1
                 if self.combustion["crits"] >= 4: self.combustion = None
             if c.flag("natures_grace"): self.add_buff("Nature's Grace", 3, haste=0.10)
@@ -1659,8 +1665,8 @@ class Iteration:
             self.add_buff("Fingers of Frost", 15, stacks_max=2)
         if c.flag("shadow_weaving") and school == "shadow": self.add_debuff("Shadow Weaving", 15, stacks_max=5)
         if c.flag("improved_scorch") and name == "Scorch": self.add_debuff("Improved Scorch", 30, stacks_max=5)
-        if c.flag("winters_chill") and school == "frost": self.add_debuff("Winter's Chill", 15, stacks_max=5)
-        if self.combustion is not None and school == "fire" and out in {"hit", "crit"}: self.combustion["stacks"] += 1
+        if c.flag("winters_chill") and "frost" in parts(school): self.add_debuff("Winter's Chill", 15, stacks_max=5)
+        if self.combustion is not None and "fire" in parts(school) and out in {"hit", "crit"}: self.combustion["stacks"] += 1
         if c.flag("clearcasting") and out in {"hit", "crit"} and self.rng.random() < c.flag("clearcasting"): self.clearcast = True
         if c.flag("eclipse") and name == "Wrath": self.eclipse = min(4, self.eclipse + 2)
         if c.flag("lightning_overload") and name in {"Lightning Bolt", "Chain Lightning"} and self.rng.random() < c.flag("lightning_overload"):

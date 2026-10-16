@@ -3,7 +3,7 @@
 
 use crate::config::{compare, Cond, Config, Hand, Pet};
 use crate::data::Ability;
-use crate::items::{normalized_speed, weapon_type, Item, SPELL_SCHOOLS};
+use crate::items::{normalized_speed, parts, weapon_type, Item, SPELL_SCHOOLS};
 use crate::rng::PyRandom;
 use indexmap::IndexMap;
 use serde::{Deserialize, Serialize};
@@ -361,7 +361,7 @@ impl<'a> Iteration<'a> {
                 continue;
             }
             if let Some(bs) = &b.school {
-                if Some(bs.as_str()) != school {
+                if !school.is_some_and(|s| parts(s).contains(&bs.as_str())) {
                     continue;
                 }
             }
@@ -381,7 +381,7 @@ impl<'a> Iteration<'a> {
 
     fn buff_crit_dmg(&self, school: &str, ability: &str) -> f64 {
         self.buffs.values()
-            .filter(|b| b.crit_dmg != 0.0 && b.until > self.t && b.school.as_deref().is_none_or(|s| s == school) && (b.abilities.is_empty() || b.abilities.iter().any(|x| x == ability)))
+            .filter(|b| b.crit_dmg != 0.0 && b.until > self.t && b.school.as_deref().is_none_or(|s| parts(school).contains(&s)) && (b.abilities.is_empty() || b.abilities.iter().any(|x| x == ability)))
             .map(|b| b.crit_dmg)
             .sum()
     }
@@ -463,16 +463,16 @@ impl<'a> Iteration<'a> {
     }
 
     fn sp(&self, school: &str) -> f64 {
-        let mut base = self.st("spellPower") + self.st(&format!("{school}Power"));
+        let mut base = self.st("spellPower") + parts(school).iter().map(|x| self.st(&format!("{x}Power"))).fold(f64::MIN, f64::max);
         if self.c.flag("arcane_blast") != 0.0 {
             // each Arcane Blast stack: +15% of Intellect as spell damage
             let stacks = self.buffs.get("Arcane Blast").filter(|b| b.until > self.t).map_or(0, |b| b.stacks);
             base += 0.15 * self.st("intellect") * stacks as f64;
         }
-        let school_power = format!("{school}Power");
+        let school_power: Vec<String> = parts(school).iter().map(|x| format!("{x}Power")).collect();
         for b in self.buffs.values() {
             if b.until > self.t {
-                if b.stat.as_deref() == Some("spellPower") || b.stat.as_deref() == Some(school_power.as_str()) {
+                if b.stat.as_deref() == Some("spellPower") || b.stat.as_ref().is_some_and(|st| school_power.contains(st)) {
                     base += b.value;
                 }
                 if b.sp_pct != 0.0 {
@@ -488,13 +488,13 @@ impl<'a> Iteration<'a> {
         let mut crit;
         if kind == "spell" {
             let school = school.unwrap_or("None");
-            crit = self.st("spellCrit") + c.mod_(&format!("crit_school:{school}"));
+            crit = self.st("spellCrit") + c.mod_school("crit_school", school);
             if let Some((stacks, _)) = self.combustion {
-                if school == "fire" {
+                if parts(school).contains(&"fire") {
                     crit += 10.0 * stacks as f64;
                 }
             }
-            if school == "frost" && self.debuff_active("Winter's Chill") {
+            if parts(school).contains(&"frost") && self.debuff_active("Winter's Chill") {
                 crit += 2.0 * self.debuffs["Winter's Chill"].stacks as f64;
             }
             if ability == Some("Ice Lance") && c.flag("shatter") != 0.0 && self.buff_active("Fingers of Frost") {
@@ -536,7 +536,7 @@ impl<'a> Iteration<'a> {
         let c = self.c;
         if kind == "spell" {
             let mut bonus = 0.5;
-            bonus += c.mod_(&format!("crit_dmg_school:{school}")) * 0.5;
+            bonus += c.mod_school("crit_dmg_school", school) * 0.5;
             if c.flag("shadowform") != 0.0 && school == "shadow" {
                 bonus += 0.5;
             }
@@ -670,7 +670,7 @@ impl<'a> Iteration<'a> {
     fn spell_outcome(&mut self, ability: &str, school: &str, can_crit: bool) -> (Outcome, f64) {
         let c = self.c;
         let buff_hit: f64 = self.buffs.values().filter(|b| b.stat.as_deref() == Some("spellHit") && b.until > self.t).map(|b| b.value).sum();
-        let hit = (0.83 + (self.st("spellHit") + c.mod_(&format!("spell_hit_school:{school}")) + buff_hit) / 100.0).min(0.99);
+        let hit = (0.83 + (self.st("spellHit") + c.mod_school("spell_hit_school", school) + buff_hit) / 100.0).min(0.99);
         let roll = self.rng.random();
         if roll >= hit {
             if c.flag("enigma_hit") != 0.0 {
@@ -694,7 +694,7 @@ impl<'a> Iteration<'a> {
         let mut m = 1.0;
         m *= 1.0 + c.mod_("dmg_all");
         if SPELL_SCHOOLS.contains(&school) {
-            m *= 1.0 + c.mod_(&format!("dmg_school:{school}"));
+            m *= 1.0 + c.mod_school("dmg_school", school);
         }
         if kind == "ranged" {
             m *= 1.0 + c.mod_("dmg_school:ranged");
@@ -733,7 +733,7 @@ impl<'a> Iteration<'a> {
                 m *= 1.0 + b.damage_mult;
             }
             if let Some((s, v)) = &b.damage_mult_school {
-                if s == school {
+                if parts(school).contains(&s.as_str()) {
                     m *= 1.0 + v;
                 }
             }
@@ -766,7 +766,7 @@ impl<'a> Iteration<'a> {
         if school == "shadow" && self.debuff_active("Improved Shadow Bolt") {
             m *= 1.20;
         }
-        if school == "fire" && self.debuff_active("Improved Scorch") {
+        if parts(school).contains(&"fire") && self.debuff_active("Improved Scorch") {
             m *= 1.0 + 0.03 * self.debuffs["Improved Scorch"].stacks as f64;
         }
         if school == "nature" && self.debuff_active("Stormstrike") {
@@ -775,13 +775,13 @@ impl<'a> Iteration<'a> {
         if school == "shadow" && self.debuff_active("Shadow and Flame (shadow)") {
             m *= 1.10;
         }
-        if school == "fire" && self.debuff_active("Shadow and Flame (fire)") {
+        if parts(school).contains(&"fire") && self.debuff_active("Shadow and Flame (fire)") {
             m *= 1.10;
         }
         if ability == "Rupture" && self.debuff_active("Hemorrhage") {
             m *= 1.15;
         }
-        if c.flag("fire_power") != 0.0 && school == "fire" {
+        if c.flag("fire_power") != 0.0 && parts(school).contains(&"fire") {
             let effects = ["Ignite", "Fireball", "Pyroblast"].iter().filter(|d| self.dots.get(**d).is_some_and(|x| x.remaining > 0)).count()
                 + self.debuff_active("Improved Scorch") as usize;
             m *= 1.0 + c.flag("fire_power") * effects.min(4) as f64;
@@ -862,7 +862,7 @@ impl<'a> Iteration<'a> {
         }
         m *= 1.0 + c.mod_("threat_mult");
         if let Some(s) = school {
-            m *= 1.0 + c.mod_(&format!("threat_school:{s}"));
+            m *= 1.0 + c.mod_school("threat_school", s);
         }
         m *= 1.0 - c.threat_reduction;
         m
@@ -1111,7 +1111,7 @@ impl<'a> Iteration<'a> {
             }
         }
         if kind == "spell" {
-            if c.flag("ignite") != 0.0 && self.cur_school == "fire" {
+            if c.flag("ignite") != 0.0 && parts(&self.cur_school).contains(&"fire") {
                 let amount = damage * c.flag("ignite");
                 let t = self.t;
                 match self.dots.get_mut("Ignite") {
@@ -1125,7 +1125,7 @@ impl<'a> Iteration<'a> {
                     }
                 }
             }
-            if self.combustion.is_some() && self.cur_school == "fire" {
+            if self.combustion.is_some() && parts(&self.cur_school).contains(&"fire") {
                 let (stacks, crits) = self.combustion.unwrap();
                 self.combustion = Some((stacks, crits + 1));
                 if crits + 1 >= 4 {
@@ -2137,11 +2137,11 @@ impl<'a> Iteration<'a> {
         if c.flag("improved_scorch") != 0.0 && name == "Scorch" {
             self.add_debuff("Improved Scorch", 30.0, Some(5));
         }
-        if c.flag("winters_chill") != 0.0 && school == "frost" {
+        if c.flag("winters_chill") != 0.0 && parts(&school).contains(&"frost") {
             self.add_debuff("Winter's Chill", 15.0, Some(5));
         }
         let landed = matches!(out, Outcome::Hit | Outcome::Crit);
-        if self.combustion.is_some() && school == "fire" && landed {
+        if self.combustion.is_some() && parts(&school).contains(&"fire") && landed {
             let (s, cr) = self.combustion.unwrap();
             self.combustion = Some((s + 1, cr));
         }

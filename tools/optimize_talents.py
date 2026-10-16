@@ -141,24 +141,16 @@ def core_moves(tree, core, b):
 def optimize(vid, iterations, pool, log=print):
     info = variant_info(vid); tree = Tree(info); core = info["variant"].get("core", {})
     score = lambda builds: list(pool.map(evaluate, [(vid, b, iterations) for b in builds], chunksize=1))
-    build = {}
-    while sum(build.values()) < MAX_POINTS:
-        pool_ids = core_moves(tree, core, build) if not core_met(tree, core, build) else list(tree.tal)
-        cands = [{**build, k: build.get(k, 0) + 1} for k in pool_ids]
-        cands = [c for c in cands if tree.legal(c)]
-        if not cands:  # nothing legal toward the core: open up every tree
-            cands = [c for c in ({**build, k: build.get(k, 0) + 1} for k in tree.tal) if tree.legal(c)]
-            if not cands: break
-        vals = score(cands)
-        top = max(vals)
-        # Near-ties (within 0.05%, i.e. noise) are usually filler points that unlock a deeper tier:
-        # prefer a talent the engine models, then the tree that already has the most points.
-        def tiebreak(i):
-            k = next(k for k in cands[i] if cands[i][k] != build.get(k, 0))
-            return (vals[i] >= top * 0.9995, k in tree.modeled, tree.tree_points(build, tree.tal[k][0]), vals[i])
-        best = max(range(len(cands)), key=tiebreak)
-        build = cands[best]
-        log(f"{vid}: {sum(build.values()):2d} pts  {vals[best]:9.2f}")
+    build = fill({}, tree, core, score, vid, log)
+    # One point at a time is myopic: a tree's first points are often worth little on their own
+    # (e.g. elehance's leftover points never leave Elemental for Enhancement). Once the core is
+    # met, also try spending the rest tree by tree, and keep the best fill.
+    met = {}
+    while not core_met(tree, core, met):
+        met = fill(met, tree, core, score, vid, log, stop_at_core=True)
+    fills = [build] + [fill(dict(met), tree, core, score, vid, log, only_tree=name) for name, _ in tree.trees]
+    vals = score(fills)
+    build = fills[max(range(len(fills)), key=lambda i: vals[i])]
     if not core_met(tree, core, build):
         raise RuntimeError(f"{vid}: greedy fill could not meet the core {core}")
     current = score([build])[0]
@@ -184,6 +176,36 @@ def optimize(vid, iterations, pool, log=print):
         pv = score([parent])[0]
         if pv > current: build, current = parent, pv; log(f"{vid}: parent build is better ({pv:.2f})")
     return {k: v for k, v in sorted(build.items()) if v}, current
+
+
+def fill(build, tree, core, score, vid, log, only_tree=None, stop_at_core=False):
+    """Greedy +1 fill from build: toward the core first, then (only_tree: within that tree while
+    it has legal points left) wherever scores best."""
+    while sum(build.values()) < MAX_POINTS:
+        if stop_at_core and core_met(tree, core, build): break
+        if not core_met(tree, core, build):
+            pool_ids = core_moves(tree, core, build)
+        else:
+            pool_ids = list(tree.tal)
+            if only_tree:
+                inside = [k for k in pool_ids if tree.tal[k][0] == only_tree and tree.legal({**build, k: build.get(k, 0) + 1})]
+                pool_ids = inside or pool_ids
+        cands = [{**build, k: build.get(k, 0) + 1} for k in pool_ids]
+        cands = [c for c in cands if tree.legal(c)]
+        if not cands:  # nothing legal toward the core: open up every tree
+            cands = [c for c in ({**build, k: build.get(k, 0) + 1} for k in tree.tal) if tree.legal(c)]
+            if not cands: break
+        vals = score(cands)
+        top = max(vals)
+        # Near-ties (within 0.05%, i.e. noise) are usually filler points that unlock a deeper tier:
+        # prefer a talent the engine models, then the tree that already has the most points.
+        def tiebreak(i):
+            k = next(k for k in cands[i] if cands[i][k] != build.get(k, 0))
+            return (vals[i] >= top * 0.9995, k in tree.modeled, tree.tree_points(build, tree.tal[k][0]), vals[i])
+        best = max(range(len(cands)), key=tiebreak)
+        build = cands[best]
+        log(f"{vid}: {sum(build.values()):2d} pts  {vals[best]:9.2f}")
+    return build
 
 
 def main():

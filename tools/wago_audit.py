@@ -112,6 +112,15 @@ RANKS = {
     "110870": {"dmg_ability:Serpent Sting": (0, .01)},
 }
 
+# Hunter pet focus spenders (forever/engine_data.PET_ABILITIES): max rank at 60. Damage range from
+# effect 0, focus cost (PowerType 2) and cooldown from the spell. Bat "Screech" is the client's
+# Demoralizing Screech. Scorpid Poison is a stacking 5-per-2s DoT in the client; the engine keeps
+# its direct-hit approximation (similar DPS), so only cost and cooldown are imported for it.
+PET_SPELLS = {
+    "Bite": (17261, True), "Claw": (3009, True), "Lightning Breath": (25012, True),
+    "Screech": (24579, True), "Scorpid Poison": (24587, False),
+}
+
 
 class Snapshot:
     def __init__(self, directory):
@@ -198,6 +207,19 @@ def build_evidence(snapshot):
             spells[name].update(whole_spell_id=options["whole_spell"], whole_spell_rows=whole)
         if options.get("caveat"):
             spells[name]["caveat"] = options["caveat"]
+    pets = {}
+    for name, (sid, damage) in PET_SPELLS.items():
+        rows = snapshot.spell(sid)
+        fields = {}
+        if damage:
+            effect = next(e for e in rows["SpellEffect"] if e["EffectIndex"] == "0" and e["DifficultyID"] == "0")
+            fields["min"], fields["max"] = damage_range(effect, snapshot.one("SpellLevels", "SpellID", sid))
+        focus = [r for r in rows["SpellPower"] if r["PowerType"] == "2"]
+        if focus:
+            fields["cost"] = float(focus[0]["ManaCost"])
+        cd = rows["SpellCooldowns"][0] if rows["SpellCooldowns"] else None
+        fields["cooldown"] = max(int(cd["RecoveryTime"]), int(cd["CategoryRecoveryTime"])) / 1000 if cd else 0
+        pets[name] = {"spell_id": sid, "fields": fields, "rows": rows}
     talents = {}
     for node, mappings in RANKS.items():
         link = snapshot.one("TraitNodeXTraitNodeEntry", "TraitNodeID", node)
@@ -217,7 +239,7 @@ def build_evidence(snapshot):
                          "spell": snapshot.one("Spell", "ID", definition["SpellID"]), "effects": evidence}
     return {"build": BUILD, "product": "wow_classic_beta", "tables": snapshot.manifest,
             "interpretation": "Explicit reviewed IDs only. Client tables do not prove server proc rules, target eligibility, or spell availability. Remaining abilities are not certified by this snapshot.",
-            "spells": spells, "talents": talents}
+            "spells": spells, "pet_spells": pets, "talents": talents}
 
 
 def main():

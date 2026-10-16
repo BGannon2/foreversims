@@ -137,6 +137,11 @@ def report(old_build, new_build, old, new):
         for k in sorted(set(a) | set(b)):
             if a.get(k) != b.get(k):
                 lines.append(f"- **{name}** `{k}`: {a.get(k)} -> {b.get(k)}"); diffs += 1
+    for name, rec in current.get("pet_spells", {}).items():
+        a, b = rec["fields"], fresh["pet_spells"][name]["fields"]
+        for k in sorted(set(a) | set(b)):
+            if a.get(k) != b.get(k):
+                lines.append(f"- **{name}** (pet) `{k}`: {a.get(k)} -> {b.get(k)}"); diffs += 1
     for node, rec in current["talents"].items():
         if rec["fields"] != fresh["talents"][node]["fields"]:
             lines.append(f"- talent node {node}: {rec['fields']} -> {fresh['talents'][node]['fields']}"); diffs += 1

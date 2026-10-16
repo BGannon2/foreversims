@@ -9,7 +9,12 @@ use std::collections::HashMap;
 
 pub const WEAPON_TYPES: [&str; 7] = ["Axe", "Dagger", "Fist Weapon", "Mace", "Polearm", "Staff", "Sword"];
 pub const RANGED_TYPES: [&str; 3] = ["Bow", "Gun", "Crossbow"];
-pub const SPELL_SCHOOLS: [&str; 6] = ["fire", "frost", "arcane", "nature", "shadow", "holy"];
+pub const SPELL_SCHOOLS: [&str; 7] = ["fire", "frost", "arcane", "nature", "shadow", "holy", "frostfire"];
+
+/// Frostfire counts as both Frost and Fire for every school-keyed effect.
+pub fn parts(school: &str) -> Vec<&str> {
+    if school == "frostfire" { vec!["frost", "fire"] } else { vec![school] }
+}
 
 #[derive(Deserialize, Serialize, Clone, Debug, Default)]
 pub struct ItemSet {

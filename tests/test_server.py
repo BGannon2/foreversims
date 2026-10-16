@@ -52,9 +52,9 @@ class ServerTests(unittest.TestCase):
                 self.assertEqual(response.status,200);self.assertIn(b"Default profile comparisons",response.read())
         with urlopen(self.url+"/api/benchmarks",timeout=30) as response:
             data=json.load(response)
-        self.assertEqual(len(data["rows"]),148*len(data["target_counts"]))
+        self.assertEqual(len([r for r in data["rows"] if not r.get("variant")]),148*len(data["target_counts"]))
         self.assertEqual(data["duration"],120)
-        self.assertEqual(sum(x["role"]=="tank" for x in data["rows"]),17*len(data["target_counts"]))
+        self.assertEqual(sum(x["role"]=="tank" and not x.get("variant") for x in data["rows"]),17*len(data["target_counts"]))
         self.assertTrue(all(x["race"] for x in data["rows"]))
         self.assertTrue(all(x["dps"]>0 and x["tps"]>0 for x in data["rows"]))
 

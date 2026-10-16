@@ -26,6 +26,10 @@ DATA_DIR = ROOT / "data"
 SETTING_DATA = json.loads((DATA_DIR / "settings.json").read_text(encoding="utf-8"))
 ALL_TALENTS = json.loads((DATA_DIR / "forever_talents_all.json").read_text(encoding="utf-8"))
 PHASE12_BIS = json.loads((DATA_DIR / "phase12_bis_all.json").read_text(encoding="utf-8"))
+UI_SLOT = {"head": "Head", "neck": "Neck", "shoulders": "Shoulders", "back": "Back", "chest": "Chest", "wrist": "Wrist",
+           "hands": "Hands", "waist": "Waist", "legs": "Legs", "feet": "Feet", "finger1": "Finger 1", "finger2": "Finger 2",
+           "trinket1": "Trinket 1", "trinket2": "Trinket 2", "main_hand": "Main Hand", "off_hand": "Off Hand",
+           "ranged": "Ranged / Relic", "relic": "Ranged / Relic"}
 FOREVER_BIS = json.loads((DATA_DIR / "forever_bis_all.json").read_text(encoding="utf-8")) if (DATA_DIR / "forever_bis_all.json").is_file() else {"profiles": {}}
 # Paladin page shape: {spec: {gear_slot: item_id}}.
 PALADIN_FOREVER_BIS = {spec: {row["gear_slot"]: row["id"] for row in FOREVER_BIS["profiles"][f"paladin-{spec}"]["gear"]}
@@ -53,7 +57,9 @@ def default_request(spec, race=None, **overrides):
         from forever.engine_data import VARIANTS
         if VARIANTS.get(variant, {}).get("parent") != spec["id"]:
             raise ValueError(f"{variant} is not a variant of {spec['id']}.")
-        profile = FOREVER_BIS["profiles"].get(f"{spec['id']}/{variant}", profile)
+        vp = FOREVER_BIS["profiles"].get(f"{spec['id']}/{variant}")
+        if vp:  # Forever BiS rows name the slot by item type ("Finger"); the engine wants the UI slot ("Finger 1")
+            profile = dict(vp, gear=[dict(x, slot=UI_SLOT.get(x.get("gear_slot"), x["slot"])) for x in vp["gear"]])
         overrides.setdefault("talents", VARIANTS[variant]["talents"])
     request = {"spec": spec["id"], "race": race or ("Human" if "Human" in spec["races"] else spec["races"][0]),
                "duration": DEFAULTS["duration"], "iterations": DEFAULTS["iterations"], "seed": DEFAULTS["seed"], "armor": DEFAULTS["armor"], "targets": DEFAULTS["targets"], "boss_type": DEFAULTS["boss_type"],
@@ -134,6 +140,11 @@ def build_benchmarks(iterations=None, target_counts=TARGET_COUNTS, parallel=True
         for race in CLASS_RACES["Paladin"]:
             for targets in target_counts:
                 profile = preset(v["parent"], vid); profile["race"] = race; profile["iterations"] = iterations; profile["seed"] = DEFAULTS["benchmark_seed"]
+                from forever.all_specs import ITEMS as _items
+                for slot, iid in profile["gear"].items():  # Alliance/Horde-only gear follows the race
+                    item = _items.get(iid, {})
+                    if item.get("faction") and item["faction"] != RACE_FACTIONS.get(race):
+                        profile["gear"][slot] = item.get("factionTwin", 0)
                 profile["encounter"]["targets"] = float(targets)
                 tasks.append(("paladin", profile))
                 meta.append({"id": key, "variant": vid, "parent": f"paladin-{v['parent']}", "race": race, "class_name": "Paladin", "name": v["name"],
