@@ -25,7 +25,11 @@ console.log(`web/sim-worker.js: cache-busted to ?v=${commit}`);
 // requesting an old worker even after the worker's internal URLs are updated.
 const clientPath = path.join(root, "web", "sim-client.js");
 fs.writeFileSync(clientPath, fs.readFileSync(clientPath, "utf8").replace(/const VERSION = "[^"]+"/, `const VERSION = "${commit}"`));
-for (const name of fs.readdirSync(path.join(root, "web")).filter(n => n.endsWith(".html"))) {
+const htmlPages = [
+  ...fs.readdirSync(path.join(root, "web")).filter(n => n.endsWith(".html")),
+  ...(fs.existsSync(path.join(root, "web", "sims")) ? fs.readdirSync(path.join(root, "web", "sims")).filter(n => n.endsWith(".html")).map(n => path.join("sims", n)) : []),
+];
+for (const name of htmlPages) {
   const file = path.join(root, "web", name);
   fs.writeFileSync(file, fs.readFileSync(file, "utf8").replace(/((?:src|href)="\/[^"?]+\.(?:js|css))(?:\?v=[^"]*)?"/g, `$1?v=${commit}"`));
 }

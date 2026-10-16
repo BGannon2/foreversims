@@ -148,9 +148,46 @@ td.msg{white-space:pre-wrap;max-width:560px}tr.done{opacity:.45}tr.seen td.msg{c
   return new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store", "X-Robots-Tag": "noindex", "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'", "X-Content-Type-Options": "nosniff", "Referrer-Policy": "no-referrer" } });
 }
 
+// Search engines and AI answer tools (fetching a page a person asked about) may read the site;
+// crawlers that collect content to train AI models may not. Served here instead of a static file so
+// the sitemap line and the allow/deny lists live next to the redirects below.
+const CANONICAL_HOST = "foreversims.com";
+const TRAINING_CRAWLERS = ["GPTBot", "CCBot", "Google-Extended", "Applebot-Extended", "anthropic-ai", "ClaudeBot", "Bytespider", "cohere-ai",
+  "cohere-training-data-crawler", "Diffbot", "omgili", "meta-externalagent", "MistralAI-Training", "Amazonbot", "PetalBot", "Timpibot", "ImagesiftBot"];
+const ROBOTS_TXT = `# Forever Sims: search and AI answer tools welcome; AI training crawlers are not.
+Content-Signal: search=yes, ai-input=yes, ai-train=no
+
+User-agent: *
+Allow: /
+Disallow: /feedback-admin
+Disallow: /api/
+
+${TRAINING_CRAWLERS.map(agent => `User-agent: ${agent}`).join("\n")}
+Disallow: /
+
+Sitemap: https://${CANONICAL_HOST}/sitemap.xml
+`;
+
+// One URL per page: www -> bare domain, and /page.html -> /page (permanent, so search engines
+// consolidate ranking on the clean URL instead of following the asset layer's temporary 307).
+function canonicalRedirect(request, url) {
+  if (url.hostname === `www.${CANONICAL_HOST}`) {
+    url.hostname = CANONICAL_HOST;
+    return Response.redirect(url.href, 301);
+  }
+  if ((request.method === "GET" || request.method === "HEAD") && url.pathname.endsWith(".html")) {
+    url.pathname = url.pathname.replace(/(^|\/)index\.html$/, "$1").replace(/\.html$/, "");
+    return Response.redirect(url.href, 301);
+  }
+  return null;
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    const redirect = canonicalRedirect(request, url);
+    if (redirect) return redirect;
+    if (url.pathname === "/robots.txt") return new Response(ROBOTS_TXT, { headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "public, max-age=3600" } });
     if (url.pathname === "/api/feedback" && request.method === "POST") return submitFeedback(request, env);
     if (url.pathname === "/feedback-admin") return feedbackAdmin(request, env, url);
     const protect = PROTECTED_HOSTS.some(s => url.hostname.endsWith(s)) && env.SITE_PASSWORD;

@@ -56,3 +56,25 @@ test('feedback rejects JSON primitives and cross-origin admin writes', async () 
   assert.equal(response.status,403);
   assert.equal(writes.length,0);
 });
+
+test('www and .html URLs permanently redirect to the canonical clean URL', async () => {
+  const {env} = fixture();
+  const www = await worker.fetch(new Request('https://www.foreversims.com/sims/fury-warrior?x=1'), env);
+  assert.equal(www.status, 301);
+  assert.equal(www.headers.get('Location'), 'https://foreversims.com/sims/fury-warrior?x=1');
+  const html = await worker.fetch(new Request(`${origin}/all-specs.html?spec=mage-fire`), env);
+  assert.equal(html.status, 301);
+  assert.equal(html.headers.get('Location'), `${origin}/all-specs?spec=mage-fire`);
+  const index = await worker.fetch(new Request(`${origin}/sims/index.html`), env);
+  assert.equal(index.headers.get('Location'), `${origin}/sims/`);
+});
+
+test('robots.txt allows search, lists the sitemap and blocks AI training crawlers', async () => {
+  const {env} = fixture();
+  const body = await (await worker.fetch(new Request(`${origin}/robots.txt`), env)).text();
+  assert.ok(body.includes('User-agent: *\nAllow: /\n'));
+  assert.ok(body.includes('Sitemap: https://foreversims.com/sitemap.xml'));
+  assert.match(body, /User-agent: GPTBot[\s\S]*?Disallow: \/$/m);
+  assert.doesNotMatch(body, /ChatGPT-User|PerplexityBot/);
+});
+

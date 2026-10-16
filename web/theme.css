@@ -187,7 +187,7 @@ td{border-bottom:1px solid var(--line-soft)}
 /* ---- 9. Home and comparison pages --------------------------------------- */
 .home-header{background:rgba(8,6,26,.85);border-bottom:2px solid var(--line);backdrop-filter:blur(10px)}
 .home-intro{padding:26px 0 10px}
-.home-intro h2{font-size:clamp(2rem,6vw,4rem);line-height:1;background:var(--sunset);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 30px rgba(63,198,232,.45));margin:10px 0}
+.home-intro h1{font-size:clamp(2rem,6vw,4rem);line-height:1;background:var(--sunset);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 30px rgba(63,198,232,.45));margin:10px 0}
 .home-intro span{font-family:var(--font-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 .home-intro span::after{content:"_";color:var(--teal);animation:blink 1s step-end infinite}
 .home-comparisons a{transform:var(--skew);padding:16px 24px}

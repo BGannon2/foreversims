@@ -76,7 +76,7 @@ function renderSpecCards() {
   const card = $("specCard"); if (!card) return;
   card.hidden = siblings.length < 2;
   const race = encodeURIComponent($("race")?.value || "");
-  $("specCards").innerHTML = siblings.map(s => `<a class="spec ${s.id === spec.id ? "active" : ""}" href="/all-specs.html?spec=${s.id}${race ? "&race=" + race : ""}"><b class="spec-icon"><img src="/spec-icons/${s.id}.jpg" alt=""></b><span><strong>${s.name}</strong><small>${s.role === "tank" ? "Threat & survivability" : s.style === "spell" ? "Spell damage" : s.style === "ranged" ? "Ranged damage" : "Melee damage"}</small></span></a>`).join("");
+  $("specCards").innerHTML = siblings.map(s => `<a class="spec ${s.id === spec.id ? "active" : ""}" href="/all-specs?spec=${s.id}${race ? "&race=" + race : ""}"><b class="spec-icon"><img src="/spec-icons/${s.id}.jpg" alt=""></b><span><strong>${s.name}</strong><small>${s.role === "tank" ? "Threat & survivability" : s.style === "spell" ? "Spell damage" : s.style === "ranged" ? "Ranged damage" : "Melee damage"}</small></span></a>`).join("");
 }
 function setBonusState(setName, bonus) {
   const key = `${setName}|${bonus.required}`;
@@ -213,7 +213,7 @@ function renderTankEncounter() {
 
 // ---------------------------------------------------------------- init
 async function init() {
-  const [bootstrap, itemPayload, wsPayload] = await Promise.all([fetch("/data/spec-bootstrap.json?v=7d05cec").then(r => r.json()), fetch("/data/items.json?v=7d05cec").then(r => r.json()), fetch("/data/wowsims-import.json?v=7d05cec").then(r => r.json()).catch(() => null)]);
+  const [bootstrap, itemPayload, wsPayload] = await Promise.all([fetch("/data/spec-bootstrap.json?v=64b5048").then(r => r.json()), fetch("/data/items.json?v=64b5048").then(r => r.json()), fetch("/data/wowsims-import.json?v=64b5048").then(r => r.json()).catch(() => null)]);
   wsData = wsPayload;
   ForeverSim.warm();
   data = bootstrap; catalogItems = itemPayload.items; spec = data.specs.find(x => x.id === specId);

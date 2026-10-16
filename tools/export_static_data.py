@@ -113,6 +113,10 @@ def main():
     dump(WEB_DATA / "engine-items-extra.json", {"items": engine_items_extra(payloads["items"]["items"])})
     dump(WEB_DATA / "enchants.json", server.ENCHANT_DATA)
     dump(WEB_DATA / "forever-sets.json", {"sets": all_specs.FOREVER_SETS})
+    # Crawlable per-spec landing pages and sitemap.xml carry current benchmark numbers, so they're
+    # rebuilt alongside every other data export.
+    from tools import build_seo_pages
+    build_seo_pages.main()
 
 
 if __name__ == "__main__":
