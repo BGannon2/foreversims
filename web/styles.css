@@ -65,3 +65,4 @@ body[data-class] .share-fill{background:linear-gradient(90deg,color-mix(in srgb,
 .run-stamp { margin: 6px 0 0; font-size: 12px; color: var(--muted, #9aa4b2); min-height: 1em; }
 @keyframes run-flash { from { box-shadow: 0 0 0 2px var(--accent, #3fc6e8); } to { box-shadow: 0 0 0 2px transparent; } }
 .run-flash > * { animation: run-flash 1.2s ease-out; }
+.variant-picker{display:flex;align-items:center;gap:8px;margin-left:auto}.variant-picker label{color:#eee;font-weight:700}.variant-picker select{background:#261a21;color:#ddd;border:1px solid #65515c;padding:5px 8px;max-width:240px}

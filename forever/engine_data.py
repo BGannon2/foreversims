@@ -621,6 +621,53 @@ DEFAULT_BUILDS = {
                            "105874": 1, "105876": 1, "105925": 5, "105924": 5, "110876": 1, "105920": 3, "105919": 2},
 }
 
+
+# ---------------------------------------------------------------------------
+# Spec variants: community hybrid builds that run on a parent spec's engine setup with their own
+# talents and rotation (and, for weaving, an auto-attack override). They get their own rows on the
+# comparison pages; on the spec page they are a talent-area preset of the parent spec. Talents are
+# sim-optimized around each variant's defining core (tools/optimize_talents.py); until a variant is
+# optimized it starts from the parent's build.
+# ---------------------------------------------------------------------------
+VARIANTS = {
+    "fury-prot": {
+        "parent": "warrior-protection", "name": "Fury-Prot Tank",
+        "summary": "Shield tank that takes the Fury tree to Bloodthirst instead of going deep Protection.",
+        "core": {"talents": {"105930": 1}},  # Bloodthirst
+        "rotation": [("Bloodrage", "rage<60"), ("Bloodthirst", "true"), ("Shield Slam", "true"), ("Revenge", "true"), ("Thunder Clap", "targets>=3"),
+                     ("Demoralizing Shout", "targets>=3 and debuff:Demoralizing Shout<5"), ("Sunder Armor", "stacks:Sunder Armor<5 or rage>=40"),
+                     ("Execute", "execute"), ("Cleave", "targets>=2 and rage>=20"), ("Heroic Strike", "rage>=30")],
+    },
+    "weave": {
+        "parent": "hunter-survival", "name": "Survival (Melee Weave)",
+        "summary": "Survival keeping Auto Shot going and stepping in for its melee specials, instead of standing in melee.",
+        "spec_overrides": {"style": "ranged"},  # Auto Shot instead of melee auto attacks
+        # Each melee special costs this much Auto Shot time (stepping in and out). Provisional:
+        # no Forever measurement exists, 0.5 sec is a typical Classic weave cost.
+        "weave_penalty": 0.5,
+        "core": {},
+        "rotation": [("Mongoose Bite", "true"), ("Strider Kick", "true"), ("Raptor Strike", "true"), ("Multi-Shot", "true"), ("Arcane Shot", "true")],
+    },
+    "elehance": {
+        "parent": "shaman-enhancement", "name": "Elehance",
+        "summary": "Two-handed melee Shaman that goes deep Elemental for Elemental Mastery and Lava Burst.",
+        "core": {"talents": {"104758": 1}},  # Elemental Mastery
+        "rotation": [("Elemental Mastery", "true"), ("Rage of the Farseer", "true"), ("Lightning Bolt", "buffstacks:Maelstrom Weapon>=5"), ("Stormstrike", "true"),
+                     ("Lava Burst", "mana>=1500"), ("Flame Shock", "dot_missing and mana>=1500"), ("Earth Shock", "mana>=1200 or debuff:Stormstrike>0")],
+    },
+    "frostfire": {
+        "parent": "mage-fire", "name": "Frostfire",
+        "summary": "Mage using Frostfire Bolt as its main nuke, with talents from both Fire and Frost.",
+        "core": {},
+        "rotation": [("Arcane Explosion", "targets>=3"), ("Combustion", "true"), ("Pyroblast", "buffstacks:Hot Streak>=1"), ("Frostfire Bolt", "true")],
+    },
+}
+_VARIANT_TALENTS_PATH = _Path(__file__).resolve().parents[1] / "data/variant_talents.json"
+_VARIANT_TALENTS = _json.loads(_VARIANT_TALENTS_PATH.read_text(encoding="utf-8")) if _VARIANT_TALENTS_PATH.is_file() else {}
+for _vid, _v in VARIANTS.items():
+    _v.setdefault("talents", dict(_VARIANT_TALENTS[_vid]["talents"]) if _vid in _VARIANT_TALENTS else dict(DEFAULT_BUILDS[_v["parent"]]))
+    ROTATIONS[f"{_v['parent']}/{_vid}"] = _v["rotation"]
+
 # Hunter pets (WoWSims Classic level-60 pet_abilities.go / focus.go).
 PET_FAMILIES = {
     "cat": {"damage": 1.10, "special": "Bite", "dump": "Claw"}, "wind_serpent": {"damage": 1.07, "special": "Bite", "dump": "Lightning Breath"},

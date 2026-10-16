@@ -49,7 +49,7 @@ def engine_tables():
         "GCD": ed.GCD, "ENERGY_GCD": ed.ENERGY_GCD,
         "RACIALS": ed.RACIALS, "BUFF_STATS": ed.BUFF_STATS, "BUFF_GROUPS": ed.BUFF_GROUPS, "WINDFURY_TOTEM": ed.WINDFURY_TOTEM, "THORNS": ed.THORNS,
         "DEBUFF_ARMOR": ed.DEBUFF_ARMOR, "CONSUME_STATS": ed.CONSUME_STATS, "SPEC_MAP": ed.SPEC_MAP, "STANCE_MODS": stance, "CLASS_THREAT": ed.CLASS_THREAT,
-        "ABILITIES": ed.ABILITIES, "ROTATIONS": ed.ROTATIONS, "CONSUMABLE_ACTIONS": ed.CONSUMABLE_ACTIONS, "TALENT_EFFECTS": ed.TALENT_EFFECTS,
+        "ABILITIES": ed.ABILITIES, "ROTATIONS": ed.ROTATIONS, "VARIANTS": ed.VARIANTS, "CONSUMABLE_ACTIONS": ed.CONSUMABLE_ACTIONS, "TALENT_EFFECTS": ed.TALENT_EFFECTS,
         "TALENT_RANK_EFFECTS": ed.TALENT_RANK_EFFECTS,
         "TALENT_GATED": ed.TALENT_GATED, "DEFAULT_BUILDS": ed.DEFAULT_BUILDS, "PET_FAMILIES": ed.PET_FAMILIES, "PET_ABILITIES": ed.PET_ABILITIES,
         "PET_FOCUS_PER_SEC": ed.PET_FOCUS_PER_SEC, "WARLOCK_PETS": ed.WARLOCK_PETS, "POISONS": ed.POISONS, "WINDFURY": ed.WINDFURY,
@@ -78,10 +78,11 @@ def api_payloads():
     """Same bodies server.py returns for the GET routes."""
     from forever.gear_data import CATALOG, PHASE6_BIS
     from forever.profile_rules import enchant_preferences, equipment_rules
-    from forever.sim import ASSUMPTIONS, CONSUMABLE_DATA, DATA, TALENT_DATA, preset
+    from forever.sim import ASSUMPTIONS, CONSUMABLE_DATA, DATA, PALADIN_VARIANTS, TALENT_DATA, preset
     return {
         "bootstrap": {
-            "presets": {name: preset(name) for name in ("protection", "retribution")}, "sources": DATA["sources"], "source_status": DATA["status"],
+            "presets": {name: preset(name) for name in ("protection", "retribution")},
+            "variant_presets": {vid: {"parent": v["parent"], "name": v["name"], "summary": v.get("summary", ""), "talents": preset(v["parent"], vid)["talents"]} for vid, v in PALADIN_VARIANTS.items()}, "sources": DATA["sources"], "source_status": DATA["status"],
             "assumptions": ASSUMPTIONS, "excluded": DATA["excluded"], "gear_catalog": {key: CATALOG[key] for key in ("version", "source", "license", "scope")},
             "phase6_bis": PHASE6_BIS, "forever_bis": server.PALADIN_FOREVER_BIS, "race_factions": server.RACE_FACTIONS, "talent_data": TALENT_DATA, "consumable_data": CONSUMABLE_DATA, "setting_data": server.SETTING_DATA,
             "races": ed.CLASS_RACES["Paladin"], "racials": all_specs.public_racials(), "defaults": server.DEFAULTS, "about": ed.PALADIN_ABOUT, "enchants": server.ENCHANT_DATA,

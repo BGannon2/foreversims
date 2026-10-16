@@ -49,6 +49,26 @@ RETRIBUTION_BUILD = {
     '110882': 3, '110871': 1,
 }
 
+# Paladin spec variants (community hybrids), run on the parent spec's engine setup with their own
+# talents. "core" is what defines the variant for tools/optimize_talents.py: required talents and/or
+# a minimum number of points in a tree; the optimizer fills the rest. Until a variant is optimized
+# it starts from the parent's build.
+PALADIN_VARIANTS = {
+    'ret-prot': {'parent': 'protection', 'name': 'Ret-Prot Tank',
+                 'summary': 'Shield tank that takes Retribution deep for damage instead of going deep Protection.',
+                 'core': {'tree_min': {'Retribution': 31}}},
+    'holy-prot': {'parent': 'protection', 'name': 'Holy-Prot Tank',
+                  'summary': 'Shield tank that goes deep Holy (Holy Shock and its support) instead of deep Protection.',
+                  'core': {'talents': {'105323': 1}, 'tree_min': {'Holy': 31}}},
+    'shockadin': {'parent': 'retribution', 'name': 'Shockadin',
+                  'summary': 'Spell-power Paladin built around Holy Shock (21+ points in Holy) for damage.',
+                  'core': {'talents': {'105323': 1}}},
+}
+_VARIANT_TALENTS = json.loads((DATA_DIR / 'variant_talents.json').read_text(encoding='utf-8')) if (DATA_DIR / 'variant_talents.json').is_file() else {}
+for _vid, _v in PALADIN_VARIANTS.items():  # sim-optimized builds (tools/optimize_talents.py) over the parent's
+    _v.setdefault('talents', dict(_VARIANT_TALENTS[_vid]['talents']) if _vid in _VARIANT_TALENTS else dict(PROTECTION_BUILD if _v['parent'] == 'protection' else RETRIBUTION_BUILD))
+
+
 def talent_build(spec):
     build = {talent_id: 0 for talent_id in TALENTS}
     build.update(PROTECTION_BUILD if spec == 'protection' else RETRIBUTION_BUILD)
@@ -93,9 +113,22 @@ ASSUMPTIONS = [
     "Hammer of Wrath was entirely missing from this model until a Mobalytics.gg class-overview audit flagged it. Rank 3 (max) is sourced from wago.tools DB2 (build 1.60.1.69913, spell 24239): 425 mana, 6 sec cooldown, 474-522 Holy damage, 0.429 spell-power coefficient. Only usable on targets at or below 20% health; since this is a fixed-duration single-target model with no tracked boss health, that's approximated as the same last-20%-of-fight execute window Warrior's Execute uses. Enabled for Holy and Retribution by default (not Protection, which doesn't prioritize burst nukes)."
 ]
 
-def preset(spec='protection'):
+def preset(spec='protection', variant=None):
     if spec not in ('protection', 'retribution'):
         raise ValueError('Spec must be protection or retribution')
+    if variant and PALADIN_VARIANTS.get(variant, {}).get('parent') != spec:
+        raise ValueError(f'{variant} is not a variant of {spec}.')
+    profile = _preset(spec)
+    if variant:
+        profile['variant'] = variant
+        profile['talents'] = {talent_id: 0 for talent_id in TALENTS} | PALADIN_VARIANTS[variant]['talents']
+        bis = json.loads((DATA_DIR / 'forever_bis_all.json').read_text(encoding='utf-8'))['profiles'].get(f'paladin-{spec}/{variant}')
+        if bis:  # the variant's own "Assumed Forever BiS" set (tools/build_bis_gearsets.py)
+            profile['gear'] = {slot: 0 for slot in profile['gear']} | {row['gear_slot']: row['id'] for row in bis['gear'] if row['gear_slot'] in profile['gear']}
+    return profile
+
+
+def _preset(spec):
     prot = spec == 'protection'
     return {
         'spec': spec, 'race':'Human', 'duration':120.0, 'duration_variance':0.0, 'iterations':300, 'seed':42,
@@ -144,7 +177,7 @@ def preset(spec='protection'):
             'use_classic_era_conversions':True, 'thunderfury_proc_chance':0.20,
             'thunderfury_damage':300.0, 'thunderfury_threat_multiplier':1.43},
         'rotation': {'use_judgement':True, 'use_consecration':True, 'consecration_mana_floor':0.30, 'use_holy_strike':True, 'use_exorcism':True, 'use_holy_wrath':True, 'use_hammer_of_wrath':not prot, 'twist_seals':not prot,
-            'use_bulwark':prot, 'bulwark_health_threshold':0.5},
+            'use_bulwark':prot, 'bulwark_health_threshold':0.5, 'use_holy_shock':True},
         'gear': phase6_gear(spec), 'enchants': paladin_enchants(spec),
         'talents': talent_build(spec)
     }
@@ -158,6 +191,10 @@ def validate(p):
     if p.get('race') not in CLASS_RACES['Paladin']:
         raise ValueError(f"{p.get('race')} cannot be a Paladin in World of Warcraft: Forever.")
     template = preset(p['spec'])
+    if 'variant' in p:  # optional: which Paladin spec variant this profile came from
+        if p['variant'] and PALADIN_VARIANTS.get(p['variant'], {}).get('parent') != p['spec']:
+            raise ValueError(f"{p['variant']} is not a variant of {p['spec']}.")
+        template['variant'] = ''
     def walk(value, schema, path='profile'):
         if isinstance(schema, dict):
             if not isinstance(value, dict) or set(value) != set(schema):
@@ -452,6 +489,12 @@ class Fight:
                     self.deal('Hammer of Wrath',self.rng.uniform(self.m['hammer_of_wrath_min'],self.m['hammer_of_wrath_max']),holy=True,can_crit=True,
                              hit=self.c['spell_hit_chance'],spell_coefficient=self.m['hammer_of_wrath_coeff'])
                     self.cd['hammer_of_wrath']=self.time+self.m['hammer_of_wrath_cooldown']; acted=True
+            # Holy Shock (talent 105323), rank 4 from client spells 20930/25902 (build 70425): 325 mana,
+            # 10 sec cooldown, instant, 348 Holy damage (client variance 7.9% = 334-362), 0.429 spell power coefficient.
+            if not acted and self.rank(105323) and self.rot.get('use_holy_shock',True) and self.time>=self.cd['holy_shock']:
+                if self.spend('Holy Shock',325*conduit_discount):
+                    self.deal('Holy Shock',self.rng.uniform(334.3,361.7),holy=True,can_crit=True,hit=self.c['spell_hit_chance'],spell_coefficient=.429)
+                    self.cd['holy_shock']=self.time+10;acted=True
             if not acted and eligible_holy_target and self.rot['use_exorcism'] and self.time>=self.cd['exorcism']:
                 if self.spend('Exorcism',345*conduit_discount):
                     self.deal('Exorcism',self.rng.uniform(505,563),holy=True,can_crit=True,hit=self.c['spell_hit_chance'],spell_coefficient=.429)

@@ -1860,6 +1860,9 @@ impl<'a> Iteration<'a> {
                 return;
             }
             let item = c.mh.clone();
+            if c.weave_penalty != 0.0 {
+                self.next_ranged += c.weave_penalty; // weaving: stepping in to melee costs Auto Shot time
+            }
             let (out, m) = self.melee_outcome(Hand::Main, false, Some(name), a.no_dodge);
             if out.avoided() {
                 self.deal(name, 0.0, "physical", "melee", false, false, 1.0, 0.0, out, 1.0);
@@ -2118,7 +2121,7 @@ impl<'a> Iteration<'a> {
                 self.add_buff("Missile Barrage", 15.0, Buff::default());
             }
         }
-        if c.flag("hot_streak") != 0.0 && ["Fireball", "Fire Blast", "Scorch"].contains(&name) && out == Outcome::Crit {
+        if c.flag("hot_streak") != 0.0 && ["Fireball", "Fire Blast", "Scorch", "Frostfire Bolt"].contains(&name) && out == Outcome::Crit {
             self.add_buff("Hot Streak", 20.0, Buff { stacks_max: Some(3), ..Default::default() });
         }
         if c.flag("hot_streak") != 0.0 && name == "Fire Blast" && matches!(out, Outcome::Hit | Outcome::Crit) {

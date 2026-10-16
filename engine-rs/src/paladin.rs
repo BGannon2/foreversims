@@ -78,7 +78,7 @@ pub fn preset(spec: &str) -> Result<Value, String> {
             "use_classic_era_conversions": true, "thunderfury_proc_chance": 0.20,
             "thunderfury_damage": 300.0, "thunderfury_threat_multiplier": 1.43},
         "rotation": {"use_judgement": true, "use_consecration": true, "consecration_mana_floor": 0.30, "use_holy_strike": true, "use_exorcism": true, "use_holy_wrath": true, "use_hammer_of_wrath": !prot, "twist_seals": !prot,
-            "use_bulwark": prot, "bulwark_health_threshold": 0.5},
+            "use_bulwark": prot, "bulwark_health_threshold": 0.5, "use_holy_shock": true},
         "gear": pt.phase6_gear[spec], "enchants": pt.default_enchants[spec],
         "talents": talent_build(spec)
     }))
@@ -152,7 +152,11 @@ pub fn validate(profile: &Value) -> Result<Value, String> {
     if !t.CLASS_RACES["Paladin"].contains(&race) {
         return Err(format!("{} cannot be a Paladin in World of Warcraft: Forever.", p["race"].as_str().map(|s| s.to_string()).unwrap_or_else(|| p["race"].to_string())));
     }
-    let template = preset(spec)?;
+    let mut template = preset(spec)?;
+    if p.get("variant").is_some() {
+        // optional: which Paladin spec variant this profile came from (labels only; see PALADIN_VARIANTS)
+        template["variant"] = Value::String(String::new());
+    }
     walk(&p, &template, "profile")?;
     let talents = p["talents"].as_object().unwrap();
     let rank_of = |id: &str| talents.get(id).and_then(|v| v.as_i64()).unwrap_or(0);
@@ -645,6 +649,12 @@ pub struct Rotation {
     pub twist_seals: bool,
     pub use_bulwark: bool,
     pub bulwark_health_threshold: f64,
+    #[serde(default = "default_true")]
+    pub use_holy_shock: bool,
+}
+
+fn default_true() -> bool {
+    true
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
@@ -1255,6 +1265,14 @@ impl<'a> Fight<'a> {
                     self.deal("Hammer of Wrath", amt, true, true, self.c.spell_hit_chance, 1.0, false, None, self.m.hammer_of_wrath_coeff);
                     let v = self.time + self.m.hammer_of_wrath_cooldown;
                     self.cd.insert("hammer_of_wrath", v);
+                    acted = true;
+                }
+            // Holy Shock (talent 105323), rank 4 from client spells 20930/25902 (build 70425).
+            if !acted && self.rank("105323") != 0.0 && self.rot.use_holy_shock && self.time >= self.cd("holy_shock")
+                && self.spend("Holy Shock", 325.0 * conduit_discount) {
+                    let amt = self.rng.uniform(334.3, 361.7);
+                    self.deal("Holy Shock", amt, true, true, self.c.spell_hit_chance, 1.0, false, None, 0.429);
+                    self.cd.insert("holy_shock", self.time + 10.0);
                     acted = true;
                 }
             if !acted && eligible_holy_target && self.rot.use_exorcism && self.time >= self.cd("exorcism")

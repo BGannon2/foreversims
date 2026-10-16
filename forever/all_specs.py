@@ -10,7 +10,7 @@ import json
 from pathlib import Path
 
 from . import engine
-from .engine_data import CLASS_RACES, DEFAULT_BUILDS, RACIALS, ROTATIONS, SPEC_ABOUT, SPEC_MAP, default_buffs, default_consumables
+from .engine_data import CLASS_RACES, DEFAULT_BUILDS, RACIALS, ROTATIONS, SPEC_ABOUT, SPEC_MAP, VARIANTS, default_buffs, default_consumables
 from .profile_rules import annotate_rating_assumptions, classify_availability
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -79,7 +79,9 @@ def public_specs():
         out.append(dict(spec, actions=[n for n, _ in ROTATIONS[spec["id"]]], opener=("Taunt" if spec["role"] == "tank" else None),
                         races=CLASS_RACES[spec["class_name"]], default_talents=DEFAULT_BUILDS[spec["id"]],
                         default_consumables=default_consumables(spec), default_buffs=default_buffs(spec),
-                        about=SPEC_ABOUT.get(spec["id"], {})))
+                        about=SPEC_ABOUT.get(spec["id"], {}),
+                        variants=[{"id": vid, "name": v["name"], "summary": v.get("summary", ""), "talents": v["talents"],
+                                   "actions": [n for n, _ in v["rotation"]]} for vid, v in VARIANTS.items() if v["parent"] == spec["id"]]))
     return out
 
 

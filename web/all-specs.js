@@ -106,7 +106,7 @@ function renderRotation() {
   $("aboutDps").textContent = spec.about?.dps || "Not documented yet.";
   $("aboutTps").textContent = spec.about?.tps || "Not documented yet.";
   const race = $("race").value, summary = data.racials[race] || "";
-  const rows = [{ name: `Racial: ${race}`, racial: true, note: summary }, ...(spec.opener ? [{ name: spec.opener, opener: true }] : []), ...spec.actions.map(name => ({ name }))];
+  const rows = [{ name: `Racial: ${race}`, racial: true, note: summary }, ...(spec.opener ? [{ name: spec.opener, opener: true }] : []), ...(activeVariant()?.actions || spec.actions).map(name => ({ name }))];
   $("rotationList").innerHTML = rows.map((row, i) => row.opener ? `<li class="rotation-opener"><strong>${row.name}</strong><span>Opening cast on the assigned target before the priority list begins.</span></li>` : row.racial ? `<li class="rotation-racial"><label class="rotation-toggle"><input type="checkbox" data-racial="1" checked><span><strong>${row.name}</strong><small>${row.note}</small></span></label></li>` : `<li><label class="rotation-toggle"><input type="checkbox" data-rotation="${row.name}" checked><span><strong>${row.name}</strong><small>Priority ${i}${DOT}conditions are evaluated by the engine (execute phase, resource pooling, dot/buff uptime).</small></span></label></li>`).join("");
 }
 function renderPetSettings() {
@@ -125,7 +125,18 @@ function treePoints(t) { return t.talents.reduce((a, z) => a + (points[z.id] || 
 function pointsBefore(t, row, subtractId = null) { return t.talents.filter(z => z.row < row).reduce((a, z) => a + (points[z.id] || 0) - (String(z.id) === String(subtractId) ? 1 : 0), 0); }
 function canAdd(t, talent) { const total = Object.values(points).reduce((a, b) => a + b, 0); if (total >= 51 || pointsBefore(t, talent.row) < talent.row * 5 || (points[talent.id] || 0) >= talent.ranks.length) return false; return (talent.requires || []).every(raw => { const req = requirementParts(raw); return (points[req.id] || 0) >= req.qty; }); }
 function canRemove(t, talent) { const current = points[talent.id] || 0; if (!current) return false; const next = current - 1; for (const child of t.talents) { if (!(points[child.id] || 0)) continue; if (pointsBefore(t, child.row, talent.id) < child.row * 5) return false; for (const raw of child.requires || []) { const req = requirementParts(raw); if (String(req.id) === String(talent.id) && next < req.qty) return false; } } return true; }
-function autoTalents() { points = {}; for (const [id, rank] of Object.entries(spec.default_talents || {})) points[id] = rank; renderTalents(); }
+// Spec variants (community hybrid builds): a talent-area preset that loads the variant's default
+// talents and rotation; runs then carry the variant so the engine uses its rotation.
+const activeVariant = () => (spec.variants || []).find(v => v.id === $("variantSelect").value) || null;
+function autoTalents() { points = {}; for (const [id, rank] of Object.entries(activeVariant()?.talents || spec.default_talents || {})) points[id] = rank; renderTalents(); }
+function renderVariants() {
+  const variants = spec.variants || [];
+  $("variantPicker").hidden = !variants.length;
+  $("variantSelect").innerHTML = `<option value="">${spec.name} (default)</option>` + variants.map(v => `<option value="${v.id}" title="${v.summary}">${v.name}</option>`).join("");
+  const wanted = new URLSearchParams(location.search).get("variant");
+  if (variants.some(v => v.id === wanted)) $("variantSelect").value = wanted;
+  $("variantSelect").onchange = () => { autoTalents(); renderRotation(); const v = activeVariant(); $("talentInfo").textContent = v ? `${v.name}: ${v.summary} Talents are sim-optimized around the build's core.` : `${spec.name} default build loaded.`; };
+}
 function treeLinks(t) { const lines = []; for (const child of t.talents) for (const raw of child.requires || []) { const req = requirementParts(raw), parent = t.talents.find(x => String(x.id) === String(req.id)); if (parent) lines.push(`<line x1="${30 + parent.col * 60}" y1="${30 + parent.row * 60}" x2="${30 + child.col * 60}" y2="${30 + child.row * 60}" class="${(points[parent.id] || 0) >= req.qty ? "active" : ""}"/>`); } return `<svg class="generic-links" viewBox="0 0 240 420">${lines.join("")}</svg>`; }
 function showTalentInfo(x) { const rank = points[x.id] || 0, max = x.ranks.length, current = rank ? x.descriptions[String(rank)] : "No ranks learned.", next = rank < max ? `Next rank: ${x.descriptions[String(rank + 1)]}` : "Maximum rank learned."; $("talentInfo").innerHTML = `<strong>${x.name}</strong><span>Rank ${rank}/${max}</span><p>${current}</p><p class="next-rank">${next}</p>`; }
 function renderTalents() {
@@ -180,7 +191,7 @@ async function run() {
     const seed = $("lockSeed").checked ? (lastSeed ?? data.defaults.seed) : Math.floor(Math.random() * 2147483647);
     $("error").textContent = ""; $("progress").className = "running";
     const chosen = kind => [...document.querySelectorAll(`[data-kind=${kind}]:checked`)].map(x => x.dataset.key);
-    const payload = { ...tankEncounter(), spec: spec.id, duration: +$("duration").value, duration_variance: +$("durationVariance").value, iterations: +$("iterations").value, seed, race: $("race").value, gear: profile.gear.map(x => x.id), gear_slots: profile.gear.map(x => ({ slot: x.slot, id: x.id })), enchants: profile.gear.filter(x => x.enchant).map(x => ({ slot: enchantSlot(x.slot), id: x.enchant.id })), talents: points, armor: +$("armor").value, targets: +$("targets").value, boss_type: $("bossType").value, buffs: chosen("buffs"), debuffs: chosen("debuffs"), consumables: chosen("consumables"), racial_enabled: !!document.querySelector("[data-racial]:checked"), rotation_enabled: [...document.querySelectorAll("[data-rotation]:checked")].map(x => x.dataset.rotation), pet_family: $("petFamily")?.value || "cat", pet_attack_speed: +($("petAttackSpeed")?.value || 2), pet_uptime: +($("petUptime")?.value || 100) / 100, pet_abilities: [...document.querySelectorAll("[data-pet-ability]:checked")].map(x => x.dataset.petAbility) };
+    const payload = { ...tankEncounter(), spec: spec.id, variant: activeVariant()?.id || undefined, duration: +$("duration").value, duration_variance: +$("durationVariance").value, iterations: +$("iterations").value, seed, race: $("race").value, gear: profile.gear.map(x => x.id), gear_slots: profile.gear.map(x => ({ slot: x.slot, id: x.id })), enchants: profile.gear.filter(x => x.enchant).map(x => ({ slot: enchantSlot(x.slot), id: x.enchant.id })), talents: points, armor: +$("armor").value, targets: +$("targets").value, boss_type: $("bossType").value, buffs: chosen("buffs"), debuffs: chosen("debuffs"), consumables: chosen("consumables"), racial_enabled: !!document.querySelector("[data-racial]:checked"), rotation_enabled: [...document.querySelectorAll("[data-rotation]:checked")].map(x => x.dataset.rotation), pet_family: $("petFamily")?.value || "cat", pet_attack_speed: +($("petAttackSpeed")?.value || 2), pet_uptime: +($("petUptime")?.value || 100) / 100, pet_abilities: [...document.querySelectorAll("[data-pet-ability]:checked")].map(x => x.dataset.petAbility) };
     const bar = $("progress"); bar.style.width = "0%";
     const x = await ForeverSim.simulate("spec", payload, payload.iterations, (done, total) => { bar.style.width = `${Math.round(100 * done / total)}%`; });
     if (x.error) throw new Error(x.error);
@@ -232,7 +243,7 @@ async function init() {
   $("sideSpec").textContent = `${spec.class_name}${DOT}${spec.name}`; $("talentHeading").textContent = `${spec.class_name} talents`; $("className").textContent = spec.class_name.toUpperCase(); $("specName").textContent = spec.name; $("gearSource").textContent = profile.source_label || ""; $("serverDot").className = "online";
   renderGear(); renderOptions("buffs", data.settings.raid_buffs, "buffs"); renderOptions("debuffs", data.settings.debuffs, "debuffs"); renderOptions("consumables", data.consumables.items, "consumables"); renderRotation(); renderPetSettings();
   if (["Hunter", "Warlock"].includes(spec.class_name)) $("petFamily").onchange = renderPetSettings;
-  autoTalents();
+  renderVariants(); renderRotation(); autoTalents();
 }
 document.addEventListener("error", e => { if (e.target && e.target.tagName === "IMG") e.target.style.visibility = "hidden"; }, true);
 document.querySelectorAll(".result-tab").forEach(x => x.onclick = () => renderResultView(x.dataset.result));

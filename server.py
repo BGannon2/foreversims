@@ -18,7 +18,7 @@ from forever.all_specs import CLASS_RACES, public_racials, public_specs, simulat
 from forever.engine_data import BUFF_GROUPS, DEFAULT_BUILDS, PALADIN_ABOUT, SET_EFFECTS, SET_NO_COMBAT_EFFECT, SET_PROVISIONAL, default_buffs, default_consumables
 from forever.gear_data import CATALOG, PHASE6_BIS
 from forever.profile_rules import RACE_FACTIONS, enchant_preferences, equipment_rules
-from forever.sim import ASSUMPTIONS, CONSUMABLE_DATA, DATA, TALENT_DATA, preset, simulate, validate
+from forever.sim import ASSUMPTIONS, CONSUMABLE_DATA, DATA, PALADIN_VARIANTS, TALENT_DATA, preset, simulate, validate
 
 ROOT = Path(__file__).resolve().parent
 WEB = ROOT / "web"
@@ -45,8 +45,16 @@ DEBUFFS = [x["key"] for x in SETTING_DATA["debuffs"]]
 
 
 def default_request(spec, race=None, **overrides):
-    """The saved default profile for a shared-engine spec (what the UI loads)."""
+    """The saved default profile for a shared-engine spec (what the UI loads). With variant=..., a
+    spec variant's own talents and, once built, its own "Assumed Forever BiS" set."""
     profile = PHASE12_BIS["profiles"][spec["id"]]
+    variant = overrides.get("variant")
+    if variant:
+        from forever.engine_data import VARIANTS
+        if VARIANTS.get(variant, {}).get("parent") != spec["id"]:
+            raise ValueError(f"{variant} is not a variant of {spec['id']}.")
+        profile = FOREVER_BIS["profiles"].get(f"{spec['id']}/{variant}", profile)
+        overrides.setdefault("talents", VARIANTS[variant]["talents"])
     request = {"spec": spec["id"], "race": race or ("Human" if "Human" in spec["races"] else spec["races"][0]),
                "duration": DEFAULTS["duration"], "iterations": DEFAULTS["iterations"], "seed": DEFAULTS["seed"], "armor": DEFAULTS["armor"], "targets": DEFAULTS["targets"], "boss_type": DEFAULTS["boss_type"],
                "gear": [x["id"] for x in profile["gear"]], "gear_slots": [{"slot": x["slot"], "id": x["id"]} for x in profile["gear"]],
@@ -110,6 +118,27 @@ def build_benchmarks(iterations=None, target_counts=TARGET_COUNTS, parallel=True
                 tasks.append(("spec", default_request(spec, race, iterations=iterations, seed=DEFAULTS["benchmark_seed"], targets=targets)))
                 meta.append({"id": spec["id"], "race": race, "class_name": spec["class_name"], "name": spec["name"], "role": spec["role"], "targets": targets,
                              "url": f"/all-specs.html?spec={spec['id']}&race={quote(race)}&targets={targets}&benchmark=1"})
+    from forever.engine_data import VARIANTS
+    for vid, v in VARIANTS.items():  # spec variants get their own rows
+        key = f"{v['parent']}/{vid}"
+        if not keep(key): continue
+        spec = next(s for s in public_specs() if s["id"] == v["parent"])
+        for race in CLASS_RACES[spec["class_name"]]:
+            for targets in target_counts:
+                tasks.append(("spec", default_request(spec, race, iterations=iterations, seed=DEFAULTS["benchmark_seed"], targets=targets, variant=vid)))
+                meta.append({"id": key, "variant": vid, "parent": spec["id"], "race": race, "class_name": spec["class_name"], "name": v["name"], "role": spec["role"], "targets": targets,
+                             "url": f"/all-specs.html?spec={spec['id']}&variant={vid}&race={quote(race)}&targets={targets}&benchmark=1"})
+    for vid, v in PALADIN_VARIANTS.items():
+        key = f"paladin-{v['parent']}/{vid}"
+        if not keep(key): continue
+        for race in CLASS_RACES["Paladin"]:
+            for targets in target_counts:
+                profile = preset(v["parent"], vid); profile["race"] = race; profile["iterations"] = iterations; profile["seed"] = DEFAULTS["benchmark_seed"]
+                profile["encounter"]["targets"] = float(targets)
+                tasks.append(("paladin", profile))
+                meta.append({"id": key, "variant": vid, "parent": f"paladin-{v['parent']}", "race": race, "class_name": "Paladin", "name": v["name"],
+                             "role": "tank" if v["parent"] == "protection" else "dps", "targets": targets,
+                             "url": f"/paladin.html?spec={v['parent']}&variant={vid}&race={quote(race)}&targets={targets}&benchmark=1"})
     for spec_id in ("protection", "retribution"):
         if not keep(f"paladin-{spec_id}"): continue
         for race in CLASS_RACES["Paladin"]:
@@ -151,6 +180,7 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/api/bootstrap":
             return self.send_json({
                 "presets": {name: preset(name) for name in ("protection", "retribution")},
+                "variant_presets": {vid: {"parent": v["parent"], "name": v["name"], "summary": v.get("summary", ""), "talents": preset(v["parent"], vid)["talents"]} for vid, v in PALADIN_VARIANTS.items()},
                 "sources": DATA["sources"], "source_status": DATA["status"],
                 "assumptions": ASSUMPTIONS, "excluded": DATA["excluded"],
                 "gear_catalog": {key: CATALOG[key] for key in ("version", "source", "license", "scope")},

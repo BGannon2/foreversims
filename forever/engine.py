@@ -49,6 +49,18 @@ class Config:
         if spec_id not in SPEC_MAP:
             raise ValueError("Choose a supported Forever DPS or tank spec.")
         self.spec = SPEC_MAP[spec_id]
+        # Spec variants (VARIANTS): a parent spec run with its own rotation, plus optional spec
+        # overrides (e.g. melee weaving switches the auto attack to Auto Shot).
+        self.variant = request.get("variant") or None
+        self.rotation_key = spec_id
+        self.weave_penalty = 0.0
+        if self.variant:
+            v = VARIANTS.get(self.variant)
+            if not v or v["parent"] != spec_id:
+                raise ValueError(f"{self.variant} is not a variant of {spec_id}.")
+            self.spec = dict(self.spec, **v.get("spec_overrides", {}))
+            self.rotation_key = f"{spec_id}/{self.variant}"
+            self.weave_penalty = v.get("weave_penalty", 0.0)
         s = self.spec
         self.duration = float(request.get("duration", 120))
         self.variance = max(0.0, min(60.0, float(request.get("duration_variance", 0))))
@@ -362,8 +374,8 @@ class Config:
         s = self.spec
         self.rotation = []
         self.actions = {}
-        enabled = set(request.get("rotation_enabled", [n for n, _ in ROTATIONS[s["id"]]]))
-        for name, cond in ROTATIONS[s["id"]]:
+        enabled = set(request.get("rotation_enabled", [n for n, _ in ROTATIONS[self.rotation_key]]))
+        for name, cond in ROTATIONS[self.rotation_key]:
             base = ABILITIES[name]
             gate = TALENT_GATED.get(name)
             if gate and not self.flag(gate):
@@ -1489,6 +1501,7 @@ class Iteration:
                 if dmg: self.on_ranged_damage(out)
                 return
             item = c.mh
+            if c.weave_penalty: self.next_ranged += c.weave_penalty  # weaving: stepping in to melee costs Auto Shot time
             out, m = self.melee_outcome(item, False, name, no_dodge=a.get("no_dodge", False))
             if out in {"miss", "dodge", "parry"}:
                 self.deal(name, 0, "physical", "melee", outcome=out)

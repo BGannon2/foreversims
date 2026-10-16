@@ -122,10 +122,37 @@ SPEC_ARCHETYPE = {
     "warlock-affliction": CASTER_DPS, "warlock-demonology": CASTER_DPS, "warlock-destruction": CASTER_DPS,
 }
 
+# Spec variants (forever/engine_data.VARIANTS and forever/sim.PALADIN_VARIANTS) get their own set,
+# keyed "parent/variant", built like their parent spec unless overridden below.
+def _variant_specs():
+    from forever.engine_data import VARIANTS
+    from forever.sim import PALADIN_VARIANTS
+    out = {}
+    for vid, v in VARIANTS.items():
+        out[f"{v['parent']}/{vid}"] = {**SPEC_MAP[v["parent"]], **v.get("spec_overrides", {}), "variant": vid, "parent": v["parent"]}
+    for vid, v in PALADIN_VARIANTS.items():
+        parent = f"paladin-{v['parent']}"
+        out[f"{parent}/{vid}"] = {**PALADIN_SPECS[parent], "variant": vid, "parent": parent}
+    return out
+
+
+VARIANT_SPECS = _variant_specs()
+ALL_SPECS = {**SPEC_MAP, **PALADIN_SPECS, **VARIANT_SPECS}
+SPEC_ARCHETYPE.update({key: SPEC_ARCHETYPE[v["parent"]] for key, v in VARIANT_SPECS.items()})
+SPEC_ARCHETYPE.update({
+    "paladin-retribution/shockadin": CASTER_DPS,  # Holy Shock and Holy spells scale with spell power
+    "shaman-enhancement/elehance": {**MELEE_DPS_AGI, "spellPower": 0.5},  # melee plus Lightning Bolt / Lava Burst
+    "mage-fire/frostfire": CASTER_DPS,
+})
+
 DUAL_WIELD = {"warrior-fury", "rogue-assassination", "rogue-combat", "rogue-subtlety"}
 TWO_HAND_PREFERRED = {"warrior-arms", "paladin-retribution"}  # compared against 1H+offhand anyway; this just breaks ties
 SHIELD_TANK = {"warrior-protection", "paladin-protection"}
 RANGED_PRIMARY = {"hunter-beast-mastery", "hunter-marksmanship", "hunter-survival"}
+for _key, _v in VARIANT_SPECS.items():  # variants inherit their parent's weapon rules
+    for _group in (DUAL_WIELD, TWO_HAND_PREFERRED, SHIELD_TANK, RANGED_PRIMARY):
+        if _v["parent"] in _group: _group.add(_key)
+TWO_HAND_PREFERRED.discard("paladin-retribution/shockadin")  # caster: staff or 1H + held off-hand
 
 CAN_DUAL_WIELD = {"Warrior", "Rogue", "Hunter"}  # the engine's equipment rules reject Shaman off-hand weapons
 
@@ -191,6 +218,7 @@ LATER_PHASE_QUESTS = {"Rise, Thunderfury!", "The Fall of Ossirian"}
 
 # Armor-type requirement for the armor slots (cloaks, jewelry and trinkets are unaffected).
 ARMOR_TYPE_ONLY = {"paladin-protection": "Plate", "warrior-protection": "Plate", "druid-feral-tank": "Leather"}
+ARMOR_TYPE_ONLY.update({key: ARMOR_TYPE_ONLY[v["parent"]] for key, v in VARIANT_SPECS.items() if v["parent"] in ARMOR_TYPE_ONLY})
 ARMOR_SLOTS = {"head", "shoulders", "chest", "wrist", "hands", "waist", "legs", "feet"}
 
 
@@ -437,6 +465,7 @@ def build_spec(spec_id, spec):
 
 def default_race(spec_id):
     """The race each spec's set is built for (its first listed race; Paladin presets are Human)."""
+    spec_id = spec_id.split("/")[0]  # a variant uses its parent's race
     if spec_id in PALADIN_SPECS:
         return "Human"
     from forever.all_specs import public_specs
@@ -444,6 +473,7 @@ def default_race(spec_id):
 
 
 TANK_SPECS = {"warrior-protection", "druid-feral-tank", "paladin-protection"}
+TANK_SPECS |= {key for key, v in VARIANT_SPECS.items() if v["parent"] in TANK_SPECS}
 UI_SLOT = {"head": "Head", "neck": "Neck", "shoulders": "Shoulders", "back": "Back", "chest": "Chest", "wrist": "Wrist",
            "hands": "Hands", "waist": "Waist", "legs": "Legs", "feet": "Feet", "finger1": "Finger 1", "finger2": "Finger 2",
            "trinket1": "Trinket 1", "trinket2": "Trinket 2", "main_hand": "Main Hand", "off_hand": "Off Hand",
@@ -454,17 +484,21 @@ SCORE_CANDIDATES = 4
 def sim_value(spec_id, spec, gear, iterations=None, seed=7):
     """Mean DPS (TPS for tanks) of a gear set in the engine that runs this spec."""
     key = "tps" if spec_id in TANK_SPECS else "dps"
+    parent_id, _, variant = spec_id.partition("/")
     if spec["class_name"] == "Paladin":
         from forever import gear_data, sim
-        name = spec_id.split("-", 1)[1]
-        p = sim.preset(name); p.update(iterations=iterations or 150, seed=seed)
+        name = parent_id.split("-", 1)[1]
+        p = sim.preset(name, variant or None); p.update(iterations=iterations or 150, seed=seed)
         p["enchants"] = gear_data.paladin_enchants(name)
         p["gear"] = gear_data.empty_gear(); p["gear"].update({slot: it["id"] for slot, it in gear.items()})
         return sim.simulate(sim.validate(p))["metrics"][key]["mean"]
     from forever.all_specs import public_specs, simulate_spec
     from server import default_request
-    full = next(x for x in public_specs() if x["id"] == spec_id)
-    req = default_request(full, default_race(spec_id), iterations=iterations or 60, duration=120, seed=seed)
+    full = next(x for x in public_specs() if x["id"] == parent_id)
+    req = default_request(full, default_race(spec_id), iterations=iterations or 60, duration=120, seed=seed, variant=variant or None)
+    if variant:
+        from forever.engine_data import VARIANTS
+        req["talents"] = VARIANTS[variant]["talents"]
     req["gear_slots"] = [{"slot": UI_SLOT[slot], "id": it["id"]} for slot, it in gear.items()]
     req["gear"] = [row["id"] for row in req["gear_slots"]]
     return simulate_spec(req)["metrics"][key]["mean"]
@@ -555,7 +589,7 @@ def keep_better(spec_id, spec, gear, previous):
 
 def build_profile(spec_id, previous=None):
     """One spec's set; a top-level function so worker processes can run it."""
-    spec = {**SPEC_MAP, **PALADIN_SPECS}[spec_id]
+    spec = ALL_SPECS[spec_id]
     gear = keep_better(spec_id, spec, build_spec(spec_id, spec), previous)
     return spec_id, {
         "source": "tools/build_bis_gearsets.py (greedy stat-weight optimizer over the Forever item catalog)",
@@ -579,7 +613,7 @@ def main():
     profiles = dict(saved) if args.specs else {}
     from spec_tags import select
     wanted = select(args.specs) if args.specs else None
-    todo = [sid for sid in {**SPEC_MAP, **PALADIN_SPECS} if wanted is None or sid in wanted]
+    todo = [sid for sid in ALL_SPECS if wanted is None or sid in wanted]
     # Specs are independent, so each runs in its own process (sims are single-threaded).
     with ProcessPoolExecutor(max_workers=max(1, min(args.workers, len(todo)))) as pool:
         for future in as_completed([pool.submit(build_profile, sid, saved.get(sid)) for sid in todo]):
@@ -587,7 +621,7 @@ def main():
             profiles[spec_id] = profile
             print(f"{spec_id}: {len(profile['gear'])} slots filled", file=sys.stderr)
 
-    profiles = {sid: profiles[sid] for sid in {**SPEC_MAP, **PALADIN_SPECS} if sid in profiles}
+    profiles = {sid: profiles[sid] for sid in ALL_SPECS if sid in profiles}
     out = {"scope": "Forever level-60 auto-generated BiS, greedy stat-weight optimizer", "profiles": profiles}
     path.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
     print("wrote data/forever_bis_all.json", file=sys.stderr)

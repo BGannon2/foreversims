@@ -9,6 +9,22 @@ use std::sync::OnceLock;
 
 pub type StatMap = IndexMap<String, f64>;
 
+#[derive(Deserialize, Serialize, Clone, Debug, Default)]
+pub struct VariantOverrides {
+    #[serde(default)]
+    pub style: Option<String>,
+}
+
+/// A community spec variant: the parent spec run with its own rotation and optional overrides.
+#[derive(Deserialize, Serialize, Clone, Debug, Default)]
+pub struct Variant {
+    pub parent: String,
+    #[serde(default)]
+    pub spec_overrides: VariantOverrides,
+    #[serde(default)]
+    pub weave_penalty: f64,
+}
+
 #[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct Spec {
     pub id: String,
@@ -433,6 +449,8 @@ pub struct Tables {
     pub CLASS_THREAT: HashMap<String, f64>,
     pub ABILITIES: IndexMap<String, Ability>,
     pub ROTATIONS: HashMap<String, Vec<(String, String)>>,
+    #[serde(default)]
+    pub VARIANTS: HashMap<String, Variant>,
     pub CONSUMABLE_ACTIONS: IndexMap<String, String>,
     pub TALENT_EFFECTS: HashMap<String, IndexMap<String, f64>>,
     pub TALENT_RANK_EFFECTS: HashMap<String, IndexMap<String, Vec<f64>>>,

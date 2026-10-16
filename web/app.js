@@ -313,7 +313,25 @@ function selectSpec(spec){
   document.querySelectorAll(".spec").forEach(b=>b.classList.toggle("active",b.dataset.spec===spec));
   buildMechanics(); hydrateForm(); $("formError").textContent="";
   $("talentInfo").textContent=spec==="protection"?"51-point preset optimized for Protection TPS in the implemented model.":"51-point preset maximizes implemented Retribution DPS talents and sourced melee damage talents.";
+  renderVariants();
 }
+
+// Spec variants (community hybrid builds): a talent-area preset of the current spec. Choosing one
+// loads its sim-optimized talents; the profile carries the variant so results are labeled with it.
+function renderVariants(){
+  const variants=Object.entries(state.boot.variant_presets||{}).filter(([,v])=>v.parent===state.spec);
+  $("variantPicker").hidden=!variants.length;
+  $("variantSelect").innerHTML=`<option value="">${state.spec==="protection"?"Protection":"Retribution"} (default)</option>`+variants.map(([id,v])=>`<option value="${id}" title="${v.summary}">${v.name}</option>`).join("");
+  $("variantSelect").value=""; delete state.profile.variant;
+}
+function applyVariant(id){
+  const v=(state.boot.variant_presets||{})[id];
+  state.profile.talents=clone(v?v.talents:state.boot.presets[state.spec].talents);
+  if(v) state.profile.variant=id; else delete state.profile.variant;
+  buildTalents();
+  $("talentInfo").textContent=v?`${v.name}: ${v.summary} Talents are sim-optimized around the build's core.`:"Default build loaded.";
+}
+$("variantSelect").addEventListener("change",e=>applyVariant(e.target.value));
 
 function metricCard(label,key,primary=false,suffix=""){
   const m=state.result.metrics[key]; const el=document.createElement("article"); el.className="metric"+(primary?" primary-metric":"");
@@ -426,6 +444,7 @@ async function init(){
     const requested=new URLSearchParams(location.search).get("spec");
     selectSpec(requested==="retribution"?"retribution":"protection");
     const query=new URLSearchParams(location.search);state.profile.encounter.targets=Math.max(1,Math.min(10,Number(query.get("targets"))||1));
+    const requestedVariant=query.get("variant"); if(requestedVariant&&state.boot.variant_presets?.[requestedVariant]?.parent===state.spec){$("variantSelect").value=requestedVariant;applyVariant(requestedVariant);}
     if(query.get("benchmark")==="1"){state.profile.seed=state.boot.defaults.benchmark_seed;state.profile.iterations=state.boot.defaults.benchmark_iterations;$("lockSeed").checked=true;}hydrateForm();
     const requestedRace=new URLSearchParams(location.search).get("race"); if(requestedRace&&(state.boot.races||[]).includes(requestedRace)){state.profile.race=requestedRace;$("race").value=requestedRace;$("race").dispatchEvent(new Event("change"));}
   }catch(error){ $("serverText").textContent="Server connection failed"; $("formError").textContent=error.message; }

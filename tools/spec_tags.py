@@ -15,6 +15,14 @@ def spec_tags():
     tags = {s["id"]: {s["id"], s["class_name"].lower(), s["role"], s["style"]} for s in public_specs()}
     tags["paladin-protection"] = {"paladin-protection", "paladin", "tank", "melee"}
     tags["paladin-retribution"] = {"paladin-retribution", "paladin", "dps", "melee"}
+    # Spec variants: tagged by their own id ("parent/variant" and the bare variant name), plus their
+    # parent's tags and "variant", so e.g. --only variant reruns just the variants.
+    from forever.engine_data import VARIANTS
+    from forever.sim import PALADIN_VARIANTS
+    parents = {f"{v['parent']}/{vid}": v["parent"] for vid, v in VARIANTS.items()}
+    parents |= {f"paladin-{v['parent']}/{vid}": f"paladin-{v['parent']}" for vid, v in PALADIN_VARIANTS.items()}
+    for key, parent in parents.items():
+        tags[key] = (tags[parent] - {parent}) | {key, key.split("/")[1], "variant"}
     return tags
 
 

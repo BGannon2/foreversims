@@ -175,6 +175,8 @@ pub struct Config {
     pub t: &'static Tables,
     pub request: Value,
     pub spec: Spec,
+    pub rotation_key: String,
+    pub weave_penalty: f64,
     pub duration: f64,
     pub variance: f64,
     pub iterations: i64,
@@ -281,7 +283,19 @@ impl Config {
     pub fn new(request: Value, catalog: &Catalog) -> Result<Config, String> {
         let t = tables();
         let spec_id = req_str(request.get("spec"), "");
-        let spec = t.SPEC_MAP.get(&spec_id).cloned().ok_or("Choose a supported Forever DPS or tank spec.")?;
+        let mut spec = t.SPEC_MAP.get(&spec_id).cloned().ok_or("Choose a supported Forever DPS or tank spec.")?;
+        // Spec variants: the parent spec with its own rotation and optional overrides (see VARIANTS).
+        let variant = request.get("variant").and_then(|v| v.as_str()).filter(|v| !v.is_empty()).map(str::to_string);
+        let mut rotation_key = spec_id.clone();
+        let mut weave_penalty = 0.0;
+        if let Some(vid) = &variant {
+            let v = t.VARIANTS.get(vid).filter(|v| v.parent == spec_id).ok_or(format!("{vid} is not a variant of {spec_id}."))?;
+            if let Some(style) = &v.spec_overrides.style {
+                spec.style = style.clone();
+            }
+            rotation_key = format!("{spec_id}/{vid}");
+            weave_penalty = v.weave_penalty;
+        }
         let duration = req_f64(request.get("duration"), 120.0)?;
         let variance = req_f64(request.get("duration_variance"), 0.0)?.clamp(0.0, 60.0);
         let iterations = req_i64(request.get("iterations"), 300)?;
@@ -332,7 +346,7 @@ impl Config {
         let debuffs = str_set(request.get("debuffs"));
         let consumes = Self::validate_consumes(t, str_set(request.get("consumables")))?;
         let mut c = Config {
-            t, request, spec, duration, variance, iterations, seed, race, boss_type, targets, incoming, racial_enabled, racial, gear, gear_slots, buffs, debuffs, consumes,
+            t, request, spec, rotation_key, weave_penalty, duration, variance, iterations, seed, race, boss_type, targets, incoming, racial_enabled, racial, gear, gear_slots, buffs, debuffs, consumes,
             notes: vec![], talents: IndexMap::new(), talent_points: 0, mods: IndexMap::new(), mh: Item::default(), oh: Item::default(), ranged: Item::default(), has_shield: false, two_hand: false, dual_wield: false,
             weapon_skill_bonus: IndexMap::new(), stats: StatMap::new(), item_uses: vec![], item_procs: vec![], item_effects_applied: vec![], item_effects_unresolved: vec![], set_counts: IndexMap::new(),
             active_set_bonuses: vec![], unresolved_set_bonuses: vec![], applied_enchants: vec![], rejected_enchants: vec![], crusader_hands: HashSet::new(), windfury_totem: false, racial_crit: 0.0, threat_reduction: 0.0,
@@ -862,7 +876,7 @@ impl Config {
     // ---- abilities -------------------------------------------------------
     fn init_abilities(&mut self) -> Result<(), String> {
         let t = self.t;
-        let rotation_src = &t.ROTATIONS[&self.spec.id];
+        let rotation_src = &t.ROTATIONS[&self.rotation_key];
         let enabled: BTreeSet<String> = match self.request.get("rotation_enabled") {
             Some(v) if v.is_array() => str_set(Some(v)),
             _ => rotation_src.iter().map(|(n, _)| n.clone()).collect(),
