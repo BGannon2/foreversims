@@ -171,7 +171,9 @@ Sitemap: https://${CANONICAL_HOST}/sitemap.xml
 // One URL per page: www -> bare domain, and /page.html -> /page (permanent, so search engines
 // consolidate ranking on the clean URL instead of following the asset layer's temporary 307).
 function canonicalRedirect(request, url) {
-  if (url.hostname === `www.${CANONICAL_HOST}`) {
+  const live = url.hostname === CANONICAL_HOST || url.hostname === `www.${CANONICAL_HOST}`;
+  if (live && (url.protocol === "http:" || url.hostname !== CANONICAL_HOST)) {  // http -> https too (local dev is untouched)
+    url.protocol = "https:";
     url.hostname = CANONICAL_HOST;
     return Response.redirect(url.href, 301);
   }
