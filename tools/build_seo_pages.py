@@ -136,7 +136,7 @@ def spec_page(spec: dict, all_specs: list[dict], rows: list[dict], names: dict, 
     cls, name, role = spec["class_name"], spec["name"], ROLE_WORD[spec["role"]]
     full = f"{name} {cls}"
     kind = "tank" if spec["role"] == "tank" else "DPS"
-    title = f"{full} Simulator – WoW Forever {kind} Sim | Forever Sims"
+    title = f"{full} Simulator – WoW Forever {kind.title() if kind == 'tank' else kind} Sim | Forever Sims"
     desc = (f"Free {full} simulator for World of Warcraft: Forever. Sim your {'threat and damage' if kind == 'tank' else 'DPS'} with Forever talents, "
             f"Classic Anniversary gear, raid buffs and consumables. Runs in your browser.")
     path = f"/sims/{slug(spec)}"
