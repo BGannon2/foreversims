@@ -2137,11 +2137,11 @@ impl<'a> Iteration<'a> {
         if c.flag("improved_scorch") != 0.0 && name == "Scorch" {
             self.add_debuff("Improved Scorch", 30.0, Some(5));
         }
-        if c.flag("winters_chill") != 0.0 && parts(&school).contains(&"frost") {
+        if c.flag("winters_chill") != 0.0 && parts(school).contains(&"frost") {
             self.add_debuff("Winter's Chill", 15.0, Some(5));
         }
         let landed = matches!(out, Outcome::Hit | Outcome::Crit);
-        if self.combustion.is_some() && parts(&school).contains(&"fire") && landed {
+        if self.combustion.is_some() && parts(school).contains(&"fire") && landed {
             let (s, cr) = self.combustion.unwrap();
             self.combustion = Some((s + 1, cr));
         }
