@@ -104,7 +104,7 @@ BUFF_STATS = {
     "bloodlust": {},  # Requested encounter assumption; timed haste in both engines.
     "power_word_fortitude": {"stamina": 70}, "mark_of_the_wild": {"strength": 16, "agility": 16, "stamina": 16, "intellect": 16, "spirit": 16, "armor": 385},
     "arcane_intellect": {"intellect": 31}, "battle_shout": {"attackPower": 290}, "blessing_of_might": {"attackPower": 222}, "devotion_aura": {"armor": 735},
-    "blessing_of_wisdom": {"mp5": 33}, "strength_of_earth": {"strength": 77}, "grace_of_air": {"agility": 77}, "mana_spring": {"mp5": 15},
+    "blessing_of_wisdom": {"mp5": 33}, "innervate": {}, "strength_of_earth": {"strength": 77}, "grace_of_air": {"agility": 77}, "mana_spring": {"mp5": 15},
     "leader_of_the_pack": {"meleeCrit": 3, "rangedCrit": 3}, "moonkin_aura": {"spellCrit": 3}, "trueshot_aura": {"rangedAttackPower": 100},
     "blessing_of_kings": {}, "windfury_totem": {}, "thorns": {},
 }
@@ -122,15 +122,20 @@ def default_buffs(spec):
     raid buffs are mutually exclusive any more: Grace of Air no longer shares the Air Totem slot
     with Windfury Totem (which still only procs off melee weapon swings), and Leader of the Pack
     (melee/ranged crit) and Moonkin Aura (spell crit) no longer cover the same stat."""
-    return sorted(BUFF_STATS)
+    # Opt-in raid support: an external Innervate depends on raid assignments, so it is off for
+    # everyone; Mana Spring Totem is on for healers (they sit in a Shaman's group), off otherwise.
+    return sorted(k for k in BUFF_STATS if k != "innervate" and (k != "mana_spring" or spec["role"] == "healer"))
 
 DEBUFF_ARMOR = {"sunder_armor_5": 2250, "faerie_fire": 505, "curse_of_recklessness": 640}
 CONSUME_STATS = {
     "flask_of_the_titans": {"health": 1200}, "elixir_of_the_mongoose": {"agility": 25, "meleeCrit": 2, "rangedCrit": 2},
     "elixir_of_superior_defense": {"armor": 450}, "elixir_of_fortitude": {"health": 120}, "greater_stoneshield_potion": {"armor": 2000},
     "smoked_desert_dumplings": {"strength": 20}, "rumsey_rum_black_label": {"stamina": 15}, "mageblood_potion": {"mp5": 12},
-    "juju_power": {"strength": 30}, "juju_might": {"attackPower": 40}, "brilliant_wizard_oil": {"spellPower": 36, "spellCrit": 1},
-    "flask_of_supreme_power": {"spellPower": 150}, "greater_arcane_elixir": {"spellPower": 35}, "elixir_of_greater_firepower": {"firePower": 40},
+    "juju_power": {"strength": 30}, "juju_might": {"attackPower": 40},
+    # "spellDamageOnly" marks spell power that adds damage but not healing.
+    "brilliant_wizard_oil": {"spellPower": 36, "spellDamageOnly": 36, "spellCrit": 1},
+    "flask_of_supreme_power": {"spellPower": 150, "spellDamageOnly": 150}, "greater_arcane_elixir": {"spellPower": 35, "spellDamageOnly": 35},
+    "flask_of_distilled_wisdom": {"mana": 2000}, "brilliant_mana_oil": {"mp5": 12, "healingPower": 25}, "nightfin_soup": {"mp5": 8}, "elixir_of_greater_firepower": {"firePower": 40},
     "elixir_of_frost_power": {"frostPower": 15}, "elixir_of_shadow_power": {"shadowPower": 40}, "grilled_squid": {"agility": 10},
     "elemental_sharpening_stone": {"meleeCrit": 2}, "winterfall_firewater": {"attackPower": 35}, "gift_of_arthas": {},
     "major_mana_potion": {}, "demonic_rune": {}, "mighty_rage_potion": {}, "thistle_tea": {}, "goblin_sapper_charge": {}, "dragonbreath_chili": {},
@@ -151,8 +156,10 @@ def default_consumables(spec):
     tank = ["flask_of_the_titans", "elixir_of_the_mongoose", "elixir_of_superior_defense", "elixir_of_fortitude", "greater_stoneshield_potion", "smoked_desert_dumplings", "rumsey_rum_black_label", "juju_power", "juju_might", "gift_of_arthas", "elemental_sharpening_stone", "goblin_sapper_charge", "dragonbreath_chili"]
     physical = ["elixir_of_the_mongoose", "smoked_desert_dumplings", "juju_power", "juju_might", "elemental_sharpening_stone", "goblin_sapper_charge", "dragonbreath_chili", "mighty_rage_potion"]
     agility = ["elixir_of_the_mongoose", "grilled_squid", "juju_might", "elemental_sharpening_stone", "goblin_sapper_charge", "dragonbreath_chili", "thistle_tea"]
+    healer = ["flask_of_distilled_wisdom", "brilliant_mana_oil", "mageblood_potion", "nightfin_soup", "major_mana_potion", "demonic_rune"]
     caster = ["flask_of_supreme_power", "greater_arcane_elixir", "mageblood_potion", "brilliant_wizard_oil", "major_mana_potion", "demonic_rune", "elixir_of_greater_firepower", "elixir_of_frost_power", "elixir_of_shadow_power"]
     if spec["role"] == "tank": chosen = tank
+    elif spec["role"] == "healer": chosen = healer
     elif spec["style"] == "spell": chosen = caster
     elif spec["class_name"] in {"Rogue", "Hunter", "Druid"}: chosen = agility
     else: chosen = physical

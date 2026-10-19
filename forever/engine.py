@@ -579,7 +579,7 @@ class Iteration:
         self.healed = 0.0; self.overheal = 0.0; self.peak_3s_damage = 0.0; self.incoming_hits = []
         self.flurry = 0; self.white_crit = False; self.tog_ready = 0.0; self.eureka = 0; self.eureka_until = 0.0; self.dodged_recently = -10.0; self.avoided_recently = -10.0
         self.combustion = None; self.clearcast = False; self.next_instant = False; self.next_crit = False; self.eclipse = 0
-        self.inner_focus = False; self.inner_focus_used = False; self.last_heal = None
+        self.inner_focus = False; self.inner_focus_used = False; self.last_heal = None; self.external_innervate = False
         self.busy_until = 0.0; self.starved = 0.0; self.first_oom = None
         self.pet_state = None
         self.taunted = False
@@ -1650,7 +1650,7 @@ class Iteration:
         """Spell power + healing power, with Spiritual Guidance's healing share of Spirit (25% at 5/5)
         in place of the spell-damage share already folded into spell power."""
         c = self.c
-        return self.sp("heal") + self.st.get("healingPower", 0) + self.st["spirit"] * (c.flag("sg_heal") - c.flag("spiritual_guidance"))
+        return self.sp("heal") - self.st.get("spellDamageOnly", 0) + self.st.get("healingPower", 0) + self.st["spirit"] * (c.flag("sg_heal") - c.flag("spiritual_guidance"))
 
     def heal_mult(self, name):
         m = (1 + self.c.mod("heal_pct")) * self.c.actions[name]["mult"]
@@ -2050,6 +2050,8 @@ class Iteration:
                 self.auto_shot(); self.next_ranged = t + self.attack_delay(float(c.ranged["weaponSpeed"]), "ranged")
             if self.tracks_mana() and t + EPS >= self.next_mana_tick:
                 self.next_mana_tick += 2.0
+                if "innervate" in c.buffs and not self.external_innervate and self.mana < 0.5 * self.max_mana:
+                    self.external_innervate = True; self.add_buff("Innervate", 20); self.record("Innervate (external)", "gained", 0)
                 mp5 = self.st.get("mp5", 0)
                 regen = mp5 / 5 * 2
                 frac, base = SPIRIT_REGEN.get(s["class_name"], (0.2, 15))

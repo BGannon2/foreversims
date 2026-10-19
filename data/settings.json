@@ -109,6 +109,15 @@
       "wowhead": "https://www.wowhead.com/classic/spell=10497"
     },
     {
+      "key": "innervate",
+      "name": "Innervate (external)",
+      "source": "Druid",
+      "spell_id": 29166,
+      "description": "A raid Druid's Innervate on you: Spirit-based mana regeneration x5 for 20 sec, used once when your mana first falls below 50%. Off by default (depends on raid assignments).",
+      "icon": "spell_nature_lightning",
+      "wowhead": "https://www.wowhead.com/classic/spell=29166"
+    },
+    {
       "key": "leader_of_the_pack",
       "name": "Leader of the Pack",
       "source": "Druid",
@@ -157,7 +166,7 @@
   "debuffs": [
     {
       "key": "sunder_armor_5",
-      "name": "Sunder Armor \u00d75",
+      "name": "Sunder Armor ×5",
       "source": "Warrior",
       "spell_id": 11597,
       "description": "Reduces target armor by 2,250 at five stacks.",

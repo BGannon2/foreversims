@@ -215,6 +215,7 @@ pub struct Iteration<'a> {
     pub inner_focus: bool,
     pub inner_focus_used: bool,
     pub last_heal: Option<String>,
+    pub external_innervate: bool,
     pub busy_until: f64,
     pub starved: f64,
     pub first_oom: Option<f64>,
@@ -253,7 +254,7 @@ impl<'a> Iteration<'a> {
             next_mh: 0.0, next_oh: if !c.oh.is_empty() { c.oh.speed_or(2.0) / 2.0 } else { 0.0 }, next_ranged: 0.0, queued_swing: None,
             last_cast_time: -10.0, next_mana_tick: 2.0, next_energy_tick: 2.0, next_rage_tick: 3.0, next_boss: c.incoming["enemy_swing"], next_heal: c.incoming["heal_interval"],
             healed: 0.0, overheal: 0.0, peak_3s_damage: 0.0, incoming_hits: vec![],
-            flurry: 0, white_crit: false, tog_ready: 0.0, eureka: 0, eureka_until: 0.0, dodged_recently: -10.0, avoided_recently: -10.0, combustion: None, clearcast: false, next_instant: false, next_crit: false, eclipse: 0, inner_focus: false, inner_focus_used: false, last_heal: None,
+            flurry: 0, white_crit: false, tog_ready: 0.0, eureka: 0, eureka_until: 0.0, dodged_recently: -10.0, avoided_recently: -10.0, combustion: None, clearcast: false, next_instant: false, next_crit: false, eclipse: 0, inner_focus: false, inner_focus_used: false, last_heal: None, external_innervate: false,
             busy_until: 0.0, starved: 0.0, first_oom: None, pet_state: None, enrage_until: 0.0, sacrificed: None, racial_next: 0.0, item_icd: IndexMap::new(), windfury_lock: 0.0,
             cur_school: String::new(), cur_cost: 0.0, blocked_by_resource: false, taken_by: IndexMap::new(), pet_threat: 0.0,
             wrath_discount: false, next_parry: false,
@@ -2121,7 +2122,7 @@ impl<'a> Iteration<'a> {
     /// the spell-damage share already folded into spell power.
     fn heal_power(&self) -> f64 {
         let c = self.c;
-        self.sp("heal") + self.st("healingPower") + self.st("spirit") * (c.flag("sg_heal") - c.flag("spiritual_guidance"))
+        self.sp("heal") - self.st("spellDamageOnly") + self.st("healingPower") + self.st("spirit") * (c.flag("sg_heal") - c.flag("spiritual_guidance"))
     }
 
     fn heal_mult(&self, name: &str) -> f64 {
@@ -2896,6 +2897,11 @@ impl<'a> Iteration<'a> {
             }
             if self.tracks_mana() && t + EPS >= self.next_mana_tick {
                 self.next_mana_tick += 2.0;
+                if c.buffs.contains("innervate") && !self.external_innervate && self.mana < 0.5 * self.max_mana {
+                    self.external_innervate = true;
+                    self.add_buff("Innervate", 20.0, Buff::default());
+                    self.record("Innervate (external)", "gained", 0.0);
+                }
                 let mp5 = self.st("mp5");
                 let mut regen = mp5 / 5.0 * 2.0;
                 let (frac, base) = c.t.SPIRIT_REGEN.get(&s.class_name).copied().unwrap_or((0.2, 15.0));

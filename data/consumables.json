@@ -106,7 +106,7 @@
       "id": 20749,
       "name": "Brilliant Wizard Oil",
       "kind": "Weapon enhancement",
-      "description": "Adds 36 spell damage and 1% spell critical strike for 30 minutes. Only one temporary weapon enhancement can be active.",
+      "description": "Adds 36 spell damage (not healing) and 1% spell critical strike for 30 minutes. Only one temporary weapon enhancement can be active.",
       "group": "weapon_enhancement",
       "icon": "inv_potion_105",
       "wowhead": "https://www.wowhead.com/classic/item=20749"
@@ -126,7 +126,7 @@
       "id": 13512,
       "name": "Flask of Supreme Power",
       "kind": "Flask",
-      "description": "Increases spell damage by 150 for 2 hours. Persists through death.",
+      "description": "Increases spell damage (not healing) by 150 for 2 hours. Persists through death.",
       "group": "flask",
       "icon": "inv_potion_41",
       "wowhead": "https://www.wowhead.com/classic/item=13512"
@@ -136,7 +136,7 @@
       "id": 13454,
       "name": "Greater Arcane Elixir",
       "kind": "Elixir",
-      "description": "Increases spell damage by 35 for 1 hour.",
+      "description": "Increases spell damage (not healing) by 35 for 1 hour.",
       "group": "spell_elixir",
       "icon": "inv_potion_25",
       "wowhead": "https://www.wowhead.com/classic/item=13454"
@@ -260,6 +260,36 @@
       "group": "attack_power_family",
       "icon": "inv_potion_92",
       "wowhead": "https://www.wowhead.com/classic/item=12820"
+    },
+    {
+      "key": "flask_of_distilled_wisdom",
+      "id": 13511,
+      "name": "Flask of Distilled Wisdom",
+      "kind": "Flask",
+      "description": "Increases maximum mana by 2,000 for 2 hours. Persists through death.",
+      "group": "flask",
+      "icon": "inv_potion_97",
+      "wowhead": "https://www.wowhead.com/classic/item=13511"
+    },
+    {
+      "key": "brilliant_mana_oil",
+      "id": 20748,
+      "name": "Brilliant Mana Oil",
+      "kind": "Weapon enhancement",
+      "description": "Restores 12 mana per 5 seconds and increases healing by 25 for 30 minutes. Only one temporary weapon enhancement can be active.",
+      "group": "weapon_enhancement",
+      "icon": "inv_potion_100",
+      "wowhead": "https://www.wowhead.com/classic/item=20748"
+    },
+    {
+      "key": "nightfin_soup",
+      "id": 13931,
+      "name": "Nightfin Soup",
+      "kind": "Food",
+      "description": "Restores 8 mana per 5 seconds for 10 minutes. Only one Well Fed food buff can be active.",
+      "group": "food",
+      "icon": "inv_drink_17",
+      "wowhead": "https://www.wowhead.com/classic/item=13931"
     }
   ]
 }
