@@ -1642,6 +1642,9 @@ impl<'a> Iteration<'a> {
         if a.inner_focus {
             self.inner_focus = true;
         }
+        if let Some(gain) = a.mana_gain {
+            self.gain_mana(gain);
+        }
         if a.next_crit {
             self.next_crit = true;
         }
@@ -1727,6 +1730,10 @@ impl<'a> Iteration<'a> {
                 cost *= (1.0 - reduction).max(0.0);
                 self.buffs.shift_remove("Maelstrom Weapon");
             }
+        }
+        if name == "Holy Light" && self.buff_active("Infusion of Light") {
+            cast = (cast - c.flag("infusion_of_light")).max(0.0);
+            self.buffs.shift_remove("Infusion of Light");
         }
         if name == "Arcane Missiles" && self.buff_active("Missile Barrage") {
             cast *= 0.5;
@@ -2114,7 +2121,7 @@ impl<'a> Iteration<'a> {
     /// the spell-damage share already folded into spell power.
     fn heal_power(&self) -> f64 {
         let c = self.c;
-        self.sp("holy") + self.st("healingPower") + self.st("spirit") * (c.flag("sg_heal") - c.flag("spiritual_guidance"))
+        self.sp("heal") + self.st("healingPower") + self.st("spirit") * (c.flag("sg_heal") - c.flag("spiritual_guidance"))
     }
 
     fn heal_mult(&self, name: &str) -> f64 {
@@ -2130,9 +2137,14 @@ impl<'a> Iteration<'a> {
     /// Land one heal on an injured ally (every heal lands in full; see the healer model note).
     fn heal(&mut self, name: &str, amount: f64, periodic: bool) -> f64 {
         let c = self.c;
-        let crit = if periodic { 0.0 } else { self.crit_chance("spell", Some(name), Some("holy")) + if self.inner_focus_used { 0.25 } else { 0.0 } };
+        let school = c.actions[name].school_str().to_string();
+        let mut crit = if periodic { 0.0 } else { self.crit_chance("spell", Some(name), Some(&school)) + if self.inner_focus_used { 0.25 } else { 0.0 } };
+        if !periodic && self.next_crit {
+            crit = 1.0; // Divine Favor
+            self.next_crit = false;
+        }
         let is_crit = !periodic && self.rng.random() < crit;
-        let healed = amount * self.heal_mult(name) * if is_crit { 1.5 } else { 1.0 };
+        let healed = amount * self.heal_mult(name) * if is_crit { 1.5 } else { 1.0 } * if periodic { 1.0 + c.mod_("hot_pct") } else { 1.0 };
         {
             let r = self.row(name);
             if is_crit {
@@ -2143,6 +2155,17 @@ impl<'a> Iteration<'a> {
         }
         self.total += healed;
         self.record(name, if is_crit { "crit" } else { "hit" }, healed);
+        if is_crit {
+            if c.flag("water_shield") != 0.0 {
+                self.gain_mana(0.02 * self.max_mana);
+            }
+            if c.flag("illumination") != 0.0 && self.rng.random() < c.flag("illumination") {
+                self.gain_mana(0.5 * c.actions[name].cost);
+            }
+            if c.flag("infusion_of_light") != 0.0 && (name == "Flash of Light" || name == "Holy Shock (heal)") {
+                self.add_buff("Infusion of Light", 15.0, Buff::default());
+            }
+        }
         if is_crit && c.flag("divine_aegis") != 0.0 {
             let shield = healed * c.flag("divine_aegis");
             let da = self.row("Divine Aegis");
@@ -2158,6 +2181,18 @@ impl<'a> Iteration<'a> {
         if a.kind == "hot" {
             let power = self.heal_power();
             self.apply_dot(name, a, power);
+        } else if a.swiftmend {
+            // consumes Rejuvenation: its full-duration healing at once
+            let full = self.dots["Rejuvenation"].tick * c.actions["Rejuvenation"].ticks as f64;
+            self.heal(name, full, false);
+            self.dots.get_mut("Rejuvenation").unwrap().remaining = 0;
+        } else if let Some(chain) = &a.chain {
+            let power = self.heal_power();
+            let (lo, hi) = a.base.unwrap_or((0.0, 0.0));
+            for share in chain.iter().take(c.targets.max(1) as usize) {
+                let amount = (self.rng.uniform(lo, hi) + power * a.coeff) * share;
+                self.heal(name, amount, false);
+            }
         } else {
             let allies = c.targets.max(1);
             let n = if a.group {
@@ -2175,6 +2210,9 @@ impl<'a> Iteration<'a> {
                 let amount = self.rng.uniform(lo, hi) + power * a.coeff;
                 self.heal(name, amount, false);
             }
+            if a.ticks > 0 {
+                self.apply_dot(name, a, power); // Regrowth / Riptide HoT part
+            }
         }
         self.inner_focus_used = false;
         if c.flag("litany_of_light") != 0.0 && self.last_heal.as_deref().is_some_and(|l| l != name) {
@@ -2186,7 +2224,7 @@ impl<'a> Iteration<'a> {
 
     fn apply_dot(&mut self, name: &str, a: &Ability, sp: f64) {
         let c = self.c;
-        if a.kind == "hot" {
+        if a.kind == "hot" || a.kind == "heal" {
             // heal over time: healing multipliers apply per tick, HoTs don't crit
             let instance = Dot { next: self.t + a.tick_len, remaining: a.ticks, tick: a.tick + sp * a.dot_coeff, tick_len: a.tick_len, school: a.school_str().to_string(), bleed: false, stacks: 1, heal: true };
             let primary_active = self.dots.get(name).is_some_and(|d| d.remaining > 0);
@@ -2355,7 +2393,10 @@ impl<'a> Iteration<'a> {
         };
         self.row(name);
         if self.dots[name].heal {
-            self.heal(name, tick, true);
+            let n = if self.c.actions[name].group { self.c.targets.clamp(1, 5) } else { 1 };
+            for _ in 0..n {
+                self.heal(name, tick, true);
+            }
             return;
         }
         let kind = if school != "physical" { "spell" } else { "melee" };
@@ -2377,7 +2418,10 @@ impl<'a> Iteration<'a> {
         };
         self.row(&name);
         if self.dots_extra[idx].1.heal {
-            self.heal(&name, tick, true);
+            let n = if self.c.actions[&name].group { self.c.targets.clamp(1, 5) } else { 1 };
+            for _ in 0..n {
+                self.heal(&name, tick, true);
+            }
             return;
         }
         let kind = if school != "physical" { "spell" } else { "melee" };
@@ -2856,7 +2900,9 @@ impl<'a> Iteration<'a> {
                 let mut regen = mp5 / 5.0 * 2.0;
                 let (frac, base) = c.t.SPIRIT_REGEN.get(&s.class_name).copied().unwrap_or((0.2, 15.0));
                 let spirit_regen = self.st("spirit") * frac + base;
-                if t - self.last_cast_time >= 5.0 {
+                if self.buff_active("Innervate") {
+                    regen += spirit_regen * 5.0; // Innervate: 5x Spirit regen, casting or not
+                } else if t - self.last_cast_time >= 5.0 {
                     regen += spirit_regen;
                 } else {
                     regen += spirit_regen * c.flag("spirit_while_casting");

@@ -25,5 +25,26 @@ class HolyPriest(unittest.TestCase):
         self.assertEqual(simulate_spec(default_request(spec, iterations=2, duration=30))["metrics"]["hps"]["mean"], 0)
 
 
+HEALERS = ("priest-holy", "druid-restoration", "shaman-restoration", "paladin-holy")
+
+
+class AllHealers(unittest.TestCase):
+    def test_every_healer_heals_and_spends_mana(self):
+        for sid in HEALERS:
+            with self.subTest(sid):
+                spec = next(s for s in public_specs() if s["id"] == sid)
+                self.assertEqual(spec["role"], "healer")
+                r = simulate_spec(default_request(spec, iterations=10, duration=120, targets=3))
+                self.assertGreater(r["metrics"]["hps"]["mean"], 200)
+                self.assertLess(r["resource"]["mean_end"], 0.25 * r["resource"]["maximum"])
+
+    def test_wild_growth_scales_with_allies(self):
+        for sid in ("druid-restoration",):
+            spec = next(s for s in public_specs() if s["id"] == sid)
+            one = simulate_spec(default_request(spec, iterations=20, duration=120, targets=1))["metrics"]["hps"]["mean"]
+            three = simulate_spec(default_request(spec, iterations=20, duration=120, targets=3))["metrics"]["hps"]["mean"]
+            self.assertGreater(three, one * 1.15, sid)
+
+
 if __name__ == "__main__":
     unittest.main()

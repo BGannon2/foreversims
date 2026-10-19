@@ -56,7 +56,11 @@ def default_profile(spec_id):
     fb = FOREVER_BIS["profiles"].get(spec_id)
     if fb:  # Forever BiS rows name the slot by item type ("Finger"); the UI and engine want "Finger 1"
         return dict(fb, gear=[dict(x, slot=UI_SLOT.get(x.get("gear_slot"), x["slot"])) for x in fb["gear"]])
-    return next(p for k, p in PHASE12_BIS["profiles"].items() if k.startswith(spec_id.split("-")[0] + "-"))
+    same_class = spec_id.split("-")[0] + "-"
+    preset = next((p for k, p in PHASE12_BIS["profiles"].items() if k.startswith(same_class)), None)
+    if preset: return preset
+    k = next(k for k in FOREVER_BIS["profiles"] if k.startswith(same_class) and "/" not in k)  # Paladins: Forever BiS only
+    return default_profile(k) if k != spec_id else None
 
 
 def gear_presets():

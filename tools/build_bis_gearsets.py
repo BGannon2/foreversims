@@ -95,6 +95,9 @@ RANGED_DPS = {"attackPower": 0.9, "meleeCrit": 2.0, "agility": 1.3, "stamina": 0
 # metric is mana-bound over the fight, so mp5, Intellect and Spirit carry real weight.
 HEALER = {"healingPower": 1.0, "spellPower": 1.0, "mp5": 2.0, "intellect": 0.6, "spirit": 0.5,
           "spellCrit": 1.2, "stamina": 0.1}
+# Paladin Protection/Retribution run in the separate Paladin engine; Holy runs in the shared one.
+PALADIN_ENGINE_SPECS = {"paladin-protection", "paladin-retribution"}
+HEALER_SPECS = {"priest-holy", "druid-restoration", "shaman-restoration", "paladin-holy"}
 TANK = {"defense": 3.0, "stamina": 1.4, "dodge": 1.3, "parry": 1.1, "block": 0.8,
         "blockValue": 0.15, "armor": 0.03, "strength": 0.4, "agility": 0.3}
 
@@ -120,7 +123,7 @@ SPEC_ARCHETYPE = {
     "druid-balance": CASTER_DPS, "druid-feral-dps": MELEE_DPS_AGI, "druid-feral-tank": TANK,
     "hunter-beast-mastery": RANGED_DPS, "hunter-marksmanship": RANGED_DPS, "hunter-survival": RANGED_DPS,
     "mage-arcane": CASTER_DPS, "mage-fire": CASTER_DPS, "mage-frost": CASTER_DPS,
-    "priest-shadow": CASTER_DPS, "priest-holy": HEALER,
+    "priest-shadow": CASTER_DPS, "priest-holy": HEALER, "druid-restoration": HEALER, "shaman-restoration": HEALER, "paladin-holy": HEALER,
     "rogue-assassination": MELEE_DPS_AGI, "rogue-combat": MELEE_DPS_AGI, "rogue-subtlety": MELEE_DPS_AGI,
     "shaman-elemental": CASTER_DPS, "shaman-enhancement": MELEE_DPS_AGI,
     "warlock-affliction": CASTER_DPS, "warlock-demonology": CASTER_DPS, "warlock-destruction": CASTER_DPS,
@@ -405,7 +408,7 @@ def build_spec(spec_id, spec):
             gear["relic"] = rel[0]
             taken_ids.add(rel[0]["id"])
 
-    if cls == "Paladin":
+    if spec_id.split("/")[0] in PALADIN_ENGINE_SPECS:
         # Librams carry effects only, which stat weights can't rank; keep the preset's sourced pick.
         relic_id = json.loads((ROOT / "data" / "phase6_bis.json").read_text(encoding="utf-8"))[spec_id.split("/")[0].split("-", 1)[1]]["gear"].get("relic")
         if relic_id in ITEMS:
@@ -445,7 +448,8 @@ def build_spec(spec_id, spec):
     cap = HIT_CAP["spell"] if style == "spell" else HIT_CAP["ranged"] if style == "ranged" else \
         (HIT_CAP["melee_dw"] if dw else PALADIN_HIT_CAP if cls == "Paladin" else HIT_CAP["melee"])
     hit_key = "spellHit" if style == "spell" else ("rangedHit" if style == "ranged" else "meleeHit")
-    cap_correction_pass(hit_key, cap, 40)
+    if spec_id not in HEALER_SPECS:  # heals can't miss
+        cap_correction_pass(hit_key, cap, 40)
 
     # --- tank defense-cap correction pass ---
     # Only chased for warrior-protection: get as close as the itemization pool allows,
@@ -489,7 +493,7 @@ def sim_value(spec_id, spec, gear, iterations=None, seed=7):
     """Mean DPS (TPS for tanks) of a gear set in the engine that runs this spec."""
     key = "tps" if spec_id in TANK_SPECS else "dps"
     parent_id, _, variant = spec_id.partition("/")
-    if spec["class_name"] == "Paladin":
+    if parent_id in PALADIN_ENGINE_SPECS:
         from forever import gear_data, sim
         name = parent_id.split("-", 1)[1]
         p = sim.preset(name, variant or None); p.update(iterations=iterations or 150, seed=seed)

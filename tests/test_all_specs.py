@@ -31,7 +31,7 @@ def iteration(sid, seed=1, **over):
 class RosterAndDataTests(unittest.TestCase):
     def test_every_spec_has_rotation_build_gear_and_races(self):
         specs = public_specs()
-        self.assertEqual(len(specs), 22)
+        self.assertEqual(len(specs), 25)
         for s in specs:
             self.assertGreaterEqual(len(s["actions"]), 2)
             self.assertEqual(sum(s["default_talents"].values()), 51)

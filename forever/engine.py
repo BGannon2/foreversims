@@ -417,7 +417,7 @@ class Config:
         if self.flag("shadowform") and a.get("school") == "shadow": a["cost"] *= 0.5
         a["cast"] = max(0.0, a.get("cast", 0) + self.mod(f"cast:{name}"))
         a["cooldown"] = max(0.0, a.get("cooldown", 0) + self.mod(f"cooldown:{name}"))
-        a["gcd"] = a.get("gcd", GCD)
+        a["gcd"] = a.get("gcd", GCD) + self.mod(f"gcd:{name}")
         a["mult"] = 1 + self.mod(f"dmg_ability:{name}")
         a["crit_bonus"] = self.mod(f"crit_ability:{name}")
         if name == "Shadow Word: Pain": a["ticks"] = a["ticks"] + int(self.flag("swp_ticks"))
@@ -1380,6 +1380,7 @@ class Iteration:
         if a.get("combustion"): self.combustion = {"stacks": 0, "crits": 0}
         if a.get("instant_next"): self.next_instant = True
         if a.get("inner_focus"): self.inner_focus = True
+        if a.get("mana_gain"): self.gain_mana(a["mana_gain"])
         if a.get("next_crit"): self.next_crit = True
         if a.get("life_tap"):
             self.gain_mana(a["life_tap"] * (1 + c.mod("dmg_ability:Life Tap")) + self.sp("shadow") * 0.8)
@@ -1427,6 +1428,8 @@ class Iteration:
                 cast *= max(0.0, 1 - reduction)
                 cost *= max(0.0, 1 - reduction)
                 self.buffs.pop("Maelstrom Weapon", None)
+        if name == "Holy Light" and self.buff_active("Infusion of Light"):
+            cast = max(0.0, cast - c.flag("infusion_of_light")); self.buffs.pop("Infusion of Light", None)
         if name == "Arcane Missiles" and self.buff_active("Missile Barrage"):
             cast *= 0.5
             self.buffs.pop("Missile Barrage", None)
@@ -1647,7 +1650,7 @@ class Iteration:
         """Spell power + healing power, with Spiritual Guidance's healing share of Spirit (25% at 5/5)
         in place of the spell-damage share already folded into spell power."""
         c = self.c
-        return self.sp("holy") + self.st.get("healingPower", 0) + self.st["spirit"] * (c.flag("sg_heal") - c.flag("spiritual_guidance"))
+        return self.sp("heal") + self.st.get("healingPower", 0) + self.st["spirit"] * (c.flag("sg_heal") - c.flag("spiritual_guidance"))
 
     def heal_mult(self, name):
         m = (1 + self.c.mod("heal_pct")) * self.c.actions[name]["mult"]
@@ -1657,13 +1660,18 @@ class Iteration:
 
     def heal(self, name, amount, periodic=False):
         """Land one heal on an injured ally (every heal lands in full; see the healer model note)."""
-        c = self.c; r = self.row(name)
-        crit = 0.0 if periodic else self.crit_chance("spell", name, "holy") + (0.25 if self.inner_focus_used else 0.0)
+        c = self.c; r = self.row(name); a = c.actions[name]
+        crit = 0.0 if periodic else self.crit_chance("spell", name, a["school"]) + (0.25 if self.inner_focus_used else 0.0)
+        if not periodic and self.next_crit: crit = 1.0; self.next_crit = False  # Divine Favor
         out = "crit" if not periodic and self.rng.random() < crit else "hit"
-        healed = amount * self.heal_mult(name) * (1.5 if out == "crit" else 1.0)
+        healed = amount * self.heal_mult(name) * (1.5 if out == "crit" else 1.0) * (1 + c.mod("hot_pct") if periodic else 1.0)
         if out == "crit": r.crits += 1
         r.hits += 1; r.damage += healed; self.total += healed
         self.record(name, out, healed)
+        if out == "crit":
+            if c.flag("water_shield"): self.gain_mana(0.02 * self.max_mana)
+            if c.flag("illumination") and self.rng.random() < c.flag("illumination"): self.gain_mana(0.5 * a.get("cost", 0))
+            if c.flag("infusion_of_light") and name in {"Flash of Light", "Holy Shock (heal)"}: self.add_buff("Infusion of Light", 15)
         if out == "crit" and c.flag("divine_aegis"):
             shield = healed * c.flag("divine_aegis")
             da = self.row("Divine Aegis"); da.hits += 1; da.damage += shield; self.total += shield
@@ -1673,6 +1681,13 @@ class Iteration:
         c = self.c
         if a["kind"] == "hot":
             self.apply_dot(name, a, self.heal_power())
+        elif a.get("swiftmend"):  # consumes Rejuvenation: its full-duration healing at once
+            d = self.dots["Rejuvenation"]
+            self.heal(name, d["tick"] * c.actions["Rejuvenation"]["ticks"]); d["remaining"] = 0
+        elif a.get("chain"):
+            power = self.heal_power()
+            for share in a["chain"][:max(1, int(c.targets))]:
+                self.heal(name, (self.rng.uniform(*a["base"]) + power * a.get("coeff", 0)) * share)
         else:
             allies = max(1, int(c.targets))
             if a.get("group"): n = min(5, allies)
@@ -1682,6 +1697,7 @@ class Iteration:
             power = self.heal_power()
             for _ in range(n * a.get("hits", 1)):
                 self.heal(name, self.rng.uniform(*a["base"]) + power * a.get("coeff", 0))
+            if a.get("ticks"): self.apply_dot(name, a, power)  # Regrowth / Riptide HoT part
         self.inner_focus_used = False
         if c.flag("litany_of_light") and self.last_heal is not None and self.last_heal != name:
             self.gain_mana(a.get("cost", 0) * c.flag("litany_of_light") * 2)  # 10% of base cost at 2/2
@@ -1691,7 +1707,7 @@ class Iteration:
     def apply_dot(self, name, a, sp):
         c = self.c
         tick = (a.get("tick", 0) + sp * a.get("dot_coeff", 0)) * a["mult"]
-        if a.get("kind") == "hot":  # heal over time: healing multipliers apply per tick, HoTs don't crit
+        if a.get("kind") in {"hot", "heal"}:  # heal over time: healing multipliers apply per tick, HoTs don't crit
             instance = {"next": self.t + a["tick_len"], "remaining": a["ticks"], "tick": a.get("tick", 0) + sp * a.get("dot_coeff", 0), "tick_len": a["tick_len"], "school": a["school"], "kind": "dot", "bleed": False, "heal": True}
             primary = self.dots.get(name)
             if a.get("spreadable") and c.targets > 1 and primary and primary["remaining"] > 0:
@@ -1780,7 +1796,9 @@ class Iteration:
         tick = d["tick"] * d.get("stacks", 1)
         r = self.row(name); r.casts += 0
         school = d["school"]
-        if d.get("heal"): self.heal(name, tick, periodic=True); return
+        if d.get("heal"):
+            for _ in range(min(5, max(1, int(c.targets))) if c.actions[name].get("group") else 1): self.heal(name, tick, periodic=True)
+            return
         self.deal(name, tick, school, "spell" if school != "physical" else "melee", periodic=True, outcome="hit")
         if name == "Rupture" and c.flag("thousand_cuts"): self.add_buff("Thousand Cuts", 10, stacks_max=5)
         if name == "Corruption" and c.flag("nightfall") and self.rng.random() < c.flag("nightfall"): self.proc_nightfall()
@@ -2036,7 +2054,8 @@ class Iteration:
                 regen = mp5 / 5 * 2
                 frac, base = SPIRIT_REGEN.get(s["class_name"], (0.2, 15))
                 spirit_regen = self.st["spirit"] * frac + base
-                if t - self.last_cast_time >= 5: regen += spirit_regen
+                if self.buff_active("Innervate"): regen += spirit_regen * 5  # Innervate: 5x Spirit regen, casting or not
+                elif t - self.last_cast_time >= 5: regen += spirit_regen
                 else: regen += spirit_regen * c.flag("spirit_while_casting")
                 self.gain_mana(regen)
             if s["resource"] == "Energy" and t + EPS >= self.next_energy_tick:

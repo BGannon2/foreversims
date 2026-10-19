@@ -293,6 +293,12 @@ pub struct Ability {
     #[serde(default, skip_serializing_if = "is_false")]
     pub inner_focus: bool,
     #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub chain: Option<Vec<f64>>,
+    #[serde(default, skip_serializing_if = "is_false")]
+    pub swiftmend: bool,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub mana_gain: Option<f64>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub mana: Option<(f64, f64)>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub strength: Option<f64>,

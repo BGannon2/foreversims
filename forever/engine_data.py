@@ -177,6 +177,9 @@ SPECS = [
     ("mage-frost", "Mage", "Frost", "dps", "spell", "Mana", "Frost", None, None),
     ("priest-shadow", "Priest", "Shadow", "dps", "spell", "Mana", "Shadow", None, None),
     ("priest-holy", "Priest", "Holy", "healer", "spell", "Mana", "Holy", None, None),
+    ("druid-restoration", "Druid", "Restoration", "healer", "spell", "Mana", "Restoration", None, None),
+    ("shaman-restoration", "Shaman", "Restoration", "healer", "spell", "Mana", "Restoration", None, None),
+    ("paladin-holy", "Paladin", "Holy", "healer", "spell", "Mana", "Holy", None, None),
     ("rogue-assassination", "Rogue", "Assassination", "dps", "melee", "Energy", "Assassination", None, None),
     ("rogue-combat", "Rogue", "Combat", "dps", "melee", "Energy", "Combat", None, None),
     ("rogue-subtlety", "Rogue", "Subtlety", "dps", "melee", "Energy", "Subtlety", None, None),
@@ -306,6 +309,27 @@ ABILITIES = {
     "Penance": {"kind": "heal", "school": "holy", "cost": 385, "cooldown": 12, "gcd": 2.0, "base": (425, 425), "coeff": 0.19, "hits": 3, "spell_id": 1316995},
     "Power Infusion": {"kind": "buff", "school": "holy", "cost_pct": 0.20, "cooldown": 180, "duration": 15, "damage_mult": 0.20, "spell_id": 10060},
     "Inner Focus": {"kind": "buff", "school": "holy", "off_gcd": True, "cooldown": 180, "inner_focus": True, "spell_id": 14751},
+    # Druid heals. Regrowth/Riptide heal directly and leave a HoT (tick fields); "group" HoTs tick on
+    # every injured ally; Swiftmend consumes Rejuvenation for its full-duration healing.
+    "Healing Touch": {"kind": "heal", "school": "nature", "cost": 840, "cast": 3.5, "base": (2138.4, 2525.6), "coeff": 1.0, "spell_id": 25297},
+    "Regrowth": {"kind": "heal", "school": "nature", "cost": 525, "cast": 2.0, "base": (965.4, 1076.6), "coeff": 0.286, "tick": 142, "ticks": 7, "tick_len": 3, "dot_coeff": 0.071, "spreadable": True, "spell_id": 9858},
+    "Rejuvenation": {"kind": "hot", "school": "nature", "cost": 360, "tick": 194, "ticks": 4, "tick_len": 3, "dot_coeff": 0.20, "spreadable": True, "spell_id": 25299},
+    "Swiftmend": {"kind": "heal", "school": "nature", "cost_pct": 0.20, "cooldown": 15, "requires": "dot:Rejuvenation", "swiftmend": True, "spell_id": 18562},
+    "Wild Growth": {"kind": "hot", "school": "nature", "cost": 1050, "cooldown": 6, "tick": 97, "ticks": 7, "tick_len": 1, "dot_coeff": 0.033, "group": True, "spell_id": 1238215},
+    "Tranquility": {"kind": "heal", "school": "nature", "cost": 925, "cooldown": 300, "gcd": 10.0, "base": (285, 285), "coeff": 0.067, "group": True, "hits": 5, "spell_id": 9863},
+    "Nature's Swiftness": {"kind": "buff", "school": "nature", "off_gcd": True, "cooldown": 180, "instant_next": True, "spell_id": 17116},
+    "Innervate": {"kind": "buff", "school": "nature", "cost_pct": 0.05, "cooldown": 360, "duration": 20, "spell_id": 29166},
+    # Shaman heals. Chain Heal jumps to up to 2 more injured allies at 50% per jump.
+    "Healing Wave": {"kind": "heal", "school": "nature", "cost": 620, "cast": 3.0, "base": (1507.6, 1722.4), "coeff": 0.857, "spell_id": 25357},
+    "Lesser Healing Wave": {"kind": "heal", "school": "nature", "cost": 380, "cast": 1.5, "base": (775.3, 864.7), "coeff": 0.429, "spell_id": 10468},
+    "Chain Heal": {"kind": "heal", "school": "nature", "cost": 405, "cast": 2.5, "base": (457.7, 522.3), "coeff": 0.714, "chain": (1.0, 0.5, 0.25), "spell_id": 10623},
+    "Riptide": {"kind": "heal", "school": "nature", "cost": 385, "cooldown": 6, "base": (799.0, 883.0), "coeff": 0.214, "tick": 161, "ticks": 5, "tick_len": 3, "dot_coeff": 0.10, "spreadable": True, "spell_id": 1239243},
+    "Mana Tide Totem": {"kind": "buff", "school": "nature", "cost": 60, "cooldown": 300, "mana_gain": 352, "spell_id": 1325256},  # 88 mana every 3 sec for 12 sec
+    # Paladin heals.
+    "Holy Light": {"kind": "heal", "school": "holy", "cost": 660, "cast": 2.5, "base": (1495.5, 1664.5), "coeff": 0.714, "spell_id": 25292},
+    "Flash of Light": {"kind": "heal", "school": "holy", "cost": 140, "cast": 1.5, "base": (286.3, 319.7), "coeff": 0.429, "spell_id": 19943},
+    "Holy Shock (heal)": {"kind": "heal", "school": "holy", "cost": 325, "cooldown": 10, "base": (307.4, 332.6), "coeff": 0.429, "spell_id": 25903},
+    "Divine Favor": {"kind": "buff", "school": "holy", "off_gcd": True, "cost_pct": 0.04, "cooldown": 120, "next_crit": True, "spell_id": 20216},
     "Mind Flay": {"kind": "channel", "school": "shadow", "cost": 205, "cast": 3.0, "tick": 130, "ticks": 3, "coeff": 0.167, "forever": True,
                   "provisional": "Rank 6 (max rank) tick damage and coefficient confirmed via wago.tools DB2 (build 1.60.1.69913, spell 18807); mana cost (205) was already correct."},
     "Shadow Word: Death": {"kind": "direct", "school": "shadow", "cost": 175, "cooldown": 15, "base": (286, 304), "coeff": 0.429, "forever": True,
@@ -389,6 +413,11 @@ ROTATIONS = {
     "priest-holy": [("Power Infusion", "true"), ("Inner Focus", "true"), ("Prayer of Mending", "true"), ("Penance", "true"),
                     ("Renew", "dot_missing and mana_ahead"), ("Prayer of Healing", "targets>=3 and mana_ahead"), ("Binding Heal", "targets>=2"),
                     ("Greater Heal", "mana_ahead"), ("Heal", "true")],
+    "druid-restoration": [("Nature's Swiftness", "true"), ("Innervate", "mana_behind"), ("Swiftmend", "true"), ("Wild Growth", "targets>=3 and mana_ahead"),
+                          ("Tranquility", "targets>=4 and mana_ahead"), ("Rejuvenation", "dot_missing and mana_ahead"), ("Healing Touch", "mana_ahead"), ("Regrowth", "true")],
+    "shaman-restoration": [("Nature's Swiftness", "true"), ("Mana Tide Totem", "mana_behind"), ("Riptide", "true"), ("Chain Heal", "false"),
+                           ("Healing Wave", "true"), ("Lesser Healing Wave", "true")],
+    "paladin-holy": [("Divine Favor", "true"), ("Holy Shock (heal)", "true"), ("Holy Light", "mana_ahead"), ("Flash of Light", "true")],
     "priest-shadow": [("Shadow Word: Pain", "dot_missing"), ("Devouring Plague", "dot_missing"), ("Shadow Word: Death", "execute"), ("Mind Blast", "true"), ("Mind Flay", "true")],
     "rogue-assassination": [("Thistle Tea", "energy<20"), ("Cold Blood", "cp>=5"), ("Venom", "cp>=2 and buff_missing"), ("Slice and Dice", "cp>=2 and buff_missing"), ("Eviscerate", "cp>=5"), ("Mutilate", "true")],
     "rogue-combat": [("Thistle Tea", "energy<20"), ("Adrenaline Rush", "true"), ("Blade Flurry", "true"), ("Slice and Dice", "cp>=2 and buff_missing"), ("Eviscerate", "cp>=5"), ("Sinister Strike", "true")],
@@ -444,6 +473,15 @@ SPEC_ABOUT = {
     "mage-frost": {
         "dps": "Priority: Blizzard once 3+ targets are up, Ice Lance under a Fingers of Frost charge, Frostbolt as the main nuke, Fire Blast while moving.",
         "tps": "No threat modifier applies."},
+    "druid-restoration": {
+        "dps": "Healing: Nature's Swiftness on cooldown, Innervate when mana falls behind the fight's pace, Swiftmend on Rejuvenation; while mana is ahead of the fight's pace, Wild Growth at 3+ injured allies, Tranquility at 4+, Rejuvenation upkeep and Healing Touch; Regrowth otherwise (the most healing per mana).",
+        "tps": "No threat modelled for healing."},
+    "shaman-restoration": {
+        "dps": "Healing: Nature's Swiftness on cooldown, Mana Tide Totem when mana falls behind, Riptide on cooldown, Healing Wave otherwise. Chain Heal is off by default: with Forever values (490 base, 50% per jump) it heals less per second and per mana than Healing Wave even with 3 injured allies. No downranking yet, so Shaman can run dry before the fight ends.",
+        "tps": "No threat modelled for healing."},
+    "paladin-holy": {
+        "dps": "Healing: Divine Favor and Holy Shock on cooldown, Holy Light while mana is ahead of the fight's pace, Flash of Light otherwise. Illumination refunds mana on crits.",
+        "tps": "No threat modelled for healing."},
     "priest-holy": {
         "dps": "Healing: Power Infusion and Inner Focus on cooldown, Prayer of Mending and Penance on cooldown, Renew upkeep while mana allows, Prayer of Healing at 3+ injured allies, Binding Heal at 2+, Greater Heal while mana is ahead of the fight's pace, Heal otherwise.",
         "tps": "No threat modelled for healing."},
@@ -545,12 +583,33 @@ TALENT_EFFECTS = {
     # Holy / Discipline healing talents (rank values from the client talent descriptions)
     "105849": {"dmg_ability:Renew": 0.01, "dmg_ability:Prayer of Mending": 0.01, "dmg_ability:Penance": 0.01},
     "105842": {"cost_pct:Renew": -0.0333, "cost_pct:Prayer of Mending": -0.0333, "cost_pct:Penance": -0.0333},
-    "105844": {"flag:inner_focus": 1}, "105834": {"flag:penance": 1}, "105836": {"flag:power_infusion": 1},
+    "105323": {"flag:holy_shock_heal": 1}, "105844": {"flag:inner_focus": 1}, "105834": {"flag:penance": 1}, "105836": {"flag:power_infusion": 1},
     "105851": {"flag:prayer_of_mending": 1}, "105856": {"flag:binding_heal": 1},
     "105866": {"dmg_ability:Renew": 0.05}, "110855": {"crit_school:holy": 1},
     "105863": {"cast:Heal": -0.1, "cast:Greater Heal": -0.1, "cast:Smite": -0.1, "cast:Holy Fire": -0.1},
     "105858": {"cost_pct:Heal": -0.05, "cost_pct:Greater Heal": -0.05, "cost_pct:Penance": -0.05, "cost_pct:Prayer of Mending": -0.05},
     "105855": {"flag:litany_of_light": 0.05}, "105840": {"flag:divine_aegis": 0.05},
+    # Restoration Druid (rank values from the client talent descriptions)
+    "104922": {"cast:Healing Touch": -0.1}, "104917": {"flag:spirit_while_casting": 0.1667}, "104916": {"heal_pct": 0.02},
+    "104918": {"gcd:Rejuvenation": -0.5, "gcd:Swiftmend": -0.5, "gcd:Wild Growth": -0.5},
+    "104915": {"cost_pct:Healing Touch": -0.02, "cost_pct:Tranquility": -0.02}, "104914": {"dmg_ability:Rejuvenation": 0.05},
+    "104912": {"flag:swiftmend": 1}, "104921": {"flag:natures_swiftness": 1}, "104911": {"stat_pct:spirit": 0.05},
+    "104909": {"cooldown:Tranquility": -90}, "104913": {"crit_ability:Regrowth": 10}, "104910": {"flag:wild_growth": 1},
+    "104924": {"hot_pct": 0.01}, "104925": {"cost_pct_all": -0.03}, "104927": {"crit_school:nature": 2},
+    "104928": {"ticks:Rejuvenation": 1, "ticks:Regrowth": 2},
+    # Restoration Shaman. Tidal Focus/Tidal Mastery read "X%" in the client text; Classic's 1% per rank.
+    "104739": {"cast:Healing Wave": -0.1},
+    "104729": {"cost_pct:Healing Wave": -0.01, "cost_pct:Lesser Healing Wave": -0.01, "cost_pct:Chain Heal": -0.01, "cost_pct:Riptide": -0.01},
+    "104734": {"flag:spirit_while_casting": 0.1667}, "104732": {"flag:water_shield": 1},
+    "104738": {"crit_ability:Healing Wave": 1, "crit_ability:Lesser Healing Wave": 1, "crit_ability:Chain Heal": 1, "crit_ability:Riptide": 1},
+    "104728": {"flag:mana_tide": 1}, "104727": {"dmg_ability:Healing Wave": 0.0833}, "104726": {"flag:natures_swiftness": 1},
+    "104725": {"heal_pct": 0.02}, "104724": {"flag:riptide": 1}, "104753": {"crit_school:nature": 1}, "104756": {"stat_pct:intellect": 0.02},
+    # Holy Paladin
+    "105332": {"stat_pct:intellect": 0.02},
+    "105333": {"dmg_ability:Holy Light": 0.04, "dmg_ability:Flash of Light": 0.04, "dmg_ability:Holy Shock (heal)": 0.04},
+    "110871": {"flag:spirit_while_casting": 0.10}, "110873": {"flag:infusion_of_light": 0.5}, "105329": {"flag:illumination": 0.2},
+    "105325": {"flag:divine_favor": 1}, "105321": {"crit_school:holy": 1, "crit_ability:Holy Shock (heal)": 2},
+    "105706": {"cost_pct:Holy Shock (heal)": -0.02},
     # Rogue Assassination
     "105722": {"melee_crit": 1}, "105720": {"flag:murder": 0.02}, "105739": {"flag:snd_duration": 0.15}, "105759": {"flag:relentless_strikes": 1}, "105716": {"crit_dmg_builder": 0.06},
     "105714": {"flag:poison_damage": 0.04}, "105715": {"flag:cold_blood": 1}, "105713": {"flag:poison_chance": 0.02}, "105718": {"flag:max_energy": 5}, "105710": {"flag:seal_fate": 0.20}, "105721": {"flag:ruthlessness": 0.20},
@@ -590,7 +649,8 @@ TALENT_GATED = {"Mortal Strike": "mortal_strike", "Spearing Strike": "spearing_s
                 "Cold Snap": "cold_snap", "Mind Flay": "mind_flay", "Cold Blood": "cold_blood", "Blade Flurry": "blade_flurry", "Adrenaline Rush": "adrenaline_rush",
                 "Hemorrhage": "hemorrhage", "Stormstrike": "stormstrike", "Rage of the Farseer": "rage_of_the_farseer", "Siphon Life": "siphon_life", "Conflagrate": "conflagrate",
                 "Shadowburn": "shadowburn", "Demonic Sacrifice": "demonic_sacrifice",
-                "Inner Focus": "inner_focus", "Penance": "penance", "Power Infusion": "power_infusion", "Prayer of Mending": "prayer_of_mending", "Binding Heal": "binding_heal",
+                "Inner Focus": "inner_focus", "Swiftmend": "swiftmend", "Nature's Swiftness": "natures_swiftness", "Wild Growth": "wild_growth",
+                "Mana Tide Totem": "mana_tide", "Riptide": "riptide", "Divine Favor": "divine_favor", "Holy Shock (heal)": "holy_shock_heal", "Penance": "penance", "Power Infusion": "power_infusion", "Prayer of Mending": "prayer_of_mending", "Binding Heal": "binding_heal",
                 "Arcane Blast": "arcane_blast", "Pyroblast": "pyroblast", "Ice Lance": "ice_lance", "Summon Hawk": "summon_hawk",
                 "Mutilate": "mutilate", "Venom": "venom", "Lava Burst": "lava_burst", "Incinerate": "incinerate",
                 "Mangle": "mangle", "Primal Bite": "mangle", "Berserk": "berserk", "Shifting Power": "shifting_power",
@@ -633,6 +693,12 @@ DEFAULT_BUILDS = {
     # Ice Lance (row2) + Fingers of Frost (row4) added; Arcane Meditation (105803) dropped to stay at 51.
     "mage-frost": {"105779": 5, "105778": 5, "105777": 5, "105773": 3, "105772": 3, "105768": 3, "105767": 1, "105766": 1, "105764": 2, "105763": 5, "105762": 1,
                    "105814": 5, "105813": 2, "105812": 2, "105810": 5, "105807": 3},
+    "druid-restoration": {"104957": 5, "104922": 5, "104917": 3, "104916": 5, "104918": 1, "104915": 5, "104914": 3, "104912": 1, "104921": 1,
+                          "104911": 3, "104909": 2, "104913": 5, "104910": 1, "104924": 5, "104925": 3, "104927": 2, "104928": 1},
+    "shaman-restoration": {"104739": 5, "104729": 5, "104734": 3, "104736": 1, "104732": 1, "104738": 5, "104728": 1, "104727": 3, "104726": 1,
+                           "104725": 5, "104724": 1, "104756": 5, "104753": 5, "104752": 2, "104754": 2, "104751": 1, "104749": 1, "104748": 3, "104750": 1},
+    "paladin-holy": {"105332": 5, "105333": 3, "105335": 2, "110871": 3, "105327": 2, "105329": 5, "105325": 1, "110873": 2, "105323": 1, "105324": 1,
+                     "105321": 5, "105706": 5, "105705": 2, "105704": 2, "105703": 1, "105702": 3, "105701": 3, "105699": 2, "105698": 2, "105700": 1},
     # Holy 31 (to Prayer of Mending) / Discipline 20 (Inner Focus, Meditation, Mental Agility).
     "priest-holy": {"105866": 3, "110855": 5, "105867": 2, "105863": 5, "105858": 3, "105856": 1, "105859": 1, "105854": 1, "105855": 1, "105853": 5, "105852": 3, "105851": 1,
                     "105849": 5, "105837": 5, "105844": 1, "105843": 3, "105842": 3, "105841": 3},

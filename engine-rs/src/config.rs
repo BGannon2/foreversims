@@ -953,9 +953,7 @@ impl Config {
         }
         a.cast = (a.cast + self.mod_(&format!("cast:{name}"))).max(0.0);
         a.cooldown = (a.cooldown + self.mod_(&format!("cooldown:{name}"))).max(0.0);
-        if a.gcd.is_none() {
-            a.gcd = Some(self.t.GCD);
-        }
+        a.gcd = Some(a.gcd.unwrap_or(self.t.GCD) + self.mod_(&format!("gcd:{name}")));
         a.mult = 1.0 + self.mod_(&format!("dmg_ability:{name}"));
         a.crit_bonus = self.mod_(&format!("crit_ability:{name}"));
         if name == "Shadow Word: Pain" {
