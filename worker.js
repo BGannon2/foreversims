@@ -154,6 +154,8 @@ td.msg{white-space:pre-wrap;max-width:560px}tr.done{opacity:.45}tr.seen td.msg{c
 const CANONICAL_HOST = "foreversims.com";
 const TRAINING_CRAWLERS = ["GPTBot", "CCBot", "Google-Extended", "Applebot-Extended", "anthropic-ai", "ClaudeBot", "Bytespider", "cohere-ai",
   "cohere-training-data-crawler", "Diffbot", "omgili", "meta-externalagent", "MistralAI-Training", "Amazonbot", "PetalBot", "Timpibot", "ImagesiftBot"];
+const TRAINING_UA = new RegExp(TRAINING_CRAWLERS.join("|"), "i");  // names are plain words and hyphens
+function isTrainingCrawler(request) { return TRAINING_UA.test(request.headers.get("User-Agent") || ""); }
 const ROBOTS_TXT = `# Forever Sims: search and AI answer tools welcome; AI training crawlers are not.
 Content-Signal: search=yes, ai-input=yes, ai-train=no
 
@@ -189,6 +191,9 @@ export default {
     const url = new URL(request.url);
     const redirect = canonicalRedirect(request, url);
     if (redirect) return redirect;
+    // Training crawlers that ignore robots.txt get a 403 here. Done in the Worker instead of Cloudflare's
+    // "Block AI training bots" switch, which also blocked Bingbot (Bing's index feeds Copilot).
+    if (url.pathname !== "/robots.txt" && isTrainingCrawler(request)) return new Response("Forbidden", { status: 403 });
     if (url.pathname === "/robots.txt") return new Response(ROBOTS_TXT, { headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "public, max-age=3600" } });
     if (url.pathname === "/api/feedback" && request.method === "POST") return submitFeedback(request, env);
     if (url.pathname === "/feedback-admin") return feedbackAdmin(request, env, url);
