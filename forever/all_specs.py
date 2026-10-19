@@ -91,7 +91,7 @@ def public_racials():
 
 def simulate_spec(request):
     if not isinstance(request, dict):
-        raise ValueError("Choose a supported Forever DPS or tank spec.")
+        raise ValueError("Choose a supported Forever spec.")
     return engine.simulate(request, ITEMS, ENCHANTS, FOREVER_SETS)
 
 

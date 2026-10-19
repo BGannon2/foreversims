@@ -53,7 +53,7 @@ class Config:
         self.request = request
         spec_id = request.get("spec")
         if spec_id not in SPEC_MAP:
-            raise ValueError("Choose a supported Forever DPS or tank spec.")
+            raise ValueError("Choose a supported Forever spec.")
         self.spec = SPEC_MAP[spec_id]
         # Spec variants (VARIANTS): a parent spec run with its own rotation, plus optional spec
         # overrides (e.g. melee weaving switches the auto attack to Auto Shot).

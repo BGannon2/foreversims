@@ -174,7 +174,7 @@ def spec_page(spec: dict, all_specs: list[dict], rows: list[dict], names: dict, 
 
 def hub_page(all_specs: list[dict], build: str, version: str) -> str:
     title = "WoW Forever Simulators for Every Class and Spec | Forever Sims"
-    desc = "Free DPS and tank simulators for every World of Warcraft: Forever class and spec: Warrior, Paladin, Hunter, Rogue, Priest, Shaman, Mage, Warlock and Druid."
+    desc = "Free DPS, tank and healer simulators for every World of Warcraft: Forever class and spec: Warrior, Paladin, Hunter, Rogue, Priest, Shaman, Mage, Warlock and Druid."
     groups = []
     for cls in CLASS_ORDER:
         items = [s for s in all_specs if s["class_name"] == cls]

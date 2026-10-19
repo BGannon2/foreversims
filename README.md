@@ -1,6 +1,6 @@
 # Forever Sims
 
-DPS and tank simulators for every class/spec in *World of Warcraft: Forever* — live at
+DPS, tank and healer simulators for every class/spec in *World of Warcraft: Forever* — live at
 **[foreversims.com](https://foreversims.com)**. Every simulation runs entirely in the visitor's
 browser (a Rust engine compiled to WebAssembly); there's no server-side compute in production.
 

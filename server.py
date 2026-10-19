@@ -131,7 +131,7 @@ def _run_bench_tasks(tasks, parallel=True):
 
 def build_benchmarks(iterations=None, target_counts=TARGET_COUNTS, parallel=True, only=None):
     """Every race per spec, at every target count in target_counts (1 = the original
-    single-target Patchwerk snapshot). One unified dataset backs both the DPS and Tank
+    single-target Patchwerk snapshot). One unified dataset backs the DPS, Tank and Healer
     comparison pages; each row carries a "targets" field the pages filter on. Abilities with
     no AoE component (most single-target rotations) simply show the same DPS/TPS at every
     target count above 1."""

@@ -287,7 +287,7 @@ impl Config {
     pub fn new(request: Value, catalog: &Catalog) -> Result<Config, String> {
         let t = tables();
         let spec_id = req_str(request.get("spec"), "");
-        let mut spec = t.SPEC_MAP.get(&spec_id).cloned().ok_or("Choose a supported Forever DPS or tank spec.")?;
+        let mut spec = t.SPEC_MAP.get(&spec_id).cloned().ok_or("Choose a supported Forever spec.")?;
         // Spec variants: the parent spec with its own rotation and optional overrides (see VARIANTS).
         let variant = request.get("variant").and_then(|v| v.as_str()).filter(|v| !v.is_empty()).map(str::to_string);
         let mut rotation_key = spec_id.clone();
