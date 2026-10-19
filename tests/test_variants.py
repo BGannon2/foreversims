@@ -65,5 +65,18 @@ class PetSpells(unittest.TestCase):
         self.assertEqual(PET_ABILITIES["Lightning Breath"]["spell_id"], 25012)
 
 
+class Oct19DataChecks(unittest.TestCase):
+    def test_bear_threat_and_rage_basis(self):
+        from forever.engine_data import STANCE_MODS, WARRIOR_RAGE_PER_SPEED
+        self.assertEqual(STANCE_MODS["bear"]["threat"], 1.5)  # client spell 21178
+        self.assertEqual(WARRIOR_RAGE_PER_SPEED["taken_armor_factor"], 0.6)  # 40% armor basis at 60
+
+    def test_zg_reputation_items_rescaled(self):
+        don = ITEMS[19325]
+        self.assertEqual((don["itemLevel"], don["requiredLevel"]), (60, 55))
+        self.assertEqual(don["stats"]["meleeHit"], 1.0)  # 10 hit rating = 1% in Forever
+        self.assertEqual(ITEMS[20069]["stats"]["spellPower"], 88.0)
+
+
 if __name__ == "__main__":
     unittest.main()
