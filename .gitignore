@@ -25,3 +25,4 @@ Launch Web.cmd
 feedback.local.jsonl
 .wrangler/
 .cache/
+data/.forever_items_cache/

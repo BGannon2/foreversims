@@ -1751,8 +1751,8 @@ class Iteration:
         amount = raw * mult * armor_factor
         amount *= STANCE_MODS.get(self.s["stance"] or self.s["form"], {}).get("taken", 1.0)
         if "demoralizing_shout" in c.debuffs: amount *= 0.90
-        # Forever Warriors: rage from damage taken ignores armor (always as if 50% reduced) and absorbs.
-        rage_scale = WARRIOR_RAGE_PER_SPEED["taken_armor_factor"] / armor_factor if self.s["class_name"] == "Warrior" else 1.0
+        # Forever Warriors and Druids: rage from damage taken ignores armor (as if 40% reduced at 60, Oct 8 notes) and absorbs.
+        rage_scale = WARRIOR_RAGE_PER_SPEED["taken_armor_factor"] / armor_factor if self.s["resource"] == "Rage" else 1.0
         if outcome == "block":
             self.avoided_recently = self.t
             bv = self.st.get("blockValue", 0) + self.st["strength"] / 20

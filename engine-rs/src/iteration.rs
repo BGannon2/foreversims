@@ -2319,7 +2319,7 @@ impl<'a> Iteration<'a> {
             amount *= 0.90;
         }
         // Forever Warriors: rage from damage taken ignores armor (always as if 50% reduced) and absorbs.
-        let mut rage_scale = if c.spec.class_name == "Warrior" { 0.5 / armor_factor } else { 1.0 };
+        let mut rage_scale = if c.spec.resource == "Rage" { 0.6 / armor_factor } else { 1.0 };  // Warriors and Druids; Oct 8 notes, 40% armor basis at 60
         if outcome == Outcome::Block {
             self.avoided_recently = self.t;
             let bv = self.st("blockValue") + self.st("strength") / 20.0;

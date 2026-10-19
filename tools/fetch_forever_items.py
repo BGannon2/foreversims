@@ -8,11 +8,10 @@ Usage:
 a scratch dir; without it, expects those three files already sitting next to this script's
 scratch output from a previous run (data/.forever_items_cache/).
 
-Rating -> percent conversion uses the historically documented real-Blizzard level-60 combat
-rating constants (the ones patch 2.0 retrofitted onto level-60 Classic characters before the
-level-70 squish: 14 rating/1% crit, 8 rating/1% hit, 2.3554 rating/1 defense skill, etc).
-Forever's own constants are NOT confirmed anywhere (no DB2 table for it, foreverchanges.pro
-doesn't document it) -- this is a clearly-flagged provisional assumption, not sourced data.
+Rating -> percent conversion uses Forever's level-60 constants as Wowhead's Forever tooltips
+render them (2026-10-19, build 70450): 10 rating/1% hit, 14/1% crit, 12/1% dodge, 15/1% parry,
+5/1% block, and 1 defense rating = 1 defense skill. (Earlier versions used TBC's constants,
+which overstated hit and under-counted defense.)
 
 Items removed from Forever are recorded in data/forever_removed_item_ids.json but NOT deleted
 from the catalog, since hundreds of them are directly referenced by existing preset gear lists
@@ -34,8 +33,8 @@ DATA = ROOT / "data"
 CACHE = DATA / ".forever_items_cache"
 
 RATING_PER_PCT_60 = {
-    "crit": 14.0, "hit_melee": 8.0, "hit_spell": 8.0, "haste": 10.0,
-    "expertise": 3.9, "defense": 2.3554, "dodge": 14.5,
+    "crit": 14.0, "hit_melee": 10.0, "hit_spell": 10.0, "haste": 10.0,
+    "expertise": 3.9, "defense": 1.0, "dodge": 12.0, "parry": 15.0, "block": 5.0,
 }
 
 SLOT_MAP = {
@@ -58,16 +57,16 @@ WEAPON_DMG = re.compile(r"^(\d+) - (\d+) Damage")
 WEAPON_SPEED = re.compile(r"Speed ([\d.]+)")
 DPS_LINE = re.compile(r"^\(([\d.]+) damage per second\)$")
 REQ_LEVEL = re.compile(r"^Requires Level (\d+)$")
-EQUIP_RATING = re.compile(r"Equip: \+(\d+) (Critical Strike|Hit|Defense|Dodge|Haste|Expertise) Rating")
+EQUIP_RATING = re.compile(r"Equip: \+(\d+) (Critical Strike|Hit|Defense|Dodge|Parry|Block|Haste|Expertise) Rating")
 EQUIP_STAT = re.compile(r"^Equip: \+(\d+) (Attack Power|Spell Power|Spell Damage|Healing|Block Value)$")
 
 STAT_NAME_MAP = {
     "Strength": "strength", "Agility": "agility", "Stamina": "stamina", "Intellect": "intellect",
-    "Spirit": "spirit", "Attack Power": "attackPower", "Spell Power": "spellPower",
+    "Spirit": "spirit", "Armor": "armor", "Attack Power": "attackPower", "Spell Power": "spellPower",
     "Healing": "healingPower", "Spell Damage": "spellPower", "Defense Rating": "__defense_rating",
     "Dodge Rating": "__dodge_rating", "Critical Strike Rating": "__crit_rating",
     "Hit Rating": "__hit_rating", "Haste Rating": "__haste_rating", "Expertise Rating": "__expertise_rating",
-    "Block Rating": "block", "Block Value": "blockValue", "Fire Resistance": "fireResistance",
+    "Block Rating": "__block_rating", "Parry Rating": "__parry_rating", "Block Value": "blockValue", "Fire Resistance": "fireResistance",
     "Frost Resistance": "frostResistance", "Nature Resistance": "natureResistance",
     "Shadow Resistance": "shadowResistance", "Arcane Resistance": "arcaneResistance",
     "Mana every 5 sec.": "mp5",
@@ -87,8 +86,9 @@ def convert_rating(key, amount, stats):
     elif key == "__hit_rating":
         stats["meleeHit"] = stats.get("meleeHit", 0) + amount / RATING_PER_PCT_60["hit_melee"]
         stats["spellHit"] = stats.get("spellHit", 0) + amount / RATING_PER_PCT_60["hit_spell"]
-    elif key == "__dodge_rating":
-        stats["dodge"] = stats.get("dodge", 0) + amount / RATING_PER_PCT_60["dodge"]
+    elif key in ("__dodge_rating", "__parry_rating", "__block_rating"):
+        stat = key[2:-7]
+        stats[stat] = stats.get(stat, 0) + amount / RATING_PER_PCT_60[stat]
     # haste/expertise ratings dropped: not modeled anywhere in this sim yet
 
 
@@ -154,6 +154,7 @@ def parse_tooltip(it):
                 amt, kind = float(m2.group(1)), m2.group(2)
                 convert_rating({"Critical Strike": "__crit_rating", "Hit": "__hit_rating",
                                  "Defense": "__defense_rating", "Dodge": "__dodge_rating",
+                                 "Parry": "__parry_rating", "Block": "__block_rating",
                                  "Haste": "__haste_rating", "Expertise": "__expertise_rating"}[kind], amt, stats)
                 # Recognized and captured structurally -- do NOT also emit as free-text `effects`:
                 # the engine's old Classic-phrasing regex parser doesn't understand "+N X Rating"
@@ -166,6 +167,10 @@ def parse_tooltip(it):
                     effects.append(line)
             else:
                 effects.append(line)
+            continue
+        if line.startswith(("Chance on hit:", "Use:")):  # procs and on-use effects (the engine parses these)
+            tooltip.append({"label": line, "format": QUALITY.get(it["q"], "Common")})
+            effects.append(line)
             continue
         if line.startswith("Binds") or line.startswith("Unique") or line.startswith("Classes:") \
            or line.startswith("Sell Price") or line.startswith('"') or line.startswith("Requires ") \

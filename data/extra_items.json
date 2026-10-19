@@ -991,11 +991,15 @@
      "format": "Misc"
     },
     {
-     "label": "797 Armor",
+     "label": "657 Armor",
      "format": ""
     },
     {
      "label": "+30 Stamina",
+     "format": ""
+    },
+    {
+     "label": "+140 Armor",
      "format": ""
     },
     {
@@ -1359,7 +1363,9 @@
    "weaponDamageMin": 179.0,
    "weaponDamageMax": 269.0,
    "weaponSpeed": 3.0,
-   "effects": [],
+   "effects": [
+    "Chance on hit: Blasts a target for 700 Fire damage."
+   ],
    "tooltip": [
     {
      "label": "Ashbringer",
@@ -1376,6 +1382,10 @@
     {
      "label": "Requires Level 60",
      "format": ""
+    },
+    {
+     "label": "Chance on hit: Blasts a target for 700 Fire damage.",
+     "format": "Legendary"
     }
    ],
    "source": "forever-1.60.1.69913",
@@ -2354,7 +2364,7 @@
      "format": "Misc"
     },
     {
-     "label": "548 Armor",
+     "label": "398 Armor",
      "format": ""
     },
     {
@@ -2379,6 +2389,10 @@
     },
     {
      "label": "+9 Fire Resistance",
+     "format": ""
+    },
+    {
+     "label": "+150 Armor",
      "format": ""
     },
     {
@@ -2831,7 +2845,7 @@
     "meleeCrit": 15.0,
     "spellCrit": 15.0
    },
-   "weaponDamageMin": 53.0,
+   "weaponDamageMin": 52.0,
    "weaponDamageMax": 61.0,
    "weaponSpeed": 1.1,
    "effects": [],
@@ -2845,7 +2859,7 @@
      "format": "Misc"
     },
     {
-     "label": "53 - 61 Damage Speed 1.10",
+     "label": "52 - 61 Damage Speed 1.10",
      "format": ""
     },
     {
@@ -3324,8 +3338,8 @@
    "name": "Frigid Ring",
    "icon": "inv_jewelry_ring_29",
    "quality": "Uncommon",
-   "itemLevel": 61,
-   "requiredLevel": 56,
+   "itemLevel": 62,
+   "requiredLevel": 57,
    "slot": "Finger",
    "equipSlots": [
     "finger1",
@@ -3347,7 +3361,7 @@
      "format": "Uncommon"
     },
     {
-     "label": "Item Level 61",
+     "label": "Item Level 62",
      "format": "Misc"
     },
     {
@@ -3355,7 +3369,7 @@
      "format": ""
     },
     {
-     "label": "Requires Level 56",
+     "label": "Requires Level 57",
      "format": ""
     },
     {
@@ -4152,8 +4166,8 @@
     "strength": 18.0,
     "meleeCrit": 1.0,
     "spellCrit": 1.0,
-    "meleeHit": 1.25,
-    "spellHit": 1.25
+    "meleeHit": 1.0,
+    "spellHit": 1.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -4217,8 +4231,8 @@
     "frostResistance": 10.0,
     "shadowResistance": 10.0,
     "arcaneResistance": 10.0,
-    "meleeHit": 2.5,
-    "spellHit": 2.5
+    "meleeHit": 2.0,
+    "spellHit": 2.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -4310,7 +4324,7 @@
      "format": "Misc"
     },
     {
-     "label": "829 Armor",
+     "label": "629 Armor",
      "format": ""
     },
     {
@@ -4319,6 +4333,10 @@
     },
     {
      "label": "+24 Strength",
+     "format": ""
+    },
+    {
+     "label": "+200 Armor",
      "format": ""
     },
     {
@@ -4349,8 +4367,8 @@
     "armor": 817.0,
     "stamina": 31.0,
     "strength": 32.0,
-    "meleeHit": 2.5,
-    "spellHit": 2.5
+    "meleeHit": 2.0,
+    "spellHit": 2.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -4415,14 +4433,13 @@
     "natureResistance": 10.0,
     "frostResistance": 10.0,
     "shadowResistance": 10.0,
-    "arcaneResistance": 10.0
+    "arcaneResistance": 10.0,
+    "parry": 1.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
    "weaponSpeed": null,
-   "effects": [
-    "Equip: +15 Parry Rating"
-   ],
+   "effects": [],
    "tooltip": [
     {
      "label": "90 Epic Warrior Legplates",
@@ -4509,7 +4526,7 @@
      "format": "Misc"
     },
     {
-     "label": "954 Armor",
+     "label": "754 Armor",
      "format": ""
     },
     {
@@ -4518,6 +4535,10 @@
     },
     {
      "label": "+24 Strength",
+     "format": ""
+    },
+    {
+     "label": "+200 Armor",
      "format": ""
     },
     {
@@ -4649,7 +4670,7 @@
      "format": "Misc"
     },
     {
-     "label": "766 Armor",
+     "label": "566 Armor",
      "format": ""
     },
     {
@@ -4681,6 +4702,10 @@
      "format": ""
     },
     {
+     "label": "+200 Armor",
+     "format": ""
+    },
+    {
      "label": "Requires Level 60",
      "format": ""
     }
@@ -4706,8 +4731,8 @@
     "strength": 18.0,
     "meleeCrit": 1.0,
     "spellCrit": 1.0,
-    "meleeHit": 1.25,
-    "spellHit": 1.25
+    "meleeHit": 1.0,
+    "spellHit": 1.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -4763,17 +4788,17 @@
    ],
    "subclass": "Gun",
    "stats": {
-    "strength": 31.0,
-    "stamina": 31.0,
-    "fireResistance": 9.0,
-    "natureResistance": 6.0,
-    "frostResistance": 6.0,
-    "shadowResistance": 6.0,
-    "arcaneResistance": 6.0,
-    "meleeCrit": 3.0714285714285716,
-    "spellCrit": 3.0714285714285716
+    "strength": 10.0,
+    "stamina": 10.0,
+    "fireResistance": 3.0,
+    "natureResistance": 2.0,
+    "frostResistance": 2.0,
+    "shadowResistance": 2.0,
+    "arcaneResistance": 2.0,
+    "meleeCrit": 1.0,
+    "spellCrit": 1.0
    },
-   "weaponDamageMin": 102.0,
+   "weaponDamageMin": 101.0,
    "weaponDamageMax": 189.0,
    "weaponSpeed": 2.5,
    "effects": [],
@@ -4787,35 +4812,35 @@
      "format": "Misc"
     },
     {
-     "label": "102 - 189 Damage Speed 2.50",
+     "label": "101 - 189 Damage Speed 2.50",
      "format": ""
     },
     {
-     "label": "+31 Strength",
+     "label": "+10 Strength",
      "format": ""
     },
     {
-     "label": "+31 Stamina",
+     "label": "+10 Stamina",
      "format": ""
     },
     {
-     "label": "+9 Fire Resistance",
+     "label": "+3 Fire Resistance",
      "format": ""
     },
     {
-     "label": "+6 Nature Resistance",
+     "label": "+2 Nature Resistance",
      "format": ""
     },
     {
-     "label": "+6 Frost Resistance",
+     "label": "+2 Frost Resistance",
      "format": ""
     },
     {
-     "label": "+6 Shadow Resistance",
+     "label": "+2 Shadow Resistance",
      "format": ""
     },
     {
-     "label": "+6 Arcane Resistance",
+     "label": "+2 Arcane Resistance",
      "format": ""
     },
     {
@@ -4823,7 +4848,7 @@
      "format": ""
     },
     {
-     "label": "Equip: +43 Critical Strike Rating",
+     "label": "Equip: +14 Critical Strike Rating",
      "format": "Epic"
     }
    ],
@@ -4844,14 +4869,14 @@
    "subclass": "Axe",
    "stats": {
     "strength": 32.0,
-    "stamina": 31.0
+    "stamina": 31.0,
+    "parry": 1.0
    },
-   "weaponDamageMin": 272.0,
+   "weaponDamageMin": 271.0,
    "weaponDamageMax": 408.0,
    "weaponSpeed": 3.5,
    "effects": [
-    "Equip: +39 Health Regeneration",
-    "Equip: +15 Parry Rating"
+    "Equip: +39 Health Regeneration"
    ],
    "tooltip": [
     {
@@ -4863,7 +4888,7 @@
      "format": "Misc"
     },
     {
-     "label": "272 - 408 Damage Speed 3.50",
+     "label": "271 - 408 Damage Speed 3.50",
      "format": ""
     },
     {
@@ -5158,7 +5183,7 @@
      "format": "Misc"
     },
     {
-     "label": "377 Armor",
+     "label": "177 Armor",
      "format": ""
     },
     {
@@ -5171,6 +5196,10 @@
     },
     {
      "label": "+18 Strength",
+     "format": ""
+    },
+    {
+     "label": "+200 Armor",
      "format": ""
     },
     {
@@ -5288,7 +5317,7 @@
     "agility": 25.0,
     "stamina": 25.0,
     "strength": 24.0,
-    "dodge": 1.6551724137931034
+    "dodge": 2.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -5304,7 +5333,7 @@
      "format": "Misc"
     },
     {
-     "label": "409 Armor",
+     "label": "209 Armor",
      "format": ""
     },
     {
@@ -5317,6 +5346,10 @@
     },
     {
      "label": "+24 Strength",
+     "format": ""
+    },
+    {
+     "label": "+200 Armor",
      "format": ""
     },
     {
@@ -5365,7 +5398,7 @@
      "format": "Misc"
     },
     {
-     "label": "361 Armor",
+     "label": "161 Armor",
      "format": ""
     },
     {
@@ -5378,6 +5411,10 @@
     },
     {
      "label": "+18 Stamina",
+     "format": ""
+    },
+    {
+     "label": "+200 Armor",
      "format": ""
     },
     {
@@ -5408,14 +5445,13 @@
     "armor": 475.0,
     "agility": 25.0,
     "stamina": 25.0,
-    "strength": 24.0
+    "strength": 24.0,
+    "parry": 1.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
    "weaponSpeed": null,
-   "effects": [
-    "Equip: +15 Parry Rating"
-   ],
+   "effects": [],
    "tooltip": [
     {
      "label": "90 Epic Rogue Pants",
@@ -5426,7 +5462,7 @@
      "format": "Misc"
     },
     {
-     "label": "475 Armor",
+     "label": "225 Armor",
      "format": ""
     },
     {
@@ -5439,6 +5475,10 @@
     },
     {
      "label": "+24 Strength",
+     "format": ""
+    },
+    {
+     "label": "+250 Armor",
      "format": ""
     },
     {
@@ -5487,7 +5527,7 @@
      "format": "Misc"
     },
     {
-     "label": "393 Armor",
+     "label": "193 Armor",
      "format": ""
     },
     {
@@ -5500,6 +5540,10 @@
     },
     {
      "label": "+18 Strength",
+     "format": ""
+    },
+    {
+     "label": "+200 Armor",
      "format": ""
     },
     {
@@ -5531,7 +5575,7 @@
     "agility": 25.0,
     "stamina": 25.0,
     "strength": 24.0,
-    "dodge": 1.6551724137931034
+    "dodge": 2.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -5547,7 +5591,7 @@
      "format": "Misc"
     },
     {
-     "label": "457 Armor",
+     "label": "257 Armor",
      "format": ""
     },
     {
@@ -5560,6 +5604,10 @@
     },
     {
      "label": "+24 Strength",
+     "format": ""
+    },
+    {
+     "label": "+200 Armor",
      "format": ""
     },
     {
@@ -5817,20 +5865,20 @@
    ],
    "subclass": "Bow",
    "stats": {
-    "stamina": 25.0,
-    "agility": 25.0,
-    "strength": 22.0,
-    "fireResistance": 9.0,
-    "natureResistance": 9.0,
-    "frostResistance": 9.0,
-    "shadowResistance": 9.0,
-    "arcaneResistance": 9.0
+    "stamina": 8.0,
+    "agility": 8.0,
+    "strength": 7.0,
+    "fireResistance": 3.0,
+    "natureResistance": 3.0,
+    "frostResistance": 3.0,
+    "shadowResistance": 3.0,
+    "arcaneResistance": 3.0
    },
-   "weaponDamageMin": 102.0,
+   "weaponDamageMin": 101.0,
    "weaponDamageMax": 189.0,
    "weaponSpeed": 2.5,
    "effects": [
-    "Equip: +6 Mana Regeneration"
+    "Equip: +2 Mana Regeneration"
    ],
    "tooltip": [
     {
@@ -5842,39 +5890,39 @@
      "format": "Misc"
     },
     {
-     "label": "102 - 189 Damage Speed 2.50",
+     "label": "101 - 189 Damage Speed 2.50",
      "format": ""
     },
     {
-     "label": "+25 Stamina",
+     "label": "+8 Stamina",
      "format": ""
     },
     {
-     "label": "+25 Agility",
+     "label": "+8 Agility",
      "format": ""
     },
     {
-     "label": "+22 Strength",
+     "label": "+7 Strength",
      "format": ""
     },
     {
-     "label": "+9 Fire Resistance",
+     "label": "+3 Fire Resistance",
      "format": ""
     },
     {
-     "label": "+9 Nature Resistance",
+     "label": "+3 Nature Resistance",
      "format": ""
     },
     {
-     "label": "+9 Frost Resistance",
+     "label": "+3 Frost Resistance",
      "format": ""
     },
     {
-     "label": "+9 Shadow Resistance",
+     "label": "+3 Shadow Resistance",
      "format": ""
     },
     {
-     "label": "+9 Arcane Resistance",
+     "label": "+3 Arcane Resistance",
      "format": ""
     },
     {
@@ -5882,7 +5930,7 @@
      "format": ""
     },
     {
-     "label": "Equip: +6 Mana Regeneration",
+     "label": "Equip: +2 Mana Regeneration",
      "format": "Epic"
     }
    ],
@@ -5911,9 +5959,9 @@
     "frostResistance": 2.0,
     "shadowResistance": 2.0,
     "arcaneResistance": 3.0,
-    "dodge": 0.8275862068965517
+    "dodge": 1.0
    },
-   "weaponDamageMin": 105.0,
+   "weaponDamageMin": 104.0,
    "weaponDamageMax": 194.0,
    "weaponSpeed": 2.0,
    "effects": [],
@@ -5927,7 +5975,7 @@
      "format": "Misc"
     },
     {
-     "label": "105 - 194 Damage Speed 2.00",
+     "label": "104 - 194 Damage Speed 2.00",
      "format": ""
     },
     {
@@ -6895,8 +6943,8 @@
     "meleeCrit": 2.0,
     "spellCrit": 2.0
    },
-   "weaponDamageMin": 210.0,
-   "weaponDamageMax": 315.0,
+   "weaponDamageMin": 119.0,
+   "weaponDamageMax": 226.0,
    "weaponSpeed": 2.7,
    "effects": [
     "Equip: +132 Frost Spell Damage",
@@ -6912,7 +6960,7 @@
      "format": "Misc"
     },
     {
-     "label": "210 - 315 Damage Speed 2.70",
+     "label": "119 - 226 Damage Speed 2.70",
      "format": ""
     },
     {
@@ -6960,16 +7008,16 @@
    ],
    "subclass": "Wand",
    "stats": {
-    "intellect": 16.0,
-    "stamina": 7.0,
-    "spirit": 5.0
+    "intellect": 12.0,
+    "stamina": 5.0,
+    "spirit": 4.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
    "weaponSpeed": null,
    "effects": [
-    "Equip: +14 Frost Spell Damage",
-    "Equip: +3 Mana Regeneration"
+    "Equip: +11 Frost Spell Damage",
+    "Equip: +2 Mana Regeneration"
    ],
    "tooltip": [
     {
@@ -6981,15 +7029,15 @@
      "format": "Misc"
     },
     {
-     "label": "+16 Intellect",
+     "label": "+12 Intellect",
      "format": ""
     },
     {
-     "label": "+7 Stamina",
+     "label": "+5 Stamina",
      "format": ""
     },
     {
-     "label": "+5 Spirit",
+     "label": "+4 Spirit",
      "format": ""
     },
     {
@@ -6997,11 +7045,11 @@
      "format": ""
     },
     {
-     "label": "Equip: +14 Frost Spell Damage",
+     "label": "Equip: +11 Frost Spell Damage",
      "format": "Epic"
     },
     {
-     "label": "Equip: +3 Mana Regeneration",
+     "label": "Equip: +2 Mana Regeneration",
      "format": "Epic"
     }
    ],
@@ -7642,8 +7690,8 @@
     "intellect": 28.0,
     "stamina": 27.0
    },
-   "weaponDamageMin": 167.0,
-   "weaponDamageMax": 251.0,
+   "weaponDamageMin": 118.0,
+   "weaponDamageMax": 203.0,
    "weaponSpeed": 2.7,
    "effects": [
     "Equip: +72 Frost Spell Damage"
@@ -7658,7 +7706,7 @@
      "format": "Misc"
     },
     {
-     "label": "167 - 251 Damage Speed 2.70",
+     "label": "118 - 203 Damage Speed 2.70",
      "format": ""
     },
     {
@@ -7694,13 +7742,13 @@
    ],
    "subclass": "Wand",
    "stats": {
-    "intellect": 12.0
+    "intellect": 9.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
    "weaponSpeed": null,
    "effects": [
-    "Equip: +15 Frost Spell Damage"
+    "Equip: +11 Frost Spell Damage"
    ],
    "tooltip": [
     {
@@ -7712,7 +7760,7 @@
      "format": "Misc"
     },
     {
-     "label": "+12 Intellect",
+     "label": "+9 Intellect",
      "format": ""
     },
     {
@@ -7720,7 +7768,7 @@
      "format": ""
     },
     {
-     "label": "Equip: +15 Frost Spell Damage",
+     "label": "Equip: +11 Frost Spell Damage",
      "format": "Uncommon"
     }
    ],
@@ -8294,7 +8342,7 @@
    "stats": {
     "intellect": 19.0
    },
-   "weaponDamageMin": 106.0,
+   "weaponDamageMin": 105.0,
    "weaponDamageMax": 159.0,
    "weaponSpeed": 2.7,
    "effects": [
@@ -8310,7 +8358,7 @@
      "format": "Misc"
     },
     {
-     "label": "106 - 159 Damage Speed 2.70",
+     "label": "105 - 159 Damage Speed 2.70",
      "format": ""
     },
     {
@@ -8342,13 +8390,13 @@
    ],
    "subclass": "Wand",
    "stats": {
-    "intellect": 8.0
+    "intellect": 6.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
    "weaponSpeed": null,
    "effects": [
-    "Equip: +12 Frost Spell Damage"
+    "Equip: +9 Frost Spell Damage"
    ],
    "tooltip": [
     {
@@ -8360,7 +8408,7 @@
      "format": "Misc"
     },
     {
-     "label": "+8 Intellect",
+     "label": "+6 Intellect",
      "format": ""
     },
     {
@@ -8368,7 +8416,7 @@
      "format": ""
     },
     {
-     "label": "Equip: +12 Frost Spell Damage",
+     "label": "Equip: +9 Frost Spell Damage",
      "format": "Uncommon"
     }
    ],
@@ -8418,14 +8466,14 @@
    ],
    "subclass": "Bow",
    "stats": {
-    "meleeCrit": 3.2857142857142856,
-    "spellCrit": 3.2857142857142856
+    "meleeCrit": 1.0,
+    "spellCrit": 1.0
    },
    "weaponDamageMin": 89.0,
    "weaponDamageMax": 166.0,
    "weaponSpeed": 2.9,
    "effects": [
-    "Equip: +55 Ranged Attack Power"
+    "Equip: +17 Ranged Attack Power"
    ],
    "tooltip": [
     {
@@ -8445,11 +8493,11 @@
      "format": ""
     },
     {
-     "label": "Equip: +46 Critical Strike Rating",
+     "label": "Equip: +14 Critical Strike Rating",
      "format": "Epic"
     },
     {
-     "label": "Equip: +55 Ranged Attack Power",
+     "label": "Equip: +17 Ranged Attack Power",
      "format": "Epic"
     }
    ],
@@ -8945,8 +8993,8 @@
     "intellect": 15.0,
     "stamina": 10.0,
     "spellPower": 27.0,
-    "meleeHit": 1.25,
-    "spellHit": 1.25
+    "meleeHit": 1.0,
+    "spellHit": 1.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -9422,7 +9470,7 @@
      "format": "Misc"
     },
     {
-     "label": "173 Armor",
+     "label": "133 Armor",
      "format": ""
     },
     {
@@ -9435,6 +9483,10 @@
     },
     {
      "label": "+30 Stamina",
+     "format": ""
+    },
+    {
+     "label": "+40 Armor",
      "format": ""
     },
     {
@@ -9477,7 +9529,7 @@
      "format": "Misc"
     },
     {
-     "label": "173 Armor",
+     "label": "133 Armor",
      "format": ""
     },
     {
@@ -9490,6 +9542,10 @@
     },
     {
      "label": "+30 Stamina",
+     "format": ""
+    },
+    {
+     "label": "+40 Armor",
      "format": ""
     },
     {
@@ -9513,7 +9569,7 @@
    ],
    "subclass": "Wand",
    "stats": {
-    "spellPower": 12.0
+    "spellPower": 9.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -9533,7 +9589,7 @@
      "format": ""
     },
     {
-     "label": "Equip: +12 Spell Power",
+     "label": "Equip: +9 Spell Power",
      "format": "Uncommon"
     }
    ],
@@ -9553,8 +9609,8 @@
    ],
    "subclass": "Wand",
    "stats": {
-    "intellect": 10.0,
-    "spellPower": 12.0
+    "intellect": 7.0,
+    "spellPower": 9.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -9570,7 +9626,7 @@
      "format": "Misc"
     },
     {
-     "label": "+10 Intellect",
+     "label": "+7 Intellect",
      "format": ""
     },
     {
@@ -9578,7 +9634,7 @@
      "format": ""
     },
     {
-     "label": "Equip: +12 Spell Power",
+     "label": "Equip: +9 Spell Power",
      "format": "Rare"
     }
    ],
@@ -9588,7 +9644,7 @@
   {
    "id": 250593,
    "name": "Blessed Plate Helm",
-   "icon": null,
+   "icon": "inv_helmet_24",
    "quality": "Uncommon",
    "itemLevel": 60,
    "requiredLevel": 55,
@@ -9698,7 +9754,7 @@
   {
    "id": 250595,
    "name": "Enriched Thorium Breastplate",
-   "icon": null,
+   "icon": "inv_chest_plate11",
    "quality": "Rare",
    "itemLevel": 62,
    "requiredLevel": 57,
@@ -9710,7 +9766,7 @@
    "stats": {
     "armor": 647.0,
     "stamina": 25.0,
-    "defense": 3.8210070476352214,
+    "defense": 9.0,
     "spellPower": 14.0
    },
    "weaponDamageMin": null,
@@ -9753,7 +9809,7 @@
   {
    "id": 250596,
    "name": "Enriched Thorium Leggings",
-   "icon": null,
+   "icon": "inv_pants_plate_10",
    "quality": "Rare",
    "itemLevel": 63,
    "requiredLevel": 58,
@@ -9765,7 +9821,7 @@
    "stats": {
     "armor": 575.0,
     "stamina": 26.0,
-    "defense": 3.8210070476352214,
+    "defense": 9.0,
     "spellPower": 14.0
    },
    "weaponDamageMin": null,
@@ -9808,7 +9864,7 @@
   {
    "id": 250597,
    "name": "Enriched Thorium Helm",
-   "icon": null,
+   "icon": "inv_helmet_10",
    "quality": "Rare",
    "itemLevel": 63,
    "requiredLevel": 58,
@@ -9820,7 +9876,7 @@
    "stats": {
     "armor": 534.0,
     "stamina": 21.0,
-    "defense": 3.3964507090090854,
+    "defense": 8.0,
     "spellPower": 23.0
    },
    "weaponDamageMin": null,
@@ -9863,7 +9919,7 @@
   {
    "id": 250598,
    "name": "Champion's Legplates",
-   "icon": null,
+   "icon": "inv_pants_plate_02",
    "quality": "Epic",
    "itemLevel": 61,
    "requiredLevel": 56,
@@ -9919,7 +9975,7 @@
   {
    "id": 250599,
    "name": "Stalwart Helm",
-   "icon": null,
+   "icon": "inv_helmet_22",
    "quality": "Epic",
    "itemLevel": 61,
    "requiredLevel": 56,
@@ -9931,8 +9987,8 @@
    "stats": {
     "armor": 565.0,
     "strength": 12.0,
-    "meleeHit": 2.5,
-    "spellHit": 2.5,
+    "meleeHit": 2.0,
+    "spellHit": 2.0,
     "spellPower": 38.0
    },
    "weaponDamageMin": null,
@@ -9975,7 +10031,7 @@
   {
    "id": 250600,
    "name": "Martyr's Legplates",
-   "icon": null,
+   "icon": "inv_pants_plate_21",
    "quality": "Epic",
    "itemLevel": 61,
    "requiredLevel": 56,
@@ -10035,7 +10091,7 @@
   {
    "id": 250601,
    "name": "Breastplate of Salvation",
-   "icon": null,
+   "icon": "inv_chest_plate09",
    "quality": "Epic",
    "itemLevel": 61,
    "requiredLevel": 56,
@@ -10095,7 +10151,7 @@
   {
    "id": 250617,
    "name": "Stormcarver",
-   "icon": null,
+   "icon": "inv_axe_04",
    "quality": "Rare",
    "itemLevel": 63,
    "requiredLevel": 58,
@@ -10199,7 +10255,7 @@
   {
    "id": 250619,
    "name": "Legionite Glaive",
-   "icon": null,
+   "icon": "inv_spear_05",
    "quality": "Rare",
    "itemLevel": 63,
    "requiredLevel": 58,
@@ -10211,8 +10267,8 @@
    "stats": {
     "agility": 16.0,
     "attackPower": 54.0,
-    "meleeHit": 1.25,
-    "spellHit": 1.25
+    "meleeHit": 1.0,
+    "spellHit": 1.0
    },
    "weaponDamageMin": 138.0,
    "weaponDamageMax": 207.0,
@@ -10254,7 +10310,7 @@
   {
    "id": 252482,
    "name": "Blue Suede Hat",
-   "icon": null,
+   "icon": "inv_helm_armor_buckledhat_b_01_blue",
    "quality": "Uncommon",
    "itemLevel": 61,
    "requiredLevel": 56,
@@ -10309,7 +10365,7 @@
   {
    "id": 252483,
    "name": "Dawn Armor",
-   "icon": null,
+   "icon": "inv_chest_leather_08",
    "quality": "Epic",
    "itemLevel": 61,
    "requiredLevel": 56,
@@ -10323,8 +10379,8 @@
     "agility": 37.0,
     "meleeCrit": 1.0,
     "spellCrit": 1.0,
-    "meleeHit": 1.25,
-    "spellHit": 1.25
+    "meleeHit": 1.0,
+    "spellHit": 1.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -10366,7 +10422,7 @@
   {
    "id": 252484,
    "name": "Timbermaw Tunic",
-   "icon": null,
+   "icon": "inv_chest_fur",
    "quality": "Epic",
    "itemLevel": 61,
    "requiredLevel": 56,
@@ -10422,7 +10478,7 @@
   {
    "id": 252485,
    "name": "Warbear Helm",
-   "icon": null,
+   "icon": "inv_helmet_31",
    "quality": "Epic",
    "itemLevel": 61,
    "requiredLevel": 56,
@@ -10477,7 +10533,7 @@
   {
    "id": 252486,
    "name": "Ironfeather Leggings",
-   "icon": null,
+   "icon": "inv_pants_leather_26",
    "quality": "Epic",
    "itemLevel": 61,
    "requiredLevel": 56,
@@ -10533,7 +10589,7 @@
   {
    "id": 252558,
    "name": "Tooled Leather Epaulets",
-   "icon": null,
+   "icon": "inv_shoulder_08",
    "quality": "Uncommon",
    "itemLevel": 60,
    "requiredLevel": 55,
@@ -10588,7 +10644,7 @@
   {
    "id": 252559,
    "name": "Blue Suede Bracers",
-   "icon": null,
+   "icon": "inv_bracer_22a",
    "quality": "Uncommon",
    "itemLevel": 60,
    "requiredLevel": 55,
@@ -10643,7 +10699,7 @@
   {
    "id": 252560,
    "name": "Tooled Leather Pants",
-   "icon": null,
+   "icon": "inv_pants_10",
    "quality": "Uncommon",
    "itemLevel": 61,
    "requiredLevel": 56,
@@ -10698,7 +10754,7 @@
   {
    "id": 252561,
    "name": "Living Crown",
-   "icon": null,
+   "icon": "inv_helmet_32",
    "quality": "Epic",
    "itemLevel": 61,
    "requiredLevel": 56,
@@ -10758,7 +10814,7 @@
   {
    "id": 252601,
    "name": "Supple Scorpid Sabatons",
-   "icon": null,
+   "icon": "inv_boots_chain_04",
    "quality": "Uncommon",
    "itemLevel": 61,
    "requiredLevel": 56,
@@ -10813,7 +10869,7 @@
   {
    "id": 252602,
    "name": "Charged Scorpid Boots",
-   "icon": null,
+   "icon": "inv_boots_chain_06",
    "quality": "Uncommon",
    "itemLevel": 61,
    "requiredLevel": 56,
@@ -10868,7 +10924,7 @@
   {
    "id": 252603,
    "name": "Red Dragonscale Leggings",
-   "icon": null,
+   "icon": "inv_pants_mail_09",
    "quality": "Epic",
    "itemLevel": 61,
    "requiredLevel": 56,
@@ -10923,7 +10979,7 @@
   {
    "id": 252604,
    "name": "Blue Dragonscale Helm",
-   "icon": null,
+   "icon": "inv_helmet_09",
    "quality": "Epic",
    "itemLevel": 61,
    "requiredLevel": 56,
@@ -10936,8 +10992,8 @@
     "armor": 319.0,
     "intellect": 18.0,
     "spellPower": 25.0,
-    "meleeHit": 1.25,
-    "spellHit": 1.25
+    "meleeHit": 1.0,
+    "spellHit": 1.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -10979,7 +11035,7 @@
   {
    "id": 252605,
    "name": "Black Dragonscale Helm",
-   "icon": null,
+   "icon": "inv_helmet_09",
    "quality": "Epic",
    "itemLevel": 61,
    "requiredLevel": 56,
@@ -11035,7 +11091,7 @@
   {
    "id": 252606,
    "name": "Pristine Scorpid Leggings",
-   "icon": null,
+   "icon": "inv_pants_mail_36",
    "quality": "Epic",
    "itemLevel": 61,
    "requiredLevel": 56,
@@ -11091,7 +11147,7 @@
   {
    "id": 254129,
    "name": "Ghostweave Boots",
-   "icon": null,
+   "icon": "inv_boots_cloth_17",
    "quality": "Uncommon",
    "itemLevel": 60,
    "requiredLevel": 55,
@@ -11141,7 +11197,7 @@
   {
    "id": 254131,
    "name": "Earthenweave Cuffs",
-   "icon": null,
+   "icon": "inv_bracer_13",
    "quality": "Uncommon",
    "itemLevel": 60,
    "requiredLevel": 55,
@@ -11196,7 +11252,7 @@
   {
    "id": 254135,
    "name": "Ghostweave Hood",
-   "icon": null,
+   "icon": "inv_helmet_26",
    "quality": "Uncommon",
    "itemLevel": 61,
    "requiredLevel": 56,
@@ -11246,7 +11302,7 @@
   {
    "id": 254137,
    "name": "Earthenweave Crown",
-   "icon": null,
+   "icon": "inv_crown_02",
    "quality": "Uncommon",
    "itemLevel": 61,
    "requiredLevel": 56,
@@ -11299,6 +11355,303 @@
    "wowhead": "https://foreverchanges.pro/items"
   },
   {
+   "id": 260819,
+   "name": "EZ-Thro Field Transporter: Gadgetzan",
+   "icon": "inv_misc_enggizmos_02",
+   "quality": "Uncommon",
+   "itemLevel": 60,
+   "requiredLevel": 55,
+   "slot": "Trinket",
+   "equipSlots": [
+    "trinket1",
+    "trinket2"
+   ],
+   "subclass": null,
+   "stats": {},
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [
+    "Use: Safely transport yourself to Gadgetzan in Tanaris! Emphasis on Safe! Yup, nothing bad could ever happen while using this device! (240 Min Cooldown)"
+   ],
+   "tooltip": [
+    {
+     "label": "EZ-Thro Field Transporter: Gadgetzan",
+     "format": "Uncommon"
+    },
+    {
+     "label": "Item Level 60",
+     "format": "Misc"
+    },
+    {
+     "label": "Requires Level 55",
+     "format": ""
+    },
+    {
+     "label": "Use: Safely transport yourself to Gadgetzan in Tanaris! Emphasis on Safe! Yup, nothing bad could ever happen while using this device! (240 Min Cooldown)",
+     "format": "Uncommon"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 260820,
+   "name": "SAF-T Emergency Ripper: Everlook",
+   "icon": "inv_misc_enggizmos_01",
+   "quality": "Uncommon",
+   "itemLevel": 60,
+   "requiredLevel": 55,
+   "slot": "Trinket",
+   "equipSlots": [
+    "trinket1",
+    "trinket2"
+   ],
+   "subclass": null,
+   "stats": {},
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [
+    "Use: Rips the dimensional walls asunder and transports you to Everlook in Winterspring. There are technical problems that sometimes occur, but that's what Goblin Engineering is all about! (240 Min Cooldown)"
+   ],
+   "tooltip": [
+    {
+     "label": "SAF-T Emergency Ripper: Everlook",
+     "format": "Uncommon"
+    },
+    {
+     "label": "Item Level 60",
+     "format": "Misc"
+    },
+    {
+     "label": "Requires Level 55",
+     "format": ""
+    },
+    {
+     "label": "Use: Rips the dimensional walls asunder and transports you to Everlook in Winterspring. There are technical problems that sometimes occur, but that's what Goblin Engineering is all about! (240 Min Cooldown)",
+     "format": "Uncommon"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 260821,
+   "name": "EZ and SAF Field Transporter: Mt. Hyjal",
+   "icon": "inv_misc_enggizmos_10",
+   "quality": "Uncommon",
+   "itemLevel": 60,
+   "requiredLevel": 60,
+   "slot": "Trinket",
+   "equipSlots": [
+    "trinket1",
+    "trinket2"
+   ],
+   "subclass": null,
+   "stats": {},
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [
+    "Use: Rips the dimensional walls asunder and transports you to Kaylaena's Workshop on Mount Hyjal. Technical problems have a high chance to occur with this mad combination of goblin and gnomish engineering. (240 Min Cooldown)"
+   ],
+   "tooltip": [
+    {
+     "label": "EZ and SAF Field Transporter: Mt. Hyjal",
+     "format": "Uncommon"
+    },
+    {
+     "label": "Item Level 60",
+     "format": "Misc"
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    },
+    {
+     "label": "Use: Rips the dimensional walls asunder and transports you to Kaylaena's Workshop on Mount Hyjal. Technical problems have a high chance to occur with this mad combination of goblin and gnomish engineering. (240 Min Cooldown)",
+     "format": "Uncommon"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 260824,
+   "name": "Gnomish Poultryizer",
+   "icon": "inv_misc_enggizmos_06",
+   "quality": "Rare",
+   "itemLevel": 60,
+   "requiredLevel": 60,
+   "slot": "Trinket",
+   "equipSlots": [
+    "trinket1",
+    "trinket2"
+   ],
+   "subclass": null,
+   "stats": {},
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [
+    "Use: Turns the target into a chicken for 15 sec. Well, that is assuming the transmogrification polarity has not been reversed... (5 Min Cooldown)"
+   ],
+   "tooltip": [
+    {
+     "label": "Gnomish Poultryizer",
+     "format": "Rare"
+    },
+    {
+     "label": "Item Level 60",
+     "format": "Misc"
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    },
+    {
+     "label": "Use: Turns the target into a chicken for 15 sec. Well, that is assuming the transmogrification polarity has not been reversed... (5 Min Cooldown)",
+     "format": "Rare"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 260828,
+   "name": "SAF-T Nitro Boosts",
+   "icon": "inv_gizmo_rocketbootextreme",
+   "quality": "Uncommon",
+   "itemLevel": 60,
+   "requiredLevel": 55,
+   "slot": "Waist",
+   "equipSlots": [
+    "waist"
+   ],
+   "subclass": "Cloth",
+   "stats": {
+    "armor": 44.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [
+    "Use: Activate a set of jets to increase your movement speed by up to 160%, for up to 8 sec."
+   ],
+   "tooltip": [
+    {
+     "label": "SAF-T Nitro Boosts",
+     "format": "Uncommon"
+    },
+    {
+     "label": "Item Level 60",
+     "format": "Misc"
+    },
+    {
+     "label": "44 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 55",
+     "format": ""
+    },
+    {
+     "label": "Use: Activate a set of jets to increase your movement speed by up to 160%, for up to 8 sec.",
+     "format": "Uncommon"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 260829,
+   "name": "EZ-Thro Magnetic Displacer",
+   "icon": "inv_misc_magnet",
+   "quality": "Uncommon",
+   "itemLevel": 60,
+   "requiredLevel": 55,
+   "slot": "Waist",
+   "equipSlots": [
+    "waist"
+   ],
+   "subclass": "Cloth",
+   "stats": {
+    "armor": 44.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [
+    "Use: Disrupt a magnetic field between you and your nearby enemy target, knocking you both away. Can only affect targets up to 2 levels higher than you. Some targets cannot be displaced. Targets can only be affected by this effect once every 2 min."
+   ],
+   "tooltip": [
+    {
+     "label": "EZ-Thro Magnetic Displacer",
+     "format": "Uncommon"
+    },
+    {
+     "label": "Item Level 60",
+     "format": "Misc"
+    },
+    {
+     "label": "44 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 55",
+     "format": ""
+    },
+    {
+     "label": "Use: Disrupt a magnetic field between you and your nearby enemy target, knocking you both away. Can only affect targets up to 2 levels higher than you. Some targets cannot be displaced. Targets can only be affected by this effect once every 2 min.",
+     "format": "Uncommon"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 268873,
+   "name": "Defender of the Barkskin",
+   "icon": "inv_misc_horn_02",
+   "quality": "Epic",
+   "itemLevel": 62,
+   "requiredLevel": 55,
+   "slot": "Trinket",
+   "equipSlots": [
+    "trinket1",
+    "trinket2"
+   ],
+   "subclass": null,
+   "stats": {},
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [
+    "Use: Calls forth a Barkskin Ancestor to fight at your side and heal you for 20 sec. (5 Min Cooldown)"
+   ],
+   "tooltip": [
+    {
+     "label": "Defender of the Barkskin",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 62",
+     "format": "Misc"
+    },
+    {
+     "label": "Requires Level 55",
+     "format": ""
+    },
+    {
+     "label": "Use: Calls forth a Barkskin Ancestor to fight at your side and heal you for 20 sec. (5 Min Cooldown)",
+     "format": "Epic"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
    "id": 269501,
    "name": "Elven Chain Wristguards",
    "icon": "inv_bracer_03",
@@ -11329,11 +11682,15 @@
      "format": "Misc"
     },
     {
-     "label": "184 Armor",
+     "label": "34 Armor",
      "format": ""
     },
     {
      "label": "+10 Stamina",
+     "format": ""
+    },
+    {
+     "label": "+150 Armor",
      "format": ""
     },
     {
@@ -11401,6 +11758,61 @@
     }
    ],
    "source": "forever-1.60.1.69913",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 271907,
+   "name": "Expeditionary's Cape",
+   "icon": "inv_misc_cape_20",
+   "quality": "Rare",
+   "itemLevel": 63,
+   "requiredLevel": 58,
+   "slot": "Back",
+   "equipSlots": [
+    "back"
+   ],
+   "subclass": "Cloth",
+   "stats": {
+    "armor": 45.0,
+    "intellect": 16.0,
+    "stamina": 8.0,
+    "spirit": 6.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Expeditionary's Cape",
+     "format": "Rare"
+    },
+    {
+     "label": "Item Level 63",
+     "format": "Misc"
+    },
+    {
+     "label": "45 Armor",
+     "format": ""
+    },
+    {
+     "label": "+16 Intellect",
+     "format": ""
+    },
+    {
+     "label": "+8 Stamina",
+     "format": ""
+    },
+    {
+     "label": "+6 Spirit",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 58",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
    "wowhead": "https://foreverchanges.pro/items"
   },
   {
@@ -11542,6 +11954,213 @@
    "wowhead": "https://foreverchanges.pro/items"
   },
   {
+   "id": 271924,
+   "name": "Rebels' Rugged Reaper",
+   "icon": "inv_axe_18",
+   "quality": "Rare",
+   "itemLevel": 63,
+   "requiredLevel": 58,
+   "slot": "Two-Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Axe",
+   "stats": {
+    "strength": 33.0,
+    "stamina": 8.0
+   },
+   "weaponDamageMin": 133.0,
+   "weaponDamageMax": 201.0,
+   "weaponSpeed": 3.1,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Rebels' Rugged Reaper",
+     "format": "Rare"
+    },
+    {
+     "label": "Item Level 63",
+     "format": "Misc"
+    },
+    {
+     "label": "133 - 201 Damage Speed 3.10",
+     "format": ""
+    },
+    {
+     "label": "+33 Strength",
+     "format": ""
+    },
+    {
+     "label": "+8 Stamina",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 58",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 271928,
+   "name": "Clever Expeditionary's Spellblade",
+   "icon": "inv_weapon_shortblade_18",
+   "quality": "Rare",
+   "itemLevel": 63,
+   "requiredLevel": 58,
+   "slot": "Main Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {
+    "intellect": 11.0,
+    "stamina": 8.0,
+    "spirit": 5.0,
+    "spellPower": 72.0
+   },
+   "weaponDamageMin": 27.0,
+   "weaponDamageMax": 50.0,
+   "weaponSpeed": 1.4,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Clever Expeditionary's Spellblade",
+     "format": "Rare"
+    },
+    {
+     "label": "Item Level 63",
+     "format": "Misc"
+    },
+    {
+     "label": "27 - 50 Damage Speed 1.40",
+     "format": ""
+    },
+    {
+     "label": "+11 Intellect",
+     "format": ""
+    },
+    {
+     "label": "+8 Stamina",
+     "format": ""
+    },
+    {
+     "label": "+5 Spirit",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 58",
+     "format": ""
+    },
+    {
+     "label": "Equip: +72 Spell Power",
+     "format": "Rare"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 271932,
+   "name": "Insurgent's Manifesto",
+   "icon": "inv_misc_book_06",
+   "quality": "Rare",
+   "itemLevel": 63,
+   "requiredLevel": 58,
+   "slot": "Held In Off-hand",
+   "equipSlots": [
+    "off_hand"
+   ],
+   "subclass": null,
+   "stats": {
+    "stamina": 17.0,
+    "intellect": 7.0,
+    "spellPower": 8.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Insurgent's Manifesto",
+     "format": "Rare"
+    },
+    {
+     "label": "Item Level 63",
+     "format": "Misc"
+    },
+    {
+     "label": "+17 Stamina",
+     "format": ""
+    },
+    {
+     "label": "+7 Intellect",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 58",
+     "format": ""
+    },
+    {
+     "label": "Equip: +8 Spell Power",
+     "format": "Rare"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 271936,
+   "name": "Guerrilla's Jagged Mace",
+   "icon": "inv_hammer_05",
+   "quality": "Rare",
+   "itemLevel": 63,
+   "requiredLevel": 58,
+   "slot": "Main Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Mace",
+   "stats": {
+    "stamina": 13.0,
+    "attackPower": 10.0
+   },
+   "weaponDamageMin": 81.0,
+   "weaponDamageMax": 151.0,
+   "weaponSpeed": 2.8,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Guerrilla's Jagged Mace",
+     "format": "Rare"
+    },
+    {
+     "label": "Item Level 63",
+     "format": "Misc"
+    },
+    {
+     "label": "81 - 151 Damage Speed 2.80",
+     "format": ""
+    },
+    {
+     "label": "+13 Stamina",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 58",
+     "format": ""
+    },
+    {
+     "label": "Equip: +10 Attack Power",
+     "format": "Rare"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
    "id": 271940,
    "name": "Theramore Gauntlets",
    "icon": "inv_gauntlets_29",
@@ -11657,6 +12276,230 @@
    "wowhead": "https://foreverchanges.pro/items"
   },
   {
+   "id": 271948,
+   "name": "Theramore Gloves",
+   "icon": "inv_gauntlets_27",
+   "quality": "Epic",
+   "itemLevel": 65,
+   "requiredLevel": 60,
+   "slot": "Hands",
+   "equipSlots": [
+    "hands"
+   ],
+   "subclass": "Leather",
+   "stats": {
+    "armor": 123.0,
+    "agility": 27.0,
+    "strength": 11.0,
+    "stamina": 15.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Theramore Gloves",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 65",
+     "format": "Misc"
+    },
+    {
+     "label": "123 Armor",
+     "format": ""
+    },
+    {
+     "label": "+27 Agility",
+     "format": ""
+    },
+    {
+     "label": "+11 Strength",
+     "format": ""
+    },
+    {
+     "label": "+15 Stamina",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 271950,
+   "name": "Theramore Handguards",
+   "icon": "inv_gauntlets_11",
+   "quality": "Epic",
+   "itemLevel": 65,
+   "requiredLevel": 60,
+   "slot": "Hands",
+   "equipSlots": [
+    "hands"
+   ],
+   "subclass": "Mail",
+   "stats": {
+    "armor": 360.0,
+    "intellect": 21.0,
+    "stamina": 15.0,
+    "spellPower": 16.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Theramore Handguards",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 65",
+     "format": "Misc"
+    },
+    {
+     "label": "260 Armor",
+     "format": ""
+    },
+    {
+     "label": "+21 Intellect",
+     "format": ""
+    },
+    {
+     "label": "+15 Stamina",
+     "format": ""
+    },
+    {
+     "label": "+100 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    },
+    {
+     "label": "Equip: +16 Spell Power",
+     "format": "Epic"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 271953,
+   "name": "Theramore Shoulderpads",
+   "icon": "inv_shoulder_02",
+   "quality": "Epic",
+   "itemLevel": 65,
+   "requiredLevel": 60,
+   "slot": "Shoulder",
+   "equipSlots": [
+    "shoulders"
+   ],
+   "subclass": "Cloth",
+   "stats": {
+    "armor": 75.0,
+    "intellect": 27.0,
+    "stamina": 15.0,
+    "spellPower": 12.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Theramore Shoulderpads",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 65",
+     "format": "Misc"
+    },
+    {
+     "label": "75 Armor",
+     "format": ""
+    },
+    {
+     "label": "+27 Intellect",
+     "format": ""
+    },
+    {
+     "label": "+15 Stamina",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    },
+    {
+     "label": "Equip: +12 Spell Power",
+     "format": "Epic"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 271954,
+   "name": "Theramore Shoulders",
+   "icon": "inv_shoulder_24",
+   "quality": "Epic",
+   "itemLevel": 65,
+   "requiredLevel": 60,
+   "slot": "Shoulder",
+   "equipSlots": [
+    "shoulders"
+   ],
+   "subclass": "Leather",
+   "stats": {
+    "armor": 148.0,
+    "intellect": 27.0,
+    "stamina": 15.0,
+    "spellPower": 12.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Theramore Shoulders",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 65",
+     "format": "Misc"
+    },
+    {
+     "label": "148 Armor",
+     "format": ""
+    },
+    {
+     "label": "+27 Intellect",
+     "format": ""
+    },
+    {
+     "label": "+15 Stamina",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    },
+    {
+     "label": "Equip: +12 Spell Power",
+     "format": "Epic"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
    "id": 271955,
    "name": "Theramore Pauldrons",
    "icon": "inv_shoulder_06",
@@ -11713,9 +12556,237 @@
    "wowhead": "https://foreverchanges.pro/items"
   },
   {
+   "id": 271956,
+   "name": "Theramore Epaulets",
+   "icon": "inv_shoulder_12",
+   "quality": "Epic",
+   "itemLevel": 65,
+   "requiredLevel": 60,
+   "slot": "Shoulder",
+   "equipSlots": [
+    "shoulders"
+   ],
+   "subclass": "Mail",
+   "stats": {
+    "armor": 312.0,
+    "agility": 27.0,
+    "stamina": 12.0,
+    "meleeCrit": 1.0,
+    "spellCrit": 1.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Theramore Epaulets",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 65",
+     "format": "Misc"
+    },
+    {
+     "label": "312 Armor",
+     "format": ""
+    },
+    {
+     "label": "+27 Agility",
+     "format": ""
+    },
+    {
+     "label": "+12 Stamina",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    },
+    {
+     "label": "Equip: +14 Critical Strike Rating",
+     "format": "Epic"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 271957,
+   "name": "Theramore Mantle",
+   "icon": "inv_shoulder_25",
+   "quality": "Epic",
+   "itemLevel": 65,
+   "requiredLevel": 60,
+   "slot": "Shoulder",
+   "equipSlots": [
+    "shoulders"
+   ],
+   "subclass": "Plate",
+   "stats": {
+    "armor": 553.0,
+    "stamina": 24.0,
+    "healingPower": 37.0,
+    "spellPower": 12.0,
+    "meleeCrit": 1.0,
+    "spellCrit": 1.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Theramore Mantle",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 65",
+     "format": "Misc"
+    },
+    {
+     "label": "553 Armor",
+     "format": ""
+    },
+    {
+     "label": "+24 Stamina",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    },
+    {
+     "label": "Equip: +37 Healing",
+     "format": "Epic"
+    },
+    {
+     "label": "Equip: +12 Spell Damage",
+     "format": "Epic"
+    },
+    {
+     "label": "Equip: +14 Critical Strike Rating",
+     "format": "Epic"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 271959,
+   "name": "Theramore Spaulders",
+   "icon": "inv_shoulder_22",
+   "quality": "Epic",
+   "itemLevel": 65,
+   "requiredLevel": 60,
+   "slot": "Shoulder",
+   "equipSlots": [
+    "shoulders"
+   ],
+   "subclass": "Plate",
+   "stats": {
+    "armor": 553.0,
+    "stamina": 27.0,
+    "strength": 12.0,
+    "meleeCrit": 1.0,
+    "spellCrit": 1.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Theramore Spaulders",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 65",
+     "format": "Misc"
+    },
+    {
+     "label": "553 Armor",
+     "format": ""
+    },
+    {
+     "label": "+27 Stamina",
+     "format": ""
+    },
+    {
+     "label": "+12 Strength",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    },
+    {
+     "label": "Equip: +14 Critical Strike Rating",
+     "format": "Epic"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 272063,
+   "name": "Darkspear Raider's Cloak",
+   "icon": "inv_misc_cape_20",
+   "quality": "Rare",
+   "itemLevel": 63,
+   "requiredLevel": 58,
+   "slot": "Back",
+   "equipSlots": [
+    "back"
+   ],
+   "subclass": "Cloth",
+   "stats": {
+    "armor": 45.0,
+    "intellect": 16.0,
+    "stamina": 8.0,
+    "spirit": 6.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Darkspear Raider's Cloak",
+     "format": "Rare"
+    },
+    {
+     "label": "Item Level 63",
+     "format": "Misc"
+    },
+    {
+     "label": "45 Armor",
+     "format": ""
+    },
+    {
+     "label": "+16 Intellect",
+     "format": ""
+    },
+    {
+     "label": "+8 Stamina",
+     "format": ""
+    },
+    {
+     "label": "+6 Spirit",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 58",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
    "id": 272064,
    "name": "Insurgent's Band",
-   "icon": "inv_jewelry_ring_28",
+   "icon": "inv_jewelry_ring_20",
    "quality": "Rare",
    "itemLevel": 63,
    "requiredLevel": 58,
@@ -11851,6 +12922,213 @@
    "wowhead": "https://foreverchanges.pro/items"
   },
   {
+   "id": 272079,
+   "name": "Darkspear Raider's Reaper",
+   "icon": "inv_axe_18",
+   "quality": "Rare",
+   "itemLevel": 63,
+   "requiredLevel": 58,
+   "slot": "Two-Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Axe",
+   "stats": {
+    "strength": 33.0,
+    "stamina": 8.0
+   },
+   "weaponDamageMin": 133.0,
+   "weaponDamageMax": 201.0,
+   "weaponSpeed": 3.1,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Darkspear Raider's Reaper",
+     "format": "Rare"
+    },
+    {
+     "label": "Item Level 63",
+     "format": "Misc"
+    },
+    {
+     "label": "133 - 201 Damage Speed 3.10",
+     "format": ""
+    },
+    {
+     "label": "+33 Strength",
+     "format": ""
+    },
+    {
+     "label": "+8 Stamina",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 58",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 272083,
+   "name": "Darkspear Insurgent's Spellblade",
+   "icon": "inv_weapon_shortblade_18",
+   "quality": "Rare",
+   "itemLevel": 63,
+   "requiredLevel": 58,
+   "slot": "Main Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Dagger",
+   "stats": {
+    "intellect": 11.0,
+    "stamina": 8.0,
+    "spirit": 5.0,
+    "spellPower": 72.0
+   },
+   "weaponDamageMin": 27.0,
+   "weaponDamageMax": 50.0,
+   "weaponSpeed": 1.4,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Darkspear Insurgent's Spellblade",
+     "format": "Rare"
+    },
+    {
+     "label": "Item Level 63",
+     "format": "Misc"
+    },
+    {
+     "label": "27 - 50 Damage Speed 1.40",
+     "format": ""
+    },
+    {
+     "label": "+11 Intellect",
+     "format": ""
+    },
+    {
+     "label": "+8 Stamina",
+     "format": ""
+    },
+    {
+     "label": "+5 Spirit",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 58",
+     "format": ""
+    },
+    {
+     "label": "Equip: +72 Spell Power",
+     "format": "Rare"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 272087,
+   "name": "Tome of the Darkspear Prophecy",
+   "icon": "inv_misc_book_06",
+   "quality": "Rare",
+   "itemLevel": 63,
+   "requiredLevel": 58,
+   "slot": "Held In Off-hand",
+   "equipSlots": [
+    "off_hand"
+   ],
+   "subclass": null,
+   "stats": {
+    "stamina": 17.0,
+    "intellect": 7.0,
+    "spellPower": 8.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Tome of the Darkspear Prophecy",
+     "format": "Rare"
+    },
+    {
+     "label": "Item Level 63",
+     "format": "Misc"
+    },
+    {
+     "label": "+17 Stamina",
+     "format": ""
+    },
+    {
+     "label": "+7 Intellect",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 58",
+     "format": ""
+    },
+    {
+     "label": "Equip: +8 Spell Power",
+     "format": "Rare"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 272091,
+   "name": "Darkspear Skirmisher's Bludgeon",
+   "icon": "inv_hammer_16",
+   "quality": "Rare",
+   "itemLevel": 63,
+   "requiredLevel": 58,
+   "slot": "Main Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Mace",
+   "stats": {
+    "stamina": 13.0,
+    "attackPower": 11.0
+   },
+   "weaponDamageMin": 81.0,
+   "weaponDamageMax": 151.0,
+   "weaponSpeed": 2.8,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Darkspear Skirmisher's Bludgeon",
+     "format": "Rare"
+    },
+    {
+     "label": "Item Level 63",
+     "format": "Misc"
+    },
+    {
+     "label": "81 - 151 Damage Speed 2.80",
+     "format": ""
+    },
+    {
+     "label": "+13 Stamina",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 58",
+     "format": ""
+    },
+    {
+     "label": "Equip: +11 Attack Power",
+     "format": "Rare"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
    "id": 272095,
    "name": "Raider Gauntlets",
    "icon": "inv_gauntlets_29",
@@ -11966,6 +13244,230 @@
    "wowhead": "https://foreverchanges.pro/items"
   },
   {
+   "id": 272099,
+   "name": "Raider Gloves",
+   "icon": "inv_gauntlets_27",
+   "quality": "Epic",
+   "itemLevel": 65,
+   "requiredLevel": 60,
+   "slot": "Hands",
+   "equipSlots": [
+    "hands"
+   ],
+   "subclass": "Leather",
+   "stats": {
+    "armor": 123.0,
+    "agility": 27.0,
+    "strength": 11.0,
+    "stamina": 15.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Raider Gloves",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 65",
+     "format": "Misc"
+    },
+    {
+     "label": "123 Armor",
+     "format": ""
+    },
+    {
+     "label": "+27 Agility",
+     "format": ""
+    },
+    {
+     "label": "+11 Strength",
+     "format": ""
+    },
+    {
+     "label": "+15 Stamina",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 272101,
+   "name": "Raider Handguards",
+   "icon": "inv_gauntlets_11",
+   "quality": "Epic",
+   "itemLevel": 65,
+   "requiredLevel": 60,
+   "slot": "Hands",
+   "equipSlots": [
+    "hands"
+   ],
+   "subclass": "Mail",
+   "stats": {
+    "armor": 360.0,
+    "intellect": 21.0,
+    "stamina": 15.0,
+    "spellPower": 16.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Raider Handguards",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 65",
+     "format": "Misc"
+    },
+    {
+     "label": "260 Armor",
+     "format": ""
+    },
+    {
+     "label": "+21 Intellect",
+     "format": ""
+    },
+    {
+     "label": "+15 Stamina",
+     "format": ""
+    },
+    {
+     "label": "+100 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    },
+    {
+     "label": "Equip: +16 Spell Power",
+     "format": "Epic"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 272103,
+   "name": "Darkspear Shoulderpads",
+   "icon": "inv_shoulder_02",
+   "quality": "Epic",
+   "itemLevel": 65,
+   "requiredLevel": 60,
+   "slot": "Shoulder",
+   "equipSlots": [
+    "shoulders"
+   ],
+   "subclass": "Cloth",
+   "stats": {
+    "armor": 75.0,
+    "intellect": 27.0,
+    "stamina": 15.0,
+    "spellPower": 12.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Darkspear Shoulderpads",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 65",
+     "format": "Misc"
+    },
+    {
+     "label": "75 Armor",
+     "format": ""
+    },
+    {
+     "label": "+27 Intellect",
+     "format": ""
+    },
+    {
+     "label": "+15 Stamina",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    },
+    {
+     "label": "Equip: +12 Spell Power",
+     "format": "Epic"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 272104,
+   "name": "Darkspear Shoulders",
+   "icon": "inv_shoulder_24",
+   "quality": "Epic",
+   "itemLevel": 65,
+   "requiredLevel": 60,
+   "slot": "Shoulder",
+   "equipSlots": [
+    "shoulders"
+   ],
+   "subclass": "Leather",
+   "stats": {
+    "armor": 148.0,
+    "intellect": 27.0,
+    "stamina": 15.0,
+    "spellPower": 12.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Darkspear Shoulders",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 65",
+     "format": "Misc"
+    },
+    {
+     "label": "148 Armor",
+     "format": ""
+    },
+    {
+     "label": "+27 Intellect",
+     "format": ""
+    },
+    {
+     "label": "+15 Stamina",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    },
+    {
+     "label": "Equip: +12 Spell Power",
+     "format": "Epic"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
    "id": 272105,
    "name": "Darkspear Pauldrons",
    "icon": "inv_shoulder_06",
@@ -12019,6 +13521,234 @@
     }
    ],
    "source": "forever-1.60.1.69913",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 272106,
+   "name": "Darkspear Epaulets",
+   "icon": "inv_shoulder_12",
+   "quality": "Epic",
+   "itemLevel": 65,
+   "requiredLevel": 60,
+   "slot": "Shoulder",
+   "equipSlots": [
+    "shoulders"
+   ],
+   "subclass": "Mail",
+   "stats": {
+    "armor": 312.0,
+    "agility": 27.0,
+    "stamina": 12.0,
+    "meleeCrit": 1.0,
+    "spellCrit": 1.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Darkspear Epaulets",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 65",
+     "format": "Misc"
+    },
+    {
+     "label": "312 Armor",
+     "format": ""
+    },
+    {
+     "label": "+27 Agility",
+     "format": ""
+    },
+    {
+     "label": "+12 Stamina",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    },
+    {
+     "label": "Equip: +14 Critical Strike Rating",
+     "format": "Epic"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 272107,
+   "name": "Darkspear Mantle",
+   "icon": "inv_shoulder_25",
+   "quality": "Epic",
+   "itemLevel": 65,
+   "requiredLevel": 60,
+   "slot": "Shoulder",
+   "equipSlots": [
+    "shoulders"
+   ],
+   "subclass": "Plate",
+   "stats": {
+    "armor": 553.0,
+    "stamina": 24.0,
+    "healingPower": 37.0,
+    "spellPower": 12.0,
+    "meleeCrit": 1.0,
+    "spellCrit": 1.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Darkspear Mantle",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 65",
+     "format": "Misc"
+    },
+    {
+     "label": "553 Armor",
+     "format": ""
+    },
+    {
+     "label": "+24 Stamina",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    },
+    {
+     "label": "Equip: +37 Healing",
+     "format": "Epic"
+    },
+    {
+     "label": "Equip: +12 Spell Damage",
+     "format": "Epic"
+    },
+    {
+     "label": "Equip: +14 Critical Strike Rating",
+     "format": "Epic"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 272108,
+   "name": "Darkspear Spaulders",
+   "icon": "inv_shoulder_22",
+   "quality": "Epic",
+   "itemLevel": 65,
+   "requiredLevel": 60,
+   "slot": "Shoulder",
+   "equipSlots": [
+    "shoulders"
+   ],
+   "subclass": "Plate",
+   "stats": {
+    "armor": 553.0,
+    "stamina": 27.0,
+    "strength": 12.0,
+    "meleeCrit": 1.0,
+    "spellCrit": 1.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Darkspear Spaulders",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 65",
+     "format": "Misc"
+    },
+    {
+     "label": "553 Armor",
+     "format": ""
+    },
+    {
+     "label": "+27 Stamina",
+     "format": ""
+    },
+    {
+     "label": "+12 Strength",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    },
+    {
+     "label": "Equip: +14 Critical Strike Rating",
+     "format": "Epic"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 272393,
+   "name": "Magician's Cord",
+   "icon": "inv_belt_43a",
+   "quality": "Epic",
+   "itemLevel": 60,
+   "requiredLevel": 60,
+   "slot": "Waist",
+   "equipSlots": [
+    "waist"
+   ],
+   "subclass": "Cloth",
+   "stats": {
+    "armor": 52.0,
+    "intellect": 24.0,
+    "stamina": 12.0,
+    "spellPower": 19.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Magician's Cord",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 60",
+     "format": "Misc"
+    },
+    {
+     "label": "52 Armor",
+     "format": ""
+    },
+    {
+     "label": "+24 Intellect",
+     "format": ""
+    },
+    {
+     "label": "+12 Stamina",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    },
+    {
+     "label": "Equip: +19 Spell Power",
+     "format": "Epic"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
    "wowhead": "https://foreverchanges.pro/items"
   },
   {
@@ -12097,8 +13827,8 @@
     "armor": 104.0,
     "agility": 21.0,
     "stamina": 11.0,
-    "meleeHit": 2.5,
-    "spellHit": 2.5
+    "meleeHit": 2.0,
+    "spellHit": 2.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -12664,8 +14394,8 @@
    "stats": {
     "intellect": 14.0,
     "spirit": 8.0,
-    "meleeHit": 1.25,
-    "spellHit": 1.25
+    "meleeHit": 1.0,
+    "spellHit": 1.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -12718,8 +14448,8 @@
     "spirit": 8.0,
     "healingPower": 31.0,
     "spellPower": 10.0,
-    "meleeHit": 1.25,
-    "spellHit": 1.25
+    "meleeHit": 1.0,
+    "spellHit": 1.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -12778,8 +14508,8 @@
    "stats": {
     "agility": 14.0,
     "stamina": 8.0,
-    "meleeHit": 1.25,
-    "spellHit": 1.25
+    "meleeHit": 1.0,
+    "spellHit": 1.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -12830,7 +14560,7 @@
    "stats": {
     "stamina": 10.0,
     "strength": 8.0,
-    "defense": 3.8210070476352214
+    "defense": 9.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -12921,6 +14651,62 @@
    "wowhead": "https://foreverchanges.pro/items"
   },
   {
+   "id": 272411,
+   "name": "Arcanoweave Cloak",
+   "icon": "inv_misc_cape_05",
+   "quality": "Rare",
+   "itemLevel": 65,
+   "requiredLevel": 60,
+   "slot": "Back",
+   "equipSlots": [
+    "back"
+   ],
+   "subclass": "Cloth",
+   "stats": {
+    "armor": 46.0,
+    "intellect": 8.0,
+    "spellPower": 16.0,
+    "meleeHit": 1.0,
+    "spellHit": 1.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Arcanoweave Cloak",
+     "format": "Rare"
+    },
+    {
+     "label": "Item Level 65",
+     "format": "Misc"
+    },
+    {
+     "label": "46 Armor",
+     "format": ""
+    },
+    {
+     "label": "+8 Intellect",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    },
+    {
+     "label": "Equip: +16 Spell Power",
+     "format": "Rare"
+    },
+    {
+     "label": "Equip: +10 Hit Rating",
+     "format": "Rare"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
    "id": 272413,
    "name": "Drape of Recovery",
    "icon": "inv_misc_cape_06",
@@ -12982,9 +14768,120 @@
    "wowhead": "https://foreverchanges.pro/items"
   },
   {
+   "id": 272414,
+   "name": "Howler's Furs",
+   "icon": "inv_misc_cape_10",
+   "quality": "Rare",
+   "itemLevel": 65,
+   "requiredLevel": 60,
+   "slot": "Back",
+   "equipSlots": [
+    "back"
+   ],
+   "subclass": "Cloth",
+   "stats": {
+    "armor": 46.0,
+    "stamina": 8.0,
+    "attackPower": 28.0,
+    "meleeHit": 1.0,
+    "spellHit": 1.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Howler's Furs",
+     "format": "Rare"
+    },
+    {
+     "label": "Item Level 65",
+     "format": "Misc"
+    },
+    {
+     "label": "46 Armor",
+     "format": ""
+    },
+    {
+     "label": "+8 Stamina",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    },
+    {
+     "label": "Equip: +28 Attack Power",
+     "format": "Rare"
+    },
+    {
+     "label": "Equip: +10 Hit Rating",
+     "format": "Rare"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 272415,
+   "name": "Stalwart Cloak",
+   "icon": "inv_misc_cape_16",
+   "quality": "Rare",
+   "itemLevel": 65,
+   "requiredLevel": 60,
+   "slot": "Back",
+   "equipSlots": [
+    "back"
+   ],
+   "subclass": "Cloth",
+   "stats": {
+    "armor": 126.0,
+    "stamina": 14.0,
+    "meleeHit": 1.0,
+    "spellHit": 1.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Stalwart Cloak",
+     "format": "Rare"
+    },
+    {
+     "label": "Item Level 65",
+     "format": "Misc"
+    },
+    {
+     "label": "46 Armor",
+     "format": ""
+    },
+    {
+     "label": "+14 Stamina",
+     "format": ""
+    },
+    {
+     "label": "+80 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    },
+    {
+     "label": "Equip: +10 Hit Rating",
+     "format": "Rare"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
    "id": 272427,
    "name": "Howling Idol",
-   "icon": "trade_archaeology_catstatueemeraldeyes",
+   "icon": "inv_relics_idolofferocity",
    "quality": "Rare",
    "itemLevel": 65,
    "requiredLevel": 60,
@@ -12998,7 +14895,7 @@
    "weaponDamageMax": null,
    "weaponSpeed": null,
    "effects": [
-    "Equip: Reduces the cooldown of your Tiger's Fury ability by 3 sec."
+    "Equip: Reduces the cooldown of your Shifting Power ability by 0.5 sec."
    ],
    "tooltip": [
     {
@@ -13014,7 +14911,7 @@
      "format": ""
     },
     {
-     "label": "Equip: Reduces the cooldown of your Tiger's Fury ability by 3 sec.",
+     "label": "Equip: Reduces the cooldown of your Shifting Power ability by 0.5 sec.",
      "format": "Rare"
     }
    ],
@@ -13078,7 +14975,7 @@
    "weaponDamageMax": null,
    "weaponSpeed": null,
    "effects": [
-    "Equip: Each of your heal over time effects on the target reduces Swiftmend's cooldown by 1 sec when you cast it."
+    "Equip: Each of your heal over time effects on the target reduces the remaining cooldown on Swiftmend by 1 sec when you cast it."
    ],
    "tooltip": [
     {
@@ -13094,7 +14991,7 @@
      "format": ""
     },
     {
-     "label": "Equip: Each of your heal over time effects on the target reduces Swiftmend's cooldown by 1 sec when you cast it.",
+     "label": "Equip: Each of your heal over time effects on the target reduces the remaining cooldown on Swiftmend by 1 sec when you cast it.",
      "format": "Rare"
     }
    ],
@@ -13382,6 +15279,51 @@
    "wowhead": "https://foreverchanges.pro/items"
   },
   {
+   "id": 272437,
+   "name": "Adaptive Combat Assistant",
+   "icon": "inv_engineering_90_lightningbox",
+   "quality": "Rare",
+   "itemLevel": 65,
+   "requiredLevel": 60,
+   "slot": "Trinket",
+   "equipSlots": [
+    "trinket1",
+    "trinket2"
+   ],
+   "subclass": null,
+   "stats": {},
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [
+    "Use: Absorbs 450 damage for 15 sec. If this shield expires before 15 sec, 90 to 110 Nature damage will be dealt to all enemies in melee range. (2 Min Cooldown)"
+   ],
+   "tooltip": [
+    {
+     "label": "Adaptive Combat Assistant",
+     "format": "Rare"
+    },
+    {
+     "label": "Item Level 65",
+     "format": "Misc"
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    },
+    {
+     "label": "Equip: +20 Expertise Rating",
+     "format": "Rare"
+    },
+    {
+     "label": "Use: Absorbs 450 damage for 15 sec. If this shield expires before 15 sec, 90 to 110 Nature damage will be dealt to all enemies in melee range. (2 Min Cooldown)",
+     "format": "Rare"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
    "id": 272438,
    "name": "Weakness Analyzer",
    "icon": "inv_misc_blizzcon09_graphicscard",
@@ -13400,7 +15342,9 @@
    "weaponDamageMin": null,
    "weaponDamageMax": null,
    "weaponSpeed": null,
-   "effects": [],
+   "effects": [
+    "Use: Increases your critical strike chance with all spells and attacks by 5% for 20 sec or until you deal a non-periodic critical effect. (2 Min Cooldown)"
+   ],
    "tooltip": [
     {
      "label": "Weakness Analyzer",
@@ -13416,6 +15360,10 @@
     },
     {
      "label": "Equip: +22 Spell Power",
+     "format": "Rare"
+    },
+    {
+     "label": "Use: Increases your critical strike chance with all spells and attacks by 5% for 20 sec or until you deal a non-periodic critical effect. (2 Min Cooldown)",
      "format": "Rare"
     }
    ],
@@ -13442,7 +15390,9 @@
    "weaponDamageMin": null,
    "weaponDamageMax": null,
    "weaponSpeed": null,
-   "effects": [],
+   "effects": [
+    "Use: Increases Spirit by 72 for 15 sec. (2 Min Cooldown)"
+   ],
    "tooltip": [
     {
      "label": "Serenity Field",
@@ -13463,6 +15413,10 @@
     {
      "label": "Equip: +14 Spell Damage",
      "format": "Rare"
+    },
+    {
+     "label": "Use: Increases Spirit by 72 for 15 sec. (2 Min Cooldown)",
+     "format": "Rare"
     }
    ],
    "source": "forever-1.60.1.69913",
@@ -13482,12 +15436,14 @@
    ],
    "subclass": null,
    "stats": {
-    "defense": 5.519232402139764
+    "defense": 13.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
    "weaponSpeed": null,
-   "effects": [],
+   "effects": [
+    "Use: Increases your Block chance by 8% for 15 sec. This effect is doubled in Strongholds and Cities. (6 Min Cooldown)"
+   ],
    "tooltip": [
     {
      "label": "Defender's Grip Stabilizer",
@@ -13503,6 +15459,10 @@
     },
     {
      "label": "Equip: +13 Defense Rating",
+     "format": "Rare"
+    },
+    {
+     "label": "Use: Increases your Block chance by 8% for 15 sec. This effect is doubled in Strongholds and Cities. (6 Min Cooldown)",
      "format": "Rare"
     }
    ],
@@ -13528,7 +15488,7 @@
     "meleeCrit": 1.0,
     "spellCrit": 1.0
    },
-   "weaponDamageMin": 110.0,
+   "weaponDamageMin": 109.0,
    "weaponDamageMax": 165.0,
    "weaponSpeed": 2.9,
    "effects": [],
@@ -13542,7 +15502,7 @@
      "format": "Misc"
     },
     {
-     "label": "110 - 165 Damage Speed 2.90",
+     "label": "109 - 165 Damage Speed 2.90",
      "format": ""
     },
     {
@@ -14457,7 +16417,7 @@
     "strength": 12.0,
     "agility": 5.0,
     "stamina": 26.0,
-    "dodge": 0.41379310344827586
+    "dodge": 0.5
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -14532,7 +16492,7 @@
      "format": "Misc"
     },
     {
-     "label": "167 Armor",
+     "label": "137 Armor",
      "format": ""
     },
     {
@@ -14545,6 +16505,10 @@
     },
     {
      "label": "+14 Strength",
+     "format": ""
+    },
+    {
+     "label": "+30 Armor",
      "format": ""
     },
     {
@@ -14688,7 +16652,7 @@
     "armor": 137.0,
     "stamina": 25.0,
     "attackPower": 14.0,
-    "dodge": 0.41379310344827586,
+    "dodge": 0.5,
     "meleeCrit": 1.0,
     "spellCrit": 1.0
    },
@@ -14805,7 +16769,7 @@
     "armor": 148.0,
     "stamina": 26.0,
     "agility": 15.0,
-    "dodge": 0.41379310344827586
+    "dodge": 0.5
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -15448,7 +17412,7 @@
     "stamina": 25.0,
     "intellect": 8.0,
     "strength": 14.0,
-    "dodge": 0.41379310344827586
+    "dodge": 0.5
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -15612,6 +17576,66 @@
    "wowhead": "https://foreverchanges.pro/items"
   },
   {
+   "id": 272491,
+   "name": "Premier Chain Headguard",
+   "icon": "inv_helmet_03",
+   "quality": "Rare",
+   "itemLevel": 60,
+   "requiredLevel": 55,
+   "slot": "Head",
+   "equipSlots": [
+    "head"
+   ],
+   "subclass": "Mail",
+   "stats": {
+    "armor": 288.0,
+    "stamina": 19.0,
+    "agility": 10.0,
+    "intellect": 7.0,
+    "attackPower": 12.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Premier Chain Headguard",
+     "format": "Rare"
+    },
+    {
+     "label": "Item Level 60",
+     "format": "Misc"
+    },
+    {
+     "label": "288 Armor",
+     "format": ""
+    },
+    {
+     "label": "+19 Stamina",
+     "format": ""
+    },
+    {
+     "label": "+10 Agility",
+     "format": ""
+    },
+    {
+     "label": "+7 Intellect",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 55",
+     "format": ""
+    },
+    {
+     "label": "Equip: +12 Attack Power",
+     "format": "Rare"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
    "id": 272492,
    "name": "Premier Chain Leggings",
    "icon": "inv_pants_03",
@@ -15628,7 +17652,7 @@
     "agility": 13.0,
     "stamina": 19.0,
     "intellect": 9.0,
-    "dodge": 0.41379310344827586
+    "dodge": 0.5
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -16460,7 +18484,7 @@
      "format": "Misc"
     },
     {
-     "label": "669 Armor",
+     "label": "599 Armor",
      "format": ""
     },
     {
@@ -16469,6 +18493,10 @@
     },
     {
      "label": "+18 Strength",
+     "format": ""
+    },
+    {
+     "label": "+70 Armor",
      "format": ""
     },
     {
@@ -16908,7 +18936,7 @@
      "format": "Misc"
     },
     {
-     "label": "210 Armor",
+     "label": "160 Armor",
      "format": ""
     },
     {
@@ -16921,6 +18949,10 @@
     },
     {
      "label": "+18 Strength",
+     "format": ""
+    },
+    {
+     "label": "+50 Armor",
      "format": ""
     },
     {
@@ -16964,7 +18996,7 @@
      "format": "Misc"
     },
     {
-     "label": "188 Armor",
+     "label": "148 Armor",
      "format": ""
     },
     {
@@ -16981,6 +19013,10 @@
     },
     {
      "label": "+6 Intellect",
+     "format": ""
+    },
+    {
+     "label": "+40 Armor",
      "format": ""
     },
     {
@@ -17008,7 +19044,7 @@
     "strength": 17.0,
     "agility": 11.0,
     "stamina": 34.0,
-    "dodge": 0.8275862068965517
+    "dodge": 1.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -17200,7 +19236,7 @@
      "format": "Misc"
     },
     {
-     "label": "163 Armor",
+     "label": "123 Armor",
      "format": ""
     },
     {
@@ -17213,6 +19249,10 @@
     },
     {
      "label": "+26 Stamina",
+     "format": ""
+    },
+    {
+     "label": "+40 Armor",
      "format": ""
     },
     {
@@ -17375,7 +19415,7 @@
      "format": "Misc"
     },
     {
-     "label": "176 Armor",
+     "label": "136 Armor",
      "format": ""
     },
     {
@@ -17384,6 +19424,10 @@
     },
     {
      "label": "+20 Agility",
+     "format": ""
+    },
+    {
+     "label": "+40 Armor",
      "format": ""
     },
     {
@@ -17519,7 +19563,7 @@
    "stats": {
     "armor": 160.0,
     "stamina": 37.0,
-    "dodge": 0.8275862068965517,
+    "dodge": 1.0,
     "attackPower": 16.0,
     "meleeCrit": 1.0,
     "spellCrit": 1.0
@@ -17693,7 +19737,7 @@
     "armor": 173.0,
     "stamina": 37.0,
     "agility": 17.0,
-    "dodge": 0.8275862068965517
+    "dodge": 1.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -17869,7 +19913,7 @@
     "agility": 17.0,
     "stamina": 34.0,
     "intellect": 12.0,
-    "dodge": 0.8275862068965517
+    "dodge": 1.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -18578,7 +20622,7 @@
     "stamina": 34.0,
     "intellect": 10.0,
     "strength": 18.0,
-    "dodge": 0.8275862068965517
+    "dodge": 1.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -19336,7 +21380,7 @@
      "format": "Misc"
     },
     {
-     "label": "121 Armor",
+     "label": "81 Armor",
      "format": ""
     },
     {
@@ -19345,6 +21389,10 @@
     },
     {
      "label": "+20 Intellect",
+     "format": ""
+    },
+    {
+     "label": "+40 Armor",
      "format": ""
     },
     {
@@ -20295,7 +22343,7 @@
      "format": "Misc"
     },
     {
-     "label": "140 Armor",
+     "label": "100 Armor",
      "format": ""
     },
     {
@@ -20304,6 +22352,10 @@
     },
     {
      "label": "+16 Intellect",
+     "format": ""
+    },
+    {
+     "label": "+40 Armor",
      "format": ""
     },
     {
@@ -20579,11 +22631,15 @@
      "format": "Misc"
     },
     {
-     "label": "110 Armor",
+     "label": "43 Armor",
      "format": ""
     },
     {
      "label": "+16 Stamina",
+     "format": ""
+    },
+    {
+     "label": "+67 Armor",
      "format": ""
     },
     {
@@ -20669,7 +22725,7 @@
     "meleeCrit": 1.0,
     "spellCrit": 1.0
    },
-   "weaponDamageMin": 110.0,
+   "weaponDamageMin": 109.0,
    "weaponDamageMax": 165.0,
    "weaponSpeed": 2.9,
    "effects": [],
@@ -20683,7 +22739,7 @@
      "format": "Misc"
     },
     {
-     "label": "110 - 165 Damage Speed 2.90",
+     "label": "109 - 165 Damage Speed 2.90",
      "format": ""
     },
     {
@@ -20774,8 +22830,8 @@
    ],
    "subclass": "Bow",
    "stats": {
-    "stamina": 19.0,
-    "attackPower": 100.0
+    "stamina": 6.0,
+    "attackPower": 32.0
    },
    "weaponDamageMin": 53.0,
    "weaponDamageMax": 80.0,
@@ -20795,7 +22851,7 @@
      "format": ""
     },
     {
-     "label": "+19 Stamina",
+     "label": "+6 Stamina",
      "format": ""
     },
     {
@@ -20803,7 +22859,7 @@
      "format": ""
     },
     {
-     "label": "Equip: +100 Attack Power",
+     "label": "Equip: +32 Attack Power",
      "format": "Epic"
     }
    ],
@@ -20823,10 +22879,10 @@
    ],
    "subclass": "Crossbow",
    "stats": {
-    "stamina": 19.0,
-    "attackPower": 100.0
+    "stamina": 6.0,
+    "attackPower": 32.0
    },
-   "weaponDamageMin": 86.0,
+   "weaponDamageMin": 85.0,
    "weaponDamageMax": 129.0,
    "weaponSpeed": 2.9,
    "effects": [],
@@ -20840,11 +22896,11 @@
      "format": "Misc"
     },
     {
-     "label": "86 - 129 Damage Speed 2.90",
+     "label": "85 - 129 Damage Speed 2.90",
      "format": ""
     },
     {
-     "label": "+19 Stamina",
+     "label": "+6 Stamina",
      "format": ""
     },
     {
@@ -20852,7 +22908,7 @@
      "format": ""
     },
     {
-     "label": "Equip: +100 Attack Power",
+     "label": "Equip: +32 Attack Power",
      "format": "Epic"
     }
    ],
@@ -20878,7 +22934,7 @@
     "meleeCrit": 1.0,
     "spellCrit": 1.0
    },
-   "weaponDamageMin": 76.0,
+   "weaponDamageMin": 75.0,
    "weaponDamageMax": 114.0,
    "weaponSpeed": 2.0,
    "effects": [],
@@ -20892,7 +22948,7 @@
      "format": "Misc"
     },
     {
-     "label": "76 - 114 Damage Speed 2.00",
+     "label": "75 - 114 Damage Speed 2.00",
      "format": ""
     },
     {
@@ -20933,7 +22989,7 @@
     "meleeCrit": 1.0,
     "spellCrit": 1.0
    },
-   "weaponDamageMin": 110.0,
+   "weaponDamageMin": 109.0,
    "weaponDamageMax": 165.0,
    "weaponSpeed": 2.9,
    "effects": [],
@@ -20947,7 +23003,7 @@
      "format": "Misc"
     },
     {
-     "label": "110 - 165 Damage Speed 2.90",
+     "label": "109 - 165 Damage Speed 2.90",
      "format": ""
     },
     {
@@ -20988,7 +23044,7 @@
     "meleeCrit": 1.0,
     "spellCrit": 1.0
    },
-   "weaponDamageMin": 110.0,
+   "weaponDamageMin": 109.0,
    "weaponDamageMax": 165.0,
    "weaponSpeed": 2.9,
    "effects": [],
@@ -21002,7 +23058,7 @@
      "format": "Misc"
     },
     {
-     "label": "110 - 165 Damage Speed 2.90",
+     "label": "109 - 165 Damage Speed 2.90",
      "format": ""
     },
     {
@@ -21038,10 +23094,10 @@
    ],
    "subclass": "Gun",
    "stats": {
-    "stamina": 19.0,
-    "attackPower": 100.0
+    "stamina": 6.0,
+    "attackPower": 32.0
    },
-   "weaponDamageMin": 86.0,
+   "weaponDamageMin": 85.0,
    "weaponDamageMax": 129.0,
    "weaponSpeed": 2.9,
    "effects": [],
@@ -21055,11 +23111,11 @@
      "format": "Misc"
     },
     {
-     "label": "86 - 129 Damage Speed 2.90",
+     "label": "85 - 129 Damage Speed 2.90",
      "format": ""
     },
     {
-     "label": "+19 Stamina",
+     "label": "+6 Stamina",
      "format": ""
     },
     {
@@ -21067,7 +23123,7 @@
      "format": ""
     },
     {
-     "label": "Equip: +100 Attack Power",
+     "label": "Equip: +32 Attack Power",
      "format": "Epic"
     }
    ],
@@ -21093,7 +23149,7 @@
     "meleeCrit": 1.0,
     "spellCrit": 1.0
    },
-   "weaponDamageMin": 110.0,
+   "weaponDamageMin": 109.0,
    "weaponDamageMax": 165.0,
    "weaponSpeed": 2.9,
    "effects": [],
@@ -21107,7 +23163,7 @@
      "format": "Misc"
     },
     {
-     "label": "110 - 165 Damage Speed 2.90",
+     "label": "109 - 165 Damage Speed 2.90",
      "format": ""
     },
     {
@@ -21254,12 +23310,15 @@
    "subclass": "Staff",
    "stats": {
     "stamina": 36.0,
-    "intellect": 20.0
+    "intellect": 20.0,
+    "spellPower": 94.0
    },
-   "weaponDamageMin": 148.0,
-   "weaponDamageMax": 222.0,
+   "weaponDamageMin": 109.0,
+   "weaponDamageMax": 165.0,
    "weaponSpeed": 3.0,
-   "effects": [],
+   "effects": [
+    "Equip: +5 Spell Penetration"
+   ],
    "tooltip": [
     {
      "label": "Premier High Warlord's War Staff",
@@ -21270,7 +23329,7 @@
      "format": "Misc"
     },
     {
-     "label": "148 - 222 Damage Speed 3.00",
+     "label": "109 - 165 Damage Speed 3.00",
      "format": ""
     },
     {
@@ -21286,15 +23345,16 @@
      "format": ""
     },
     {
-     "label": "+Spell Penetration (build 70009; amount not derived, not modeled)",
-     "format": ""
+     "label": "Equip: +5 Spell Penetration",
+     "format": "Epic"
+    },
+    {
+     "label": "Equip: +94 Spell Power",
+     "format": "Epic"
     }
    ],
    "source": "forever-1.60.1.69913",
-   "wowhead": "https://foreverchanges.pro/items",
-   "modelNotes": [
-    "Build 1.60.1.70009 replaced +15 Spirit with Spell Penetration (not modeled: boss resistances are not simulated)."
-   ]
+   "wowhead": "https://foreverchanges.pro/items"
   },
   {
    "id": 272604,
@@ -21449,7 +23509,7 @@
      "format": "Misc"
     },
     {
-     "label": "146 Armor",
+     "label": "116 Armor",
      "format": ""
     },
     {
@@ -21458,6 +23518,10 @@
     },
     {
      "label": "+14 Agility",
+     "format": ""
+    },
+    {
+     "label": "+30 Armor",
      "format": ""
     },
     {
@@ -22962,7 +25026,7 @@
      "format": "Misc"
     },
     {
-     "label": "177 Armor",
+     "label": "127 Armor",
      "format": ""
     },
     {
@@ -22971,6 +25035,10 @@
     },
     {
      "label": "+8 Intellect",
+     "format": ""
+    },
+    {
+     "label": "+50 Armor",
      "format": ""
     },
     {
@@ -23239,10 +25307,12 @@
    "subclass": "Mace",
    "stats": {
     "stamina": 12.0,
-    "intellect": 7.0
+    "intellect": 7.0,
+    "healingPower": 176.0,
+    "spellPower": 58.0
    },
-   "weaponDamageMin": 96.0,
-   "weaponDamageMax": 178.0,
+   "weaponDamageMin": 64.0,
+   "weaponDamageMax": 119.0,
    "weaponSpeed": 2.9,
    "effects": [
     "Equip: +5 Mana Regeneration"
@@ -23257,7 +25327,7 @@
      "format": "Misc"
     },
     {
-     "label": "96 - 178 Damage Speed 2.90",
+     "label": "64 - 119 Damage Speed 2.90",
      "format": ""
     },
     {
@@ -23274,6 +25344,14 @@
     },
     {
      "label": "Equip: +5 Mana Regeneration",
+     "format": "Epic"
+    },
+    {
+     "label": "Equip: +176 Healing",
+     "format": "Epic"
+    },
+    {
+     "label": "Equip: +58 Spell Damage",
      "format": "Epic"
     }
    ],
@@ -23355,10 +25433,11 @@
     "stamina": 8.0,
     "intellect": 7.0,
     "meleeCrit": 1.0,
-    "spellCrit": 1.0
+    "spellCrit": 1.0,
+    "spellPower": 94.0
    },
-   "weaponDamageMin": 66.0,
-   "weaponDamageMax": 123.0,
+   "weaponDamageMin": 44.0,
+   "weaponDamageMax": 82.0,
    "weaponSpeed": 2.0,
    "effects": [],
    "tooltip": [
@@ -23371,7 +25450,7 @@
      "format": "Misc"
     },
     {
-     "label": "66 - 123 Damage Speed 2.00",
+     "label": "44 - 82 Damage Speed 2.00",
      "format": ""
     },
     {
@@ -23388,6 +25467,10 @@
     },
     {
      "label": "Equip: +14 Critical Strike Rating",
+     "format": "Epic"
+    },
+    {
+     "label": "Equip: +94 Spell Power",
      "format": "Epic"
     }
    ],
@@ -23579,7 +25662,7 @@
     "meleeCrit": 1.0,
     "spellCrit": 1.0
    },
-   "weaponDamageMin": 110.0,
+   "weaponDamageMin": 109.0,
    "weaponDamageMax": 165.0,
    "weaponSpeed": 2.9,
    "effects": [],
@@ -23593,7 +25676,7 @@
      "format": "Misc"
     },
     {
-     "label": "110 - 165 Damage Speed 2.90",
+     "label": "109 - 165 Damage Speed 2.90",
      "format": ""
     },
     {
@@ -23711,11 +25794,15 @@
      "format": "Misc"
     },
     {
-     "label": "110 Armor",
+     "label": "43 Armor",
      "format": ""
     },
     {
      "label": "+16 Stamina",
+     "format": ""
+    },
+    {
+     "label": "+67 Armor",
      "format": ""
     },
     {
@@ -23985,7 +26072,7 @@
      "format": "Misc"
     },
     {
-     "label": "146 Armor",
+     "label": "116 Armor",
      "format": ""
     },
     {
@@ -23994,6 +26081,10 @@
     },
     {
      "label": "+14 Agility",
+     "format": ""
+    },
+    {
+     "label": "+30 Armor",
      "format": ""
     },
     {
@@ -25241,7 +27332,7 @@
    "stats": {
     "armor": 137.0,
     "stamina": 25.0,
-    "dodge": 0.41379310344827586,
+    "dodge": 0.5,
     "attackPower": 14.0,
     "meleeCrit": 1.0,
     "spellCrit": 1.0
@@ -25303,7 +27394,7 @@
     "armor": 148.0,
     "stamina": 26.0,
     "agility": 15.0,
-    "dodge": 0.41379310344827586
+    "dodge": 0.5
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -25476,7 +27567,7 @@
     "strength": 12.0,
     "agility": 5.0,
     "stamina": 26.0,
-    "dodge": 0.41379310344827586
+    "dodge": 0.5
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -25611,7 +27702,7 @@
      "format": "Misc"
     },
     {
-     "label": "167 Armor",
+     "label": "137 Armor",
      "format": ""
     },
     {
@@ -25624,6 +27715,10 @@
     },
     {
      "label": "+14 Strength",
+     "format": ""
+    },
+    {
+     "label": "+30 Armor",
      "format": ""
     },
     {
@@ -25711,7 +27806,7 @@
     "agility": 13.0,
     "stamina": 19.0,
     "intellect": 9.0,
-    "dodge": 0.41379310344827586
+    "dodge": 0.5
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -26892,7 +28987,7 @@
      "format": "Misc"
     },
     {
-     "label": "176 Armor",
+     "label": "136 Armor",
      "format": ""
     },
     {
@@ -26901,6 +28996,10 @@
     },
     {
      "label": "+20 Agility",
+     "format": ""
+    },
+    {
+     "label": "+40 Armor",
      "format": ""
     },
     {
@@ -27009,7 +29108,7 @@
      "format": "Misc"
     },
     {
-     "label": "163 Armor",
+     "label": "123 Armor",
      "format": ""
     },
     {
@@ -27022,6 +29121,10 @@
     },
     {
      "label": "+26 Stamina",
+     "format": ""
+    },
+    {
+     "label": "+40 Armor",
      "format": ""
     },
     {
@@ -27069,7 +29172,7 @@
      "format": "Misc"
     },
     {
-     "label": "188 Armor",
+     "label": "148 Armor",
      "format": ""
     },
     {
@@ -27086,6 +29189,10 @@
     },
     {
      "label": "+6 Intellect",
+     "format": ""
+    },
+    {
+     "label": "+40 Armor",
      "format": ""
     },
     {
@@ -27113,7 +29220,7 @@
     "strength": 17.0,
     "agility": 11.0,
     "stamina": 34.0,
-    "dodge": 0.8275862068965517
+    "dodge": 1.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -27188,7 +29295,7 @@
      "format": "Misc"
     },
     {
-     "label": "210 Armor",
+     "label": "160 Armor",
      "format": ""
     },
     {
@@ -27201,6 +29308,10 @@
     },
     {
      "label": "+18 Strength",
+     "format": ""
+    },
+    {
+     "label": "+50 Armor",
      "format": ""
     },
     {
@@ -27399,7 +29510,7 @@
    "stats": {
     "armor": 160.0,
     "stamina": 37.0,
-    "dodge": 0.8275862068965517,
+    "dodge": 1.0,
     "meleeCrit": 1.0,
     "spellCrit": 1.0,
     "attackPower": 16.0
@@ -27461,7 +29572,7 @@
     "armor": 173.0,
     "agility": 17.0,
     "stamina": 37.0,
-    "dodge": 0.8275862068965517
+    "dodge": 1.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -28094,7 +30205,7 @@
     "agility": 17.0,
     "stamina": 34.0,
     "intellect": 12.0,
-    "dodge": 0.8275862068965517
+    "dodge": 1.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -28771,7 +30882,7 @@
      "format": "Misc"
     },
     {
-     "label": "669 Armor",
+     "label": "599 Armor",
      "format": ""
     },
     {
@@ -28780,6 +30891,10 @@
     },
     {
      "label": "+18 Strength",
+     "format": ""
+    },
+    {
+     "label": "+70 Armor",
      "format": ""
     },
     {
@@ -29494,7 +31609,7 @@
      "format": "Misc"
     },
     {
-     "label": "121 Armor",
+     "label": "81 Armor",
      "format": ""
     },
     {
@@ -29503,6 +31618,10 @@
     },
     {
      "label": "+20 Intellect",
+     "format": ""
+    },
+    {
+     "label": "+40 Armor",
      "format": ""
     },
     {
@@ -30575,7 +32694,7 @@
      "format": "Misc"
     },
     {
-     "label": "140 Armor",
+     "label": "100 Armor",
      "format": ""
     },
     {
@@ -30584,6 +32703,10 @@
     },
     {
      "label": "+16 Intellect",
+     "format": ""
+    },
+    {
+     "label": "+40 Armor",
      "format": ""
     },
     {
@@ -31119,7 +33242,7 @@
     "meleeCrit": 1.0,
     "spellCrit": 1.0
    },
-   "weaponDamageMin": 110.0,
+   "weaponDamageMin": 109.0,
    "weaponDamageMax": 165.0,
    "weaponSpeed": 2.9,
    "effects": [],
@@ -31133,7 +33256,7 @@
      "format": "Misc"
     },
     {
-     "label": "110 - 165 Damage Speed 2.90",
+     "label": "109 - 165 Damage Speed 2.90",
      "format": ""
     },
     {
@@ -31224,8 +33347,8 @@
    ],
    "subclass": "Bow",
    "stats": {
-    "stamina": 19.0,
-    "attackPower": 100.0
+    "stamina": 6.0,
+    "attackPower": 32.0
    },
    "weaponDamageMin": 53.0,
    "weaponDamageMax": 80.0,
@@ -31245,7 +33368,7 @@
      "format": ""
     },
     {
-     "label": "+19 Stamina",
+     "label": "+6 Stamina",
      "format": ""
     },
     {
@@ -31253,7 +33376,7 @@
      "format": ""
     },
     {
-     "label": "Equip: +100 Attack Power",
+     "label": "Equip: +32 Attack Power",
      "format": "Epic"
     }
    ],
@@ -31273,10 +33396,10 @@
    ],
    "subclass": "Crossbow",
    "stats": {
-    "stamina": 19.0,
-    "attackPower": 100.0
+    "stamina": 6.0,
+    "attackPower": 32.0
    },
-   "weaponDamageMin": 86.0,
+   "weaponDamageMin": 85.0,
    "weaponDamageMax": 129.0,
    "weaponSpeed": 2.9,
    "effects": [],
@@ -31290,11 +33413,11 @@
      "format": "Misc"
     },
     {
-     "label": "86 - 129 Damage Speed 2.90",
+     "label": "85 - 129 Damage Speed 2.90",
      "format": ""
     },
     {
-     "label": "+19 Stamina",
+     "label": "+6 Stamina",
      "format": ""
     },
     {
@@ -31302,7 +33425,7 @@
      "format": ""
     },
     {
-     "label": "Equip: +100 Attack Power",
+     "label": "Equip: +32 Attack Power",
      "format": "Epic"
     }
    ],
@@ -31328,7 +33451,7 @@
     "meleeCrit": 1.0,
     "spellCrit": 1.0
    },
-   "weaponDamageMin": 76.0,
+   "weaponDamageMin": 75.0,
    "weaponDamageMax": 114.0,
    "weaponSpeed": 2.0,
    "effects": [],
@@ -31342,7 +33465,7 @@
      "format": "Misc"
     },
     {
-     "label": "76 - 114 Damage Speed 2.00",
+     "label": "75 - 114 Damage Speed 2.00",
      "format": ""
     },
     {
@@ -31383,7 +33506,7 @@
     "meleeCrit": 1.0,
     "spellCrit": 1.0
    },
-   "weaponDamageMin": 110.0,
+   "weaponDamageMin": 109.0,
    "weaponDamageMax": 165.0,
    "weaponSpeed": 2.9,
    "effects": [],
@@ -31397,7 +33520,7 @@
      "format": "Misc"
     },
     {
-     "label": "110 - 165 Damage Speed 2.90",
+     "label": "109 - 165 Damage Speed 2.90",
      "format": ""
     },
     {
@@ -31438,7 +33561,7 @@
     "meleeCrit": 1.0,
     "spellCrit": 1.0
    },
-   "weaponDamageMin": 110.0,
+   "weaponDamageMin": 109.0,
    "weaponDamageMax": 165.0,
    "weaponSpeed": 2.9,
    "effects": [],
@@ -31452,7 +33575,7 @@
      "format": "Misc"
     },
     {
-     "label": "110 - 165 Damage Speed 2.90",
+     "label": "109 - 165 Damage Speed 2.90",
      "format": ""
     },
     {
@@ -31488,10 +33611,10 @@
    ],
    "subclass": "Gun",
    "stats": {
-    "stamina": 19.0,
-    "attackPower": 100.0
+    "stamina": 6.0,
+    "attackPower": 32.0
    },
-   "weaponDamageMin": 86.0,
+   "weaponDamageMin": 85.0,
    "weaponDamageMax": 129.0,
    "weaponSpeed": 2.9,
    "effects": [],
@@ -31505,11 +33628,11 @@
      "format": "Misc"
     },
     {
-     "label": "86 - 129 Damage Speed 2.90",
+     "label": "85 - 129 Damage Speed 2.90",
      "format": ""
     },
     {
-     "label": "+19 Stamina",
+     "label": "+6 Stamina",
      "format": ""
     },
     {
@@ -31517,7 +33640,7 @@
      "format": ""
     },
     {
-     "label": "Equip: +100 Attack Power",
+     "label": "Equip: +32 Attack Power",
      "format": "Epic"
     }
    ],
@@ -31543,7 +33666,7 @@
     "meleeCrit": 1.0,
     "spellCrit": 1.0
    },
-   "weaponDamageMin": 110.0,
+   "weaponDamageMin": 109.0,
    "weaponDamageMax": 165.0,
    "weaponSpeed": 2.9,
    "effects": [],
@@ -31557,7 +33680,7 @@
      "format": "Misc"
     },
     {
-     "label": "110 - 165 Damage Speed 2.90",
+     "label": "109 - 165 Damage Speed 2.90",
      "format": ""
     },
     {
@@ -31704,12 +33827,15 @@
    "subclass": "Staff",
    "stats": {
     "stamina": 36.0,
-    "intellect": 20.0
+    "intellect": 20.0,
+    "spellPower": 94.0
    },
-   "weaponDamageMin": 148.0,
-   "weaponDamageMax": 222.0,
+   "weaponDamageMin": 109.0,
+   "weaponDamageMax": 165.0,
    "weaponSpeed": 3.0,
-   "effects": [],
+   "effects": [
+    "Equip: +5 Spell Penetration"
+   ],
    "tooltip": [
     {
      "label": "Premier Grand Marshal's Stave",
@@ -31720,7 +33846,7 @@
      "format": "Misc"
     },
     {
-     "label": "148 - 222 Damage Speed 3.00",
+     "label": "109 - 165 Damage Speed 3.00",
      "format": ""
     },
     {
@@ -31736,15 +33862,16 @@
      "format": ""
     },
     {
-     "label": "+Spell Penetration (build 70009; amount not derived, not modeled)",
-     "format": ""
+     "label": "Equip: +5 Spell Penetration",
+     "format": "Epic"
+    },
+    {
+     "label": "Equip: +94 Spell Power",
+     "format": "Epic"
     }
    ],
    "source": "forever-1.60.1.69913",
-   "wowhead": "https://foreverchanges.pro/items",
-   "modelNotes": [
-    "Build 1.60.1.70009 replaced +15 Spirit with Spell Penetration (not modeled: boss resistances are not simulated)."
-   ]
+   "wowhead": "https://foreverchanges.pro/items"
   },
   {
    "id": 272851,
@@ -32075,10 +34202,11 @@
     "stamina": 8.0,
     "intellect": 7.0,
     "meleeCrit": 1.0,
-    "spellCrit": 1.0
+    "spellCrit": 1.0,
+    "spellPower": 94.0
    },
-   "weaponDamageMin": 66.0,
-   "weaponDamageMax": 123.0,
+   "weaponDamageMin": 44.0,
+   "weaponDamageMax": 82.0,
    "weaponSpeed": 2.0,
    "effects": [],
    "tooltip": [
@@ -32091,7 +34219,7 @@
      "format": "Misc"
     },
     {
-     "label": "66 - 123 Damage Speed 2.00",
+     "label": "44 - 82 Damage Speed 2.00",
      "format": ""
     },
     {
@@ -32108,6 +34236,10 @@
     },
     {
      "label": "Equip: +14 Critical Strike Rating",
+     "format": "Epic"
+    },
+    {
+     "label": "Equip: +94 Spell Power",
      "format": "Epic"
     }
    ],
@@ -32128,10 +34260,12 @@
    "subclass": "Mace",
    "stats": {
     "stamina": 12.0,
-    "intellect": 7.0
+    "intellect": 7.0,
+    "healingPower": 176.0,
+    "spellPower": 58.0
    },
-   "weaponDamageMin": 96.0,
-   "weaponDamageMax": 178.0,
+   "weaponDamageMin": 64.0,
+   "weaponDamageMax": 119.0,
    "weaponSpeed": 2.9,
    "effects": [
     "Equip: +5 Mana Regeneration"
@@ -32146,7 +34280,7 @@
      "format": "Misc"
     },
     {
-     "label": "96 - 178 Damage Speed 2.90",
+     "label": "64 - 119 Damage Speed 2.90",
      "format": ""
     },
     {
@@ -32163,6 +34297,14 @@
     },
     {
      "label": "Equip: +5 Mana Regeneration",
+     "format": "Epic"
+    },
+    {
+     "label": "Equip: +176 Healing",
+     "format": "Epic"
+    },
+    {
+     "label": "Equip: +58 Spell Damage",
      "format": "Epic"
     }
    ],
@@ -32282,6 +34424,116 @@
     }
    ],
    "source": "forever-1.60.1.69913",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 272957,
+   "name": "Theramore Shoulderguards",
+   "icon": "inv_shoulder_14",
+   "quality": "Epic",
+   "itemLevel": 65,
+   "requiredLevel": 60,
+   "slot": "Shoulder",
+   "equipSlots": [
+    "shoulders"
+   ],
+   "subclass": "Mail",
+   "stats": {
+    "armor": 312.0,
+    "intellect": 27.0,
+    "stamina": 12.0,
+    "spellPower": 16.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Theramore Shoulderguards",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 65",
+     "format": "Misc"
+    },
+    {
+     "label": "312 Armor",
+     "format": ""
+    },
+    {
+     "label": "+27 Intellect",
+     "format": ""
+    },
+    {
+     "label": "+12 Stamina",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    },
+    {
+     "label": "Equip: +16 Spell Power",
+     "format": "Epic"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 272958,
+   "name": "Darkspear Shoulderguards",
+   "icon": "inv_shoulder_14",
+   "quality": "Epic",
+   "itemLevel": 65,
+   "requiredLevel": 60,
+   "slot": "Shoulder",
+   "equipSlots": [
+    "shoulders"
+   ],
+   "subclass": "Mail",
+   "stats": {
+    "armor": 312.0,
+    "intellect": 27.0,
+    "stamina": 12.0,
+    "spellPower": 16.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Darkspear Shoulderguards",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 65",
+     "format": "Misc"
+    },
+    {
+     "label": "312 Armor",
+     "format": ""
+    },
+    {
+     "label": "+27 Intellect",
+     "format": ""
+    },
+    {
+     "label": "+12 Stamina",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    },
+    {
+     "label": "Equip: +16 Spell Power",
+     "format": "Epic"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
    "wowhead": "https://foreverchanges.pro/items"
   },
   {
@@ -35983,7 +38235,7 @@
      "format": "Misc"
     },
     {
-     "label": "177 Armor",
+     "label": "127 Armor",
      "format": ""
     },
     {
@@ -35992,6 +38244,10 @@
     },
     {
      "label": "+8 Intellect",
+     "format": ""
+    },
+    {
+     "label": "+50 Armor",
      "format": ""
     },
     {
@@ -36264,7 +38520,7 @@
      "format": "Misc"
     },
     {
-     "label": "218 Armor",
+     "label": "148 Armor",
      "format": ""
     },
     {
@@ -36273,6 +38529,10 @@
     },
     {
      "label": "+11 Intellect",
+     "format": ""
+    },
+    {
+     "label": "+70 Armor",
      "format": ""
     },
     {
@@ -37188,7 +39448,7 @@
      "format": "Misc"
     },
     {
-     "label": "218 Armor",
+     "label": "148 Armor",
      "format": ""
     },
     {
@@ -37197,6 +39457,10 @@
     },
     {
      "label": "+11 Intellect",
+     "format": ""
+    },
+    {
+     "label": "+70 Armor",
      "format": ""
     },
     {
@@ -39533,6 +41797,2726 @@
    "wowhead": "https://foreverchanges.pro/items"
   },
   {
+   "id": 273884,
+   "name": "Grovekeeper Trousers",
+   "icon": "inv_pant_leather_raiddruidhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Legs",
+   "equipSlots": [
+    "legs"
+   ],
+   "subclass": "Leather",
+   "stats": {
+    "armor": 164.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Grovekeeper Trousers",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "164 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273885,
+   "name": "Grovekeeper Grips",
+   "icon": "inv_glove_leather_raiddruidhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Hands",
+   "equipSlots": [
+    "hands"
+   ],
+   "subclass": "Leather",
+   "stats": {
+    "armor": 117.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Grovekeeper Grips",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "117 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273886,
+   "name": "Grovekeeper Shoulderpads",
+   "icon": "inv_shoulder_leather_raiddruidhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Shoulder",
+   "equipSlots": [
+    "shoulders"
+   ],
+   "subclass": "Leather",
+   "stats": {
+    "armor": 140.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Grovekeeper Shoulderpads",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "140 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273887,
+   "name": "Grovekeeper Stompers",
+   "icon": "inv_boot_leather_raiddruidhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Feet",
+   "equipSlots": [
+    "feet"
+   ],
+   "subclass": "Leather",
+   "stats": {
+    "armor": 129.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Grovekeeper Stompers",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "129 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273888,
+   "name": "Grovekeeper Kilt",
+   "icon": "inv_pant_leather_raiddruidhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Legs",
+   "equipSlots": [
+    "legs"
+   ],
+   "subclass": "Leather",
+   "stats": {
+    "armor": 164.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Grovekeeper Kilt",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "164 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273889,
+   "name": "Grovekeeper Mitts",
+   "icon": "inv_glove_leather_raiddruidhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Hands",
+   "equipSlots": [
+    "hands"
+   ],
+   "subclass": "Leather",
+   "stats": {
+    "armor": 117.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Grovekeeper Mitts",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "117 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273890,
+   "name": "Grovekeeper Mantle",
+   "icon": "inv_shoulder_leather_raiddruidhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Shoulder",
+   "equipSlots": [
+    "shoulders"
+   ],
+   "subclass": "Leather",
+   "stats": {
+    "armor": 140.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Grovekeeper Mantle",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "140 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273891,
+   "name": "Grovekeeper Sandals",
+   "icon": "inv_boot_leather_raiddruidhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Feet",
+   "equipSlots": [
+    "feet"
+   ],
+   "subclass": "Leather",
+   "stats": {
+    "armor": 129.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Grovekeeper Sandals",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "129 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273892,
+   "name": "Grovekeeper Legguards",
+   "icon": "inv_pant_leather_raiddruidhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Legs",
+   "equipSlots": [
+    "legs"
+   ],
+   "subclass": "Leather",
+   "stats": {
+    "armor": 164.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Grovekeeper Legguards",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "164 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273893,
+   "name": "Grovekeeper Handguards",
+   "icon": "inv_glove_leather_raiddruidhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Hands",
+   "equipSlots": [
+    "hands"
+   ],
+   "subclass": "Leather",
+   "stats": {
+    "armor": 117.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Grovekeeper Handguards",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "117 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273894,
+   "name": "Grovekeeper Pauldrons",
+   "icon": "inv_shoulder_leather_raiddruidhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Shoulder",
+   "equipSlots": [
+    "shoulders"
+   ],
+   "subclass": "Leather",
+   "stats": {
+    "armor": 140.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Grovekeeper Pauldrons",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "140 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273895,
+   "name": "Grovekeeper Boots",
+   "icon": "inv_boot_leather_raiddruidhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Feet",
+   "equipSlots": [
+    "feet"
+   ],
+   "subclass": "Leather",
+   "stats": {
+    "armor": 129.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Grovekeeper Boots",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "129 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273896,
+   "name": "Grovekeeper Leggings",
+   "icon": "inv_pant_leather_raiddruidhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Legs",
+   "equipSlots": [
+    "legs"
+   ],
+   "subclass": "Leather",
+   "stats": {
+    "armor": 164.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Grovekeeper Leggings",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "164 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273897,
+   "name": "Grovekeeper Gauntlets",
+   "icon": "inv_glove_leather_raiddruidhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Hands",
+   "equipSlots": [
+    "hands"
+   ],
+   "subclass": "Leather",
+   "stats": {
+    "armor": 117.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Grovekeeper Gauntlets",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "117 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273898,
+   "name": "Grovekeeper Spaulders",
+   "icon": "inv_shoulder_leather_raiddruidhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Shoulder",
+   "equipSlots": [
+    "shoulders"
+   ],
+   "subclass": "Leather",
+   "stats": {
+    "armor": 140.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Grovekeeper Spaulders",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "140 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273899,
+   "name": "Grovekeeper Treads",
+   "icon": "inv_boot_leather_raiddruidhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Feet",
+   "equipSlots": [
+    "feet"
+   ],
+   "subclass": "Leather",
+   "stats": {
+    "armor": 129.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Grovekeeper Treads",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "129 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273900,
+   "name": "Wildstalker's Legguards",
+   "icon": "inv_pant_mail_raidhunterhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Legs",
+   "equipSlots": [
+    "legs"
+   ],
+   "subclass": "Mail",
+   "stats": {
+    "armor": 344.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Wildstalker's Legguards",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "344 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273901,
+   "name": "Wildstalker's Gauntlets",
+   "icon": "inv_glove_mail_raidhunterhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Hands",
+   "equipSlots": [
+    "hands"
+   ],
+   "subclass": "Mail",
+   "stats": {
+    "armor": 245.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Wildstalker's Gauntlets",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "245 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273902,
+   "name": "Wildstalker's Spaulders",
+   "icon": "inv_shoulder_l_mail_raidhunterhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Shoulder",
+   "equipSlots": [
+    "shoulders"
+   ],
+   "subclass": "Mail",
+   "stats": {
+    "armor": 294.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Wildstalker's Spaulders",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "294 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273903,
+   "name": "Wildstalker's Greaves",
+   "icon": "inv_boot_mail_raidhunterhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Feet",
+   "equipSlots": [
+    "feet"
+   ],
+   "subclass": "Mail",
+   "stats": {
+    "armor": 270.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Wildstalker's Greaves",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "270 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273904,
+   "name": "Manaflare Pants",
+   "icon": "inv_pant_cloth_raidmagehyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Legs",
+   "equipSlots": [
+    "legs"
+   ],
+   "subclass": "Cloth",
+   "stats": {
+    "armor": 83.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Manaflare Pants",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "83 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273905,
+   "name": "Manaflare Gloves",
+   "icon": "inv_glove_cloth_raidmagehyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Hands",
+   "equipSlots": [
+    "hands"
+   ],
+   "subclass": "Cloth",
+   "stats": {
+    "armor": 59.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Manaflare Gloves",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "59 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273906,
+   "name": "Manaflare Mantle",
+   "icon": "inv_shoulder_cloth_raidmagehyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Shoulder",
+   "equipSlots": [
+    "shoulders"
+   ],
+   "subclass": "Cloth",
+   "stats": {
+    "armor": 71.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Manaflare Mantle",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "71 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273907,
+   "name": "Manaflare Boots",
+   "icon": "inv_boot_cloth_raidmagehyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Feet",
+   "equipSlots": [
+    "feet"
+   ],
+   "subclass": "Cloth",
+   "stats": {
+    "armor": 65.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Manaflare Boots",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "65 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273908,
+   "name": "Justice Leggings",
+   "icon": "inv_pant_plate_raidpaladinhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Legs",
+   "equipSlots": [
+    "legs"
+   ],
+   "subclass": "Plate",
+   "stats": {
+    "armor": 608.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Justice Leggings",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "608 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273909,
+   "name": "Justice Gauntlets",
+   "icon": "inv_glove_plate_raidpaladinhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Hands",
+   "equipSlots": [
+    "hands"
+   ],
+   "subclass": "Plate",
+   "stats": {
+    "armor": 434.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Justice Gauntlets",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "434 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273910,
+   "name": "Justice Spaulders",
+   "icon": "inv_shoulder_plate_raidpaladinhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Shoulder",
+   "equipSlots": [
+    "shoulders"
+   ],
+   "subclass": "Plate",
+   "stats": {
+    "armor": 521.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Justice Spaulders",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "521 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273911,
+   "name": "Justice Greaves",
+   "icon": "inv_boot_plate_raidpaladinhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Feet",
+   "equipSlots": [
+    "feet"
+   ],
+   "subclass": "Plate",
+   "stats": {
+    "armor": 478.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Justice Greaves",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "478 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273912,
+   "name": "Justice Legplates",
+   "icon": "inv_pant_plate_raidpaladinhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Legs",
+   "equipSlots": [
+    "legs"
+   ],
+   "subclass": "Plate",
+   "stats": {
+    "armor": 608.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Justice Legplates",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "608 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273913,
+   "name": "Justice Gloves",
+   "icon": "inv_glove_plate_raidpaladinhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Hands",
+   "equipSlots": [
+    "hands"
+   ],
+   "subclass": "Plate",
+   "stats": {
+    "armor": 434.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Justice Gloves",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "434 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273914,
+   "name": "Justice Epaulets",
+   "icon": "inv_shoulder_plate_raidpaladinhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Shoulder",
+   "equipSlots": [
+    "shoulders"
+   ],
+   "subclass": "Plate",
+   "stats": {
+    "armor": 521.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Justice Epaulets",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "521 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273915,
+   "name": "Justice Treads",
+   "icon": "inv_boot_plate_raidpaladinhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Feet",
+   "equipSlots": [
+    "feet"
+   ],
+   "subclass": "Plate",
+   "stats": {
+    "armor": 478.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Justice Treads",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "478 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273916,
+   "name": "Justice Legguards",
+   "icon": "inv_pant_plate_raidpaladinhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Legs",
+   "equipSlots": [
+    "legs"
+   ],
+   "subclass": "Plate",
+   "stats": {
+    "armor": 608.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Justice Legguards",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "608 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273917,
+   "name": "Justice Handguards",
+   "icon": "inv_glove_plate_raidpaladinhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Hands",
+   "equipSlots": [
+    "hands"
+   ],
+   "subclass": "Plate",
+   "stats": {
+    "armor": 434.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Justice Handguards",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "434 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273918,
+   "name": "Justice Pauldrons",
+   "icon": "inv_shoulder_plate_raidpaladinhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Shoulder",
+   "equipSlots": [
+    "shoulders"
+   ],
+   "subclass": "Plate",
+   "stats": {
+    "armor": 521.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Justice Pauldrons",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "521 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273919,
+   "name": "Justice Sabatons",
+   "icon": "inv_boot_plate_raidpaladinhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Feet",
+   "equipSlots": [
+    "feet"
+   ],
+   "subclass": "Plate",
+   "stats": {
+    "armor": 478.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Justice Sabatons",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "478 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273920,
+   "name": "Pants of Conviction",
+   "icon": "inv_pant_cloth_raidpriesthyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Legs",
+   "equipSlots": [
+    "legs"
+   ],
+   "subclass": "Cloth",
+   "stats": {
+    "armor": 83.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Pants of Conviction",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "83 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273921,
+   "name": "Gloves of Conviction",
+   "icon": "inv_glove_cloth_raidpriesthyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Hands",
+   "equipSlots": [
+    "hands"
+   ],
+   "subclass": "Cloth",
+   "stats": {
+    "armor": 59.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Gloves of Conviction",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "59 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273922,
+   "name": "Mantle of Conviction",
+   "icon": "inv_shoulder_r_cloth_raidpriesthyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Shoulder",
+   "equipSlots": [
+    "shoulders"
+   ],
+   "subclass": "Cloth",
+   "stats": {
+    "armor": 71.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Mantle of Conviction",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "71 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273923,
+   "name": "Treads of Conviction",
+   "icon": "inv_boot_cloth_raidpriesthyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Feet",
+   "equipSlots": [
+    "feet"
+   ],
+   "subclass": "Cloth",
+   "stats": {
+    "armor": 65.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Treads of Conviction",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "65 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273924,
+   "name": "Leggings of Conviction",
+   "icon": "inv_pant_cloth_raidpriesthyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Legs",
+   "equipSlots": [
+    "legs"
+   ],
+   "subclass": "Cloth",
+   "stats": {
+    "armor": 83.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Leggings of Conviction",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "83 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273925,
+   "name": "Handguards of Conviction",
+   "icon": "inv_glove_cloth_raidpriesthyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Hands",
+   "equipSlots": [
+    "hands"
+   ],
+   "subclass": "Cloth",
+   "stats": {
+    "armor": 59.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Handguards of Conviction",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "59 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273926,
+   "name": "Pauldrons of Conviction",
+   "icon": "inv_shoulder_r_cloth_raidpriesthyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Shoulder",
+   "equipSlots": [
+    "shoulders"
+   ],
+   "subclass": "Cloth",
+   "stats": {
+    "armor": 71.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Pauldrons of Conviction",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "71 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273927,
+   "name": "Boots of Conviction",
+   "icon": "inv_boot_cloth_raidpriesthyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Feet",
+   "equipSlots": [
+    "feet"
+   ],
+   "subclass": "Cloth",
+   "stats": {
+    "armor": 65.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Boots of Conviction",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "65 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273928,
+   "name": "Grimstitch Pants",
+   "icon": "inv_pant_leather_raidroguehyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Legs",
+   "equipSlots": [
+    "legs"
+   ],
+   "subclass": "Leather",
+   "stats": {
+    "armor": 164.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Grimstitch Pants",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "164 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273929,
+   "name": "Grimstitch Gloves",
+   "icon": "inv_glove_leather_raidroguehyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Hands",
+   "equipSlots": [
+    "hands"
+   ],
+   "subclass": "Leather",
+   "stats": {
+    "armor": 117.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Grimstitch Gloves",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "117 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273930,
+   "name": "Grimstitch Spaulders",
+   "icon": "inv_shoulder_leather_raidroguehyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Shoulder",
+   "equipSlots": [
+    "shoulders"
+   ],
+   "subclass": "Leather",
+   "stats": {
+    "armor": 140.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Grimstitch Spaulders",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "140 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273931,
+   "name": "Grimstitch Boots",
+   "icon": "inv_boot_leather_raidroguehyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Feet",
+   "equipSlots": [
+    "feet"
+   ],
+   "subclass": "Leather",
+   "stats": {
+    "armor": 129.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Grimstitch Boots",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "129 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273932,
+   "name": "Spiritcaller Leggings",
+   "icon": "inv_pant_mail_raidshamanhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Legs",
+   "equipSlots": [
+    "legs"
+   ],
+   "subclass": "Mail",
+   "stats": {
+    "armor": 344.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Spiritcaller Leggings",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "344 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273933,
+   "name": "Spiritcaller Grips",
+   "icon": "inv_glove_mail_raidshamanhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Hands",
+   "equipSlots": [
+    "hands"
+   ],
+   "subclass": "Mail",
+   "stats": {
+    "armor": 245.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Spiritcaller Grips",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "245 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273934,
+   "name": "Spiritcaller Spaulders",
+   "icon": "inv_shoulder_mail_raidshamanhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Shoulder",
+   "equipSlots": [
+    "shoulders"
+   ],
+   "subclass": "Mail",
+   "stats": {
+    "armor": 294.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Spiritcaller Spaulders",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "294 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273935,
+   "name": "Spiritcaller Treads",
+   "icon": "inv_boot_mail_raidshamanhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Feet",
+   "equipSlots": [
+    "feet"
+   ],
+   "subclass": "Mail",
+   "stats": {
+    "armor": 270.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Spiritcaller Treads",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "270 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273936,
+   "name": "Spiritcaller Pants",
+   "icon": "inv_pant_mail_raidshamanhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Legs",
+   "equipSlots": [
+    "legs"
+   ],
+   "subclass": "Mail",
+   "stats": {
+    "armor": 344.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Spiritcaller Pants",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "344 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273937,
+   "name": "Spiritcaller Gauntlets",
+   "icon": "inv_glove_mail_raidshamanhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Hands",
+   "equipSlots": [
+    "hands"
+   ],
+   "subclass": "Mail",
+   "stats": {
+    "armor": 245.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Spiritcaller Gauntlets",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "245 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273938,
+   "name": "Spiritcaller Epaulets",
+   "icon": "inv_shoulder_mail_raidshamanhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Shoulder",
+   "equipSlots": [
+    "shoulders"
+   ],
+   "subclass": "Mail",
+   "stats": {
+    "armor": 294.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Spiritcaller Epaulets",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "294 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273939,
+   "name": "Spiritcaller Greaves",
+   "icon": "inv_boot_mail_raidshamanhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Feet",
+   "equipSlots": [
+    "feet"
+   ],
+   "subclass": "Mail",
+   "stats": {
+    "armor": 270.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Spiritcaller Greaves",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "270 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273940,
+   "name": "Demonheart Leggings",
+   "icon": "inv_pant_cloth_raidwarlockhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Legs",
+   "equipSlots": [
+    "legs"
+   ],
+   "subclass": "Cloth",
+   "stats": {
+    "armor": 83.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Demonheart Leggings",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "83 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273941,
+   "name": "Demonheart Gloves",
+   "icon": "inv_glove_cloth_raidwarlockhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Hands",
+   "equipSlots": [
+    "hands"
+   ],
+   "subclass": "Cloth",
+   "stats": {
+    "armor": 59.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Demonheart Gloves",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "59 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273942,
+   "name": "Demonheart Spaulders",
+   "icon": "inv_shoulder_cloth_raidwarlockhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Shoulder",
+   "equipSlots": [
+    "shoulders"
+   ],
+   "subclass": "Cloth",
+   "stats": {
+    "armor": 71.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Demonheart Spaulders",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "71 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273943,
+   "name": "Demonheart Boots",
+   "icon": "inv_boot_cloth_raidwarlockhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Feet",
+   "equipSlots": [
+    "feet"
+   ],
+   "subclass": "Cloth",
+   "stats": {
+    "armor": 65.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Demonheart Boots",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "65 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273944,
+   "name": "Legplates of Glory",
+   "icon": "inv_pant_plate_raidwarriorhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Legs",
+   "equipSlots": [
+    "legs"
+   ],
+   "subclass": "Plate",
+   "stats": {
+    "armor": 608.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Legplates of Glory",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "608 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273945,
+   "name": "Gauntlets of Glory",
+   "icon": "inv_glove_plate_raidwarriorhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Hands",
+   "equipSlots": [
+    "hands"
+   ],
+   "subclass": "Plate",
+   "stats": {
+    "armor": 434.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Gauntlets of Glory",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "434 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273946,
+   "name": "Shoulders of Glory",
+   "icon": "inv_shoulder_plate_raidwarriorhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Shoulder",
+   "equipSlots": [
+    "shoulders"
+   ],
+   "subclass": "Plate",
+   "stats": {
+    "armor": 521.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Shoulders of Glory",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "521 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273947,
+   "name": "Greaves of Glory",
+   "icon": "inv_boot_plate_raidwarriorhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Feet",
+   "equipSlots": [
+    "feet"
+   ],
+   "subclass": "Plate",
+   "stats": {
+    "armor": 478.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Greaves of Glory",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "478 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273948,
+   "name": "Legguards of Glory",
+   "icon": "inv_pant_plate_raidwarriorhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Legs",
+   "equipSlots": [
+    "legs"
+   ],
+   "subclass": "Plate",
+   "stats": {
+    "armor": 608.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Legguards of Glory",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "608 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273949,
+   "name": "Handguards of Glory",
+   "icon": "inv_glove_plate_raidwarriorhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Hands",
+   "equipSlots": [
+    "hands"
+   ],
+   "subclass": "Plate",
+   "stats": {
+    "armor": 434.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Handguards of Glory",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "434 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273950,
+   "name": "Pauldrons of Glory",
+   "icon": "inv_shoulder_plate_raidwarriorhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Shoulder",
+   "equipSlots": [
+    "shoulders"
+   ],
+   "subclass": "Plate",
+   "stats": {
+    "armor": 521.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Pauldrons of Glory",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "521 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 273951,
+   "name": "Sabatons of Glory",
+   "icon": "inv_boot_plate_raidwarriorhyjalc60_d_01",
+   "quality": "Epic",
+   "itemLevel": 61,
+   "requiredLevel": 60,
+   "slot": "Feet",
+   "equipSlots": [
+    "feet"
+   ],
+   "subclass": "Plate",
+   "stats": {
+    "armor": 478.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Sabatons of Glory",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "478 Armor",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
    "id": 274027,
    "name": "Placeholder",
    "icon": "inv_boots_03",
@@ -39838,7 +44822,7 @@
     "stamina": 25.0,
     "intellect": 8.0,
     "strength": 14.0,
-    "dodge": 0.41379310344827586
+    "dodge": 0.5
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -40371,7 +45355,7 @@
     "stamina": 34.0,
     "intellect": 10.0,
     "strength": 18.0,
-    "dodge": 0.8275862068965517
+    "dodge": 1.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -44517,6 +49501,56 @@
    "wowhead": "https://foreverchanges.pro/items"
   },
   {
+   "id": 274517,
+   "name": "Unerring Purpose",
+   "icon": "inv_sword_20",
+   "quality": "Uncommon",
+   "itemLevel": 56,
+   "requiredLevel": 56,
+   "slot": "One-Hand",
+   "equipSlots": [
+    "main_hand",
+    "off_hand"
+   ],
+   "subclass": "Sword",
+   "stats": {
+    "strength": 5.0,
+    "attackPower": 16.0
+   },
+   "weaponDamageMin": 65.0,
+   "weaponDamageMax": 122.0,
+   "weaponSpeed": 2.8,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Unerring Purpose",
+     "format": "Uncommon"
+    },
+    {
+     "label": "Item Level 56",
+     "format": "Misc"
+    },
+    {
+     "label": "65 - 122 Damage Speed 2.80",
+     "format": ""
+    },
+    {
+     "label": "+5 Strength",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 56",
+     "format": ""
+    },
+    {
+     "label": "Equip: +16 Attack Power",
+     "format": "Uncommon"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
    "id": 274968,
    "name": "Premier Senior Sergeant's Insignia",
    "icon": "inv_misc_monsterscales_15",
@@ -44687,8 +49721,8 @@
    "stats": {
     "stamina": 10.0,
     "attackPower": 20.0,
-    "meleeHit": 1.25,
-    "spellHit": 1.25
+    "meleeHit": 1.0,
+    "spellHit": 1.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -44846,7 +49880,7 @@
    "subclass": null,
    "stats": {
     "stamina": 10.0,
-    "defense": 2.5473380317568144
+    "defense": 6.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -44897,8 +49931,8 @@
    "stats": {
     "stamina": 11.0,
     "attackPower": 24.0,
-    "meleeHit": 1.25,
-    "spellHit": 1.25
+    "meleeHit": 1.0,
+    "spellHit": 1.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -45056,7 +50090,7 @@
    "subclass": null,
    "stats": {
     "stamina": 14.0,
-    "defense": 2.97189437038295
+    "defense": 7.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -45107,8 +50141,8 @@
    "stats": {
     "stamina": 13.0,
     "attackPower": 30.0,
-    "meleeHit": 1.25,
-    "spellHit": 1.25
+    "meleeHit": 1.0,
+    "spellHit": 1.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -45266,7 +50300,7 @@
    "subclass": null,
    "stats": {
     "stamina": 16.0,
-    "defense": 3.3964507090090854
+    "defense": 8.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -45317,8 +50351,8 @@
    "stats": {
     "stamina": 14.0,
     "attackPower": 34.0,
-    "meleeHit": 1.25,
-    "spellHit": 1.25
+    "meleeHit": 1.0,
+    "spellHit": 1.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -45476,7 +50510,7 @@
    "subclass": null,
    "stats": {
     "stamina": 18.0,
-    "defense": 3.3964507090090854
+    "defense": 8.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -45914,9 +50948,9 @@
    ],
    "subclass": "Wand",
    "stats": {
-    "spirit": 15.0,
-    "healingPower": 22.0,
-    "spellPower": 7.0
+    "spirit": 11.0,
+    "healingPower": 17.0,
+    "spellPower": 6.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -45932,7 +50966,7 @@
      "format": "Misc"
     },
     {
-     "label": "+15 Spirit",
+     "label": "+11 Spirit",
      "format": ""
     },
     {
@@ -45940,11 +50974,11 @@
      "format": ""
     },
     {
-     "label": "Equip: +22 Healing",
+     "label": "Equip: +17 Healing",
      "format": "Epic"
     },
     {
-     "label": "Equip: +7 Spell Damage",
+     "label": "Equip: +6 Spell Damage",
      "format": "Epic"
     }
    ],
@@ -46048,7 +51082,7 @@
    "weaponDamageMax": null,
    "weaponSpeed": null,
    "effects": [
-    "Equip: Increases the critical strike chance of your Lessing Healing Wave spell by 4%."
+    "Equip: Increases the critical strike chance of your Lesser Healing Wave spell by 4%."
    ],
    "tooltip": [
     {
@@ -46064,7 +51098,7 @@
      "format": ""
     },
     {
-     "label": "Equip: Increases the critical strike chance of your Lessing Healing Wave spell by 4%.",
+     "label": "Equip: Increases the critical strike chance of your Lesser Healing Wave spell by 4%.",
      "format": "Epic"
     }
    ],
@@ -46088,7 +51122,7 @@
    "weaponDamageMax": null,
    "weaponSpeed": null,
    "effects": [
-    "Equip: Reduces the cooldown on your Swiftmend spell by 3 sec."
+    "Equip: Reduces the cooldown of your Swiftmend spell by 3 sec."
    ],
    "tooltip": [
     {
@@ -46104,7 +51138,7 @@
      "format": ""
     },
     {
-     "label": "Equip: Reduces the cooldown on your Swiftmend spell by 3 sec.",
+     "label": "Equip: Reduces the cooldown of your Swiftmend spell by 3 sec.",
      "format": "Epic"
     }
    ],
@@ -46128,7 +51162,7 @@
    "weaponDamageMax": null,
    "weaponSpeed": null,
    "effects": [
-    "Equip: Your Lacerate hits have a 10% chance to reset the cooldown on Mangle (Bear)."
+    "Equip: Your Lacerate hits have a 10% chance to reset the cooldown on Primal Bite."
    ],
    "tooltip": [
     {
@@ -46144,7 +51178,7 @@
      "format": ""
     },
     {
-     "label": "Equip: Your Lacerate hits have a 10% chance to reset the cooldown on Mangle (Bear).",
+     "label": "Equip: Your Lacerate hits have a 10% chance to reset the cooldown on Primal Bite.",
      "format": "Epic"
     }
    ],
@@ -46154,7 +51188,7 @@
   {
    "id": 279252,
    "name": "Elderwild Waistcord",
-   "icon": null,
+   "icon": "inv_belt_leather_raiddruidhyjalc60_d_01",
    "quality": "Epic",
    "itemLevel": 65,
    "requiredLevel": 60,
@@ -46513,10 +51547,10 @@
    "stats": {
     "strength": 8.0,
     "stamina": 12.0,
-    "meleeHit": 1.25,
-    "spellHit": 1.25
+    "meleeHit": 1.0,
+    "spellHit": 1.0
    },
-   "weaponDamageMin": 80.0,
+   "weaponDamageMin": 79.0,
    "weaponDamageMax": 148.0,
    "weaponSpeed": 2.4,
    "effects": [],
@@ -46530,7 +51564,7 @@
      "format": "Misc"
     },
     {
-     "label": "80 - 148 Damage Speed 2.40",
+     "label": "79 - 148 Damage Speed 2.40",
      "format": ""
     },
     {
@@ -46623,8 +51657,8 @@
    "stats": {
     "agility": 8.0,
     "stamina": 12.0,
-    "meleeHit": 1.25,
-    "spellHit": 1.25
+    "meleeHit": 1.0,
+    "spellHit": 1.0
    },
    "weaponDamageMin": 76.0,
    "weaponDamageMax": 142.0,
@@ -46795,7 +51829,7 @@
     "armor": 461.0,
     "stamina": 14.0,
     "strength": 21.0,
-    "defense": 5.094676063513629
+    "defense": 12.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -47193,14 +52227,14 @@
    ],
    "subclass": "Gun",
    "stats": {
-    "stamina": 24.0,
-    "spirit": 18.0
+    "stamina": 8.0,
+    "spirit": 6.0
    },
-   "weaponDamageMin": 65.0,
+   "weaponDamageMin": 64.0,
    "weaponDamageMax": 120.0,
    "weaponSpeed": 2.5,
    "effects": [
-    "Equip: +65 Ranged Attack Power"
+    "Equip: +21 Ranged Attack Power"
    ],
    "tooltip": [
     {
@@ -47212,15 +52246,15 @@
      "format": "Misc"
     },
     {
-     "label": "65 - 120 Damage Speed 2.50",
+     "label": "64 - 120 Damage Speed 2.50",
      "format": ""
     },
     {
-     "label": "+24 Stamina",
+     "label": "+8 Stamina",
      "format": ""
     },
     {
-     "label": "+18 Spirit",
+     "label": "+6 Spirit",
      "format": ""
     },
     {
@@ -47228,11 +52262,469 @@
      "format": ""
     },
     {
-     "label": "Equip: +65 Ranged Attack Power",
+     "label": "Equip: +21 Ranged Attack Power",
      "format": "Epic"
     }
    ],
    "source": "forever-1.60.1.69913",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 281600,
+   "name": "Wail of Death",
+   "icon": "inv_wand_12",
+   "quality": "Uncommon",
+   "itemLevel": 61,
+   "requiredLevel": 56,
+   "slot": "Ranged",
+   "equipSlots": [
+    "ranged"
+   ],
+   "subclass": "Wand",
+   "stats": {
+    "stamina": 6.0,
+    "spirit": 4.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Wail of Death",
+     "format": "Uncommon"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "+6 Stamina",
+     "format": ""
+    },
+    {
+     "label": "+4 Spirit",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 56",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 282070,
+   "name": "Gruklash's Basher",
+   "icon": "inv_hammer_21",
+   "quality": "Uncommon",
+   "itemLevel": 61,
+   "requiredLevel": 56,
+   "slot": "Two-Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Mace",
+   "stats": {
+    "strength": 18.0,
+    "spirit": 11.0,
+    "stamina": 13.0
+   },
+   "weaponDamageMin": 136.0,
+   "weaponDamageMax": 205.0,
+   "weaponSpeed": 3.6,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Gruklash's Basher",
+     "format": "Uncommon"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "136 - 205 Damage Speed 3.60",
+     "format": ""
+    },
+    {
+     "label": "+18 Strength",
+     "format": ""
+    },
+    {
+     "label": "+11 Spirit",
+     "format": ""
+    },
+    {
+     "label": "+13 Stamina",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 56",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 284100,
+   "name": "Horseman's Unyielding Shroud",
+   "icon": "inv_misc_cape_20",
+   "quality": "Rare",
+   "itemLevel": 62,
+   "requiredLevel": 57,
+   "slot": "Back",
+   "equipSlots": [
+    "back"
+   ],
+   "subclass": "Cloth",
+   "stats": {
+    "armor": 44.0,
+    "stamina": 13.0,
+    "attackPower": 27.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Horseman's Unyielding Shroud",
+     "format": "Rare"
+    },
+    {
+     "label": "Item Level 62",
+     "format": "Misc"
+    },
+    {
+     "label": "44 Armor",
+     "format": ""
+    },
+    {
+     "label": "+13 Stamina",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 57",
+     "format": ""
+    },
+    {
+     "label": "Equip: +27 Attack Power",
+     "format": "Rare"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 284101,
+   "name": "Blade of Senseless Slaughter",
+   "icon": "inv_sword_12",
+   "quality": "Rare",
+   "itemLevel": 62,
+   "requiredLevel": 57,
+   "slot": "Main Hand",
+   "equipSlots": [
+    "main_hand"
+   ],
+   "subclass": "Sword",
+   "stats": {
+    "stamina": 5.0,
+    "agility": 4.0,
+    "strength": 11.0
+   },
+   "weaponDamageMin": 77.0,
+   "weaponDamageMax": 143.0,
+   "weaponSpeed": 2.7,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Blade of Senseless Slaughter",
+     "format": "Rare"
+    },
+    {
+     "label": "Item Level 62",
+     "format": "Misc"
+    },
+    {
+     "label": "77 - 143 Damage Speed 2.70",
+     "format": ""
+    },
+    {
+     "label": "+5 Stamina",
+     "format": ""
+    },
+    {
+     "label": "+4 Agility",
+     "format": ""
+    },
+    {
+     "label": "+11 Strength",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 57",
+     "format": ""
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 284102,
+   "name": "Signet of the Soulless Rider",
+   "icon": "inv_jewelry_ring_17",
+   "quality": "Rare",
+   "itemLevel": 62,
+   "requiredLevel": 57,
+   "slot": "Finger",
+   "equipSlots": [
+    "finger1",
+    "finger2"
+   ],
+   "subclass": null,
+   "stats": {
+    "spirit": 9.0,
+    "strength": 14.0,
+    "meleeHit": 0.5,
+    "spellHit": 0.5
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Signet of the Soulless Rider",
+     "format": "Rare"
+    },
+    {
+     "label": "Item Level 62",
+     "format": "Misc"
+    },
+    {
+     "label": "+9 Spirit",
+     "format": ""
+    },
+    {
+     "label": "+14 Strength",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 57",
+     "format": ""
+    },
+    {
+     "label": "Equip: +5 Hit Rating",
+     "format": "Rare"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 284253,
+   "name": "Eternally Frozen Band",
+   "icon": "inv_jewelry_ring_28",
+   "quality": "Rare",
+   "itemLevel": 62,
+   "requiredLevel": 57,
+   "slot": "Finger",
+   "equipSlots": [
+    "finger1",
+    "finger2"
+   ],
+   "subclass": null,
+   "stats": {
+    "frostResistance": 15.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [
+    "Equip: +16 Frost Spell Damage"
+   ],
+   "tooltip": [
+    {
+     "label": "Eternally Frozen Band",
+     "format": "Rare"
+    },
+    {
+     "label": "Item Level 62",
+     "format": "Misc"
+    },
+    {
+     "label": "+15 Frost Resistance",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 57",
+     "format": ""
+    },
+    {
+     "label": "Equip: +16 Frost Spell Damage",
+     "format": "Rare"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 284261,
+   "name": "Magically Fortified Legguards",
+   "icon": "inv_pants_08",
+   "quality": "Rare",
+   "itemLevel": 61,
+   "requiredLevel": 56,
+   "slot": "Legs",
+   "equipSlots": [
+    "legs"
+   ],
+   "subclass": "Plate",
+   "stats": {
+    "armor": 557.0,
+    "stamina": 27.0,
+    "defense": 6.0,
+    "spellPower": 16.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Magically Fortified Legguards",
+     "format": "Rare"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "557 Armor",
+     "format": ""
+    },
+    {
+     "label": "+27 Stamina",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 56",
+     "format": ""
+    },
+    {
+     "label": "Equip: +6 Defense Rating",
+     "format": "Rare"
+    },
+    {
+     "label": "Equip: +16 Spell Power",
+     "format": "Rare"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 284268,
+   "name": "Furbolg Shaman's Girdle",
+   "icon": "inv_belt_22",
+   "quality": "Uncommon",
+   "itemLevel": 61,
+   "requiredLevel": 56,
+   "slot": "Waist",
+   "equipSlots": [
+    "waist"
+   ],
+   "subclass": "Leather",
+   "stats": {
+    "armor": 88.0,
+    "strength": 14.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [
+    "Equip: +5 Mana Regeneration"
+   ],
+   "tooltip": [
+    {
+     "label": "Furbolg Shaman's Girdle",
+     "format": "Uncommon"
+    },
+    {
+     "label": "Item Level 61",
+     "format": "Misc"
+    },
+    {
+     "label": "88 Armor",
+     "format": ""
+    },
+    {
+     "label": "+14 Strength",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 56",
+     "format": ""
+    },
+    {
+     "label": "Equip: +5 Mana Regeneration",
+     "format": "Uncommon"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
+   "wowhead": "https://foreverchanges.pro/items"
+  },
+  {
+   "id": 284716,
+   "name": "Band of the Better Half",
+   "icon": "inv_jewelry_ring_54",
+   "quality": "Epic",
+   "itemLevel": 70,
+   "requiredLevel": 60,
+   "slot": "Finger",
+   "equipSlots": [
+    "finger1",
+    "finger2"
+   ],
+   "subclass": null,
+   "stats": {
+    "stamina": 10.0,
+    "strength": 18.0
+   },
+   "weaponDamageMin": null,
+   "weaponDamageMax": null,
+   "weaponSpeed": null,
+   "effects": [],
+   "tooltip": [
+    {
+     "label": "Band of the Better Half",
+     "format": "Epic"
+    },
+    {
+     "label": "Item Level 70",
+     "format": "Misc"
+    },
+    {
+     "label": "+10 Stamina",
+     "format": ""
+    },
+    {
+     "label": "+18 Strength",
+     "format": ""
+    },
+    {
+     "label": "Requires Level 60",
+     "format": ""
+    },
+    {
+     "label": "Equip: +12 Expertise Rating",
+     "format": "Epic"
+    }
+   ],
+   "source": "forever-1.60.1.70450",
    "wowhead": "https://foreverchanges.pro/items"
   }
  ]

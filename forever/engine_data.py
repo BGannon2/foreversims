@@ -75,7 +75,7 @@ SPIRIT_REGEN = {"Mage": (0.25, 12.5), "Priest": (0.25, 12.5), "Warlock": (0.2, 1
 # don't matter and misses/dodges/parries give none (Forever beta logs: github.com/magey/forever-warrior
 # issue 3; developer statement that you "don't get extra rage when you do more damage/crit").
 FORM_ATTACK_SPEED = {"cat": 1.0, "bear": 2.5}
-WARRIOR_RAGE_PER_SPEED = {"one_hand": 3.46, "two_hand": 4.5, "off_hand_factor": 0.5, "crit_factor": 2.0, "taken_armor_factor": 0.5}
+WARRIOR_RAGE_PER_SPEED = {"one_hand": 3.46, "two_hand": 4.5, "off_hand_factor": 0.5, "crit_factor": 2.0, "taken_armor_factor": 0.6}  # taken: Oct 8 notes, armor basis 20-40% by level (60 -> 40%)
 RAGE_CONVERSION_60 = 0.0091107836 * 60 * 60 + 3.225598133 * 60 + 4.2652911  # 230.6
 LEVEL, TARGET_LEVEL = 60, 63
 TARGET_DEFENSE = TARGET_LEVEL * 5
@@ -188,7 +188,7 @@ SPECS = [
 SPEC_MAP = {r[0]: {"id": r[0], "class_name": r[1], "name": r[2], "role": r[3], "style": r[4], "resource": r[5], "tree": r[6], "form": r[7], "stance": r[8]} for r in SPECS}
 
 # Stance / form threat and damage modifiers (WoWSims Classic stances.go, forms.go).
-STANCE_MODS = {"battle": {"threat": 0.8}, "berserker": {"threat": 0.8}, "defensive": {"threat": 1.3, "damage": 0.9, "taken": 0.9}, "cat": {"threat": 0.71}, "bear": {"threat": 1.45}, "moonkin": {"threat": 1.0}, None: {"threat": 1.0}}
+STANCE_MODS = {"battle": {"threat": 0.8}, "berserker": {"threat": 0.8}, "defensive": {"threat": 1.3, "damage": 0.9, "taken": 0.9}, "cat": {"threat": 0.71}, "bear": {"threat": 1.5}, "moonkin": {"threat": 1.0}, None: {"threat": 1.0}}
 CLASS_THREAT = {"Rogue": 0.71}
 
 # ---------------------------------------------------------------------------
@@ -405,7 +405,7 @@ SPEC_ABOUT = {
         "tps": "Cat Form carries the largest threat penalty modeled (×0.71), so Feral DPS's TPS trails its DPS more than any other melee spec."},
     "druid-feral-tank": {
         "dps": "A threat rotation: Berserk on cooldown, Primal Bite on cooldown, Lacerate to build and keep 5 bleed stacks, Swipe and Maul as rage allows.",
-        "tps": "Bear Form carries the largest threat bonus modeled (×1.45); combined with Primal Bite, Feral Tank leads both the DPS and TPS side of the tank comparison at every target count."},
+        "tps": "Bear Form carries the largest threat bonus modeled (×1.5, client spell 21178); combined with Primal Bite, Feral Tank leads both the DPS and TPS side of the tank comparison at every target count."},
     "hunter-beast-mastery": {
         "dps": "Priority: Volley once 3+ targets are up, Bestial Wrath, Rapid Fire, Serpent Sting upkeep, Summon Hawk upkeep, Multi-Shot, Arcane Shot as a mana-gated filler. Pet damage (Claw/Bite) adds on top via its own attack timer.",
         "tps": "No stance or class threat modifier applies; pet damage generates its own threat independently, unscaled by any Hunter-specific multiplier."},
@@ -642,8 +642,11 @@ VARIANTS = {
         "parent": "hunter-survival", "name": "Survival (Melee Weave)",
         "summary": "Survival keeping Auto Shot going and stepping in for its melee specials, instead of standing in melee.",
         "spec_overrides": {"style": "ranged"},  # Auto Shot instead of melee auto attacks
-        # Each melee special costs this much Auto Shot time (stepping in and out). Provisional:
-        # no Forever measurement exists, 0.5 sec is a typical Classic weave cost.
+        # Each melee special costs this much Auto Shot time (stepping in and out). Forever removed
+        # Auto Shot's 0.5 s wind-up (it fires as soon as you stop moving), so movement is the only
+        # designed cost; 0.5 s covers stepping in and out. Testers also report melee swings
+        # resetting the Auto Shot timer (~3 s at default haste), which a developer podcast called a
+        # bug being fixed; if it ships, weaving loses ~15% instead of gaining ~12% (2026-10-19 sweep).
         "weave_penalty": 0.5,
         "core": {},
         "rotation": [("Mongoose Bite", "true"), ("Strider Kick", "true"), ("Raptor Strike", "true"), ("Multi-Shot", "true"), ("Arcane Shot", "true")],
