@@ -282,6 +282,16 @@ pub struct Ability {
     pub always_hit: bool,
     #[serde(default, skip_serializing_if = "is_false")]
     pub no_crit: bool,
+    #[serde(default, skip_serializing_if = "is_false")]
+    pub group: bool,
+    #[serde(default, skip_serializing_if = "is_zero_i")]
+    pub bounces: i64,
+    #[serde(default, skip_serializing_if = "is_false")]
+    pub self_too: bool,
+    #[serde(default, skip_serializing_if = "is_zero_i")]
+    pub hits: i64,
+    #[serde(default, skip_serializing_if = "is_false")]
+    pub inner_focus: bool,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub mana: Option<(f64, f64)>,
     #[serde(default, skip_serializing_if = "Option::is_none")]

@@ -145,7 +145,7 @@ class AccuracyRegressions(unittest.TestCase):
         from forever.profile_rules import default_enchants, enchant_preferences, item_allowed
         from server import ENCHANT_DATA, PHASE12_BIS, default_request
         for s in public_specs():
-            gear = PHASE12_BIS['profiles'][s['id']]['gear']
+            gear = default_request(s)['gear_slots']  # healers have no Phase 1-2 preset
             for row in gear:
                 if row['id']: self.assertTrue(item_allowed(ITEMS[row['id']], row['slot'], s['class_name']), (s['id'], row['slot']))
             self.assertEqual(default_request(s)['enchants'], default_enchants(s, gear, ITEMS, ENCHANT_DATA['slots']))

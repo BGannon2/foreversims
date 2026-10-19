@@ -48,10 +48,27 @@ DEFAULTS = {"duration": 120, "iterations": 300, "benchmark_iterations": 300, "se
 DEBUFFS = [x["key"] for x in SETTING_DATA["debuffs"]]
 
 
+def default_profile(spec_id):
+    """Default gear profile. Specs added after the Phase 1-2 presets (healers) start from their
+    Forever BiS set, or failing that the same class's first preset."""
+    if spec_id in PHASE12_BIS["profiles"]:
+        return PHASE12_BIS["profiles"][spec_id]
+    fb = FOREVER_BIS["profiles"].get(spec_id)
+    if fb:  # Forever BiS rows name the slot by item type ("Finger"); the UI and engine want "Finger 1"
+        return dict(fb, gear=[dict(x, slot=UI_SLOT.get(x.get("gear_slot"), x["slot"])) for x in fb["gear"]])
+    return next(p for k, p in PHASE12_BIS["profiles"].items() if k.startswith(spec_id.split("-")[0] + "-"))
+
+
+def gear_presets():
+    """PHASE12_BIS with a default profile for every public spec (what the spec page loads)."""
+    from forever.all_specs import public_specs
+    return dict(PHASE12_BIS, profiles={**{s["id"]: default_profile(s["id"]) for s in public_specs()}, **PHASE12_BIS["profiles"]})
+
+
 def default_request(spec, race=None, **overrides):
     """The saved default profile for a shared-engine spec (what the UI loads). With variant=..., a
     spec variant's own talents and, once built, its own "Assumed Forever BiS" set."""
-    profile = PHASE12_BIS["profiles"][spec["id"]]
+    profile = default_profile(spec["id"])
     variant = overrides.get("variant")
     if variant:
         from forever.engine_data import VARIANTS
@@ -207,7 +224,7 @@ class Handler(BaseHTTPRequestHandler):
             return self.send_json(default_benchmarks())
         if path == "/api/spec-bootstrap":
             return self.send_json({
-                "specs": public_specs(), "talents": ALL_TALENTS, "gear": PHASE12_BIS, "forever_bis": FOREVER_BIS, "consumables": CONSUMABLE_DATA,
+                "specs": public_specs(), "talents": ALL_TALENTS, "gear": gear_presets(), "forever_bis": FOREVER_BIS, "consumables": CONSUMABLE_DATA,
                 "settings": SETTING_DATA, "enchants": ENCHANT_DATA, "racials": public_racials(), "defaults": DEFAULTS, "buff_groups": BUFF_GROUPS,
                 "enchant_preferences": {s['id']: enchant_preferences(s) for s in public_specs()}, "equipment_rules": equipment_rules(),
                 "set_effects": SET_EFFECTS, "set_no_combat_effect": sorted(SET_NO_COMBAT_EFFECT), "set_provisional": SET_PROVISIONAL, "set_patterns": [p for _, p in engine_module.SET_PATTERNS],

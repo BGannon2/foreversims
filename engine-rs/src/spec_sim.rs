@@ -110,10 +110,11 @@ pub fn finalize(cfg: &Config, results: &[IterResult]) -> Value {
         m.insert("races".into(), json!(t.CLASS_RACES[&cfg.spec.class_name]));
     }
     let survival = results.iter().filter(|r| r.alive).count() as f64 / n;
+    let hps: Vec<f64> = if cfg.spec.role == "healer" { dps.clone() } else { vec![0.0; dps.len()] };
     json!({
         "profile": {"spec": cfg.spec.id, "race": cfg.race, "level": t.LEVEL, "target_level": t.TARGET_LEVEL, "duration": duration, "duration_variance": cfg.variance, "iterations": cfg.iterations, "seed": cfg.seed},
         "spec": spec,
-        "metrics": {"dps": metric(&dps), "tps": metric(&tps), "dtps": metric(&dtps), "alive_dtps": metric(&alive), "survival_fraction": survival,
+        "metrics": {"dps": metric(&dps), "hps": metric(&hps), "tps": metric(&tps), "dtps": metric(&dtps), "alive_dtps": metric(&alive), "survival_fraction": survival,
             "alive_seconds": metric(&results.iter().map(|r| r.alive_seconds).collect::<Vec<_>>()),
             "ending_health": metric(&results.iter().map(|r| r.ending_health).collect::<Vec<_>>()),
             "effective_healing": metric(&results.iter().map(|r| r.effective_healing).collect::<Vec<_>>()),

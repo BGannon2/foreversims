@@ -76,7 +76,7 @@ function renderSpecCards() {
   const card = $("specCard"); if (!card) return;
   card.hidden = siblings.length < 2;
   const race = encodeURIComponent($("race")?.value || "");
-  $("specCards").innerHTML = siblings.map(s => `<a class="spec ${s.id === spec.id ? "active" : ""}" href="/all-specs?spec=${s.id}${race ? "&race=" + race : ""}"><b class="spec-icon"><img src="/spec-icons/${s.id}.jpg" alt=""></b><span><strong>${s.name}</strong><small>${s.role === "tank" ? "Threat & survivability" : s.style === "spell" ? "Spell damage" : s.style === "ranged" ? "Ranged damage" : "Melee damage"}</small></span></a>`).join("");
+  $("specCards").innerHTML = siblings.map(s => `<a class="spec ${s.id === spec.id ? "active" : ""}" href="/all-specs?spec=${s.id}${race ? "&race=" + race : ""}"><b class="spec-icon"><img src="/spec-icons/${s.id}.jpg" alt=""></b><span><strong>${s.name}</strong><small>${s.role === "tank" ? "Threat & survivability" : s.role === "healer" ? "Healing" : s.style === "spell" ? "Spell damage" : s.style === "ranged" ? "Ranged damage" : "Melee damage"}</small></span></a>`).join("");
 }
 function setBonusState(setName, bonus) {
   const key = `${setName}|${bonus.required}`;
@@ -149,7 +149,7 @@ function renderTalents() {
 function metricCard(label, value, primary = false) { return `<article class="metric ${primary ? "primary-metric" : ""}"><div class="label">${label}</div><div class="value">${value}</div></article>`; }
 function renderResultView(view) {
   if (!lastResult) return; document.querySelectorAll(".result-tab").forEach(x => x.classList.toggle("active", x.dataset.result === view)); const x = lastResult, detail = $("resultDetail");
-  if (view === "damage") { const max = Math.max(1, ...Object.values(x.ability_dps)); detail.innerHTML = '<h3>Damage</h3><div class="result-table-wrap"><table class="result-breakdown"><thead><tr><th>Ability</th><th>Contribution</th><th>DPS</th><th>Total</th><th>Casts</th><th>Hits</th><th>Crits</th><th>Misses</th><th>Dodged/Parried</th><th>Glances</th></tr></thead><tbody>' + Object.entries(x.ability_dps).sort((a, b) => b[1] - a[1]).map(([n, v]) => { const r = x.ability_stats[n]; return `<tr><td>${n}</td><td><div class="share-track"><div class="share-fill" data-bar-width="${100 * v / max}"></div></div></td><td>${fmt(v)}</td><td>${fmt(x.ability_damage?.[n] ?? r.damage, 0)}</td><td>${fmt(r.casts, 1)}</td><td>${fmt(r.hits, 1)}</td><td>${fmt(r.crits, 1)}</td><td>${fmt(r.misses, 1)}</td><td>${fmt(r.dodges || 0, 1)}</td><td>${fmt(r.glances || 0, 1)}</td></tr>`; }).join("") + "</tbody></table></div>"; applyBarWidths(detail); return; }
+  if (view === "damage") { const max = Math.max(1, ...Object.values(x.ability_dps)); const heals = x.spec.role === "healer"; detail.innerHTML = `<h3>${heals ? "Healing" : "Damage"}</h3><div class="result-table-wrap"><table class="result-breakdown"><thead><tr><th>Ability</th><th>Contribution</th><th>${heals ? "HPS" : "DPS"}</th>` + '<th>Total</th><th>Casts</th><th>Hits</th><th>Crits</th><th>Misses</th><th>Dodged/Parried</th><th>Glances</th></tr></thead><tbody>' + Object.entries(x.ability_dps).sort((a, b) => b[1] - a[1]).map(([n, v]) => { const r = x.ability_stats[n]; return `<tr><td>${n}</td><td><div class="share-track"><div class="share-fill" data-bar-width="${100 * v / max}"></div></div></td><td>${fmt(v)}</td><td>${fmt(x.ability_damage?.[n] ?? r.damage, 0)}</td><td>${fmt(r.casts, 1)}</td><td>${fmt(r.hits, 1)}</td><td>${fmt(r.crits, 1)}</td><td>${fmt(r.misses, 1)}</td><td>${fmt(r.dodges || 0, 1)}</td><td>${fmt(r.glances || 0, 1)}</td></tr>`; }).join("") + "</tbody></table></div>"; applyBarWidths(detail); return; }
   if (view === "threat") { const max = Math.max(1, ...Object.values(x.threat_by_ability)); detail.innerHTML = "<h3>Threat</h3>" + Object.entries(x.threat_by_ability).sort((a, b) => b[1] - a[1]).filter(([, v]) => v > 0).map(([n, v]) => `<div class="result-row"><span>${n}</span><div class="share-track"><div class="share-fill" data-bar-width="${100 * v / max}"></div></div><strong>${fmt(v)} TPS</strong></div>`).join(""); applyBarWidths(detail); return; }
   if (view === "taken") {
     const tank = x.spec.role === "tank", m = x.metrics, e = x.incoming;
@@ -197,8 +197,11 @@ async function run() {
     if (x.error) throw new Error(x.error);
     lastResult = x;
     const ci = m => m.mean_95ci_half_width == null ? "" : `<small>95% CI ${PM} ${fmt(m.mean_95ci_half_width, 2)}</small>`;
+    const healer = x.spec.role === "healer";
+    $("quickDps").previousElementSibling.textContent = healer ? "HPS" : "DPS";
     $("quickDps").textContent = fmt(x.metrics.dps.mean); $("quickTps").textContent = fmt(x.metrics.tps.mean);
-    $("metrics").innerHTML = metricCard("DPS", `${fmt(x.metrics.dps.mean)}${ci(x.metrics.dps)}`, true) + metricCard("TPS", `${fmt(x.metrics.tps.mean)}${ci(x.metrics.tps)}`) + (x.spec.role === "tank" ? metricCard("DAMAGE / ALIVE SEC", `${fmt(x.metrics.alive_dtps.mean)}${ci(x.metrics.alive_dtps)}`) + metricCard("SURVIVAL", `${fmt((x.metrics.survival_fraction ?? 1) * 100, 0)}%`) : metricCard("STARVED", `${fmt(x.resource.starved_fraction * 100, 1)}%`));
+    if (healer) $("metrics").innerHTML = metricCard("HPS", `${fmt(x.metrics.dps.mean)}${ci(x.metrics.dps)}`, true) + metricCard("MANA AT END", fmt(x.resource.mean_end, 0)) + metricCard("STARVED", `${fmt(x.resource.starved_fraction * 100, 1)}%`);
+    else $("metrics").innerHTML = metricCard("DPS", `${fmt(x.metrics.dps.mean)}${ci(x.metrics.dps)}`, true) + metricCard("TPS", `${fmt(x.metrics.tps.mean)}${ci(x.metrics.tps)}`) + (x.spec.role === "tank" ? metricCard("DAMAGE / ALIVE SEC", `${fmt(x.metrics.alive_dtps.mean)}${ci(x.metrics.alive_dtps)}`) + metricCard("SURVIVAL", `${fmt((x.metrics.survival_fraction ?? 1) * 100, 0)}%`) : metricCard("STARVED", `${fmt(x.resource.starved_fraction * 100, 1)}%`));
     renderResultView("damage"); renderConfiguration(x);
     $("resultLabel").textContent = `${payload.iterations.toLocaleString()} iterations${DOT}${payload.duration}s Patchwerk${DOT}${x.configuration.race}${DOT}${payload.boss_type === "none" ? "unspecified creature type" : payload.boss_type}`;
     showTab("results");

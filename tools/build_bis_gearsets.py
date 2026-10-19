@@ -91,6 +91,10 @@ CASTER_DPS = {"spellPower": 1.0, "spellCrit": 1.8, "intellect": 0.7, "spirit": 0
               "stamina": 0.25, "mp5": 0.6, "hitWeight": 2.2}
 RANGED_DPS = {"attackPower": 0.9, "meleeCrit": 2.0, "agility": 1.3, "stamina": 0.3,
               "armor": 0.01, "hitWeight": 2.3}
+# Healers: heals scale with spell power and healing power alike, never miss (no hit), and the HPS
+# metric is mana-bound over the fight, so mp5, Intellect and Spirit carry real weight.
+HEALER = {"healingPower": 1.0, "spellPower": 1.0, "mp5": 2.0, "intellect": 0.6, "spirit": 0.5,
+          "spellCrit": 1.2, "stamina": 0.1}
 TANK = {"defense": 3.0, "stamina": 1.4, "dodge": 1.3, "parry": 1.1, "block": 0.8,
         "blockValue": 0.15, "armor": 0.03, "strength": 0.4, "agility": 0.3}
 
@@ -116,7 +120,7 @@ SPEC_ARCHETYPE = {
     "druid-balance": CASTER_DPS, "druid-feral-dps": MELEE_DPS_AGI, "druid-feral-tank": TANK,
     "hunter-beast-mastery": RANGED_DPS, "hunter-marksmanship": RANGED_DPS, "hunter-survival": RANGED_DPS,
     "mage-arcane": CASTER_DPS, "mage-fire": CASTER_DPS, "mage-frost": CASTER_DPS,
-    "priest-shadow": CASTER_DPS,
+    "priest-shadow": CASTER_DPS, "priest-holy": HEALER,
     "rogue-assassination": MELEE_DPS_AGI, "rogue-combat": MELEE_DPS_AGI, "rogue-subtlety": MELEE_DPS_AGI,
     "shaman-elemental": CASTER_DPS, "shaman-enhancement": MELEE_DPS_AGI,
     "warlock-affliction": CASTER_DPS, "warlock-demonology": CASTER_DPS, "warlock-destruction": CASTER_DPS,

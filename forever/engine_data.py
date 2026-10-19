@@ -176,6 +176,7 @@ SPECS = [
     ("mage-fire", "Mage", "Fire", "dps", "spell", "Mana", "Fire", None, None),
     ("mage-frost", "Mage", "Frost", "dps", "spell", "Mana", "Frost", None, None),
     ("priest-shadow", "Priest", "Shadow", "dps", "spell", "Mana", "Shadow", None, None),
+    ("priest-holy", "Priest", "Holy", "healer", "spell", "Mana", "Holy", None, None),
     ("rogue-assassination", "Rogue", "Assassination", "dps", "melee", "Energy", "Assassination", None, None),
     ("rogue-combat", "Rogue", "Combat", "dps", "melee", "Energy", "Combat", None, None),
     ("rogue-subtlety", "Rogue", "Subtlety", "dps", "melee", "Energy", "Subtlety", None, None),
@@ -291,6 +292,20 @@ ABILITIES = {
     "Shadow Word: Pain": {"kind": "dot", "school": "shadow", "cost": 470, "tick": 95.25, "ticks": 8, "tick_len": 3, "dot_coeff": 0.20, "spreadable": True, "forever": True,
                            "provisional": "Rank 8 total (762 over 8 ticks) and 20% SP bonus confirmed via foreverchanges.pro (build 1.60.1.69913)."},
     "Mind Blast": {"kind": "direct", "school": "shadow", "cost": 350, "cast": 1.5, "cooldown": 8, "base": (472, 498), "coeff": 0.429, "forever": True, "provisional": "Rank 9 value confirmed via foreverchanges.pro (build 1.60.1.69913)."},
+    # Priest heals (client build 70425, max rank usable at 60). kind "heal" is a direct heal and
+    # "hot" a heal over time; both scale with healing power (spell power + healing power + the
+    # Spiritual Guidance share of Spirit). "group" heals up to 5 injured allies, "bounces" heals one
+    # injured ally per charge, "self_too" also heals the caster once 2+ allies (caster included) are hurt.
+    "Greater Heal": {"kind": "heal", "school": "holy", "cost": 710, "cast": 3.0, "base": (1852.2, 2067.8), "coeff": 0.857, "spell_id": 25314},
+    "Heal": {"kind": "heal", "school": "holy", "cost": 305, "cast": 3.0, "base": (611.6, 690.4), "coeff": 0.857, "spell_id": 6064},
+    "Flash Heal": {"kind": "heal", "school": "holy", "cost": 380, "cast": 1.5, "base": (756.9, 893.1), "coeff": 0.429, "spell_id": 10917},
+    "Renew": {"kind": "hot", "school": "holy", "cost": 410, "tick": 166, "ticks": 5, "tick_len": 3, "dot_coeff": 0.20, "spreadable": True, "spell_id": 25315},
+    "Prayer of Healing": {"kind": "heal", "school": "holy", "cost": 1070, "cast": 3.0, "base": (631.5, 666.5), "coeff": 0.286, "group": True, "spell_id": 25316},
+    "Binding Heal": {"kind": "heal", "school": "holy", "cost": 380, "cast": 1.5, "base": (756.9, 893.1), "coeff": 0.429, "self_too": True, "spell_id": 1240774},
+    "Prayer of Mending": {"kind": "heal", "school": "holy", "cost": 390, "cooldown": 10, "base": (413, 413), "coeff": 0.429, "bounces": 5, "spell_id": 1240827},
+    "Penance": {"kind": "heal", "school": "holy", "cost": 385, "cooldown": 12, "gcd": 2.0, "base": (425, 425), "coeff": 0.19, "hits": 3, "spell_id": 1316995},
+    "Power Infusion": {"kind": "buff", "school": "holy", "cost_pct": 0.20, "cooldown": 180, "duration": 15, "damage_mult": 0.20, "spell_id": 10060},
+    "Inner Focus": {"kind": "buff", "school": "holy", "off_gcd": True, "cooldown": 180, "inner_focus": True, "spell_id": 14751},
     "Mind Flay": {"kind": "channel", "school": "shadow", "cost": 205, "cast": 3.0, "tick": 130, "ticks": 3, "coeff": 0.167, "forever": True,
                   "provisional": "Rank 6 (max rank) tick damage and coefficient confirmed via wago.tools DB2 (build 1.60.1.69913, spell 18807); mana cost (205) was already correct."},
     "Shadow Word: Death": {"kind": "direct", "school": "shadow", "cost": 175, "cooldown": 15, "base": (286, 304), "coeff": 0.429, "forever": True,
@@ -369,6 +384,11 @@ ROTATIONS = {
     "mage-arcane": [("Arcane Explosion", "targets>=3"), ("Arcane Power", "true"), ("Presence of Mind", "true"), ("Arcane Wrath", "true"), ("Arcane Missiles", "buff:Missile Barrage>0"), ("Arcane Missiles", "buffstacks:Arcane Blast>=4"), ("Arcane Blast", "true"), ("Frostbolt", "true")],
     "mage-fire": [("Arcane Explosion", "targets>=3"), ("Scorch", "stacks:Improved Scorch<5 or debuff:Improved Scorch<4"), ("Combustion", "stacks:Improved Scorch>=5"), ("Pyroblast", "buffstacks:Hot Streak>=1"), ("Fire Blast", "moving"), ("Fireball", "true"), ("Scorch", "true")],
     "mage-frost": [("Blizzard", "targets>=3"), ("Cold Snap", "false"), ("Ice Lance", "buffstacks:Fingers of Frost>=1"), ("Frostbolt", "true"), ("Fire Blast", "moving")],
+    # Mana pacing: "mana_ahead" holds while mana % >= the share of the fight still to go, so the
+    # big heals are used only while the mana will still last to the end.
+    "priest-holy": [("Power Infusion", "true"), ("Inner Focus", "true"), ("Prayer of Mending", "true"), ("Penance", "true"),
+                    ("Renew", "dot_missing and mana_ahead"), ("Prayer of Healing", "targets>=3 and mana_ahead"), ("Binding Heal", "targets>=2"),
+                    ("Greater Heal", "mana_ahead"), ("Heal", "true")],
     "priest-shadow": [("Shadow Word: Pain", "dot_missing"), ("Devouring Plague", "dot_missing"), ("Shadow Word: Death", "execute"), ("Mind Blast", "true"), ("Mind Flay", "true")],
     "rogue-assassination": [("Thistle Tea", "energy<20"), ("Cold Blood", "cp>=5"), ("Venom", "cp>=2 and buff_missing"), ("Slice and Dice", "cp>=2 and buff_missing"), ("Eviscerate", "cp>=5"), ("Mutilate", "true")],
     "rogue-combat": [("Thistle Tea", "energy<20"), ("Adrenaline Rush", "true"), ("Blade Flurry", "true"), ("Slice and Dice", "cp>=2 and buff_missing"), ("Eviscerate", "cp>=5"), ("Sinister Strike", "true")],
@@ -424,6 +444,9 @@ SPEC_ABOUT = {
     "mage-frost": {
         "dps": "Priority: Blizzard once 3+ targets are up, Ice Lance under a Fingers of Frost charge, Frostbolt as the main nuke, Fire Blast while moving.",
         "tps": "No threat modifier applies."},
+    "priest-holy": {
+        "dps": "Healing: Power Infusion and Inner Focus on cooldown, Prayer of Mending and Penance on cooldown, Renew upkeep while mana allows, Prayer of Healing at 3+ injured allies, Binding Heal at 2+, Greater Heal while mana is ahead of the fight's pace, Heal otherwise.",
+        "tps": "No threat modelled for healing."},
     "priest-shadow": {
         "dps": "Priority: Shadow Word: Pain upkeep (spread across available targets rather than refreshed on one), Shadow Word: Death in execute range, Mind Blast, Mind Flay as filler.",
         "tps": "No threat modifier applies."},
@@ -518,7 +541,16 @@ TALENT_EFFECTS = {
     # Priest Shadow
     "110851": {"spell_hit_school:shadow": 1}, "105830": {"flag:swp_ticks": 1}, "105826": {"flag:mind_flay": 1}, "105825": {"dmg_ability:Mind Flay": 0.10},
     "105821": {"flag:shadow_weaving": 0.02}, "105818": {"dmg_school:shadow": 0.02}, "105817": {"flag:shadowform": 1}, "110854": {"flag:early_demise": 15}, "105833": {}, "105831": {"cooldown:Mind Blast": -0.5},
-    "105843": {"flag:spirit_while_casting": 0.1667}, "105837": {"stat_pct:intellect": 0.02}, "105853": {"flag:spiritual_guidance": 0.016},
+    "105843": {"flag:spirit_while_casting": 0.1667}, "105837": {"stat_pct:intellect": 0.02}, "105853": {"flag:spiritual_guidance": 0.016, "flag:sg_heal": 0.05},
+    # Holy / Discipline healing talents (rank values from the client talent descriptions)
+    "105849": {"dmg_ability:Renew": 0.01, "dmg_ability:Prayer of Mending": 0.01, "dmg_ability:Penance": 0.01},
+    "105842": {"cost_pct:Renew": -0.0333, "cost_pct:Prayer of Mending": -0.0333, "cost_pct:Penance": -0.0333},
+    "105844": {"flag:inner_focus": 1}, "105834": {"flag:penance": 1}, "105836": {"flag:power_infusion": 1},
+    "105851": {"flag:prayer_of_mending": 1}, "105856": {"flag:binding_heal": 1},
+    "105866": {"dmg_ability:Renew": 0.05}, "110855": {"crit_school:holy": 1},
+    "105863": {"cast:Heal": -0.1, "cast:Greater Heal": -0.1, "cast:Smite": -0.1, "cast:Holy Fire": -0.1},
+    "105858": {"cost_pct:Heal": -0.05, "cost_pct:Greater Heal": -0.05, "cost_pct:Penance": -0.05, "cost_pct:Prayer of Mending": -0.05},
+    "105855": {"flag:litany_of_light": 0.05}, "105840": {"flag:divine_aegis": 0.05},
     # Rogue Assassination
     "105722": {"melee_crit": 1}, "105720": {"flag:murder": 0.02}, "105739": {"flag:snd_duration": 0.15}, "105759": {"flag:relentless_strikes": 1}, "105716": {"crit_dmg_builder": 0.06},
     "105714": {"flag:poison_damage": 0.04}, "105715": {"flag:cold_blood": 1}, "105713": {"flag:poison_chance": 0.02}, "105718": {"flag:max_energy": 5}, "105710": {"flag:seal_fate": 0.20}, "105721": {"flag:ruthlessness": 0.20},
@@ -558,6 +590,7 @@ TALENT_GATED = {"Mortal Strike": "mortal_strike", "Spearing Strike": "spearing_s
                 "Cold Snap": "cold_snap", "Mind Flay": "mind_flay", "Cold Blood": "cold_blood", "Blade Flurry": "blade_flurry", "Adrenaline Rush": "adrenaline_rush",
                 "Hemorrhage": "hemorrhage", "Stormstrike": "stormstrike", "Rage of the Farseer": "rage_of_the_farseer", "Siphon Life": "siphon_life", "Conflagrate": "conflagrate",
                 "Shadowburn": "shadowburn", "Demonic Sacrifice": "demonic_sacrifice",
+                "Inner Focus": "inner_focus", "Penance": "penance", "Power Infusion": "power_infusion", "Prayer of Mending": "prayer_of_mending", "Binding Heal": "binding_heal",
                 "Arcane Blast": "arcane_blast", "Pyroblast": "pyroblast", "Ice Lance": "ice_lance", "Summon Hawk": "summon_hawk",
                 "Mutilate": "mutilate", "Venom": "venom", "Lava Burst": "lava_burst", "Incinerate": "incinerate",
                 "Mangle": "mangle", "Primal Bite": "mangle", "Berserk": "berserk", "Shifting Power": "shifting_power",
@@ -600,6 +633,9 @@ DEFAULT_BUILDS = {
     # Ice Lance (row2) + Fingers of Frost (row4) added; Arcane Meditation (105803) dropped to stay at 51.
     "mage-frost": {"105779": 5, "105778": 5, "105777": 5, "105773": 3, "105772": 3, "105768": 3, "105767": 1, "105766": 1, "105764": 2, "105763": 5, "105762": 1,
                    "105814": 5, "105813": 2, "105812": 2, "105810": 5, "105807": 3},
+    # Holy 31 (to Prayer of Mending) / Discipline 20 (Inner Focus, Meditation, Mental Agility).
+    "priest-holy": {"105866": 3, "110855": 5, "105867": 2, "105863": 5, "105858": 3, "105856": 1, "105859": 1, "105854": 1, "105855": 1, "105853": 5, "105852": 3, "105851": 1,
+                    "105849": 5, "105837": 5, "105844": 1, "105843": 3, "105842": 3, "105841": 3},
     "priest-shadow": {"110851": 5, "105833": 5, "105831": 5, "105830": 2, "105826": 1, "105825": 2, "105821": 3, "105820": 1, "105818": 5, "105817": 1,
                      "110854": 2, "105849": 5, "105850": 2, "105842": 3, "105843": 3, "105837": 5, "105823": 1},
     "rogue-assassination": {"105722": 5, "105721": 3, "105720": 2, "105739": 3, "105759": 1, "105716": 5, "105715": 1, "105713": 5, "105718": 1, "105710": 5,
@@ -856,6 +892,7 @@ SET_PROVISIONAL = {"Bloodfang Armor|8": "6 x 1-second ticks of 283-317 total phy
 # a client number being verified does not certify the entire combat mechanic.
 _wago = _json.loads((_Path(__file__).resolve().parents[1] / "data/wago_verified.json").read_text(encoding="utf-8"))
 TALENT_RANK_EFFECTS = {tid: entry["fields"] for tid, entry in _wago["talents"].items()}
+TALENT_RANK_EFFECTS["105852"] = {"heal_pct": [0.03, 0.07, 0.10]}  # Spiritual Healing (client description)
 for _name, _record in _wago.get("pet_spells", {}).items():  # hunter pet spenders
     PET_ABILITIES[_name].update(_record["fields"], spell_id=_record["spell_id"])
 for _name, _record in _wago["spells"].items():

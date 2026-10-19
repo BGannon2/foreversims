@@ -65,6 +65,7 @@ pub struct Dot {
     pub school: String,
     pub bleed: bool,
     pub stacks: i64,
+    pub heal: bool,
 }
 
 #[derive(Clone, Debug, Default, Serialize, Deserialize)]
@@ -211,6 +212,9 @@ pub struct Iteration<'a> {
     pub next_instant: bool,
     pub next_crit: bool,
     pub eclipse: i64,
+    pub inner_focus: bool,
+    pub inner_focus_used: bool,
+    pub last_heal: Option<String>,
     pub busy_until: f64,
     pub starved: f64,
     pub first_oom: Option<f64>,
@@ -249,7 +253,7 @@ impl<'a> Iteration<'a> {
             next_mh: 0.0, next_oh: if !c.oh.is_empty() { c.oh.speed_or(2.0) / 2.0 } else { 0.0 }, next_ranged: 0.0, queued_swing: None,
             last_cast_time: -10.0, next_mana_tick: 2.0, next_energy_tick: 2.0, next_rage_tick: 3.0, next_boss: c.incoming["enemy_swing"], next_heal: c.incoming["heal_interval"],
             healed: 0.0, overheal: 0.0, peak_3s_damage: 0.0, incoming_hits: vec![],
-            flurry: 0, white_crit: false, tog_ready: 0.0, eureka: 0, eureka_until: 0.0, dodged_recently: -10.0, avoided_recently: -10.0, combustion: None, clearcast: false, next_instant: false, next_crit: false, eclipse: 0,
+            flurry: 0, white_crit: false, tog_ready: 0.0, eureka: 0, eureka_until: 0.0, dodged_recently: -10.0, avoided_recently: -10.0, combustion: None, clearcast: false, next_instant: false, next_crit: false, eclipse: 0, inner_focus: false, inner_focus_used: false, last_heal: None,
             busy_until: 0.0, starved: 0.0, first_oom: None, pet_state: None, enrage_until: 0.0, sacrificed: None, racial_next: 0.0, item_icd: IndexMap::new(), windfury_lock: 0.0,
             cur_school: String::new(), cur_cost: 0.0, blocked_by_resource: false, taken_by: IndexMap::new(), pet_threat: 0.0,
             wrath_discount: false, next_parry: false,
@@ -975,7 +979,7 @@ impl<'a> Iteration<'a> {
         }
         if c.flag("bloodfang_proc") != 0.0 && self.rng.random() < c.flag("bloodfang_proc") * speed / 60.0 {
             let total = self.rng.uniform(283.0, 317.0);
-            self.dots.insert("Bloodfang".into(), Dot { next: self.t + 1.0, remaining: 6, tick: total / 6.0, tick_len: 1.0, school: "physical".into(), bleed: false, stacks: 1 });
+            self.dots.insert("Bloodfang".into(), Dot { next: self.t + 1.0, remaining: 6, tick: total / 6.0, tick_len: 1.0, school: "physical".into(), bleed: false, stacks: 1, heal: false });
         }
         if c.flag("stormshroud_dmg") != 0.0 && self.rng.random() < c.flag("stormshroud_dmg") {
             self.row("Stormshroud").casts += 1.0;
@@ -1071,7 +1075,7 @@ impl<'a> Iteration<'a> {
                     let p = &c.t.POISONS["deadly"];
                     let prev = self.dots.get("Deadly Poison").filter(|d| d.remaining > 0).map_or(0, |d| d.stacks);
                     let stacks = p.max_stacks.min(prev + 1);
-                    self.dots.insert("Deadly Poison".into(), Dot { next: self.t + 3.0, remaining: 4, tick: p.tick * (1.0 + c.flag("poison_damage") + venom_dmg), tick_len: 3.0, school: "nature".into(), stacks, bleed: false });
+                    self.dots.insert("Deadly Poison".into(), Dot { next: self.t + 3.0, remaining: 4, tick: p.tick * (1.0 + c.flag("poison_damage") + venom_dmg), tick_len: 3.0, school: "nature".into(), stacks, bleed: false, heal: false });
                 }
             }
         }
@@ -1104,7 +1108,7 @@ impl<'a> Iteration<'a> {
                     avg *= 0.5 * (1.0 + c.flag("dw_damage"));
                 }
                 let tick = avg * c.flag("deep_wounds") / 4.0 * self.periodic_crit_mult("Deep Wounds", "physical", true, 0.0);
-                self.dots.insert("Deep Wounds".into(), Dot { next: self.t + 3.0, remaining: 4, tick, tick_len: 3.0, school: "physical".into(), bleed: true, stacks: 1 });
+                self.dots.insert("Deep Wounds".into(), Dot { next: self.t + 3.0, remaining: 4, tick, tick_len: 3.0, school: "physical".into(), bleed: true, stacks: 1, heal: false });
             }
             if c.flag("primal_fury") != 0.0 && c.spec.form_is("bear") {
                 self.gain_rage(5.0);
@@ -1121,7 +1125,7 @@ impl<'a> Iteration<'a> {
                         d.next = t + 2.0;
                     }
                     _ => {
-                        self.dots.insert("Ignite".into(), Dot { next: t + 2.0, remaining: 2, tick: amount / 2.0, tick_len: 2.0, school: "fire".into(), bleed: false, stacks: 1 });
+                        self.dots.insert("Ignite".into(), Dot { next: t + 2.0, remaining: 2, tick: amount / 2.0, tick_len: 2.0, school: "fire".into(), bleed: false, stacks: 1, heal: false });
                     }
                 }
             }
@@ -1292,6 +1296,11 @@ impl<'a> Iteration<'a> {
             Cond::Not(x) => !self.check(x, name),
             Cond::Execute => self.t >= self.execute_at,
             Cond::Moving => false,
+            Cond::ManaAhead | Cond::ManaBehind => {
+                // healer mana pacing: mana % vs share of the fight left
+                let ahead = self.mana / self.max_mana.max(1.0) + EPS >= (self.duration - self.t) / self.duration;
+                if matches!(cond, Cond::ManaAhead) { ahead } else { !ahead }
+            }
             Cond::DotMissing => {
                 let active = self.dots.get(name).is_some_and(|d| d.remaining > 0 && d.next - self.t < 1e9);
                 let a = &self.c.actions[name];
@@ -1630,6 +1639,9 @@ impl<'a> Iteration<'a> {
         if a.instant_next {
             self.next_instant = true;
         }
+        if a.inner_focus {
+            self.inner_focus = true;
+        }
         if a.next_crit {
             self.next_crit = true;
         }
@@ -1720,6 +1732,11 @@ impl<'a> Iteration<'a> {
             cast *= 0.5;
             self.buffs.shift_remove("Missile Barrage");
         }
+        if self.inner_focus && (a.kind == "heal" || a.kind == "hot") {
+            cost = 0.0;
+            self.inner_focus = false;
+            self.inner_focus_used = true;
+        }
         self.spend(cost);
         self.cur_cost = cost;
         if c.spec.resource == "Rage" && cost > 0.0 && c.flag("wrath_rage_proc") != 0.0 && self.rng.random() < c.flag("wrath_rage_proc") {
@@ -1784,6 +1801,10 @@ impl<'a> Iteration<'a> {
         let kind = a.kind.as_str();
         if kind == "buff" {
             self.activate_buff(name, &a);
+            return;
+        }
+        if kind == "heal" || kind == "hot" {
+            self.resolve_heal(name, &a);
             return;
         }
         if name == "Mutilate" {
@@ -1956,14 +1977,14 @@ impl<'a> Iteration<'a> {
                 self.buffs.shift_remove("Mongoose Bite Ready");
                 if dmg != 0.0 && c.flag("lacerating_strikes") != 0.0 {
                     let tick = dmg * 0.40 / 7.0 * self.periodic_crit_mult("Lacerating Strikes", "physical", true, 0.0);
-                    self.dots.insert("Lacerating Strikes".into(), Dot { next: self.t + 3.0, remaining: 7, tick, tick_len: 3.0, school: "physical".into(), bleed: true, stacks: 1 });
+                    self.dots.insert("Lacerating Strikes".into(), Dot { next: self.t + 3.0, remaining: 7, tick, tick_len: 3.0, school: "physical".into(), bleed: true, stacks: 1, heal: false });
                 }
             }
             if name == "Lacerate" {
                 let prev = self.dots.get("Lacerate").filter(|d| d.remaining > 0).map(|d| (d.next, d.stacks));
                 let tick = a.tick * a.mult * self.periodic_crit_mult(name, "physical", true, 0.0);
                 let (next, stacks) = match prev { Some((n, s)) => (n, (s + 1).min(5)), None => (self.t + a.tick_len, 1) };
-                self.dots.insert("Lacerate".into(), Dot { next, remaining: a.ticks, tick, tick_len: a.tick_len, school: "physical".into(), bleed: true, stacks });
+                self.dots.insert("Lacerate".into(), Dot { next, remaining: a.ticks, tick, tick_len: a.tick_len, school: "physical".into(), bleed: true, stacks, heal: false });
             }
             if dmg != 0.0 {
                 if a.weapon.is_some() {
@@ -1990,7 +2011,7 @@ impl<'a> Iteration<'a> {
                 return;
             }
             let tick = tick * a.mult * self.periodic_crit_mult(name, "physical", true, 0.0);
-            self.dots.insert(name.to_string(), Dot { next: self.t + a.tick_len, remaining: a.ticks, tick, tick_len: a.tick_len, school: "physical".into(), bleed: true, stacks: 1 });
+            self.dots.insert(name.to_string(), Dot { next: self.t + a.tick_len, remaining: a.ticks, tick, tick_len: a.tick_len, school: "physical".into(), bleed: true, stacks: 1, heal: false });
             self.finish(name);
             self.record(name, "applied", 0.0);
             return;
@@ -2010,7 +2031,7 @@ impl<'a> Iteration<'a> {
                 return;
             }
             let tick = tick * a.mult * self.periodic_crit_mult(name, "physical", true, 0.0);
-            self.dots.insert(name.to_string(), Dot { next: self.t + 2.0, remaining: 3 + cp, tick, tick_len: 2.0, school: "physical".into(), bleed: true, stacks: 1 });
+            self.dots.insert(name.to_string(), Dot { next: self.t + 2.0, remaining: 3 + cp, tick, tick_len: 2.0, school: "physical".into(), bleed: true, stacks: 1, heal: false });
             self.finish(name);
             self.record(name, "applied", 0.0);
             return;
@@ -2088,13 +2109,103 @@ impl<'a> Iteration<'a> {
         }
     }
 
+    // ---- healing ---------------------------------------------------------
+    /// Spell power + healing power, with Spiritual Guidance's healing share of Spirit in place of
+    /// the spell-damage share already folded into spell power.
+    fn heal_power(&self) -> f64 {
+        let c = self.c;
+        self.sp("holy") + self.st("healingPower") + self.st("spirit") * (c.flag("sg_heal") - c.flag("spiritual_guidance"))
+    }
+
+    fn heal_mult(&self, name: &str) -> f64 {
+        let mut m = (1.0 + self.c.mod_("heal_pct")) * self.c.actions[name].mult;
+        for b in self.buffs.values() {
+            if b.until > self.t && b.damage_mult != 0.0 {
+                m *= 1.0 + b.damage_mult;
+            }
+        }
+        m
+    }
+
+    /// Land one heal on an injured ally (every heal lands in full; see the healer model note).
+    fn heal(&mut self, name: &str, amount: f64, periodic: bool) -> f64 {
+        let c = self.c;
+        let crit = if periodic { 0.0 } else { self.crit_chance("spell", Some(name), Some("holy")) + if self.inner_focus_used { 0.25 } else { 0.0 } };
+        let is_crit = !periodic && self.rng.random() < crit;
+        let healed = amount * self.heal_mult(name) * if is_crit { 1.5 } else { 1.0 };
+        {
+            let r = self.row(name);
+            if is_crit {
+                r.crits += 1.0;
+            }
+            r.hits += 1.0;
+            r.damage += healed;
+        }
+        self.total += healed;
+        self.record(name, if is_crit { "crit" } else { "hit" }, healed);
+        if is_crit && c.flag("divine_aegis") != 0.0 {
+            let shield = healed * c.flag("divine_aegis");
+            let da = self.row("Divine Aegis");
+            da.hits += 1.0;
+            da.damage += shield;
+            self.total += shield;
+        }
+        healed
+    }
+
+    fn resolve_heal(&mut self, name: &str, a: &Ability) {
+        let c = self.c;
+        if a.kind == "hot" {
+            let power = self.heal_power();
+            self.apply_dot(name, a, power);
+        } else {
+            let allies = c.targets.max(1);
+            let n = if a.group {
+                allies.min(5)
+            } else if a.bounces > 0 {
+                a.bounces.min(allies)
+            } else if a.self_too {
+                if allies >= 2 { 2 } else { 1 }
+            } else {
+                1
+            };
+            let power = self.heal_power();
+            let (lo, hi) = a.base.unwrap_or((0.0, 0.0));
+            for _ in 0..(n * a.hits.max(1)) {
+                let amount = self.rng.uniform(lo, hi) + power * a.coeff;
+                self.heal(name, amount, false);
+            }
+        }
+        self.inner_focus_used = false;
+        if c.flag("litany_of_light") != 0.0 && self.last_heal.as_deref().is_some_and(|l| l != name) {
+            self.gain_mana(a.cost * c.flag("litany_of_light") * 2.0); // 10% of base cost at 2/2
+        }
+        self.last_heal = Some(name.to_string());
+        self.row(name);
+    }
+
     fn apply_dot(&mut self, name: &str, a: &Ability, sp: f64) {
         let c = self.c;
+        if a.kind == "hot" {
+            // heal over time: healing multipliers apply per tick, HoTs don't crit
+            let instance = Dot { next: self.t + a.tick_len, remaining: a.ticks, tick: a.tick + sp * a.dot_coeff, tick_len: a.tick_len, school: a.school_str().to_string(), bleed: false, stacks: 1, heal: true };
+            let primary_active = self.dots.get(name).is_some_and(|d| d.remaining > 0);
+            if a.spreadable && c.targets > 1 && primary_active {
+                if let Some(slot) = self.dots_extra.iter_mut().find(|(n, d)| n == name && d.remaining <= 0) {
+                    slot.1 = instance;
+                } else {
+                    self.dots_extra.push((name.to_string(), instance));
+                }
+            } else {
+                self.dots.insert(name.to_string(), instance);
+            }
+            return;
+        }
         let mut tick = (a.tick + sp * a.dot_coeff) * a.mult;
         let pandemic = if ["Corruption", "Curse of Agony", "Siphon Life", "Drain Soul", "Wrack"].contains(&name) { c.mod_("crit_dmg_periodic") } else { 0.0 };
         let school = a.school_str().to_string();
         tick *= self.periodic_crit_mult(name, &school, a.bleed, pandemic);
-        let instance = Dot { next: self.t + a.tick_len, remaining: a.ticks, tick, tick_len: a.tick_len, school, bleed: a.bleed, stacks: 1 };
+        let instance = Dot { next: self.t + a.tick_len, remaining: a.ticks, tick, tick_len: a.tick_len, school, bleed: a.bleed, stacks: 1, heal: false };
         let primary_active = self.dots.get(name).is_some_and(|d| d.remaining > 0 && d.next - self.t < 1e9);
         if a.spreadable && c.targets > 1 && primary_active {
             if let Some(slot) = self.dots_extra.iter_mut().find(|(n, d)| n == name && d.remaining <= 0) {
@@ -2243,6 +2354,10 @@ impl<'a> Iteration<'a> {
             (d.tick * d.stacks as f64, d.school.clone())
         };
         self.row(name);
+        if self.dots[name].heal {
+            self.heal(name, tick, true);
+            return;
+        }
         let kind = if school != "physical" { "spell" } else { "melee" };
         self.deal(name, tick, &school, kind, false, true, 1.0, 0.0, Outcome::Hit, 1.0);
         if name == "Corruption" && self.c.flag("nightfall") != 0.0 && self.rng.random() < self.c.flag("nightfall") {
@@ -2261,6 +2376,10 @@ impl<'a> Iteration<'a> {
             (name.clone(), d.tick * d.stacks as f64, d.school.clone())
         };
         self.row(&name);
+        if self.dots_extra[idx].1.heal {
+            self.heal(&name, tick, true);
+            return;
+        }
         let kind = if school != "physical" { "spell" } else { "melee" };
         self.deal(&name, tick, &school, kind, false, true, 1.0, 0.0, Outcome::Hit, 1.0);
         if name == "Corruption" && self.c.flag("nightfall") != 0.0 && self.rng.random() < self.c.flag("nightfall") {

@@ -24,6 +24,8 @@ pub enum Cond {
     Not(Box<Cond>),
     Execute,
     Moving,
+    ManaAhead,
+    ManaBehind,
     DotMissing,
     BuffMissing,
     NoDagger,
@@ -57,6 +59,8 @@ pub fn parse_cond(cond: &str) -> Result<Cond, String> {
     match cond {
         "execute" => return Ok(Cond::Execute),
         "moving" => return Ok(Cond::Moving),
+        "mana_ahead" => return Ok(Cond::ManaAhead),
+        "mana_behind" => return Ok(Cond::ManaBehind),
         "dot_missing" => return Ok(Cond::DotMissing),
         "buff_missing" => return Ok(Cond::BuffMissing),
         "no_dagger" => return Ok(Cond::NoDagger),

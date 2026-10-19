@@ -579,6 +579,7 @@ class Iteration:
         self.healed = 0.0; self.overheal = 0.0; self.peak_3s_damage = 0.0; self.incoming_hits = []
         self.flurry = 0; self.white_crit = False; self.tog_ready = 0.0; self.eureka = 0; self.eureka_until = 0.0; self.dodged_recently = -10.0; self.avoided_recently = -10.0
         self.combustion = None; self.clearcast = False; self.next_instant = False; self.next_crit = False; self.eclipse = 0
+        self.inner_focus = False; self.inner_focus_used = False; self.last_heal = None
         self.busy_until = 0.0; self.starved = 0.0; self.first_oom = None
         self.pet_state = None
         self.taunted = False
@@ -1201,6 +1202,9 @@ class Iteration:
         if cond.startswith("not "): return not self.check(cond[4:], name)
         if cond == "execute": return self.t >= self.execute_at
         if cond == "moving": return False
+        if cond in {"mana_ahead", "mana_behind"}:  # healer mana pacing: mana % vs share of the fight left
+            ahead = self.mana / max(1.0, self.max_mana) + EPS >= (self.duration - self.t) / self.duration
+            return ahead if cond == "mana_ahead" else not ahead
         if cond == "dot_missing":
             d = self.dots.get(name); active = bool(d and d["remaining"] > 0 and d["next"] - self.t < 1e9)
             if a.get("spreadable") and c.targets > 1:
@@ -1375,6 +1379,7 @@ class Iteration:
             self.mana -= self.base_mana_cost(a); self.last_cast_time = self.t; self.gain_energy(a["energy_gain"])
         if a.get("combustion"): self.combustion = {"stacks": 0, "crits": 0}
         if a.get("instant_next"): self.next_instant = True
+        if a.get("inner_focus"): self.inner_focus = True
         if a.get("next_crit"): self.next_crit = True
         if a.get("life_tap"):
             self.gain_mana(a["life_tap"] * (1 + c.mod("dmg_ability:Life Tap")) + self.sp("shadow") * 0.8)
@@ -1425,6 +1430,8 @@ class Iteration:
         if name == "Arcane Missiles" and self.buff_active("Missile Barrage"):
             cast *= 0.5
             self.buffs.pop("Missile Barrage", None)
+        if self.inner_focus and a.get("kind") in {"heal", "hot"}:
+            cost = 0.0; self.inner_focus = False; self.inner_focus_used = True
         self.spend(cost); self.cur_cost = cost
         if self.s["resource"] == "Rage" and cost > 0 and c.flag("wrath_rage_proc") and self.rng.random() < c.flag("wrath_rage_proc"): self.wrath_discount = True
         self.cooldowns[name] = self.t + (0 if name == "Chain Lightning" and self.buff_active("Elemental Mastery") else a.get("cooldown", 0))
@@ -1466,6 +1473,8 @@ class Iteration:
         kind = a.get("kind")
         if kind == "buff":
             self.activate_buff(name, a); return
+        if kind in {"heal", "hot"}:
+            self.resolve_heal(name, a); return
         threat_mult, flat_threat = a.get("threat_mult", 1.0), a.get("flat_threat", 0.0)
         if name == "Mutilate":
             if not c.oh:
@@ -1633,9 +1642,65 @@ class Iteration:
             self.record(name, "applied", 0)
             return
 
+    # ---- healing ---------------------------------------------------------
+    def heal_power(self):
+        """Spell power + healing power, with Spiritual Guidance's healing share of Spirit (25% at 5/5)
+        in place of the spell-damage share already folded into spell power."""
+        c = self.c
+        return self.sp("holy") + self.st.get("healingPower", 0) + self.st["spirit"] * (c.flag("sg_heal") - c.flag("spiritual_guidance"))
+
+    def heal_mult(self, name):
+        m = (1 + self.c.mod("heal_pct")) * self.c.actions[name]["mult"]
+        for b in self.buffs.values():
+            if b["until"] > self.t and b.get("damage_mult"): m *= 1 + b["damage_mult"]
+        return m
+
+    def heal(self, name, amount, periodic=False):
+        """Land one heal on an injured ally (every heal lands in full; see the healer model note)."""
+        c = self.c; r = self.row(name)
+        crit = 0.0 if periodic else self.crit_chance("spell", name, "holy") + (0.25 if self.inner_focus_used else 0.0)
+        out = "crit" if not periodic and self.rng.random() < crit else "hit"
+        healed = amount * self.heal_mult(name) * (1.5 if out == "crit" else 1.0)
+        if out == "crit": r.crits += 1
+        r.hits += 1; r.damage += healed; self.total += healed
+        self.record(name, out, healed)
+        if out == "crit" and c.flag("divine_aegis"):
+            shield = healed * c.flag("divine_aegis")
+            da = self.row("Divine Aegis"); da.hits += 1; da.damage += shield; self.total += shield
+        return healed
+
+    def resolve_heal(self, name, a):
+        c = self.c
+        if a["kind"] == "hot":
+            self.apply_dot(name, a, self.heal_power())
+        else:
+            allies = max(1, int(c.targets))
+            if a.get("group"): n = min(5, allies)
+            elif a.get("bounces"): n = min(a["bounces"], allies)
+            elif a.get("self_too"): n = 2 if allies >= 2 else 1
+            else: n = 1
+            power = self.heal_power()
+            for _ in range(n * a.get("hits", 1)):
+                self.heal(name, self.rng.uniform(*a["base"]) + power * a.get("coeff", 0))
+        self.inner_focus_used = False
+        if c.flag("litany_of_light") and self.last_heal is not None and self.last_heal != name:
+            self.gain_mana(a.get("cost", 0) * c.flag("litany_of_light") * 2)  # 10% of base cost at 2/2
+        self.last_heal = name
+        self.row(name).casts += 0
+
     def apply_dot(self, name, a, sp):
         c = self.c
         tick = (a.get("tick", 0) + sp * a.get("dot_coeff", 0)) * a["mult"]
+        if a.get("kind") == "hot":  # heal over time: healing multipliers apply per tick, HoTs don't crit
+            instance = {"next": self.t + a["tick_len"], "remaining": a["ticks"], "tick": a.get("tick", 0) + sp * a.get("dot_coeff", 0), "tick_len": a["tick_len"], "school": a["school"], "kind": "dot", "bleed": False, "heal": True}
+            primary = self.dots.get(name)
+            if a.get("spreadable") and c.targets > 1 and primary and primary["remaining"] > 0:
+                slot = next((x for x in self.dots_extra if x["name"] == name and x["remaining"] <= 0), None)
+                if slot is None: slot = {"name": name}; self.dots_extra.append(slot)
+                slot.update(instance)
+            else:
+                self.dots[name] = instance
+            return
         pandemic = c.mod("crit_dmg_periodic") if name in {"Corruption", "Curse of Agony", "Siphon Life", "Drain Soul", "Wrack"} else 0.0
         tick *= self.periodic_crit_mult(name, a["school"], bleed=a.get("bleed", False), extra_bonus=pandemic)
         instance = {"next": self.t + a["tick_len"], "remaining": a["ticks"], "tick": tick, "tick_len": a["tick_len"], "school": a["school"], "kind": "dot", "bleed": a.get("bleed", False)}
@@ -1715,6 +1780,7 @@ class Iteration:
         tick = d["tick"] * d.get("stacks", 1)
         r = self.row(name); r.casts += 0
         school = d["school"]
+        if d.get("heal"): self.heal(name, tick, periodic=True); return
         self.deal(name, tick, school, "spell" if school != "physical" else "melee", periodic=True, outcome="hit")
         if name == "Rupture" and c.flag("thousand_cuts"): self.add_buff("Thousand Cuts", 10, stacks_max=5)
         if name == "Corruption" and c.flag("nightfall") and self.rng.random() < c.flag("nightfall"): self.proc_nightfall()
@@ -2045,7 +2111,7 @@ def simulate(request, items, enchants, sets):
     return {
         "profile": {"spec": cfg.spec["id"], "race": cfg.race, "level": LEVEL, "target_level": TARGET_LEVEL, "duration": duration, "duration_variance": cfg.variance, "iterations": cfg.iterations, "seed": cfg.seed},
         "spec": dict(cfg.spec, actions=cfg.action_names, opener=("Taunt" if cfg.spec["role"] == "tank" else None), races=CLASS_RACES[cfg.spec["class_name"]]),
-        "metrics": {"dps": metric(dps), "tps": metric(tps), "dtps": metric(dtps), "alive_dtps": metric(alive), "survival_fraction": sum(r["alive"] for r in results) / n,
+        "metrics": {"dps": metric(dps), "hps": metric(dps if cfg.spec["role"] == "healer" else [0.0] * n), "tps": metric(tps), "dtps": metric(dtps), "alive_dtps": metric(alive), "survival_fraction": sum(r["alive"] for r in results) / n,
                     **{k: metric([r[k] for r in results]) for k in ("alive_seconds", "ending_health", "effective_healing", "overhealing", "peak_3s_damage", "taken")}},
         "incoming": dict(cfg.incoming, enabled=cfg.spec['role'] == 'tank'),
         "ability_dps": ability_dps, "ability_damage": ability_damage, "ability_stats": ability_stats, "threat_by_ability": threat_by, "taken_dtps": taken_by,

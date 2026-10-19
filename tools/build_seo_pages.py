@@ -27,7 +27,7 @@ SITE = "https://foreversims.com"
 WEB = ROOT / "web"
 SIMS = WEB / "sims"
 CLASS_ORDER = ["Warrior", "Paladin", "Hunter", "Rogue", "Priest", "Shaman", "Mage", "Warlock", "Druid"]
-ROLE_WORD = {"dps": "DPS", "tank": "Tank"}
+ROLE_WORD = {"dps": "DPS", "tank": "Tank", "healer": "Healer"}
 
 PALADIN = [
     {"id": "paladin-protection", "class_name": "Paladin", "name": "Protection", "role": "tank", "sim_url": "/paladin?spec=protection",
@@ -93,7 +93,7 @@ def ld(obj) -> str:
 
 def nav() -> str:
     return ('<header class="seo-top"><a class="seo-brand" href="/">Forever Sims</a><nav><a href="/sims/">All simulators</a>'
-            '<a href="/dps-comparison">DPS comparison</a><a href="/tank-comparison">Tank comparison</a></nav></header>')
+            '<a href="/dps-comparison">DPS comparison</a><a href="/tank-comparison">Tank comparison</a><a href="/healer-comparison">Healer comparison</a></nav></header>')
 
 
 def footer(build: str, version: str) -> str:
@@ -135,9 +135,9 @@ def talents_block(spec: dict, names: dict) -> str:
 def spec_page(spec: dict, all_specs: list[dict], rows: list[dict], names: dict, build: str, version: str) -> str:
     cls, name, role = spec["class_name"], spec["name"], ROLE_WORD[spec["role"]]
     full = f"{name} {cls}"
-    kind = "tank" if spec["role"] == "tank" else "DPS"
+    kind = {"tank": "tank", "healer": "Healer"}.get(spec["role"], "DPS")
     title = f"{full} Simulator – WoW Forever {kind.title() if kind == 'tank' else kind} Sim | Forever Sims"
-    desc = (f"Free {full} simulator for World of Warcraft: Forever. Sim your {'threat and damage' if kind == 'tank' else 'DPS'} with Forever talents, "
+    desc = (f"Free {full} simulator for World of Warcraft: Forever. Sim your {'threat and damage' if kind == 'tank' else 'healing (HPS)' if kind == 'Healer' else 'DPS'} with Forever talents, "
             f"Classic Anniversary gear, raid buffs and consumables. Runs in your browser.")
     path = f"/sims/{slug(spec)}"
     about = spec.get("about", {})
@@ -166,7 +166,7 @@ def spec_page(spec: dict, all_specs: list[dict], rows: list[dict], names: dict, 
             + talents_block(spec, names)
             + (f'<section><h2>Other {esc(cls)} simulators</h2><ul>{sib}</ul></section>' if sib else "")
             + '<section><h2>Compare every spec</h2><p>See how every WoW Forever spec and race stacks up in the '
-              '<a href="/dps-comparison">DPS comparison</a> and <a href="/tank-comparison">tank comparison</a>, or browse '
+              '<a href="/dps-comparison">DPS</a>, <a href="/tank-comparison">tank</a> and <a href="/healer-comparison">healer</a> comparisons, or browse '
               '<a href="/sims/">all simulators</a>.</p></section>'
             + f'</main>{footer(build, version)}</body></html>')
     return head(title, desc, path, "".join(ld(d) for d in data)) + body
@@ -215,7 +215,7 @@ def main():
     page = re.sub(r"<!--seo-links-->.*?<!--/seo-links-->", f"<!--seo-links-->{home_links(all_specs)}<!--/seo-links-->", page, flags=re.S)
     index.write_text(page, encoding="utf-8")
     today = dt.date.today().isoformat()
-    urls = ["/", "/sims/", "/all-specs", "/paladin", "/dps-comparison", "/tank-comparison"] + [f"/sims/{slug(s)}" for s in all_specs]
+    urls = ["/", "/sims/", "/all-specs", "/paladin", "/dps-comparison", "/tank-comparison", "/healer-comparison"] + [f"/sims/{slug(s)}" for s in all_specs]
     sitemap = ('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
                + "".join(f"  <url><loc>{SITE}{u}</loc><lastmod>{today}</lastmod></url>\n" for u in urls) + "</urlset>\n")
     (WEB / "sitemap.xml").write_text(sitemap, encoding="utf-8")
