@@ -57,7 +57,7 @@ pub fn preset(spec: &str) -> Result<Value, String> {
             "arcane_intellect": true, "battle_shout": true, "blessing_of_might": true,
             "devotion_aura": true, "blessing_of_kings": true, "blessing_of_wisdom": true,
             "strength_of_earth": true, "windfury_totem": true, "grace_of_air": true,
-            "mana_spring": true, "leader_of_the_pack": true, "moonkin_aura": true, "trueshot_aura": true, "thorns": true},
+            "mana_spring": true, "leader_of_the_pack": true, "moonkin_aura": true, "trueshot_aura": true, "thorns": true, "innervate": false},
         "consumables": {"flask_of_the_titans": prot, "elixir_of_the_mongoose": true,
             "elixir_of_superior_defense": prot, "elixir_of_fortitude": prot,
             "greater_stoneshield_potion": prot, "smoked_desert_dumplings": true,

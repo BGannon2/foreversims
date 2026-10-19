@@ -156,7 +156,7 @@ def _preset(spec):
             'arcane_intellect':True, 'battle_shout':True, 'blessing_of_might':True,
             'devotion_aura':True, 'blessing_of_kings':True, 'blessing_of_wisdom':True,
             'strength_of_earth':True, 'windfury_totem':True, 'grace_of_air':True,
-            'mana_spring':True, 'leader_of_the_pack':True, 'moonkin_aura':True, 'trueshot_aura':True, 'thorns':True},
+            'mana_spring':True, 'leader_of_the_pack':True, 'moonkin_aura':True, 'trueshot_aura':True, 'thorns':True, 'innervate':False},
         'consumables': {'flask_of_the_titans':prot, 'elixir_of_the_mongoose':True,
             'elixir_of_superior_defense':prot, 'elixir_of_fortitude':prot,
             'greater_stoneshield_potion':prot, 'smoked_desert_dumplings':True,

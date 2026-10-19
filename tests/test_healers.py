@@ -46,6 +46,20 @@ class AllHealers(unittest.TestCase):
             self.assertGreater(three, one * 1.15, sid)
 
 
+class PaladinEngineAcceptsSharedRaidBuffs(unittest.TestCase):
+    def test_every_settings_raid_buff_validates(self):
+        """The Paladin page sends every raid buff in data/settings.json; the Paladin engines must accept them."""
+        import json
+        from pathlib import Path
+        from forever import sim
+        keys = [b["key"] for b in json.loads((Path(__file__).resolve().parents[1] / "data" / "settings.json").read_text(encoding="utf-8"))["raid_buffs"]]
+        for spec in ("protection", "retribution"):
+            p = sim.preset(spec); p["raid_buffs"] = {k: True for k in keys}; p.update(iterations=2, duration=30)
+            self.assertGreater(sim.simulate(sim.validate(p))["metrics"]["dps"]["mean"], 0)
+            from tests.test_parity import rust
+            self.assertNotIn("error", rust("paladin", p), spec)
+
+
 class DataHygiene(unittest.TestCase):
     def test_talent_effects_have_no_duplicate_keys(self):
         """A repeated key in the TALENT_EFFECTS literal silently drops the earlier entry."""
