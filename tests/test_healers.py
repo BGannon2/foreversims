@@ -46,5 +46,16 @@ class AllHealers(unittest.TestCase):
             self.assertGreater(three, one * 1.15, sid)
 
 
+class DataHygiene(unittest.TestCase):
+    def test_talent_effects_have_no_duplicate_keys(self):
+        """A repeated key in the TALENT_EFFECTS literal silently drops the earlier entry."""
+        import ast
+        from pathlib import Path
+        tree = ast.parse((Path(__file__).resolve().parents[1] / "forever" / "engine_data.py").read_text(encoding="utf-8"))
+        node = next(n.value for n in tree.body if isinstance(n, ast.Assign) and getattr(n.targets[0], "id", None) == "TALENT_EFFECTS")
+        keys = [k.value for k in node.keys]
+        self.assertEqual(sorted({k for k in keys if keys.count(k) > 1}), [])
+
+
 if __name__ == "__main__":
     unittest.main()

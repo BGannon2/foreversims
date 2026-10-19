@@ -553,7 +553,7 @@ TALENT_EFFECTS = {
     "110856": {"flag:defiance": 0.05}, "105968": {"cost:Sunder Armor": -1}, "105962": {"stat_pct:strength": 0.02, "stat_pct:stamina": 0.02}, "105961": {"flag:focused_rage": 1},
     "105959": {"flag:shield_slam": 1}, "105974": {"flag:improved_bloodrage": 0.25}, "105971": {"flag:master_of_defense": 0.50},  # guide: 50%/rank chance on dodge OR parry for a flat 5 rage
     # Druid Balance
-    "104923": {"cast:Wrath": -0.1, "cost_pct:Wrath": -0.10}, "104924": {"dmg_periodic": 0.01}, "104925": {"cost_pct_all": -0.03}, "104931": {"dmg_ability:Moonfire": 0.05, "crit_ability:Moonfire": 5},
+    "104923": {"cast:Wrath": -0.1, "cost_pct:Wrath": -0.10}, "104924": {"dmg_periodic": 0.01, "hot_pct": 0.01}, "104925": {"cost_pct_all": -0.03}, "104931": {"dmg_ability:Moonfire": 0.05, "crit_ability:Moonfire": 5},
     "104927": {"spell_crit": 2, "melee_crit": 2}, "104929": {"spell_hit": 2, "hit": 2}, "104930": {"flag:insect_swarm": 1}, "104932": {"crit_dmg_school:arcane": 0.20, "crit_dmg_school:nature": 0.20},
     "104933": {"cast:Starfire": -0.1}, "104934": {"flag:natures_grace": 1}, "104936": {"dmg_school:arcane": 0.01, "dmg_school:nature": 0.01}, "104937": {"flag:moonkin": 0.03}, "104935": {"flag:eclipse": 1},
     # Druid Feral
@@ -602,7 +602,6 @@ TALENT_EFFECTS = {
     "104915": {"cost_pct:Healing Touch": -0.02, "cost_pct:Tranquility": -0.02}, "104914": {"dmg_ability:Rejuvenation": 0.05},
     "104912": {"flag:swiftmend": 1}, "104921": {"flag:natures_swiftness": 1}, "104911": {"stat_pct:spirit": 0.05},
     "104909": {"cooldown:Tranquility": -90}, "104913": {"crit_ability:Regrowth": 10}, "104910": {"flag:wild_growth": 1},
-    "104924": {"hot_pct": 0.01}, "104925": {"cost_pct_all": -0.03}, "104927": {"crit_school:nature": 2},
     "104928": {"ticks:Rejuvenation": 1, "ticks:Regrowth": 2},
     # Restoration Shaman. Tidal Focus/Tidal Mastery read "X%" in the client text; Classic's 1% per rank.
     "104739": {"cast:Healing Wave": -0.1},
@@ -610,7 +609,7 @@ TALENT_EFFECTS = {
     "104734": {"flag:spirit_while_casting": 0.1667}, "104732": {"flag:water_shield": 1},
     "104738": {"crit_ability:Healing Wave": 1, "crit_ability:Lesser Healing Wave": 1, "crit_ability:Chain Heal": 1, "crit_ability:Riptide": 1},
     "104728": {"flag:mana_tide": 1}, "104727": {"dmg_ability:Healing Wave": 0.0833}, "104726": {"flag:natures_swiftness": 1},
-    "104725": {"heal_pct": 0.02}, "104724": {"flag:riptide": 1}, "104753": {"crit_school:nature": 1}, "104756": {"stat_pct:intellect": 0.02},
+    "104725": {"heal_pct": 0.02}, "104724": {"flag:riptide": 1},
     # Holy Paladin
     "105332": {"stat_pct:intellect": 0.02},
     "105333": {"dmg_ability:Holy Light": 0.04, "dmg_ability:Flash of Light": 0.04, "dmg_ability:Holy Shock (heal)": 0.04},
