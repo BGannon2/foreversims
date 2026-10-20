@@ -1752,7 +1752,7 @@
     "stamina": 8,
     "spirit": 8,
     "armor": 2153,
-    "blockValue": 40,
+    "blockValue": 40.0,
     "frostResistance": 10,
     "natureResistance": 10
    },
@@ -2661,8 +2661,8 @@
    "stats": {
     "stamina": 15,
     "intellect": 10,
-    "armor": 2121,
-    "blockValue": 39
+    "armor": 2121.0,
+    "blockValue": 39.0
    },
    "effects": [],
    "tooltip": "",
@@ -3216,7 +3216,7 @@
     "stamina": 7,
     "spirit": 7,
     "armor": 2106,
-    "blockValue": 37
+    "blockValue": 37.0
    },
    "effects": [],
    "tooltip": "",
@@ -22665,7 +22665,8 @@
    "stats": {
     "armor": 2468.0,
     "stamina": 21.0,
-    "strength": 9.0
+    "strength": 9.0,
+    "blockValue": 44.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -33182,7 +33183,8 @@
    "stats": {
     "armor": 2468.0,
     "stamina": 21.0,
-    "strength": 9.0
+    "strength": 9.0,
+    "blockValue": 44.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -50832,7 +50834,8 @@
     "stamina": 21.0,
     "intellect": 9.0,
     "spellPower": 6.0,
-    "healingPower": 18.0
+    "healingPower": 18.0,
+    "blockValue": 44.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -50892,7 +50895,8 @@
     "stamina": 21.0,
     "intellect": 9.0,
     "spellPower": 6.0,
-    "healingPower": 18.0
+    "healingPower": 18.0,
+    "blockValue": 44.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,
@@ -51715,7 +51719,8 @@
     "meleeCrit": 1.0,
     "spellCrit": 1.0,
     "healingPower": 23.0,
-    "spellPower": 8.0
+    "spellPower": 8.0,
+    "blockValue": 44.0
    },
    "weaponDamageMin": null,
    "weaponDamageMax": null,

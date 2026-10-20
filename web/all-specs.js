@@ -36,7 +36,7 @@ function allowedItem(it, slot) {
   if (spec.form && ["Main Hand", "Off Hand"].includes(slot) && ["Shield", "Off Hand"].includes(kind)) return false;
   return true;
 }
-function permanentStats(it) { const out = { ...(it.stats || {}) }; for (const e of it.effects || []) { if (!e.startsWith("Use:")) continue; if (/damage and healing.*?up to \d+ for \d+ sec/i.test(e)) delete out.spellPower; if (/Attack Power by \d+ for \d+ sec/i.test(e)) delete out.attackPower; if (/attack speed by \d+% for \d+ sec/i.test(e)) { delete out.meleeHaste; delete out.rangedHaste; delete out.spellHaste; } } return out; }
+function permanentStats(it) { const out = { ...(it.stats || {}) }; for (const e of it.effects || []) { const def = /^Equip: Increased Defense \+(\d+)/.exec(e); if (def && !out.defense) out.defense = Number(def[1]); if (!e.startsWith("Use:")) continue; if (/damage and healing.*?up to \d+ for \d+ sec/i.test(e)) delete out.spellPower; if (/Attack Power by \d+ for \d+ sec/i.test(e)) delete out.attackPower; if (/attack speed by \d+% for \d+ sec/i.test(e)) { delete out.meleeHaste; delete out.rangedHaste; delete out.spellHaste; } } return out; }
 function itemTip(it) { let set = ""; if (it.set) { const names = new Set(profile.gear.filter(x => x.id).map(x => x.name)), count = it.set.pieces.filter(x => names.has(x)).length; set = `<h4>${it.set.name} (${count}/${it.set.pieces.length})</h4>${it.set.bonuses.map(b => `<p class="set-bonus ${count >= b.required ? "active" : "inactive"}">(${b.required}) Set: ${b.description}${DOT}${count >= b.required ? "active" : "inactive"}</p>`).join("")}`; } return `<h3 class="quality-${it.quality}">${it.name}</h3><p>Item Level ${it.itemLevel || "?"}${DOT}${itemSubclass(it)}${it.weaponSpeed ? `${DOT}${Number(it.weaponSpeed).toFixed(2)} speed${DOT}${it.weaponDamageMin}-${it.weaponDamageMax}` : ""}</p>${Object.entries(permanentStats(it)).map(([k, v]) => `<p>+${v} ${k.replace(/([A-Z])/g, " $1")}</p>`).join("")}<p>${(it.effects || []).join("<br>")}</p>${set}<p class="tooltip-meta">${[it.source,it.availabilityNote,...(it.modelNotes||[])].filter(Boolean).join(DOT)}</p>`; }
 function enchantRows(it) { const slot = enchantSlot(it.slot); if (!slot || !it.id) return []; const rows = data.enchants.slots[slot] || []; const kinds = ["Axe", "Dagger", "Fist Weapon", "Mace", "Polearm", "Staff", "Sword"]; if (slot === "ranged") return it.subclass === "Gun" ? rows : []; if (["main_hand", "off_hand"].includes(slot) && !kinds.some(k => String(it.subclass || "").includes(k))) return []; return rows; }
 function defaultEnchant(it) {
@@ -227,7 +227,7 @@ function renderTankEncounter() {
 
 // ---------------------------------------------------------------- init
 async function init() {
-  const [bootstrap, itemPayload, wsPayload] = await Promise.all([fetch("/data/spec-bootstrap.json?v=2153faa").then(r => r.json()), fetch("/data/items.json?v=2153faa").then(r => r.json()), fetch("/data/wowsims-import.json?v=2153faa").then(r => r.json()).catch(() => null)]);
+  const [bootstrap, itemPayload, wsPayload] = await Promise.all([fetch("/data/spec-bootstrap.json?v=f76a423").then(r => r.json()), fetch("/data/items.json?v=f76a423").then(r => r.json()), fetch("/data/wowsims-import.json?v=f76a423").then(r => r.json()).catch(() => null)]);
   wsData = wsPayload;
   ForeverSim.warm();
   data = bootstrap; catalogItems = itemPayload.items; spec = data.specs.find(x => x.id === specId);
