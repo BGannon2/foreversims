@@ -916,23 +916,22 @@
    "race": "Human",
    "gear": [
     {
-     "id": 23451,
-     "name": "Grand Marshal's Mageblade",
-     "icon": "inv_weapon_shortblade_26",
+     "id": 20580,
+     "name": "Hammer of Bestial Fury",
+     "icon": "inv_mace_20",
      "quality": "Epic",
-     "itemLevel": 78,
+     "itemLevel": 71,
      "stats": {
-      "stamina": 14.0,
-      "intellect": 8.0,
-      "meleeCrit": 1.0,
-      "spellCrit": 1.0
+      "strength": 13.0,
+      "stamina": 12.0,
+      "armor": 90.0
      },
      "effects": [],
-     "source": "Vendor: Captain O'Neal",
-     "subclass": "Dagger",
-     "weaponDamageMin": 83.0,
-     "weaponDamageMax": 155.0,
-     "weaponSpeed": 2.0,
+     "source": "Rare Drop",
+     "subclass": "Mace",
+     "weaponDamageMin": 69.0,
+     "weaponDamageMax": 130.0,
+     "weaponSpeed": 1.9,
      "equipSlots": [
       "main_hand"
      ],
@@ -952,7 +951,8 @@
       "meleeCrit": 1.0,
       "spellCrit": 1.0,
       "healingPower": 23.0,
-      "spellPower": 8.0
+      "spellPower": 8.0,
+      "blockValue": 44.0
      },
      "effects": [],
      "source": "forever-1.60.1.69913",
@@ -968,19 +968,17 @@
      "gear_slot": "off_hand"
     },
     {
-     "id": 23314,
-     "name": "Lieutenant Commander's Plate Helm",
-     "icon": "inv_helmet_09",
-     "quality": "Rare",
-     "itemLevel": 71,
+     "id": 16478,
+     "name": "Field Marshal's Plate Helm",
+     "icon": "inv_helmet_05",
+     "quality": "Epic",
+     "itemLevel": 74,
      "stats": {
-      "armor": 598.0,
-      "stamina": 24.0,
-      "strength": 21.0,
+      "armor": 719.0,
+      "stamina": 34.0,
+      "strength": 28.0,
       "meleeCrit": 1.0,
-      "spellCrit": 1.0,
-      "meleeHit": 1.25,
-      "spellHit": 1.25
+      "spellCrit": 1.0
      },
      "effects": [],
      "source": "Vendor: Captain Dirgehammer",
@@ -992,27 +990,27 @@
       "head"
      ],
      "set": {
-      "name": "Lieutenant Commander's Battlearmor",
+      "name": "Field Marshal's Battlegear",
       "pieces": [
-       "Knight-Captain's Plate Hauberk",
-       "Knight-Captain's Plate Leggings",
-       "Knight-Lieutenant's Plate Gauntlets",
-       "Knight-Lieutenant's Plate Greaves",
-       "Lieutenant Commander's Plate Helm",
-       "Lieutenant Commander's Plate Shoulders"
+       "Field Marshal's Plate Armor",
+       "Field Marshal's Plate Helm",
+       "Field Marshal's Plate Shoulderguards",
+       "Marshal's Plate Boots",
+       "Marshal's Plate Gauntlets",
+       "Marshal's Plate Legguards"
       ],
       "bonuses": [
        {
         "required": 2,
-        "description": "+40 Attack Power."
+        "description": "+20 Stamina."
        },
        {
-        "required": 4,
+        "required": 3,
         "description": "Reduces the cooldown of your Intercept ability by 5 sec."
        },
        {
         "required": 6,
-        "description": "+20 Stamina."
+        "description": "+40 Attack Power."
        }
       ]
      },
@@ -1049,21 +1047,20 @@
      "gear_slot": "neck"
     },
     {
-     "id": 16480,
-     "name": "Field Marshal's Plate Shoulderguards",
-     "icon": "inv_shoulder_20",
-     "quality": "Epic",
-     "itemLevel": 74,
+     "id": 16733,
+     "name": "Spaulders of Valor",
+     "icon": "inv_shoulder_30",
+     "quality": "Rare",
+     "itemLevel": 60,
      "stats": {
-      "armor": 626.0,
-      "stamina": 23.0,
-      "strength": 18.0,
-      "agility": 16.0,
-      "meleeHit": 1.25,
-      "spellHit": 1.25
+      "armor": 470.0,
+      "stamina": 17.0,
+      "strength": 11.0,
+      "agility": 9.0,
+      "defense": 4.0
      },
      "effects": [],
-     "source": "Vendor: Captain Dirgehammer",
+     "source": "Boss Drop: Warchief Rend Blackhand",
      "subclass": "Plate",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -1072,27 +1069,33 @@
       "shoulders"
      ],
      "set": {
-      "name": "Field Marshal's Battlegear",
+      "name": "Battlegear of Valor",
       "pieces": [
-       "Field Marshal's Plate Armor",
-       "Field Marshal's Plate Helm",
-       "Field Marshal's Plate Shoulderguards",
-       "Marshal's Plate Boots",
-       "Marshal's Plate Gauntlets",
-       "Marshal's Plate Legguards"
+       "Belt of Valor",
+       "Boots of Valor",
+       "Bracers of Valor",
+       "Breastplate of Valor",
+       "Gauntlets of Valor",
+       "Helm of Valor",
+       "Legplates of Valor",
+       "Spaulders of Valor"
       ],
       "bonuses": [
        {
         "required": 2,
-        "description": "+20 Stamina."
+        "description": "+200 Armor."
        },
        {
-        "required": 3,
-        "description": "Reduces the cooldown of your Intercept ability by 5 sec."
+        "required": 4,
+        "description": "+40 Attack Power."
        },
        {
         "required": 6,
-        "description": "+40 Attack Power."
+        "description": "Chance on melee attack to heal you for 88 to 132."
+       },
+       {
+        "required": 8,
+        "description": "+8 All Resistances."
        }
       ]
      },
@@ -1100,16 +1103,19 @@
      "gear_slot": "shoulders"
     },
     {
-     "id": 18413,
-     "name": "Cloak of Warding",
-     "icon": "inv_misc_cape_06",
+     "id": 14134,
+     "name": "Cloak of Fire",
+     "icon": "inv_misc_cape_18",
      "quality": "Rare",
-     "itemLevel": 62,
+     "itemLevel": 55,
      "stats": {
-      "armor": 214.0,
-      "defense": 2.1227816931306784
+      "armor": 39.0,
+      "stamina": 7.0,
+      "fireResistance": 6.0
      },
-     "effects": [],
+     "effects": [
+      "Use: Deals 25 Fire damage every 5 sec to all nearby enemies for 15 sec. (2 Min Cooldown)"
+     ],
      "source": "Unknown",
      "subclass": "Cloth",
      "weaponDamageMin": null,
@@ -1174,21 +1180,19 @@
      "gear_slot": "chest"
     },
     {
-     "id": 13400,
-     "name": "Vambraces of the Sadist",
-     "icon": "inv_bracer_17",
-     "quality": "Rare",
-     "itemLevel": 59,
+     "id": 16481,
+     "name": "Marshal's Plate Bracers",
+     "icon": "inv_bracer_18",
+     "quality": "Epic",
+     "itemLevel": 65,
      "stats": {
-      "armor": 270.0,
-      "strength": 6.0,
-      "stamina": 7.0,
-      "meleeCrit": 1.0
+      "armor": 323.0,
+      "strength": 17.0,
+      "agility": 7.0,
+      "stamina": 17.0
      },
-     "effects": [
-      "Equip: Improves your chance to get a critical strike by 1%."
-     ],
-     "source": "Boss Drop: Timmy the Cruel",
+     "effects": [],
+     "source": "Unknown",
      "subclass": "Plate",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -1210,7 +1214,7 @@
       "armor": 461.0,
       "stamina": 14.0,
       "strength": 21.0,
-      "defense": 5.094676063513629
+      "defense": 12.0
      },
      "effects": [],
      "source": "forever-1.60.1.69913",
@@ -1253,13 +1257,13 @@
     {
      "id": 250596,
      "name": "Enriched Thorium Leggings",
-     "icon": null,
+     "icon": "inv_pants_plate_10",
      "quality": "Rare",
      "itemLevel": 63,
      "stats": {
       "armor": 575.0,
       "stamina": 26.0,
-      "defense": 3.8210070476352214,
+      "defense": 9.0,
       "spellPower": 14.0
      },
      "effects": [],
@@ -1286,8 +1290,8 @@
       "stamina": 24.0,
       "strength": 18.0,
       "agility": 12.0,
-      "meleeHit": 1.25,
-      "spellHit": 1.25
+      "meleeHit": 1.0,
+      "spellHit": 1.0
      },
      "effects": [],
      "source": "Vendor: Captain Dirgehammer",
@@ -1327,31 +1331,6 @@
      "gear_slot": "feet"
     },
     {
-     "id": 272409,
-     "name": "Ring of Awareness",
-     "icon": "inv_jewelry_ring_01",
-     "quality": "Rare",
-     "itemLevel": 65,
-     "stats": {
-      "stamina": 10.0,
-      "strength": 8.0,
-      "defense": 3.8210070476352214
-     },
-     "effects": [],
-     "source": "forever-1.60.1.69913",
-     "subclass": null,
-     "weaponDamageMin": null,
-     "weaponDamageMax": null,
-     "weaponSpeed": null,
-     "equipSlots": [
-      "finger1",
-      "finger2"
-     ],
-     "set": null,
-     "slot": "Finger",
-     "gear_slot": "finger1"
-    },
-    {
      "id": 275984,
      "name": "Stalwart Watcher's Signet",
      "icon": "inv_jewelry_ring_10",
@@ -1359,7 +1338,7 @@
      "itemLevel": 65,
      "stats": {
       "stamina": 18.0,
-      "defense": 3.3964507090090854
+      "defense": 8.0
      },
      "effects": [
       "Unmodeled rating: Equip: +10 Expertise Rating"
@@ -1375,20 +1354,46 @@
      ],
      "set": null,
      "slot": "Finger",
+     "gear_slot": "finger1"
+    },
+    {
+     "id": 272409,
+     "name": "Ring of Awareness",
+     "icon": "inv_jewelry_ring_01",
+     "quality": "Rare",
+     "itemLevel": 65,
+     "stats": {
+      "stamina": 10.0,
+      "strength": 8.0,
+      "defense": 9.0
+     },
+     "effects": [],
+     "source": "forever-1.60.1.69913",
+     "subclass": null,
+     "weaponDamageMin": null,
+     "weaponDamageMax": null,
+     "weaponSpeed": null,
+     "equipSlots": [
+      "finger1",
+      "finger2"
+     ],
+     "set": null,
+     "slot": "Finger",
      "gear_slot": "finger2"
     },
     {
-     "id": 20071,
-     "name": "Talisman of Arathor",
-     "icon": "inv_jewelry_talisman_05",
+     "id": 11815,
+     "name": "Hand of Justice",
+     "icon": "inv_jewelry_talisman_01",
      "quality": "Rare",
-     "itemLevel": 63,
-     "stats": {
-      "stamina": 12.0
-     },
-     "effects": [],
-     "source": "Vendor: Samuel Hawke",
-     "subclass": null,
+     "itemLevel": 58,
+     "stats": {},
+     "effects": [
+      "Equip: 2% chance on melee hit to gain 1 extra attack.",
+      "Equip: +20 Attack Power."
+     ],
+     "source": "Boss Drop: Emperor Dagran Thaurissan",
+     "subclass": "Miscellaneous",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -1401,16 +1406,18 @@
      "gear_slot": "trinket1"
     },
     {
-     "id": 272440,
-     "name": "Defender's Grip Stabilizer",
-     "icon": "ui_profession_engineering",
+     "id": 20071,
+     "name": "Talisman of Arathor",
+     "icon": "inv_jewelry_talisman_05",
      "quality": "Rare",
-     "itemLevel": 65,
+     "itemLevel": 63,
      "stats": {
-      "defense": 5.519232402139764
+      "stamina": 12.0
      },
-     "effects": [],
-     "source": "forever-1.60.1.69913",
+     "effects": [
+      "Use: Absorbs 554 to 678 physical damage. Lasts 15 sec. (3 Min Cooldown)"
+     ],
+     "source": "Vendor: Samuel Hawke",
      "subclass": null,
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -12235,7 +12242,8 @@
       "meleeCrit": 1.0,
       "spellCrit": 1.0,
       "healingPower": 23.0,
-      "spellPower": 8.0
+      "spellPower": 8.0,
+      "blockValue": 44.0
      },
      "effects": [],
      "source": "forever-1.60.1.69913",
@@ -13229,20 +13237,18 @@
      "gear_slot": "main_hand"
     },
     {
-     "id": 272838,
-     "name": "Premier Grand Marshal's Aegis",
-     "icon": "inv_shield_05",
+     "id": 19321,
+     "name": "The Immovable Object",
+     "icon": "spell_frost_chillingarmor",
      "quality": "Epic",
-     "itemLevel": 65,
+     "itemLevel": 60,
      "stats": {
-      "armor": 2468.0,
-      "stamina": 21.0,
-      "strength": 9.0
+      "armor": 2291.0,
+      "stamina": 14.0,
+      "blockValue": 66.0
      },
-     "effects": [
-      "Equip: When struck in combat has a 5% chance of inflicting 35 to 65 Nature damage to the attacker."
-     ],
-     "source": "forever-1.60.1.69913",
+     "effects": [],
+     "source": "Unknown",
      "subclass": "Shield",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -13387,20 +13393,21 @@
      "gear_slot": "back"
     },
     {
-     "id": 272786,
-     "name": "Premier Field Marshal's Plate Armor",
+     "id": 16477,
+     "name": "Field Marshal's Plate Armor",
      "icon": "inv_chest_plate03",
      "quality": "Epic",
-     "itemLevel": 65,
+     "itemLevel": 74,
      "stats": {
-      "armor": 738.0,
-      "stamina": 34.0,
-      "strength": 21.0,
+      "armor": 875.0,
+      "stamina": 33.0,
+      "strength": 16.0,
+      "agility": 14.0,
       "meleeCrit": 1.0,
       "spellCrit": 1.0
      },
      "effects": [],
-     "source": "forever-1.60.1.69913",
+     "source": "Vendor: Captain Dirgehammer",
      "subclass": "Plate",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -13408,23 +13415,50 @@
      "equipSlots": [
       "chest"
      ],
-     "set": null,
+     "set": {
+      "name": "Field Marshal's Battlegear",
+      "pieces": [
+       "Field Marshal's Plate Armor",
+       "Field Marshal's Plate Helm",
+       "Field Marshal's Plate Shoulderguards",
+       "Marshal's Plate Boots",
+       "Marshal's Plate Gauntlets",
+       "Marshal's Plate Legguards"
+      ],
+      "bonuses": [
+       {
+        "required": 2,
+        "description": "+20 Stamina."
+       },
+       {
+        "required": 3,
+        "description": "Reduces the cooldown of your Intercept ability by 5 sec."
+       },
+       {
+        "required": 6,
+        "description": "+40 Attack Power."
+       }
+      ]
+     },
      "slot": "Chest",
      "gear_slot": "chest"
     },
     {
-     "id": 272790,
-     "name": "Premier Knight-Captain's Plate Bracers",
-     "icon": "inv_bracer_18",
-     "quality": "Epic",
-     "itemLevel": 65,
+     "id": 13400,
+     "name": "Vambraces of the Sadist",
+     "icon": "inv_bracer_17",
+     "quality": "Rare",
+     "itemLevel": 59,
      "stats": {
-      "armor": 323.0,
-      "stamina": 21.0,
-      "strength": 13.0
+      "armor": 270.0,
+      "strength": 6.0,
+      "stamina": 7.0,
+      "meleeCrit": 1.0
      },
-     "effects": [],
-     "source": "forever-1.60.1.69913",
+     "effects": [
+      "Equip: Improves your chance to get a critical strike by 1%."
+     ],
+     "source": "Boss Drop: Timmy the Cruel",
      "subclass": "Plate",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -15257,7 +15291,8 @@
       "meleeCrit": 1.0,
       "spellCrit": 1.0,
       "healingPower": 23.0,
-      "spellPower": 8.0
+      "spellPower": 8.0,
+      "blockValue": 44.0
      },
      "effects": [],
      "source": "forever-1.60.1.69913",
@@ -15803,7 +15838,8 @@
       "meleeCrit": 1.0,
       "spellCrit": 1.0,
       "healingPower": 23.0,
-      "spellPower": 8.0
+      "spellPower": 8.0,
+      "blockValue": 44.0
      },
      "effects": [],
      "source": "forever-1.60.1.69913",
