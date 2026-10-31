@@ -1,10 +1,10 @@
 {
-  "live_build": "1.60.1.70245",
-  "beta_build": "1.60.1.70450",
+  "live_build": "1.60.1.70707",
+  "beta_build": "1.60.1.70532",
   "foreverchanges": {
-    "build": "1.60.1.70450",
-    "new_items": "5,619",
-    "changed_items": "4,584",
-    "talents_changed": "759"
+    "build": "1.60.1.70707",
+    "new_items": "5,707",
+    "changed_items": "4,599",
+    "talents_changed": "761"
   }
 }
