@@ -127,7 +127,7 @@ class AccuracyRegressions(unittest.TestCase):
         p['talents']['105334'] = 5
         b = Fight(p, 0)
         b.seal_proc('righteousness', 100)
-        self.assertAlmostEqual(b.damage['Seal of Righteousness'], a.damage['Seal of Righteousness'] * 1.25)
+        self.assertAlmostEqual(b.damage['Seal of Righteousness'], a.damage['Seal of Righteousness'] * 1.15)  # Improved Seals 5/5: +15% (Nov 3 notes)
 
     def test_paladin_holy_wrath_does_not_cast_a_seal_on_same_gcd(self):
         from forever.sim import Fight, preset

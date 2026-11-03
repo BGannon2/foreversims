@@ -153,7 +153,7 @@ class SimulationTests(unittest.TestCase):
         p=self.basic('retribution'); p['gear']={k:0 for k in p['gear']}
         p['character'].update(hit_chance=1,crit_chance=0,spell_hit_chance=1,spell_crit_chance=0)
         p['talents']={k:0 for k in p['talents']}; base=Fight(p,0); base.deal('Seal',100,holy=True)
-        p['talents']['105334']=3; improved=Fight(p,0); improved.seal_proc('righteousness',100)
+        p['talents']['105334']=5; improved=Fight(p,0); improved.seal_proc('righteousness',100)
         expected=F['righteousness']['proc_base']*F['righteousness']['proc_one_hand_mult']*improved.c['weapon_speed']*1.15
         self.assertAlmostEqual(improved.damage['Seal of Righteousness'],expected)
 
@@ -173,11 +173,11 @@ class SimulationTests(unittest.TestCase):
         p=self.basic('protection'); p['gear']={k:0 for k in p['gear']}
         p['character'].update(weapon_min=100,weapon_max=100,hit_chance=1,crit_chance=0,spell_power=0)
         p['model'].update(holy_threat_per_damage=1.5,holy_strike_holy_min=93,holy_strike_holy_max=93)
-        p['talents']={k:0 for k in p['talents']}; p['talents']['110879']=5
+        p['talents']={k:0 for k in p['talents']}; p['talents']['110879']=3
         f=Fight(p,0); f.decision()
         expected=100*f.m['holy_strike_weapon_pct']+93
         self.assertAlmostEqual(f.damage['Holy Strike'],expected)
-        self.assertAlmostEqual(f.threat,expected*1.5*1.25*F['righteous_fury']['holy_threat_multiplier'])
+        self.assertAlmostEqual(f.threat,expected*1.5*1.30*(1+F['righteous_fury']['all_threat_bonus']+F['righteous_fury']['holy_threat_multiplier']-1))  # Iron Creed 3/3: +30%; Righteous Fury +33% all, +90% Holy (Nov 3)
         self.assertEqual(f.iron_until,6)
 
     def test_holy_shield_four_charges_and_threat(self):
@@ -189,7 +189,7 @@ class SimulationTests(unittest.TestCase):
         self.assertEqual(f.hs_charges,0)
         self.assertEqual(f.hits['Holy Shield'],4)
         self.assertEqual(f.damage['Holy Shield'],440)
-        self.assertAlmostEqual(f.threat,440*1.5*1.9*1.2)  # Righteous Fury back to +90% (build 70425)
+        self.assertAlmostEqual(f.threat,440*1.5*(1+F['righteous_fury']['all_threat_bonus']+F['righteous_fury']['holy_threat_multiplier']-1)*1.2)  # Righteous Fury: +33% all threat, +90% Holy (Nov 3 notes)
 
     def test_classic_attack_power_adds_normalized_weapon_damage(self):
         p=self.basic(); p['gear']={k:0 for k in p['gear']}
@@ -207,7 +207,7 @@ class SimulationTests(unittest.TestCase):
         f=Fight(p,0); f.swing()
         self.assertEqual(f.damage['Thunderfury'],300)
         melee=f.damage['Melee']
-        self.assertAlmostEqual(f.threat,melee+300*1.43)
+        self.assertAlmostEqual(f.threat,(melee+300*1.43)*(1+F['righteous_fury']['all_threat_bonus']))  # Righteous Fury: +33% all threat
 
     def test_classic_gear_bridge_derives_armor_and_primary_stats(self):
         p=self.basic(); p['model']['use_classic_era_conversions']=True
@@ -260,12 +260,15 @@ class SimulationTests(unittest.TestCase):
         self.assertEqual(r['first_unaffordable_cast'],0); self.assertEqual(r['mana_spent'],0)
         self.assertGreater(r['damage']['Melee'],0)
 
-    def test_echo_consumed_once(self):
+    def test_unsealed_wrath_stores_and_releases_seal_copies(self):
         p=self.basic('retribution'); p['character'].update(hit_chance=1,crit_chance=0)
         p['model']['command_proc_chance']=1
-        f=Fight(p,0); f.cast_seal('command'); f.time=1.5; f.cast_seal('righteousness')
-        self.assertEqual(f.echo,'command'); f.swing(); f.swing()
-        self.assertEqual(f.hits['Seal of Command echo'],1); self.assertIsNone(f.echo)
+        f=Fight(p,0); f.cast_seal('command')
+        for _ in range(4): f.swing()
+        self.assertEqual((f.uw_seal,f.uw_stacks),('command',3))  # capped at 3 copies
+        f.cast_seal('righteousness'); f.swing()
+        self.assertEqual(f.hits['Seal of Command echo'],3)  # each stored copy at its normal chance
+        self.assertEqual((f.uw_seal,f.uw_stacks),('righteousness',1))
 
     def test_disabled_twisting_never_generates_echo(self):
         p=self.basic('retribution'); p['rotation']['twist_seals']=False
@@ -276,17 +279,15 @@ class SimulationTests(unittest.TestCase):
         p['talents']['110883']=0
         f=Fight(p,0)
         for _ in range(9): f.deal('Test melee',100,can_crit=True)
-        self.assertEqual(f.vengeance,3)
+        self.assertEqual(f.vengeance,5)  # stacks up to 5 since the Nov 3 notes
         f.time=30; f.deal('After expiration',100,can_crit=False)
         self.assertEqual(f.vengeance,0); self.assertAlmostEqual(f.damage['After expiration'],70)
 
-    def test_twist_of_light_reduces_seal_cost(self):
+    def test_seal_cost_has_no_twist_of_light_discount(self):
+        # Twist of Light was replaced by Unsealed Wrath (Nov 3 notes); only Benediction discounts seals.
         p=self.basic('retribution'); f=Fight(p,0); f.mana=1000
         f.spend('Seal of Command',100)
-        self.assertAlmostEqual(1000-f.mana,100*0.8*(1-0.02*f.rank(105706)))
-        p['talents']['105692']=0; g=Fight(p,0); g.mana=1000
-        g.spend('Seal of Command',100)
-        self.assertAlmostEqual(1000-g.mana,100*(1-0.02*g.rank(105706)))
+        self.assertAlmostEqual(1000-f.mana,100*(1-0.02*f.rank(105706)))
 
     def test_thorns_damages_attackers_without_vengeance(self):
         p=self.basic(); p['raid_buffs']['thorns']=True
@@ -324,15 +325,14 @@ class SimulationTests(unittest.TestCase):
                 with self.assertRaises(ValueError): validate(p)
 
     def test_forever_talent_dataset_and_build_limits(self):
-        self.assertEqual(sum(len(tree['talents']) for tree in TALENT_DATA['trees']), 50)
+        self.assertEqual(sum(len(tree['talents']) for tree in TALENT_DATA['trees']), 51)
         self.assertEqual({tree['name'] for tree in TALENT_DATA['trees']}, {'Holy','Protection','Retribution'})
-        self.assertTrue(all(url.startswith('https://www.wowhead.com/forever/')
-                            for url in [TALENT_DATA['source']]))
+        self.assertTrue(TALENT_DATA['version'].startswith('forever-client-'))
         self.assertEqual(sum(preset('protection')['talents'].values()), 51)
         self.assertEqual(sum(preset('retribution')['talents'].values()), 51)
         p=self.basic(); p['talents']={k:0 for k in p['talents']}; p['talents']['105628']=1
         with self.assertRaisesRegex(ValueError,'prior Protection tiers'): validate(p)
-        p=preset('protection'); p['talents']['105625']=0; p['talents']['110879']=1
+        p=preset('protection'); p['talents']['105625']=0; p['talents']['110878']=1
         with self.assertRaisesRegex(ValueError,'requires Templar'): validate(p)
         p=preset('protection')
         for talent_id,talent in TALENTS.items(): p['talents'][talent_id]=len(talent['ranks'])
@@ -345,7 +345,7 @@ class SimulationTests(unittest.TestCase):
         ret=preset('retribution')['talents']
         for talent_id in ('105705','105701','105696','105693','105692','105697','110882'):
             self.assertEqual(ret[talent_id],len(TALENTS[talent_id]['ranks']))
-        self.assertEqual(ret['110871'],1)  # Reverence: the sim's pick for the last point
+        self.assertEqual(ret['110871'],2)  # Reverence 2/2 (2 ranks since the Nov 3 notes)
 
     def test_one_iteration_has_no_false_precision(self):
         p=self.basic(); p['iterations']=1

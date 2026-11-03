@@ -35,18 +35,17 @@ PROTECTION_BUILD = {
     # dropping Seal of Command entirely (now irrelevant: Protection runs Seal of Fury exclusively
     # instead of twisting through Command). Every in-tree Protection point is otherwise unchanged,
     # to keep tier-cumulative margin identical for validate()'s prerequisite/tier checks.
-    '105630': 5, '105626': 5, '105638': 3, '110875': 1, '105634': 3,
-    '110874': 3, '110878': 1, '105629': 3, '105625': 1, '105627': 5, '105628': 1, '110879': 5,
-    '105707': 1, '105706': 5, '105705': 2, '105703': 4, '105701': 3,
+    # Rebuilt for the Nov 3 trees (client 1.60.1.70753): Shieldsworn (31) through Holy Shield.
+    '105626': 5, '105332': 5, '105638': 3, '105625': 1, '110874': 2, '105630': 5, '105634': 3, '105636': 5,
+    '105628': 1, '105627': 5, '110879': 3, '110875': 1,
+    '105706': 5, '105705': 2, '105703': 2, '105701': 3,
 }
 RETRIBUTION_BUILD = {
-    '105707': 5, '105706': 5, '105705': 2, '105703': 5, '105701': 3,
-    '105696': 1, '105700': 1, '105697': 3, '105693': 3, '105692': 1,
-    '105639': 5, '105332': 3, '105333': 3, '105335': 2,
-    '105334': 3, '105331': 2,
-    # Build 70009 removed Crusade and Improved Holy Strike; the sim chose their 4 points
-    # (pairwise search over legal placements, 1500 iterations): Champion of the Light 3, Reverence 1.
-    '110882': 3, '110871': 1,
+    # Rebuilt for the Nov 3 trees (client 1.60.1.70753): Unsealed Wrath (31) with Vengeance and
+    # Champion of the Light, Divine Strength and Improved Seals from Holy.
+    '105706': 5, '105705': 2, '105703': 3, '105701': 3, '105696': 1, '105702': 1,
+    '105700': 1, '105697': 3, '105698': 2, '105693': 3, '105694': 1, '110882': 5, '105692': 1,
+    '113630': 5, '105334': 5, '110871': 2, '105327': 2, '105704': 2, '105332': 4,
 }
 
 # Paladin spec variants (community hybrids), run on the parent spec's engine setup with their own
@@ -64,6 +63,10 @@ PALADIN_VARIANTS = {
                   'summary': 'Spell-power Paladin built around Holy Shock (21+ points in Holy) for damage.',
                   'core': {'talents': {'105323': 1}}},
 }
+# Sim-optimized default builds (tools/optimize_talents.py --specs --write) replace the hand-written ones.
+_SPEC_TALENTS = json.loads((DATA_DIR / 'spec_talents.json').read_text(encoding='utf-8')) if (DATA_DIR / 'spec_talents.json').is_file() else {}
+if 'paladin-protection' in _SPEC_TALENTS: PROTECTION_BUILD = dict(_SPEC_TALENTS['paladin-protection']['talents'])
+if 'paladin-retribution' in _SPEC_TALENTS: RETRIBUTION_BUILD = dict(_SPEC_TALENTS['paladin-retribution']['talents'])
 _VARIANT_TALENTS = json.loads((DATA_DIR / 'variant_talents.json').read_text(encoding='utf-8')) if (DATA_DIR / 'variant_talents.json').is_file() else {}
 for _vid, _v in PALADIN_VARIANTS.items():  # sim-optimized builds (tools/optimize_talents.py) over the parent's
     _v.setdefault('talents', dict(_VARIANT_TALENTS[_vid]['talents']) if _vid in _VARIANT_TALENTS else dict(PROTECTION_BUILD if _v['parent'] == 'protection' else RETRIBUTION_BUILD))
@@ -89,8 +92,8 @@ ASSUMPTIONS = [
     'Command proc probability (default 25% per landed swing) is an experiment input, not a sourced Forever proc rate.',
     'Seal procs do not crit or roll a second hit check. Judgements may crit with the supplied spell multiplier.',
     'Judgement does not consume the active seal (classicwow.gg Protection guide: "Judging does not consume your seal"); seal casts use 1.5 s GCD. Non-seal defensive GCDs also use 1.5 s provisionally.',
-    'Twisting stores one echo, consumed on the next melee attempt even if it misses. No echo stacking or expiration.',
-    'Vengeance stacks up to 3 times (Forever development notes, September 24) and refreshes all stacks together; only modeled direct attack and Judgement crits trigger it, and it boosts only Physical and Holy damage.',
+    'Unsealed Wrath stores one copy of the active Seal per landed melee attack (15 sec, up to 3); an attack under a different Seal releases each copy at its normal chance. Twisting waits for 3 stored copies.',
+    'Vengeance stacks up to 5 times (Forever development notes, November 3) and refreshes all stacks together; only modeled direct attack and Judgement crits trigger it, and it boosts only Physical and Holy damage.',
     'Righteous Fury adds +60% Holy threat (client spell 25780, build 70124; was +90%). Twist of Light also reduces Seal mana costs by 20% (client spell 1310735), which makes twisting cheaper.',
     "Thorns (raid buff, rank 6) deals 22 Nature damage to the boss on every landed swing. Forever scales it with the druid's spell power; the coefficient is unpublished, so only the base damage is modeled.",
     'Reckoning banks a charge per proc (up to 4); the next auto attack releases one extra attack per charge, which can trigger seals and does not reset the swing timer.',
@@ -270,6 +273,7 @@ class Fight:
         self.hs_until=0.0; self.hs_charges=0; self.red_until=0.0; self.red_charges=0; self.reck_charges=0; self.tog_ready=0.0
         self.absorb=0.0; self.absorb_until=0.0; self.forbearance=0.0
         self.vengeance=0; self.vengeance_until=0.0; self.mana_icd=0.0
+        self.uw_seal=None; self.uw_stacks=0; self.uw_until=0.0; self.reck_icd=0.0
         self.damage=defaultdict(float); self.threat_by_source=defaultdict(float); self.taken_by_source=defaultdict(float); self.hits=defaultdict(int); self.casts=defaultdict(int)
         self.threat=0.0; self.taken=0.0; self.absorbed=0.0; self.blocked=0.0
         self.healed=0.0; self.overheal=0.0; self.blocks=0; self.avoids=0
@@ -319,7 +323,6 @@ class Fight:
 
     def spend(self,name,amount):
         if name.startswith('Seal'): amount=max(0,amount-self.c.get('seal_cost_reduction',0))
-        if name.startswith('Seal') and self.rank(105692): amount*=1-F['twist_of_light']['seal_cost_reduction']
         amount*=1-0.02*self.rank(105706) if name.startswith('Seal') or name in ('Judgement','Holy Shield','Holy Strike',"Templar's Bulwark",'Consecration') else 1
         if self.mana+1e-9 < amount:
             if self.oom is None: self.oom=self.time
@@ -333,7 +336,7 @@ class Fight:
         regen=c.get('mp5',0.0)/5*2
         spirit=c.get('spirit',0.0)/5+15
         if self.time-self.last_cast>=5: regen+=spirit
-        else: regen+=spirit*0.10*self.rank(110871)
+        else: regen+=spirit*0.15*self.rank(110871)  # Reverence: 2 ranks, max rank unchanged (Nov 3 notes)
         self.gain_mana(regen)
         if self.p['consumables'].get('major_mana_potion') and self.time>=self.potion_cd and c['mana']-self.mana>=1800:
             self.gain_mana(self.rng.uniform(1350,2250)); self.potion_cd=self.time+120; self.casts['Major Mana Potion']+=1; self.record('Major Mana Potion')
@@ -349,7 +352,7 @@ class Fight:
     def deal(self,name,amount,holy=False,can_crit=False,hit=1.0,extra_threat=1.0,melee_crit=False,physical=None,spell_coefficient=0.0,return_amount=False):
         precision=0.01*self.rank(105638)
         crit=self.c['crit_chance' if melee_crit or not holy else 'spell_crit_chance']
-        if melee_crit or not holy: crit+=0.01*self.rank(105703)
+        crit+=0.02*self.rank(105703)  # Conviction: all spells and attacks (Nov 3 notes)
         white=name in {'Melee','Reckoning','Windfury Attack','Hand of Justice'}
         glance=1.0
         if self.m['use_classic_era_conversions'] and (white or melee_crit):
@@ -377,6 +380,8 @@ class Fight:
             amount+=holy_bonus*spell_coefficient
         if physical is None: physical=not holy
         if holy or physical: amount*=1 + self.vengeance*F['vengeance_rank1']['bonus_per_stack']*self.rank(105693)
+        two_hand=self.c.get('weapon_hands')=='Two-Hand'
+        if two_hand and (holy or physical): amount*=1+(0,0.02,0.04,0.06)[self.rank(105697)]
         amount*=1+self.racial.get('creature_damage',{}).get(self.e['boss_type'],0)
         if physical and self.p['debuffs']['gift_of_arthas'] and self.p['consumables']['gift_of_arthas']: amount+=8
         if physical: amount*=1-self.e['target_physical_mitigation']
@@ -384,8 +389,11 @@ class Fight:
         amount*=glance
         self.damage[name]+=amount; self.hits[name]+=1
         base_threat=self.m['holy_threat_per_damage'] if holy else self.m['base_threat_per_damage']
-        generated=amount*base_threat*extra_threat*(F['righteous_fury']['holy_threat_multiplier'] if holy and self.prot else 1)
+        # Righteous Fury (Nov 3 notes): +33% to all threat and an additional +90% from Holy damage.
+        rf=F['righteous_fury']
+        generated=amount*base_threat*extra_threat*((1+rf['all_threat_bonus']+(rf['holy_threat_multiplier']-1 if holy else 0)) if self.prot else 1)
         generated*=1-self.c.get('threat_reduction',0)
+        if two_hand: generated*=1-(0,0.07,0.14,0.20)[self.rank(105697)]
         self.threat+=generated; self.threat_by_source[name]+=generated
         self.record(name+(' crit' if critical else ''),amount)
         if name!='Touch of the Grave' and not name.startswith('Consecration'): self.touch_of_the_grave()
@@ -396,7 +404,7 @@ class Fight:
 
     def seal_proc(self,seal,weapon,echo=False):
         suffix=' echo' if echo else ''
-        seal_bonus=1+0.05*self.rank(105334)
+        seal_bonus=1+0.03*self.rank(105334)  # Improved Seals: 5 ranks, max unchanged (Nov 3 notes)
         if seal=='command' and self.rng.random() < self.m['command_proc_chance']:
             self.deal('Seal of Command'+suffix,weapon*F['command']['weapon_fraction']*seal_bonus,holy=True,spell_coefficient=.29*seal_bonus)
         elif seal=='righteousness':
@@ -413,8 +421,6 @@ class Fight:
         weapon=self.rng.uniform(self.c['weapon_min'],self.c['weapon_max'])
         if self.m['use_classic_era_conversions']:
             weapon += (self.item_stat('attack_power')+bonus_ap)/14*self.c['weapon_speed']
-        if self.c.get('weapon_hands')=='Two-Hand': weapon*=1+(0,0.02,0.04,0.06)[self.rank(105697)]  # 2/4/6% since build 70009
-        elif self.c.get('weapon_hands') in ('One-Hand','Main Hand'): weapon*=1+(0,0.03,0.07,0.10)[self.rank(105629)]
         landed=self.deal('Windfury Attack' if bonus_ap else extra_name if extra else 'Melee',weapon,can_crit=True,hit=self.c['hit_chance'])
         if landed and not extra and self.p['raid_buffs'].get('windfury_totem') and self.rng.random()<0.20:
             self.swing(extra=True,bonus_ap=315)
@@ -432,17 +438,25 @@ class Fight:
                 self.deal('Thunderfury',self.m['thunderfury_damage'],holy=False,physical=False,hit=1,
                           extra_threat=self.m['thunderfury_threat_multiplier'])
             if self.time < self.seal_until: self.seal_proc(self.seal,weapon)
-            if self.echo: self.seal_proc(self.echo,weapon,True)
-        self.echo=None
+            if self.rank(105692) and self.time < self.seal_until: self.unsealed_wrath(weapon)
         if not extra:
             charges,self.reck_charges=self.reck_charges,0
             for _ in range(charges): self.swing(extra=True)
             self.schedule(self.time+self.swing_delay(),'swing')
 
+    def unsealed_wrath(self,weapon):
+        """Unsealed Wrath (Nov 3 notes): each landed melee attack stores a copy of the active Seal
+        (15 sec, up to 3). An attack under a different Seal releases every stored copy, each at
+        the stored Seal's normal chance, then starts storing the new Seal."""
+        uw=F['unsealed_wrath']
+        if self.uw_seal and self.uw_seal!=self.seal and self.time<self.uw_until:
+            for _ in range(self.uw_stacks): self.seal_proc(self.uw_seal,weapon,True)
+            self.uw_stacks=0
+        if self.uw_seal!=self.seal or self.time>=self.uw_until: self.uw_seal=self.seal; self.uw_stacks=0
+        self.uw_stacks=min(uw['stacks_max'],self.uw_stacks+1); self.uw_until=self.time+uw['duration']
+
     def cast_seal(self,seal):
         if not self.spend('Seal of '+seal.title(),F[seal]['cost']): return False
-        if self.seal and self.time < self.seal_until and self.seal != seal and self.rank(105692):
-            self.echo=self.seal
         self.seal=seal; self.seal_until=self.time+F[seal]['duration']
         self.gcd=self.time+F['righteousness']['gcd']; return True
 
@@ -458,7 +472,7 @@ class Fight:
             cost=F['judgement']['base_mana_fraction']*self.c['base_mana']
             if self.spend('Judgement',cost):
                 seal=self.seal; f=F[seal]
-                seal_bonus=1+0.05*self.rank(105334)
+                seal_bonus=1+0.03*self.rank(105334)
                 coeff=f['judgement_pct_sp']*seal_bonus
                 self.deal('Judgement of '+seal.title(),f.get('judgement_base',0.0)*seal_bonus,holy=True,can_crit=True,hit=self.c['spell_hit_chance'],spell_coefficient=coeff)
                 if self.set_flags.get('judgement_bonus_damage'): self.deal('Judgement Armor bonus',self.rng.uniform(60,66),holy=True,hit=1)
@@ -506,9 +520,10 @@ class Fight:
                     if self.m['use_classic_era_conversions']: weapon+=self.item_stat('attack_power')/14*self.c.get('normalized_speed',2.4)
                     amount=(weapon*self.m['holy_strike_weapon_pct']+self.rng.uniform(self.m['holy_strike_holy_min'],self.m['holy_strike_holy_max']))*arbiter
                     landed=self.deal('Holy Strike',amount,holy=True,can_crit=True,hit=self.c['hit_chance'],
-                                     extra_threat=1+0.05*iron,melee_crit=True,spell_coefficient=self.m['holy_strike_coeff'])
+                                     extra_threat=1+0.10*iron,melee_crit=True,spell_coefficient=self.m['holy_strike_coeff'])
                     if landed and iron: self.iron_until=self.time+6
-                    self.cd['holy_strike']=self.time+max(0.1,self.m['holy_strike_cooldown']-self.rank(105328)); acted=True
+                    if landed and self.rank(110875) and self.c.get('has_shield',True): self.shield_strike()
+                    self.cd['holy_strike']=self.time+max(0.1,self.m['holy_strike_cooldown']-4*self.rank(110875)); acted=True
             if not acted and eligible_holy_target and self.rot['use_holy_wrath'] and self.time>=self.cd['holy_wrath']:
                 if self.spend('Holy Wrath',805*conduit_discount):
                     self.deal('Holy Wrath',self.rng.uniform(490,576),holy=True,can_crit=True,hit=self.c['spell_hit_chance'],spell_coefficient=.19)
@@ -522,10 +537,18 @@ class Fight:
             if acted: self.gcd=max(self.gcd,self.time+1.5)
             elif self.time>=self.seal_until:
                 self.cast_seal('fury' if self.prot else 'righteousness' if not self.rank(105696) else 'command')
-            elif self.rot['twist_seals'] and self.rank(105692) and not self.echo:
+            elif self.rot['twist_seals'] and self.rank(105692) and self.uw_seal==self.seal and self.uw_stacks>=F['unsealed_wrath']['stacks_max']:
                 self.cast_seal('righteousness' if self.seal=='command' else 'command')
         # Fixed decision cadence is explicitly a model assumption, not the event clock.
         self.schedule(round(self.time+0.1,8),'decision')
+
+    def shield_strike(self):
+        if self.hs_charges>0 and self.time<self.hs_until:
+            self.deal('Holy Shield',F['holy_shield']['damage'],holy=True,extra_threat=F['holy_shield']['threat_multiplier'],spell_coefficient=.05)
+        reck=F['reckoning_rank1']; reck_rank=self.rank(105627)
+        if reck_rank and self.rng.random()<min(1,reck['block_proc']*reck_rank): self.reck_charges=min(4,self.reck_charges+1)
+        ss=F['shield_specialization_rank1']; ss_rank=self.rank(110874)
+        if ss_rank and self.rng.random()<min(1,ss['mana_proc']*ss_rank): self.gain_mana(self.c['mana']*ss['mana_fraction'])
 
     def enemy(self):
         swing=self.e['enemy_swing']/(0.8 if self.p['debuffs']['thunder_clap'] else 1)
@@ -572,12 +595,7 @@ class Fight:
         if self.prot and self.time<self.iron_until: amount*=1-0.02*self.rank(110879)
         damaging=amount>0
         if self.time>=self.absorb_until: self.absorb=0
-        pre_absorb=self.absorb
         absorbed=min(amount,self.absorb); self.absorb-=absorbed; self.absorbed+=absorbed; amount-=absorbed
-        if pre_absorb>0 and self.absorb<=1e-9 and self.rank(110875):
-            isf=F['improved_seal_of_fury_rank1']
-            level_diff=max(0,self.e['target_level']-self.c['level'])
-            self.gain_mana(isf['base_mana']*(1+min(isf['max_pct'],isf['per_level_pct']*level_diff)))
         source='Boss block' if blocked else 'Boss critical' if critical else 'Boss crushing' if crushing else 'Boss melee'
         self.health=max(0,self.health-amount); self.taken+=amount; self.taken_by_source[source]+=amount
         self.damage_window.append((self.time,amount)); self.window_sum+=amount
@@ -593,8 +611,8 @@ class Fight:
             self.red_until=self.time+F['redoubt_rank1']['duration']; self.red_charges=F['redoubt_rank1']['charges']
         reck=F['reckoning_rank1']
         reck_rank=self.rank(105627)
-        if reck_rank and ((blocked and self.rng.random()<min(1,reck['block_proc']*reck_rank)) or (critical and self.rng.random()<min(1,reck['crit_proc']*reck_rank))):
-            self.reck_charges=min(4,self.reck_charges+1)  # banked; released on the next auto attack
+        if reck_rank and self.time>=self.reck_icd and ((blocked and self.rng.random()<min(1,reck['block_proc']*reck_rank)) or (critical and self.rng.random()<min(1,reck['crit_proc']*reck_rank))):
+            self.reck_charges=min(4,self.reck_charges+1); self.reck_icd=self.time+1.5  # banked; released on the next auto attack
 
     def run(self):
         if self.prot:

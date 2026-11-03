@@ -1,7 +1,13 @@
-"""Sim-optimize a spec variant's 51 talent points around its defining core.
+"""Sim-optimize a spec variant's (or a base spec's) 51 talent points around its defining core.
 
 Usage: python tools/optimize_talents.py VARIANT [VARIANT ...] [--iterations N] [--workers N] [--write]
        python tools/optimize_talents.py --all [--write]
+       python tools/optimize_talents.py --specs [SPEC ...] [--write]
+
+--specs optimizes base specs' default builds instead (core: 31 points in the spec's own tree) and
+--write stores them in data/spec_talents.json, which forever/engine_data.py and forever/sim.py load
+over the hand-written defaults. Candidates run on the Rust CLI (engine-rs/target/release/forever-sim,
+identical results to the Python engines) when it's built, else on the Python engines.
 
 A variant (forever/engine_data.VARIANTS or forever/sim.PALADIN_VARIANTS) defines a "core": required
 talents and/or a minimum number of points in a tree. The optimizer:
@@ -30,13 +36,37 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 OUT = ROOT / "data" / "variant_talents.json"
+SPEC_OUT = ROOT / "data" / "spec_talents.json"
 MAX_POINTS, PER_TIER = 51, 5
+CLI = ROOT / "engine-rs" / "target" / "release" / ("forever-sim.exe" if os.name == "nt" else "forever-sim")
+PALADIN_SPEC_TREES = {"paladin-protection": ("protection", "Protection"), "paladin-retribution": ("retribution", "Retribution")}
+
+
+def run_rust(kind, payload):
+    import subprocess
+    import tempfile
+    with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False, encoding="utf-8") as fh:
+        json.dump(payload, fh); path = fh.name
+    try:
+        out = subprocess.run([str(CLI), kind, path, "--data", str(ROOT / "web" / "data")], capture_output=True, text=True, encoding="utf-8", check=True)
+        return json.loads(out.stdout)
+    finally:
+        os.unlink(path)
 
 
 # ---- engines ---------------------------------------------------------------------------------
 def variant_info(vid):
-    from forever.engine_data import SPEC_MAP, VARIANTS
-    from forever.sim import PALADIN_VARIANTS
+    from forever.engine_data import DEFAULT_BUILDS, SPEC_MAP, VARIANTS
+    from forever.sim import PALADIN_VARIANTS, PROTECTION_BUILD, RETRIBUTION_BUILD
+    if vid.startswith("spec:"):  # a base spec's default build: 31 points in its own tree
+        sid = vid[5:]
+        if sid in PALADIN_SPEC_TREES:
+            parent, tree = PALADIN_SPEC_TREES[sid]
+            v = {"parent": parent, "talents": PROTECTION_BUILD if parent == "protection" else RETRIBUTION_BUILD, "core": {"tree_min": {tree: 31}}}
+            return {"engine": "paladin", "variant": v, "class": "paladin", "tank": parent == "protection", "spec": True}
+        spec = SPEC_MAP[sid]
+        v = {"parent": sid, "talents": DEFAULT_BUILDS[sid], "core": {"tree_min": {spec["tree"]: 31}}}
+        return {"engine": "shared", "variant": v, "class": spec["class_name"].lower(), "tank": spec["role"] == "tank", "spec": True}
     if vid in VARIANTS:
         v = VARIANTS[vid]; spec = SPEC_MAP[v["parent"]]
         return {"engine": "shared", "variant": v, "class": spec["class_name"].lower(), "tank": spec["role"] == "tank"}
@@ -63,17 +93,18 @@ def evaluate(args):
     vid, build, iterations = args
     info = _CACHE.get(vid) or _CACHE.setdefault(vid, variant_info(vid))
     key = "tps" if info["tank"] else "dps"
+    variant = None if info.get("spec") else vid
     if info["engine"] == "paladin":
         from forever.sim import TALENTS, preset, simulate, validate
-        p = preset(info["variant"]["parent"], vid)
+        p = preset(info["variant"]["parent"], variant)
         p["talents"] = {t: 0 for t in TALENTS} | build
         p.update(iterations=iterations, seed=1717)
-        return simulate(validate(p))["metrics"][key]["mean"]
+        return (run_rust("paladin", p) if CLI.is_file() else simulate(validate(p)))["metrics"][key]["mean"]
     from forever.all_specs import public_specs, simulate_spec
     from server import default_request
     spec = next(s for s in public_specs() if s["id"] == info["variant"]["parent"])
-    req = default_request(spec, iterations=iterations, seed=1717, variant=vid, talents=build)
-    return simulate_spec(req)["metrics"][key]["mean"]
+    req = default_request(spec, iterations=iterations, seed=1717, talents=build, **({"variant": variant} if variant else {}))
+    return (run_rust("spec", req) if CLI.is_file() else simulate_spec(req))["metrics"][key]["mean"]
 
 
 # ---- legality --------------------------------------------------------------------------------
@@ -212,22 +243,27 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("variants", nargs="*")
     ap.add_argument("--all", action="store_true")
+    ap.add_argument("--specs", action="store_true", help="optimize base specs' default builds (names are spec ids; none = every spec)")
     ap.add_argument("--iterations", type=int, default=300)
     ap.add_argument("--workers", type=int, default=os.cpu_count())
     ap.add_argument("--write", action="store_true")
     args = ap.parse_args()
-    from forever.engine_data import VARIANTS
+    from forever.engine_data import DEFAULT_BUILDS, VARIANTS
     from forever.sim import PALADIN_VARIANTS
-    todo = list(VARIANTS) + list(PALADIN_VARIANTS) if args.all else args.variants
-    if not todo: ap.error("name variants or pass --all")
-    saved = json.loads(OUT.read_text(encoding="utf-8")) if OUT.is_file() else {}
+    if args.specs:
+        todo = ["spec:" + s for s in (args.variants or list(DEFAULT_BUILDS) + list(PALADIN_SPEC_TREES))]
+    else:
+        todo = list(VARIANTS) + list(PALADIN_VARIANTS) if args.all else args.variants
+    if not todo: ap.error("name variants or pass --all / --specs")
+    out = SPEC_OUT if args.specs else OUT
+    saved = json.loads(out.read_text(encoding="utf-8")) if out.is_file() else {}
     with ProcessPoolExecutor(max_workers=args.workers) as pool:
         for vid in todo:
             build, value = optimize(vid, args.iterations, pool)
             print(f"== {vid}: {value:.2f}  {json.dumps(build)}", flush=True)
-            saved[vid] = {"talents": build, "value": round(value, 2), "iterations": args.iterations}
+            saved[vid[5:] if args.specs else vid] = {"talents": build, "value": round(value, 2), "iterations": args.iterations}
             if args.write:
-                OUT.write_text(json.dumps(saved, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+                out.write_text(json.dumps(saved, indent=1, sort_keys=True) + "\n", encoding="utf-8")
 
 
 if __name__ == "__main__":

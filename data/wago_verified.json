@@ -1,102 +1,102 @@
 {
-  "build": "1.60.1.70450",
+  "build": "1.60.1.70753",
   "product": "wow_classic_beta",
   "tables": [
     {
       "table": "CurvePoint",
-      "sha256": "3e3bf40b947a83e54ea143dbc36d4b83061144c4424b7b31a4c46469b2f5e52b",
-      "bytes": 1029302,
-      "url": "https://wago.tools/db2/CurvePoint/csv?build=1.60.1.70450"
+      "sha256": "269694030c04fcfd5ab7491aaf6d0548fc3a9a24d165ba2aba1a84d813e63cc6",
+      "bytes": 1030728,
+      "url": "https://wago.tools/db2/CurvePoint/csv?build=1.60.1.70753"
     },
     {
       "table": "Spell",
-      "sha256": "fd16c218c830f504bb69707acee4fc6fa3168ea04a1180d7348bfae503a2bbdf",
-      "bytes": 2209387,
-      "url": "https://wago.tools/db2/Spell/csv?build=1.60.1.70450"
+      "sha256": "6305a313e7dddb481982b34bcabbbcf17d2afc0579c5e492f85fa2cb919ec86e",
+      "bytes": 2219866,
+      "url": "https://wago.tools/db2/Spell/csv?build=1.60.1.70753"
     },
     {
       "table": "SpellCastTimes",
       "sha256": "f94e1e3a3495d11af875fd7b007124fdd660a19ba626bc1de00a609da81f25d8",
       "bytes": 982,
-      "url": "https://wago.tools/db2/SpellCastTimes/csv?build=1.60.1.70450"
+      "url": "https://wago.tools/db2/SpellCastTimes/csv?build=1.60.1.70753"
     },
     {
       "table": "SpellCooldowns",
-      "sha256": "30b2806a3f01ef0aff445f46dd783b5910fe71f655a11b55b548604042583474",
-      "bytes": 119227,
-      "url": "https://wago.tools/db2/SpellCooldowns/csv?build=1.60.1.70450"
+      "sha256": "0b69d28bd8a47614473fbbf59e699b9db474a809dfcdb4252e9efdfbd9fbd37f",
+      "bytes": 119747,
+      "url": "https://wago.tools/db2/SpellCooldowns/csv?build=1.60.1.70753"
     },
     {
       "table": "SpellDuration",
-      "sha256": "46ba17d896e4373814e4b61864aa9f3104ec2671ed9e1d7219f2499643813c5d",
-      "bytes": 2515,
-      "url": "https://wago.tools/db2/SpellDuration/csv?build=1.60.1.70450"
+      "sha256": "4787f303fe8487cd67e5f9e8574fdc6fa2a03516dcfaabba23d9944f937223f5",
+      "bytes": 2825,
+      "url": "https://wago.tools/db2/SpellDuration/csv?build=1.60.1.70753"
     },
     {
       "table": "SpellEffect",
-      "sha256": "855a3d89a295f55131443e42f69a6d8306f99b3dab085b7d790d62631c66a451",
-      "bytes": 3854002,
-      "url": "https://wago.tools/db2/SpellEffect/csv?build=1.60.1.70450"
+      "sha256": "ad022c86368a1e850be3c960cf39b92847aeefe51760a95c4da3eea53ea55291",
+      "bytes": 3871850,
+      "url": "https://wago.tools/db2/SpellEffect/csv?build=1.60.1.70753"
     },
     {
       "table": "SpellLevels",
-      "sha256": "4df662bc20c327dd5562071389264a830d6e800b1db967b4334b7ce1f6080045",
-      "bytes": 312932,
-      "url": "https://wago.tools/db2/SpellLevels/csv?build=1.60.1.70450"
+      "sha256": "eddb84994bcb0e15fd61e10ddedf7151efb2d893eea04f75142c91d37a8416cc",
+      "bytes": 313650,
+      "url": "https://wago.tools/db2/SpellLevels/csv?build=1.60.1.70753"
     },
     {
       "table": "SpellMisc",
-      "sha256": "10a931ac94aed435d93567962c7b415b5a94cb68ade5d6d39f939e86c26d6a5b",
-      "bytes": 3029409,
-      "url": "https://wago.tools/db2/SpellMisc/csv?build=1.60.1.70450"
+      "sha256": "a0e6b8805f695cbadb8af9c28a9f7b89418d6e2804d0d09c06c2471110f39b48",
+      "bytes": 3041801,
+      "url": "https://wago.tools/db2/SpellMisc/csv?build=1.60.1.70753"
     },
     {
       "table": "SpellName",
-      "sha256": "88f0e96ad902ab1a15da366018edfc73ecf0b0ad3e02402c064527bdf9d1a912",
-      "bytes": 838255,
-      "url": "https://wago.tools/db2/SpellName/csv?build=1.60.1.70450"
+      "sha256": "0a7dd2a3ee0be5b00e0ae91abf93d73fafa4c4c5be4fdc39245ca0227c0a4480",
+      "bytes": 840644,
+      "url": "https://wago.tools/db2/SpellName/csv?build=1.60.1.70753"
     },
     {
       "table": "SpellPower",
-      "sha256": "961cb9e302b17b54623880f3aa0888dd9c0e861975d15538b0e49859da81a677",
-      "bytes": 139618,
-      "url": "https://wago.tools/db2/SpellPower/csv?build=1.60.1.70450"
+      "sha256": "173d7214c7d70506f25e176d3fe93c8bb0ec8b1d5a30fd2b88fc6daa14bc2bce",
+      "bytes": 140092,
+      "url": "https://wago.tools/db2/SpellPower/csv?build=1.60.1.70753"
     },
     {
       "table": "TraitDefinition",
-      "sha256": "72a94874e399a6e64691599e1ac7db0c1568f648d8fa84a3b4962aa54fdf6aa3",
-      "bytes": 15028,
-      "url": "https://wago.tools/db2/TraitDefinition/csv?build=1.60.1.70450"
+      "sha256": "42ca30d251b054b095487c9bbdd3db968a6f3e2547c28db5d8b6e41d0ae4d98b",
+      "bytes": 15103,
+      "url": "https://wago.tools/db2/TraitDefinition/csv?build=1.60.1.70753"
     },
     {
       "table": "TraitDefinitionEffectPoints",
-      "sha256": "4f4822d6bdc074f51429326a81403fd62b078fa90f8a7a6b969cadd26ee2b768",
-      "bytes": 14992,
-      "url": "https://wago.tools/db2/TraitDefinitionEffectPoints/csv?build=1.60.1.70450"
+      "sha256": "a43cfbb44064c02532ca5ea9deec00fe7c06060a54532887245ebd599ddfd945",
+      "bytes": 15208,
+      "url": "https://wago.tools/db2/TraitDefinitionEffectPoints/csv?build=1.60.1.70753"
     },
     {
       "table": "TraitNode",
-      "sha256": "91cfe5c15581a798e694c71f50fcad6f8e16a3a009b3ceca281d1f075d9426e3",
-      "bytes": 15715,
-      "url": "https://wago.tools/db2/TraitNode/csv?build=1.60.1.70450"
+      "sha256": "1a9289bcb0babea3a5ed4be71d818019c9fc0ff327a95573dd8896070856b8d0",
+      "bytes": 15686,
+      "url": "https://wago.tools/db2/TraitNode/csv?build=1.60.1.70753"
     },
     {
       "table": "TraitNodeEntry",
-      "sha256": "7df2f5497532ae57dbfe0c0d0efd94a04db52aee2c3bfadefc11dd0af4ccb264",
-      "bytes": 13234,
-      "url": "https://wago.tools/db2/TraitNodeEntry/csv?build=1.60.1.70450"
+      "sha256": "052f8d708a2a95afcba3c1ac6d972d33a73b971913fedf3641f27b3537cbe7ac",
+      "bytes": 13294,
+      "url": "https://wago.tools/db2/TraitNodeEntry/csv?build=1.60.1.70753"
     },
     {
       "table": "TraitNodeXTraitNodeEntry",
-      "sha256": "03a24b38fcf86b7b4409ec0460567529b8b67a8f6e36bea80f257b2d401619c3",
-      "bytes": 14046,
-      "url": "https://wago.tools/db2/TraitNodeXTraitNodeEntry/csv?build=1.60.1.70450"
+      "sha256": "cf672d42bfda5f5a51ae09f1642b131322e1ef5be273d7bf0191d9280205826b",
+      "bytes": 14021,
+      "url": "https://wago.tools/db2/TraitNodeXTraitNodeEntry/csv?build=1.60.1.70753"
     },
     {
       "table": "TraitTree",
       "sha256": "6f63def42b6b42b7524e36aef48f7afd9a399b6968b5a979e8c3f349f163f3a6",
       "bytes": 533,
-      "url": "https://wago.tools/db2/TraitTree/csv?build=1.60.1.70450"
+      "url": "https://wago.tools/db2/TraitTree/csv?build=1.60.1.70753"
     }
   ],
   "interpretation": "Explicit reviewed IDs only. Client tables do not prove server proc rules, target eligibility, or spell availability. Remaining abilities are not certified by this snapshot.",
@@ -247,7 +247,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "128",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -286,6 +286,7 @@
           {
             "ID": "1",
             "Duration": "10000",
+            "DurationPerLevel": "0",
             "MaxDuration": "10000",
             "DurationPerResource": "0"
           }
@@ -449,7 +450,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "0",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -605,7 +606,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "0",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -630,7 +631,7 @@
           {
             "ID": "25288",
             "NameSubtext_lang": "Rank 6",
-            "Description_lang": "Instantly counterattack an enemy for $s1 damage and a high amount of threat.   Revenge must follow a block, dodge or parry.",
+            "Description_lang": "Instantly counterattack an enemy for ${$m1+($<APRatio>*$apm)} to ${$M1+($<APRatio>*$apm)} damage and a high amount of threat.  Revenge must follow a block, dodge or parry.",
             "AuraDescription_lang": ""
           }
         ],
@@ -799,7 +800,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "128",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -838,6 +839,7 @@
           {
             "ID": "29",
             "Duration": "12000",
+            "DurationPerLevel": "0",
             "MaxDuration": "12000",
             "DurationPerResource": "0"
           }
@@ -964,7 +966,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "0",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -1162,7 +1164,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "128",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -1201,6 +1203,7 @@
           {
             "ID": "29",
             "Duration": "12000",
+            "DurationPerLevel": "0",
             "MaxDuration": "12000",
             "DurationPerResource": "0"
           }
@@ -1223,7 +1226,8 @@
           160.683334
         ],
         "coeff": 0.0,
-        "cost": 160.0
+        "cost": 160.0,
+        "cooldown": 8.0
       },
       "rows": {
         "SpellEffect": [
@@ -1290,7 +1294,7 @@
             "Variance": "0",
             "ResourceCoefficient": "0",
             "GroupSizeBasePointsCoefficient": "1",
-            "EffectBasePointsF": "200",
+            "EffectBasePointsF": "300",
             "ScalingClass": "0",
             "Node__Field_12_0_0_63534_001": "0",
             "EffectMiscValue_0": "0",
@@ -1407,7 +1411,7 @@
           {
             "ID": "94689",
             "DifficultyID": "0",
-            "CategoryRecoveryTime": "0",
+            "CategoryRecoveryTime": "8000",
             "RecoveryTime": "0",
             "StartRecoveryTime": "1500",
             "AuraSpellID": "0",
@@ -1442,7 +1446,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "0",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -1595,7 +1599,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "128",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -1634,6 +1638,7 @@
           {
             "ID": "85",
             "Duration": "18000",
+            "DurationPerLevel": "0",
             "MaxDuration": "18000",
             "DurationPerResource": "0"
           }
@@ -1763,7 +1768,7 @@
             "Variance": "0",
             "ResourceCoefficient": "0",
             "GroupSizeBasePointsCoefficient": "1",
-            "EffectBasePointsF": "10",
+            "EffectBasePointsF": "30",
             "ScalingClass": "0",
             "Node__Field_12_0_0_63534_001": "0",
             "EffectMiscValue_0": "0",
@@ -1837,7 +1842,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "0",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -1991,7 +1996,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "128",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -2030,6 +2035,7 @@
           {
             "ID": "106",
             "Duration": "24000",
+            "DurationPerLevel": "0",
             "MaxDuration": "24000",
             "DurationPerResource": "0"
           }
@@ -2151,7 +2157,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "0",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -2305,7 +2311,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "0",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -2732,7 +2738,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "128",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -2771,6 +2777,7 @@
           {
             "ID": "29",
             "Duration": "12000",
+            "DurationPerLevel": "0",
             "MaxDuration": "12000",
             "DurationPerResource": "0"
           }
@@ -2892,7 +2899,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "128",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -2931,6 +2938,7 @@
           {
             "ID": "9",
             "Duration": "30000",
+            "DurationPerLevel": "0",
             "MaxDuration": "30000",
             "DurationPerResource": "0"
           }
@@ -3090,7 +3098,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "128",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -3129,6 +3137,7 @@
           {
             "ID": "8",
             "Duration": "15000",
+            "DurationPerLevel": "0",
             "MaxDuration": "15000",
             "DurationPerResource": "0"
           }
@@ -3293,7 +3302,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "0",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -3450,7 +3459,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "0",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -3646,7 +3655,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "128",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -3685,6 +3694,7 @@
           {
             "ID": "31",
             "Duration": "8000",
+            "DurationPerLevel": "0",
             "MaxDuration": "8000",
             "DurationPerResource": "0"
           }
@@ -3923,6 +3933,7 @@
           {
             "ID": "27",
             "Duration": "3000",
+            "DurationPerLevel": "0",
             "MaxDuration": "3000",
             "DurationPerResource": "0"
           }
@@ -4089,7 +4100,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "128",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -4128,6 +4139,7 @@
           {
             "ID": "29",
             "Duration": "12000",
+            "DurationPerLevel": "0",
             "MaxDuration": "12000",
             "DurationPerResource": "0"
           }
@@ -4253,7 +4265,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "0",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -4410,7 +4422,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "0",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -4567,7 +4579,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "0",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -4724,7 +4736,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "0",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -4921,7 +4933,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "128",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -4960,6 +4972,7 @@
           {
             "ID": "31",
             "Duration": "8000",
+            "DurationPerLevel": "0",
             "MaxDuration": "8000",
             "DurationPerResource": "0"
           }
@@ -5124,7 +5137,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "128",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -5163,6 +5176,7 @@
           {
             "ID": "105",
             "Duration": "9000",
+            "DurationPerLevel": "0",
             "MaxDuration": "9000",
             "DurationPerResource": "0"
           }
@@ -5367,7 +5381,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "128",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -5406,6 +5420,7 @@
           {
             "ID": "105",
             "Duration": "9000",
+            "DurationPerLevel": "0",
             "MaxDuration": "9000",
             "DurationPerResource": "0"
           }
@@ -5530,7 +5545,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "0",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -5840,7 +5855,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "0",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -5879,6 +5894,7 @@
           {
             "ID": "28",
             "Duration": "5000",
+            "DurationPerLevel": "0",
             "MaxDuration": "5000",
             "DurationPerResource": "0"
           }
@@ -6004,7 +6020,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "0",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -6200,7 +6216,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "0",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -6239,6 +6255,7 @@
           {
             "ID": "39",
             "Duration": "2000",
+            "DurationPerLevel": "0",
             "MaxDuration": "2000",
             "DurationPerResource": "0"
           }
@@ -6364,7 +6381,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "0",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -6521,7 +6538,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "0",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -6758,7 +6775,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "128",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -6797,6 +6814,7 @@
           {
             "ID": "8",
             "Duration": "15000",
+            "DurationPerLevel": "0",
             "MaxDuration": "15000",
             "DurationPerResource": "0"
           }
@@ -6920,7 +6938,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "128",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -6959,6 +6977,7 @@
           {
             "ID": "85",
             "Duration": "18000",
+            "DurationPerLevel": "0",
             "MaxDuration": "18000",
             "DurationPerResource": "0"
           }
@@ -7008,6 +7027,84 @@
             "ResourceCoefficient": "0",
             "GroupSizeBasePointsCoefficient": "1",
             "EffectBasePointsF": "46",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "0",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "11713"
+          },
+          {
+            "ID": "1365365",
+            "EffectAura": "271",
+            "DifficultyID": "0",
+            "EffectIndex": "1",
+            "Effect": "6",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "0",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "0",
+            "ScalingClass": "0",
+            "Node__Field_12_0_0_63534_001": "0",
+            "EffectMiscValue_0": "0",
+            "EffectMiscValue_1": "0",
+            "EffectRadiusIndex_0": "0",
+            "EffectRadiusIndex_1": "0",
+            "EffectSpellClassMask_0": "1024",
+            "EffectSpellClassMask_1": "0",
+            "EffectSpellClassMask_2": "0",
+            "EffectSpellClassMask_3": "0",
+            "ImplicitTarget_0": "6",
+            "ImplicitTarget_1": "0",
+            "SpellID": "11713"
+          },
+          {
+            "ID": "1366630",
+            "EffectAura": "4",
+            "DifficultyID": "0",
+            "EffectIndex": "2",
+            "Effect": "6",
+            "EffectAmplitude": "0",
+            "EffectAttributes": "0",
+            "EffectAuraPeriod": "0",
+            "EffectBonusCoefficient": "0",
+            "EffectChainAmplitude": "1",
+            "EffectChainTargets": "0",
+            "EffectItemType": "0",
+            "EffectMechanic": "0",
+            "EffectPointsPerResource": "0",
+            "EffectPos_facing": "0",
+            "EffectRealPointsPerLevel": "0",
+            "EffectTriggerSpell": "0",
+            "BonusCoefficientFromAP": "0",
+            "PvpMultiplier": "1",
+            "Coefficient": "0",
+            "Variance": "0",
+            "ResourceCoefficient": "0",
+            "GroupSizeBasePointsCoefficient": "1",
+            "EffectBasePointsF": "0",
             "ScalingClass": "0",
             "Node__Field_12_0_0_63534_001": "0",
             "EffectMiscValue_0": "0",
@@ -7075,13 +7172,13 @@
             "Attributes_5": "0",
             "Attributes_6": "8388608",
             "Attributes_7": "0",
-            "Attributes_8": "512",
+            "Attributes_8": "4608",
             "Attributes_9": "0",
             "Attributes_10": "0",
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "128",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -7107,7 +7204,7 @@
             "ID": "11713",
             "NameSubtext_lang": "Rank 6",
             "Description_lang": "Afflicts the target with agony, causing $o1 Shadow damage over $d. This damage is dealt slowly at first, and builds up as the Bane reaches its full duration. Only one Bane per Warlock can be active on any one target.",
-            "AuraDescription_lang": "$o1 Shadow damage over $d."
+            "AuraDescription_lang": "$?$w3>0[${$o1*($w3/100+1)}][$o1] Shadow damage over $d."
           }
         ],
         "SpellName": [
@@ -7120,6 +7217,7 @@
           {
             "ID": "106",
             "Duration": "24000",
+            "DurationPerLevel": "0",
             "MaxDuration": "24000",
             "DurationPerResource": "0"
           }
@@ -7320,6 +7418,7 @@
           {
             "ID": "32",
             "Duration": "6000",
+            "DurationPerLevel": "0",
             "MaxDuration": "6000",
             "DurationPerResource": "0"
           }
@@ -7637,7 +7736,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "0",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -7676,6 +7775,7 @@
           {
             "ID": "31",
             "Duration": "8000",
+            "DurationPerLevel": "0",
             "MaxDuration": "8000",
             "DurationPerResource": "0"
           }
@@ -7992,7 +8092,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "1",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -8031,6 +8131,7 @@
           {
             "ID": "32",
             "Duration": "6000",
+            "DurationPerLevel": "0",
             "MaxDuration": "6000",
             "DurationPerResource": "0"
           }
@@ -8190,6 +8291,7 @@
           {
             "ID": "8",
             "Duration": "15000",
+            "DurationPerLevel": "0",
             "MaxDuration": "15000",
             "DurationPerResource": "0"
           }
@@ -8314,7 +8416,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "0",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -8468,7 +8570,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "0",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "128",
             "DifficultyID": "0",
@@ -8621,7 +8723,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "0",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -8896,7 +8998,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "0",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -9323,7 +9425,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "0",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -9746,7 +9848,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "0",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -9938,7 +10040,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "128",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -9962,7 +10064,7 @@
         "Spell": [
           {
             "ID": "1235827",
-            "NameSubtext_lang": "Rank 3",
+            "NameSubtext_lang": "Rank 5",
             "Description_lang": "Lacerates the enemy target, making them bleed for $o1 damage over $d plus $s2% weapon damage per existing application of Lacerate on the target. Causes a high amount of threat. This effect stacks up to $u times on the same target.",
             "AuraDescription_lang": "$w1 damage every $t sec."
           }
@@ -9977,6 +10079,7 @@
           {
             "ID": "8",
             "Duration": "15000",
+            "DurationPerLevel": "0",
             "MaxDuration": "15000",
             "DurationPerResource": "0"
           }
@@ -10408,7 +10511,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "0",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -10447,6 +10550,7 @@
           {
             "ID": "1",
             "Duration": "10000",
+            "DurationPerLevel": "0",
             "MaxDuration": "10000",
             "DurationPerResource": "0"
           }
@@ -10569,7 +10673,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "128",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -10608,6 +10712,7 @@
           {
             "ID": "86",
             "Duration": "21000",
+            "DurationPerLevel": "0",
             "MaxDuration": "21000",
             "DurationPerResource": "0"
           }
@@ -10771,7 +10876,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "128",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -10810,6 +10915,7 @@
           {
             "ID": "9",
             "Duration": "30000",
+            "DurationPerLevel": "0",
             "MaxDuration": "30000",
             "DurationPerResource": "0"
           }
@@ -10969,7 +11075,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "128",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -11008,6 +11114,7 @@
           {
             "ID": "22",
             "Duration": "45000",
+            "DurationPerLevel": "0",
             "MaxDuration": "45000",
             "DurationPerResource": "0"
           }
@@ -11266,6 +11373,7 @@
           {
             "ID": "8",
             "Duration": "15000",
+            "DurationPerLevel": "0",
             "MaxDuration": "15000",
             "DurationPerResource": "0"
           }
@@ -11407,6 +11515,7 @@
           {
             "ID": "32",
             "Duration": "6000",
+            "DurationPerLevel": "0",
             "MaxDuration": "6000",
             "DurationPerResource": "0"
           }
@@ -11528,7 +11637,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "0",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -11720,7 +11829,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "128",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -11759,6 +11868,7 @@
           {
             "ID": "27",
             "Duration": "3000",
+            "DurationPerLevel": "0",
             "MaxDuration": "3000",
             "DurationPerResource": "0"
           }
@@ -12076,7 +12186,7 @@
             "Attributes_11": "0",
             "Attributes_12": "0",
             "Attributes_13": "1",
-            "Attributes_14": "0",
+            "Attributes_14": "64",
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
@@ -12115,6 +12225,7 @@
           {
             "ID": "31",
             "Duration": "8000",
+            "DurationPerLevel": "0",
             "MaxDuration": "8000",
             "DurationPerResource": "0"
           }
@@ -12293,6 +12404,7 @@
           {
             "ID": "63",
             "Duration": "25000",
+            "DurationPerLevel": "0",
             "MaxDuration": "25000",
             "DurationPerResource": "0"
           }
@@ -12954,6 +13066,7 @@
           {
             "ID": "9",
             "Duration": "30000",
+            "DurationPerLevel": "0",
             "MaxDuration": "30000",
             "DurationPerResource": "0"
           }
@@ -13151,6 +13264,7 @@
           {
             "ID": "1",
             "Duration": "10000",
+            "DurationPerLevel": "0",
             "MaxDuration": "10000",
             "DurationPerResource": "0"
           }

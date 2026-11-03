@@ -68,7 +68,7 @@ class PetSpells(unittest.TestCase):
 class Oct19DataChecks(unittest.TestCase):
     def test_bear_threat_and_rage_basis(self):
         from forever.engine_data import STANCE_MODS, WARRIOR_RAGE_PER_SPEED
-        self.assertEqual(STANCE_MODS["bear"]["threat"], 1.5)  # client spell 21178
+        self.assertEqual(STANCE_MODS["bear"]["threat"], 2.15)  # +115% since the Nov 3 notes (client spell 21178 had +50%)
         self.assertEqual(WARRIOR_RAGE_PER_SPEED["taken_armor_factor"], 0.6)  # 40% armor basis at 60
 
     def test_zg_reputation_items_rescaled(self):

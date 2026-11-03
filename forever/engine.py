@@ -254,7 +254,7 @@ class Config:
         if "mana_spring" in self.buffs and self.mod("buff_pct:mana_spring"): st["mp5"] = st.get("mp5", 0) + BUFF_STATS["mana_spring"]["mp5"] * self.mod("buff_pct:mana_spring")
         if "blessing_of_kings" in self.buffs:
             for stat in ("strength", "agility", "stamina", "intellect", "spirit"): st[stat] = st.get(stat, 0) * 1.10
-        if self.race == "Human" and self.racial_enabled: st["spirit"] *= 1.05
+        if self.racial_enabled: st["spirit"] *= 1 + self.racial.get("spirit_pct", 0)
         self.windfury_totem = "windfury_totem" in self.buffs and s["style"] == "melee" and s["form"] in {None, "cat", "bear"} and s["class_name"] != "Shaman"
         # Talent percentage stats
         for stat in ("strength", "agility", "stamina", "intellect", "spirit", "armor", "mana"):
@@ -590,6 +590,9 @@ class Iteration:
         self.oom_time = 0.0
         self.windfury_lock = 0.0
         self.wrath_discount = False; self.next_parry = False
+        self.reckless = 0; self.death_mark = None
+        # Poised: the opener costs 10 less Energy (Composure: 5/10 more), Nov 3 notes.
+        self.poised = 10 + c.flag("composure") if self.s["resource"] == "Energy" and ("Shank" in c.actions or self.s["form"] == "cat") else 0.0
         if res == "Rage":
             self.rage = min(self.max_rage, float(c.request.get("starting_rage", 0)))
 
@@ -716,7 +719,7 @@ class Iteration:
         base = self.st["spellPower"] + max(self.st.get(f"{x}Power", 0) for x in parts(school))
         if self.c.flag("arcane_blast"):  # each Arcane Blast stack: +15% of Intellect as spell damage
             b = self.buffs.get("Arcane Blast")
-            if b and b["until"] > self.t: base += 0.15 * self.st["intellect"] * b["stacks"]
+            if b and b["until"] > self.t: base += 0.12 * self.st["intellect"] * b["stacks"]
         for b in self.buffs.values():
             if b["until"] > self.t:
                 if b.get("stat") == "spellPower" or b.get("stat") in {f"{x}Power" for x in parts(school)}: base += b["value"]
@@ -760,7 +763,7 @@ class Iteration:
         if not white:
             if kind == "ranged": bonus += c.mod("crit_dmg_school:ranged")
             else: bonus += c.mod("crit_dmg_school:physical_ability")
-            if ability in {"Sinister Strike", "Backstab", "Hemorrhage"}: bonus += c.mod("crit_dmg_builder")
+            if ability in {"Sinister Strike", "Backstab", "Hemorrhage", "Mutilate", "Shank"}: bonus += c.mod("crit_dmg_builder")
         return (1 + bonus) * self.racial_crit_damage()
 
     def racial_crit_damage(self):
@@ -800,6 +803,7 @@ class Iteration:
         if ability and not white: hit_pct += c.mod(f"hit_ability:{ability}") / 100
         hit_pct += self.buff_stat("meleeHit") / 100
         miss = max(0.0, miss - max(0.0, hit_pct - suppression))
+        if ability and not white and c.actions.get(ability, {}).get("no_miss"): miss = 0.0
         dodge = 0.0 if no_dodge else max(0.0, 0.05 + delta * 0.001 - c.flag("expertise") * 0.02)
         front = self.s["role"] == "tank"
         parry = (0.05 + base_delta * 0.006) if front and not no_dodge else 0.0
@@ -881,8 +885,8 @@ class Iteration:
         if school == "shadow" and self.debuff_active("Improved Shadow Bolt"): m *= 1.20
         if "fire" in parts(school) and self.debuff_active("Improved Scorch"): m *= 1 + 0.03 * self.debuffs["Improved Scorch"]["stacks"]
         if school == "nature" and self.debuff_active("Stormstrike"): m *= 1.20
-        if school == "shadow" and self.debuff_active("Shadow and Flame (shadow)"): m *= 1.10
-        if "fire" in parts(school) and self.debuff_active("Shadow and Flame (fire)"): m *= 1.10
+        if school == "shadow" and self.debuff_active("Shadow and Flame (shadow)"): m *= 1 + c.flag("shadow_and_flame")
+        if "fire" in parts(school) and self.debuff_active("Shadow and Flame (fire)"): m *= 1 + c.flag("shadow_and_flame")
         if ability == "Rupture" and self.debuff_active("Hemorrhage"): m *= 1.15
         if c.flag("fire_power") and "fire" in parts(school):
             effects = sum(1 for d in ("Ignite", "Fireball", "Pyroblast") if self.dots.get(d) and self.dots[d]["remaining"] > 0) + self.debuff_active("Improved Scorch")
@@ -921,6 +925,8 @@ class Iteration:
         if outcome == "glance": r.glances += 1
         if outcome == "crit": r.crits += 1
         r.hits += 1; r.damage += dmg; self.total += dmg
+        if self.death_mark is not None and name != "Death Mark" and self.t < self.death_mark["until"]:
+            self.death_mark["stored"] += dmg * self.death_mark["rate"] * (2 if name in {"Rupture", "Garrote"} else 1)
         th = (dmg * threat_mult + flat_threat) * (1 + self.c.mod(f"threat_ability:{name}")) * self.threat_multiplier(school)
         r.threat += th; self.threat += th
         self.record(name, outcome, dmg)
@@ -979,7 +985,9 @@ class Iteration:
         if res == "Mana":
             if self.clearcast: self.clearcast = False; return
             self.mana -= amount; self.last_cast_time = self.t
-        elif res == "Energy": self.energy -= amount
+        elif res == "Energy":
+            self.energy -= amount
+            if amount > 0: self.poised = 0.0
         else: self.rage -= amount
 
     # ---- weapon damage ---------------------------------------------------
@@ -1003,6 +1011,9 @@ class Iteration:
             if white:
                 self.white_rage(hand_item, damage)
             if c.flag("unbridled_wrath") and rng.random() < c.flag("unbridled_wrath"): self.gain_rage(1)  # 1 Rage for every weapon type since build 70374
+            if self.reckless > 0 and self.buff_active("Reckless Swings"): self.reckless -= 1; self.gain_rage(5)
+        if c.flag("bloodthrill") and hand_item is c.mh and self.dots.get("Rend") and self.dots["Rend"]["remaining"] > 0 and rng.random() < c.flag("bloodthrill"):
+            self.dodged_recently = self.t  # Bloodthrill: Overpower usable
             if c.flag("primal_fury") and self.s["form"] == "bear" and ability_name and "crit" in ability_name: pass
         # Weapon enchants / item procs
         hand_slot = "off_hand" if hand_item is c.oh else "main_hand"
@@ -1053,25 +1064,25 @@ class Iteration:
         if self.s["class_name"] == "Rogue":
             mh_poison = "deadly" if self.s["id"] == "rogue-assassination" else "instant"
             poison = mh_poison if hand_item is c.mh else "instant"
-            chance = POISONS[poison]["chance"] + c.flag("poison_chance") + (0.10 if self.buff_active("Venom") else 0.0) + self.buff_stat("poisonChance")
+            chance = POISONS[poison]["chance"] + c.flag("poison_chance") + (0.20 if self.buff_active("Venom") else 0.0) + self.buff_stat("poisonChance")
             if rng.random() < chance:
                 if poison == "instant":
                     out, m = self.spell_outcome("Instant Poison", "nature", can_crit=True)
                     self.row("Instant Poison").casts += 1
                     venom_dmg = 0.30 if self.buff_active("Venom") else 0.0
-                    self.deal("Instant Poison", rng.uniform(POISONS["instant"]["min"], POISONS["instant"]["max"]) * (1 + c.flag("poison_damage") + venom_dmg), "nature", "spell", outcome=out, mult=m)
+                    self.deal("Instant Poison", (rng.uniform(POISONS["instant"]["min"], POISONS["instant"]["max"]) + POISONS["instant"]["ap_coeff"] * self.ap()) * (1 + c.flag("poison_damage") + venom_dmg), "nature", "spell", outcome=out, mult=m)
                 else:
                     d = self.dots.get("Deadly Poison")
                     stacks = min(POISONS["deadly"]["max_stacks"], (d["stacks"] if d and d["remaining"] > 0 else 0) + 1)
                     venom_dmg = 0.30 if self.buff_active("Venom") else 0.0
-                    self.dots["Deadly Poison"] = {"next": self.t + 3, "remaining": 4, "tick": POISONS["deadly"]["tick"] * (1 + c.flag("poison_damage") + venom_dmg), "tick_len": 3, "school": "nature", "stacks": stacks, "kind": "dot"}
+                    self.dots["Deadly Poison"] = {"next": self.t + 3, "remaining": 4, "tick": (POISONS["deadly"]["tick"] + POISONS["deadly"]["ap_coeff"] * self.ap()) * (1 + c.flag("poison_damage") + venom_dmg), "tick_len": 3, "school": "nature", "stacks": stacks, "kind": "dot"}
         # Dragonbreath Chili
         if "dragonbreath_chili" in c.consumes and rng.random() < 0.05:
             self.row("Dragonbreath Chili").casts += 1
             self.deal("Dragonbreath Chili", rng.uniform(60, 90), "fire", "spell", outcome="hit")
         if c.flag("expose_prey") and rng.random() < c.flag("expose_prey"):
             self.add_buff("Mongoose Bite Ready", 5)
-        if c.flag("maelstrom_weapon") and not is_extra and rng.random() < 0.20:
+        if c.flag("maelstrom_weapon") and not is_extra and rng.random() < 0.40:  # doubled in the Nov 3 notes
             self.add_buff("Maelstrom Weapon", 30, stacks_max=5)
         # Flurry
         if self.flurry > 0 and white: self.flurry -= 1
@@ -1254,6 +1265,7 @@ class Iteration:
             if not (self.t - self.dodged_recently <= 5 or self.buff_active(buff_name)): return False
         if a.get("requires") == "block_dodge_parry" and self.t - self.avoided_recently > 5: return False
         if a.get("requires") == "dagger" and weapon_type(self.c.mh) != "Dagger": return False
+        if a.get("requires") == "off_hand" and not self.c.oh: return False
         if a.get("requires", "").startswith("dot:"):
             d = self.dots.get(a["requires"][4:]);
             if not (d and d["remaining"] > 0): return False
@@ -1267,13 +1279,14 @@ class Iteration:
         if self.buff_active("Arcane Power") and self.s["resource"] == "Mana": cost *= 1.3
         if name == "Arcane Blast":
             b = self.buffs.get("Arcane Blast"); stacks = b["stacks"] if b and b["until"] > self.t else 0
-            cost *= 1 + 1.75 * stacks
+            cost *= 1 + 1.0 * stacks
         if name == "Arcane Missiles" and self.buff_active("Missile Barrage"): cost = 0
         if name in {"Hemorrhage", "Backstab"}:
             b = self.buffs.get("Thousand Cuts")
             if b and b["until"] > self.t: cost = max(0.0, cost - 3 * b["stacks"])
         if self.s["resource"] == "Mana" and cost > 0: cost = max(0.0, cost * (1 + self.buff_stat("costMult")) + self.buff_stat("costFlat"))
         if self.s["resource"] == "Energy" and self.eureka > 0 and self.t < self.eureka_until: cost *= 1 - self.c.racial["active"].get("energy_cost", 0)
+        if self.poised and cost > 0: cost = max(0.0, cost - self.poised)
         return cost
 
     def choose(self):
@@ -1375,6 +1388,7 @@ class Iteration:
             if a.get("flat_damage_bonus"): kw["flat_damage_bonus"] = a["flat_damage_bonus"]
             if a["duration"] > 0 or not a.get("energy_gain"): self.add_buff(name, a["duration"] + c.mod(f"duration:{name}"), **kw)
         if name == "Tiger's Fury" and c.flag("king_of_the_jungle"): self.gain_energy(c.flag("king_of_the_jungle"))
+        if name == "Reckless Swings": self.reckless = 4
         if a.get("energy_gain"):  # Shifting Power: Mana into Energy
             self.mana -= self.base_mana_cost(a); self.last_cast_time = self.t; self.gain_energy(a["energy_gain"])
         if a.get("combustion"): self.combustion = {"stacks": 0, "crits": 0}
@@ -1459,7 +1473,7 @@ class Iteration:
         c = self.c
         cp = self.cp; self.cp = 0
         if c.flag("ruthlessness") and self.rng.random() < c.flag("ruthlessness"): self.cp = 1
-        if c.flag("relentless_strikes") and self.rng.random() < 0.2 * cp: self.gain_energy(25)
+        if c.flag("relentless_strikes") and self.rng.random() < c.flag("relentless_strikes") * cp: self.gain_energy(25)
         if c.flag("restless_blades") and c.actions[name].get("kind") != "buff":
             # Only Adrenaline Rush/Blade Flurry matter for a single-target DPS sim; Evasion/Sprint/Vanish
             # (also reduced by the real talent) are defensive/utility and unmodeled here.
@@ -1518,7 +1532,7 @@ class Iteration:
                 dmg = self.deal(name, dmg, "physical", "ranged", outcome=out, mult=m * a["mult"] * (min(c.targets, 3) if name == "Multi-Shot" else 1))
                 if dmg: self.on_ranged_damage(out)
                 return
-            item = c.mh
+            item = c.oh if a.get("weapon", {}).get("hand") == "off" else c.mh
             if c.weave_penalty: self.next_ranged += c.weave_penalty  # weaving: stepping in to melee costs Auto Shot time
             out, m = self.melee_outcome(item, False, name, no_dodge=a.get("no_dodge", False))
             if out in {"miss", "dodge", "parry"}:
@@ -1533,8 +1547,11 @@ class Iteration:
             elif a.get("finisher") == "eviscerate":
                 cp = self.cp; base = rng.uniform(48 + 151 * cp, 48 + 151 * cp + 96) + 0.03 * cp * self.ap()
             elif a.get("finisher") == "ferocious_bite":
-                cp = self.cp; extra = max(0.0, self.energy); self.energy = 0
-                base = 52 + rng.uniform(0, 60) + 128 * cp + self.ap() * 0.03 * cp + extra * 2.7
+                # Nov 3 notes: base and attack power scaling +25%. Predatory Discipline keeps the
+                # excess Energy instead of spending it, still adding its damage.
+                cp = self.cp; extra = max(0.0, self.energy)
+                if not c.flag("predatory_discipline"): self.energy = 0
+                base = 1.25 * (52 + rng.uniform(0, 60) + 128 * cp + self.ap() * 0.03 * cp) + extra * 2.7
             elif a.get("base"):
                 base = rng.uniform(*a["base"]) + (self.st.get("blockValue", 0) if a.get("add_block_value") else 0)
             elif not a.get("weapon"):
@@ -1552,7 +1569,7 @@ class Iteration:
             fb = sum(b.get("flat_damage_bonus", 0) for b in self.buffs.values() if b["until"] > self.t)
             base += fb + c.mod(f"flat_ability:{name}")
             if self.next_crit: self.next_crit = False
-            dmg = self.deal(name, base, "physical", "melee", threat_mult=threat_mult, flat_threat=flat_threat, outcome=out, mult=m * a["mult"] * (min(c.targets, 4) if name in ("Whirlwind", "Thunder Clap") else min(c.targets, 3) if name == "Swipe" else 1))
+            dmg = self.deal(name, base, "physical", "melee", threat_mult=threat_mult, flat_threat=flat_threat, outcome=out, mult=m * a["mult"] * (min(c.targets, 4) + (c.flag("improved_whirlwind") if name == "Whirlwind" else 0) if name in ("Whirlwind", "Thunder Clap") else min(c.targets, 3) if name == "Swipe" else 1))
             if self.eureka > 0: self.eureka -= 1
             if a.get("cp"):
                 gained = a["cp"] + (1 if out == "crit" and rng.random() < c.flag("seal_fate") else 0) + (1 if out == "crit" and c.flag("primal_fury") and self.s["form"] == "cat" else 0)
@@ -1561,6 +1578,10 @@ class Iteration:
             if a.get("finisher"): self.finish(name)
             if a.get("apply_debuff"): n, d, extra = a["apply_debuff"]; self.add_debuff(n, d)
             if name == "Hemorrhage": self.add_debuff("Hemorrhage", 15)
+            if name == "Shank":
+                self.gain_energy(a.get("energy_gain_hit", 0) + c.flag("shank_energy"))
+                if c.flag("boot_knife") and rng.random() < c.flag("boot_knife"): self.cp = min(5, self.cp + 2)
+                if c.flag("venom"): self.add_buff("Venom", 6)
             if name == "Mongoose Bite":
                 self.buffs.pop("Mongoose Bite Ready", None)
                 if dmg and c.flag("lacerating_strikes"):
@@ -1579,7 +1600,7 @@ class Iteration:
         # ---- spells / ranged magic
         if kind in {"direct", "direct_dot", "dot"} and a.get("finisher") == "rip":
             cp = self.cp; scaling = 4 if cp == 5 else cp
-            tick = 17 + 28 * cp + 0.01 * scaling * self.ap()
+            tick = 1.25 * (17 + 28 * cp + 0.01 * scaling * self.ap())  # Nov 3 notes: +25%
             out, m = self.melee_outcome(c.mh, False, name)
             self.row(name)
             if out in {"miss", "dodge", "parry"}:
@@ -1588,6 +1609,12 @@ class Iteration:
                 return
             tick *= a["mult"] * self.periodic_crit_mult(name, "physical", bleed=True)
             self.dots[name] = {"next": self.t + a["tick_len"], "remaining": a["ticks"], "tick": tick, "tick_len": a["tick_len"], "school": "physical", "kind": "dot", "bleed": True}
+            self.finish(name); self.record(name, "applied", 0); return
+        if a.get("finisher") == "death_mark":
+            # Death Mark (Nov 3 notes): no stored-damage rate is published; 5% per combo point
+            # assumed (Coup de Grace raises it), Rupture/Garrote stored at twice the rate.
+            cp = self.cp
+            self.death_mark = {"until": self.t + 6, "rate": 0.05 * cp * (1 + c.flag("coup_de_grace")), "stored": 0.0}
             self.finish(name); self.record(name, "applied", 0); return
         if a.get("finisher") == "rupture":
             cp = self.cp
@@ -1603,15 +1630,15 @@ class Iteration:
                 if c.flag("finisher_refund"): self.gain_energy(c.flag("finisher_refund"))
                 return
             tick *= a["mult"] * self.periodic_crit_mult(name, "physical", bleed=True)
-            self.dots[name] = {"next": self.t + 2, "remaining": 3 + cp, "tick": tick, "tick_len": 2, "school": "physical", "kind": "dot", "bleed": True}
+            self.dots[name] = {"next": self.t + 2, "remaining": 3 + cp + int(c.flag("blood_splatter")), "tick": tick, "tick_len": 2, "school": "physical", "kind": "dot", "bleed": True}
             self.finish(name); self.record(name, "applied", 0); return
         sp = self.sp(school)
         if kind in {"direct", "direct_dot"}:
             can_crit = not a.get("no_crit")
-            if name == "Arcane Blast" and c.flag("arcane_blast"):  # 15 sec from the first stack; later stacks don't refresh it
+            if name == "Arcane Blast" and c.flag("arcane_blast"):  # 18 sec from the first stack; later stacks don't refresh it
                 b = self.buffs.get("Arcane Blast")
                 if b and b["until"] > self.t: b["stacks"] = min(4, b["stacks"] + 1)
-                else: self.add_buff("Arcane Blast", 15, stacks_max=4)
+                else: self.add_buff("Arcane Blast", 18, stacks_max=4)
             out, m = self.spell_outcome(name, school, can_crit) if not a.get("always_hit") else ("hit", 1.0)
             if out == "miss":
                 self.deal(name, 0, school, "spell", outcome="miss"); return
@@ -1623,7 +1650,7 @@ class Iteration:
             if name == "Ice Lance":
                 b = self.buffs.get("Fingers of Frost")
                 if b and b["until"] > self.t and b["stacks"] > 0:
-                    base *= 3.0  # +200% vs frozen targets (build 70425)
+                    base *= 4.0  # +300% vs frozen targets (Nov 3 notes; was +200%)
                     fof_used = True
             if self.next_crit: self.next_crit = False
             dmg = self.deal(name, base, school, "spell", threat_mult=threat_mult, flat_threat=flat_threat, outcome=out, mult=m * a["mult"] * (c.targets if a.get("aoe") else 1))
@@ -1664,7 +1691,8 @@ class Iteration:
         crit = 0.0 if periodic else self.crit_chance("spell", name, a["school"]) + (0.25 if self.inner_focus_used else 0.0)
         if not periodic and self.next_crit: crit = 1.0; self.next_crit = False  # Divine Favor
         out = "crit" if not periodic and self.rng.random() < crit else "hit"
-        healed = amount * self.heal_mult(name) * (1.5 if out == "crit" else 1.0) * (1 + c.mod("hot_pct") if periodic else 1.0)
+        crit_bonus = 0.5 * (1 + (c.flag("heal_crit_bonus") if a["school"] == "holy" else 0.0))
+        healed = amount * self.heal_mult(name) * (1 + crit_bonus if out == "crit" else 1.0) * (1 + c.mod("hot_pct") if periodic else 1.0)
         if out == "crit": r.crits += 1
         r.hits += 1; r.damage += healed; self.total += healed
         self.record(name, out, healed)
@@ -1676,6 +1704,12 @@ class Iteration:
             shield = healed * c.flag("divine_aegis")
             da = self.row("Divine Aegis"); da.hits += 1; da.damage += shield; self.total += shield
         return healed
+
+    def flat_heal(self, label, amount):
+        """A talent heal that isn't a cast (Bloom, Holy Binding): lands in full, no crit."""
+        healed = amount * (1 + self.c.mod("heal_pct")); r = self.row(label)
+        r.hits += 1; r.damage += healed; self.total += healed
+        self.record(label, "hit", healed)
 
     def resolve_heal(self, name, a):
         c = self.c
@@ -1695,8 +1729,10 @@ class Iteration:
             elif a.get("self_too"): n = 2 if allies >= 2 else 1
             else: n = 1
             power = self.heal_power()
+            done = 0.0
             for _ in range(n * a.get("hits", 1)):
-                self.heal(name, self.rng.uniform(*a["base"]) + power * a.get("coeff", 0))
+                done += self.heal(name, self.rng.uniform(*a["base"]) + power * a.get("coeff", 0))
+            if name == "Flash Heal" and c.flag("holy_binding") and allies >= 2: self.flat_heal("Holy Binding", done * c.flag("holy_binding"))
             if a.get("ticks"): self.apply_dot(name, a, power)  # Regrowth / Riptide HoT part
         self.inner_focus_used = False
         if c.flag("litany_of_light") and self.last_heal is not None and self.last_heal != name:
@@ -1706,7 +1742,7 @@ class Iteration:
 
     def apply_dot(self, name, a, sp):
         c = self.c
-        tick = (a.get("tick", 0) + sp * a.get("dot_coeff", 0)) * a["mult"]
+        tick = (a.get("tick", 0) + sp * a.get("dot_coeff", 0) + (self.ap(ranged=True) * a["dot_rap_coeff"] if a.get("dot_rap_coeff") else 0)) * a["mult"]
         if a.get("kind") in {"hot", "heal"}:  # heal over time: healing multipliers apply per tick, HoTs don't crit
             instance = {"next": self.t + a["tick_len"], "remaining": a["ticks"], "tick": a.get("tick", 0) + sp * a.get("dot_coeff", 0), "tick_len": a["tick_len"], "school": a["school"], "kind": "dot", "bleed": False, "heal": True}
             primary = self.dots.get(name)
@@ -1798,6 +1834,7 @@ class Iteration:
         school = d["school"]
         if d.get("heal"):
             for _ in range(min(5, max(1, int(c.targets))) if c.actions[name].get("group") else 1): self.heal(name, tick, periodic=True)
+            if d["remaining"] <= 0 and c.flag("bloom") and name in {"Rejuvenation", "Regrowth"}: self.flat_heal("Bloom", self.st["spirit"] * c.flag("bloom"))
             return
         self.deal(name, tick, school, "spell" if school != "physical" else "melee", periodic=True, outcome="hit")
         if name == "Rupture" and c.flag("thousand_cuts"): self.add_buff("Thousand Cuts", 10, stacks_max=5)
@@ -1878,11 +1915,11 @@ class Iteration:
     def pet_multiplier(self):
         c = self.c; m = 1.0
         if c.pet["kind"] == "hunter":
-            m *= 1.25 * c.pet["damage"] * (1 + c.flag("pet_damage"))
+            m *= 1.25 * c.pet["damage"] * (1 + c.flag("pet_damage")) * (1 + c.racial.get("pet_damage", 0) * c.racial_enabled)
             b = self.buffs.get("Bestial Wrath")
             if b and b["until"] > self.t: m *= 1.5
         else:
-            m *= 1 + c.flag("pet_damage")
+            m *= (1 + c.flag("pet_damage")) * (1 + c.racial.get("pet_damage", 0) * c.racial_enabled)
             if c.flag("soul_link"): m *= 1 + c.flag("soul_link")
             if c.flag("master_demonologist") and c.pet["family"] == "succubus": m *= 1 + c.flag("master_demonologist")
         creature = c.racial.get("creature_damage", {}).get(c.boss_type, 0) if c.racial_enabled else 0
@@ -2060,6 +2097,9 @@ class Iteration:
                 elif t - self.last_cast_time >= 5: regen += spirit_regen
                 else: regen += spirit_regen * c.flag("spirit_while_casting")
                 self.gain_mana(regen)
+            if self.death_mark is not None and t + EPS >= self.death_mark["until"]:
+                stored, self.death_mark = self.death_mark["stored"], None
+                self.deal("Death Mark", stored, "physical", "melee", periodic=True, outcome="hit")
             if s["resource"] == "Energy" and t + EPS >= self.next_energy_tick:
                 self.next_energy_tick += 2.0
                 mult = 2.0 if self.buff_active("Adrenaline Rush") else 1.0

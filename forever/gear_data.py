@@ -210,11 +210,11 @@ def apply_gear(profile):
             ch[field] += totals.get(stat, 0)
         kings = 1.10 if effective.get("raid_buffs", {}).get("blessing_of_kings") else 1.0
         for field in ("strength", "agility", "stamina", "intellect", "spirit"): ch[field] *= kings
-        if race == 'Human': ch['spirit'] *= 1.05
+        ch['spirit'] *= 1 + RACIALS.get(race, {}).get('spirit_pct', 0)
         talents = effective.get("talents", {})
-        ch["strength"] *= 1 + 0.02 * talents.get("105639", 0)
-        ch["intellect"] *= 1 + 0.02 * talents.get("105332", 0)
-        ch["stamina"] *= 1 + 0.02 * talents.get("105632", 0)
+        ch["strength"] *= 1 + 0.02 * talents.get("113630", 0)  # Divine Strength (node 113630 since the Nov 3 notes)
+        ch["intellect"] *= 1 + 0.02 * talents.get("105332", 0)  # Divine Intellect (Protection since the Nov 3 notes)
+        # Sacred Duty no longer increases Stamina (Nov 3 notes).
         ch["armor"] *= 1 + 0.02 * talents.get("105630", 0)
         # Paladin level-60 Classic conversions: 1 Str = 2 AP, 1 Sta = 10 HP,
         # 1 Int = 15 mana, 19.77 Agi = 1 melee crit, 59.5 Int = 1 spell crit.
@@ -224,12 +224,14 @@ def apply_gear(profile):
         ch["crit_chance"] += ch["agility"] * 0.0506 / 100
         ch["spell_crit_chance"] += ch["intellect"] * 0.0167 / 100
         ch["avoidance"] += ch["agility"] * 0.0506 / 100
-        ch["spell_power"] += ch["intellect"] * 0.10 * talents.get("110882", 0)  # Champion of the Light: 10/20/30% (Oct 15 notes, build 70425)
+        ch["spell_power"] += ch["intellect"] * 0.12 * talents.get("110882", 0)  # Champion of the Light: 12/24/36/48/60% (Nov 3 notes)
         ch["health"] *= 1 + RACIALS.get(race, {}).get("health_pct", 0)
         kinds = {weapon_kind for weapon_kind in (ITEMS.get(effective["gear"][slot], {}).get("subclass") for slot in ("main_hand", "off_hand")) if weapon_kind}
         for kind, bonus in RACIALS.get(race, {}).get("weapon_crit", {}).items():
             if kind != "provisional" and (kind == "all" or any(kind in k for k in kinds)):
                 ch["crit_chance"] += bonus / 100; ch["spell_crit_chance"] += bonus / 100
+        racial_hit = RACIALS.get(race, {}).get("hit", 0) / 100  # Dwarf Artisan's Precision (Nov 3 notes)
+        ch["hit_chance"] += racial_hit; ch["spell_hit_chance"] += racial_hit
         # Level-63 boss: 4.8% melee crit suppression and 2.1% spell crit suppression (WoWSims Classic attack table).
         ch["crit_chance"] = max(0.0, ch["crit_chance"] - 0.048)
         ch["spell_crit_chance"] = max(0.0, ch["spell_crit_chance"] - 0.021)

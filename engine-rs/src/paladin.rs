@@ -426,14 +426,14 @@ pub fn apply_gear(profile: &Value, catalog: &Catalog) -> Result<(Value, Value), 
             let v = obj_f(&effective["character"], field) * kings;
             set_f(&mut effective["character"], field, v);
         }
-        if race == "Human" { let v = obj_f(&effective["character"], "spirit") * 1.05; set_f(&mut effective["character"], "spirit", v); }
+        let spirit_pct = t.RACIALS.get(&race).map_or(0.0, |r| r.spirit_pct);
+        { let v = obj_f(&effective["character"], "spirit") * (1.0 + spirit_pct); set_f(&mut effective["character"], "spirit", v); }
         let talent = |id: &str| effective.get("talents").and_then(|t| t.get(id)).and_then(|v| v.as_f64()).unwrap_or(0.0);
-        let (t639, t332, t632, t630, t882) = (talent("105639"), talent("105332"), talent("105632"), talent("105630"), talent("110882"));
+        let (t639, t332, t630, t882) = (talent("113630"), talent("105332"), talent("105630"), talent("110882"));
         let target_level = obj_f(&effective["encounter"], "target_level");
         let ch = &mut effective["character"];
         set_f(ch, "strength", obj_f(ch, "strength") * (1.0 + 0.02 * t639));
         set_f(ch, "intellect", obj_f(ch, "intellect") * (1.0 + 0.02 * t332));
-        set_f(ch, "stamina", obj_f(ch, "stamina") * (1.0 + 0.02 * t632));
         set_f(ch, "armor", obj_f(ch, "armor") * (1.0 + 0.02 * t630));
         set_f(ch, "attack_power", obj_f(ch, "attack_power") + obj_f(ch, "strength") * 2.0);
         set_f(ch, "health", obj_f(ch, "health") + (obj_f(ch, "stamina") - obj_f(&base, "stamina")) * 10.0 + obj_f(&base, "stamina") * 10.0);
@@ -441,7 +441,7 @@ pub fn apply_gear(profile: &Value, catalog: &Catalog) -> Result<(Value, Value), 
         set_f(ch, "crit_chance", obj_f(ch, "crit_chance") + obj_f(ch, "agility") * 0.0506 / 100.0);
         set_f(ch, "spell_crit_chance", obj_f(ch, "spell_crit_chance") + obj_f(ch, "intellect") * 0.0167 / 100.0);
         set_f(ch, "avoidance", obj_f(ch, "avoidance") + obj_f(ch, "agility") * 0.0506 / 100.0);
-        set_f(ch, "spell_power", obj_f(ch, "spell_power") + obj_f(ch, "intellect") * 0.10 * t882);
+        set_f(ch, "spell_power", obj_f(ch, "spell_power") + obj_f(ch, "intellect") * 0.12 * t882); // Champion of the Light: 12% per rank (Nov 3 notes)
         let racial = t.RACIALS.get(&race).cloned().unwrap_or_default();
         set_f(ch, "health", obj_f(ch, "health") * (1.0 + racial.health_pct));
         let kinds: Vec<String> = ["main_hand", "off_hand"].iter().filter_map(|slot| gear.get(*slot).and_then(|v| v.as_i64())).filter_map(|id| catalog.items.get(&id)).filter_map(|i| i.subclass.clone()).collect();
@@ -452,6 +452,8 @@ pub fn apply_gear(profile: &Value, catalog: &Catalog) -> Result<(Value, Value), 
                 set_f(ch, "spell_crit_chance", obj_f(ch, "spell_crit_chance") + b / 100.0);
             }
         }
+        set_f(ch, "hit_chance", obj_f(ch, "hit_chance") + racial.hit / 100.0);  // Dwarf Artisan's Precision (Nov 3 notes)
+        set_f(ch, "spell_hit_chance", obj_f(ch, "spell_hit_chance") + racial.hit / 100.0);
         set_f(ch, "crit_chance", (obj_f(ch, "crit_chance") - 0.048).max(0.0));
         set_f(ch, "spell_crit_chance", (obj_f(ch, "spell_crit_chance") - 0.021).max(0.0));
         let level = obj_f(ch, "level");
@@ -764,7 +766,10 @@ pub struct Fight<'a> {
     cd: IndexMap<&'static str, f64>,
     seal: Option<Seal>,
     seal_until: f64,
-    echo: Option<Seal>,
+    uw_seal: Option<Seal>,
+    uw_stacks: i64,
+    uw_until: f64,
+    reck_icd: f64,
     iron_until: f64,
     execute_at: f64,
     hs_until: f64,
@@ -851,7 +856,10 @@ impl<'a> Fight<'a> {
             cd: IndexMap::new(),
             seal: None,
             seal_until: 0.0,
-            echo: None,
+            uw_seal: None,
+            uw_stacks: 0,
+            uw_until: 0.0,
+            reck_icd: 0.0,
             iron_until: 0.0,
             execute_at: duration * 0.8,
             hs_until: 0.0,
@@ -961,7 +969,6 @@ impl<'a> Fight<'a> {
 
     fn spend(&mut self, name: &str, amount: f64) -> bool {
         let amount = if name.starts_with("Seal") { (amount - self.c.seal_cost_reduction).max(0.0) } else { amount };
-        let amount = if name.starts_with("Seal") && self.rank("105692") != 0.0 { amount * (1.0 - self.f("twist_of_light", "seal_cost_reduction")) } else { amount };
         let discounted = name.starts_with("Seal") || ["Judgement", "Holy Shield", "Holy Strike", "Templar's Bulwark", "Consecration"].contains(&name);
         let amount = amount * if discounted { 1.0 - 0.02 * self.rank("105706") } else { 1.0 };
         if self.mana + 1e-9 < amount {
@@ -984,7 +991,7 @@ impl<'a> Fight<'a> {
         if self.time - self.last_cast >= 5.0 {
             regen += spirit;
         } else {
-            regen += spirit * 0.10 * self.rank("110871");
+            regen += spirit * 0.15 * self.rank("110871"); // Reverence: 2 ranks, max rank unchanged (Nov 3 notes)
         }
         self.gain_mana(regen);
         if self.consumables.get("major_mana_potion").copied().unwrap_or(false) && self.time >= self.potion_cd && self.c.mana - self.mana >= 1800.0 {
@@ -1024,9 +1031,7 @@ impl<'a> Fight<'a> {
     fn deal_inner(&mut self, name: &str, amount: f64, holy: bool, can_crit: bool, hit: f64, extra_threat: f64, melee_crit: bool, physical: Option<bool>, spell_coefficient: f64) -> Option<f64> {
         let precision = 0.01 * self.rank("105638");
         let mut crit = if melee_crit || !holy { self.c.crit_chance } else { self.c.spell_crit_chance };
-        if melee_crit || !holy {
-            crit += 0.01 * self.rank("105703");
-        }
+        crit += 0.02 * self.rank("105703"); // Conviction: all spells and attacks (Nov 3 notes)
         let white = ["Melee", "Reckoning", "Windfury Attack", "Hand of Justice"].contains(&name);
         let mut glance = 1.0;
         let critical;
@@ -1065,6 +1070,10 @@ impl<'a> Fight<'a> {
         if holy || physical {
             amount *= 1.0 + self.vengeance as f64 * self.f("vengeance_rank1", "bonus_per_stack") * self.rank("105693");
         }
+        let two_hand = self.c.weapon_hands.as_deref() == Some("Two-Hand");
+        if two_hand && (holy || physical) {
+            amount *= 1.0 + [0.0, 0.02, 0.04, 0.06][self.rank("105697") as usize];
+        }
         amount *= 1.0 + self.racial.creature_damage.get(&self.e.boss_type).copied().unwrap_or(0.0);
         if physical && self.debuffs.get("gift_of_arthas").copied().unwrap_or(false) && self.consumables.get("gift_of_arthas").copied().unwrap_or(false) {
             amount += 8.0;
@@ -1079,8 +1088,13 @@ impl<'a> Fight<'a> {
         *self.damage.entry(name.to_string()).or_insert(0.0) += amount;
         *self.hits.entry(name.to_string()).or_insert(0) += 1;
         let base_threat = if holy { self.m.holy_threat_per_damage } else { self.m.base_threat_per_damage };
-        let generated = amount * base_threat * extra_threat * if holy && self.prot { self.f("righteous_fury", "holy_threat_multiplier") } else { 1.0 };
-        let generated = generated * (1.0 - self.c.threat_reduction);
+        // Righteous Fury (Nov 3 notes): +33% to all threat and an additional +90% from Holy damage.
+        let rf = if self.prot { 1.0 + self.f("righteous_fury", "all_threat_bonus") + if holy { self.f("righteous_fury", "holy_threat_multiplier") - 1.0 } else { 0.0 } } else { 1.0 };
+        let generated = amount * base_threat * extra_threat * rf;
+        let mut generated = generated * (1.0 - self.c.threat_reduction);
+        if two_hand {
+            generated *= 1.0 - [0.0, 0.07, 0.14, 0.20][self.rank("105697") as usize];
+        }
         self.threat += generated;
         *self.threat_by_source.entry(name.to_string()).or_insert(0.0) += generated;
         self.record(&format!("{name}{}", if critical { " crit" } else { "" }), amount);
@@ -1096,7 +1110,7 @@ impl<'a> Fight<'a> {
 
     fn seal_proc(&mut self, seal: Seal, weapon: f64, echo: bool) {
         let suffix = if echo { " echo" } else { "" };
-        let seal_bonus = 1.0 + 0.05 * self.rank("105334");
+        let seal_bonus = 1.0 + 0.03 * self.rank("105334"); // Improved Seals: 5 ranks, max unchanged (Nov 3 notes)
         match seal {
             Seal::Command => {
                 if self.rng.random() < self.m.command_proc_chance {
@@ -1133,11 +1147,6 @@ impl<'a> Fight<'a> {
         if self.m.use_classic_era_conversions {
             weapon += (self.item_stat("attack_power") + bonus_ap) / 14.0 * self.c.weapon_speed;
         }
-        match self.c.weapon_hands.as_deref() {
-            Some("Two-Hand") => weapon *= 1.0 + [0.0, 0.02, 0.04, 0.06][self.rank("105697") as usize],
-            Some("One-Hand") | Some("Main Hand") => weapon *= 1.0 + [0.0, 0.03, 0.07, 0.10][self.rank("105629") as usize],
-            _ => {}
-        }
         let name = if bonus_ap != 0.0 { "Windfury Attack" } else if extra { extra_name } else { "Melee" };
         let landed = self.deal(name, weapon, false, true, self.c.hit_chance, 1.0, false, None, 0.0);
         if landed && !extra && self.raid_buffs.get("windfury_totem").copied().unwrap_or(false) && self.rng.random() < 0.20 {
@@ -1166,11 +1175,10 @@ impl<'a> Fight<'a> {
                     self.seal_proc(seal, weapon, false);
                 }
             }
-            if let Some(echo) = self.echo {
-                self.seal_proc(echo, weapon, true);
+            if self.rank("105692") != 0.0 && self.time < self.seal_until {
+                self.unsealed_wrath(weapon);
             }
         }
-        self.echo = None;
         if !extra {
             let charges = std::mem::take(&mut self.reck_charges);
             for _ in 0..charges {
@@ -1181,15 +1189,47 @@ impl<'a> Fight<'a> {
         }
     }
 
+    /// Unsealed Wrath (Nov 3 notes): each landed melee attack stores a copy of the active Seal
+    /// (15 sec, up to 3). An attack under a different Seal releases every stored copy, each at
+    /// the stored Seal's normal chance, then starts storing the new Seal.
+    fn unsealed_wrath(&mut self, weapon: f64) {
+        let cur = self.seal;
+        if let Some(stored) = self.uw_seal {
+            if Some(stored) != cur && self.time < self.uw_until {
+                for _ in 0..self.uw_stacks {
+                    self.seal_proc(stored, weapon, true);
+                }
+                self.uw_stacks = 0;
+            }
+        }
+        if self.uw_seal != cur || self.time >= self.uw_until {
+            self.uw_seal = cur;
+            self.uw_stacks = 0;
+        }
+        self.uw_stacks = (self.f("unsealed_wrath", "stacks_max") as i64).min(self.uw_stacks + 1);
+        self.uw_until = self.time + self.f("unsealed_wrath", "duration");
+    }
+
+    fn shield_strike(&mut self) {
+        if self.hs_charges > 0 && self.time < self.hs_until {
+            let (dmg, tm) = (self.f("holy_shield", "damage"), self.f("holy_shield", "threat_multiplier"));
+            self.deal("Holy Shield", dmg, true, false, 1.0, tm, false, None, 0.05);
+        }
+        let reck_rank = self.rank("105627");
+        if reck_rank != 0.0 && self.rng.random() < (self.f("reckoning_rank1", "block_proc") * reck_rank).min(1.0) {
+            self.reck_charges = (self.reck_charges + 1).min(4);
+        }
+        let ss_rank = self.rank("110874");
+        if ss_rank != 0.0 && self.rng.random() < (self.f("shield_specialization_rank1", "mana_proc") * ss_rank).min(1.0) {
+            let v = self.c.mana * self.f("shield_specialization_rank1", "mana_fraction");
+            self.gain_mana(v);
+        }
+    }
+
     fn cast_seal(&mut self, seal: Seal) -> bool {
         let cost = self.f(seal.key(), "cost");
         if !self.spend(&format!("Seal of {}", title(seal.key())), cost) {
             return false;
-        }
-        if let Some(cur) = self.seal {
-            if self.time < self.seal_until && cur != seal && self.rank("105692") != 0.0 {
-                self.echo = Some(cur);
-            }
         }
         self.seal = Some(seal);
         self.seal_until = self.time + self.f(seal.key(), "duration");
@@ -1212,7 +1252,7 @@ impl<'a> Fight<'a> {
             let cost = self.f("judgement", "base_mana_fraction") * self.c.base_mana;
             if self.spend("Judgement", cost) {
                 let seal = self.seal.unwrap();
-                let seal_bonus = 1.0 + 0.05 * self.rank("105334");
+                let seal_bonus = 1.0 + 0.03 * self.rank("105334");
                 let coeff = self.f(seal.key(), "judgement_pct_sp") * seal_bonus;
                 let base = self.pt.fact_or(seal.key(), "judgement_base", 0.0) * seal_bonus;
                 self.deal(&format!("Judgement of {}", title(seal.key())), base, true, true, self.c.spell_hit_chance, 1.0, false, None, coeff);
@@ -1289,11 +1329,14 @@ impl<'a> Fight<'a> {
                     let mut weapon = self.rng.uniform(self.c.weapon_min, self.c.weapon_max);
                     if self.m.use_classic_era_conversions { weapon += self.item_stat("attack_power") / 14.0 * if self.c.normalized_speed > 0.0 { self.c.normalized_speed } else { 2.4 }; }
                     let amount = (weapon * self.m.holy_strike_weapon_pct + self.rng.uniform(self.m.holy_strike_holy_min, self.m.holy_strike_holy_max)) * arbiter;
-                    let landed = self.deal("Holy Strike", amount, true, true, self.c.hit_chance, 1.0 + 0.05 * iron, true, None, self.m.holy_strike_coeff);
+                    let landed = self.deal("Holy Strike", amount, true, true, self.c.hit_chance, 1.0 + 0.10 * iron, true, None, self.m.holy_strike_coeff);
                     if landed && iron != 0.0 {
                         self.iron_until = self.time + 6.0;
                     }
-                    let v = self.time + (self.m.holy_strike_cooldown - self.rank("105328")).max(0.1);
+                    if landed && self.rank("110875") != 0.0 && self.c.has_shield {
+                        self.shield_strike(); // Shieldsworn
+                    }
+                    let v = self.time + (self.m.holy_strike_cooldown - 4.0 * self.rank("110875")).max(0.1);
                     self.cd.insert("holy_strike", v);
                     acted = true;
                 }
@@ -1324,7 +1367,7 @@ impl<'a> Fight<'a> {
             } else if self.time >= self.seal_until {
                 let seal = if self.prot { Seal::Fury } else if self.rank("105696") == 0.0 { Seal::Righteousness } else { Seal::Command };
                 self.cast_seal(seal);
-            } else if self.rot.twist_seals && self.rank("105692") != 0.0 && self.echo.is_none() {
+            } else if self.rot.twist_seals && self.rank("105692") != 0.0 && self.uw_seal == self.seal && self.uw_stacks >= self.f("unsealed_wrath", "stacks_max") as i64 {
                 let seal = if self.seal == Some(Seal::Command) { Seal::Righteousness } else { Seal::Command };
                 self.cast_seal(seal);
             }
@@ -1403,16 +1446,10 @@ impl<'a> Fight<'a> {
         if self.time >= self.absorb_until {
             self.absorb = 0.0;
         }
-        let pre_absorb = self.absorb;
         let absorbed = amount.min(self.absorb);
         self.absorb -= absorbed;
         self.absorbed += absorbed;
         amount -= absorbed;
-        if pre_absorb > 0.0 && self.absorb <= 1e-9 && self.rank("110875") != 0.0 {
-            let level_diff = (self.e.target_level - self.c.level).max(0.0);
-            let pct = (self.f("improved_seal_of_fury_rank1", "per_level_pct") * level_diff).min(self.f("improved_seal_of_fury_rank1", "max_pct"));
-            self.gain_mana(self.f("improved_seal_of_fury_rank1", "base_mana") * (1.0 + pct));
-        }
         let source = if blocked { "Boss block" } else if critical { "Boss critical" } else if crushing { "Boss crushing" } else { "Boss melee" };
         self.health = (self.health - amount).max(0.0);
         self.taken += amount;
@@ -1446,11 +1483,12 @@ impl<'a> Fight<'a> {
             self.red_charges = self.f("redoubt_rank1", "charges") as i64;
         }
         let reck_rank = self.rank("105627");
-        if reck_rank != 0.0 {
+        if reck_rank != 0.0 && self.time >= self.reck_icd {
             let block_hit = blocked && self.rng.random() < (self.f("reckoning_rank1", "block_proc") * reck_rank).min(1.0);
             let crit_hit = !block_hit && critical && self.rng.random() < (self.f("reckoning_rank1", "crit_proc") * reck_rank).min(1.0);
             if block_hit || crit_hit {
                 self.reck_charges = (self.reck_charges + 1).min(4); // banked; released on the next auto attack
+                self.reck_icd = self.time + 1.5;
             }
         }
     }

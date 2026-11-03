@@ -55,8 +55,9 @@ class WagoDataTests(unittest.TestCase):
 
     def test_cast_time_and_related_talents_come_from_client(self):
         self.assertEqual(ABILITIES['Incinerate']['cast'], 2.5)
-        c = config('shaman-elemental', talents={'104771': 2, '104760': 1})  # Elemental Alacrity 2/3 + Lava Burst (node ids since build 70425)
-        self.assertAlmostEqual(c.actions['Lava Burst']['cast'], 2.17)
+        c = config('shaman-elemental', talents={'104771': 2, '104760': 1})  # Elemental Alacrity 2/3 + Call of Thunder (node 104760 since the Nov 3 notes)
+        self.assertAlmostEqual(c.actions['Lightning Bolt']['cast'], 2.17)
+        self.assertEqual(c.actions['Lightning Bolt']['crit_bonus'], 5)
 
     def test_csv_id_need_not_be_first_column_and_offline_filter_is_exact(self):
         with tempfile.TemporaryDirectory() as directory:

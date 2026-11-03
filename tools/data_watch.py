@@ -38,7 +38,7 @@ def fetch(url: str) -> str:
 
 LIVE_PRODUCT = "wowf"
 BETA_PRODUCT = "wow_classic_beta"
-PIN = "beta"  # "live" or "beta": which client the sim follows
+PIN = "live"  # "live" or "beta": which client the sim follows
 
 
 def latest_builds() -> dict:

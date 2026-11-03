@@ -94,7 +94,7 @@ class StatTests(unittest.TestCase):
         orc = config("warrior-fury", race="Orc", gear=[], gear_slots=[], buffs=[], consumables=[], enchants=[], talents={})
         self.assertAlmostEqual(human.stats["strength"], 120); self.assertAlmostEqual(orc.stats["strength"], 123)
         self.assertAlmostEqual(human.stats["attackPower"], 160 + 120 * 2)
-        self.assertAlmostEqual(human.stats["meleeCrit"], 80 * 0.05 + 2)  # + Ruthless
+        self.assertAlmostEqual(human.stats["meleeCrit"], 80 * 0.05 + 1)  # + Ruthless (1% since the Nov 3 notes)
         self.assertAlmostEqual(human.stats["health"], 1689 + 110 * 10)
 
     def test_buffs_consumables_and_kings_apply(self):
@@ -195,7 +195,7 @@ class AttackTableTests(unittest.TestCase):
         crit_mult = next(m for o, m in outs if o == "crit")
         self.assertAlmostEqual(crit_mult, 2.0 + 0.30, places=6)  # Mortal Shots 5/5
         self.assertAlmostEqual(iteration("mage-frost").crit_multiplier("spell", "Frostbolt", "frost"), 2.0)  # Ice Shards
-        self.assertAlmostEqual(iteration("warrior-fury").crit_multiplier("melee", "Bloodthirst", "physical"), 2.1)  # Impale 1/2
+        self.assertAlmostEqual(iteration("warrior-fury").crit_multiplier("melee", "Bloodthirst", "physical"), 2.2)  # Impale 2/2
 
 
 class ResourceTests(unittest.TestCase):
@@ -221,7 +221,8 @@ class ResourceTests(unittest.TestCase):
         r = simulate_spec(default_request(spec("rogue-combat"), iterations=3, duration=60, buffs=[], consumables=[]))
         st = r["ability_stats"]
         spent = st["Sinister Strike"]["casts"] * 40 + st["Eviscerate"]["casts"] * 35 + st["Slice and Dice"]["casts"] * 25
-        self.assertLessEqual(spent, 100 + 30 * 20 * 1.02 + 150 + 25 * 6)  # start + ticks + Adrenaline Rush + Relentless Strikes
+        shank = st["Shank"]["casts"] * (25 + 15 - 5)  # Shank: 25 Energy + Flash of Steel 5/5, costs 5
+        self.assertLessEqual(spent, 100 + 10 + 30 * 20 * 1.02 + 150 + 25 * 6 + shank)  # start + Poised + ticks + Adrenaline Rush + Relentless Strikes + Shank
         self.assertGreater(st["Eviscerate"]["casts"], 1)
         self.assertGreater(st["Sinister Strike"]["casts"], st["Eviscerate"]["casts"] * 3)
 
@@ -296,10 +297,11 @@ class MechanicTests(unittest.TestCase):
         self.assertTrue(any(e["event"] == "Berserking" for e in troll["log"]))
         self.assertGreater(undead["ability_stats"]["Touch of the Grave"]["casts"], 0)
         self.assertTrue(any(e["event"] == "Blood Fury" for e in orc["log"]))
-        self.assertEqual(config("warrior-fury", race="Human").racial_crit, 2.0)  # Ruthless: +2% crit with any weapon (Oct 15 notes)
-        self.assertEqual(config("hunter-marksmanship", race="Human").racial_crit, 2.0)
-        self.assertEqual(config("hunter-marksmanship", race="Orc").racial_crit, 1.0)  # Savage
-        self.assertEqual(config("warrior-fury", race="Dwarf").racial_crit, 0.0)  # Earth Fury is crit damage, not chance
+        self.assertEqual(config("warrior-fury", race="Human").racial_crit, 1.0)  # Ruthless: +1% crit with any weapon (Nov 3 notes)
+        self.assertEqual(config("hunter-marksmanship", race="Human").racial_crit, 1.0)
+        self.assertEqual(config("hunter-marksmanship", race="Orc").racial_crit, 0.0)  # Savage removed (Nov 3 notes)
+        self.assertEqual(config("warrior-fury", race="Dwarf").racial_crit, 0.0)
+        self.assertEqual(config("warrior-fury", race="Dwarf").stats["meleeHit"] - config("warrior-fury", race="Human").stats["meleeHit"], 1.0)  # Artisan's Precision
 
     def test_hunter_pet_focus_and_abilities(self):
         r = simulate_spec(default_request(spec("hunter-beast-mastery"), iterations=3, duration=120, pet_family="cat"))
@@ -478,35 +480,35 @@ class ForeverBlueNoteTests(unittest.TestCase):
         self.assertEqual(fury.mod("dw_hit"), 10)  # Furious Precision 3/3 (client curve 4/7/10); Dual Wield Spec no longer adds hit
         self.assertAlmostEqual(fury.flag("dw_rage"), 0.50)
         self.assertEqual(ABILITIES["Whirlwind"]["weapon"]["hand"], "both")
-        rb = config("warrior-fury", talents={**fury.talents, "105977": 1})
-        self.assertEqual(rb.actions["Whirlwind"]["cost"], fury.actions["Whirlwind"]["cost"] - 3)  # Raging Blows
+        rb = config("warrior-fury", talents={k: v for k, v in fury.talents.items() if k != "105977"})
+        self.assertEqual(fury.actions["Whirlwind"]["cost"], rb.actions["Whirlwind"]["cost"] - 3)  # Raging Blows
         it = iteration("warrior-fury")  # copies: c.mh/c.oh are the shared catalog items for non-form specs
         it.c.mh = {**it.c.mh, "weaponDamageMin": 100.0, "weaponDamageMax": 100.0}
         it.c.oh = {**it.c.oh, "weaponDamageMin": 100.0, "weaponDamageMax": 100.0}
         it.melee_outcome = lambda *a, **k: ("hit", 1.0); it.ap = lambda *a, **k: 0.0
         it.rage = 100; it.cur_cost = 25; it.resolve("Whirlwind")
         self.assertAlmostEqual(it.rows["Whirlwind"].damage / it.multiplier("Whirlwind", "physical", "melee", False, False) / it.armor_mult("Whirlwind"),
-                               100 + 100 * 0.5 * (1 + fury.flag("dw_damage")), places=4)  # off hand at the off-hand penalty
+                               (100 + 100 * 0.5 * (1 + fury.flag("dw_damage"))) * (1 + fury.flag("improved_whirlwind")), places=4)  # off hand at the off-hand penalty; Improved Whirlwind on the closest target
 
 class Build70425Tests(unittest.TestCase):
     """Forever beta development notes, Oct 15 (client build 1.60.1.70425)."""
 
     def test_racial_crit_damage_and_touch_of_the_grave(self):
         dwarf = iteration("warrior-fury", race="Dwarf"); human = iteration("warrior-fury", race="Human")
-        self.assertAlmostEqual(dwarf.crit_multiplier("melee", "Bloodthirst", "physical") / human.crit_multiplier("melee", "Bloodthirst", "physical"), 1.02)
+        self.assertAlmostEqual(dwarf.crit_multiplier("melee", "Bloodthirst", "physical") / human.crit_multiplier("melee", "Bloodthirst", "physical"), 1.0)  # Earth Fury removed (Nov 3)
         undead = iteration("warrior-fury", race="Undead")
         undead.rng.random = lambda: 0.0
         undead.touch_of_the_grave(); undead.t = 10; undead.touch_of_the_grave()
-        self.assertEqual(undead.rows["Touch of the Grave"].casts, 1)  # 25 sec internal cooldown
-        undead.t = 26; undead.touch_of_the_grave()
+        self.assertEqual(undead.rows["Touch of the Grave"].casts, 1)  # 15 sec internal cooldown (Nov 3 notes)
+        undead.t = 16; undead.touch_of_the_grave()
         self.assertEqual(undead.rows["Touch of the Grave"].casts, 2)
 
-    def test_arcane_blast_stacks_grant_spell_power_for_15_seconds(self):
+    def test_arcane_blast_stacks_grant_spell_power_for_18_seconds(self):
         it = iteration("mage-arcane")
         base = it.sp("arcane")
-        it.add_buff("Arcane Blast", 15, stacks_max=4); it.buffs["Arcane Blast"]["stacks"] = 3
-        self.assertAlmostEqual(it.sp("arcane") - base, 0.15 * it.st["intellect"] * 3)
-        it.t += 15
+        it.add_buff("Arcane Blast", 18, stacks_max=4); it.buffs["Arcane Blast"]["stacks"] = 3
+        self.assertAlmostEqual(it.sp("arcane") - base, 0.12 * it.st["intellect"] * 3)  # 12% of Intellect per stack (Nov 3 notes)
+        it.t += 18
         self.assertAlmostEqual(it.sp("arcane"), base)
 
     def test_fire_power_counts_fire_effects_on_the_target(self):
@@ -518,7 +520,7 @@ class Build70425Tests(unittest.TestCase):
 
     def test_elemental_mastery_and_node_remap(self):
         c = config("shaman-elemental")
-        self.assertIn("Elemental Mastery", c.actions); self.assertIn("Lava Burst", c.actions)
+        self.assertIn("Elemental Mastery", c.actions); self.assertNotIn("Lava Burst", c.actions)  # Lava Burst removed (Nov 3 notes)
         it = iteration("shaman-elemental"); it.add_buff("Elemental Mastery", 15)
         it.mana = 99999; it.start("Chain Lightning")
         self.assertLessEqual(it.cooldowns["Chain Lightning"], it.t)  # no cooldown under Elemental Mastery

@@ -104,6 +104,10 @@ pub struct Racial {
     pub touch_of_the_grave: Option<TouchOfTheGrave>,
     #[serde(default)]
     pub crit_damage: f64,
+    #[serde(default)]
+    pub spirit_pct: f64,
+    #[serde(default)]
+    pub pet_damage: f64,
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug, Default)]
@@ -204,6 +208,10 @@ pub struct Ability {
     pub requires: Option<String>,
     #[serde(default, skip_serializing_if = "is_false")]
     pub no_dodge: bool,
+    #[serde(default, skip_serializing_if = "is_false")]
+    pub no_miss: bool,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub energy_gain_hit: Option<f64>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub finisher: Option<String>,
     #[serde(default, skip_serializing_if = "is_false")]
@@ -316,6 +324,8 @@ pub struct Ability {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub rap_coeff: Option<f64>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub dot_rap_coeff: Option<f64>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub item_use: Option<ItemUse>,
 }
 
@@ -405,6 +415,8 @@ pub struct WarlockPet {
 #[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct Poison {
     pub chance: f64,
+    #[serde(default)]
+    pub ap_coeff: f64,
     #[serde(default)]
     pub min: f64,
     #[serde(default)]

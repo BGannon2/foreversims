@@ -31,7 +31,7 @@ def cases():
     # are engine fixtures, not recommended complete player builds.
     partials = {
         'warrior-fury': {'105932': 1},
-        'rogue-combat': {'105741': 1, '105708': 2, '105716': 3},
+        'rogue-combat': {'105741': 1, '105708': 2, '105716': 1},
         'druid-balance': {'104925': 2, '104936': 3},
         'shaman-elemental': {'104765': 2, '104759': 2, '104758': 1},
         'hunter-marksmanship': {'105001': 2, '110870': 1},

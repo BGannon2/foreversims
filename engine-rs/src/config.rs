@@ -634,7 +634,7 @@ impl Config {
                 st.insert(stat.into(), v);
             }
         }
-        if self.race == "Human" && self.racial_enabled { st["spirit"] *= 1.05; }
+        if self.racial_enabled { st["spirit"] *= 1.0 + self.racial.spirit_pct; }
         self.windfury_totem = self.buffs.contains("windfury_totem") && self.spec.style == "melee" && (self.spec.form.is_none() || self.spec.form_is("cat") || self.spec.form_is("bear")) && cls != "Shaman";
         for stat in ["strength", "agility", "stamina", "intellect", "spirit", "armor", "mana"] {
             let pct = self.mod_(&format!("stat_pct:{stat}"));

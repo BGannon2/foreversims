@@ -232,6 +232,9 @@ pub struct Iteration<'a> {
     pub pet_threat: f64,
     pub wrath_discount: bool,
     pub next_parry: bool,
+    pub reckless: i64,
+    pub poised: f64,
+    pub death_mark: Option<(f64, f64, f64)>, // (until, rate, stored)
     pub buff_active_seconds: IndexMap<String, f64>,
     pub buff_covered_until: IndexMap<String, f64>,
     pub buff_procs: IndexMap<String, i64>,
@@ -257,7 +260,9 @@ impl<'a> Iteration<'a> {
             flurry: 0, white_crit: false, tog_ready: 0.0, eureka: 0, eureka_until: 0.0, dodged_recently: -10.0, avoided_recently: -10.0, combustion: None, clearcast: false, next_instant: false, next_crit: false, eclipse: 0, inner_focus: false, inner_focus_used: false, last_heal: None, external_innervate: false,
             busy_until: 0.0, starved: 0.0, first_oom: None, pet_state: None, enrage_until: 0.0, sacrificed: None, racial_next: 0.0, item_icd: IndexMap::new(), windfury_lock: 0.0,
             cur_school: String::new(), cur_cost: 0.0, blocked_by_resource: false, taken_by: IndexMap::new(), pet_threat: 0.0,
-            wrath_discount: false, next_parry: false,
+            wrath_discount: false, next_parry: false, reckless: 0, death_mark: None,
+            // Poised: the opener costs 10 less Energy (Composure: 5/10 more), Nov 3 notes.
+            poised: if c.spec.resource == "Energy" && (c.actions.contains_key("Shank") || c.spec.form_is("cat")) { 10.0 + c.flag("composure") } else { 0.0 },
             buff_active_seconds: IndexMap::new(), buff_covered_until: IndexMap::new(), buff_procs: IndexMap::new(),
         };
         if c.spec.resource == "Rage" {
@@ -472,7 +477,7 @@ impl<'a> Iteration<'a> {
         if self.c.flag("arcane_blast") != 0.0 {
             // each Arcane Blast stack: +15% of Intellect as spell damage
             let stacks = self.buffs.get("Arcane Blast").filter(|b| b.until > self.t).map_or(0, |b| b.stacks);
-            base += 0.15 * self.st("intellect") * stacks as f64;
+            base += 0.12 * self.st("intellect") * stacks as f64;
         }
         let school_power: Vec<String> = parts(school).iter().map(|x| format!("{x}Power")).collect();
         for b in self.buffs.values() {
@@ -559,7 +564,7 @@ impl<'a> Iteration<'a> {
             } else {
                 bonus += c.mod_("crit_dmg_school:physical_ability");
             }
-            if ["Sinister Strike", "Backstab", "Hemorrhage"].contains(&ability) {
+            if ["Sinister Strike", "Backstab", "Hemorrhage", "Mutilate", "Shank"].contains(&ability) {
                 bonus += c.mod_("crit_dmg_builder");
             }
         }
@@ -615,6 +620,9 @@ impl<'a> Iteration<'a> {
         }
         hit_pct += self.buff_stat("meleeHit", None, None, false) / 100.0;
         miss = (miss - (hit_pct - suppression).max(0.0)).max(0.0);
+        if !white && ability.is_some_and(|ab| c.actions.get(ab).is_some_and(|a| a.no_miss)) {
+            miss = 0.0;
+        }
         let dodge = if no_dodge { 0.0 } else { (0.05 + delta * 0.001 - c.flag("expertise") * 0.02).max(0.0) };
         let front = c.spec.role == "tank";
         let parry = if front && !no_dodge { 0.05 + base_delta * 0.006 } else { 0.0 };
@@ -778,10 +786,10 @@ impl<'a> Iteration<'a> {
             m *= 1.20;
         }
         if school == "shadow" && self.debuff_active("Shadow and Flame (shadow)") {
-            m *= 1.10;
+            m *= 1.0 + c.flag("shadow_and_flame");
         }
         if parts(school).contains(&"fire") && self.debuff_active("Shadow and Flame (fire)") {
-            m *= 1.10;
+            m *= 1.0 + c.flag("shadow_and_flame");
         }
         if ability == "Rupture" && self.debuff_active("Hemorrhage") {
             m *= 1.15;
@@ -855,6 +863,12 @@ impl<'a> Iteration<'a> {
         r.threat += th;
         self.total += dmg;
         self.threat += th;
+        let t = self.t;
+        if let Some((until, rate, stored)) = self.death_mark.as_mut() {
+            if name != "Death Mark" && t < *until {
+                *stored += dmg * *rate * if name == "Rupture" || name == "Garrote" { 2.0 } else { 1.0 };
+            }
+        }
         self.record(name, outcome.as_str(), dmg);
         dmg
     }
@@ -936,7 +950,12 @@ impl<'a> Iteration<'a> {
                 self.mana -= amount;
                 self.last_cast_time = self.t;
             }
-            "Energy" => self.energy -= amount,
+            "Energy" => {
+                self.energy -= amount;
+                if amount > 0.0 {
+                    self.poised = 0.0;
+                }
+            }
             _ => self.rage -= amount,
         }
     }
@@ -969,6 +988,13 @@ impl<'a> Iteration<'a> {
             if c.flag("unbridled_wrath") != 0.0 && self.rng.random() < c.flag("unbridled_wrath") {
                 self.gain_rage(1.0); // 1 Rage for every weapon type since build 70374
             }
+            if self.reckless > 0 && self.buff_active("Reckless Swings") {
+                self.reckless -= 1;
+                self.gain_rage(5.0);
+            }
+        }
+        if c.flag("bloodthrill") != 0.0 && hand == Hand::Main && self.dots.get("Rend").is_some_and(|d| d.remaining > 0) && self.rng.random() < c.flag("bloodthrill") {
+            self.dodged_recently = self.t; // Bloodthrill: Overpower usable
         }
         let hand_slot = if hand == Hand::Off { "off_hand" } else { "main_hand" };
         if c.crusader_hands.contains(hand_slot) && self.rng.random() < speed / 60.0 {
@@ -1063,20 +1089,20 @@ impl<'a> Iteration<'a> {
             let mh_poison = if c.spec.id == "rogue-assassination" { "deadly" } else { "instant" };
             let poison = if hand == Hand::Main { mh_poison } else { "instant" };
             let venom_active = self.buff_active("Venom");
-            let chance = c.t.POISONS[poison].chance + c.flag("poison_chance") + if venom_active { 0.10 } else { 0.0 } + self.buff_stat("poisonChance", None, None, false);
+            let chance = c.t.POISONS[poison].chance + c.flag("poison_chance") + if venom_active { 0.20 } else { 0.0 } + self.buff_stat("poisonChance", None, None, false);
             if self.rng.random() < chance {
                 let venom_dmg = if venom_active { 0.30 } else { 0.0 };
                 if poison == "instant" {
                     let (out, m) = self.spell_outcome("Instant Poison", "nature", true);
                     self.row("Instant Poison").casts += 1.0;
                     let p = &c.t.POISONS["instant"];
-                    let amt = self.rng.uniform(p.min, p.max) * (1.0 + c.flag("poison_damage") + venom_dmg);
+                    let amt = (self.rng.uniform(p.min, p.max) + p.ap_coeff * self.ap(false)) * (1.0 + c.flag("poison_damage") + venom_dmg);
                     self.deal("Instant Poison", amt, "nature", "spell", false, false, 1.0, 0.0, out, m);
                 } else {
                     let p = &c.t.POISONS["deadly"];
                     let prev = self.dots.get("Deadly Poison").filter(|d| d.remaining > 0).map_or(0, |d| d.stacks);
                     let stacks = p.max_stacks.min(prev + 1);
-                    self.dots.insert("Deadly Poison".into(), Dot { next: self.t + 3.0, remaining: 4, tick: p.tick * (1.0 + c.flag("poison_damage") + venom_dmg), tick_len: 3.0, school: "nature".into(), stacks, bleed: false, heal: false });
+                    self.dots.insert("Deadly Poison".into(), Dot { next: self.t + 3.0, remaining: 4, tick: (p.tick + p.ap_coeff * self.ap(false)) * (1.0 + c.flag("poison_damage") + venom_dmg), tick_len: 3.0, school: "nature".into(), stacks, bleed: false, heal: false });
                 }
             }
         }
@@ -1088,7 +1114,8 @@ impl<'a> Iteration<'a> {
         if c.flag("expose_prey") != 0.0 && self.rng.random() < c.flag("expose_prey") {
             self.add_buff("Mongoose Bite Ready", 5.0, Buff::default());
         }
-        if c.flag("maelstrom_weapon") != 0.0 && !is_extra && self.rng.random() < 0.20 {
+        if c.flag("maelstrom_weapon") != 0.0 && !is_extra && self.rng.random() < 0.40 {
+            // doubled in the Nov 3 notes
             self.add_buff("Maelstrom Weapon", 30.0, Buff { stacks_max: Some(5), ..Default::default() });
         }
         if self.flurry > 0 && white {
@@ -1358,6 +1385,7 @@ impl<'a> Iteration<'a> {
             Some("dodge") if self.t - self.dodged_recently > 5.0 => return false,
             Some("block_dodge_parry") if self.t - self.avoided_recently > 5.0 => return false,
             Some("dagger") if weapon_type(&c.mh) != Some("Dagger") => return false,
+            Some("off_hand") if c.oh.is_empty() => return false,
             Some(r) if r.starts_with("dodge_or_buff:") => {
                 let buff_name = &r["dodge_or_buff:".len()..];
                 if !(self.t - self.dodged_recently <= 5.0 || self.buff_active(buff_name)) {
@@ -1390,7 +1418,7 @@ impl<'a> Iteration<'a> {
         }
         if name == "Arcane Blast" {
             let stacks = self.buffs.get("Arcane Blast").filter(|b| b.until > self.t).map_or(0, |b| b.stacks);
-            cost *= 1.0 + 1.75 * stacks as f64;
+            cost *= 1.0 + 1.0 * stacks as f64;
         }
         if name == "Arcane Missiles" && self.buff_active("Missile Barrage") {
             cost = 0.0;
@@ -1406,6 +1434,9 @@ impl<'a> Iteration<'a> {
         }
         if self.c.spec.resource == "Energy" && self.eureka > 0 && self.t < self.eureka_until {
             cost *= 1.0 - self.c.racial.active.as_ref().map_or(0.0, |r| r.energy_cost);
+        }
+        if self.poised != 0.0 && cost > 0.0 {
+            cost = (cost - self.poised).max(0.0);
         }
         cost
     }
@@ -1628,6 +1659,9 @@ impl<'a> Iteration<'a> {
         if name == "Tiger's Fury" && c.flag("king_of_the_jungle") != 0.0 {
             self.gain_energy(c.flag("king_of_the_jungle"));
         }
+        if name == "Reckless Swings" {
+            self.reckless = 4;
+        }
         if let (Some(gain), Some(pct)) = (a.energy_gain, a.base_mana_cost_pct) {
             // Shifting Power: Mana into Energy
             self.mana -= self.base_mana_cost(pct);
@@ -1787,7 +1821,7 @@ impl<'a> Iteration<'a> {
         if c.flag("ruthlessness") != 0.0 && self.rng.random() < c.flag("ruthlessness") {
             self.cp = 1;
         }
-        if c.flag("relentless_strikes") != 0.0 && self.rng.random() < 0.2 * cp as f64 {
+        if c.flag("relentless_strikes") != 0.0 && self.rng.random() < c.flag("relentless_strikes") * cp as f64 {
             self.gain_energy(25.0);
         }
         if c.flag("restless_blades") != 0.0 && c.actions[name].kind != "buff" {
@@ -1888,11 +1922,12 @@ impl<'a> Iteration<'a> {
                 }
                 return;
             }
-            let item = c.mh.clone();
+            let off = a.weapon.as_ref().is_some_and(|w| w.hand == "off");
+            let item = if off { c.oh.clone() } else { c.mh.clone() };
             if c.weave_penalty != 0.0 {
                 self.next_ranged += c.weave_penalty; // weaving: stepping in to melee costs Auto Shot time
             }
-            let (out, m) = self.melee_outcome(Hand::Main, false, Some(name), a.no_dodge);
+            let (out, m) = self.melee_outcome(if off { Hand::Off } else { Hand::Main }, false, Some(name), a.no_dodge);
             if out.avoided() {
                 self.deal(name, 0.0, "physical", "melee", false, false, 1.0, 0.0, out, 1.0);
                 if c.spec.resource == "Rage" {
@@ -1918,9 +1953,13 @@ impl<'a> Iteration<'a> {
                 base = self.rng.uniform(48.0 + 151.0 * cp, 48.0 + 151.0 * cp + 96.0) + 0.03 * cp * self.ap(false);
             } else if a.finisher.as_deref() == Some("ferocious_bite") {
                 let cp = self.cp as f64;
+                // Nov 3 notes: base and attack power scaling +25%. Predatory Discipline keeps the
+                // excess Energy instead of spending it, still adding its damage.
                 let extra = self.energy.max(0.0);
-                self.energy = 0.0;
-                base = 52.0 + self.rng.uniform(0.0, 60.0) + 128.0 * cp + self.ap(false) * 0.03 * cp + extra * 2.7;
+                if c.flag("predatory_discipline") == 0.0 {
+                    self.energy = 0.0;
+                }
+                base = 1.25 * (52.0 + self.rng.uniform(0.0, 60.0) + 128.0 * cp + self.ap(false) * 0.03 * cp) + extra * 2.7;
             } else if let Some((lo, hi)) = a.base {
                 base = self.rng.uniform(lo, hi) + if a.add_block_value { self.st("blockValue") } else { 0.0 };
             } else if a.weapon.is_none() {
@@ -1954,7 +1993,9 @@ impl<'a> Iteration<'a> {
             if self.next_crit {
                 self.next_crit = false;
             }
-            let targets = if name == "Whirlwind" || name == "Thunder Clap" { c.targets.min(4) as f64 } else if name == "Swipe" { c.targets.min(3) as f64 } else { 1.0 };
+            let targets = if name == "Whirlwind" || name == "Thunder Clap" {
+                c.targets.min(4) as f64 + if name == "Whirlwind" { c.flag("improved_whirlwind") } else { 0.0 }
+            } else if name == "Swipe" { c.targets.min(3) as f64 } else { 1.0 };
             let dmg = self.deal(name, base, "physical", "melee", false, false, threat_mult, flat_threat, out, m * a.mult * targets);
             if self.eureka > 0 {
                 self.eureka -= 1;
@@ -1981,6 +2022,15 @@ impl<'a> Iteration<'a> {
             if name == "Hemorrhage" {
                 self.add_debuff("Hemorrhage", 15.0, None);
             }
+            if name == "Shank" {
+                self.gain_energy(a.energy_gain_hit.unwrap_or(0.0) + c.flag("shank_energy"));
+                if c.flag("boot_knife") != 0.0 && self.rng.random() < c.flag("boot_knife") {
+                    self.cp = (self.cp + 2).min(5);
+                }
+                if c.flag("venom") != 0.0 {
+                    self.add_buff("Venom", 6.0, Buff::default());
+                }
+            }
             if name == "Mongoose Bite" {
                 self.buffs.shift_remove("Mongoose Bite Ready");
                 if dmg != 0.0 && c.flag("lacerating_strikes") != 0.0 {
@@ -1995,11 +2045,12 @@ impl<'a> Iteration<'a> {
                 self.dots.insert("Lacerate".into(), Dot { next, remaining: a.ticks, tick, tick_len: a.tick_len, school: "physical".into(), bleed: true, stacks, heal: false });
             }
             if dmg != 0.0 {
+                let hand = if off { Hand::Off } else { Hand::Main };
                 if a.weapon.is_some() {
-                    self.on_weapon_hit(Hand::Main, false, name, dmg);
+                    self.on_weapon_hit(hand, false, name, dmg);
                 }
                 if out == Outcome::Crit {
-                    self.on_crit(name, dmg, if a.weapon.is_some() { Hand::Main } else { Hand::None }, "melee");
+                    self.on_crit(name, dmg, if a.weapon.is_some() { hand } else { Hand::None }, "melee");
                 }
             }
             self.touch_of_the_grave();
@@ -2008,7 +2059,7 @@ impl<'a> Iteration<'a> {
         if ["direct", "direct_dot", "dot"].contains(&kind) && a.finisher.as_deref() == Some("rip") {
             let cp = self.cp;
             let scaling = if cp == 5 { 4 } else { cp };
-            let tick = 17.0 + 28.0 * cp as f64 + 0.01 * scaling as f64 * self.ap(false);
+            let tick = 1.25 * (17.0 + 28.0 * cp as f64 + 0.01 * scaling as f64 * self.ap(false)); // Nov 3 notes: +25%
             let (out, _m) = self.melee_outcome(Hand::Main, false, Some(name), false);
             self.row(name);
             if out.avoided() {
@@ -2020,6 +2071,15 @@ impl<'a> Iteration<'a> {
             }
             let tick = tick * a.mult * self.periodic_crit_mult(name, "physical", true, 0.0);
             self.dots.insert(name.to_string(), Dot { next: self.t + a.tick_len, remaining: a.ticks, tick, tick_len: a.tick_len, school: "physical".into(), bleed: true, stacks: 1, heal: false });
+            self.finish(name);
+            self.record(name, "applied", 0.0);
+            return;
+        }
+        if a.finisher.as_deref() == Some("death_mark") {
+            // Death Mark (Nov 3 notes): no stored-damage rate is published; 5% per combo point
+            // assumed (Coup de Grace raises it), Rupture/Garrote stored at twice the rate.
+            let cp = self.cp as f64;
+            self.death_mark = Some((self.t + 6.0, 0.05 * cp * (1.0 + c.flag("coup_de_grace")), 0.0));
             self.finish(name);
             self.record(name, "applied", 0.0);
             return;
@@ -2039,7 +2099,7 @@ impl<'a> Iteration<'a> {
                 return;
             }
             let tick = tick * a.mult * self.periodic_crit_mult(name, "physical", true, 0.0);
-            self.dots.insert(name.to_string(), Dot { next: self.t + 2.0, remaining: 3 + cp, tick, tick_len: 2.0, school: "physical".into(), bleed: true, stacks: 1, heal: false });
+            self.dots.insert(name.to_string(), Dot { next: self.t + 2.0, remaining: 3 + cp + c.flag("blood_splatter") as i64, tick, tick_len: 2.0, school: "physical".into(), bleed: true, stacks: 1, heal: false });
             self.finish(name);
             self.record(name, "applied", 0.0);
             return;
@@ -2052,7 +2112,7 @@ impl<'a> Iteration<'a> {
                 let t = self.t;
                 match self.buffs.get_mut("Arcane Blast").filter(|b| b.until > t) {
                     Some(b) => b.stacks = (b.stacks + 1).min(4),
-                    None => self.add_buff("Arcane Blast", 15.0, Buff { stacks_max: Some(4), ..Default::default() }),
+                    None => self.add_buff("Arcane Blast", 18.0, Buff { stacks_max: Some(4), ..Default::default() }),
                 }
             }
             let (out, m) = if !a.always_hit { self.spell_outcome(name, &school, can_crit) } else { (Outcome::Hit, 1.0) };
@@ -2078,7 +2138,7 @@ impl<'a> Iteration<'a> {
             let mut fof_used = false;
             if name == "Ice Lance"
                 && self.buffs.get("Fingers of Frost").is_some_and(|b| b.until > self.t && b.stacks > 0) {
-                    base *= 3.0; // +200% vs frozen targets (build 70425)
+                    base *= 4.0; // +300% vs frozen targets (Nov 3 notes; was +200%)
                     fof_used = true;
                 }
             if self.next_crit {
@@ -2145,7 +2205,8 @@ impl<'a> Iteration<'a> {
             self.next_crit = false;
         }
         let is_crit = !periodic && self.rng.random() < crit;
-        let healed = amount * self.heal_mult(name) * if is_crit { 1.5 } else { 1.0 } * if periodic { 1.0 + c.mod_("hot_pct") } else { 1.0 };
+        let crit_bonus = 0.5 * (1.0 + if school == "holy" { c.flag("heal_crit_bonus") } else { 0.0 });
+        let healed = amount * self.heal_mult(name) * if is_crit { 1.0 + crit_bonus } else { 1.0 } * if periodic { 1.0 + c.mod_("hot_pct") } else { 1.0 };
         {
             let r = self.row(name);
             if is_crit {
@@ -2175,6 +2236,16 @@ impl<'a> Iteration<'a> {
             self.total += shield;
         }
         healed
+    }
+
+    /// A talent heal that isn't a cast (Bloom, Holy Binding): lands in full, no crit.
+    fn flat_heal(&mut self, label: &str, amount: f64) {
+        let healed = amount * (1.0 + self.c.mod_("heal_pct"));
+        let r = self.row(label);
+        r.hits += 1.0;
+        r.damage += healed;
+        self.total += healed;
+        self.record(label, "hit", healed);
     }
 
     fn resolve_heal(&mut self, name: &str, a: &Ability) {
@@ -2207,9 +2278,13 @@ impl<'a> Iteration<'a> {
             };
             let power = self.heal_power();
             let (lo, hi) = a.base.unwrap_or((0.0, 0.0));
+            let mut done = 0.0;
             for _ in 0..(n * a.hits.max(1)) {
                 let amount = self.rng.uniform(lo, hi) + power * a.coeff;
-                self.heal(name, amount, false);
+                done += self.heal(name, amount, false);
+            }
+            if name == "Flash Heal" && c.flag("holy_binding") != 0.0 && allies >= 2 {
+                self.flat_heal("Holy Binding", done * c.flag("holy_binding"));
             }
             if a.ticks > 0 {
                 self.apply_dot(name, a, power); // Regrowth / Riptide HoT part
@@ -2240,7 +2315,7 @@ impl<'a> Iteration<'a> {
             }
             return;
         }
-        let mut tick = (a.tick + sp * a.dot_coeff) * a.mult;
+        let mut tick = (a.tick + sp * a.dot_coeff + a.dot_rap_coeff.map_or(0.0, |k| self.ap(true) * k)) * a.mult;
         let pandemic = if ["Corruption", "Curse of Agony", "Siphon Life", "Drain Soul", "Wrack"].contains(&name) { c.mod_("crit_dmg_periodic") } else { 0.0 };
         let school = a.school_str().to_string();
         tick *= self.periodic_crit_mult(name, &school, a.bleed, pandemic);
@@ -2398,6 +2473,10 @@ impl<'a> Iteration<'a> {
             for _ in 0..n {
                 self.heal(name, tick, true);
             }
+            if self.dots[name].remaining <= 0 && self.c.flag("bloom") != 0.0 && (name == "Rejuvenation" || name == "Regrowth") {
+                let amount = self.st("spirit") * self.c.flag("bloom");
+                self.flat_heal("Bloom", amount);
+            }
             return;
         }
         let kind = if school != "physical" { "spell" } else { "melee" };
@@ -2422,6 +2501,10 @@ impl<'a> Iteration<'a> {
             let n = if self.c.actions[&name].group { self.c.targets.clamp(1, 5) } else { 1 };
             for _ in 0..n {
                 self.heal(&name, tick, true);
+            }
+            if self.dots_extra[idx].1.remaining <= 0 && self.c.flag("bloom") != 0.0 && (name == "Rejuvenation" || name == "Regrowth") {
+                let amount = self.st("spirit") * self.c.flag("bloom");
+                self.flat_heal("Bloom", amount);
             }
             return;
         }
@@ -2552,7 +2635,7 @@ impl<'a> Iteration<'a> {
         let mut m = 1.0;
         match c.pet.as_ref().unwrap() {
             Pet::Hunter(p) => {
-                m *= 1.25 * p.damage * (1.0 + c.flag("pet_damage"));
+                m *= 1.25 * p.damage * (1.0 + c.flag("pet_damage")) * (1.0 + if c.racial_enabled { c.racial.pet_damage } else { 0.0 });
                 if let Some(b) = self.buffs.get("Bestial Wrath") {
                     if b.until > self.t {
                         m *= 1.5;
@@ -2560,7 +2643,7 @@ impl<'a> Iteration<'a> {
                 }
             }
             Pet::Warlock(p) => {
-                m *= 1.0 + c.flag("pet_damage");
+                m *= (1.0 + c.flag("pet_damage")) * (1.0 + if c.racial_enabled { c.racial.pet_damage } else { 0.0 });
                 if c.flag("soul_link") != 0.0 {
                     m *= 1.0 + c.flag("soul_link");
                 }
@@ -2914,6 +2997,12 @@ impl<'a> Iteration<'a> {
                     regen += spirit_regen * c.flag("spirit_while_casting");
                 }
                 self.gain_mana(regen);
+            }
+            if let Some((until, _, stored)) = self.death_mark {
+                if t + EPS >= until {
+                    self.death_mark = None;
+                    self.deal("Death Mark", stored, "physical", "melee", false, true, 1.0, 0.0, Outcome::Hit, 1.0);
+                }
             }
             if s.resource == "Energy" && t + EPS >= self.next_energy_tick {
                 self.next_energy_tick += 2.0;
