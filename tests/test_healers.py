@@ -2,6 +2,7 @@
 import unittest
 
 from forever.all_specs import public_specs, simulate_spec
+from forever.engine_data import HAND_BUILDS
 from server import default_request
 
 
@@ -18,7 +19,8 @@ class HolyPriest(unittest.TestCase):
         self.assertLess(r["resource"]["mean_end"], 0.15 * r["resource"]["maximum"])  # spends its mana over the fight
 
     def test_group_heals_scale_with_injured_allies(self):
-        self.assertGreater(holy(targets=5)["metrics"]["hps"]["mean"], holy(targets=1)["metrics"]["hps"]["mean"] * 1.3)
+        b = HAND_BUILDS["priest-holy"]  # a group-healing build; the optimized default is tuned for one injured ally
+        self.assertGreater(holy(targets=5, talents=b)["metrics"]["hps"]["mean"], holy(targets=1, talents=b)["metrics"]["hps"]["mean"] * 1.3)
 
     def test_dps_specs_report_zero_hps(self):
         spec = next(s for s in public_specs() if s["id"] == "priest-shadow")

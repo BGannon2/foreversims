@@ -88,19 +88,21 @@
      "gear_slot": "neck"
     },
     {
-     "id": 20057,
-     "name": "Highlander's Plate Spaulders",
-     "icon": "inv_shoulder_01",
+     "id": 16480,
+     "name": "Field Marshal's Plate Shoulderguards",
+     "icon": "inv_shoulder_20",
      "quality": "Epic",
-     "itemLevel": 65,
+     "itemLevel": 74,
      "stats": {
-      "armor": 553.0,
+      "armor": 626.0,
+      "stamina": 23.0,
       "strength": 18.0,
-      "stamina": 20.0,
-      "agility": 17.0
+      "agility": 16.0,
+      "meleeHit": 1.0,
+      "spellHit": 1.0
      },
      "effects": [],
-     "source": "Vendor: Samuel Hawke",
+     "source": "Vendor: Captain Dirgehammer",
      "subclass": "Plate",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -109,20 +111,27 @@
       "shoulders"
      ],
      "set": {
-      "name": "The Highlander's Resolution",
+      "name": "Field Marshal's Battlegear",
       "pieces": [
-       "Highlander's Plate Girdle",
-       "Highlander's Plate Greaves",
-       "Highlander's Plate Spaulders"
+       "Field Marshal's Plate Armor",
+       "Field Marshal's Plate Helm",
+       "Field Marshal's Plate Shoulderguards",
+       "Marshal's Plate Boots",
+       "Marshal's Plate Gauntlets",
+       "Marshal's Plate Legguards"
       ],
       "bonuses": [
        {
         "required": 2,
-        "description": "+5 Stamina."
+        "description": "+20 Stamina."
        },
        {
         "required": 3,
-        "description": "Improves your chance to get a critical strike by 1%."
+        "description": "Reduces the cooldown of your Intercept ability by 5 sec."
+       },
+       {
+        "required": 6,
+        "description": "+40 Attack Power."
        }
       ]
      },
@@ -182,20 +191,20 @@
      "gear_slot": "chest"
     },
     {
-     "id": 19587,
-     "name": "Forest Stalker's Bracers",
-     "icon": "inv_bracer_12",
+     "id": 19578,
+     "name": "Berserker Bracers",
+     "icon": "inv_bracer_06",
      "quality": "Epic",
      "itemLevel": 65,
      "stats": {
-      "armor": 86.0,
-      "strength": 11.0,
-      "agility": 19.0,
-      "stamina": 8.0
+      "armor": 323.0,
+      "strength": 19.0,
+      "agility": 8.0,
+      "stamina": 11.0
      },
      "effects": [],
      "source": "Unknown",
-     "subclass": "Leather",
+     "subclass": "Plate",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -3363,70 +3372,48 @@
      "gear_slot": "main_hand"
     },
     {
-     "id": 16465,
-     "name": "Field Marshal's Chain Helm",
-     "icon": "inv_helmet_05",
+     "id": 21517,
+     "name": "Gnomish Turban of Psychic Might",
+     "icon": "inv_helmet_63",
      "quality": "Epic",
-     "itemLevel": 74,
+     "itemLevel": 75,
      "stats": {
-      "armor": 432.0,
-      "stamina": 28.0,
-      "agility": 34.0,
-      "intellect": 12.0,
-      "meleeCrit": 1.0,
-      "spellCrit": 1.0
+      "armor": 93.0,
+      "intellect": 31.0,
+      "stamina": 17.0,
+      "mp5": 9.0
      },
-     "effects": [],
-     "source": "Vendor: Captain Dirgehammer",
-     "subclass": "Mail",
+     "effects": [
+      "Equip: +9 Mana Regeneration",
+      "Equip: Reduces the hit chance of Silence effects against you by 10%."
+     ],
+     "source": "Quest: The Only Prescription",
+     "subclass": "Cloth",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
      "equipSlots": [
       "head"
      ],
-     "set": {
-      "name": "Field Marshal's Pursuit",
-      "pieces": [
-       "Field Marshal's Chain Breastplate",
-       "Field Marshal's Chain Helm",
-       "Field Marshal's Chain Spaulders",
-       "Marshal's Chain Boots",
-       "Marshal's Chain Grips",
-       "Marshal's Chain Legguards"
-      ],
-      "bonuses": [
-       {
-        "required": 2,
-        "description": "+20 Stamina."
-       },
-       {
-        "required": 3,
-        "description": "Reduces the cooldown of your Concussive Shot by 1 sec."
-       },
-       {
-        "required": 6,
-        "description": "+20 Agility."
-       }
-      ]
-     },
+     "set": null,
      "slot": "Head",
      "gear_slot": "head"
     },
     {
-     "id": 19491,
-     "name": "Amulet of the Darkmoon",
-     "icon": "inv_jewelry_necklace_14",
+     "id": 20622,
+     "name": "Dragonheart Necklace",
+     "icon": "inv_jewelry_necklace_18",
      "quality": "Epic",
-     "itemLevel": 65,
+     "itemLevel": 71,
      "stats": {
-      "strength": 10.0,
-      "agility": 19.0,
-      "stamina": 10.0
+      "stamina": 21.0,
+      "intellect": 6.0,
+      "spirit": 6.0,
+      "attackPower": 24.0
      },
      "effects": [],
-     "source": "Quest: 1200 Tickets - Amulet of the Darkmoon",
-     "subclass": "Miscellaneous",
+     "source": "Rare Drop",
+     "subclass": null,
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -3515,29 +3502,53 @@
      "gear_slot": "back"
     },
     {
-     "id": 252483,
-     "name": "Dawn Armor",
-     "icon": "inv_chest_leather_08",
+     "id": 16466,
+     "name": "Field Marshal's Chain Breastplate",
+     "icon": "inv_chest_chain_03",
      "quality": "Epic",
-     "itemLevel": 61,
+     "itemLevel": 74,
      "stats": {
-      "armor": 187.0,
-      "agility": 37.0,
+      "armor": 520.0,
+      "stamina": 28.0,
+      "agility": 34.0,
+      "intellect": 12.0,
       "meleeCrit": 1.0,
-      "spellCrit": 1.0,
-      "meleeHit": 1.0,
-      "spellHit": 1.0
+      "spellCrit": 1.0
      },
      "effects": [],
-     "source": "forever-1.60.1.69913",
-     "subclass": "Leather",
+     "source": "Vendor: Captain Dirgehammer",
+     "subclass": "Mail",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
      "equipSlots": [
       "chest"
      ],
-     "set": null,
+     "set": {
+      "name": "Field Marshal's Pursuit",
+      "pieces": [
+       "Field Marshal's Chain Breastplate",
+       "Field Marshal's Chain Helm",
+       "Field Marshal's Chain Spaulders",
+       "Marshal's Chain Boots",
+       "Marshal's Chain Grips",
+       "Marshal's Chain Legguards"
+      ],
+      "bonuses": [
+       {
+        "required": 2,
+        "description": "+20 Stamina."
+       },
+       {
+        "required": 3,
+        "description": "Reduces the cooldown of your Concussive Shot by 1 sec."
+       },
+       {
+        "required": 6,
+        "description": "+20 Agility."
+       }
+      ]
+     },
      "slot": "Chest",
      "gear_slot": "chest"
     },
@@ -3568,23 +3579,22 @@
      "gear_slot": "wrist"
     },
     {
-     "id": 16463,
-     "name": "Marshal's Chain Grips",
-     "icon": "inv_gauntlets_10",
-     "quality": "Epic",
-     "itemLevel": 71,
+     "id": 13255,
+     "name": "Trueaim Gauntlets",
+     "icon": "inv_gauntlets_30",
+     "quality": "Rare",
+     "itemLevel": 59,
      "stats": {
-      "armor": 323.0,
-      "stamina": 20.0,
-      "agility": 21.0,
-      "intellect": 4.0,
-      "meleeCrit": 1.0,
-      "spellCrit": 1.0
+      "armor": 218.0,
+      "meleeHit": 1.0
      },
      "effects": [
-      "Equip: Increases the damage done by your Multi-Shot by 4%."
+      "Equip: Increased Bows +8.",
+      "Equip: Improves your chance to hit by 1%.",
+      "Equip: Increased Guns +8.",
+      "Equip: Increased Crossbows +8."
      ],
-     "source": "Vendor: Captain Dirgehammer",
+     "source": "Boss Drop: Shadow Hunter Vosh'gajin",
      "subclass": "Mail",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -3592,31 +3602,7 @@
      "equipSlots": [
       "hands"
      ],
-     "set": {
-      "name": "Field Marshal's Pursuit",
-      "pieces": [
-       "Field Marshal's Chain Breastplate",
-       "Field Marshal's Chain Helm",
-       "Field Marshal's Chain Spaulders",
-       "Marshal's Chain Boots",
-       "Marshal's Chain Grips",
-       "Marshal's Chain Legguards"
-      ],
-      "bonuses": [
-       {
-        "required": 2,
-        "description": "+20 Stamina."
-       },
-       {
-        "required": 3,
-        "description": "Reduces the cooldown of your Concussive Shot by 1 sec."
-       },
-       {
-        "required": 6,
-        "description": "+20 Agility."
-       }
-      ]
-     },
+     "set": null,
      "slot": "Hands",
      "gear_slot": "hands"
     },
@@ -3824,17 +3810,19 @@
      "gear_slot": "trinket1"
     },
     {
-     "id": 11815,
-     "name": "Hand of Justice",
-     "icon": "inv_jewelry_talisman_01",
+     "id": 11819,
+     "name": "Second Wind",
+     "icon": "inv_jewelry_talisman_06",
      "quality": "Rare",
-     "itemLevel": 58,
-     "stats": {},
+     "itemLevel": 59,
+     "stats": {
+      "healingPower": 22.0
+     },
      "effects": [
-      "Equip: 2% chance on melee hit to gain 1 extra attack.",
-      "Equip: +20 Attack Power."
+      "Use: Restores 30 mana every 1 sec for 10 sec. (15 Min Cooldown)",
+      "Equip: Increases healing done by spells and effects by up to 22."
      ],
-     "source": "Boss Drop: Emperor Dagran Thaurissan",
+     "source": "Boss Drop: Golem Lord Argelmach",
      "subclass": "Miscellaneous",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -4455,18 +4443,16 @@
      "gear_slot": "head"
     },
     {
-     "id": 19426,
-     "name": "Orb of the Darkmoon",
-     "icon": "inv_jewelry_necklace_16",
-     "quality": "Epic",
-     "itemLevel": 65,
+     "id": 23125,
+     "name": "Chains of the Lich",
+     "icon": "inv_belt_18",
+     "quality": "Rare",
+     "itemLevel": 60,
      "stats": {
-      "stamina": 11.0,
-      "spirit": 8.0,
       "spellPower": 22.0
      },
      "effects": [],
-     "source": "Quest: 1200 Tickets - Orb of the Darkmoon",
+     "source": "Unknown",
      "subclass": null,
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -4674,19 +4660,21 @@
      "gear_slot": "hands"
     },
     {
-     "id": 272393,
-     "name": "Magician's Cord",
-     "icon": "inv_belt_43a",
+     "id": 18405,
+     "name": "Belt of the Archmage",
+     "icon": "inv_belt_31",
      "quality": "Epic",
-     "itemLevel": 60,
+     "itemLevel": 62,
      "stats": {
-      "armor": 52.0,
-      "intellect": 24.0,
-      "stamina": 12.0,
-      "spellPower": 19.0
+      "armor": 54.0,
+      "intellect": 16.0,
+      "stamina": 10.0,
+      "spellPower": 20.0,
+      "meleeCrit": 1.0,
+      "spellCrit": 1.0
      },
      "effects": [],
-     "source": "forever-1.60.1.70450",
+     "source": "Unknown",
      "subclass": "Cloth",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -4844,20 +4832,19 @@
      "gear_slot": "finger2"
     },
     {
-     "id": 11819,
-     "name": "Second Wind",
-     "icon": "inv_jewelry_talisman_06",
+     "id": 272438,
+     "name": "Weakness Analyzer",
+     "icon": "inv_misc_blizzcon09_graphicscard",
      "quality": "Rare",
-     "itemLevel": 59,
+     "itemLevel": 65,
      "stats": {
-      "healingPower": 22.0
+      "spellPower": 22.0
      },
      "effects": [
-      "Use: Restores 30 mana every 1 sec for 10 sec. (15 Min Cooldown)",
-      "Equip: Increases healing done by spells and effects by up to 22."
+      "Use: Increases your critical strike chance with all spells and attacks by 5% for 20 sec or until you deal a non-periodic critical effect. (2 Min Cooldown)"
      ],
-     "source": "Boss Drop: Golem Lord Argelmach",
-     "subclass": "Miscellaneous",
+     "source": "forever-1.60.1.69913",
+     "subclass": null,
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -5545,21 +5532,19 @@
      "gear_slot": "head"
     },
     {
-     "id": 18317,
-     "name": "Tempest Talisman",
-     "icon": "inv_jewelry_necklace_03",
-     "quality": "Rare",
-     "itemLevel": 58,
+     "id": 19426,
+     "name": "Orb of the Darkmoon",
+     "icon": "inv_jewelry_necklace_16",
+     "quality": "Epic",
+     "itemLevel": 65,
      "stats": {
-      "intellect": 7.0,
-      "spirit": 6.0,
-      "spellCrit": 1.0
+      "stamina": 11.0,
+      "spirit": 8.0,
+      "spellPower": 22.0
      },
-     "effects": [
-      "Equip: Improves your chance to get a critical strike with spells by 1%."
-     ],
-     "source": "Boss Drop: Hydrospawn",
-     "subclass": "Miscellaneous",
+     "effects": [],
+     "source": "Quest: 1200 Tickets - Orb of the Darkmoon",
+     "subclass": null,
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -6525,22 +6510,22 @@
      "gear_slot": "off_hand"
     },
     {
-     "id": 17602,
-     "name": "Field Marshal's Headdress",
-     "icon": "inv_helmet_24",
+     "id": 21517,
+     "name": "Gnomish Turban of Psychic Might",
+     "icon": "inv_helmet_63",
      "quality": "Epic",
-     "itemLevel": 74,
+     "itemLevel": 75,
      "stats": {
-      "armor": 162.0,
-      "stamina": 30.0,
-      "intellect": 28.0,
-      "spellPower": 33.0,
-      "mp5": 4.0
+      "armor": 93.0,
+      "intellect": 31.0,
+      "stamina": 17.0,
+      "mp5": 9.0
      },
      "effects": [
-      "Equip: +4 Mana Regeneration"
+      "Equip: +9 Mana Regeneration",
+      "Equip: Reduces the hit chance of Silence effects against you by 10%."
      ],
-     "source": "Vendor: Captain Dirgehammer",
+     "source": "Quest: The Only Prescription",
      "subclass": "Cloth",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -6548,31 +6533,7 @@
      "equipSlots": [
       "head"
      ],
-     "set": {
-      "name": "Field Marshal's Raiment",
-      "pieces": [
-       "Field Marshal's Satin Mantle",
-       "Marshal's Satin Pants",
-       "Field Marshal's Satin Vestments",
-       "Marshal's Satin Gloves",
-       "Marshal's Satin Sandals",
-       "Field Marshal's Headdress"
-      ],
-      "bonuses": [
-       {
-        "required": 2,
-        "description": "+20 Stamina."
-       },
-       {
-        "required": 3,
-        "description": "Increases the duration of your Psychic Scream spell by 1 sec."
-       },
-       {
-        "required": 6,
-        "description": "Increases damage and healing done by magical spells and effects by up to 23."
-       }
-      ]
-     },
+     "set": null,
      "slot": "Head",
      "gear_slot": "head"
     },
@@ -6734,21 +6695,22 @@
      "gear_slot": "hands"
     },
     {
-     "id": 273428,
-     "name": "Premier Knight-Captain's Mooncloth Sash",
-     "icon": "inv_belt_22",
-     "quality": "Epic",
-     "itemLevel": 65,
+     "id": 18327,
+     "name": "Whipvine Cord",
+     "icon": "inv_belt_17",
+     "quality": "Rare",
+     "itemLevel": 59,
      "stats": {
-      "armor": 56.0,
-      "intellect": 12.0,
-      "stamina": 26.0,
-      "spirit": 11.0,
-      "healingPower": 22.0,
-      "spellPower": 7.0
+      "armor": 47.0,
+      "intellect": 9.0,
+      "mp5": 6.0,
+      "healingPower": 31.0
      },
-     "effects": [],
-     "source": "forever-1.60.1.69913",
+     "effects": [
+      "Equip: Restores 6 mana per 5 sec.",
+      "Equip: Increases healing done by spells and effects by up to 31."
+     ],
+     "source": "Boss Drop: Alzzin the Wildshaper",
      "subclass": "Cloth",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -6869,6 +6831,32 @@
      "gear_slot": "finger2"
     },
     {
+     "id": 11832,
+     "name": "Burst of Knowledge",
+     "icon": "inv_jewelry_amulet_07",
+     "quality": "Rare",
+     "itemLevel": 58,
+     "stats": {
+      "spellPower": 12.0
+     },
+     "effects": [
+      "Use: Reduces mana cost of all spells by 100 for 10 sec. (15 Min Cooldown)",
+      "Equip: Increases damage and healing done by magical spells and effects by up to 12."
+     ],
+     "source": "Boss Drop: Ambassador Flamelash",
+     "subclass": "Miscellaneous",
+     "weaponDamageMin": null,
+     "weaponDamageMax": null,
+     "weaponSpeed": null,
+     "equipSlots": [
+      "trinket1",
+      "trinket2"
+     ],
+     "set": null,
+     "slot": "Trinket",
+     "gear_slot": "trinket1"
+    },
+    {
      "id": 272439,
      "name": "Serenity Field",
      "icon": "inv_misc_enggizmos_36",
@@ -6883,32 +6871,6 @@
      ],
      "source": "forever-1.60.1.69913",
      "subclass": null,
-     "weaponDamageMin": null,
-     "weaponDamageMax": null,
-     "weaponSpeed": null,
-     "equipSlots": [
-      "trinket1",
-      "trinket2"
-     ],
-     "set": null,
-     "slot": "Trinket",
-     "gear_slot": "trinket1"
-    },
-    {
-     "id": 11819,
-     "name": "Second Wind",
-     "icon": "inv_jewelry_talisman_06",
-     "quality": "Rare",
-     "itemLevel": 59,
-     "stats": {
-      "healingPower": 22.0
-     },
-     "effects": [
-      "Use: Restores 30 mana every 1 sec for 10 sec. (15 Min Cooldown)",
-      "Equip: Increases healing done by spells and effects by up to 22."
-     ],
-     "source": "Boss Drop: Golem Lord Argelmach",
-     "subclass": "Miscellaneous",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -7010,21 +6972,21 @@
      "gear_slot": "head"
     },
     {
-     "id": 18317,
-     "name": "Tempest Talisman",
-     "icon": "inv_jewelry_necklace_03",
+     "id": 19098,
+     "name": "Stormpike Sage's Pendant",
+     "icon": "inv_jewelry_necklace_08",
      "quality": "Rare",
-     "itemLevel": 58,
+     "itemLevel": 60,
      "stats": {
-      "intellect": 7.0,
-      "spirit": 6.0,
-      "spellCrit": 1.0
+      "stamina": 10.0,
+      "intellect": 10.0,
+      "mp5": 4.0
      },
      "effects": [
-      "Equip: Improves your chance to get a critical strike with spells by 1%."
+      "Equip: +4 Mana Regeneration"
      ],
-     "source": "Boss Drop: Hydrospawn",
-     "subclass": "Miscellaneous",
+     "source": "Unknown",
+     "subclass": null,
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -7196,20 +7158,20 @@
      "gear_slot": "hands"
     },
     {
-     "id": 272398,
-     "name": "Caretaker's Cord",
-     "icon": "inv_belt_05",
+     "id": 19162,
+     "name": "Corehound Belt",
+     "icon": "inv_belt_24",
      "quality": "Epic",
-     "itemLevel": 60,
+     "itemLevel": 70,
      "stats": {
-      "armor": 104.0,
-      "spirit": 24.0,
-      "stamina": 14.0,
-      "healingPower": 23.0,
-      "spellPower": 8.0
+      "armor": 118.0,
+      "intellect": 16.0,
+      "fireResistance": 12.0,
+      "healingPower": 62.0,
+      "spellPower": 21.0
      },
      "effects": [],
-     "source": "forever-1.60.1.69913",
+     "source": "Unknown",
      "subclass": "Leather",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -7386,19 +7348,19 @@
      "gear_slot": "trinket1"
     },
     {
-     "id": 11832,
-     "name": "Burst of Knowledge",
-     "icon": "inv_jewelry_amulet_07",
+     "id": 11819,
+     "name": "Second Wind",
+     "icon": "inv_jewelry_talisman_06",
      "quality": "Rare",
-     "itemLevel": 58,
+     "itemLevel": 59,
      "stats": {
-      "spellPower": 12.0
+      "healingPower": 22.0
      },
      "effects": [
-      "Use: Reduces mana cost of all spells by 100 for 10 sec. (15 Min Cooldown)",
-      "Equip: Increases damage and healing done by magical spells and effects by up to 12."
+      "Use: Restores 30 mana every 1 sec for 10 sec. (15 Min Cooldown)",
+      "Equip: Increases healing done by spells and effects by up to 22."
      ],
-     "source": "Boss Drop: Ambassador Flamelash",
+     "source": "Boss Drop: Golem Lord Argelmach",
      "subclass": "Miscellaneous",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -7578,20 +7540,21 @@
      "gear_slot": "back"
     },
     {
-     "id": 18486,
-     "name": "Mooncloth Robe",
-     "icon": "inv_chest_cloth_04",
+     "id": 16690,
+     "name": "Devout Robe",
+     "icon": "inv_chest_cloth_11",
      "quality": "Rare",
-     "itemLevel": 61,
+     "itemLevel": 63,
      "stats": {
-      "armor": 87.0,
-      "intellect": 25.0,
-      "stamina": 12.0,
-      "healingPower": 26.0,
-      "spellPower": 9.0
+      "armor": 89.0,
+      "intellect": 24.0,
+      "spirit": 15.0,
+      "stamina": 13.0,
+      "healingPower": 20.0,
+      "spellPower": 7.0
      },
      "effects": [],
-     "source": "Unknown",
+     "source": "Boss Drop: General Drakkisath",
      "subclass": "Cloth",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -7599,7 +7562,37 @@
      "equipSlots": [
       "chest"
      ],
-     "set": null,
+     "set": {
+      "name": "Vestments of the Devout",
+      "pieces": [
+       "Devout Belt",
+       "Devout Sandals",
+       "Devout Bracers",
+       "Devout Crown",
+       "Devout Gloves",
+       "Devout Mantle",
+       "Devout Skirt",
+       "Devout Robe"
+      ],
+      "bonuses": [
+       {
+        "required": 2,
+        "description": "+200 Armor."
+       },
+       {
+        "required": 4,
+        "description": "Increases damage and healing done by magical spells and effects by up to 23."
+       },
+       {
+        "required": 6,
+        "description": "When struck in combat has a chance of shielding the wearer in a protective shield which will absorb 350 damage."
+       },
+       {
+        "required": 8,
+        "description": "+8 All Resistances."
+       }
+      ]
+     },
      "slot": "Chest",
      "gear_slot": "chest"
     },
@@ -7929,21 +7922,21 @@
      "gear_slot": "head"
     },
     {
-     "id": 19098,
-     "name": "Stormpike Sage's Pendant",
-     "icon": "inv_jewelry_necklace_08",
+     "id": 18317,
+     "name": "Tempest Talisman",
+     "icon": "inv_jewelry_necklace_03",
      "quality": "Rare",
-     "itemLevel": 60,
+     "itemLevel": 58,
      "stats": {
-      "stamina": 10.0,
-      "intellect": 10.0,
-      "mp5": 4.0
+      "intellect": 7.0,
+      "spirit": 6.0,
+      "spellCrit": 1.0
      },
      "effects": [
-      "Equip: +4 Mana Regeneration"
+      "Equip: Improves your chance to get a critical strike with spells by 1%."
      ],
-     "source": "Unknown",
-     "subclass": null,
+     "source": "Boss Drop: Hydrospawn",
+     "subclass": "Miscellaneous",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -7955,23 +7948,21 @@
      "gear_slot": "neck"
     },
     {
-     "id": 273334,
-     "name": "Premier Marshal's Luminous Pauldrons",
-     "icon": "inv_shoulder_20",
+     "id": 271957,
+     "name": "Theramore Mantle",
+     "icon": "inv_shoulder_25",
      "quality": "Epic",
      "itemLevel": 65,
      "stats": {
       "armor": 553.0,
-      "stamina": 26.0,
-      "intellect": 12.0,
-      "healingPower": 24.0,
-      "spellPower": 8.0,
-      "mp5": 4.0
+      "stamina": 24.0,
+      "healingPower": 37.0,
+      "spellPower": 12.0,
+      "meleeCrit": 1.0,
+      "spellCrit": 1.0
      },
-     "effects": [
-      "Equip: +4 Mana Regeneration"
-     ],
-     "source": "forever-1.60.1.69913",
+     "effects": [],
+     "source": "forever-1.60.1.70450",
      "subclass": "Plate",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -8010,19 +8001,24 @@
      "gear_slot": "back"
     },
     {
-     "id": 250601,
-     "name": "Breastplate of Salvation",
-     "icon": "inv_chest_plate09",
+     "id": 273331,
+     "name": "Premier Field Marshal's Luminous Chestplate",
+     "icon": "inv_chest_plate03",
      "quality": "Epic",
-     "itemLevel": 61,
+     "itemLevel": 65,
      "stats": {
-      "armor": 695.0,
-      "intellect": 14.0,
-      "spirit": 33.0,
-      "spellPower": 14.0,
-      "healingPower": 40.0
+      "armor": 738.0,
+      "stamina": 33.0,
+      "intellect": 13.0,
+      "healingPower": 33.0,
+      "spellPower": 11.0,
+      "meleeCrit": 0.5,
+      "spellCrit": 0.5,
+      "mp5": 5.0
      },
-     "effects": [],
+     "effects": [
+      "Equip: +5 Mana Regeneration"
+     ],
      "source": "forever-1.60.1.69913",
      "subclass": "Plate",
      "weaponDamageMin": null,
@@ -9303,9 +9299,9 @@
      "gear_slot": "main_hand"
     },
     {
-     "id": 23456,
-     "name": "Grand Marshal's Swiftblade",
-     "icon": "inv_sword_05",
+     "id": 18838,
+     "name": "Grand Marshal's Dirk",
+     "icon": "inv_weapon_shortblade_26",
      "quality": "Epic",
      "itemLevel": 78,
      "stats": {
@@ -9316,10 +9312,10 @@
      },
      "effects": [],
      "source": "Vendor: Captain O'Neal",
-     "subclass": "Sword",
-     "weaponDamageMin": 86.0,
-     "weaponDamageMax": 129.0,
-     "weaponSpeed": 1.8,
+     "subclass": "Dagger",
+     "weaponDamageMin": 95.0,
+     "weaponDamageMax": 143.0,
+     "weaponSpeed": 2.0,
      "equipSlots": [
       "main_hand",
       "off_hand"
@@ -9329,20 +9325,22 @@
      "gear_slot": "off_hand"
     },
     {
-     "id": 279253,
-     "name": "Outlaw's Collar",
-     "icon": "inv_misc_bandana_03",
+     "id": 16455,
+     "name": "Field Marshal's Leather Mask",
+     "icon": "inv_helmet_41",
      "quality": "Epic",
-     "itemLevel": 65,
+     "itemLevel": 74,
      "stats": {
-      "armor": 160.0,
+      "armor": 229.0,
       "stamina": 31.0,
-      "agility": 21.0,
-      "meleeCrit": 1.5,
-      "spellCrit": 1.5
+      "agility": 27.0,
+      "meleeCrit": 1.0,
+      "spellCrit": 1.0,
+      "meleeHit": 1.0,
+      "spellHit": 1.0
      },
      "effects": [],
-     "source": "forever-1.60.1.69913",
+     "source": "Vendor: Captain Dirgehammer",
      "subclass": "Leather",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -9350,7 +9348,31 @@
      "equipSlots": [
       "head"
      ],
-     "set": null,
+     "set": {
+      "name": "Field Marshal's Vestments",
+      "pieces": [
+       "Field Marshal's Leather Chestpiece",
+       "Field Marshal's Leather Epaulets",
+       "Field Marshal's Leather Mask",
+       "Marshal's Leather Footguards",
+       "Marshal's Leather Handgrips",
+       "Marshal's Leather Leggings"
+      ],
+      "bonuses": [
+       {
+        "required": 2,
+        "description": "+20 Stamina."
+       },
+       {
+        "required": 3,
+        "description": "Reduces the cooldown of your Gouge ability by 1 sec."
+       },
+       {
+        "required": 6,
+        "description": "+40 Attack Power."
+       }
+      ]
+     },
      "slot": "Head",
      "gear_slot": "head"
     },
@@ -9410,19 +9432,20 @@
      "gear_slot": "shoulders"
     },
     {
-     "id": 20073,
-     "name": "Cloak of the Honor Guard",
-     "icon": "inv_misc_cape_02",
-     "quality": "Epic",
+     "id": 272414,
+     "name": "Howler's Furs",
+     "icon": "inv_misc_cape_10",
+     "quality": "Rare",
      "itemLevel": 65,
      "stats": {
-      "armor": 50.0,
-      "stamina": 11.0,
-      "agility": 5.0,
-      "attackPower": 34.0
+      "armor": 46.0,
+      "stamina": 8.0,
+      "attackPower": 28.0,
+      "meleeHit": 1.0,
+      "spellHit": 1.0
      },
      "effects": [],
-     "source": "Vendor: Samuel Hawke",
+     "source": "forever-1.60.1.70450",
      "subclass": "Cloth",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -9437,7 +9460,7 @@
     {
      "id": 252483,
      "name": "Dawn Armor",
-     "icon": null,
+     "icon": "inv_chest_leather_08",
      "quality": "Epic",
      "itemLevel": 61,
      "stats": {
@@ -9445,8 +9468,8 @@
       "agility": 37.0,
       "meleeCrit": 1.0,
       "spellCrit": 1.0,
-      "meleeHit": 1.25,
-      "spellHit": 1.25
+      "meleeHit": 1.0,
+      "spellHit": 1.0
      },
      "effects": [],
      "source": "forever-1.60.1.69913",
@@ -9471,8 +9494,8 @@
       "armor": 79.0,
       "agility": 14.0,
       "stamina": 7.0,
-      "meleeHit": 1.25,
-      "spellHit": 1.25
+      "meleeHit": 1.0,
+      "spellHit": 1.0
      },
      "effects": [],
      "source": "Unknown",
@@ -9501,20 +9524,19 @@
      "gear_slot": "wrist"
     },
     {
-     "id": 19686,
-     "name": "Primal Batskin Gloves",
-     "icon": "inv_gauntlets_31",
-     "quality": "Rare",
+     "id": 271948,
+     "name": "Theramore Gloves",
+     "icon": "inv_gauntlets_27",
+     "quality": "Epic",
      "itemLevel": 65,
      "stats": {
-      "armor": 113.0,
-      "agility": 10.0,
-      "stamina": 9.0,
-      "meleeHit": 2.5,
-      "spellHit": 2.5
+      "armor": 123.0,
+      "agility": 27.0,
+      "strength": 11.0,
+      "stamina": 15.0
      },
      "effects": [],
-     "source": "Unknown",
+     "source": "forever-1.60.1.70450",
      "subclass": "Leather",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -9522,20 +9544,7 @@
      "equipSlots": [
       "hands"
      ],
-     "set": {
-      "name": "Primal Batskin",
-      "pieces": [
-       "Requires Leatherworking (300)",
-       "Primal Batskin Jerkin",
-       "Primal Batskin Bracers"
-      ],
-      "bonuses": [
-       {
-        "required": 3,
-        "description": "Minor increase to running and swimming speed."
-       }
-      ]
-     },
+     "set": null,
      "slot": "Hands",
      "gear_slot": "hands"
     },
@@ -9549,8 +9558,8 @@
       "armor": 104.0,
       "agility": 21.0,
       "stamina": 11.0,
-      "meleeHit": 2.5,
-      "spellHit": 2.5
+      "meleeHit": 2.0,
+      "spellHit": 2.0
      },
      "effects": [],
      "source": "forever-1.60.1.69913",
@@ -9575,8 +9584,8 @@
       "armor": 236.0,
       "agility": 27.0,
       "stamina": 27.0,
-      "meleeHit": 2.5,
-      "spellHit": 2.5,
+      "meleeHit": 2.0,
+      "spellHit": 2.0,
       "meleeCrit": 1.0,
       "spellCrit": 1.0
      },
@@ -9650,8 +9659,8 @@
      "stats": {
       "stamina": 14.0,
       "attackPower": 34.0,
-      "meleeHit": 1.25,
-      "spellHit": 1.25
+      "meleeHit": 1.0,
+      "spellHit": 1.0
      },
      "effects": [],
      "source": "forever-1.60.1.69913",
@@ -9676,8 +9685,8 @@
      "stats": {
       "agility": 14.0,
       "stamina": 8.0,
-      "meleeHit": 1.25,
-      "spellHit": 1.25
+      "meleeHit": 1.0,
+      "spellHit": 1.0
      },
      "effects": [],
      "source": "forever-1.60.1.69913",
@@ -10217,23 +10226,24 @@
      "gear_slot": "main_hand"
     },
     {
-     "id": 13404,
-     "name": "Mask of the Unforgiven",
-     "icon": "inv_misc_bandana_01",
+     "id": 19999,
+     "name": "Bloodvine Goggles",
+     "icon": "inv_helmet_47",
      "quality": "Rare",
-     "itemLevel": 57,
+     "itemLevel": 65,
      "stats": {
-      "armor": 132.0,
-      "stamina": 12.0,
+      "armor": 75.0,
       "meleeHit": 2.0,
-      "meleeCrit": 1.0
+      "spellHit": 2.0,
+      "meleeCrit": 1.0,
+      "spellCrit": 1.0,
+      "mp5": 9.0
      },
      "effects": [
-      "Equip: Improves your chance to hit by 2%.",
-      "Equip: Improves your chance to get a critical strike by 1%."
+      "Equip: +9 Mana Regeneration"
      ],
-     "source": "Boss Drop: The Unforgiven",
-     "subclass": "Leather",
+     "source": "Unknown",
+     "subclass": "Cloth",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -10274,28 +10284,45 @@
      "gear_slot": "neck"
     },
     {
-     "id": 271956,
-     "name": "Theramore Epaulets",
-     "icon": "inv_shoulder_12",
+     "id": 20060,
+     "name": "Highlander's Lizardhide Shoulders",
+     "icon": "inv_shoulder_24",
      "quality": "Epic",
      "itemLevel": 65,
      "stats": {
-      "armor": 312.0,
-      "agility": 27.0,
-      "stamina": 12.0,
-      "meleeCrit": 1.0,
-      "spellCrit": 1.0
+      "armor": 258.0,
+      "stamina": 17.0,
+      "agility": 12.0,
+      "intellect": 12.0,
+      "attackPower": 30.0
      },
      "effects": [],
-     "source": "forever-1.60.1.70450",
-     "subclass": "Mail",
+     "source": "Vendor: Samuel Hawke",
+     "subclass": "Leather",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
      "equipSlots": [
       "shoulders"
      ],
-     "set": null,
+     "set": {
+      "name": "The Highlander's Will",
+      "pieces": [
+       "Highlander's Lizardhide Boots",
+       "Highlander's Lizardhide Girdle",
+       "Highlander's Lizardhide Shoulders"
+      ],
+      "bonuses": [
+       {
+        "required": 2,
+        "description": "+5 Stamina."
+       },
+       {
+        "required": 3,
+        "description": "Improves your chance to get a critical strike with spells by 1%."
+       }
+      ]
+     },
      "slot": "Shoulder",
      "gear_slot": "shoulders"
     },
@@ -10326,18 +10353,17 @@
      "gear_slot": "back"
     },
     {
-     "id": 252483,
-     "name": "Dawn Armor",
-     "icon": "inv_chest_leather_08",
+     "id": 252484,
+     "name": "Timbermaw Tunic",
+     "icon": "inv_chest_fur",
      "quality": "Epic",
      "itemLevel": 61,
      "stats": {
       "armor": 187.0,
-      "agility": 37.0,
+      "agility": 18.0,
+      "strength": 33.0,
       "meleeCrit": 1.0,
-      "spellCrit": 1.0,
-      "meleeHit": 1.0,
-      "spellHit": 1.0
+      "spellCrit": 1.0
      },
      "effects": [],
      "source": "forever-1.60.1.69913",
@@ -10379,20 +10405,24 @@
      "gear_slot": "wrist"
     },
     {
-     "id": 271948,
-     "name": "Theramore Gloves",
-     "icon": "inv_gauntlets_27",
+     "id": 19157,
+     "name": "Chromatic Gauntlets",
+     "icon": "inv_gauntlets_22",
      "quality": "Epic",
-     "itemLevel": 65,
+     "itemLevel": 70,
      "stats": {
-      "armor": 123.0,
-      "agility": 27.0,
-      "strength": 11.0,
-      "stamina": 15.0
+      "armor": 279.0,
+      "fireResistance": 5.0,
+      "natureResistance": 5.0,
+      "frostResistance": 5.0,
+      "shadowResistance": 5.0,
+      "attackPower": 44.0,
+      "meleeCrit": 1.0,
+      "spellCrit": 1.0
      },
      "effects": [],
-     "source": "forever-1.60.1.70450",
-     "subclass": "Leather",
+     "source": "Unknown",
+     "subclass": "Mail",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -11191,16 +11221,18 @@
      "gear_slot": "off_hand"
     },
     {
-     "id": 17578,
-     "name": "Field Marshal's Coronal",
-     "icon": "inv_helmet_24",
-     "quality": "Epic",
-     "itemLevel": 74,
+     "id": 23310,
+     "name": "Lieutenant Commander's Dreadweave Cowl",
+     "icon": "inv_helmet_08",
+     "quality": "Rare",
+     "itemLevel": 71,
      "stats": {
-      "armor": 132.0,
-      "stamina": 30.0,
-      "intellect": 24.0,
-      "spellPower": 32.0
+      "armor": 81.0,
+      "stamina": 21.0,
+      "intellect": 18.0,
+      "spellPower": 21.0,
+      "meleeCrit": 1.0,
+      "spellCrit": 1.0
      },
      "effects": [],
      "source": "Vendor: Captain Dirgehammer",
@@ -11212,27 +11244,27 @@
       "head"
      ],
      "set": {
-      "name": "Field Marshal's Threads",
+      "name": "Lieutenant Commander's Dreadgear",
       "pieces": [
-       "Field Marshal's Dreadweave Robe",
-       "Field Marshal's Dreadweave Shoulders",
-       "Marshal's Dreadweave Boots",
-       "Marshal's Dreadweave Gloves",
-       "Marshal's Dreadweave Leggings",
-       "Field Marshal's Coronal"
+       "Knight-Captain's Dreadweave Legguards",
+       "Knight-Captain's Dreadweave Tunic",
+       "Knight-Lieutenant's Dreadweave Handwraps",
+       "Knight-Lieutenant's Dreadweave Walkers",
+       "Lieutenant Commander's Dreadweave Cowl",
+       "Lieutenant Commander's Dreadweave Spaulders"
       ],
       "bonuses": [
        {
         "required": 2,
-        "description": "+20 Stamina."
+        "description": "Increases damage and healing done by magical spells and effects by up to 23."
        },
        {
-        "required": 3,
+        "required": 4,
         "description": "Reduces the casting time of your Immolate spell by 0.2 sec."
        },
        {
         "required": 6,
-        "description": "Increases damage and healing done by magical spells and effects by up to 23."
+        "description": "+20 Stamina."
        }
       ]
      },
@@ -11404,16 +11436,16 @@
      "gear_slot": "wrist"
     },
     {
-     "id": 17584,
-     "name": "Marshal's Dreadweave Gloves",
-     "icon": "inv_gauntlets_14",
-     "quality": "Epic",
-     "itemLevel": 71,
+     "id": 23282,
+     "name": "Knight-Lieutenant's Dreadweave Handwraps",
+     "icon": "inv_gauntlets_19",
+     "quality": "Rare",
+     "itemLevel": 66,
      "stats": {
-      "armor": 68.0,
-      "stamina": 20.0,
-      "intellect": 6.0,
-      "spellPower": 30.0
+      "armor": 58.0,
+      "stamina": 14.0,
+      "intellect": 4.0,
+      "spellPower": 21.0
      },
      "effects": [
       "Equip: Gives you a 50% chance to avoid interruption caused by damage while casting Searing Pain."
@@ -11427,27 +11459,27 @@
       "hands"
      ],
      "set": {
-      "name": "Field Marshal's Threads",
+      "name": "Lieutenant Commander's Dreadgear",
       "pieces": [
-       "Field Marshal's Dreadweave Robe",
-       "Field Marshal's Dreadweave Shoulders",
-       "Marshal's Dreadweave Boots",
-       "Marshal's Dreadweave Gloves",
-       "Marshal's Dreadweave Leggings",
-       "Field Marshal's Coronal"
+       "Knight-Captain's Dreadweave Legguards",
+       "Knight-Captain's Dreadweave Tunic",
+       "Knight-Lieutenant's Dreadweave Handwraps",
+       "Knight-Lieutenant's Dreadweave Walkers",
+       "Lieutenant Commander's Dreadweave Cowl",
+       "Lieutenant Commander's Dreadweave Spaulders"
       ],
       "bonuses": [
        {
         "required": 2,
-        "description": "+20 Stamina."
+        "description": "Increases damage and healing done by magical spells and effects by up to 23."
        },
        {
-        "required": 3,
+        "required": 4,
         "description": "Reduces the casting time of your Immolate spell by 0.2 sec."
        },
        {
         "required": 6,
-        "description": "Increases damage and healing done by magical spells and effects by up to 23."
+        "description": "+20 Stamina."
        }
       ]
      },
@@ -12205,9 +12237,9 @@
    "race": "Human",
    "gear": [
     {
-     "id": 23456,
-     "name": "Grand Marshal's Swiftblade",
-     "icon": "inv_sword_05",
+     "id": 12584,
+     "name": "Grand Marshal's Longsword",
+     "icon": "inv_sword_11",
      "quality": "Epic",
      "itemLevel": 78,
      "stats": {
@@ -12219,9 +12251,9 @@
      "effects": [],
      "source": "Vendor: Captain O'Neal",
      "subclass": "Sword",
-     "weaponDamageMin": 85.0,
-     "weaponDamageMax": 129.0,
-     "weaponSpeed": 1.8,
+     "weaponDamageMin": 138.0,
+     "weaponDamageMax": 207.0,
+     "weaponSpeed": 2.9,
      "equipSlots": [
       "main_hand",
       "off_hand"
@@ -12259,20 +12291,25 @@
      "gear_slot": "off_hand"
     },
     {
-     "id": 250599,
-     "name": "Stalwart Helm",
-     "icon": "inv_helmet_22",
+     "id": 16474,
+     "name": "Field Marshal's Lamellar Faceguard",
+     "icon": "inv_helmet_05",
      "quality": "Epic",
-     "itemLevel": 61,
+     "itemLevel": 74,
      "stats": {
-      "armor": 565.0,
-      "strength": 12.0,
-      "meleeHit": 2.0,
-      "spellHit": 2.0,
-      "spellPower": 38.0
+      "armor": 679.0,
+      "stamina": 21.0,
+      "strength": 21.0,
+      "intellect": 20.0,
+      "meleeCrit": 1.0,
+      "spellCrit": 1.0,
+      "spellPower": 25.0,
+      "mp5": 5.0
      },
-     "effects": [],
-     "source": "forever-1.60.1.69913",
+     "effects": [
+      "Equip: +5 Mana Regeneration"
+     ],
+     "source": "Vendor: Captain Dirgehammer",
      "subclass": "Plate",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -12280,24 +12317,53 @@
      "equipSlots": [
       "head"
      ],
-     "set": null,
+     "set": {
+      "name": "Field Marshal's Aegis",
+      "pieces": [
+       "Field Marshal's Lamellar Chestplate",
+       "Field Marshal's Lamellar Faceguard",
+       "Field Marshal's Lamellar Pauldrons",
+       "Marshal's Lamellar Boots",
+       "Marshal's Lamellar Gloves",
+       "Marshal's Lamellar Legplates"
+      ],
+      "bonuses": [
+       {
+        "required": 2,
+        "description": "+20 Stamina."
+       },
+       {
+        "required": 3,
+        "description": "Reduces the cooldown of your Hammer of Justice by 10 sec."
+       },
+       {
+        "required": 6,
+        "description": "Increases damage and healing done by magical spells and effects by up to 23."
+       }
+      ]
+     },
      "slot": "Head",
      "gear_slot": "head"
     },
     {
-     "id": 19426,
-     "name": "Orb of the Darkmoon",
-     "icon": "inv_jewelry_necklace_16",
+     "id": 18404,
+     "name": "Onyxia Tooth Pendant",
+     "icon": "inv_jewelry_necklace_09",
      "quality": "Epic",
-     "itemLevel": 65,
+     "itemLevel": 74,
      "stats": {
-      "stamina": 11.0,
-      "spirit": 8.0,
-      "spellPower": 22.0
+      "agility": 12.0,
+      "stamina": 9.0,
+      "fireResistance": 10.0,
+      "meleeHit": 1.0,
+      "meleeCrit": 1.0
      },
-     "effects": [],
-     "source": "Quest: 1200 Tickets - Orb of the Darkmoon",
-     "subclass": null,
+     "effects": [
+      "Equip: Improves your chance to hit by 1%.",
+      "Equip: Improves your chance to get a critical strike by 1%."
+     ],
+     "source": "Quest: For All To See",
+     "subclass": "Miscellaneous",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -12347,19 +12413,19 @@
      "gear_slot": "shoulders"
     },
     {
-     "id": 19086,
-     "name": "Stormpike Sage's Cloak",
-     "icon": "inv_misc_cape_18",
+     "id": 272415,
+     "name": "Stalwart Cloak",
+     "icon": "inv_misc_cape_16",
      "quality": "Rare",
-     "itemLevel": 60,
+     "itemLevel": 65,
      "stats": {
-      "armor": 43.0,
-      "stamina": 11.0,
-      "frostResistance": 5.0,
-      "spellPower": 14.0
+      "armor": 126.0,
+      "stamina": 14.0,
+      "meleeHit": 1.0,
+      "spellHit": 1.0
      },
      "effects": [],
-     "source": "Unknown",
+     "source": "forever-1.60.1.70450",
      "subclass": "Cloth",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -12723,23 +12789,25 @@
    "race": "Human",
    "gear": [
     {
-     "id": 18830,
-     "name": "Grand Marshal's Sunderer",
-     "icon": "inv_axe_10",
-     "quality": "Epic",
-     "itemLevel": 78,
+     "id": 17182,
+     "name": "Sulfuras, Hand of Ragnaros",
+     "icon": "inv_hammer_unique_sulfuras",
+     "quality": "Legendary",
+     "itemLevel": 80,
      "stats": {
-      "stamina": 41.0,
-      "strength": 26.0,
-      "meleeCrit": 1.0,
-      "spellCrit": 1.0
+      "strength": 12.0,
+      "stamina": 12.0,
+      "fireResistance": 30.0
      },
-     "effects": [],
-     "source": "Vendor: Captain O'Neal",
-     "subclass": "Axe",
-     "weaponDamageMin": 235.0,
-     "weaponDamageMax": 353.0,
-     "weaponSpeed": 3.8,
+     "effects": [
+      "Chance on hit: Hurls a fiery ball that causes 273 to 333 Fire damage and an additional 75 damage over 10 sec.",
+      "Equip: Deals 7 Fire damage to anyone who strikes you with a melee attack."
+     ],
+     "source": "Unknown",
+     "subclass": "Mace",
+     "weaponDamageMin": 223.0,
+     "weaponDamageMax": 372.0,
+     "weaponSpeed": 3.7,
      "equipSlots": [
       "main_hand"
      ],
@@ -13031,21 +13099,23 @@
      "gear_slot": "waist"
     },
     {
-     "id": 22385,
-     "name": "Titanic Leggings",
-     "icon": "inv_pants_04",
+     "id": 22753,
+     "name": "Sentinel's Lamellar Legguards",
+     "icon": "inv_pants_plate_15",
      "quality": "Epic",
-     "itemLevel": 60,
+     "itemLevel": 65,
      "stats": {
-      "armor": 598.0,
-      "strength": 30.0,
-      "meleeHit": 2.0,
-      "spellHit": 2.0,
+      "armor": 646.0,
+      "strength": 21.0,
+      "stamina": 21.0,
       "meleeCrit": 1.0,
-      "spellCrit": 1.0
+      "spellCrit": 1.0,
+      "meleeHit": 1.0,
+      "spellHit": 1.0,
+      "spellPower": 25.0
      },
      "effects": [],
-     "source": "Unknown",
+     "source": "Zone Drop",
      "subclass": "Plate",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -13058,20 +13128,24 @@
      "gear_slot": "legs"
     },
     {
-     "id": 279263,
-     "name": "Depleted Thorium Sabatons",
-     "icon": "inv_boots_plate_02",
+     "id": 21612,
+     "name": "Wormscale Stompers",
+     "icon": "inv_boots_chain_08",
      "quality": "Epic",
-     "itemLevel": 65,
+     "itemLevel": 81,
      "stats": {
-      "armor": 507.0,
-      "strength": 14.0,
-      "stamina": 21.0,
-      "spellPower": 21.0
+      "armor": 352.0,
+      "agility": 26.0,
+      "stamina": 12.0,
+      "intellect": 12.0,
+      "spellPower": 15.0,
+      "mp5": 5.0
      },
-     "effects": [],
+     "effects": [
+      "Equip: +5 Mana Regeneration"
+     ],
      "source": "forever-1.60.1.69913",
-     "subclass": "Plate",
+     "subclass": "Mail",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -13136,17 +13210,18 @@
      "gear_slot": "finger2"
     },
     {
-     "id": 13965,
-     "name": "Blackhand's Breadth",
-     "icon": "inv_misc_armorkit_09",
+     "id": 11815,
+     "name": "Hand of Justice",
+     "icon": "inv_jewelry_talisman_01",
      "quality": "Rare",
-     "itemLevel": 63,
-     "stats": {
-      "meleeCrit": 2
-     },
-     "effects": [],
-     "source": "WoWSims Classic database",
-     "subclass": null,
+     "itemLevel": 58,
+     "stats": {},
+     "effects": [
+      "Equip: 2% chance on melee hit to gain 1 extra attack.",
+      "Equip: +20 Attack Power."
+     ],
+     "source": "Boss Drop: Emperor Dagran Thaurissan",
+     "subclass": "Miscellaneous",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -13159,18 +13234,16 @@
      "gear_slot": "trinket1"
     },
     {
-     "id": 272438,
-     "name": "Weakness Analyzer",
-     "icon": "inv_misc_blizzcon09_graphicscard",
+     "id": 13965,
+     "name": "Blackhand's Breadth",
+     "icon": "inv_misc_armorkit_09",
      "quality": "Rare",
-     "itemLevel": 65,
+     "itemLevel": 63,
      "stats": {
-      "spellPower": 22.0
+      "meleeCrit": 2
      },
-     "effects": [
-      "Use: Increases your critical strike chance with all spells and attacks by 5% for 20 sec or until you deal a non-periodic critical effect. (2 Min Cooldown)"
-     ],
-     "source": "forever-1.60.1.69913",
+     "effects": [],
+     "source": "WoWSims Classic database",
      "subclass": null,
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -14422,18 +14495,17 @@
      "gear_slot": "back"
     },
     {
-     "id": 252483,
-     "name": "Dawn Armor",
-     "icon": "inv_chest_leather_08",
+     "id": 252484,
+     "name": "Timbermaw Tunic",
+     "icon": "inv_chest_fur",
      "quality": "Epic",
      "itemLevel": 61,
      "stats": {
       "armor": 187.0,
-      "agility": 37.0,
+      "agility": 18.0,
+      "strength": 33.0,
       "meleeCrit": 1.0,
-      "spellCrit": 1.0,
-      "meleeHit": 1.0,
-      "spellHit": 1.0
+      "spellCrit": 1.0
      },
      "effects": [],
      "source": "forever-1.60.1.69913",
@@ -14654,18 +14726,17 @@
      "gear_slot": "finger2"
     },
     {
-     "id": 11815,
-     "name": "Hand of Justice",
-     "icon": "inv_jewelry_talisman_01",
+     "id": 13965,
+     "name": "Blackhand's Breadth",
+     "icon": "inv_misc_armorkit_09",
      "quality": "Rare",
-     "itemLevel": 58,
-     "stats": {},
-     "effects": [
-      "Equip: 2% chance on melee hit to gain 1 extra attack.",
-      "Equip: +20 Attack Power."
-     ],
-     "source": "Boss Drop: Emperor Dagran Thaurissan",
-     "subclass": "Miscellaneous",
+     "itemLevel": 63,
+     "stats": {
+      "meleeCrit": 2
+     },
+     "effects": [],
+     "source": "WoWSims Classic database",
+     "subclass": null,
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -14678,19 +14749,17 @@
      "gear_slot": "trinket1"
     },
     {
-     "id": 11832,
-     "name": "Burst of Knowledge",
-     "icon": "inv_jewelry_amulet_07",
+     "id": 11815,
+     "name": "Hand of Justice",
+     "icon": "inv_jewelry_talisman_01",
      "quality": "Rare",
      "itemLevel": 58,
-     "stats": {
-      "spellPower": 12.0
-     },
+     "stats": {},
      "effects": [
-      "Use: Reduces mana cost of all spells by 100 for 10 sec. (15 Min Cooldown)",
-      "Equip: Increases damage and healing done by magical spells and effects by up to 12."
+      "Equip: 2% chance on melee hit to gain 1 extra attack.",
+      "Equip: +20 Attack Power."
      ],
-     "source": "Boss Drop: Ambassador Flamelash",
+     "source": "Boss Drop: Emperor Dagran Thaurissan",
      "subclass": "Miscellaneous",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -15308,20 +15377,25 @@
      "gear_slot": "off_hand"
     },
     {
-     "id": 250599,
-     "name": "Stalwart Helm",
-     "icon": "inv_helmet_22",
+     "id": 16474,
+     "name": "Field Marshal's Lamellar Faceguard",
+     "icon": "inv_helmet_05",
      "quality": "Epic",
-     "itemLevel": 61,
+     "itemLevel": 74,
      "stats": {
-      "armor": 565.0,
-      "strength": 12.0,
-      "meleeHit": 2.0,
-      "spellHit": 2.0,
-      "spellPower": 38.0
+      "armor": 679.0,
+      "stamina": 21.0,
+      "strength": 21.0,
+      "intellect": 20.0,
+      "meleeCrit": 1.0,
+      "spellCrit": 1.0,
+      "spellPower": 25.0,
+      "mp5": 5.0
      },
-     "effects": [],
-     "source": "forever-1.60.1.69913",
+     "effects": [
+      "Equip: +5 Mana Regeneration"
+     ],
+     "source": "Vendor: Captain Dirgehammer",
      "subclass": "Plate",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -15329,24 +15403,53 @@
      "equipSlots": [
       "head"
      ],
-     "set": null,
+     "set": {
+      "name": "Field Marshal's Aegis",
+      "pieces": [
+       "Field Marshal's Lamellar Chestplate",
+       "Field Marshal's Lamellar Faceguard",
+       "Field Marshal's Lamellar Pauldrons",
+       "Marshal's Lamellar Boots",
+       "Marshal's Lamellar Gloves",
+       "Marshal's Lamellar Legplates"
+      ],
+      "bonuses": [
+       {
+        "required": 2,
+        "description": "+20 Stamina."
+       },
+       {
+        "required": 3,
+        "description": "Reduces the cooldown of your Hammer of Justice by 10 sec."
+       },
+       {
+        "required": 6,
+        "description": "Increases damage and healing done by magical spells and effects by up to 23."
+       }
+      ]
+     },
      "slot": "Head",
      "gear_slot": "head"
     },
     {
-     "id": 19426,
-     "name": "Orb of the Darkmoon",
-     "icon": "inv_jewelry_necklace_16",
+     "id": 18404,
+     "name": "Onyxia Tooth Pendant",
+     "icon": "inv_jewelry_necklace_09",
      "quality": "Epic",
-     "itemLevel": 65,
+     "itemLevel": 74,
      "stats": {
-      "stamina": 11.0,
-      "spirit": 8.0,
-      "spellPower": 22.0
+      "agility": 12.0,
+      "stamina": 9.0,
+      "fireResistance": 10.0,
+      "meleeHit": 1.0,
+      "meleeCrit": 1.0
      },
-     "effects": [],
-     "source": "Quest: 1200 Tickets - Orb of the Darkmoon",
-     "subclass": null,
+     "effects": [
+      "Equip: Improves your chance to hit by 1%.",
+      "Equip: Improves your chance to get a critical strike by 1%."
+     ],
+     "source": "Quest: For All To See",
+     "subclass": "Miscellaneous",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -15396,19 +15499,19 @@
      "gear_slot": "shoulders"
     },
     {
-     "id": 19086,
-     "name": "Stormpike Sage's Cloak",
-     "icon": "inv_misc_cape_18",
+     "id": 272415,
+     "name": "Stalwart Cloak",
+     "icon": "inv_misc_cape_16",
      "quality": "Rare",
-     "itemLevel": 60,
+     "itemLevel": 65,
      "stats": {
-      "armor": 43.0,
-      "stamina": 11.0,
-      "frostResistance": 5.0,
-      "spellPower": 14.0
+      "armor": 126.0,
+      "stamina": 14.0,
+      "meleeHit": 1.0,
+      "spellHit": 1.0
      },
      "effects": [],
-     "source": "Unknown",
+     "source": "forever-1.60.1.70450",
      "subclass": "Cloth",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -15881,19 +15984,24 @@
      "gear_slot": "head"
     },
     {
-     "id": 19426,
-     "name": "Orb of the Darkmoon",
-     "icon": "inv_jewelry_necklace_16",
+     "id": 18404,
+     "name": "Onyxia Tooth Pendant",
+     "icon": "inv_jewelry_necklace_09",
      "quality": "Epic",
-     "itemLevel": 65,
+     "itemLevel": 74,
      "stats": {
-      "stamina": 11.0,
-      "spirit": 8.0,
-      "spellPower": 22.0
+      "agility": 12.0,
+      "stamina": 9.0,
+      "fireResistance": 10.0,
+      "meleeHit": 1.0,
+      "meleeCrit": 1.0
      },
-     "effects": [],
-     "source": "Quest: 1200 Tickets - Orb of the Darkmoon",
-     "subclass": null,
+     "effects": [
+      "Equip: Improves your chance to hit by 1%.",
+      "Equip: Improves your chance to get a critical strike by 1%."
+     ],
+     "source": "Quest: For All To See",
+     "subclass": "Miscellaneous",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -15943,19 +16051,19 @@
      "gear_slot": "shoulders"
     },
     {
-     "id": 272415,
-     "name": "Stalwart Cloak",
-     "icon": "inv_misc_cape_16",
+     "id": 19086,
+     "name": "Stormpike Sage's Cloak",
+     "icon": "inv_misc_cape_18",
      "quality": "Rare",
-     "itemLevel": 65,
+     "itemLevel": 60,
      "stats": {
-      "armor": 126.0,
-      "stamina": 14.0,
-      "meleeHit": 1.0,
-      "spellHit": 1.0
+      "armor": 43.0,
+      "stamina": 11.0,
+      "frostResistance": 5.0,
+      "spellPower": 14.0
      },
      "effects": [],
-     "source": "forever-1.60.1.70450",
+     "source": "Unknown",
      "subclass": "Cloth",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -16048,24 +16156,23 @@
      "gear_slot": "wrist"
     },
     {
-     "id": 272780,
-     "name": "Premier Lieutenant Commander's Chevalier Gloves",
+     "id": 16471,
+     "name": "Marshal's Lamellar Gloves",
      "icon": "inv_gauntlets_29",
      "quality": "Epic",
-     "itemLevel": 65,
+     "itemLevel": 71,
      "stats": {
-      "armor": 461.0,
-      "strength": 13.0,
-      "stamina": 26.0,
-      "intellect": 7.0,
-      "spellPower": 7.0,
-      "meleeCrit": 0.5,
-      "spellCrit": 0.5
+      "armor": 502.0,
+      "strength": 18.0,
+      "stamina": 17.0,
+      "intellect": 16.0,
+      "meleeCrit": 1.0,
+      "spellCrit": 1.0
      },
      "effects": [
-      "Equip: Increases the duration of your Repentance by 1 sec."
+      "Equip: Increases the Holy damage bonus of your Judgement of the Crusader by 20."
      ],
-     "source": "forever-1.60.1.69913",
+     "source": "Vendor: Captain Dirgehammer",
      "subclass": "Plate",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -16073,7 +16180,31 @@
      "equipSlots": [
       "hands"
      ],
-     "set": null,
+     "set": {
+      "name": "Field Marshal's Aegis",
+      "pieces": [
+       "Field Marshal's Lamellar Chestplate",
+       "Field Marshal's Lamellar Faceguard",
+       "Field Marshal's Lamellar Pauldrons",
+       "Marshal's Lamellar Boots",
+       "Marshal's Lamellar Gloves",
+       "Marshal's Lamellar Legplates"
+      ],
+      "bonuses": [
+       {
+        "required": 2,
+        "description": "+20 Stamina."
+       },
+       {
+        "required": 3,
+        "description": "Reduces the cooldown of your Hammer of Justice by 10 sec."
+       },
+       {
+        "required": 6,
+        "description": "Increases damage and healing done by magical spells and effects by up to 23."
+       }
+      ]
+     },
      "slot": "Hands",
      "gear_slot": "hands"
     },
@@ -16244,20 +16375,17 @@
      "gear_slot": "trinket1"
     },
     {
-     "id": 11832,
-     "name": "Burst of Knowledge",
-     "icon": "inv_jewelry_amulet_07",
+     "id": 13965,
+     "name": "Blackhand's Breadth",
+     "icon": "inv_misc_armorkit_09",
      "quality": "Rare",
-     "itemLevel": 58,
+     "itemLevel": 63,
      "stats": {
-      "spellPower": 12.0
+      "meleeCrit": 2
      },
-     "effects": [
-      "Use: Reduces mana cost of all spells by 100 for 10 sec. (15 Min Cooldown)",
-      "Equip: Increases damage and healing done by magical spells and effects by up to 12."
-     ],
-     "source": "Boss Drop: Ambassador Flamelash",
-     "subclass": "Miscellaneous",
+     "effects": [],
+     "source": "WoWSims Classic database",
+     "subclass": null,
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -16299,25 +16427,25 @@
    "race": "Human",
    "gear": [
     {
-     "id": 17182,
-     "name": "Sulfuras, Hand of Ragnaros",
-     "icon": "inv_hammer_unique_sulfuras",
-     "quality": "Legendary",
-     "itemLevel": 80,
+     "id": 23455,
+     "name": "Grand Marshal's Demolisher",
+     "icon": "inv_hammer_23",
+     "quality": "Epic",
+     "itemLevel": 78,
      "stats": {
-      "strength": 12.0,
-      "stamina": 12.0,
-      "fireResistance": 30.0
+      "stamina": 28.0,
+      "intellect": 27.0,
+      "spellPower": 27.0,
+      "mp5": 7.0
      },
      "effects": [
-      "Chance on hit: Hurls a fiery ball that causes 273 to 333 Fire damage and an additional 75 damage over 10 sec.",
-      "Equip: Deals 7 Fire damage to anyone who strikes you with a melee attack."
+      "Equip: +7 Mana Regeneration"
      ],
-     "source": "Unknown",
+     "source": "Vendor: Captain O'Neal",
      "subclass": "Mace",
-     "weaponDamageMin": 223.0,
-     "weaponDamageMax": 372.0,
-     "weaponSpeed": 3.7,
+     "weaponDamageMin": 235.0,
+     "weaponDamageMax": 353.0,
+     "weaponSpeed": 3.8,
      "equipSlots": [
       "main_hand"
      ],
@@ -16381,19 +16509,23 @@
      "gear_slot": "neck"
     },
     {
-     "id": 19695,
-     "name": "Darksoul Shoulders",
-     "icon": "inv_shoulder_01",
-     "quality": "Rare",
-     "itemLevel": 65,
+     "id": 16476,
+     "name": "Field Marshal's Lamellar Pauldrons",
+     "icon": "inv_shoulder_20",
+     "quality": "Epic",
+     "itemLevel": 74,
      "stats": {
-      "armor": 507.0,
-      "stamina": 24.0,
-      "meleeHit": 1.0,
-      "spellHit": 1.0
+      "armor": 626.0,
+      "stamina": 16.0,
+      "strength": 16.0,
+      "intellect": 15.0,
+      "spellPower": 19.0,
+      "mp5": 6.0
      },
-     "effects": [],
-     "source": "Unknown",
+     "effects": [
+      "Equip: +6 Mana Regeneration"
+     ],
+     "source": "Vendor: Captain Dirgehammer",
      "subclass": "Plate",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
@@ -16402,16 +16534,27 @@
       "shoulders"
      ],
      "set": {
-      "name": "The Darksoul",
+      "name": "Field Marshal's Aegis",
       "pieces": [
-       "Requires Blacksmithing (300)",
-       "Darksoul Breastplate",
-       "Darksoul Leggings"
+       "Field Marshal's Lamellar Chestplate",
+       "Field Marshal's Lamellar Faceguard",
+       "Field Marshal's Lamellar Pauldrons",
+       "Marshal's Lamellar Boots",
+       "Marshal's Lamellar Gloves",
+       "Marshal's Lamellar Legplates"
       ],
       "bonuses": [
        {
+        "required": 2,
+        "description": "+20 Stamina."
+       },
+       {
         "required": 3,
-        "description": "Increased Defense +20."
+        "description": "Reduces the cooldown of your Hammer of Justice by 10 sec."
+       },
+       {
+        "required": 6,
+        "description": "Increases damage and healing done by magical spells and effects by up to 23."
        }
       ]
      },
@@ -16484,21 +16627,22 @@
      "gear_slot": "chest"
     },
     {
-     "id": 19595,
-     "name": "Dryad's Wrist Bindings",
-     "icon": "inv_bracer_13",
-     "quality": "Epic",
-     "itemLevel": 65,
+     "id": 13400,
+     "name": "Vambraces of the Sadist",
+     "icon": "inv_bracer_17",
+     "quality": "Rare",
+     "itemLevel": 59,
      "stats": {
-      "armor": 44.0,
-      "intellect": 8.0,
-      "spirit": 7.0,
-      "stamina": 8.0,
-      "spellPower": 22.0
+      "armor": 270.0,
+      "strength": 6.0,
+      "stamina": 7.0,
+      "meleeCrit": 1.0
      },
-     "effects": [],
-     "source": "Unknown",
-     "subclass": "Cloth",
+     "effects": [
+      "Equip: Improves your chance to get a critical strike by 1%."
+     ],
+     "source": "Boss Drop: Timmy the Cruel",
+     "subclass": "Plate",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -16510,41 +16654,27 @@
      "gear_slot": "wrist"
     },
     {
-     "id": 15063,
-     "name": "Devilsaur Gauntlets",
-     "icon": "inv_gauntlets_26",
-     "quality": "Rare",
-     "itemLevel": 58,
+     "id": 271950,
+     "name": "Theramore Handguards",
+     "icon": "inv_gauntlets_11",
+     "quality": "Epic",
+     "itemLevel": 65,
      "stats": {
-      "armor": 103.0,
-      "stamina": 9.0,
-      "meleeCrit": 1.0
+      "armor": 360.0,
+      "intellect": 21.0,
+      "stamina": 15.0,
+      "spellPower": 16.0
      },
-     "effects": [
-      "Equip: +28 Attack Power.",
-      "Equip: Improves your chance to get a critical strike by 1%."
-     ],
-     "source": "Unknown",
-     "subclass": "Leather",
+     "effects": [],
+     "source": "forever-1.60.1.70450",
+     "subclass": "Mail",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
      "equipSlots": [
       "hands"
      ],
-     "set": {
-      "name": "Devilsaur Armor",
-      "pieces": [
-       "Devilsaur Leggings",
-       "Devilsaur Gauntlets"
-      ],
-      "bonuses": [
-       {
-        "required": 2,
-        "description": "Improves your chance to hit by 2%."
-       }
-      ]
-     },
+     "set": null,
      "slot": "Hands",
      "gear_slot": "hands"
     },
@@ -16628,24 +16758,21 @@
      "gear_slot": "legs"
     },
     {
-     "id": 16472,
-     "name": "Marshal's Lamellar Boots",
-     "icon": "inv_boots_plate_09",
-     "quality": "Epic",
-     "itemLevel": 71,
+     "id": 19684,
+     "name": "Bloodvine Boots",
+     "icon": "inv_boots_cloth_02",
+     "quality": "Rare",
+     "itemLevel": 65,
      "stats": {
-      "armor": 552.0,
-      "stamina": 16.0,
-      "strength": 15.0,
-      "intellect": 15.0,
-      "spellPower": 18.0,
-      "mp5": 6.0
+      "armor": 63.0,
+      "intellect": 16.0,
+      "meleeHit": 1.0,
+      "spellHit": 1.0,
+      "spellPower": 19.0
      },
-     "effects": [
-      "Equip: +6 Mana Regeneration"
-     ],
-     "source": "Vendor: Captain Dirgehammer",
-     "subclass": "Plate",
+     "effects": [],
+     "source": "Unknown",
+     "subclass": "Cloth",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,
@@ -16653,27 +16780,16 @@
       "feet"
      ],
      "set": {
-      "name": "Field Marshal's Aegis",
+      "name": "Bloodvine Garb",
       "pieces": [
-       "Field Marshal's Lamellar Chestplate",
-       "Field Marshal's Lamellar Faceguard",
-       "Field Marshal's Lamellar Pauldrons",
-       "Marshal's Lamellar Boots",
-       "Marshal's Lamellar Gloves",
-       "Marshal's Lamellar Legplates"
+       "Requires Tailoring (300)",
+       "Bloodvine Vest",
+       "Bloodvine Leggings"
       ],
       "bonuses": [
        {
-        "required": 2,
-        "description": "+20 Stamina."
-       },
-       {
         "required": 3,
-        "description": "Reduces the cooldown of your Hammer of Justice by 10 sec."
-       },
-       {
-        "required": 6,
-        "description": "Increases damage and healing done by magical spells and effects by up to 23."
+        "description": "Improves your chance to get a critical strike with spells by 2%."
        }
       ]
      },
@@ -16733,30 +16849,6 @@
      "gear_slot": "finger2"
     },
     {
-     "id": 11815,
-     "name": "Hand of Justice",
-     "icon": "inv_jewelry_talisman_01",
-     "quality": "Rare",
-     "itemLevel": 58,
-     "stats": {},
-     "effects": [
-      "Equip: 2% chance on melee hit to gain 1 extra attack.",
-      "Equip: +20 Attack Power."
-     ],
-     "source": "Boss Drop: Emperor Dagran Thaurissan",
-     "subclass": "Miscellaneous",
-     "weaponDamageMin": null,
-     "weaponDamageMax": null,
-     "weaponSpeed": null,
-     "equipSlots": [
-      "trinket1",
-      "trinket2"
-     ],
-     "set": null,
-     "slot": "Trinket",
-     "gear_slot": "trinket1"
-    },
-    {
      "id": 272438,
      "name": "Weakness Analyzer",
      "icon": "inv_misc_blizzcon09_graphicscard",
@@ -16770,6 +16862,32 @@
      ],
      "source": "forever-1.60.1.69913",
      "subclass": null,
+     "weaponDamageMin": null,
+     "weaponDamageMax": null,
+     "weaponSpeed": null,
+     "equipSlots": [
+      "trinket1",
+      "trinket2"
+     ],
+     "set": null,
+     "slot": "Trinket",
+     "gear_slot": "trinket1"
+    },
+    {
+     "id": 11832,
+     "name": "Burst of Knowledge",
+     "icon": "inv_jewelry_amulet_07",
+     "quality": "Rare",
+     "itemLevel": 58,
+     "stats": {
+      "spellPower": 12.0
+     },
+     "effects": [
+      "Use: Reduces mana cost of all spells by 100 for 10 sec. (15 Min Cooldown)",
+      "Equip: Increases damage and healing done by magical spells and effects by up to 12."
+     ],
+     "source": "Boss Drop: Ambassador Flamelash",
+     "subclass": "Miscellaneous",
      "weaponDamageMin": null,
      "weaponDamageMax": null,
      "weaponSpeed": null,

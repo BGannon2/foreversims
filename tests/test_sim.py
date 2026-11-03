@@ -4,7 +4,7 @@ import unittest
 from urllib.parse import urlparse
 
 from forever.gear_data import apply_gear
-from forever.sim import CONSUMABLE_GROUPS, DATA, TALENT_DATA, TALENTS, F, Fight, preset, simulate, validate
+from forever.sim import HAND_PROTECTION_BUILD, HAND_RETRIBUTION_BUILD, PROTECTION_BUILD, RETRIBUTION_BUILD, CONSUMABLE_GROUPS, DATA, TALENT_DATA, TALENTS, F, Fight, preset, simulate, validate
 
 
 class SimulationTests(unittest.TestCase):
@@ -236,7 +236,7 @@ class SimulationTests(unittest.TestCase):
         self.assertEqual(f.absorbed,0); self.assertEqual(f.taken,1000)
 
     def test_bulwark_health_threshold_and_cooldown(self):
-        p=self.basic(); f=Fight(p,0); f.health=500; f.decision()
+        p=self.basic(); p['talents']={k:0 for k in p['talents']}|HAND_PROTECTION_BUILD; f=Fight(p,0); f.health=500; f.decision()
         self.assertEqual(f.absorb,p['character']['health'])
         self.assertEqual(f.cd['bulwark'],300); self.assertEqual(f.forbearance,60)
         f.time=9; f.decision(); self.assertEqual(f.casts["Templar's Bulwark"],1)
@@ -339,10 +339,12 @@ class SimulationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'51-point'): validate(p)
 
     def test_role_presets_maximize_modeled_throughput_talents(self):
-        prot=preset('protection')['talents']
+        self.assertEqual({k:v for k,v in preset('protection')['talents'].items() if v},PROTECTION_BUILD)  # sim-optimized (data/spec_talents.json)
+        self.assertEqual({k:v for k,v in preset('retribution')['talents'].items() if v},RETRIBUTION_BUILD)
+        prot=HAND_PROTECTION_BUILD
         for talent_id in ('105626','105634','110874','105627','105628','105705','105701'):
             self.assertEqual(prot[talent_id],len(TALENTS[talent_id]['ranks']))
-        ret=preset('retribution')['talents']
+        ret=HAND_RETRIBUTION_BUILD
         for talent_id in ('105705','105701','105696','105693','105692','105697','110882'):
             self.assertEqual(ret[talent_id],len(TALENTS[talent_id]['ranks']))
         self.assertEqual(ret['110871'],2)  # Reverence 2/2 (2 ranks since the Nov 3 notes)

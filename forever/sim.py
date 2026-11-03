@@ -64,6 +64,7 @@ PALADIN_VARIANTS = {
                   'core': {'talents': {'105323': 1}}},
 }
 # Sim-optimized default builds (tools/optimize_talents.py --specs --write) replace the hand-written ones.
+HAND_PROTECTION_BUILD, HAND_RETRIBUTION_BUILD = dict(PROTECTION_BUILD), dict(RETRIBUTION_BUILD)  # kept for mechanic tests
 _SPEC_TALENTS = json.loads((DATA_DIR / 'spec_talents.json').read_text(encoding='utf-8')) if (DATA_DIR / 'spec_talents.json').is_file() else {}
 if 'paladin-protection' in _SPEC_TALENTS: PROTECTION_BUILD = dict(_SPEC_TALENTS['paladin-protection']['talents'])
 if 'paladin-retribution' in _SPEC_TALENTS: RETRIBUTION_BUILD = dict(_SPEC_TALENTS['paladin-retribution']['talents'])

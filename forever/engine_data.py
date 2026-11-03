@@ -766,6 +766,7 @@ VARIANTS = {
     },
 }
 # Sim-optimized default builds (tools/optimize_talents.py --specs --write) replace the hand-written ones.
+HAND_BUILDS = {_k: dict(_v) for _k, _v in DEFAULT_BUILDS.items()}  # the hand-written builds, kept for mechanic tests
 _SPEC_TALENTS_PATH = _Path(__file__).resolve().parents[1] / "data/spec_talents.json"
 if _SPEC_TALENTS_PATH.is_file():
     for _sid, _entry in _json.loads(_SPEC_TALENTS_PATH.read_text(encoding="utf-8")).items():

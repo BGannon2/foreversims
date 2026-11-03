@@ -7,7 +7,7 @@ from pathlib import Path
 
 from forever import engine
 from forever.all_specs import ENCHANTS, FOREVER_SETS, ITEMS, public_specs, simulate_spec
-from forever.engine_data import ABILITIES, BUFF_STATS, CLASS_RACES, CONSUME_STATS, DEFAULT_BUILDS, RAGE_CONVERSION_60, ROTATIONS, SPEC_MAP, TALENT_EFFECTS, default_buffs, default_consumables
+from forever.engine_data import ABILITIES, BUFF_STATS, CLASS_RACES, CONSUME_STATS, DEFAULT_BUILDS, HAND_BUILDS, RAGE_CONVERSION_60, ROTATIONS, SPEC_MAP, TALENT_EFFECTS, default_buffs, default_consumables
 from server import DEFAULTS, default_request
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -465,7 +465,7 @@ class ForeverBlueNoteTests(unittest.TestCase):
 
     def test_shifting_power_turns_mana_into_energy(self):
         from forever.engine_data import CLASS_BASE
-        it = iteration("druid-feral-dps")
+        it = iteration("druid-feral-dps", talents=HAND_BUILDS["druid-feral-dps"])
         a = it.c.actions["Shifting Power"]
         self.assertEqual(a["cooldown"], 16 - 4 * 2)  # Improved Shifting Power 2/2
         cost = CLASS_BASE["Druid"]["mana"] * 0.55
@@ -504,7 +504,7 @@ class Build70425Tests(unittest.TestCase):
         self.assertEqual(undead.rows["Touch of the Grave"].casts, 2)
 
     def test_arcane_blast_stacks_grant_spell_power_for_18_seconds(self):
-        it = iteration("mage-arcane")
+        it = iteration("mage-arcane", talents=HAND_BUILDS["mage-arcane"])
         base = it.sp("arcane")
         it.add_buff("Arcane Blast", 18, stacks_max=4); it.buffs["Arcane Blast"]["stacks"] = 3
         self.assertAlmostEqual(it.sp("arcane") - base, 0.12 * it.st["intellect"] * 3)  # 12% of Intellect per stack (Nov 3 notes)
@@ -519,9 +519,9 @@ class Build70425Tests(unittest.TestCase):
         self.assertAlmostEqual(it.multiplier("Fireball", "fire", "spell", False, False) / plain, (1 + 0.03 * 3) / 1.0, places=6)
 
     def test_elemental_mastery_and_node_remap(self):
-        c = config("shaman-elemental")
+        c = config("shaman-elemental", talents=HAND_BUILDS["shaman-elemental"])
         self.assertIn("Elemental Mastery", c.actions); self.assertNotIn("Lava Burst", c.actions)  # Lava Burst removed (Nov 3 notes)
-        it = iteration("shaman-elemental"); it.add_buff("Elemental Mastery", 15)
+        it = iteration("shaman-elemental", talents=HAND_BUILDS["shaman-elemental"]); it.add_buff("Elemental Mastery", 15)
         it.mana = 99999; it.start("Chain Lightning")
         self.assertLessEqual(it.cooldowns["Chain Lightning"], it.t)  # no cooldown under Elemental Mastery
         self.assertAlmostEqual(c.actions["Lightning Bolt"]["cast"], ABILITIES["Lightning Bolt"]["cast"] - 0.5)  # Elemental Alacrity 3/3 on node 104771
