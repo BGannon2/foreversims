@@ -4,7 +4,7 @@ import unittest
 from urllib.parse import urlparse
 
 from forever.gear_data import apply_gear
-from forever.sim import HAND_PROTECTION_BUILD, HAND_RETRIBUTION_BUILD, PROTECTION_BUILD, RETRIBUTION_BUILD, CONSUMABLE_GROUPS, DATA, TALENT_DATA, TALENTS, F, Fight, preset, simulate, validate
+from forever.sim import CONSUMABLE_GROUPS, DATA, HAND_PROTECTION_BUILD, HAND_RETRIBUTION_BUILD, PROTECTION_BUILD, RETRIBUTION_BUILD, TALENT_DATA, TALENTS, F, Fight, preset, simulate, validate
 
 
 class SimulationTests(unittest.TestCase):

@@ -53,13 +53,15 @@ class PaladinEngineAcceptsSharedRaidBuffs(unittest.TestCase):
         """The Paladin page sends every raid buff in data/settings.json; the Paladin engines must accept them."""
         import json
         from pathlib import Path
+
         from forever import sim
         keys = [b["key"] for b in json.loads((Path(__file__).resolve().parents[1] / "data" / "settings.json").read_text(encoding="utf-8"))["raid_buffs"]]
         for spec in ("protection", "retribution"):
             p = sim.preset(spec); p["raid_buffs"] = {k: True for k in keys}; p.update(iterations=2, duration=30)
             self.assertGreater(sim.simulate(sim.validate(p))["metrics"]["dps"]["mean"], 0)
-            from tests.test_parity import rust
-            self.assertNotIn("error", rust("paladin", p), spec)
+            from tests.test_parity import CLI, rust
+            if CLI.is_file():  # the Rust CLI is only built in the parity job
+                self.assertNotIn("error", rust("paladin", p), spec)
 
 
 class DataHygiene(unittest.TestCase):

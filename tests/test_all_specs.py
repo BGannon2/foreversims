@@ -7,7 +7,20 @@ from pathlib import Path
 
 from forever import engine
 from forever.all_specs import ENCHANTS, FOREVER_SETS, ITEMS, public_specs, simulate_spec
-from forever.engine_data import ABILITIES, BUFF_STATS, CLASS_RACES, CONSUME_STATS, DEFAULT_BUILDS, HAND_BUILDS, RAGE_CONVERSION_60, ROTATIONS, SPEC_MAP, TALENT_EFFECTS, default_buffs, default_consumables
+from forever.engine_data import (
+    ABILITIES,
+    BUFF_STATS,
+    CLASS_RACES,
+    CONSUME_STATS,
+    DEFAULT_BUILDS,
+    HAND_BUILDS,
+    RAGE_CONVERSION_60,
+    ROTATIONS,
+    SPEC_MAP,
+    TALENT_EFFECTS,
+    default_buffs,
+    default_consumables,
+)
 from server import DEFAULTS, default_request
 
 ROOT = Path(__file__).resolve().parents[1]
