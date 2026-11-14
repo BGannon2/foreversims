@@ -1,102 +1,102 @@
 {
-  "build": "1.60.1.70753",
+  "build": "1.60.1.70938",
   "product": "wow_classic_beta",
   "tables": [
     {
       "table": "CurvePoint",
-      "sha256": "269694030c04fcfd5ab7491aaf6d0548fc3a9a24d165ba2aba1a84d813e63cc6",
-      "bytes": 1030728,
-      "url": "https://wago.tools/db2/CurvePoint/csv?build=1.60.1.70753"
+      "sha256": "7e0bcdd70c3867b1379a5dbc0466d99969e219ad6aa35be935182e467d7a6154",
+      "bytes": 1051915,
+      "url": "https://wago.tools/db2/CurvePoint/csv?build=1.60.1.70938"
     },
     {
       "table": "Spell",
-      "sha256": "6305a313e7dddb481982b34bcabbbcf17d2afc0579c5e492f85fa2cb919ec86e",
-      "bytes": 2219866,
-      "url": "https://wago.tools/db2/Spell/csv?build=1.60.1.70753"
+      "sha256": "d81a61397d9ecbc467a77767c4a3c231e9041ed08005c1716cdba6d3fe320ab5",
+      "bytes": 2246473,
+      "url": "https://wago.tools/db2/Spell/csv?build=1.60.1.70938"
     },
     {
       "table": "SpellCastTimes",
       "sha256": "f94e1e3a3495d11af875fd7b007124fdd660a19ba626bc1de00a609da81f25d8",
       "bytes": 982,
-      "url": "https://wago.tools/db2/SpellCastTimes/csv?build=1.60.1.70753"
+      "url": "https://wago.tools/db2/SpellCastTimes/csv?build=1.60.1.70938"
     },
     {
       "table": "SpellCooldowns",
-      "sha256": "0b69d28bd8a47614473fbbf59e699b9db474a809dfcdb4252e9efdfbd9fbd37f",
-      "bytes": 119747,
-      "url": "https://wago.tools/db2/SpellCooldowns/csv?build=1.60.1.70753"
+      "sha256": "3bf0324f17269592c1771ca2927ccc5bd414ee381d98e80e67156a4c54cb0613",
+      "bytes": 120698,
+      "url": "https://wago.tools/db2/SpellCooldowns/csv?build=1.60.1.70938"
     },
     {
       "table": "SpellDuration",
       "sha256": "4787f303fe8487cd67e5f9e8574fdc6fa2a03516dcfaabba23d9944f937223f5",
       "bytes": 2825,
-      "url": "https://wago.tools/db2/SpellDuration/csv?build=1.60.1.70753"
+      "url": "https://wago.tools/db2/SpellDuration/csv?build=1.60.1.70938"
     },
     {
       "table": "SpellEffect",
-      "sha256": "ad022c86368a1e850be3c960cf39b92847aeefe51760a95c4da3eea53ea55291",
-      "bytes": 3871850,
-      "url": "https://wago.tools/db2/SpellEffect/csv?build=1.60.1.70753"
+      "sha256": "f419db3f95ef93b2cf052d9c3996ec355df60846f1fa24c671822aacfa8f59a3",
+      "bytes": 3925743,
+      "url": "https://wago.tools/db2/SpellEffect/csv?build=1.60.1.70938"
     },
     {
       "table": "SpellLevels",
-      "sha256": "eddb84994bcb0e15fd61e10ddedf7151efb2d893eea04f75142c91d37a8416cc",
-      "bytes": 313650,
-      "url": "https://wago.tools/db2/SpellLevels/csv?build=1.60.1.70753"
+      "sha256": "8bb6142b47be66c5110c7f64e53bbc27223a1d2bde739dafde1eec5c92a42649",
+      "bytes": 316009,
+      "url": "https://wago.tools/db2/SpellLevels/csv?build=1.60.1.70938"
     },
     {
       "table": "SpellMisc",
-      "sha256": "a0e6b8805f695cbadb8af9c28a9f7b89418d6e2804d0d09c06c2471110f39b48",
-      "bytes": 3041801,
-      "url": "https://wago.tools/db2/SpellMisc/csv?build=1.60.1.70753"
+      "sha256": "4500fb0dae7f8f14d1db826801ab7e1ea4af33c5dd0ba6505f4012030bcff376",
+      "bytes": 3083924,
+      "url": "https://wago.tools/db2/SpellMisc/csv?build=1.60.1.70938"
     },
     {
       "table": "SpellName",
-      "sha256": "0a7dd2a3ee0be5b00e0ae91abf93d73fafa4c4c5be4fdc39245ca0227c0a4480",
-      "bytes": 840644,
-      "url": "https://wago.tools/db2/SpellName/csv?build=1.60.1.70753"
+      "sha256": "bd8dc963dd691c69aff531464636e7b5a944efeedb773895e7b2c4a0fb7c38b4",
+      "bytes": 851160,
+      "url": "https://wago.tools/db2/SpellName/csv?build=1.60.1.70938"
     },
     {
       "table": "SpellPower",
-      "sha256": "173d7214c7d70506f25e176d3fe93c8bb0ec8b1d5a30fd2b88fc6daa14bc2bce",
-      "bytes": 140092,
-      "url": "https://wago.tools/db2/SpellPower/csv?build=1.60.1.70753"
+      "sha256": "bf1b66970d98f2c722b3081544cce9ded0f9c8db29177c971e5d867f1949eee7",
+      "bytes": 141548,
+      "url": "https://wago.tools/db2/SpellPower/csv?build=1.60.1.70938"
     },
     {
       "table": "TraitDefinition",
-      "sha256": "42ca30d251b054b095487c9bbdd3db968a6f3e2547c28db5d8b6e41d0ae4d98b",
-      "bytes": 15103,
-      "url": "https://wago.tools/db2/TraitDefinition/csv?build=1.60.1.70753"
+      "sha256": "4c29bf0710067d94d87051dfa216ac1dbc96b7651043ce171d787012d92daea7",
+      "bytes": 15176,
+      "url": "https://wago.tools/db2/TraitDefinition/csv?build=1.60.1.70938"
     },
     {
       "table": "TraitDefinitionEffectPoints",
-      "sha256": "a43cfbb44064c02532ca5ea9deec00fe7c06060a54532887245ebd599ddfd945",
-      "bytes": 15208,
-      "url": "https://wago.tools/db2/TraitDefinitionEffectPoints/csv?build=1.60.1.70753"
+      "sha256": "82ff4026089957611a31e82af8a7a257de4679c3d0637d13e37a381196cd4157",
+      "bytes": 15450,
+      "url": "https://wago.tools/db2/TraitDefinitionEffectPoints/csv?build=1.60.1.70938"
     },
     {
       "table": "TraitNode",
-      "sha256": "1a9289bcb0babea3a5ed4be71d818019c9fc0ff327a95573dd8896070856b8d0",
-      "bytes": 15686,
-      "url": "https://wago.tools/db2/TraitNode/csv?build=1.60.1.70753"
+      "sha256": "f7f37eead7e7641cdbecdb1c548276ae1e5c1776eb5ad0539b88770a78979d44",
+      "bytes": 15742,
+      "url": "https://wago.tools/db2/TraitNode/csv?build=1.60.1.70938"
     },
     {
       "table": "TraitNodeEntry",
-      "sha256": "052f8d708a2a95afcba3c1ac6d972d33a73b971913fedf3641f27b3537cbe7ac",
-      "bytes": 13294,
-      "url": "https://wago.tools/db2/TraitNodeEntry/csv?build=1.60.1.70753"
+      "sha256": "dccff303039c45dc3355d8d525a664db2a87de9a17bbec133f5859755e9152b0",
+      "bytes": 13369,
+      "url": "https://wago.tools/db2/TraitNodeEntry/csv?build=1.60.1.70938"
     },
     {
       "table": "TraitNodeXTraitNodeEntry",
-      "sha256": "cf672d42bfda5f5a51ae09f1642b131322e1ef5be273d7bf0191d9280205826b",
-      "bytes": 14021,
-      "url": "https://wago.tools/db2/TraitNodeXTraitNodeEntry/csv?build=1.60.1.70753"
+      "sha256": "7e9fb84e1256434748b1763365ea7498e0d6dd4871f789ad2a1c39925c071492",
+      "bytes": 14071,
+      "url": "https://wago.tools/db2/TraitNodeXTraitNodeEntry/csv?build=1.60.1.70938"
     },
     {
       "table": "TraitTree",
       "sha256": "6f63def42b6b42b7524e36aef48f7afd9a399b6968b5a979e8c3f349f163f3a6",
       "bytes": 533,
-      "url": "https://wago.tools/db2/TraitTree/csv?build=1.60.1.70753"
+      "url": "https://wago.tools/db2/TraitTree/csv?build=1.60.1.70938"
     }
   ],
   "interpretation": "Explicit reviewed IDs only. Client tables do not prove server proc rules, target eligibility, or spell availability. Remaining abilities are not certified by this snapshot.",
@@ -2075,7 +2075,7 @@
             "EffectMechanic": "0",
             "EffectPointsPerResource": "0",
             "EffectPos_facing": "0",
-            "EffectRealPointsPerLevel": "1.20000004768",
+            "EffectRealPointsPerLevel": "2.09999990463",
             "EffectTriggerSpell": "0",
             "BonusCoefficientFromAP": "0",
             "PvpMultiplier": "1",
@@ -2083,7 +2083,7 @@
             "Variance": "0.10835214704",
             "ResourceCoefficient": "0",
             "GroupSizeBasePointsCoefficient": "1",
-            "EffectBasePointsF": "196",
+            "EffectBasePointsF": "353",
             "ScalingClass": "0",
             "Node__Field_12_0_0_63534_001": "0",
             "EffectMiscValue_0": "0",
@@ -2206,9 +2206,9 @@
     "Chain Lightning": {
       "spell_id": 10605,
       "fields": {
-        "coeff": 0.571,
-        "cost": 315.0,
-        "cast": 2.0,
+        "coeff": 0.714,
+        "cost": 495.0,
+        "cast": 2.5,
         "cooldown": 6.0
       },
       "rows": {
@@ -2222,14 +2222,14 @@
             "EffectAmplitude": "0",
             "EffectAttributes": "0",
             "EffectAuraPeriod": "0",
-            "EffectBonusCoefficient": "0.57099997997",
+            "EffectBonusCoefficient": "0.71399998665",
             "EffectChainAmplitude": "0.69999998808",
             "EffectChainTargets": "3",
             "EffectItemType": "0",
             "EffectMechanic": "0",
             "EffectPointsPerResource": "0",
             "EffectPos_facing": "0",
-            "EffectRealPointsPerLevel": "0.80000001192",
+            "EffectRealPointsPerLevel": "3.29999995232",
             "EffectTriggerSpell": "0",
             "BonusCoefficientFromAP": "0",
             "PvpMultiplier": "1",
@@ -2237,7 +2237,7 @@
             "Variance": "0.11111111194",
             "ResourceCoefficient": "0",
             "GroupSizeBasePointsCoefficient": "1",
-            "EffectBasePointsF": "123",
+            "EffectBasePointsF": "510",
             "ScalingClass": "0",
             "Node__Field_12_0_0_63534_001": "0",
             "EffectMiscValue_0": "0",
@@ -2257,7 +2257,7 @@
           {
             "ID": "177727",
             "OrderIndex": "0",
-            "ManaCost": "315",
+            "ManaCost": "495",
             "ManaCostPerLevel": "0",
             "ManaPerSecond": "0",
             "PowerDisplayID": "0",
@@ -2315,7 +2315,7 @@
             "Attributes_15": "8192",
             "Attributes_16": "0",
             "DifficultyID": "0",
-            "CastingTimeIndex": "5",
+            "CastingTimeIndex": "19",
             "DurationIndex": "0",
             "PvPDurationIndex": "0",
             "RangeIndex": "4",
@@ -2349,9 +2349,9 @@
         "SpellDuration": [],
         "SpellCastTimes": [
           {
-            "ID": "5",
-            "Base": "2000",
-            "Minimum": "2000"
+            "ID": "19",
+            "Base": "2500",
+            "Minimum": "2500"
           }
         ]
       },
@@ -2578,7 +2578,7 @@
             "EffectMechanic": "0",
             "EffectPointsPerResource": "0",
             "EffectPos_facing": "0",
-            "EffectRealPointsPerLevel": "2.09999990463",
+            "EffectRealPointsPerLevel": "3.79999995232",
             "EffectTriggerSpell": "0",
             "BonusCoefficientFromAP": "0",
             "PvpMultiplier": "1",
@@ -2586,7 +2586,7 @@
             "Variance": "0",
             "ResourceCoefficient": "0",
             "GroupSizeBasePointsCoefficient": "1",
-            "EffectBasePointsF": "166",
+            "EffectBasePointsF": "292",
             "ScalingClass": "0",
             "Node__Field_12_0_0_63534_001": "0",
             "EffectMiscValue_0": "0",
@@ -2625,7 +2625,7 @@
             "Variance": "0",
             "ResourceCoefficient": "0",
             "GroupSizeBasePointsCoefficient": "1",
-            "EffectBasePointsF": "44",
+            "EffectBasePointsF": "80",
             "ScalingClass": "0",
             "Node__Field_12_0_0_63534_001": "0",
             "EffectMiscValue_0": "0",
@@ -4315,8 +4315,8 @@
       "spell_id": 25298,
       "fields": {
         "base": [
-          349.955556,
-          412.044444
+          489.570372,
+          576.429628
         ],
         "coeff": 1.0,
         "cost": 340.0,
@@ -4340,7 +4340,7 @@
             "EffectMechanic": "0",
             "EffectPointsPerResource": "0",
             "EffectPos_facing": "0",
-            "EffectRealPointsPerLevel": "2.40000009537",
+            "EffectRealPointsPerLevel": "3.40000009537",
             "EffectTriggerSpell": "0",
             "BonusCoefficientFromAP": "0",
             "PvpMultiplier": "1",
@@ -4348,7 +4348,7 @@
             "Variance": "0.16296295822",
             "ResourceCoefficient": "0",
             "GroupSizeBasePointsCoefficient": "1",
-            "EffectBasePointsF": "381",
+            "EffectBasePointsF": "533",
             "ScalingClass": "0",
             "Node__Field_12_0_0_63534_001": "0",
             "EffectMiscValue_0": "0",
@@ -6070,8 +6070,8 @@
       "spell_id": 10414,
       "fields": {
         "base": [
-          293.06403,
-          308.93597
+          517.0,
+          545.0
         ],
         "coeff": 0.386,
         "cost": 450.0,
@@ -6095,7 +6095,7 @@
             "EffectMechanic": "0",
             "EffectPointsPerResource": "0",
             "EffectPos_facing": "0",
-            "EffectRealPointsPerLevel": "1.89999997616",
+            "EffectRealPointsPerLevel": "3.40000009537",
             "EffectTriggerSpell": "0",
             "BonusCoefficientFromAP": "0",
             "PvpMultiplier": "1",
@@ -6103,7 +6103,7 @@
             "Variance": "0.05273069814",
             "ResourceCoefficient": "0",
             "GroupSizeBasePointsCoefficient": "1",
-            "EffectBasePointsF": "301",
+            "EffectBasePointsF": "531",
             "ScalingClass": "0",
             "Node__Field_12_0_0_63534_001": "0",
             "EffectMiscValue_0": "0",
@@ -7236,8 +7236,8 @@
     "Wrack": {
       "spell_id": 1316697,
       "fields": {
-        "tick": 36.0,
-        "dot_coeff": 0.143,
+        "tick": 25.200001,
+        "dot_coeff": 0.2002,
         "cost": 200.0
       },
       "rows": {
@@ -7251,14 +7251,14 @@
             "EffectAmplitude": "1",
             "EffectAttributes": "0",
             "EffectAuraPeriod": "1000",
-            "EffectBonusCoefficient": "0.14300000668",
+            "EffectBonusCoefficient": "0.20020000637",
             "EffectChainAmplitude": "1",
             "EffectChainTargets": "0",
             "EffectItemType": "0",
             "EffectMechanic": "0",
             "EffectPointsPerResource": "0",
             "EffectPos_facing": "0",
-            "EffectRealPointsPerLevel": "0",
+            "EffectRealPointsPerLevel": "1.75",
             "EffectTriggerSpell": "0",
             "BonusCoefficientFromAP": "0",
             "PvpMultiplier": "1",
@@ -7266,7 +7266,7 @@
             "Variance": "0",
             "ResourceCoefficient": "0",
             "GroupSizeBasePointsCoefficient": "1",
-            "EffectBasePointsF": "36",
+            "EffectBasePointsF": "25.20000076294",
             "ScalingClass": "0",
             "Node__Field_12_0_0_63534_001": "0",
             "EffectMiscValue_0": "0",
@@ -7283,7 +7283,7 @@
           },
           {
             "ID": "1349557",
-            "EffectAura": "271",
+            "EffectAura": "4",
             "DifficultyID": "0",
             "EffectIndex": "1",
             "Effect": "6",
@@ -7305,14 +7305,14 @@
             "Variance": "0",
             "ResourceCoefficient": "0",
             "GroupSizeBasePointsCoefficient": "1",
-            "EffectBasePointsF": "10",
+            "EffectBasePointsF": "100",
             "ScalingClass": "0",
             "Node__Field_12_0_0_63534_001": "0",
             "EffectMiscValue_0": "0",
             "EffectMiscValue_1": "0",
             "EffectRadiusIndex_0": "0",
             "EffectRadiusIndex_1": "0",
-            "EffectSpellClassMask_0": "1026",
+            "EffectSpellClassMask_0": "0",
             "EffectSpellClassMask_1": "0",
             "EffectSpellClassMask_2": "0",
             "EffectSpellClassMask_3": "0",
@@ -7373,7 +7373,7 @@
             "Attributes_5": "0",
             "Attributes_6": "0",
             "Attributes_7": "0",
-            "Attributes_8": "512",
+            "Attributes_8": "4608",
             "Attributes_9": "0",
             "Attributes_10": "0",
             "Attributes_11": "0",
@@ -7404,8 +7404,8 @@
           {
             "ID": "1316697",
             "NameSubtext_lang": "Rank 1",
-            "Description_lang": "Tears the target apart from within, inflicting $s1 Shadow damage every $t sec and increasing the damage they take from your other Shadow damage over time effects by $s2% for $d.",
-            "AuraDescription_lang": "Inflicts $s1 Shadow damage every $t1 sec and increases damage taken from the caster's other Shadow damage over time effects by $s2%."
+            "Description_lang": "Tears the target apart from within for $d, inflicting $s1 Shadow damage every $t sec. While channeling, your Siphon Life, Corruption, and Bane of Agony effects on the target deal their periodic damage $s2% faster.",
+            "AuraDescription_lang": "Inflicts $w1 Shadow damage every $t1 sec and increases the speed at which the caster's Siphon Life, Corruption, and Bane of Agony effects deal periodic damage by $w2%."
           }
         ],
         "SpellName": [
@@ -7858,7 +7858,7 @@
             "Attributes_1": "136",
             "Attributes_2": "1073741824",
             "Attributes_3": "1073741824",
-            "Attributes_4": "32896",
+            "Attributes_4": "8421504",
             "Attributes_5": "1024",
             "Attributes_6": "0",
             "Attributes_7": "0",
@@ -8082,7 +8082,7 @@
             "Attributes_1": "268435520",
             "Attributes_2": "4325376",
             "Attributes_3": "0",
-            "Attributes_4": "0",
+            "Attributes_4": "8388608",
             "Attributes_5": "0",
             "Attributes_6": "0",
             "Attributes_7": "0",
@@ -8148,7 +8148,7 @@
     "Serpent Sting": {
       "spell_id": 25295,
       "fields": {
-        "tick": 111.0,
+        "tick": 135.0,
         "ticks": 5,
         "cost": 250.0
       },
@@ -8178,7 +8178,7 @@
             "Variance": "0",
             "ResourceCoefficient": "0",
             "GroupSizeBasePointsCoefficient": "1",
-            "EffectBasePointsF": "111",
+            "EffectBasePointsF": "135",
             "ScalingClass": "0",
             "Node__Field_12_0_0_63534_001": "0",
             "EffectMiscValue_0": "0",
@@ -8310,10 +8310,11 @@
       "spell_id": 14287,
       "fields": {
         "base": [
-          217.0,
-          217.0
+          280.0,
+          280.0
         ],
-        "cost": 190.0,
+        "cost": 0.0,
+        "cost_pct": 0.11,
         "cooldown": 6.0
       },
       "rows": {
@@ -8342,7 +8343,7 @@
             "Variance": "0",
             "ResourceCoefficient": "0",
             "GroupSizeBasePointsCoefficient": "1",
-            "EffectBasePointsF": "217",
+            "EffectBasePointsF": "280",
             "ScalingClass": "0",
             "Node__Field_12_0_0_63534_001": "0",
             "EffectMiscValue_0": "0",
@@ -8362,12 +8363,12 @@
           {
             "ID": "179523",
             "OrderIndex": "0",
-            "ManaCost": "190",
+            "ManaCost": "0",
             "ManaCostPerLevel": "0",
             "ManaPerSecond": "0",
             "PowerDisplayID": "0",
             "AltPowerBarID": "0",
-            "PowerCostPct": "0",
+            "PowerCostPct": "11",
             "PowerCostMaxPct": "0",
             "OptionalCostPct": "0",
             "PowerPctPerSecond": "0",
@@ -8465,7 +8466,7 @@
     "Aimed Shot": {
       "spell_id": 20904,
       "fields": {
-        "weapon.flat": 166.0,
+        "weapon.flat": 350.0,
         "cost": 310.0,
         "cast": 2.0,
         "cooldown": 6.0
@@ -8496,7 +8497,7 @@
             "Variance": "0",
             "ResourceCoefficient": "0",
             "GroupSizeBasePointsCoefficient": "1",
-            "EffectBasePointsF": "166",
+            "EffectBasePointsF": "350",
             "ScalingClass": "0",
             "Node__Field_12_0_0_63534_001": "0",
             "EffectMiscValue_0": "0",
@@ -8778,7 +8779,8 @@
         ],
         "coeff": 0.0,
         "rap_coeff": 0.05,
-        "cost": 190.0,
+        "cost": 0.0,
+        "cost_pct": 0.11,
         "cooldown": 6.0
       },
       "rows": {
@@ -8944,12 +8946,12 @@
           {
             "ID": "313592",
             "OrderIndex": "0",
-            "ManaCost": "190",
+            "ManaCost": "0",
             "ManaCostPerLevel": "0",
             "ManaPerSecond": "0",
             "PowerDisplayID": "0",
             "AltPowerBarID": "0",
-            "PowerCostPct": "0",
+            "PowerCostPct": "11",
             "PowerCostMaxPct": "0",
             "OptionalCostPct": "0",
             "PowerPctPerSecond": "0",
@@ -9048,7 +9050,7 @@
     "Mutilate": {
       "spell_id": 1241586,
       "fields": {
-        "weapon.flat": 67.0,
+        "weapon.flat": 88.0,
         "cost": 60.0
       },
       "rows": {
@@ -9077,7 +9079,7 @@
             "Variance": "0",
             "ResourceCoefficient": "0",
             "GroupSizeBasePointsCoefficient": "1",
-            "EffectBasePointsF": "67",
+            "EffectBasePointsF": "88",
             "ScalingClass": "0",
             "Node__Field_12_0_0_63534_001": "0",
             "EffectMiscValue_0": "0",
@@ -9116,7 +9118,7 @@
             "Variance": "0",
             "ResourceCoefficient": "0",
             "GroupSizeBasePointsCoefficient": "1",
-            "EffectBasePointsF": "75",
+            "EffectBasePointsF": "90",
             "ScalingClass": "0",
             "Node__Field_12_0_0_63534_001": "0",
             "EffectMiscValue_0": "0",
@@ -9186,7 +9188,7 @@
         "Spell": [
           {
             "ID": "1241586",
-            "NameSubtext_lang": "Rank 4",
+            "NameSubtext_lang": "Rank 3",
             "Description_lang": "",
             "AuraDescription_lang": ""
           }
@@ -9449,7 +9451,7 @@
         "Spell": [
           {
             "ID": "1241584",
-            "NameSubtext_lang": "Rank 4",
+            "NameSubtext_lang": "Rank 3",
             "Description_lang": "Instantly attacks with both weapons for $1241586s2% weapon damage plus an additional ${$1241586m1*$1241586m2/100} with each weapon. Damage increased by $m4% against Poisoned targets. Awards $m1 Combo $LPoint:Points;.",
             "AuraDescription_lang": ""
           }
@@ -9735,7 +9737,7 @@
             "Variance": "0",
             "ResourceCoefficient": "0",
             "GroupSizeBasePointsCoefficient": "1",
-            "EffectBasePointsF": "110",
+            "EffectBasePointsF": "140",
             "ScalingClass": "0",
             "Node__Field_12_0_0_63534_001": "0",
             "EffectMiscValue_0": "0",
@@ -10166,7 +10168,7 @@
             "Variance": "0",
             "ResourceCoefficient": "0",
             "GroupSizeBasePointsCoefficient": "1",
-            "EffectBasePointsF": "40",
+            "EffectBasePointsF": "75",
             "ScalingClass": "0",
             "Node__Field_12_0_0_63534_001": "0",
             "EffectMiscValue_0": "0",
@@ -10205,7 +10207,7 @@
             "Variance": "0",
             "ResourceCoefficient": "0",
             "GroupSizeBasePointsCoefficient": "1",
-            "EffectBasePointsF": "2",
+            "EffectBasePointsF": "1",
             "ScalingClass": "0",
             "Node__Field_12_0_0_63534_001": "0",
             "EffectMiscValue_0": "0",
@@ -13528,9 +13530,9 @@
     "104755": {
       "fields": {
         "ap_from_int": [
-          0.33,
-          0.67,
-          1.0
+          0.5,
+          1.0,
+          1.5
         ]
       },
       "link": {
@@ -13576,7 +13578,7 @@
           "curve_points": [
             {
               "Pos_0": "1",
-              "Pos_1": "33",
+              "Pos_1": "50",
               "PosPreSquish_0": "0",
               "PosPreSquish_1": "0",
               "ID": "251264",
@@ -13585,7 +13587,7 @@
             },
             {
               "Pos_0": "2",
-              "Pos_1": "67",
+              "Pos_1": "100",
               "PosPreSquish_0": "0",
               "PosPreSquish_1": "0",
               "ID": "251265",
@@ -13594,7 +13596,7 @@
             },
             {
               "Pos_0": "3",
-              "Pos_1": "100",
+              "Pos_1": "150",
               "PosPreSquish_0": "0",
               "PosPreSquish_1": "0",
               "ID": "251266",
@@ -13608,9 +13610,9 @@
     "104759": {
       "fields": {
         "flag:lightning_overload": [
-          0.03,
-          0.07,
-          0.1
+          0.1,
+          0.2,
+          0.3
         ]
       },
       "link": {
@@ -13656,7 +13658,7 @@
           "curve_points": [
             {
               "Pos_0": "1",
-              "Pos_1": "3",
+              "Pos_1": "10",
               "PosPreSquish_0": "0",
               "PosPreSquish_1": "0",
               "ID": "251118",
@@ -13665,7 +13667,7 @@
             },
             {
               "Pos_0": "2",
-              "Pos_1": "7",
+              "Pos_1": "20",
               "PosPreSquish_0": "0",
               "PosPreSquish_1": "0",
               "ID": "251119",
@@ -13674,7 +13676,7 @@
             },
             {
               "Pos_0": "3",
-              "Pos_1": "10",
+              "Pos_1": "30",
               "PosPreSquish_0": "0",
               "PosPreSquish_1": "0",
               "ID": "251120",
@@ -13729,7 +13731,7 @@
       "spell": {
         "ID": "16578",
         "NameSubtext_lang": "",
-        "Description_lang": "Reduces the cast time of your Lightning Bolt, Chain Lightning, and Lava Burst spells by ${$m1/-1000}.2 sec.",
+        "Description_lang": "Reduces the cast time of your Lightning Bolt and Chain Lightning spells by ${$m1/-1000}.2 sec.",
         "AuraDescription_lang": ""
       },
       "effects": [
@@ -13858,19 +13860,19 @@
     "105001": {
       "fields": {
         "dmg_ability:Multi-Shot": [
-          0.03,
-          0.07,
-          0.1
+          0.05,
+          0.1,
+          0.15
         ],
         "dmg_ability:Aimed Shot": [
-          0.03,
-          0.07,
-          0.1
+          0.05,
+          0.1,
+          0.15
         ],
         "dmg_ability:Volley": [
-          0.03,
-          0.07,
-          0.1
+          0.05,
+          0.1,
+          0.15
         ]
       },
       "link": {
@@ -13916,7 +13918,7 @@
           "curve_points": [
             {
               "Pos_0": "1",
-              "Pos_1": "3",
+              "Pos_1": "5",
               "PosPreSquish_0": "0",
               "PosPreSquish_1": "0",
               "ID": "240051",
@@ -13925,7 +13927,7 @@
             },
             {
               "Pos_0": "2",
-              "Pos_1": "7",
+              "Pos_1": "10",
               "PosPreSquish_0": "0",
               "PosPreSquish_1": "0",
               "ID": "240052",
@@ -13934,7 +13936,7 @@
             },
             {
               "Pos_0": "3",
-              "Pos_1": "10",
+              "Pos_1": "15",
               "PosPreSquish_0": "0",
               "PosPreSquish_1": "0",
               "ID": "240053",
@@ -13956,7 +13958,7 @@
           "curve_points": [
             {
               "Pos_0": "1",
-              "Pos_1": "3",
+              "Pos_1": "5",
               "PosPreSquish_0": "0",
               "PosPreSquish_1": "0",
               "ID": "240051",
@@ -13965,7 +13967,7 @@
             },
             {
               "Pos_0": "2",
-              "Pos_1": "7",
+              "Pos_1": "10",
               "PosPreSquish_0": "0",
               "PosPreSquish_1": "0",
               "ID": "240052",
@@ -13974,7 +13976,7 @@
             },
             {
               "Pos_0": "3",
-              "Pos_1": "10",
+              "Pos_1": "15",
               "PosPreSquish_0": "0",
               "PosPreSquish_1": "0",
               "ID": "240053",
@@ -13996,7 +13998,7 @@
           "curve_points": [
             {
               "Pos_0": "1",
-              "Pos_1": "3",
+              "Pos_1": "5",
               "PosPreSquish_0": "0",
               "PosPreSquish_1": "0",
               "ID": "240051",
@@ -14005,7 +14007,7 @@
             },
             {
               "Pos_0": "2",
-              "Pos_1": "7",
+              "Pos_1": "10",
               "PosPreSquish_0": "0",
               "PosPreSquish_1": "0",
               "ID": "240052",
@@ -14014,7 +14016,7 @@
             },
             {
               "Pos_0": "3",
-              "Pos_1": "10",
+              "Pos_1": "15",
               "PosPreSquish_0": "0",
               "PosPreSquish_1": "0",
               "ID": "240053",
@@ -14059,7 +14061,7 @@
       "spell": {
         "ID": "14162",
         "NameSubtext_lang": "",
-        "Description_lang": "Increases the damage done by your Eviscerate ability by $m1%.",
+        "Description_lang": "Increases the damage done by your Eviscerate ability by $m1%, and the damage and storage rate of your Death Mark ability by $m2%.",
         "AuraDescription_lang": ""
       },
       "effects": [
@@ -14108,10 +14110,7 @@
     "105716": {
       "fields": {
         "crit_dmg_builder": [
-          0.04,
-          0.08,
-          0.12,
-          0.16,
+          0.1,
           0.2
         ]
       },
@@ -14124,7 +14123,7 @@
       "entry": {
         "ID": "130445",
         "TraitDefinitionID": "135246",
-        "MaxRanks": "5",
+        "MaxRanks": "2",
         "NodeEntryType": "1",
         "TraitSubTreeID": "0"
       },
@@ -14158,7 +14157,7 @@
           "curve_points": [
             {
               "Pos_0": "1",
-              "Pos_1": "4",
+              "Pos_1": "10",
               "PosPreSquish_0": "0",
               "PosPreSquish_1": "0",
               "ID": "240971",
@@ -14167,39 +14166,12 @@
             },
             {
               "Pos_0": "2",
-              "Pos_1": "8",
+              "Pos_1": "20",
               "PosPreSquish_0": "0",
               "PosPreSquish_1": "0",
               "ID": "240972",
               "CurveID": "83046",
               "OrderIndex": "1"
-            },
-            {
-              "Pos_0": "3",
-              "Pos_1": "12",
-              "PosPreSquish_0": "0",
-              "PosPreSquish_1": "0",
-              "ID": "240973",
-              "CurveID": "83046",
-              "OrderIndex": "2"
-            },
-            {
-              "Pos_0": "4",
-              "Pos_1": "16",
-              "PosPreSquish_0": "0",
-              "PosPreSquish_1": "0",
-              "ID": "240974",
-              "CurveID": "83046",
-              "OrderIndex": "3"
-            },
-            {
-              "Pos_0": "5",
-              "Pos_1": "20",
-              "PosPreSquish_0": "0",
-              "PosPreSquish_1": "0",
-              "ID": "240975",
-              "CurveID": "83046",
-              "OrderIndex": "4"
             }
           ]
         }
@@ -14238,7 +14210,7 @@
       "spell": {
         "ID": "13732",
         "NameSubtext_lang": "",
-        "Description_lang": "Reduces the Energy cost of your Sinister Strike ability by $s1.",
+        "Description_lang": "Reduces the Energy cost of your Sinister Strike and Hemorrhage abilities by $s1.",
         "AuraDescription_lang": ""
       },
       "effects": [
